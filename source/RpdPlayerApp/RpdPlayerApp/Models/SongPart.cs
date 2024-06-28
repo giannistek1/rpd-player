@@ -12,11 +12,12 @@ internal class SongPart
     public string PartNameShort { get; set; }
     public string PartNameNumber { get; set; }
     public string PartNameFull { get; set; }
-    public string AlbumName { get; set; }
+    public string AlbumTitle { get; set; }
     public Album? Album { get; set; }
+    public string AlbumURL { get => Album?.ImageURL; }
     public string AudioURL { get; set; }
 
-    public SongPart(int id, string artistName, string albumName, string title, string partNameShort, string partNameNumber, string audioURL)
+    public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, string audioURL)
     {
         Id = id;
         Title = title;
@@ -27,7 +28,7 @@ internal class SongPart
         PartNameNumber = partNameNumber; // 1
         PartNameFull = $"{GetPartNameLong(partNameShort)} {PartNameNumber}"; // Chorus 1
 
-        AlbumName = albumName;
+        AlbumTitle = albumTitle;
         AudioURL = audioURL;
     }
 
@@ -36,7 +37,7 @@ internal class SongPart
         Title = title;
         ArtistName = artistName;
         PartNameShort = partNameShort;
-        AlbumName = albumName;
+        AlbumTitle = albumName;
         AudioURL = audioURL;
     }
 

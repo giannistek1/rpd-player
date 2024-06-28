@@ -42,7 +42,7 @@
                                     <Label VerticalOptions="CenterAndExpand" Text="{Binding Title}" />
                                     <Label VerticalOptions="CenterAndExpand" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
                                 </HorizontalStackLayout>
-                                <Label VerticalOptions="CenterAndExpand" Text="{Binding AlbumName}" />
+                                <Label VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />
                             </VerticalStackLayout>
                         </SwipeView>
                     </ViewCell>

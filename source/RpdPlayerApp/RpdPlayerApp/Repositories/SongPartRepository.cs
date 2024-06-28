@@ -6,10 +6,11 @@ namespace RpdPlayerApp.Repository;
 
 internal static class SongPartRepository
 {
-    private const string SONG_PARTS_URL = "https://github.com/giannistek1/rpd-audio/blob/main/songparts.txt?raw=true";
+    private const string SONG_PARTS_TXT_URL = "https://github.com/giannistek1/rpd-audio/blob/main/songparts.txt?raw=true";
 
     public readonly static ObservableCollection<SongPart> SongParts = new ObservableCollection<SongPart>();
-    //public readonly static ObservableCollection<string> UniqueSongs = new ObservableCollection<string>();
+
+    public static bool GetSongParts() => InitSongParts(GetStringFromURL());
 
     public static bool InitSongParts(string songPartsText)
     {
@@ -26,7 +27,14 @@ internal static class SongPartRepository
         for (int i = 0; i < matches.Count / 6; i++)
         {
             int n = 6 * i; // songpart number
-            SongParts.Add(new SongPart(id: i, artistName: matches[n + 0].Groups[1].Value, albumName: matches[n + 1].Groups[1].Value, title: matches[n + 2].Groups[1].Value, partNameShort: $"{matches[n + 3].Groups[1].Value}", partNameNumber: matches[n + 4].Groups[1].Value, audioURL: matches[n + 5].Groups[1].Value));
+
+            string artistName = matches[n + 0].Groups[1].Value;
+            string albumTitle = matches[n + 1].Groups[1].Value;
+
+            SongPart songPart = new SongPart(id: i, artistName: artistName, albumTitle: albumTitle, title: matches[n + 2].Groups[1].Value, partNameShort: $"{matches[n + 3].Groups[1].Value}", partNameNumber: matches[n + 4].Groups[1].Value, audioURL: matches[n + 5].Groups[1].Value);
+            songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
+            SongParts.Add(songPart);
+            
         }
 
         return SongParts.Count > 0;
@@ -40,19 +48,14 @@ internal static class SongPartRepository
 
         if (accessType != NetworkAccess.Internet)
         {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 30).Show();
+            CommunityToolkit.Maui.Alerts.Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             return songPartsAsText;
         }
 
         using (HttpClient client = new HttpClient())
         {
-            songPartsAsText = client.GetStringAsync(SONG_PARTS_URL).Result;
+            songPartsAsText = client.GetStringAsync(SONG_PARTS_TXT_URL).Result;
         }
         return songPartsAsText;
-    }
-
-    public static bool GetSongParts()
-    {
-        return InitSongParts(GetStringFromURL());
     }
 }

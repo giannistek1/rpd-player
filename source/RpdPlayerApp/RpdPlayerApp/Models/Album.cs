@@ -2,14 +2,20 @@
 
 internal class Album
 {
-    public string Name { get; set; }
-    public DateTime Date { get; set; }
+    public int Id { get; set; }
+    public string ArtistName { get; set; }
+    public string Title { get; set; }
+    public DateTime ReleaseDate { get; set; }
+    public string Language { get; set; }
     public string ImageURL { get; set; }
 
-    public Album(string name, DateTime date, string imageURL = "")
+    public Album(int id, string artistName, DateTime releaseDate, string title, string language, string imageURL = "")
     {
-        Name = name;
-        Date = date;
+        Id = id;
+        ArtistName = artistName;
+        ReleaseDate = releaseDate;
+        Title = title;
+        Language = language;
         ImageURL = imageURL;
     }
 }

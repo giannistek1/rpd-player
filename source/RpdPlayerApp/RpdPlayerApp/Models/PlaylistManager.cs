@@ -28,10 +28,7 @@ internal class PlaylistManager : BindableObject
 
     public static PlaylistManager Instance
     {
-        get
-        {
-            return instance;
-        }
+        get => instance;
     }
 
     internal bool AddSongPartToCurrentPlaylist(SongPart songPart)
@@ -68,13 +65,7 @@ internal class PlaylistManager : BindableObject
             currentPlaylist.Remove(songpartToRemove);
     }
 
-    internal void ClearCurrentPlaylist()
-    {
-        currentPlaylist.Clear();
-    }
+    internal void ClearCurrentPlaylist() => currentPlaylist.Clear();
 
-    internal int GetCurrentPlaylistSongCount()
-    {
-        return currentPlaylist.Count;
-    }
+    internal int GetCurrentPlaylistSongCount() => currentPlaylist.Count;
 }
