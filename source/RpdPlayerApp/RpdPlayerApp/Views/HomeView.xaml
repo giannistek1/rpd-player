@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="RpdPlayerApp.Views.HomeView"
+             Title="Home"
+             Disappearing="ContentPage_Disappearing">
+
+    <Grid Padding="5"
+          RowDefinitions="20, 20, *"
+          ColumnDefinitions="*">
+
+        <HorizontalStackLayout
+            Grid.Row="0">
+
+            <Label
+            Grid.Column="0"
+            x:Name="SongPartCountLabel" Text="{Binding SongPartCount}" />
+
+            <Label
+
+            Grid.Column="0"
+            x:Name="UniqueSongCountLabel" Text="{Binding UniqueSongCount}" />
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout
+            Grid.Row="1">
+            <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" />
+
+            <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
+        </HorizontalStackLayout>
+
+
+        <toolkit:MediaElement x:Name="audioMediaElement" IsVisible="False"/>
+
+        <ListView 
+            Grid.Row="4"
+            Grid.Column="0"
+            CachingStrategy="RecycleElement"
+            x:Name="RandomListView" 
+            BackgroundColor="Gray" 
+            HasUnevenRows="true"
+            ItemTapped="RandomListView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <HorizontalStackLayout Padding="6">
+                            <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
+                            <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistCount, StringFormat=' - {0}' }" />
+                        </HorizontalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>

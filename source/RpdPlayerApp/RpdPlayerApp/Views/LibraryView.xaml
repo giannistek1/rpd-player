@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="RpdPlayerApp.Views.LibraryView"
+             Title="Library"
+             Disappearing="ContentPage_Disappearing">
+
+    <Grid Padding="5"
+          RowDefinitions="50, 50, *"
+          ColumnDefinitions="*">
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            x:Name="CountLabel" Text="{Binding SongCount}" />
+
+        <Button Grid.Row="1" 
+                Grid.Column="1"
+            x:Name="ClearPlaylistButton" Clicked="ClearButton_Clicked" Text="Clear playlist" />
+
+        <toolkit:MediaElement x:Name="audioMediaElement" IsVisible="False"/>
+
+        <ListView 
+            Grid.Row="2"
+            Grid.Column="0"
+            CachingStrategy="RecycleElement"
+            x:Name="CurrentPlaylistListView" 
+            BackgroundColor="Gray" 
+            HasUnevenRows="true"
+            ItemTapped="CurrentPlaylistListView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItem Text="Play" BackgroundColor="LightGreen" CommandParameter="{Binding AudioURL}" Invoked="SwipeItem_Invoked"></SwipeItem>
+                            </SwipeView.RightItems>
+                            <VerticalStackLayout Padding="10">
+                                <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
+                                <HorizontalStackLayout>
+                                    <Label VerticalOptions="CenterAndExpand" Text="{Binding Title}" />
+                                    <Label VerticalOptions="CenterAndExpand" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                </HorizontalStackLayout>
+                                <Label VerticalOptions="CenterAndExpand" Text="{Binding AlbumName}" />
+                            </VerticalStackLayout>
+                        </SwipeView>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>
