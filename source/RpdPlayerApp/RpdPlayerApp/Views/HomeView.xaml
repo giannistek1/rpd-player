@@ -7,11 +7,16 @@
              Disappearing="ContentPage_Disappearing">
 
     <Grid Padding="5"
-          RowDefinitions="20, 20, *"
+          RowDefinitions="20, 20, 20, *"
           ColumnDefinitions="*">
 
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            x:Name="VersionLabel" Text="Version xx" />
+        
         <HorizontalStackLayout
-            Grid.Row="0">
+            Grid.Row="1">
 
             <Label
             Grid.Column="0"
@@ -24,14 +29,13 @@
         </HorizontalStackLayout>
 
         <HorizontalStackLayout
-            Grid.Row="1">
+            Grid.Row="2">
+            
             <Label
-            Grid.Row="2"
             Grid.Column="0"
             x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" />
 
             <Label
-            Grid.Row="3"
             Grid.Column="0"
             x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
         </HorizontalStackLayout>
@@ -40,7 +44,7 @@
         <toolkit:MediaElement x:Name="audioMediaElement" IsVisible="False"/>
 
         <ListView 
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.Column="0"
             CachingStrategy="RecycleElement"
             x:Name="RandomListView" 

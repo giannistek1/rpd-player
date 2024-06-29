@@ -33,6 +33,7 @@ internal static class SongPartRepository
 
             SongPart songPart = new SongPart(id: i, artistName: artistName, albumTitle: albumTitle, title: matches[n + 2].Groups[1].Value, partNameShort: $"{matches[n + 3].Groups[1].Value}", partNameNumber: matches[n + 4].Groups[1].Value, audioURL: matches[n + 5].Groups[1].Value);
             songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
+            songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
             SongParts.Add(songPart);
             
         }

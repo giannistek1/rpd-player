@@ -51,12 +51,18 @@
                             </SwipeView.RightItems>
                             <VerticalStackLayout Padding="10">
                                 <HorizontalStackLayout>
-                                    <!--"<Image Source="{Binding AlbumURL}"/>-->
-                                    <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
-                                </HorizontalStackLayout>
-                                <HorizontalStackLayout>
-                                    <Label VerticalOptions="CenterAndExpand" Text="{Binding Title}" />
-                                    <Label VerticalOptions="CenterAndExpand" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                    <Image HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                        <Image.Source>
+                                            <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <VerticalStackLayout Padding="10">
+                                        <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
+                                        <HorizontalStackLayout>
+                                            <Label VerticalOptions="CenterAndExpand" Text="{Binding Title}" />
+                                            <Label VerticalOptions="CenterAndExpand" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
                                 </HorizontalStackLayout>
                                 <!--<Label VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />-->
                             </VerticalStackLayout>

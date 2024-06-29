@@ -14,7 +14,8 @@ internal class SongPart
     public string PartNameFull { get; set; }
     public string AlbumTitle { get; set; }
     public Album? Album { get; set; }
-    public string AlbumURL { get => Album?.ImageURL; }
+    public string AlbumURL { get { return _albumUrl; } set { _albumUrl = value; } }
+    private string _albumUrl;
     public string AudioURL { get; set; }
 
     public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, string audioURL)

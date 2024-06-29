@@ -9,14 +9,17 @@ public partial class HomeView : ContentPage
     {
         InitializeComponent();
 
-        SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
+        VersionLabel.Text = $"v{AppInfo.Current.VersionString}.{AppInfo.Current.BuildString}";
+
         ArtistRepository.Artists.CollectionChanged += ArtistsCollectionChanged;
         AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;
+        SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
 
         // Get
-        ArtistRepository.GetArtists();
+
         AlbumRepository.GetAlbums();
         SongPartRepository.GetSongParts();
+        ArtistRepository.GetArtists(); // First when artists are added
 
 
         var groupedArtists = from s in SongPartRepository.SongParts
@@ -31,6 +34,7 @@ public partial class HomeView : ContentPage
         UniqueSongCountLabel.Text = $",  Unique songs: {groupedTitles.Count()}";
 
         RandomListView.ItemsSource = groupedArtists;
+        SentrySdk.CaptureMessage("Hello Sentry");
     }
 
     private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
