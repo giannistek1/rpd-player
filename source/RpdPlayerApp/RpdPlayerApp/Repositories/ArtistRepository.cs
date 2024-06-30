@@ -183,7 +183,7 @@ internal static class ArtistRepository
     public static List<Artist> GetArtists()
     {
         // In the future get artist list from text file like
-        // [HWASA][SF][1][URL]
+        // [HWASA][GG][1][URL]
 
         if (Artists.Count == 0)
         {

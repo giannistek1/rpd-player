@@ -115,13 +115,17 @@ public partial class SearchSongPartsView : ContentPage
     {
         if (!customSort)
         {
+            songParts.CollectionChanged -= SongPartsCollectionChanged;
             songParts = songParts.OrderBy(s => s.Album?.ReleaseDate).ToObservableCollection();
+            songParts.CollectionChanged += SongPartsCollectionChanged;
             SonglibraryListView.ItemsSource = songParts;
             customSort = true;
         }
         else
         {
+            songParts.CollectionChanged -= SongPartsCollectionChanged;
             songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
+            songParts.CollectionChanged += SongPartsCollectionChanged;
             SonglibraryListView.ItemsSource = songParts;
             customSort = false;
         } 
