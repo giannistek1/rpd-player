@@ -18,7 +18,9 @@ namespace RpdPlayerApp
                         // Debug messages are written to stdout with Console.Writeline,
                         // and are viewable in your IDE's debug console or with 'adb logcat', etc.
                         // This option is not recommended when deploying your application.
+#if !RELEASE
                         options.Debug = true;
+#endif
 
                         // Set TracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
                         // We recommend adjusting this value in production.

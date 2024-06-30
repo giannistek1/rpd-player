@@ -16,20 +16,26 @@
                TextColor="White"
                Text="Results" />
 
-        <SearchBar Grid.Row="1"
-                   Grid.Column="0"
+        <HorizontalStackLayout Grid.Row="1">
+
+            <SearchBar 
+                   WidthRequest="270"
                    Placeholder="Search artist"
                    TextChanged="SearchBar_TextChanged">
+                    
+            </SearchBar>
 
-        </SearchBar>
+            <Button x:Name="SortButton" Margin="2" Clicked="SortButton_Clicked" Text="Sort by date" />
+            
+        </HorizontalStackLayout>
 
-        <HorizontalStackLayout 
-            Grid.Row="2">
-            <Button  
-            x:Name="PlayRandom" Margin="2" Clicked="PlayRandom_Clicked" Text="Play random" />
 
-            <Button 
-            x:Name="AddResultsButton" Margin="2" Clicked="AddResultsButton_Clicked" Text="Add all results" />
+        <HorizontalStackLayout Grid.Row="2">
+            
+            <Button  x:Name="PlayRandom" Margin="2" Clicked="PlayRandom_Clicked" Text="Play random" />
+
+            <Button x:Name="AddResultsButton" Margin="2" Clicked="AddResultsButton_Clicked" Text="Add all results" />
+            
         </HorizontalStackLayout>
 
         <toolkit:MediaElement x:Name="audioMediaElement" IsVisible="False"/>

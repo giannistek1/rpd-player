@@ -57,4 +57,9 @@ public partial class LibraryView : ContentPage
         if (audioMediaElement.CurrentState == CommunityToolkit.Maui.Core.Primitives.MediaElementState.Playing)
             audioMediaElement.Stop();
     }
+
+    private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }

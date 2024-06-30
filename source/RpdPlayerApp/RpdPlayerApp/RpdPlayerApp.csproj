@@ -49,6 +49,8 @@
     <ApplicationDisplayVersion>0.2.2</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <PublishTrimmed>True</PublishTrimmed>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
     <ApplicationVersion>6</ApplicationVersion>
@@ -67,6 +69,10 @@
     <ApplicationDisplayVersion>0.2.2</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidUseAapt2>True</AndroidUseAapt2>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <PublishTrimmed>True</PublishTrimmed>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
     <ApplicationVersion>6</ApplicationVersion>

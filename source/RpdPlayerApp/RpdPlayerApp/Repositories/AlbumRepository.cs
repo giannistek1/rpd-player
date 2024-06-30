@@ -35,7 +35,7 @@ internal static class AlbumRepository
 
     internal static Album? MatchAlbum(string artistName, string albumTitle)
     {
-        return Albums.FirstOrDefault(a => a.ArtistName.Equals(artistName) && a.Title.Equals(albumTitle));
+        return Albums.FirstOrDefault(a => a.ArtistName.ToLower().Equals(artistName.ToLower()) && a.Title.ToLower().Equals(albumTitle.ToLower()));
     }
 
     private static string GetStringFromURL()

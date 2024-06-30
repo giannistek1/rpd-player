@@ -57,6 +57,7 @@ internal class SongPart
             "I" => "Intro",
             "O" => "Outro",
             "P" => "Pre-chorus",
+            "T" => "Tiktok",
 
             _ => "Unkown song part"
         };

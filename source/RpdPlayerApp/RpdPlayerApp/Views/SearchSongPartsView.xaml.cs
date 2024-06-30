@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repository;
+using CommunityToolkit.Maui.Core.Extensions;
 
 namespace RpdPlayerApp.Views;
 
@@ -10,6 +11,7 @@ public partial class SearchSongPartsView : ContentPage
 {
     ObservableCollection<SongPart> allSongParts;
     ObservableCollection<SongPart> songParts = new ObservableCollection<SongPart>();
+    private bool customSort = false;
     public int SongCount { get; set; } = 0;
 
     public SearchSongPartsView()
@@ -51,13 +53,13 @@ public partial class SearchSongPartsView : ContentPage
 
     private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
-        SonglibraryListView.ItemsSource = songParts;
         songParts.Clear();
         var list = allSongParts.Where(s => s.ArtistName.ToLower().StartsWith(e.NewTextValue.ToLower())).ToList();
         foreach (var item in list)
         {
             songParts.Add(item);
         }
+        SonglibraryListView.ItemsSource = songParts;
     }
 
     private void SwipeItemPlaySong(object sender, EventArgs e)
@@ -107,5 +109,21 @@ public partial class SearchSongPartsView : ContentPage
         audioMediaElement.Source = MediaSource.FromUri(songParts[index].AudioURL);
         audioMediaElement.Play();
         CommunityToolkit.Maui.Alerts.Toast.Make($"Now playing: {songParts[index].Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+    }
+
+    private void SortButton_Clicked(object sender, EventArgs e)
+    {
+        if (!customSort)
+        {
+            songParts = songParts.OrderBy(s => s.Album?.ReleaseDate).ToObservableCollection();
+            SonglibraryListView.ItemsSource = songParts;
+            customSort = true;
+        }
+        else
+        {
+            songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
+            SonglibraryListView.ItemsSource = songParts;
+            customSort = false;
+        } 
     }
 }
