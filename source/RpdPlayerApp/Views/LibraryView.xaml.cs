@@ -31,7 +31,20 @@ public partial class LibraryView : ContentPage
 
     private void CurrentPlaylistListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
-        PlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist((SongPart)CurrentPlaylistListView.SelectedItem);
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+
+        if (accessType != NetworkAccess.Internet)
+        {
+            Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            return;
+        }
+
+        string url = ((SongPart)CurrentPlaylistListView.SelectedItem).AudioURL;
+        if (url != string.Empty)
+        {
+            audioMediaElement.Source = MediaSource.FromUri(url);
+            audioMediaElement.Play();
+        }
 
         CurrentPlaylistListView.SelectedItem = null;
     }
@@ -41,7 +54,7 @@ public partial class LibraryView : ContentPage
         PlaylistManager.Instance.ClearCurrentPlaylist();
     }
 
-    private void SwipeItem_Invoked(object sender, EventArgs e)
+    private void SwipeItemPlaySongPart(object sender, EventArgs e)
     {
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 
@@ -149,5 +162,11 @@ public partial class LibraryView : ContentPage
         {
             Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
         }
+    }
+
+    private void SwipeItemRemoveSongPart(object sender, EventArgs e)
+    {
+        SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
+        PlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
     }
 }

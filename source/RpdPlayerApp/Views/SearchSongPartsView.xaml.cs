@@ -73,12 +73,12 @@ public partial class SearchSongPartsView : ContentPage
             return;
         }
 
-        SongPart songpart = (SongPart)((MenuItem)sender).CommandParameter;
-        if (songpart.AudioURL != string.Empty)
+        SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
+        if (songPart.AudioURL != string.Empty)
         {
-            audioMediaElement.Source = MediaSource.FromUri(songpart.AudioURL);
+            audioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
             audioMediaElement.Play();
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Now playing: {songpart.Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Now playing: {songPart.Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
     }
 
@@ -135,13 +135,13 @@ public partial class SearchSongPartsView : ContentPage
 
     private void SwipeItemAddSong(object sender, EventArgs e)
     {
-        SongPart songpart = (SongPart)((MenuItem)sender).CommandParameter;
+        SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
 
-        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songpart);
+        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
 
         if (added)
         {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songpart.Artist} - {songpart.Title} {songpart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.Artist} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
     }
 }
