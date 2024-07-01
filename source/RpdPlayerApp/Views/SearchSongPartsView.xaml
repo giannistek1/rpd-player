@@ -52,6 +52,9 @@
                 <DataTemplate>
                     <ViewCell>
                         <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItem Text="Add" BackgroundColor="LightGreen" CommandParameter="{Binding .}" Invoked="SwipeItemAddSong"></SwipeItem>
+                            </SwipeView.LeftItems>
                             <SwipeView.RightItems>
                                 <SwipeItem Text="Play" BackgroundColor="LightGreen" CommandParameter="{Binding .}" Invoked="SwipeItemPlaySong"></SwipeItem>
                             </SwipeView.RightItems>

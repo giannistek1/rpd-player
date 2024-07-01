@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Storage;
 using Microsoft.Extensions.Logging;
+using RpdPlayerApp.Views;
 
 namespace RpdPlayerApp
 {
@@ -43,6 +45,8 @@ namespace RpdPlayerApp
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
+            builder.Services.AddTransient<LibraryView>();
 
             return builder.Build();
         }

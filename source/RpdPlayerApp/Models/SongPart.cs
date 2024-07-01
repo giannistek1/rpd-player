@@ -9,6 +9,9 @@ internal class SongPart
     public string Title { get; set; }
     public string ArtistName { get; set; }
     public Artist? Artist { get; set; }
+    /// <summary>
+    /// PartNameShort (C, D, DB, O, T, etc)
+    /// </summary>
     public string PartNameShort { get; set; }
     public string PartNameNumber { get; set; }
     public string PartNameFull { get; set; }

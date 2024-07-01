@@ -42,10 +42,11 @@ public partial class SearchSongPartsView : ContentPage
 
     private void SonglibraryListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
-        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist((SongPart)SonglibraryListView.SelectedItem);
+        SongPart songpart = (SongPart)SonglibraryListView.SelectedItem;
+        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songpart);
         if (added)
         {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {((SongPart)SonglibraryListView.SelectedItem).Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songpart.Artist} - {songpart.Title} {songpart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
 
         SonglibraryListView.SelectedItem = null;
@@ -111,6 +112,7 @@ public partial class SearchSongPartsView : ContentPage
         CommunityToolkit.Maui.Alerts.Toast.Make($"Now playing: {songParts[index].Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
+    // Todo: Sort with UraniumUI bottom sheet
     private void SortButton_Clicked(object sender, EventArgs e)
     {
         if (!customSort)
@@ -129,5 +131,17 @@ public partial class SearchSongPartsView : ContentPage
             SonglibraryListView.ItemsSource = songParts;
             customSort = false;
         } 
+    }
+
+    private void SwipeItemAddSong(object sender, EventArgs e)
+    {
+        SongPart songpart = (SongPart)((MenuItem)sender).CommandParameter;
+
+        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songpart);
+
+        if (added)
+        {
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songpart.Artist} - {songpart.Title} {songpart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
     }
 }
