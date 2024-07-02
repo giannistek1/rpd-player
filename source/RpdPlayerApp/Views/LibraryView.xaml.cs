@@ -1,6 +1,4 @@
 using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Storage;
-using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Repository;
@@ -53,12 +51,6 @@ public partial class LibraryView : ContentView
     private void ClearButton_Clicked(object sender, EventArgs e)
     {
         PlaylistManager.Instance.ClearCurrentPlaylist();
-    }
-
-    private void ContentPage_Disappearing(object sender, EventArgs e)
-    {
-        if (audioMediaElement.CurrentState == CommunityToolkit.Maui.Core.Primitives.MediaElementState.Playing)
-            audioMediaElement.Stop();
     }
 
     private void PlayPlaylistButton_Clicked(object sender, EventArgs e)

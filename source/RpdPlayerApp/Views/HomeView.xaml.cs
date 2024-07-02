@@ -52,12 +52,6 @@ public partial class HomeView : ContentView
         AlbumCountLabel.Text = $",  Albums: {AlbumRepository.Albums.Count}";
     }
 
-    private void ContentPage_Disappearing(object sender, EventArgs e)
-    {
-        if (audioMediaElement.CurrentState == CommunityToolkit.Maui.Core.Primitives.MediaElementState.Playing)
-            audioMediaElement.Stop();
-    }
-
     private void RandomListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
         //PlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist((Songpart)RandomListView.SelectedItem);

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              x:Class="RpdPlayerApp.Views.LibraryView">
 
@@ -13,6 +12,8 @@
             <Entry WidthRequest="150" x:Name="PlaylistNameEntry" HorizontalTextAlignment="Start" BackgroundColor="Green" TextColor="White" MaxLength="20" Text="myplaylist"/>
             
             <Label WidthRequest="150" x:Name="CountLabel" Text="{Binding SongCount}" />
+            
+            <material:CheckBox x:Name="ViaCloudCheckBox" IsChecked="True" Text="Via cloud"/>
         </HorizontalStackLayout>
 
 
@@ -27,8 +28,6 @@
 
             <Button x:Name="SavePlaylistButton" Margin="2" Clicked="SavePlaylistButton_Clicked" Text="Save" />
         </HorizontalStackLayout>
-
-        <toolkit:MediaElement x:Name="audioMediaElement" IsVisible="False"/>
 
         <ListView 
             Grid.Row="2"

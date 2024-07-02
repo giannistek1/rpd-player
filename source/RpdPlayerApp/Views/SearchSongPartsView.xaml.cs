@@ -45,11 +45,11 @@ public partial class SearchSongPartsView : ContentView
 
     private void SonglibraryListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
-        SongPart songpart = (SongPart)SonglibraryListView.SelectedItem;
-        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songpart);
+        SongPart songPart = (SongPart)SonglibraryListView.SelectedItem;
+        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
         if (added)
         {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songpart.Artist} - {songpart.Title} {songpart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
 
         SonglibraryListView.SelectedItem = null;
@@ -90,12 +90,6 @@ public partial class SearchSongPartsView : ContentView
         CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
-    private void ContentPage_Disappearing(object sender, EventArgs e)
-    {
-        if (audioMediaElement.CurrentState == CommunityToolkit.Maui.Core.Primitives.MediaElementState.Playing)
-            audioMediaElement.Stop();
-    }
-
     private void PlayRandomButton_Clicked(object sender, EventArgs e)
     {
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
@@ -112,10 +106,6 @@ public partial class SearchSongPartsView : ContentView
 
         MainViewModel.CurrentSongPart = songPart;
         PlaySongPart.Invoke(sender, e);
-
-        //audioMediaElement.Source = MediaSource.FromUri(songParts[index].AudioURL);
-        //audioMediaElement.Play();
-        //CommunityToolkit.Maui.Alerts.Toast.Make($"Now playing: {songParts[index].Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
     // Todo: Sort with UraniumUI bottom sheet
