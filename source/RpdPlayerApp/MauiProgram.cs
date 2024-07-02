@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Storage;
 using Microsoft.Extensions.Logging;
 using RpdPlayerApp.Views;
+using UraniumUI;
 
 namespace RpdPlayerApp
 {
@@ -12,7 +13,9 @@ namespace RpdPlayerApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                    .UseSentry(options => {
+                .UseUraniumUI()
+                .UseUraniumUIMaterial()
+                .UseSentry(options => {
                         // The DSN is the only required setting.
                         options.Dsn = "https://6ebbf9f141d92c4913f52e13810622fb@o4507512238637056.ingest.de.sentry.io/4507512245256272";
 
@@ -40,13 +43,14 @@ namespace RpdPlayerApp
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddMaterialIconFonts();
                 });
 
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
-            builder.Services.AddTransient<LibraryView>();
+            builder.Services.AddTransient<MainPage>();
 
             return builder.Build();
         }

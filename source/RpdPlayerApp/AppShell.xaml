@@ -11,7 +11,12 @@
     Shell.TabBarTitleColor="LightGreen"
     Shell.TabBarUnselectedColor="White">
 
-    <TabBar>
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate views:MainPage}"
+        Route="MainPage" />
+    
+    <!--<TabBar>
         <Tab Title="Home" Icon="house.svg">
             <ShellContent ContentTemplate="{DataTemplate views:HomeView}" />
         </Tab>
@@ -21,6 +26,5 @@
         <Tab Title="Library" Icon="musiclist.svg">
             <ShellContent ContentTemplate="{DataTemplate views:LibraryView}" />
         </Tab>
-    </TabBar>
-
+    </TabBar>-->
 </Shell>

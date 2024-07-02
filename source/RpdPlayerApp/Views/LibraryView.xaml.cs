@@ -4,20 +4,21 @@ using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Repository;
+using RpdPlayerApp.ViewModel;
 using System.Collections.Specialized;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RpdPlayerApp.Views;
 
-public partial class LibraryView : ContentPage
+public partial class LibraryView : ContentView
 {
-    IFileSaver fileSaver;
+    public event EventHandler PlaySongPart;
     public int SongCount { get; set; } = 0;
-    public LibraryView(IFileSaver filesaver)
+
+    public LibraryView()
     {
         InitializeComponent();
-        this.fileSaver = filesaver;
 
         PlaylistManager.Instance.CurrentPlaylist.CollectionChanged += CurrentPlaylistCollectionChanged;
 
@@ -39,11 +40,11 @@ public partial class LibraryView : ContentPage
             return;
         }
 
-        string url = ((SongPart)CurrentPlaylistListView.SelectedItem).AudioURL;
-        if (url != string.Empty)
+        SongPart songPart = (SongPart)CurrentPlaylistListView.SelectedItem;
+        if (songPart.AudioURL != string.Empty)
         {
-            audioMediaElement.Source = MediaSource.FromUri(url);
-            audioMediaElement.Play();
+            MainViewModel.CurrentSongPart = songPart; 
+            PlaySongPart.Invoke(sender, e);
         }
 
         CurrentPlaylistListView.SelectedItem = null;
@@ -52,24 +53,6 @@ public partial class LibraryView : ContentPage
     private void ClearButton_Clicked(object sender, EventArgs e)
     {
         PlaylistManager.Instance.ClearCurrentPlaylist();
-    }
-
-    private void SwipeItemPlaySongPart(object sender, EventArgs e)
-    {
-        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-
-        if (accessType != NetworkAccess.Internet)
-        {
-            Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-            return;
-        }
-
-        string url = ((MenuItem)sender).CommandParameter.ToString();
-        if (url != string.Empty)
-        {
-            audioMediaElement.Source = MediaSource.FromUri(url);
-            audioMediaElement.Play();
-        }
     }
 
     private void ContentPage_Disappearing(object sender, EventArgs e)

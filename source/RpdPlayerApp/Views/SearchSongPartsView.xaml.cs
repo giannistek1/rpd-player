@@ -4,11 +4,14 @@ using System.Collections.Specialized;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repository;
 using CommunityToolkit.Maui.Core.Extensions;
+using RpdPlayerApp.ViewModel;
 
 namespace RpdPlayerApp.Views;
 
-public partial class SearchSongPartsView : ContentPage
+public partial class SearchSongPartsView : ContentView
 {
+    public event EventHandler PlaySongPart;
+
     ObservableCollection<SongPart> allSongParts;
     ObservableCollection<SongPart> songParts = new ObservableCollection<SongPart>();
     private bool customSort = false;
@@ -76,9 +79,8 @@ public partial class SearchSongPartsView : ContentPage
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         if (songPart.AudioURL != string.Empty)
         {
-            audioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
-            audioMediaElement.Play();
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Now playing: {songPart.Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            MainViewModel.CurrentSongPart = songPart;
+            PlaySongPart.Invoke(sender, e);
         }
     }
 
@@ -94,7 +96,7 @@ public partial class SearchSongPartsView : ContentPage
             audioMediaElement.Stop();
     }
 
-    private void PlayRandom_Clicked(object sender, EventArgs e)
+    private void PlayRandomButton_Clicked(object sender, EventArgs e)
     {
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 
@@ -106,10 +108,14 @@ public partial class SearchSongPartsView : ContentPage
 
         var random = new Random();
         int index = random.Next(songParts.Count);
+        SongPart songPart = songParts[index];
 
-        audioMediaElement.Source = MediaSource.FromUri(songParts[index].AudioURL);
-        audioMediaElement.Play();
-        CommunityToolkit.Maui.Alerts.Toast.Make($"Now playing: {songParts[index].Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        MainViewModel.CurrentSongPart = songPart;
+        PlaySongPart.Invoke(sender, e);
+
+        //audioMediaElement.Source = MediaSource.FromUri(songParts[index].AudioURL);
+        //audioMediaElement.Play();
+        //CommunityToolkit.Maui.Alerts.Toast.Make($"Now playing: {songParts[index].Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
     // Todo: Sort with UraniumUI bottom sheet
@@ -141,7 +147,7 @@ public partial class SearchSongPartsView : ContentPage
 
         if (added)
         {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.Artist} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
     }
 }

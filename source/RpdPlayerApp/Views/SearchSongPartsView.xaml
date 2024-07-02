@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="RpdPlayerApp.Views.SearchSongPartsView"
-             Title="Search"
-             Disappearing="ContentPage_Disappearing">
+             x:Class="RpdPlayerApp.Views.SearchSongPartsView">
 
     <Grid Padding="5"
           RowDefinitions="20, 50, 50, *"
@@ -32,7 +30,7 @@
 
         <HorizontalStackLayout Grid.Row="2">
             
-            <Button  x:Name="PlayRandom" Margin="2" Clicked="PlayRandom_Clicked" Text="Play random" />
+            <Button  x:Name="PlayRandomButton" Margin="2" Clicked="PlayRandomButton_Clicked" Text="Play random" />
 
             <Button x:Name="AddResultsButton" Margin="2" Clicked="AddResultsButton_Clicked" Text="Add all results" />
             
@@ -82,4 +80,4 @@
         </ListView>
     </Grid>
 
-</ContentPage>
+</ContentView>

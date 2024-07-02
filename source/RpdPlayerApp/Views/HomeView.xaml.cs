@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 
 namespace RpdPlayerApp.Views;
 
-public partial class HomeView : ContentPage
+public partial class HomeView : ContentView
 {
     public HomeView()
     {
