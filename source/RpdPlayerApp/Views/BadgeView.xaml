@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RpdPlayerApp.Views.BadgeView">
+
+    <Frame>
+        <!-- Badge -->
+        <Frame x:Name="Badge"
+               BackgroundColor="Red"
+               CornerRadius="12"
+               Padding="0"
+               HorizontalOptions="End"
+               VerticalOptions="Start"
+               IsVisible="False">
+            <Label x:Name="BadgeLabel"
+                   TextColor="White"
+                   FontSize="12"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Padding="4,0" />
+        </Frame>
+    </Frame>
+    
+</ContentView>

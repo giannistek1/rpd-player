@@ -19,6 +19,8 @@ public partial class MainPage : ContentPage
     private void OnPlaySongPart(object sender, EventArgs e)
     {
         if (MainViewModel.CurrentSongPart is not null)
+        {
             AudioPlayerControl.PlayAudio(MainViewModel.CurrentSongPart);
+        }
     }
 }

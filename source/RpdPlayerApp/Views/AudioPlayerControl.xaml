@@ -6,16 +6,29 @@
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              x:Class="RpdPlayerApp.Views.AudioPlayerControl">
-    <Grid ColumnDefinitions="50, *, 80">
-        <Image Grid.Column="0" x:Name="AlbumImage"></Image>
-        <Label Grid.Column="1" x:Name="NowPlayingLabel" Padding="16,0,0,0"  VerticalTextAlignment="Center" TextColor="White" Text="Nothing playing"  />
-        <material:ButtonView x:Name="PlayToggleButton" Grid.Column="2" Pressed="PlayToggleButton_Pressed">
-            <Image x:Name="PlayToggleImage">
-                <Image.Source>
-                    <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Pause}" Color="{StaticResource White}" />
-                </Image.Source>
-            </Image>
-        </material:ButtonView>
-        <toolkit:MediaElement x:Name="audioMediaElement" IsVisible="False"/>
-    </Grid>
+    
+    <VerticalStackLayout>
+
+        <Slider x:Name="AudioProgressSlider" Margin="-20,0,-20,0" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="10" />
+
+        <Grid ColumnDefinitions="50, *, 80">
+
+            <Image Grid.Column="0" x:Name="AlbumImage" />
+
+            <Label Grid.Column="1" x:Name="NowPlayingLabel" Padding="16,0,0,0"  VerticalTextAlignment="Center" TextColor="White" Text="Nothing playing"/>
+
+            <material:ButtonView Grid.Column="2" x:Name="PlayToggleButton"  Pressed="PlayToggleButton_Pressed">
+                <Image x:Name="PlayToggleImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRegular" Glyph="{x:Static m:MaterialRegular.Pause}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
+            <toolkit:MediaElement x:Name="AudioMediaElement" IsVisible="False"/>
+
+        </Grid>
+        
+    </VerticalStackLayout>
+ 
 </ContentView>

@@ -12,7 +12,6 @@
     Shell.TabBarUnselectedColor="White">
 
     <ShellContent
-        Title="Home"
         ContentTemplate="{DataTemplate views:MainPage}"
         Route="MainPage" />
     

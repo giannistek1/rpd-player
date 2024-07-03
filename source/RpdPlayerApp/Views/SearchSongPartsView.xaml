@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RpdPlayerApp.Views.SearchSongPartsView">
+             x:Class="RpdPlayerApp.Views.SearchSongPartsView"
+             BackgroundColor="Black">
 
     <Grid Padding="5"
           RowDefinitions="20, 50, 50, *"
@@ -17,7 +18,9 @@
 
             <SearchBar 
                    WidthRequest="270"
-                   Placeholder="Search artist"
+                   TextColor="White"
+                   Placeholder="Artist, title or album"
+                   PlaceholderColor="LightGray"
                    TextChanged="SearchBar_TextChanged">
                     
             </SearchBar>
@@ -40,7 +43,7 @@
             Grid.Column="0"
             x:Name="SonglibraryListView" 
             CachingStrategy="RecycleElement"
-            BackgroundColor="Gray" 
+            BackgroundColor="DimGray" 
             HasUnevenRows="true"
             ItemTapped="SonglibraryListView_ItemTapped">
             <ListView.ItemTemplate>
@@ -48,7 +51,8 @@
                     <ViewCell>
                         <SwipeView>
                             <SwipeView.LeftItems>
-                                <SwipeItem Text="Add" BackgroundColor="LightGreen" CommandParameter="{Binding .}" Invoked="SwipeItemAddSong"></SwipeItem>
+                                <SwipeItem Text="To playlist" BackgroundColor="LightGreen" CommandParameter="{Binding .}" Invoked="SwipeItemAddSong"></SwipeItem>
+                                <SwipeItem Text="To queue" BackgroundColor="LightGray" CommandParameter="{Binding .}" Invoked="SwipeItemQueueSong"></SwipeItem>
                             </SwipeView.LeftItems>
                             <SwipeView.RightItems>
                                 <SwipeItem Text="Play" BackgroundColor="LightGreen" CommandParameter="{Binding .}" Invoked="SwipeItemPlaySong"></SwipeItem>

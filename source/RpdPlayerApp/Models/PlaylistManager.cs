@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using RpdPlayerApp.ViewModel;
+using System.Collections.ObjectModel;
 
 namespace RpdPlayerApp.Models;
 
 internal class PlaylistManager : BindableObject
 {
     private static readonly PlaylistManager instance = new PlaylistManager();
+    internal int CurrentSongPartIndex = -1;
 
     private ObservableCollection<SongPart> currentPlaylist;
     public ObservableCollection<SongPart> CurrentPlaylist
@@ -68,4 +70,16 @@ internal class PlaylistManager : BindableObject
     internal void ClearCurrentPlaylist() => currentPlaylist.Clear();
 
     internal int GetCurrentPlaylistSongCount() => currentPlaylist.Count;
+
+    internal void IncrementSongPartIndex()
+    {
+        if (CurrentPlaylist.Count == 0)
+            return;
+
+        if (CurrentSongPartIndex == CurrentPlaylist.Count - 1)
+            // Change mode to queue list
+            MainViewModel.IsPlayingPlaylist = false; 
+        else
+            CurrentSongPartIndex++;
+    }
 }

@@ -58,7 +58,10 @@ public partial class SearchSongPartsView : ContentView
     private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
         songParts.Clear();
-        var list = allSongParts.Where(s => s.ArtistName.ToLower().StartsWith(e.NewTextValue.ToLower())).ToList();
+        var list = allSongParts.Where(s =>  s.ArtistName.ToLower().Contains(e.NewTextValue.ToLower()) || 
+                                            s.Title.ToLower().Contains(e.NewTextValue.ToLower()) || 
+                                            s.AlbumTitle.ToLower().Contains(e.NewTextValue.ToLower()))
+                                            .ToList();
         foreach (var item in list)
         {
             songParts.Add(item);
@@ -139,5 +142,19 @@ public partial class SearchSongPartsView : ContentView
         {
             CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
+    }
+
+    private void SwipeItemQueueSong(object sender, EventArgs e)
+    {
+        SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
+
+        if (!MainViewModel.SongPartsQueue.Contains(songPart))
+        {
+            MainViewModel.SongPartsQueue.Enqueue(songPart);
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
+
+        // Change mode to queue list
+        MainViewModel.IsPlayingPlaylist = false; 
     }
 }

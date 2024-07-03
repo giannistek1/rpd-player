@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Alerts;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Repository;
@@ -25,22 +26,20 @@ public partial class LibraryView : ContentView
 
     private void CurrentPlaylistCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        CountLabel.Text = PlaylistManager.Instance.GetCurrentPlaylistSongCount().ToString();
+        CountLabel.Text = $"Count: {PlaylistManager.Instance.GetCurrentPlaylistSongCount()}";
     }
 
     private void CurrentPlaylistListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
-        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-
-        if (accessType != NetworkAccess.Internet)
-        {
-            Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        if (!HelperClass.HasInternetConnection())
             return;
-        }
 
         SongPart songPart = (SongPart)CurrentPlaylistListView.SelectedItem;
         if (songPart.AudioURL != string.Empty)
         {
+            // Mode to queue/single song
+            MainViewModel.IsPlayingPlaylist = false;
+
             MainViewModel.CurrentSongPart = songPart; 
             PlaySongPart.Invoke(sender, e);
         }
@@ -55,21 +54,20 @@ public partial class LibraryView : ContentView
 
     private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
     {
-        Toast.Make("Not done yet");
+        PlaylistManager.Instance.IncrementSongPartIndex();
+        int index = PlaylistManager.Instance.CurrentSongPartIndex;
+        MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist[index];
+
+        // Change mode to playlist
+        MainViewModel.IsPlayingPlaylist = true;
+        PlaySongPart.Invoke(sender, e);
     }
 
     private void SavePlaylistButton_Clicked(object sender, EventArgs e)
     {
-        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-
-        if (accessType != NetworkAccess.Internet)
-        {
-            Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-            return;
-        }
-
         try
         {
+            // Create file on system
             var path = FileSystem.Current.AppDataDirectory;
             var fullPath = Path.Combine(path, $"{PlaylistNameEntry.Text}.txt");
 
@@ -80,38 +78,84 @@ public partial class LibraryView : ContentView
             }
 
             File.WriteAllText(fullPath, sb.ToString());
-
-            DropboxRepository.SavePlaylist(PlaylistNameEntry.Text);
-            Toast.Make("Saved playlist!");
         }
         catch (Exception ex)
         {
             Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
         }
+        
+
+        if (ViaCloudCheckBox.IsChecked && HelperClass.HasInternetConnection())
+        {
+            try
+            {
+                DropboxRepository.SavePlaylist(PlaylistNameEntry.Text);
+                Toast.Make("Saved playlist!");
+            }
+            catch (Exception ex)
+            {
+                Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
+            }
+        }
     }
 
     private async void LoadPlaylistButton_Clicked(object sender, EventArgs e)
     {
-        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-
-        if (accessType != NetworkAccess.Internet)
+        if (ViaCloudCheckBox.IsChecked && HelperClass.HasInternetConnection())
         {
-            await Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-            return;
+            try
+            {
+                CurrentPlaylistListView.ItemsSource = null;
+                PlaylistManager.Instance.ClearCurrentPlaylist();
+
+                var result = await DropboxRepository.LoadPlaylist(PlaylistNameEntry.Text);
+
+                if (result.Contains("Error"))
+                {
+                    Toast.Make(result);
+                    return;
+                }
+
+                // Convert text to songParts
+                var pattern = @"\{(.*?)\}";
+                var matches = Regex.Matches(result, pattern);
+
+                for (int i = 0; i < matches.Count / 6; i++)
+                {
+                    int n = 6 * i; // songpart number
+
+                    string artistName = matches[n + 0].Groups[1].Value;
+                    string albumTitle = matches[n + 1].Groups[1].Value;
+
+                    SongPart songPart = new SongPart(id: i, artistName: artistName, albumTitle: albumTitle, title: matches[n + 2].Groups[1].Value, partNameShort: $"{matches[n + 3].Groups[1].Value}", partNameNumber: matches[n + 4].Groups[1].Value, audioURL: matches[n + 5].Groups[1].Value);
+                    songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
+
+                    songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
+                    PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
+                }
+
+                CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist;
+            }
+            catch (Exception ex)
+            {
+                Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
+            }
         }
-
-        try
+        else
         {
+            var path = FileSystem.Current.AppDataDirectory;
+            var fullPath = Path.Combine(path, $"{PlaylistNameEntry.Text}.txt");
+
+            var result = HelperClass.ReadTextFile(fullPath);
+
+            if (result.Equals("File not found.") || result.StartsWith("An error occurred"))
+            {
+                Toast.Make(result);
+                return;
+            } 
+
             CurrentPlaylistListView.ItemsSource = null;
             PlaylistManager.Instance.ClearCurrentPlaylist();
-
-            var result = await DropboxRepository.LoadPlaylist(PlaylistNameEntry.Text);
-
-            if (result.Contains("Error"))
-            { 
-                Toast.Make(result); 
-                return; 
-            }
 
             // Convert text to songParts
             var pattern = @"\{(.*?)\}";
@@ -132,10 +176,6 @@ public partial class LibraryView : ContentView
             }
 
             CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist;
-        }
-        catch (Exception ex)
-        {
-            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
         }
     }
 
