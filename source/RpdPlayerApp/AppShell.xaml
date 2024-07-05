@@ -15,15 +15,4 @@
         ContentTemplate="{DataTemplate views:MainPage}"
         Route="MainPage" />
     
-    <!--<TabBar>
-        <Tab Title="Home" Icon="house.svg">
-            <ShellContent ContentTemplate="{DataTemplate views:HomeView}" />
-        </Tab>
-        <Tab Title="Search" Icon="songlibrary.svg">
-            <ShellContent ContentTemplate="{DataTemplate views:SearchSongPartsView}" />
-        </Tab>
-        <Tab Title="Library" Icon="musiclist.svg">
-            <ShellContent ContentTemplate="{DataTemplate views:LibraryView}" />
-        </Tab>
-    </TabBar>-->
 </Shell>
