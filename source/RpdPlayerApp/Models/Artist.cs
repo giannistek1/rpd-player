@@ -17,7 +17,7 @@ internal class Artist
     public string Company { get; set; }
     public string ImageURL { get; set; }
 
-    public Artist(string name, string altName = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company, string imageURL = "")
+    public Artist(string name, string altName = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
     {
         Name = name;
         AltName = altName;
