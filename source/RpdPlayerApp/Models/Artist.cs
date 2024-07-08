@@ -10,17 +10,21 @@ public enum GroupType
 
 internal class Artist
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string AltName { get; set; }
+    public DateTime DebutDate { get; set; }
     public GroupType Type { get; set; }
     public int MemberCount { get; set; }
     public string Company { get; set; }
     public string ImageURL { get; set; }
 
-    public Artist(string name, string altName = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
+    public Artist(int id, string name, string altName = "", DateTime debutDate = new DateTime(), GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
     {
+        Id = id;
         Name = name;
         AltName = altName;
+        DebutDate = debutDate;
         Type = groupType;
         MemberCount = memberCount;
         Company = company;

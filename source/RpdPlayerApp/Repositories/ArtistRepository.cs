@@ -1,11 +1,71 @@
 ﻿using RpdPlayerApp.Models;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace RpdPlayerApp.Repository;
 
 internal static class ArtistRepository
 {
+    private const string ARTISTS_TXT_URL = "https://github.com/giannistek1/rpd-artists/blob/main/artists.txt?raw=true";
+
     public readonly static ObservableCollection<Artist> Artists = new ObservableCollection<Artist>();
+
+    public static bool GetArtists() => InitArtists(GetStringFromURL());
+
+    public static bool InitArtists(string artistsText)
+    {
+        // pattern = any number of arbitrary characters between square brackets.
+        var pattern = @"\{(.*?)\}";
+        var matches = Regex.Matches(artistsText, pattern);
+
+        // artist, alt names, debut date, grouptype, members, company, imageurl
+        // matches = 7 * 165 = 4000 
+        // 0 1 2 3  4  5  6  Artist 1
+        // 7 8 9 10 11 12 13  Artist 2
+
+
+        for (int i = 0; i < matches.Count / 7; i++)
+        {
+            int n = 7 * i; // artist number
+
+            Enum.TryParse(matches[n + 3].Groups[1].Value, out GroupType groupType);
+
+            Artists.Add(new Artist(id: i, name: matches[n + 0].Groups[1].Value, 
+                altName: matches[n + 1].Groups[1].Value, 
+                debutDate: DateTime.ParseExact(matches[n + 2].Groups[1].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                groupType,
+                memberCount: Convert.ToInt16(matches[n + 4].Groups[1].Value),
+                company: matches[n + 5].Groups[1].Value,
+                imageURL: matches[n + 6].Groups[1].Value));
+        }
+
+        return Artists.Count > 0;
+    }
+
+    internal static Artist? MatchArtist(string artistName)
+    {
+        return Artists.FirstOrDefault(a => a.Name.ToLower().Equals(artistName.ToLower()));
+    }
+
+    private static string GetStringFromURL()
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+
+        string artistsAsText = string.Empty;
+
+        if (accessType != NetworkAccess.Internet)
+        {
+            CommunityToolkit.Maui.Alerts.Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            return artistsAsText;
+        }
+
+        using (HttpClient client = new HttpClient())
+        {
+            artistsAsText = client.GetStringAsync(ARTISTS_TXT_URL).Result;
+        }
+        return artistsAsText;
+    }
 
     //        public readonly static List<string> Artists = new List<string>()
     //        {
@@ -180,19 +240,19 @@ internal static class ArtistRepository
     //, "Zico"
     //        };
 
-    public static List<Artist> GetArtists()
-    {
-        // In the future get artist list from text file like
-        // [HWASA][ALT NAME1,ALT NAME2][DEBUT-DATE][GG][1][COMPANY][URL]
+    //public static List<Artist> GetArtists()
+    //{
+    //    // In the future get artist list from text file like
+    //    // {2NE1}{}{2009-05-06}{GG}{4}{YG Entertainment}{https://github.com/giannistek1/rpd-audio/blob/main/[2NE1][][2009-05-06][GG][4][YG Entertainment].jpg?raw=true}
 
-        if (Artists.Count == 0)
-        {
-            List<string> artistNames = SongPartRepository.SongParts.Select(s => s.ArtistName).Distinct().ToList();
-            foreach (string name in artistNames)
-            {
-                Artists.Add(new Artist(name: name, groupType: GroupType.BG));
-            }
-        }
-        return Artists.ToList();
-    }
+    //    if (Artists.Count == 0)
+    //    {
+    //        List<string> artistNames = SongPartRepository.SongParts.Select(s => s.ArtistName).Distinct().ToList();
+    //        foreach (string name in artistNames)
+    //        {
+    //            Artists.Add(new Artist(name: name, groupType: GroupType.BG));
+    //        }
+    //    }
+    //    return Artists.ToList();
+    //}
 }

@@ -16,11 +16,9 @@ public partial class HomeView : ContentView
         SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
 
         // Get
-
+        ArtistRepository.GetArtists(); 
         AlbumRepository.GetAlbums();
         SongPartRepository.GetSongParts();
-        ArtistRepository.GetArtists(); // First when artists are added
-
 
         var groupedArtists = from s in SongPartRepository.SongParts
                              group s.Artist by s.ArtistName into g

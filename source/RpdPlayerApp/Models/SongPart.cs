@@ -47,7 +47,7 @@ internal class SongPart
 
     private string GetPartNameLong(string partNameShort)
     {
-        return partNameShort.ToString() switch
+        return partNameShort switch
         {
             "B" => "Bridge",
             "C" => "Chorus",
@@ -61,6 +61,7 @@ internal class SongPart
             "O" => "Outro",
             "P" => "Pre-chorus",
             "T" => "Tiktok",
+            "V" => "Verse",
 
             _ => "Unkown song part"
         };
