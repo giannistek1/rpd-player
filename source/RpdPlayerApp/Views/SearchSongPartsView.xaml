@@ -25,7 +25,7 @@
                     
             </SearchBar>
 
-            <Button x:Name="SortButton" Margin="2" Clicked="SortButton_Clicked" Text="Sort by date" />
+            <Button x:Name="SortButton" Margin="2" Clicked="SortButton_Clicked" Text="Sort..." />
             
         </HorizontalStackLayout>
 

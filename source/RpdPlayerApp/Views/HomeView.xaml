@@ -6,13 +6,17 @@
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="20, 20, 20, *"
+          RowDefinitions="20, 20, 30, 30, 30, 30, *"
           ColumnDefinitions="*">
 
-        <Label
+        <HorizontalStackLayout>
+            <Label
             Grid.Row="0"
             Grid.Column="0"
             x:Name="VersionLabel" Text="Version xx" />
+        </HorizontalStackLayout>
+        
+        
         
         <HorizontalStackLayout
             Grid.Row="1">
@@ -40,8 +44,35 @@
             x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
         </HorizontalStackLayout>
 
+        <HorizontalStackLayout
+        Grid.Row="3">
+
+            <Button Text="Female"/>
+            <Button Text="Male"/>
+
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="4">
+            
+            <Button Text="1st gen"/>
+            <Button Text="2nd gen"/>
+            <Button Text="3rd gen"/>
+            <Button Text="4th gen"/>
+            
+        </HorizontalStackLayout>
+
+
+        <HorizontalStackLayout Grid.Row="5">
+            
+            <Button Text="JYP"/>
+            <Button Text="YG"/>
+            <Button Text="SM"/>
+            
+        </HorizontalStackLayout>
+
+
         <ListView 
-            Grid.Row="3"
+            Grid.Row="6"
             Grid.Column="0"
             CachingStrategy="RecycleElement"
             x:Name="RandomListView" 

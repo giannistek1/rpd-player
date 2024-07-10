@@ -32,7 +32,7 @@
         </HorizontalStackLayout>
 
         <ListView 
-
+            Grid.Row="2" 
             CachingStrategy="RecycleElement"
             x:Name="CurrentPlaylistListView" 
             BackgroundColor="DimGray" 

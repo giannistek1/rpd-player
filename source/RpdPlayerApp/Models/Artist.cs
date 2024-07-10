@@ -14,7 +14,7 @@ internal class Artist
     public string Name { get; set; }
     public string AltName { get; set; }
     public DateTime DebutDate { get; set; }
-    public GroupType Type { get; set; }
+    public GroupType GroupType { get; set; }
     public int MemberCount { get; set; }
     public string Company { get; set; }
     public string ImageURL { get; set; }
@@ -25,7 +25,7 @@ internal class Artist
         Name = name;
         AltName = altName;
         DebutDate = debutDate;
-        Type = groupType;
+        GroupType = groupType;
         MemberCount = memberCount;
         Company = company;
         ImageURL = imageURL;

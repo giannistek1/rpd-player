@@ -5,16 +5,17 @@ using RpdPlayerApp.Models;
 using RpdPlayerApp.Repository;
 using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.ViewModel;
+using RpdPlayerApp.Architecture;
 
 namespace RpdPlayerApp.Views;
 
 public partial class SearchSongPartsView : ContentView
 {
     public event EventHandler PlaySongPart;
+    public event EventHandler SortPressed;
 
     ObservableCollection<SongPart> allSongParts;
     ObservableCollection<SongPart> songParts = new ObservableCollection<SongPart>();
-    private bool customSort = false;
     public int SongCount { get; set; } = 0;
 
     public SearchSongPartsView()
@@ -114,22 +115,50 @@ public partial class SearchSongPartsView : ContentView
     // Todo: Sort with UraniumUI bottom sheet
     private void SortButton_Clicked(object sender, EventArgs e)
     {
-        if (!customSort)
+        SortPressed.Invoke(sender, e);
+    }
+
+    internal void RefreshSort()
+    {
+        switch (MainViewModel.SortMode)
         {
-            songParts.CollectionChanged -= SongPartsCollectionChanged;
-            songParts = songParts.OrderBy(s => s.Album?.ReleaseDate).ToObservableCollection();
-            songParts.CollectionChanged += SongPartsCollectionChanged;
-            SonglibraryListView.ItemsSource = songParts;
-            customSort = true;
+            case SortMode.ReleaseDate:
+                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                songParts = songParts.OrderBy(s => s.Album?.ReleaseDate).ToObservableCollection();
+                songParts.CollectionChanged += SongPartsCollectionChanged;
+                SonglibraryListView.ItemsSource = songParts;
+                break;
+            case SortMode.Artist:
+                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
+                songParts.CollectionChanged += SongPartsCollectionChanged;
+                SonglibraryListView.ItemsSource = songParts;
+                break;
+            case SortMode.Title:
+                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                songParts = songParts.OrderBy(s => s.Title).ToObservableCollection();
+                songParts.CollectionChanged += SongPartsCollectionChanged;
+                SonglibraryListView.ItemsSource = songParts;
+                break;
+            case SortMode.GroupType:
+                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                songParts = songParts.OrderBy(s => s.Artist?.GroupType).ToObservableCollection();
+                songParts.CollectionChanged += SongPartsCollectionChanged;
+                SonglibraryListView.ItemsSource = songParts;
+                break;
+            //case SortMode.ClipLength:
+            //    songParts.CollectionChanged -= SongPartsCollectionChanged;
+            //    songParts = songParts.OrderBy(s => s.AudioURL).ToObservableCollection();
+            //    songParts.CollectionChanged += SongPartsCollectionChanged;
+            //    SonglibraryListView.ItemsSource = songParts; 
+            //    break;
+            case SortMode.SongPart:
+                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                songParts = songParts.OrderBy(s => s.PartNameFull).ToObservableCollection();
+                songParts.CollectionChanged += SongPartsCollectionChanged;
+                SonglibraryListView.ItemsSource = songParts;
+                break;
         }
-        else
-        {
-            songParts.CollectionChanged -= SongPartsCollectionChanged;
-            songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
-            songParts.CollectionChanged += SongPartsCollectionChanged;
-            SonglibraryListView.ItemsSource = songParts;
-            customSort = false;
-        } 
     }
 
     private void SwipeItemAddSong(object sender, EventArgs e)
