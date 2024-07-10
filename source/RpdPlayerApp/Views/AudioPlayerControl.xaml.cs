@@ -2,7 +2,7 @@ using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModel;
-using UraniumUI.Icons.MaterialIcons;
+using UraniumUI.Icons.MaterialSymbols;
 
 namespace RpdPlayerApp.Views;
 
@@ -65,7 +65,7 @@ public partial class AudioPlayerControl : ContentView
                 var fontImageSource = new FontImageSource
                 {
                     FontFamily = "MaterialRegular",
-                    Glyph = MaterialRegular.Play_arrow,
+                    Glyph = UraniumUI.Icons.MaterialSymbols.MaterialOutlined.Play_arrow,
                     Color = (Color)Application.Current.Resources["White"]
                 };
 
@@ -84,7 +84,7 @@ public partial class AudioPlayerControl : ContentView
             var fontImageSource = new FontImageSource
             {
                 FontFamily = "MaterialRegular",
-                Glyph = MaterialRegular.Pause, 
+                Glyph = MaterialOutlined.Pause, 
                 Color = (Color)Application.Current.Resources["White"]
             };
 
@@ -97,7 +97,7 @@ public partial class AudioPlayerControl : ContentView
             var fontImageSource = new FontImageSource
             {
                 FontFamily = "MaterialRegular",
-                Glyph = MaterialRegular.Pause, // Assuming "\uE037" is the Unicode for the Pause glyph
+                Glyph = MaterialOutlined.Pause, 
                 Color = (Color)Application.Current.Resources["White"]
             };
 
@@ -110,7 +110,7 @@ public partial class AudioPlayerControl : ContentView
             var fontImageSource = new FontImageSource
             {
                 FontFamily = "MaterialRegular",
-                Glyph = MaterialRegular.Play_arrow, // Assuming "\uE037" is the Unicode for the Pause glyph
+                Glyph = MaterialOutlined.Play_arrow, 
                 Color = (Color)Application.Current.Resources["White"]
             };
 
@@ -129,7 +129,7 @@ public partial class AudioPlayerControl : ContentView
         var fontImageSource = new FontImageSource
         {
             FontFamily = "MaterialRegular",
-            Glyph = MaterialRegular.Pause,
+            Glyph = MaterialOutlined.Pause,
             Color = (Color)Application.Current.Resources["White"]
         };
 

@@ -44,6 +44,7 @@ public partial class SearchSongPartsView : ContentView
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
     }
 
+    // NOT USED
     private void SonglibraryListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
         SongPart songPart = (SongPart)SonglibraryListView.SelectedItem;
@@ -70,7 +71,7 @@ public partial class SearchSongPartsView : ContentView
         SonglibraryListView.ItemsSource = songParts;
     }
 
-    private void SwipeItemPlaySong(object sender, EventArgs e)
+    private void SwipeItemPlaySongPart(object sender, EventArgs e)
     {
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 

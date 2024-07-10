@@ -29,6 +29,7 @@ public partial class LibraryView : ContentView
         CountLabel.Text = $"Count: {PlaylistManager.Instance.GetCurrentPlaylistSongCount()}";
     }
 
+    // NOT USED
     private void CurrentPlaylistListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
         if (!HelperClass.HasInternetConnection())
@@ -54,7 +55,7 @@ public partial class LibraryView : ContentView
 
     private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
     {
-        PlaylistManager.Instance.IncrementSongPartIndex();
+        //PlaylistManager.Instance.IncrementSongPartIndex();
         int index = PlaylistManager.Instance.CurrentSongPartIndex;
         MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist[index];
 
@@ -183,5 +184,28 @@ public partial class LibraryView : ContentView
     {
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         PlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
+    }
+
+    private void ShufflePlaylistButton_Clicked(object sender, EventArgs e)
+    {
+        PlaylistManager.Instance.CurrentPlaylist.Shuffle();
+    }
+
+    private void SwipeItemPlaySongPart(object sender, EventArgs e)
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+
+        if (accessType != NetworkAccess.Internet)
+        {
+            CommunityToolkit.Maui.Alerts.Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            return;
+        }
+
+        SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
+        if (songPart.AudioURL != string.Empty)
+        {
+            MainViewModel.CurrentSongPart = songPart;
+            PlaySongPart.Invoke(sender, e);
+        }
     }
 }
