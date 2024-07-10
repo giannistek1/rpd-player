@@ -32,13 +32,13 @@
         </HorizontalStackLayout>
 
         <ListView 
-            Grid.Row="2"
-            Grid.Column="0"
+
             CachingStrategy="RecycleElement"
             x:Name="CurrentPlaylistListView" 
             BackgroundColor="DimGray" 
             HasUnevenRows="true"
-            ItemTapped="CurrentPlaylistListView_ItemTapped">
+            ItemTapped="CurrentPlaylistListView_ItemTapped"
+            SelectionMode="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
