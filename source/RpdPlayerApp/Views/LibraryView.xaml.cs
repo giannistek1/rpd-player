@@ -13,7 +13,6 @@ namespace RpdPlayerApp.Views;
 public partial class LibraryView : ContentView
 {
     public event EventHandler PlaySongPart;
-    public int SongCount { get; set; } = 0;
 
     public LibraryView()
     {
@@ -27,6 +26,8 @@ public partial class LibraryView : ContentView
     private void CurrentPlaylistCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         CountLabel.Text = $"Count: {PlaylistManager.Instance.GetCurrentPlaylistSongCount()}";
+        BoygroupCountLabel.Text = $"BG: {PlaylistManager.Instance.CurrentPlaylist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
+        GirlgroupCountLabel.Text = $"GG: {PlaylistManager.Instance.CurrentPlaylist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
     }
 
     // NOT USED
@@ -197,7 +198,7 @@ public partial class LibraryView : ContentView
 
         if (accessType != NetworkAccess.Internet)
         {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             return;
         }
 

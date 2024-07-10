@@ -4,7 +4,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
-             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
              x:Class="RpdPlayerApp.Views.MainPage">
     
@@ -121,15 +121,15 @@
     </Grid>
     
     <uranium:UraniumContentPage.Attachments>
-        <material:BottomSheetView x:Name="BottomSheet"  IsVisible="False">
+        <material:BottomSheetView x:Name="BottomSheet" BackgroundColor="Black" IsVisible="False">
             <TableView Intent="Menu" Margin="0,0,0,40">
                 <TableRoot>
-                    <TableSection Title="Sort by...">
-                        <TextCell Tapped="SortByReleaseDate" Text="Release date" />
-                        <TextCell Tapped="SortByArtistName"  Text="Artist name" />
-                        <TextCell Tapped="SortBySongTitle"  Text="Song title" />
-                        <TextCell Tapped="SortByGroupType"  Text="Group type" />
-                        <TextCell Tapped="SortBySongPart"  Text="Song part" />
+                    <TableSection Title="Sort by..." TextColor="White">
+                        <TextCell Tapped="SortByReleaseDate" Text="Release date" TextColor="White" />
+                        <TextCell Tapped="SortByArtistName"  Text="Artist name" TextColor="White" />
+                        <TextCell Tapped="SortBySongTitle"  Text="Song title" TextColor="White" />
+                        <TextCell Tapped="SortByGroupType"  Text="Group type" TextColor="White" />
+                        <TextCell Tapped="SortBySongPart"  Text="Song part" TextColor="White" />
                     </TableSection>
                 </TableRoot>
             </TableView>

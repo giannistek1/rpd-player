@@ -7,20 +7,29 @@
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="40, 50, *"
+          RowDefinitions="40, 50, 50, *"
           ColumnDefinitions="*">
 
         <HorizontalStackLayout Grid.Row="0">
+            
             <Entry WidthRequest="150" x:Name="PlaylistNameEntry" HorizontalTextAlignment="Start" BackgroundColor="Green" TextColor="White" MaxLength="20" Text="myplaylist"/>
 
             <Label WidthRequest="100" x:Name="CountLabel" Text="{Binding SongCount, StringFormat='Count: {0}'}" />
 
             <material:CheckBox x:Name="ViaCloudCheckBox" IsChecked="False" Text="Via cloud"/>
+            
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="1">
+            
+            <Label WidthRequest="100" x:Name="GirlgroupCountLabel" Text="{Binding GirlgroupCount, StringFormat='GG: {0}'}" TextColor="Magenta" />
+
+            <Label WidthRequest="100" x:Name="BoygroupCountLabel" Text="{Binding BoygroupCount, StringFormat='BG: {0}'}" TextColor="DeepSkyBlue"/>
+            
         </HorizontalStackLayout>
 
 
-        <HorizontalStackLayout
-            Grid.Row="1" >
+        <HorizontalStackLayout Grid.Row="2" >
 
             <Button x:Name="LoadPlaylistButton" Margin="2" Clicked="LoadPlaylistButton_Clicked" Text="Load" />
 
@@ -29,10 +38,11 @@
             <Button x:Name="ClearPlaylistButton" Margin="2" Clicked="ClearButton_Clicked" Text="Clear" />
 
             <Button x:Name="SavePlaylistButton" Margin="2" Clicked="SavePlaylistButton_Clicked" Text="Save" />
+            
         </HorizontalStackLayout>
 
         <ListView 
-            Grid.Row="2" 
+            Grid.Row="3" 
             CachingStrategy="RecycleElement"
             x:Name="CurrentPlaylistListView" 
             BackgroundColor="DimGray" 

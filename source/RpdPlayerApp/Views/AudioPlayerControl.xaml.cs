@@ -8,6 +8,9 @@ namespace RpdPlayerApp.Views;
 
 public partial class AudioPlayerControl : ContentView
 {
+    private FontImageSource _pauseIcon = new();
+    private  FontImageSource _playIcon = new();
+    
     public AudioPlayerControl()
     {
         InitializeComponent();
@@ -17,6 +20,18 @@ public partial class AudioPlayerControl : ContentView
 
         AudioProgressSlider.DragStarted += AudioProgressSliderDragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
+
+        _pauseIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRegular",
+            Glyph = MaterialOutlined.Pause,
+        };
+
+        _playIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRegular",
+            Glyph = MaterialOutlined.Play_arrow,
+        };
     }
 
     #region AudioProgressSlider
@@ -44,6 +59,8 @@ public partial class AudioPlayerControl : ContentView
 
     private void AudioMediaElementMediaEnded(object? sender, EventArgs e)
     {
+        AudioMediaElement.SeekTo(new TimeSpan(0));
+
         // TODO: switch mode enum
         if (MainViewModel.IsPlayingPlaylist)
         {
@@ -62,14 +79,7 @@ public partial class AudioPlayerControl : ContentView
             }
             else
             {
-                var fontImageSource = new FontImageSource
-                {
-                    FontFamily = "MaterialRegular",
-                    Glyph = UraniumUI.Icons.MaterialSymbols.MaterialOutlined.Play_arrow,
-                    Color = (Color)Application.Current.Resources["White"]
-                };
-
-                PlayToggleImage.Source = fontImageSource;
+                //PlayToggleImage.Source = _playIcon;
             }
         }
     }
@@ -79,62 +89,32 @@ public partial class AudioPlayerControl : ContentView
         // If audio is done playing
         if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
         {
-            AudioMediaElement.SeekTo(new TimeSpan(0));
+            //PlayToggleImage.Source = _pauseIcon;
+            //AudioMediaElement.SeekTo(new TimeSpan(0));
             AudioMediaElement.Play();
-            var fontImageSource = new FontImageSource
-            {
-                FontFamily = "MaterialRegular",
-                Glyph = MaterialOutlined.Pause, 
-                Color = (Color)Application.Current.Resources["White"]
-            };
-
-            PlayToggleImage.Source = fontImageSource;
         }
         // If audio is paused (in middle)
         else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
         {
+            //PlayToggleImage.Source = _pauseIcon;
             AudioMediaElement.Play();
-            var fontImageSource = new FontImageSource
-            {
-                FontFamily = "MaterialRegular",
-                Glyph = MaterialOutlined.Pause, 
-                Color = (Color)Application.Current.Resources["White"]
-            };
-
-            PlayToggleImage.Source = fontImageSource;
         }
         // Else pause
         else if (AudioMediaElement.CurrentState == MediaElementState.Playing)
         {
-            AudioMediaElement.Pause();
-            var fontImageSource = new FontImageSource
-            {
-                FontFamily = "MaterialRegular",
-                Glyph = MaterialOutlined.Play_arrow, 
-                Color = (Color)Application.Current.Resources["White"]
-            };
-
-            PlayToggleImage.Source = fontImageSource;
+            //PlayToggleImage.Source = _playIcon;
+            AudioMediaElement.Pause(); 
         }
     }
 
     internal void PlayAudio(SongPart songPart)
     {
-        AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
-        AudioMediaElement.Play();
-        
+        //PlayToggleImage.Source = _pauseIcon;
+
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         NowPlayingLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
 
-        var fontImageSource = new FontImageSource
-        {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Pause,
-            Color = (Color)Application.Current.Resources["White"]
-        };
-
-        PlayToggleImage.Source = fontImageSource;
-
-        //CommunityToolkit.Maui.Alerts.Toast.Make($"Now playing: {songPart.Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
+        AudioMediaElement.Play();   
     }
 }

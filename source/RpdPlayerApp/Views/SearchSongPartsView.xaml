@@ -19,13 +19,11 @@
             <SearchBar 
                    WidthRequest="270"
                    TextColor="White"
-                   Placeholder="Artist, title or album"
+                   Placeholder="Artist or title"
                    PlaceholderColor="LightGray"
-                   TextChanged="SearchBar_TextChanged">
-                    
-            </SearchBar>
+                   TextChanged="SearchBar_TextChanged"/>
 
-            <Button x:Name="SortButton" Margin="2" Clicked="SortButton_Clicked" Text="Sort..." />
+            <Button x:Name="SortButton" Margin="2" Clicked="SortButton_Clicked" Text="Sort by..." />
             
         </HorizontalStackLayout>
 
@@ -56,7 +54,7 @@
                                 <SwipeItem Text="To queue" BackgroundColor="LightGray" CommandParameter="{Binding .}" Invoked="SwipeItemQueueSong"></SwipeItem>
                             </SwipeView.LeftItems>
                             <SwipeView.RightItems>
-                                <SwipeItem Text="Play" BackgroundColor="LightGreen" CommandParameter="{Binding .}" Invoked="SwipeItemPlaySong"></SwipeItem>
+                                <SwipeItem Text="Play" BackgroundColor="LightGreen" CommandParameter="{Binding .}" Invoked="SwipeItemPlaySongPart"></SwipeItem>
                             </SwipeView.RightItems>
                             <VerticalStackLayout Padding="10">
                                 <HorizontalStackLayout>

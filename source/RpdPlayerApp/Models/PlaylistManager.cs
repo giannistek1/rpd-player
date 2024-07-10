@@ -70,6 +70,8 @@ internal class PlaylistManager : BindableObject
     internal void ClearCurrentPlaylist() => currentPlaylist.Clear();
 
     internal int GetCurrentPlaylistSongCount() => currentPlaylist.Count;
+    internal int GetCurrentPlaylistBoygroupCount() => currentPlaylist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG);
+    internal int GetCurrentPlaylistGirlgroupCount() => currentPlaylist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG);
 
     internal void IncrementSongPartIndex()
     {
