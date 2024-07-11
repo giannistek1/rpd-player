@@ -1,6 +1,4 @@
-﻿using RpdPlayerApp.Models;
-
-namespace RpdPlayerApp.Models;
+﻿namespace RpdPlayerApp.Models;
 
 internal class SongPart
 {
@@ -20,6 +18,8 @@ internal class SongPart
     public Album? Album { get; set; }
     public string AlbumURL { get; set; }
     public string AudioURL { get; set; }
+
+    public bool IsPlaying { get; set; } = false;
 
     public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, string audioURL)
     {

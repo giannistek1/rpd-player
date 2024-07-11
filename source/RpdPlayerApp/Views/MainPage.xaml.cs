@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Storage;
+using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModel;
 using UraniumUI.Pages;
 
@@ -16,12 +17,21 @@ public partial class MainPage : UraniumContentPage
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
         SearchSongPartsView.SortPressed += OnSortPressed;
         LibraryView.PlaySongPart += OnPlaySongPart;
+        //AudioPlayerControl.PlaySongPart += OnPlaySongPart;
+        AudioPlayerControl.Pause += OnPause;
+    }
+
+    private void OnPause(object? sender, EventArgs e)
+    {
+        SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
     }
 
     private void OnPlaySongPart(object sender, EventArgs e)
     {
         if (MainViewModel.CurrentSongPart is not null)
         {
+            if (SearchSongPartsView.songParts != null && SearchSongPartsView.songParts.Count > 0)
+                SearchSongPartsView.songParts.FirstOrDefault(s => s.Id == MainViewModel.CurrentSongPart?.Id).IsPlaying = true;
             AudioPlayerControl.PlayAudio(MainViewModel.CurrentSongPart);
         }
     }

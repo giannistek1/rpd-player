@@ -30,7 +30,6 @@ public partial class LibraryView : ContentView
         GirlgroupCountLabel.Text = $"GG: {PlaylistManager.Instance.CurrentPlaylist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
     }
 
-    // NOT USED
     private void CurrentPlaylistListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
         if (!HelperClass.HasInternetConnection())
@@ -46,7 +45,7 @@ public partial class LibraryView : ContentView
             PlaySongPart.Invoke(sender, e);
         }
 
-        CurrentPlaylistListView.SelectedItem = null;
+        //CurrentPlaylistListView.SelectedItem = null;
     }
 
     private void ClearButton_Clicked(object sender, EventArgs e)

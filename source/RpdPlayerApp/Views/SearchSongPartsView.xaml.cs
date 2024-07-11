@@ -1,4 +1,3 @@
-using CommunityToolkit.Maui.Views;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using RpdPlayerApp.Models;
@@ -14,8 +13,8 @@ public partial class SearchSongPartsView : ContentView
     public event EventHandler PlaySongPart;
     public event EventHandler SortPressed;
 
-    ObservableCollection<SongPart> allSongParts;
-    ObservableCollection<SongPart> songParts = new ObservableCollection<SongPart>();
+    internal ObservableCollection<SongPart> allSongParts;
+    internal ObservableCollection<SongPart> songParts = new ObservableCollection<SongPart>();
     public int SongCount { get; set; } = 0;
 
     public SearchSongPartsView()
@@ -44,7 +43,6 @@ public partial class SearchSongPartsView : ContentView
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
     }
 
-    // NOT USED
     private void SonglibraryListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
         SongPart songPart = (SongPart)SonglibraryListView.SelectedItem;
@@ -112,7 +110,6 @@ public partial class SearchSongPartsView : ContentView
         PlaySongPart.Invoke(sender, e);
     }
 
-    // Todo: Sort with UraniumUI bottom sheet
     private void SortButton_Clicked(object sender, EventArgs e)
     {
         SortPressed.Invoke(sender, e);

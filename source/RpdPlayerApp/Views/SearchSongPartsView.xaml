@@ -64,11 +64,17 @@
                                         </Image.Source>
                                     </Image>
                                     <VerticalStackLayout Padding="10">
-                                        <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
+                                        
+                                        <HorizontalStackLayout>
+                                            <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
+                                            <Label IsVisible="{Binding IsPlaying}" VerticalOptions="CenterAndExpand" Text="▶️" />
+                                        </HorizontalStackLayout>
+
                                         <HorizontalStackLayout>
                                             <Label VerticalOptions="CenterAndExpand" Text="{Binding Title}" />
                                             <Label VerticalOptions="CenterAndExpand" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
                                         </HorizontalStackLayout>
+                                        
                                     </VerticalStackLayout>
                                 </HorizontalStackLayout>
                                 <Label IsVisible="{Binding Album.ShowAlbumTitle}" VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />

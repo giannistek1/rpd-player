@@ -10,6 +10,9 @@ public partial class AudioPlayerControl : ContentView
 {
     private FontImageSource _pauseIcon = new();
     private  FontImageSource _playIcon = new();
+
+    public EventHandler PlaySongPart;
+    public EventHandler Pause;
     
     public AudioPlayerControl()
     {
@@ -92,18 +95,21 @@ public partial class AudioPlayerControl : ContentView
             //PlayToggleImage.Source = _pauseIcon;
             //AudioMediaElement.SeekTo(new TimeSpan(0));
             AudioMediaElement.Play();
+            //PlaySongPart.Invoke(sender, e);
         }
         // If audio is paused (in middle)
         else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
         {
             //PlayToggleImage.Source = _pauseIcon;
             AudioMediaElement.Play();
+            //PlaySongPart.Invoke(sender, e);
         }
         // Else pause
         else if (AudioMediaElement.CurrentState == MediaElementState.Playing)
         {
             //PlayToggleImage.Source = _playIcon;
-            AudioMediaElement.Pause(); 
+            AudioMediaElement.Pause();
+            Pause.Invoke(sender, e);
         }
     }
 
