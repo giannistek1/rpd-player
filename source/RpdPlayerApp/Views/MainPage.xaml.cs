@@ -77,7 +77,5 @@ public partial class MainPage : UraniumContentPage
     {
         BottomSheet.IsPresented = false;
         BottomSheet.IsVisible = false;
-        //MainViewModel.SortMode = Architecture.SortMode.SongPart;
-        //SearchSongPartsView.RefreshSort();
     }
 }

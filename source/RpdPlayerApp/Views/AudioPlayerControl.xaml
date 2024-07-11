@@ -12,13 +12,15 @@
 
         <Slider x:Name="AudioProgressSlider" Margin="-20,0,-20,0" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="10" />
 
-        <Grid ColumnDefinitions="50, *, 80">
+        <Grid ColumnDefinitions="50, *, 80, 80">
 
             <Image Grid.Column="0" x:Name="AlbumImage" />
 
-            <Label Grid.Column="1" x:Name="NowPlayingLabel" Padding="16,0,0,0"  VerticalTextAlignment="Center" TextColor="White" Text="Nothing playing"/>
+            <Label Grid.Column="1" x:Name="NowPlayingLabel" Padding="16,0,0,16"  VerticalTextAlignment="Center" TextColor="White" Text="Nothing playing"/>
+            <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,16,0,0"  VerticalTextAlignment="Center" FontSize="Micro" TextColor="White" Text="0:00"/>
 
-            <material:ButtonView Grid.Column="2" x:Name="PlayToggleButton"  Pressed="PlayToggleButton_Pressed">
+
+            <material:ButtonView Grid.Column="3" x:Name="PlayToggleButton"  Pressed="PlayToggleButton_Pressed">
                 <Image x:Name="PlayToggleImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m2:MaterialOutlined.Play_pause}" Color="{StaticResource White}" />

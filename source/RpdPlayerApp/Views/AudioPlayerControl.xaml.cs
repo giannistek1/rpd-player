@@ -59,8 +59,6 @@ public partial class AudioPlayerControl : ContentView
 
     private void AudioMediaElementMediaEnded(object? sender, EventArgs e)
     {
-        AudioMediaElement.SeekTo(new TimeSpan(0));
-
         // TODO: switch mode enum
         if (MainViewModel.IsPlayingPlaylist)
         {
@@ -79,6 +77,8 @@ public partial class AudioPlayerControl : ContentView
             }
             else
             {
+                AudioMediaElement.Stop();
+                AudioMediaElement.SeekTo(new TimeSpan(0));
                 //PlayToggleImage.Source = _playIcon;
             }
         }
@@ -111,10 +111,14 @@ public partial class AudioPlayerControl : ContentView
     {
         //PlayToggleImage.Source = _pauseIcon;
 
+        AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
+
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         NowPlayingLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
 
-        AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
-        AudioMediaElement.Play();   
+        AudioMediaElement.Play();
+
+
+        DurationLabel.Text = $"0:{(int)AudioMediaElement.Duration.TotalSeconds}";
     }
 }
