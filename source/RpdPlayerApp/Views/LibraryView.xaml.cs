@@ -45,7 +45,7 @@ public partial class LibraryView : ContentView
             PlaySongPart.Invoke(sender, e);
         }
 
-        //CurrentPlaylistListView.SelectedItem = null;
+        CurrentPlaylistListView.SelectedItem = null;
     }
 
     private void ClearButton_Clicked(object sender, EventArgs e)

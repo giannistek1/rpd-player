@@ -43,7 +43,6 @@
             CachingStrategy="RecycleElement"
             BackgroundColor="DimGray" 
             HasUnevenRows="true"
-            SelectionMode="None"
             ItemTapped="SonglibraryListView_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
