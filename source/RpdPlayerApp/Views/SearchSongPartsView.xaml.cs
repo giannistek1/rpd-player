@@ -125,39 +125,55 @@ public partial class SearchSongPartsView : ContentView
             case SortMode.ReleaseDate:
                 songParts.CollectionChanged -= SongPartsCollectionChanged;
                 songParts = songParts.OrderBy(s => s.Album?.ReleaseDate).ToObservableCollection();
+                songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = true);
+                //var list = songParts.Where(s => s.Artist == null).ToList();
+                songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                 songParts.CollectionChanged += SongPartsCollectionChanged;
                 SonglibraryListView.ItemsSource = songParts;
                 break;
+
             case SortMode.Artist:
                 songParts.CollectionChanged -= SongPartsCollectionChanged;
                 songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
+                songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+                songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                 songParts.CollectionChanged += SongPartsCollectionChanged;
                 SonglibraryListView.ItemsSource = songParts;
                 break;
+
             case SortMode.Title:
                 songParts.CollectionChanged -= SongPartsCollectionChanged;
                 songParts = songParts.OrderBy(s => s.Title).ToObservableCollection();
+                songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+                songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                 songParts.CollectionChanged += SongPartsCollectionChanged;
                 SonglibraryListView.ItemsSource = songParts;
                 break;
+
             case SortMode.GroupType:
                 songParts.CollectionChanged -= SongPartsCollectionChanged;
                 songParts = songParts.OrderBy(s => s.Artist?.GroupType).ToObservableCollection();
+                songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+                songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = true);
                 songParts.CollectionChanged += SongPartsCollectionChanged;
                 SonglibraryListView.ItemsSource = songParts;
                 break;
+
+            case SortMode.SongPart:
+                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                songParts = songParts.OrderBy(s => s.PartNameFull).ToObservableCollection();
+                songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+                songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                songParts.CollectionChanged += SongPartsCollectionChanged;
+                SonglibraryListView.ItemsSource = songParts;
+                break;
+
             //case SortMode.ClipLength:
             //    songParts.CollectionChanged -= SongPartsCollectionChanged;
             //    songParts = songParts.OrderBy(s => s.AudioURL).ToObservableCollection();
             //    songParts.CollectionChanged += SongPartsCollectionChanged;
             //    SonglibraryListView.ItemsSource = songParts; 
             //    break;
-            case SortMode.SongPart:
-                songParts.CollectionChanged -= SongPartsCollectionChanged;
-                songParts = songParts.OrderBy(s => s.PartNameFull).ToObservableCollection();
-                songParts.CollectionChanged += SongPartsCollectionChanged;
-                SonglibraryListView.ItemsSource = songParts;
-                break;
         }
     }
 

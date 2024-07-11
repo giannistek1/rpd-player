@@ -9,6 +9,10 @@ internal class Album
     public string Language { get; set; }
     public string ImageURL { get; set; }
 
+    public bool ShowAlbumTitle { get; set; } = false;
+    public bool ShowAlbumReleaseDate { get; set; } = false;
+    public bool ShowLanguage { get; set; } = false;
+
     public Album(int id, string artistName, DateTime releaseDate, string title, string language, string imageURL = "")
     {
         Id = id;

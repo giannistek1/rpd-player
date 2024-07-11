@@ -11,16 +11,15 @@
           ColumnDefinitions="*">
 
         <HorizontalStackLayout Grid.Row="0">
-            
+
             <Entry WidthRequest="150" x:Name="PlaylistNameEntry" HorizontalTextAlignment="Start" BackgroundColor="Green" TextColor="White" MaxLength="20" Text="myplaylist"/>
 
-            <Label WidthRequest="100" x:Name="CountLabel" Text="{Binding SongCount, StringFormat='Count: {0}'}" />
-
-            <material:CheckBox x:Name="ViaCloudCheckBox" IsChecked="False" Text="Via cloud"/>
+            <material:CheckBox x:Name="ViaCloudCheckBox" IsChecked="False" Text="To (shared) cloud"/>
             
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Grid.Row="1">
+            <Label WidthRequest="100" x:Name="CountLabel" Text="{Binding SongCount, StringFormat='Count: {0}'}" />
             
             <Label WidthRequest="100" x:Name="GirlgroupCountLabel" Text="{Binding GirlgroupCount, StringFormat='GG: {0}'}" TextColor="Magenta" />
 

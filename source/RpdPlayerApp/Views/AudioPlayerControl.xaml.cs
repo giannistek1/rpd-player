@@ -21,17 +21,17 @@ public partial class AudioPlayerControl : ContentView
         AudioProgressSlider.DragStarted += AudioProgressSliderDragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
 
-        _pauseIcon = new FontImageSource
-        {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Pause,
-        };
+        //_pauseIcon = new FontImageSource
+        //{
+        //    FontFamily = "MaterialRegular",
+        //    Glyph = MaterialOutlined.Pause,
+        //};
 
-        _playIcon = new FontImageSource
-        {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Play_arrow,
-        };
+        //_playIcon = new FontImageSource
+        //{
+        //    FontFamily = "MaterialRegular",
+        //    Glyph = MaterialOutlined.Play_arrow,
+        //};
     }
 
     #region AudioProgressSlider

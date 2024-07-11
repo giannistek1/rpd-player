@@ -130,6 +130,7 @@
                         <TextCell Tapped="SortBySongTitle"  Text="Song title" TextColor="White" />
                         <TextCell Tapped="SortByGroupType"  Text="Group type" TextColor="White" />
                         <TextCell Tapped="SortBySongPart"  Text="Song part" TextColor="White" />
+                        <TextCell Tapped="CancelSort"  Text="Cancel" TextColor="White" />
                     </TableSection>
                 </TableRoot>
             </TableView>

@@ -72,4 +72,12 @@ public partial class MainPage : UraniumContentPage
         MainViewModel.SortMode = Architecture.SortMode.SongPart;
         SearchSongPartsView.RefreshSort();
     }
+
+    private void CancelSort(object sender, EventArgs e)
+    {
+        BottomSheet.IsPresented = false;
+        BottomSheet.IsVisible = false;
+        //MainViewModel.SortMode = Architecture.SortMode.SongPart;
+        //SearchSongPartsView.RefreshSort();
+    }
 }

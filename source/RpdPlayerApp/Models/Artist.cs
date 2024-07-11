@@ -15,9 +15,15 @@ internal class Artist
     public string AltName { get; set; }
     public DateTime DebutDate { get; set; }
     public GroupType GroupType { get; set; }
+    // TODO
+    public Color GroupTypeColor { get; set; } 
     public int MemberCount { get; set; }
     public string Company { get; set; }
     public string ImageURL { get; set; }
+
+    public bool ShowGroupType { get; set; } = false;
+    public bool ShowMemberCount { get; set; } = false;
+    public bool ShowCompany { get; set; } = false;
 
     public Artist(int id, string name, string altName = "", DateTime debutDate = new DateTime(), GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
     {
