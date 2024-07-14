@@ -193,13 +193,8 @@ public partial class LibraryView : ContentView
 
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
     {
-        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-
-        if (accessType != NetworkAccess.Internet)
-        {
-            Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        if (!HelperClass.HasInternetConnection())
             return;
-        }
 
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         if (songPart.AudioURL != string.Empty)

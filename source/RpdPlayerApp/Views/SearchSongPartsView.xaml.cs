@@ -70,13 +70,8 @@ public partial class SearchSongPartsView : ContentView
 
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
     {
-        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-
-        if (accessType != NetworkAccess.Internet)
-        {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        if (!HelperClass.HasInternetConnection())
             return;
-        }
 
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         if (songPart.AudioURL != string.Empty)
@@ -94,13 +89,8 @@ public partial class SearchSongPartsView : ContentView
 
     private void PlayRandomButton_Clicked(object sender, EventArgs e)
     {
-        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
-
-        if (accessType != NetworkAccess.Internet)
-        {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        if (!HelperClass.HasInternetConnection())
             return;
-        }
 
         var random = new Random();
         int index = random.Next(songParts.Count);

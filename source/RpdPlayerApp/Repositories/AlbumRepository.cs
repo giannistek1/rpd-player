@@ -1,4 +1,5 @@
-﻿using RpdPlayerApp.Models;
+﻿using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Models;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -40,15 +41,10 @@ internal static class AlbumRepository
 
     private static string GetStringFromURL()
     {
-        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+        if (!HelperClass.HasInternetConnection())
+            return string.Empty;
 
         string albumsAsText = string.Empty;
-
-        if (accessType != NetworkAccess.Internet)
-        {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-            return albumsAsText;
-        }
 
         using (HttpClient client = new HttpClient())
         {
