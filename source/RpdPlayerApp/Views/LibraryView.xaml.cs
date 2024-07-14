@@ -30,22 +30,22 @@ public partial class LibraryView : ContentView
         GirlgroupCountLabel.Text = $"GG: {PlaylistManager.Instance.CurrentPlaylist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
     }
 
-    private void CurrentPlaylistListView_ItemTapped(object sender, ItemTappedEventArgs e)
+    private void CurrentPlaylistListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
         if (!HelperClass.HasInternetConnection())
             return;
 
-        SongPart songPart = (SongPart)CurrentPlaylistListView.SelectedItem;
+        SongPart songPart = (SongPart)e.DataItem;
         if (songPart.AudioURL != string.Empty)
         {
             // Mode to queue/single song
             MainViewModel.IsPlayingPlaylist = false;
 
-            MainViewModel.CurrentSongPart = songPart; 
+            MainViewModel.CurrentSongPart = songPart;
             PlaySongPart.Invoke(sender, e);
         }
 
-        CurrentPlaylistListView.SelectedItem = null;
+        CurrentPlaylistListView.SelectedItems.Clear();
     }
 
     private void ClearButton_Clicked(object sender, EventArgs e)
@@ -55,7 +55,7 @@ public partial class LibraryView : ContentView
 
     private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
     {
-        //PlaylistManager.Instance.IncrementSongPartIndex();
+        PlaylistManager.Instance.CurrentSongPartIndex = 0;
         int index = PlaylistManager.Instance.CurrentSongPartIndex;
         MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist[index];
 
@@ -201,6 +201,15 @@ public partial class LibraryView : ContentView
         {
             MainViewModel.CurrentSongPart = songPart;
             PlaySongPart.Invoke(sender, e);
+        }
+    }
+
+    private void CurrentPlaylistListView_SwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
+    {
+        if (e.Direction == SwipeDirection.Right && e.Offset > 30)
+        {
+            SongPart songPart = (SongPart)e.DataItem;
+            PlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
         }
     }
 }

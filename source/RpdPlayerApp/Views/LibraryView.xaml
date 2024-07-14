@@ -4,6 +4,7 @@
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              x:Class="RpdPlayerApp.Views.LibraryView"
              BackgroundColor="Black">
 
@@ -45,44 +46,63 @@
 
         </HorizontalStackLayout>
 
-        <ListView 
+        <syncfusion:SfListView 
             Grid.Row="3" 
-            CachingStrategy="RecycleElement"
             x:Name="CurrentPlaylistListView" 
             BackgroundColor="DimGray" 
-            HasUnevenRows="true"
-            ItemTapped="CurrentPlaylistListView_ItemTapped">
-            <ListView.ItemTemplate>
+            AutoFitMode="Height"
+            AllowSwiping="True"
+            ItemTapped="CurrentPlaylistListView_ItemTapped"
+            DragStartMode="OnHold"
+            SwipeEnded="CurrentPlaylistListView_SwipeEnded" >
+            
+            <syncfusion:SfListView.StartSwipeTemplate>
+                <DataTemplate>
+
+                    <Grid BackgroundColor="Red">
+                        <Label VerticalOptions="CenterAndExpand" WidthRequest="80" Text="Remove" BackgroundColor="Red" />
+                    </Grid>
+                    
+                </DataTemplate>
+            </syncfusion:SfListView.StartSwipeTemplate>
+            
+            <syncfusion:SfListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <SwipeView>
-                            <SwipeView.LeftItems>
-                                <SwipeItem Text="Remove" BackgroundColor="Red" CommandParameter="{Binding .}" Invoked="SwipeItemRemoveSongPart"></SwipeItem>
-                            </SwipeView.LeftItems>
-                            <SwipeView.RightItems>
-                                <SwipeItem Text="Remove" BackgroundColor="Red" CommandParameter="{Binding .}" Invoked="SwipeItemRemoveSongPart"></SwipeItem>
-                            </SwipeView.RightItems>
-                            <VerticalStackLayout Padding="10">
+                        <Grid ColumnDefinitions="50, *, 50" Padding="10">
+
+                            <Image Grid.Column="0" HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
+                                </Image.Source>
+                            </Image>
+
+                            <VerticalStackLayout Grid.Column="1" Padding="10" MinimumWidthRequest="200">
+
+                                <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
                                 <HorizontalStackLayout>
-                                    <Image HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                        <Image.Source>
-                                            <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
-                                        </Image.Source>
-                                    </Image>
-                                    <VerticalStackLayout Padding="10">
-                                        <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
-                                        <HorizontalStackLayout>
-                                            <Label VerticalOptions="CenterAndExpand" Text="{Binding Title}" />
-                                            <Label VerticalOptions="CenterAndExpand" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
-                                        </HorizontalStackLayout>
-                                    </VerticalStackLayout>
+                                    <Label VerticalOptions="Start" Text="{Binding Title}" />
+                                    <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
                                 </HorizontalStackLayout>
-                                <!--<Label VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />-->
+
                             </VerticalStackLayout>
-                        </SwipeView>
+
+                            <syncfusion:DragIndicatorView Grid.Column="2" HeightRequest="15" ListView="{x:Reference CurrentPlaylistListView}" 
+                                                        HorizontalOptions="End" 
+                                                        VerticalOptions="Center">
+                                <Image>
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.GripVertical}" Color="White" />
+                                    </Image.Source>
+                                </Image>
+                            </syncfusion:DragIndicatorView>
+
+                            <!--<Label VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />-->
+
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </syncfusion:SfListView.ItemTemplate>
+        </syncfusion:SfListView>
     </Grid>
 </ContentView>

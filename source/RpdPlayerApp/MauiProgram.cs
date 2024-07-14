@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Storage;
 using Microsoft.Extensions.Logging;
 using RpdPlayerApp.Views;
+using Syncfusion.Maui.Core.Hosting;
 using UraniumUI;
 
 namespace RpdPlayerApp
@@ -53,6 +54,7 @@ namespace RpdPlayerApp
 #endif
             builder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
             builder.Services.AddTransient<MainPage>();
+            builder.ConfigureSyncfusionCore();
 
             return builder.Build();
         }
