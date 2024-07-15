@@ -9,7 +9,7 @@
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="80, 40, 50, *"
+          RowDefinitions="80, 50, *"
           ColumnDefinitions="*">
 
         <HorizontalStackLayout Grid.Row="0">
@@ -19,41 +19,29 @@
             </material:TextField>
 
             <material:CheckBox x:Name="ViaCloudCheckBox" VerticalOptions="CenterAndExpand" Margin="10" IsChecked="False" Text="To (shared) cloud"/>
-            
-        </HorizontalStackLayout>
 
-        <HorizontalStackLayout Grid.Row="1">
-            <Label WidthRequest="100" x:Name="CountLabel" Text="{Binding SongCount, StringFormat='Count: {0}'}" />
-            
-            <Label WidthRequest="100" x:Name="GirlgroupCountLabel" Text="{Binding GirlgroupCount, StringFormat='GG: {0}'}" TextColor="Magenta" />
-
-            <Label WidthRequest="100" x:Name="BoygroupCountLabel" Text="{Binding BoygroupCount, StringFormat='BG: {0}'}" TextColor="DeepSkyBlue"/>
-            
         </HorizontalStackLayout>
 
 
-        <HorizontalStackLayout Grid.Row="2" >
+        <HorizontalStackLayout Grid.Row="1" >
 
-            <Button x:Name="LoadPlaylistButton" Margin="2" Clicked="LoadPlaylistButton_Clicked" Text="Load" />
+            <Button x:Name="NewPlaylistButton" Margin="2" Clicked="NewPlaylistButton_Clicked" Text="New" />
 
-            <Button x:Name="PlayPlaylistButton" Margin="2" Clicked="PlayPlaylistButton_Clicked" Text="Play" />
+            <!--<Button x:Name="PlayPlaylistButton" Margin="2" Clicked="PlayPlaylistButton_Clicked" Text="Play" />
 
-            <Button x:Name="ClearPlaylistButton" Margin="2" Clicked="ClearButton_Clicked" Text="Clear" />
-
-            <Button x:Name="SavePlaylistButton" Margin="2" Clicked="SavePlaylistButton_Clicked" Text="Save" />
-
-            <Button x:Name="ShufflePlaylistButton" Margin="2" Clicked="ShufflePlaylistButton_Clicked" Text="Shuffle" />
+            <Button x:Name="CopyPlaylistButton" Margin="2" Clicked="CopyPlaylistButton_Clicked" Text="Copy" />-->
 
         </HorizontalStackLayout>
 
         <syncfusion:SfListView 
-            Grid.Row="3" 
-            x:Name="CurrentPlaylistListView" 
+            Grid.Row="2" 
+            x:Name="PlaylistsListView"
+            SelectionMode="None"
             BackgroundColor="DimGray" 
+            EmptyView="No playlists yet. Save a playlist!"
             AutoFitMode="Height"
             AllowSwiping="True"
             ItemTapped="CurrentPlaylistListView_ItemTapped"
-            DragStartMode="OnHold"
             SwipeEnded="CurrentPlaylistListView_SwipeEnded" >
             
             <syncfusion:SfListView.StartSwipeTemplate>
@@ -71,33 +59,10 @@
                     <ViewCell>
                         <Grid ColumnDefinitions="50, *, 50" Padding="10">
 
-                            <Image Grid.Column="0" HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                <Image.Source>
-                                    <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
-                                </Image.Source>
-                            </Image>
-
-                            <VerticalStackLayout Grid.Column="1" Padding="10" MinimumWidthRequest="200">
-
-                                <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
-                                <HorizontalStackLayout>
-                                    <Label VerticalOptions="Start" Text="{Binding Title}" />
-                                    <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
-                                </HorizontalStackLayout>
-
-                            </VerticalStackLayout>
-
-                            <syncfusion:DragIndicatorView Grid.Column="2" HeightRequest="15" ListView="{x:Reference CurrentPlaylistListView}" 
-                                                        HorizontalOptions="End" 
-                                                        VerticalOptions="Center">
-                                <Image>
-                                    <Image.Source>
-                                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.GripVertical}" Color="White" />
-                                    </Image.Source>
-                                </Image>
-                            </syncfusion:DragIndicatorView>
-
-                            <!--<Label VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />-->
+                            <HorizontalStackLayout>
+                                <Label VerticalOptions="Start" Text="{Binding Name}" />
+                                <Label VerticalOptions="Start" Text="{Binding Count, StringFormat=' - {0}'}" />
+                            </HorizontalStackLayout>
 
                         </Grid>
                     </ViewCell>

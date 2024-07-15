@@ -8,8 +8,8 @@ internal class PlaylistManager : BindableObject
     private static readonly PlaylistManager instance = new();
     internal int CurrentSongPartIndex = -1;
 
-    private ObservableCollection<SongPart> currentPlaylist;
-    public ObservableCollection<SongPart> CurrentPlaylist
+    private Playlist currentPlaylist;
+    public Playlist CurrentPlaylist
     {
         get => currentPlaylist;
         set
@@ -25,7 +25,7 @@ internal class PlaylistManager : BindableObject
 
     private PlaylistManager()
     {
-        CurrentPlaylist = []; //new ObservableCollection<SongPart>();
+        CurrentPlaylist = new Playlist();//new ObservableCollection<SongPart>();
     }
 
     public static PlaylistManager Instance
@@ -35,11 +35,16 @@ internal class PlaylistManager : BindableObject
 
     internal bool AddSongPartToCurrentPlaylist(SongPart songPart)
     {
-        bool hasToAdd = !currentPlaylist.Contains(songPart);
+        bool hasToAdd = false;
 
-        if (hasToAdd)
+        if (currentPlaylist.SongParts is not null)
         {
-            currentPlaylist.Add(songPart);
+            hasToAdd = !currentPlaylist.SongParts.Contains(songPart);
+
+            if (hasToAdd)
+            {
+                currentPlaylist.SongParts.Add(songPart);
+            }
         }
 
         return hasToAdd;
@@ -51,9 +56,9 @@ internal class PlaylistManager : BindableObject
 
         foreach (SongPart songPart in songParts)
         {
-            if (!currentPlaylist.Contains(songPart))
+            if (!currentPlaylist.SongParts.Contains(songPart))
             {
-                currentPlaylist.Add(songPart);
+                currentPlaylist.SongParts.Add(songPart);
                 songPartsAdded++;
             }
         }
@@ -62,16 +67,16 @@ internal class PlaylistManager : BindableObject
 
     internal void RemoveSongpartOfCurrentPlaylist(SongPart songpart)
     {
-        var songpartToRemove = currentPlaylist.SingleOrDefault(x => x.Id == songpart.Id);
+        var songpartToRemove = currentPlaylist.SongParts.SingleOrDefault(x => x.Id == songpart.Id);
         if (songpartToRemove != null)
-            currentPlaylist.Remove(songpartToRemove);
+            currentPlaylist.SongParts.Remove(songpartToRemove);
     }
 
-    internal void ClearCurrentPlaylist() => currentPlaylist.Clear();
+    internal void ClearCurrentPlaylist() => currentPlaylist.SongParts.Clear();
 
-    internal int GetCurrentPlaylistSongCount() => currentPlaylist.Count;
-    internal int GetCurrentPlaylistBoygroupCount() => currentPlaylist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG);
-    internal int GetCurrentPlaylistGirlgroupCount() => currentPlaylist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG);
+    internal int GetCurrentPlaylistSongCount() => currentPlaylist.SongParts.Count;
+    internal int GetCurrentPlaylistBoygroupCount() => currentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG);
+    internal int GetCurrentPlaylistGirlgroupCount() => currentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG);
 
     internal void IncrementSongPartIndex()
     {

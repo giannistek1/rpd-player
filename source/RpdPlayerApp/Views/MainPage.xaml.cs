@@ -7,7 +7,10 @@ namespace RpdPlayerApp.Views;
 
 public partial class MainPage : UraniumContentPage
 {
-    IFileSaver fileSaver; 
+    IFileSaver fileSaver;
+
+    public LibraryView libraryView;
+    public CurrentPlaylistView currentPlaylistView;
     public MainPage(IFileSaver fileSaver)
 	{
 		InitializeComponent();
@@ -16,9 +19,39 @@ public partial class MainPage : UraniumContentPage
 
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
         SearchSongPartsView.SortPressed += OnSortPressed;
-        LibraryView.PlaySongPart += OnPlaySongPart;
-        //AudioPlayerControl.PlaySongPart += OnPlaySongPart;
+        LibraryView.PlayPlaylist += OnPlaySongPart;
+        LibraryView.ShowPlaylist += OnShowPlaylist;
+        currentPlaylistView = new CurrentPlaylistView();
+        currentPlaylistView.IsVisible = false;
+        currentPlaylistView.BackToPlaylists += OnBackToPlaylists;
+        currentPlaylistView.PlaySongPart += OnPlaySongPart;
+
         AudioPlayerControl.Pause += OnPause;
+
+        if (!LibraryContainer.Children.Contains(currentPlaylistView))
+        {
+            LibraryContainer.Children.Add(currentPlaylistView);
+        }
+        if (!LibraryContainer.Children.Contains(libraryView))
+        {
+            LibraryContainer.Children.Add(libraryView);
+        }
+    }
+
+    private void OnBackToPlaylists(object? sender, EventArgs e)
+    {
+        currentPlaylistView.ResetCurrentPlaylist();
+        currentPlaylistView.IsVisible = false;
+        libraryView.IsVisible = true;
+    }
+
+    private void OnShowPlaylist(object? sender, EventArgs e)
+    {
+        libraryView = (LibraryView)LibraryContainer.Children[0];
+        libraryView.IsVisible = false;
+        currentPlaylistView.IsVisible = true;
+
+        currentPlaylistView.InitCurrentPlaylist();
     }
 
     private void OnPause(object? sender, EventArgs e)
@@ -31,7 +64,15 @@ public partial class MainPage : UraniumContentPage
         if (MainViewModel.CurrentSongPart is not null)
         {
             if (SearchSongPartsView.songParts != null && SearchSongPartsView.songParts.Count > 0)
-                SearchSongPartsView.songParts.FirstOrDefault(s => s.Id == MainViewModel.CurrentSongPart?.Id).IsPlaying = true;
+            {
+                // TODO: NOT WORKING
+                //SearchSongPartsView.songParts.CollectionChanged -= SearchSongPartsView.SongPartsCollectionChanged;
+                //SearchSongPartsView.songParts.FirstOrDefault(s => s.Id == MainViewModel.CurrentSongPart?.Id).IsPlaying = true;
+                //SearchSongPartsView.RefreshSongParts();
+                //SearchSongPartsView.songParts.CollectionChanged += SearchSongPartsView.SongPartsCollectionChanged;
+            }
+                
+
             AudioPlayerControl.PlayAudio(MainViewModel.CurrentSongPart);
         }
     }

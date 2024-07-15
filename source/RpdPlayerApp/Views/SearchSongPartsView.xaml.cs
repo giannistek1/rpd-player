@@ -38,9 +38,14 @@ public partial class SearchSongPartsView : ContentView
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
     }
 
-    private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    internal void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
+    }
+
+    internal void RefreshSongParts()
+    {
+        SonglibraryListView.ItemsSource = songParts;
     }
 
     private void SonglibraryListView_ItemTapped(object sender, ItemTappedEventArgs e)

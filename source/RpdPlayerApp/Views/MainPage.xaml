@@ -18,20 +18,11 @@
                 Text="{Binding Title}"
                 Command="{Binding Command}">
                         <Button.Triggers>
-                            <!--<DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
-                                <Setter Property="BackgroundColor" Value="{StaticResource Gray900}" />
-                                <Setter Property="TextColor" Value="{StaticResource White}" />
-                                <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Home}, Color={StaticResource Primary}}" />
-                            </DataTrigger>
-                            <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
-                                <Setter Property="BackgroundColor" Value="Black" />
-                                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-                                <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Home}, Color={StaticResource White}}" />
-                            </DataTrigger>-->
                         </Button.Triggers>
                     </Button>
                 </DataTemplate>
             </material:TabView.TabHeaderItemTemplate>
+            
             <!-- Item 1 -->
             <material:TabItem>
                 <material:TabItem.HeaderTemplate>
@@ -110,7 +101,9 @@
                 </material:TabItem.HeaderTemplate>
 
                 <material:TabItem.Content>
-                    <views:LibraryView x:Name="LibraryView" />
+                    <Grid x:Name="LibraryContainer">
+                        <views:LibraryView x:Name="LibraryView" />
+                    </Grid>
                 </material:TabItem.Content>
                 
             </material:TabItem>

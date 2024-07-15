@@ -11,7 +11,6 @@ public partial class AudioPlayerControl : ContentView
     private FontImageSource _pauseIcon = new();
     private  FontImageSource _playIcon = new();
 
-    public EventHandler PlaySongPart;
     public EventHandler Pause;
     
     public AudioPlayerControl()
@@ -68,7 +67,7 @@ public partial class AudioPlayerControl : ContentView
             PlaylistManager.Instance.IncrementSongPartIndex();
             
             int index = PlaylistManager.Instance.CurrentSongPartIndex;
-            MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist[index];
+            MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist.SongParts[index];
 
             PlayAudio(MainViewModel.CurrentSongPart);
         }
@@ -82,7 +81,6 @@ public partial class AudioPlayerControl : ContentView
             {
                 AudioMediaElement.Stop();
                 AudioMediaElement.SeekTo(new TimeSpan(0));
-                //PlayToggleImage.Source = _playIcon;
             }
         }
     }
@@ -92,22 +90,16 @@ public partial class AudioPlayerControl : ContentView
         // If audio is done playing
         if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
         {
-            //PlayToggleImage.Source = _pauseIcon;
-            //AudioMediaElement.SeekTo(new TimeSpan(0));
             AudioMediaElement.Play();
-            //PlaySongPart.Invoke(sender, e);
         }
         // If audio is paused (in middle)
         else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
         {
-            //PlayToggleImage.Source = _pauseIcon;
             AudioMediaElement.Play();
-            //PlaySongPart.Invoke(sender, e);
         }
         // Else pause
         else if (AudioMediaElement.CurrentState == MediaElementState.Playing)
         {
-            //PlayToggleImage.Source = _playIcon;
             AudioMediaElement.Pause();
             Pause.Invoke(sender, e);
         }
@@ -115,8 +107,6 @@ public partial class AudioPlayerControl : ContentView
 
     internal void PlayAudio(SongPart songPart)
     {
-        //PlayToggleImage.Source = _pauseIcon;
-
         AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
 
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
@@ -124,7 +114,7 @@ public partial class AudioPlayerControl : ContentView
 
         AudioMediaElement.Play();
 
-
+        // TODO: add cliplength to songparta data cuz it is always slow
         DurationLabel.Text = $"0:{(int)AudioMediaElement.Duration.TotalSeconds}";
     }
 }

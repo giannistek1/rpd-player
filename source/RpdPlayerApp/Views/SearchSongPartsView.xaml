@@ -65,13 +65,14 @@
                                     <VerticalStackLayout Padding="10">
                                         
                                         <HorizontalStackLayout>
-                                            <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
+                                            <Label VerticalOptions="Start" Text="{Binding ArtistName}" />
+                                            <!-- TODO: Not working -->
                                             <Label IsVisible="{Binding IsPlaying}" VerticalOptions="CenterAndExpand" Text="▶️" />
                                         </HorizontalStackLayout>
 
                                         <HorizontalStackLayout>
-                                            <Label VerticalOptions="CenterAndExpand" Text="{Binding Title}" />
-                                            <Label VerticalOptions="CenterAndExpand" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                            <Label VerticalOptions="Start" Text="{Binding Title}" />
+                                            <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
                                         </HorizontalStackLayout>
                                         
                                     </VerticalStackLayout>

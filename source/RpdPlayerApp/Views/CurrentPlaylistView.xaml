@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+             xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             x:Class="RpdPlayerApp.Views.CurrentPlaylistView"
+             BackgroundColor="Black">
+
+    <Grid Padding="5"
+          RowDefinitions="80, 40, 50, *"
+          ColumnDefinitions="*">
+
+        <HorizontalStackLayout Grid.Row="0">
+
+            <material:TextField WidthRequest="180" x:Name="PlaylistNameEntry" Margin="0,10,0,10" TitleColor="White" Title="Playlist name" MaxLength="20"
+                                 Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Pencil}}" AccentColor="DeepSkyBlue">
+            </material:TextField>
+
+            <material:CheckBox x:Name="ViaCloudCheckBox" VerticalOptions="CenterAndExpand" Margin="10" IsChecked="False" Text="To (shared) cloud"/>
+            
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="1">
+            
+            <Label WidthRequest="100" x:Name="CountLabel" Text="{Binding SongCount, StringFormat='Count: {0}'}" />
+            
+            <Label WidthRequest="100" x:Name="GirlgroupCountLabel" Text="{Binding GirlgroupCount, StringFormat='GG: {0}'}" TextColor="Magenta" />
+
+            <Label WidthRequest="100" x:Name="BoygroupCountLabel" Text="{Binding BoygroupCount, StringFormat='BG: {0}'}" TextColor="DeepSkyBlue"/>
+            
+        </HorizontalStackLayout>
+
+
+        <HorizontalStackLayout Grid.Row="2" >
+
+            <Button x:Name="BackButton" Margin="2" Clicked="BackButton_Clicked" Text="Back" />
+
+            <Button x:Name="PlayPlaylistButton" Margin="2" Clicked="PlayPlaylistButton_Clicked" Text="Play" />
+
+            <Button x:Name="ClearPlaylistButton" Margin="2" Clicked="ClearButton_Clicked" Text="Clear" />
+
+            <Button x:Name="SavePlaylistButton" Margin="2" Clicked="SavePlaylistButton_Clicked" Text="Save" />
+
+            <Button x:Name="ShufflePlaylistButton" Margin="2" Clicked="ShufflePlaylistButton_Clicked" Text="Shuffle" />
+
+        </HorizontalStackLayout>
+
+        <syncfusion:SfListView 
+            Grid.Row="3" 
+            x:Name="CurrentPlaylistListView" 
+            BackgroundColor="DimGray" 
+            SelectionMode="None"
+            AutoFitMode="Height"
+            AllowSwiping="True"
+            ItemTapped="CurrentPlaylistListView_ItemTapped"
+            DragStartMode="OnHold,OnDragIndicator"
+            SwipeEnded="CurrentPlaylistListView_SwipeEnded" >
+            
+            <syncfusion:SfListView.StartSwipeTemplate>
+                <DataTemplate>
+
+                    <Grid BackgroundColor="Red">
+                        <Label VerticalOptions="CenterAndExpand" WidthRequest="80" Text="Remove" BackgroundColor="Red" />
+                    </Grid>
+                    
+                </DataTemplate>
+            </syncfusion:SfListView.StartSwipeTemplate>
+            
+            <syncfusion:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid ColumnDefinitions="50, *, 50" Padding="10">
+
+                            <Image Grid.Column="0" HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
+                                </Image.Source>
+                            </Image>
+
+                            <VerticalStackLayout Grid.Column="1" Padding="10" MinimumWidthRequest="200">
+
+                                <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
+                                <HorizontalStackLayout>
+                                    <Label VerticalOptions="Start" Text="{Binding Title}" />
+                                    <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+
+                            <syncfusion:DragIndicatorView Grid.Column="2" HeightRequest="15" ListView="{x:Reference CurrentPlaylistListView}" 
+                                                        HorizontalOptions="End" 
+                                                        VerticalOptions="Center">
+                                <Image>
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.GripVertical}" Color="White" />
+                                    </Image.Source>
+                                </Image>
+                            </syncfusion:DragIndicatorView>
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </syncfusion:SfListView.ItemTemplate>
+        </syncfusion:SfListView>
+    </Grid>
+</ContentView>

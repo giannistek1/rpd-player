@@ -1,5 +1,6 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
+using System.Collections.ObjectModel;
 
 namespace RpdPlayerApp.ViewModel;
 
@@ -12,5 +13,7 @@ internal static class MainViewModel
     public static Queue<SongPart> SongPartsQueue { get; set; } = new Queue<SongPart>();
 
     public static bool IsPlayingPlaylist { get; set; }
+
+    public static ObservableCollection<Playlist> Playlists { get; set; } = new ObservableCollection<Playlist>();
     
 }
