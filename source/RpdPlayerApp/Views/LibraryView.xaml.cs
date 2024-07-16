@@ -83,7 +83,11 @@ public partial class LibraryView : ContentView
             File.WriteAllText(fullPath, string.Empty);
 
             Toast.Make($"{PlaylistNameEntry.Text} created!", CommunityToolkit.Maui.Core.ToastDuration.Short);
-            MainViewModel.Playlists.Add(new Playlist(name: PlaylistNameEntry.Text, fullPath));
+
+            Playlist playlist = new Playlist(name: PlaylistNameEntry.Text, fullPath);
+            playlist.SongParts = new ObservableCollection<SongPart>();
+
+            MainViewModel.Playlists.Add(playlist);
         }
         catch (Exception ex)
         {

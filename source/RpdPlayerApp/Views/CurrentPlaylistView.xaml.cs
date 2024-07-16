@@ -20,17 +20,20 @@ public partial class CurrentPlaylistView : ContentView
         InitializeComponent();
 
         //InitCurrentPlaylist();
+
+        CurrentPlaylistListView.DragDropController.UpdateSource = true;
     }
 
     public void InitCurrentPlaylist()
     {
+
+        PlaylistNameEntry.Text = PlaylistManager.Instance.CurrentPlaylist.Name;
+
         if (PlaylistManager.Instance.CurrentPlaylist.SongParts is not null)
         {
             PlaylistManager.Instance.CurrentPlaylist.SongParts.CollectionChanged += CurrentPlaylistCollectionChanged;
 
             CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
-
-            PlaylistNameEntry.Text = PlaylistManager.Instance.CurrentPlaylist.Name;
 
             CountLabel.Text = $"Count: {PlaylistManager.Instance.GetCurrentPlaylistSongCount()}";
             BoygroupCountLabel.Text = $"BG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
