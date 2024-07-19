@@ -12,6 +12,8 @@ internal static class MainViewModel
 
     public static Queue<SongPart> SongPartsQueue { get; set; } = new Queue<SongPart>();
 
+    public static PlayMode PlayMode { get; set; }
+
     public static bool IsPlayingPlaylist { get; set; }
 
     public static ObservableCollection<Playlist> Playlists { get; set; } = new ObservableCollection<Playlist>();

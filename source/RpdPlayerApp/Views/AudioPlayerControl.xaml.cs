@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Views;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModel;
 using UraniumUI.Icons.MaterialSymbols;
@@ -61,27 +62,30 @@ public partial class AudioPlayerControl : ContentView
 
     private void AudioMediaElementMediaEnded(object? sender, EventArgs e)
     {
-        // TODO: switch mode enum
-        if (MainViewModel.IsPlayingPlaylist)
+        switch (MainViewModel.PlayMode)
         {
-            PlaylistManager.Instance.IncrementSongPartIndex();
-            
-            int index = PlaylistManager.Instance.CurrentSongPartIndex;
-            MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist.SongParts[index];
+            case PlayMode.Queue:
+                if (MainViewModel.SongPartsQueue.Count > 0)
+                {
+                    PlayAudio(MainViewModel.SongPartsQueue.Dequeue());
+                }
+                else
+                {
+                    AudioMediaElement.Stop();
+                    AudioMediaElement.SeekTo(new TimeSpan(0));
+                }
+                break;
 
-            PlayAudio(MainViewModel.CurrentSongPart);
-        }
-        else
-        {
-            if (MainViewModel.SongPartsQueue.Count > 0)
-            {
-                PlayAudio(MainViewModel.SongPartsQueue.Dequeue());
-            }
-            else
-            {
-                AudioMediaElement.Stop();
-                AudioMediaElement.SeekTo(new TimeSpan(0));
-            }
+            case PlayMode.Playlist:
+
+                PlaylistManager.Instance.IncrementSongPartIndex();
+
+                int index = PlaylistManager.Instance.CurrentSongPartIndex;
+                MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist.SongParts[index];
+
+                PlayAudio(MainViewModel.CurrentSongPart);
+
+                break;
         }
     }
 

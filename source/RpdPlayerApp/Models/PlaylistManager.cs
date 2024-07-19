@@ -1,4 +1,5 @@
-﻿using RpdPlayerApp.ViewModel;
+﻿using RpdPlayerApp.Architecture;
+using RpdPlayerApp.ViewModel;
 using System.Collections.ObjectModel;
 
 namespace RpdPlayerApp.Models;
@@ -86,7 +87,7 @@ internal class PlaylistManager : BindableObject
         if (CurrentSongPartIndex == CurrentPlaylist.Count - 1)
         {
             // Change mode to queue list
-            MainViewModel.IsPlayingPlaylist = false;
+            MainViewModel.PlayMode = PlayMode.Queue;
             CurrentSongPartIndex = 0;
         }
         else

@@ -192,6 +192,6 @@ public partial class SearchSongPartsView : ContentView
         }
 
         // Change mode to queue list
-        MainViewModel.IsPlayingPlaylist = false; 
+        MainViewModel.PlayMode = PlayMode.Queue;
     }
 }

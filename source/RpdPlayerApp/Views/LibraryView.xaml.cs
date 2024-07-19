@@ -126,7 +126,7 @@ public partial class LibraryView : ContentView
         MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist.SongParts[index];
 
         // Change mode to playlist
-        MainViewModel.IsPlayingPlaylist = true;
+        MainViewModel.PlayMode = PlayMode.Playlist;
         PlayPlaylist.Invoke(sender, e);
     }
 

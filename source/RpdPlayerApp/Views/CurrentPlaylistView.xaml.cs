@@ -19,8 +19,6 @@ public partial class CurrentPlaylistView : ContentView
     {
         InitializeComponent();
 
-        //InitCurrentPlaylist();
-
         CurrentPlaylistListView.DragDropController.UpdateSource = true;
     }
 
@@ -69,7 +67,7 @@ public partial class CurrentPlaylistView : ContentView
         if (songPart.AudioURL != string.Empty)
         {
             // Mode to queue/single song
-            MainViewModel.IsPlayingPlaylist = false;
+            MainViewModel.PlayMode = PlayMode.Queue;
 
             MainViewModel.CurrentSongPart = songPart;
             PlaySongPart?.Invoke(sender, e);
@@ -95,7 +93,7 @@ public partial class CurrentPlaylistView : ContentView
         MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist.SongParts[index];
 
         // Change mode to playlist
-        MainViewModel.IsPlayingPlaylist = true;
+        MainViewModel.PlayMode = PlayMode.Playlist;
         PlaySongPart.Invoke(sender, e);
     }
 
