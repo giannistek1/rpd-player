@@ -1,4 +1,6 @@
-﻿namespace RpdPlayerApp.Models;
+﻿using Android.Health.Connect.DataTypes.Units;
+
+namespace RpdPlayerApp.Models;
 
 internal class SongPart
 {
@@ -16,12 +18,15 @@ internal class SongPart
     public string PartNameFull { get; set; }
     public string AlbumTitle { get; set; }
     public Album? Album { get; set; }
-    public string AlbumURL { get; set; }
+    public string AlbumURL { get; set; } = string.Empty;
     public string AudioURL { get; set; }
+    public bool ShowClipLength { get; set; } = false;
+    public double ClipLength { get; set; }
+    public TimeSpan ClipLengthAsTimeSpan { get; set; }
 
     public bool IsPlaying { get; set; } = false;
 
-    public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, string audioURL)
+    public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, double clipLength, string audioURL)
     {
         Id = id;
         Title = title;
@@ -34,6 +39,8 @@ internal class SongPart
 
         AlbumTitle = albumTitle;
         AudioURL = audioURL;
+        ClipLength = clipLength;
+        ClipLengthAsTimeSpan = TimeSpan.FromSeconds(clipLength);
     }
 
     public SongPart(string artistName, string albumName, string title, string partNameShort, string audioURL)

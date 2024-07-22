@@ -38,11 +38,11 @@
             x:Name="PlaylistsListView"
             SelectionMode="None"
             BackgroundColor="DimGray" 
-            EmptyView="No playlists yet. Save a playlist!"
+            EmptyView="No playlists yet. Create a playlist!"
             AutoFitMode="Height"
             AllowSwiping="True"
-            ItemTapped="CurrentPlaylistListView_ItemTapped"
-            SwipeEnded="CurrentPlaylistListView_SwipeEnded" >
+            ItemTapped="PlaylistsListView_ItemTapped"
+            SwipeEnded="PlaylistsListView_SwipeEnded" >
             
             <syncfusion:SfListView.StartSwipeTemplate>
                 <DataTemplate>
@@ -62,6 +62,7 @@
                             <HorizontalStackLayout>
                                 <Label VerticalOptions="Start" Text="{Binding Name}" />
                                 <Label VerticalOptions="Start" Text="{Binding Count, StringFormat=' - {0}'}" />
+                                <Label VerticalOptions="Start" Text="{Binding Length, StringFormat=' - {0:hh\\:mm\\:ss}'}" />
                             </HorizontalStackLayout>
 
                         </Grid>

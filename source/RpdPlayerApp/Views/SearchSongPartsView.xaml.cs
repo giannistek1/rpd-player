@@ -11,6 +11,7 @@ namespace RpdPlayerApp.Views;
 public partial class SearchSongPartsView : ContentView
 {
     public event EventHandler PlaySongPart;
+    public event EventHandler AddSongPart;
     public event EventHandler SortPressed;
 
     internal ObservableCollection<SongPart> allSongParts;
@@ -68,6 +69,7 @@ public partial class SearchSongPartsView : ContentView
                                             .ToList();
         foreach (var item in list)
         {
+            AddSongPart.Invoke(sender, e);
             songParts.Add(item);
         }
         SonglibraryListView.ItemsSource = songParts;
@@ -88,6 +90,12 @@ public partial class SearchSongPartsView : ContentView
 
     private void AddResultsButton_Clicked(object sender, EventArgs e)
     {
+        if (PlaylistManager.Instance.CurrentPlaylist is null)
+        {
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            return;
+        }
+
         int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
         CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
@@ -118,8 +126,8 @@ public partial class SearchSongPartsView : ContentView
                 songParts.CollectionChanged -= SongPartsCollectionChanged;
                 songParts = songParts.OrderBy(s => s.Album?.ReleaseDate).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = true);
-                //var list = songParts.Where(s => s.Artist == null).ToList();
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                songParts.ToList().ForEach(s => s.ShowClipLength = false);
                 songParts.CollectionChanged += SongPartsCollectionChanged;
                 SonglibraryListView.ItemsSource = songParts;
                 break;
@@ -129,6 +137,7 @@ public partial class SearchSongPartsView : ContentView
                 songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                songParts.ToList().ForEach(s => s.ShowClipLength = false);
                 songParts.CollectionChanged += SongPartsCollectionChanged;
                 SonglibraryListView.ItemsSource = songParts;
                 break;
@@ -138,6 +147,7 @@ public partial class SearchSongPartsView : ContentView
                 songParts = songParts.OrderBy(s => s.Title).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                songParts.ToList().ForEach(s => s.ShowClipLength = false);
                 songParts.CollectionChanged += SongPartsCollectionChanged;
                 SonglibraryListView.ItemsSource = songParts;
                 break;
@@ -147,6 +157,7 @@ public partial class SearchSongPartsView : ContentView
                 songParts = songParts.OrderBy(s => s.Artist?.GroupType).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = true);
+                songParts.ToList().ForEach(s => s.ShowClipLength = false);
                 songParts.CollectionChanged += SongPartsCollectionChanged;
                 SonglibraryListView.ItemsSource = songParts;
                 break;
@@ -156,16 +167,20 @@ public partial class SearchSongPartsView : ContentView
                 songParts = songParts.OrderBy(s => s.PartNameFull).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                songParts.ToList().ForEach(s => s.ShowClipLength = false);
                 songParts.CollectionChanged += SongPartsCollectionChanged;
                 SonglibraryListView.ItemsSource = songParts;
                 break;
 
-            //case SortMode.ClipLength:
-            //    songParts.CollectionChanged -= SongPartsCollectionChanged;
-            //    songParts = songParts.OrderBy(s => s.AudioURL).ToObservableCollection();
-            //    songParts.CollectionChanged += SongPartsCollectionChanged;
-            //    SonglibraryListView.ItemsSource = songParts; 
-            //    break;
+            case SortMode.ClipLength:
+                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                songParts = songParts.OrderBy(s => s.ClipLength).ToObservableCollection();
+                songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+                songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                songParts.ToList().ForEach(s => s.ShowClipLength = true);
+                songParts.CollectionChanged += SongPartsCollectionChanged;
+                SonglibraryListView.ItemsSource = songParts; 
+               break;
         }
     }
 
@@ -177,6 +192,7 @@ public partial class SearchSongPartsView : ContentView
 
         if (added)
         {
+            AddSongPart.Invoke(sender, e);
             CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
     }

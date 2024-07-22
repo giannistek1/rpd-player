@@ -118,7 +118,8 @@ public partial class AudioPlayerControl : ContentView
 
         AudioMediaElement.Play();
 
-        // TODO: add cliplength to songparta data cuz it is always slow
-        DurationLabel.Text = $"0:{(int)AudioMediaElement.Duration.TotalSeconds}";
+        TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
+
+        DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
     }
 }

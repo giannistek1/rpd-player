@@ -55,7 +55,16 @@
                             <SwipeView.RightItems>
                                 <SwipeItem Text="Play" BackgroundColor="LightGreen" CommandParameter="{Binding .}" Invoked="SwipeItemPlaySongPart"></SwipeItem>
                             </SwipeView.RightItems>
+                            
                             <VerticalStackLayout Padding="10">
+
+                                <Label IsVisible="{Binding Album.ShowAlbumTitle}" VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />
+                                <Label IsVisible="{Binding Album.ShowAlbumReleaseDate}" VerticalOptions="CenterAndExpand" Text="{Binding Album.ReleaseDate, StringFormat='{0:yyyy-MM-dd}'}" />
+                                <Label IsVisible="{Binding Artist.ShowGroupType}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.GroupType}" />
+                                <Label IsVisible="{Binding Album.ShowLanguage}" VerticalOptions="CenterAndExpand" Text="{Binding Album.Language}" />
+                                <Label IsVisible="{Binding Artist.ShowMemberCount}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.MemberCount}" />
+                                <Label IsVisible="{Binding ShowClipLength}" VerticalOptions="CenterAndExpand" Text="{Binding ClipLengthAsTimeSpan, StringFormat='{0:mm\\:ss}'}" />
+
                                 <HorizontalStackLayout>
                                     <Image HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                         <Image.Source>
@@ -65,23 +74,19 @@
                                     <VerticalStackLayout Padding="10">
                                         
                                         <HorizontalStackLayout>
+                                            <Label VerticalOptions="Start" Text="{Binding Title}" />
+                                            <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout>
                                             <Label VerticalOptions="Start" Text="{Binding ArtistName}" />
                                             <!-- TODO: Not working -->
                                             <Label IsVisible="{Binding IsPlaying}" VerticalOptions="CenterAndExpand" Text="▶️" />
                                         </HorizontalStackLayout>
-
-                                        <HorizontalStackLayout>
-                                            <Label VerticalOptions="Start" Text="{Binding Title}" />
-                                            <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
-                                        </HorizontalStackLayout>
                                         
                                     </VerticalStackLayout>
                                 </HorizontalStackLayout>
-                                <Label IsVisible="{Binding Album.ShowAlbumTitle}" VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />
-                                <Label IsVisible="{Binding Album.ShowAlbumReleaseDate}" VerticalOptions="CenterAndExpand" Text="{Binding Album.ReleaseDate, StringFormat='{0:yyyy-MM-dd}'}" />
-                                <Label IsVisible="{Binding Artist.ShowGroupType}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.GroupType}" />
-                                <Label IsVisible="{Binding Album.ShowLanguage}" VerticalOptions="CenterAndExpand" Text="{Binding Album.Language}" />
-                                <Label IsVisible="{Binding Artist.ShowMemberCount}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.MemberCount}" />
+
                             </VerticalStackLayout>
                         </SwipeView>
                     </ViewCell>

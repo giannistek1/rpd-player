@@ -18,9 +18,12 @@ public partial class MainPage : UraniumContentPage
         this.fileSaver = fileSaver;
 
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
+        SearchSongPartsView.AddSongPart += OnAddSongPart;
         SearchSongPartsView.SortPressed += OnSortPressed;
+
         LibraryView.PlayPlaylist += OnPlaySongPart;
         LibraryView.ShowPlaylist += OnShowPlaylist;
+
         currentPlaylistView = new CurrentPlaylistView();
         currentPlaylistView.IsVisible = false;
         currentPlaylistView.BackToPlaylists += OnBackToPlaylists;
@@ -38,9 +41,15 @@ public partial class MainPage : UraniumContentPage
         }
     }
 
+    private void OnAddSongPart(object? sender, EventArgs e)
+    {
+        currentPlaylistView.RefreshPlaylist();
+    }
+
     private void OnBackToPlaylists(object? sender, EventArgs e)
     {
         currentPlaylistView.ResetCurrentPlaylist();
+        libraryView.LoadPlaylists();
         currentPlaylistView.IsVisible = false;
         libraryView.IsVisible = true;
     }
@@ -51,7 +60,7 @@ public partial class MainPage : UraniumContentPage
         libraryView.IsVisible = false;
         currentPlaylistView.IsVisible = true;
 
-        currentPlaylistView.InitCurrentPlaylist();
+        currentPlaylistView.SetCurrentPlaylist();
     }
 
     private void OnPause(object? sender, EventArgs e)
@@ -121,6 +130,14 @@ public partial class MainPage : UraniumContentPage
         BottomSheet.IsPresented = false;
         BottomSheet.IsVisible = false;
         MainViewModel.SortMode = Architecture.SortMode.SongPart;
+        SearchSongPartsView.RefreshSort();
+    }
+
+    private void SortByClipLength(object sender, EventArgs e)
+    {
+        BottomSheet.IsPresented = false;
+        BottomSheet.IsVisible = false;
+        MainViewModel.SortMode = Architecture.SortMode.ClipLength;
         SearchSongPartsView.RefreshSort();
     }
 

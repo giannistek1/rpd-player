@@ -1,12 +1,11 @@
 using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
-using RpdPlayerApp.Repository;
 using RpdPlayerApp.ViewModel;
 using System.Collections.Specialized;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace RpdPlayerApp.Views;
 
@@ -22,17 +21,17 @@ public partial class CurrentPlaylistView : ContentView
         CurrentPlaylistListView.DragDropController.UpdateSource = true;
     }
 
-    public void InitCurrentPlaylist()
+    public void SetCurrentPlaylist()
     {
-
         PlaylistNameEntry.Text = PlaylistManager.Instance.CurrentPlaylist.Name;
 
         if (PlaylistManager.Instance.CurrentPlaylist.SongParts is not null)
         {
-            PlaylistManager.Instance.CurrentPlaylist.SongParts.CollectionChanged += CurrentPlaylistCollectionChanged;
+            //PlaylistManager.Instance.CurrentPlaylist.SongParts.CollectionChanged += CurrentPlaylistCollectionChanged;
 
             CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
 
+            LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", PlaylistManager.Instance.CurrentPlaylist.Length);
             CountLabel.Text = $"Count: {PlaylistManager.Instance.GetCurrentPlaylistSongCount()}";
             BoygroupCountLabel.Text = $"BG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
             GirlgroupCountLabel.Text = $"GG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
@@ -43,7 +42,7 @@ public partial class CurrentPlaylistView : ContentView
     {
         if (PlaylistManager.Instance.CurrentPlaylist.SongParts is not null)
         {
-            PlaylistManager.Instance.CurrentPlaylist.SongParts.CollectionChanged -= CurrentPlaylistCollectionChanged;
+            //PlaylistManager.Instance.CurrentPlaylist.SongParts.CollectionChanged -= CurrentPlaylistCollectionChanged;
 
             CurrentPlaylistListView.ItemsSource = null;
 
@@ -102,13 +101,12 @@ public partial class CurrentPlaylistView : ContentView
         try
         {
             // Create file on system
-            var path = FileSystem.Current.AppDataDirectory;
-            var fullPath = Path.Combine(path, $"{PlaylistNameEntry.Text}.txt");
+            var fullPath = Path.Combine(MainViewModel.Path, $"{PlaylistNameEntry.Text}.txt");
 
             StringBuilder sb = new StringBuilder();
             foreach (SongPart songPart in PlaylistManager.Instance.CurrentPlaylist.SongParts)
             {
-                sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.AudioURL}}}");
+                sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.ClipLength}}}{{{songPart.AudioURL}}}");
             }
 
             File.WriteAllText(fullPath, sb.ToString());
@@ -133,89 +131,10 @@ public partial class CurrentPlaylistView : ContentView
         }
     }
 
-    private async void LoadPlaylistButton_Clicked(object sender, EventArgs e)
-    {
-        if (ViaCloudCheckBox.IsChecked && HelperClass.HasInternetConnection())
-        {
-            try
-            {
-                //CurrentPlaylistListView.ItemsSource = null;
-                PlaylistManager.Instance.ClearCurrentPlaylist();
-
-                var result = await DropboxRepository.LoadPlaylist(PlaylistNameEntry.Text);
-
-                if (result.Contains("Error"))
-                {
-                    Toast.Make(result);
-                    return;
-                }
-
-                // Convert text to songParts
-                var pattern = @"\{(.*?)\}";
-                var matches = Regex.Matches(result, pattern);
-
-                for (int i = 0; i < matches.Count / 6; i++)
-                {
-                    int n = 6 * i; // songpart number
-
-                    string artistName = matches[n + 0].Groups[1].Value;
-                    string albumTitle = matches[n + 1].Groups[1].Value;
-
-                    SongPart songPart = new SongPart(id: i, artistName: artistName, albumTitle: albumTitle, title: matches[n + 2].Groups[1].Value, partNameShort: $"{matches[n + 3].Groups[1].Value}", partNameNumber: matches[n + 4].Groups[1].Value, audioURL: matches[n + 5].Groups[1].Value);
-                    songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
-
-                    songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
-                    PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
-                }
-
-                //CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist;
-            }
-            catch (Exception ex)
-            {
-                Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
-            }
-        }
-        else
-        {
-            var path = FileSystem.Current.AppDataDirectory;
-            var fullPath = Path.Combine(path, $"{PlaylistNameEntry.Text}.txt");
-
-            var result = HelperClass.ReadTextFile(fullPath);
-
-            if (result.Equals("File not found.") || result.StartsWith("An error occurred"))
-            {
-                Toast.Make(result);
-                return;
-            } 
-
-            //CurrentPlaylistListView.ItemsSource = null;
-            PlaylistManager.Instance.ClearCurrentPlaylist();
-
-            // Convert text to songParts
-            var pattern = @"\{(.*?)\}";
-            var matches = Regex.Matches(result, pattern);
-
-            for (int i = 0; i < matches.Count / 6; i++)
-            {
-                int n = 6 * i; // songpart number
-
-                string artistName = matches[n + 0].Groups[1].Value;
-                string albumTitle = matches[n + 1].Groups[1].Value;
-
-                SongPart songPart = new SongPart(id: i, artistName: artistName, albumTitle: albumTitle, title: matches[n + 2].Groups[1].Value, partNameShort: $"{matches[n + 3].Groups[1].Value}", partNameNumber: matches[n + 4].Groups[1].Value, audioURL: matches[n + 5].Groups[1].Value);
-                songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
-
-                songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
-                PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
-            }
-
-            //CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist;
-        }
-    }
-
     private void ShufflePlaylistButton_Clicked(object sender, EventArgs e)
     {
-        PlaylistManager.Instance.CurrentPlaylist.SongParts.Shuffle();
+        PlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizePlaylist(PlaylistManager.Instance.CurrentPlaylist.SongParts.ToList()).ToObservableCollection();
+        CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
     }
 
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
@@ -239,5 +158,10 @@ public partial class CurrentPlaylistView : ContentView
             PlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
             CountLabel.Text = PlaylistManager.Instance.CurrentPlaylist.Count.ToString();
         }
+    }
+
+    internal void RefreshPlaylist()
+    {
+        SetCurrentPlaylist();
     }
 }

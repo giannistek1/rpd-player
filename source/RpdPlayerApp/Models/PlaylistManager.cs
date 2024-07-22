@@ -45,6 +45,8 @@ internal class PlaylistManager : BindableObject
             if (hasToAdd)
             {
                 currentPlaylist.SongParts.Add(songPart);
+                currentPlaylist.SetCount();
+                currentPlaylist.SetLength();
             }
         }
 
@@ -54,6 +56,11 @@ internal class PlaylistManager : BindableObject
     internal int AddSongPartsToCurrentPlaylist(List<SongPart> songParts)
     {
         int songPartsAdded = 0;
+
+        if (currentPlaylist.SongParts is null)
+        {
+            currentPlaylist.SongParts = new ObservableCollection<SongPart>();
+        }
 
         foreach (SongPart songPart in songParts)
         {

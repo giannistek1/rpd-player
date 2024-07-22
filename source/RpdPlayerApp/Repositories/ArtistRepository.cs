@@ -1,5 +1,6 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.ViewModel;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -26,9 +27,9 @@ internal static class ArtistRepository
         // 7 8 9 10 11 12 13  Artist 2
 
 
-        for (int i = 0; i < matches.Count / 7; i++)
+        for (int i = 0; i < matches.Count / MainViewModel.SongPartPropertyAmount; i++)
         {
-            int n = 7 * i; // artist number
+            int n = MainViewModel.SongPartPropertyAmount * i; // artist number
 
             Enum.TryParse(matches[n + 3].Groups[1].Value, out GroupType groupType);
 

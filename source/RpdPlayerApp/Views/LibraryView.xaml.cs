@@ -6,7 +6,6 @@ using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Repository;
 using RpdPlayerApp.ViewModel;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -21,10 +20,15 @@ public partial class LibraryView : ContentView
     {
         InitializeComponent();
 
-        var path = FileSystem.Current.AppDataDirectory;
-        
+        CheckValidPlaylists();
+
+        LoadPlaylists();
+    }
+
+    internal void LoadPlaylists()
+    {
         List<Playlist> playlists = [];
-        string[] files = Directory.GetFiles(path, "*.txt");
+        string[] files = Directory.GetFiles(MainViewModel.Path, "*.txt");
 
         if (files.Length > 0)
         {
@@ -41,14 +45,22 @@ public partial class LibraryView : ContentView
                 var pattern = @"\{(.*?)\}";
                 var matches = Regex.Matches(result, pattern);
 
-                for (int i = 0; i < matches.Count / 6; i++)
+                for (int i = 0; i < matches.Count / MainViewModel.SongPartPropertyAmount; i++)
                 {
-                    int n = 6 * i; // songpart number
+                    int n = MainViewModel.SongPartPropertyAmount * i; // songpart number
 
                     string artistName = matches[n + 0].Groups[1].Value;
                     string albumTitle = matches[n + 1].Groups[1].Value;
 
-                    SongPart songPart = new SongPart(id: i, artistName: artistName, albumTitle: albumTitle, title: matches[n + 2].Groups[1].Value, partNameShort: $"{matches[n + 3].Groups[1].Value}", partNameNumber: matches[n + 4].Groups[1].Value, audioURL: matches[n + 5].Groups[1].Value);
+                    SongPart songPart = new SongPart(id: i,
+                        artistName: artistName,
+                        albumTitle: albumTitle,
+                        title: matches[n + 2].Groups[1].Value,
+                        partNameShort: $"{matches[n + 3].Groups[1].Value}",
+                        partNameNumber: matches[n + 4].Groups[1].Value,
+                        clipLength: Convert.ToDouble(matches[n + 5].Groups[1].Value),
+                        audioURL: matches[n + 6].Groups[1].Value);
+
                     songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
                     songPart.Artist = ArtistRepository.MatchArtist(artistName);
 
@@ -56,6 +68,7 @@ public partial class LibraryView : ContentView
                     playlist.SongParts.Add(songPart);
                 }
 
+                playlist.SetLength();
                 playlists.Add(playlist);
             }
 
@@ -65,7 +78,7 @@ public partial class LibraryView : ContentView
         PlaylistsListView.ItemsSource = MainViewModel.Playlists;
     }
 
-    private void CurrentPlaylistListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
+    private void PlaylistsListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
         Playlist playlist = (Playlist)e.DataItem;
         PlaylistManager.Instance.CurrentPlaylist = playlist;
@@ -74,11 +87,16 @@ public partial class LibraryView : ContentView
 
     private void NewPlaylistButton_Clicked(object sender, EventArgs e)
     {
+        if (PlaylistNameEntry.Text.IsNullOrBlank())
+        {
+            Toast.Make($"Please fill in a name", CommunityToolkit.Maui.Core.ToastDuration.Short);
+            return;
+        }
+        
         try
         {
             // Create file on system
-            var path = FileSystem.Current.AppDataDirectory;
-            var fullPath = Path.Combine(path, $"{PlaylistNameEntry.Text}.txt");
+            var fullPath = Path.Combine(MainViewModel.Path, $"{PlaylistNameEntry.Text}.txt");
 
             File.WriteAllText(fullPath, string.Empty);
 
@@ -100,8 +118,7 @@ public partial class LibraryView : ContentView
         try
         {
             // Create file on system
-            var path = FileSystem.Current.AppDataDirectory;
-            var fullPath = Path.Combine(path, $"{PlaylistNameEntry.Text} - copy.txt");
+            var fullPath = Path.Combine(MainViewModel.Path, $"{PlaylistNameEntry.Text} - copy.txt");
 
             //StringBuilder sb = new StringBuilder();
             //foreach (SongPart songPart in PlaylistManager.Instance.CurrentPlaylist.SongParts)
@@ -130,68 +147,14 @@ public partial class LibraryView : ContentView
         PlayPlaylist.Invoke(sender, e);
     }
 
-    private void SavePlaylistButton_Clicked(object sender, EventArgs e)
-    {
-        try
-        {
-            // Create file on system
-            var path = FileSystem.Current.AppDataDirectory;
-            var fullPath = Path.Combine(path, $"{PlaylistNameEntry.Text}.txt");
-
-            StringBuilder sb = new StringBuilder();
-            foreach (SongPart songPart in PlaylistManager.Instance.CurrentPlaylist.SongParts)
-            {
-                sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.AudioURL}}}");
-            }
-
-            File.WriteAllText(fullPath, sb.ToString());
-        }
-        catch (Exception ex)
-        {
-            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
-        }
-        
-
-        if (ViaCloudCheckBox.IsChecked && HelperClass.HasInternetConnection())
-        {
-            try
-            {
-                DropboxRepository.SavePlaylist(PlaylistNameEntry.Text);
-                Toast.Make("Saved playlist!");
-            }
-            catch (Exception ex)
-            {
-                Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
-            }
-        }
-    }
-
     private void SwipeItemRemoveSongPart(object sender, EventArgs e)
     {
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         PlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
     }
 
-    private void ShufflePlaylistButton_Clicked(object sender, EventArgs e)
-    {
-        PlaylistManager.Instance.CurrentPlaylist.SongParts.Shuffle();
-    }
-
-    private void SwipeItemPlaySongPart(object sender, EventArgs e)
-    {
-        if (!HelperClass.HasInternetConnection())
-            return;
-
-        SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
-        if (songPart.AudioURL != string.Empty)
-        {
-            MainViewModel.CurrentSongPart = songPart;
-            PlayPlaylist.Invoke(sender, e);
-        }
-    }
-
     // Remove/delete playlist
-    private void CurrentPlaylistListView_SwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
+    private void PlaylistsListView_SwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
     {
         if (e.Direction == SwipeDirection.Right && e.Offset > 30)
         {
@@ -200,6 +163,25 @@ public partial class LibraryView : ContentView
             File.Delete(playlist.LocalPath);
 
             MainViewModel.Playlists.Remove(playlist);
+        }
+    }
+
+    private void CheckValidPlaylists()
+    {
+        string[] files = Directory.GetFiles(MainViewModel.Path, "*.txt");
+        foreach (string file in files)
+        {
+            foreach (var line in File.ReadLines(file))
+            {
+                var pattern = @"\{(.*?)\}";
+                var matches = Regex.Matches(line, pattern);
+                if (matches.Count < MainViewModel.SongPartPropertyAmount)
+                {
+                    Toast.Make($"Found invalid or outdated playlists! They have been removed.", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                    File.Delete(file);
+                    break;
+                }
+            }
         }
     }
 }
