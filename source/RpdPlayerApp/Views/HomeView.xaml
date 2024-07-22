@@ -6,7 +6,7 @@
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="20, 20, 30, 30, 30, 30, *"
+          RowDefinitions="20, 20, 30, 30, 30, 30, 30, *"
           ColumnDefinitions="*">
 
         <HorizontalStackLayout>
@@ -70,9 +70,17 @@
             
         </HorizontalStackLayout>
 
+        <HorizontalStackLayout Grid.Row="6">
+
+            <Button Text="KR"/>
+            <Button Text="JP"/>
+            <Button Text="EN"/>
+
+        </HorizontalStackLayout>
+
 
         <ListView 
-            Grid.Row="6"
+            Grid.Row="7"
             Grid.Column="0"
             CachingStrategy="RecycleElement"
             x:Name="RandomListView" 

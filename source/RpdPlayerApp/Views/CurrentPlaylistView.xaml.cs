@@ -27,12 +27,10 @@ public partial class CurrentPlaylistView : ContentView
 
         if (PlaylistManager.Instance.CurrentPlaylist.SongParts is not null)
         {
-            //PlaylistManager.Instance.CurrentPlaylist.SongParts.CollectionChanged += CurrentPlaylistCollectionChanged;
-
             CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
 
             LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", PlaylistManager.Instance.CurrentPlaylist.Length);
-            CountLabel.Text = $"Count: {PlaylistManager.Instance.GetCurrentPlaylistSongCount()}";
+            CountLabel.Text = $"Tot: {PlaylistManager.Instance.CurrentPlaylist.SongParts.Count}";
             BoygroupCountLabel.Text = $"BG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
             GirlgroupCountLabel.Text = $"GG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
         }
@@ -42,19 +40,10 @@ public partial class CurrentPlaylistView : ContentView
     {
         if (PlaylistManager.Instance.CurrentPlaylist.SongParts is not null)
         {
-            //PlaylistManager.Instance.CurrentPlaylist.SongParts.CollectionChanged -= CurrentPlaylistCollectionChanged;
-
             CurrentPlaylistListView.ItemsSource = null;
 
             PlaylistNameEntry.Text = string.Empty;
         }
-    }
-
-    private void CurrentPlaylistCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        CountLabel.Text = $"Count: {PlaylistManager.Instance.GetCurrentPlaylistSongCount()}";
-        BoygroupCountLabel.Text = $"BG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
-        GirlgroupCountLabel.Text = $"GG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
     }
 
     private void CurrentPlaylistListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)

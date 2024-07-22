@@ -65,7 +65,8 @@ public partial class SearchSongPartsView : ContentView
     {
         songParts.Clear();
         var list = allSongParts.Where(s =>  s.ArtistName.ToLower().Contains(e.NewTextValue.ToLower()) || 
-                                            s.Title.ToLower().Contains(e.NewTextValue.ToLower()))
+                                            s.Artist.AltName.ToLower().Contains(e.NewTextValue.ToLower()) ||
+                                            s.Title.ToLower().Contains(e.NewTextValue.ToLower())) 
                                             .ToList();
         foreach (var item in list)
         {
