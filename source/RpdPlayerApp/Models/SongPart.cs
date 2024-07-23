@@ -20,6 +20,7 @@ internal class SongPart
     public Album? Album { get; set; }
     public string AlbumURL { get; set; } = string.Empty;
     public string AudioURL { get; set; }
+    public string VideoURL { get; set; } = string.Empty; 
     public bool ShowClipLength { get; set; } = false;
     public double ClipLength { get; set; }
     public TimeSpan ClipLengthAsTimeSpan { get; set; }

@@ -49,33 +49,6 @@ public partial class SearchSongPartsView : ContentView
         SonglibraryListView.ItemsSource = songParts;
     }
 
-    private void SonglibraryListView_ItemTapped(object sender, ItemTappedEventArgs e)
-    {
-        SongPart songPart = (SongPart)SonglibraryListView.SelectedItem;
-        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
-        if (added)
-        {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-        }
-
-        SonglibraryListView.SelectedItem = null;
-    }
-
-    private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        songParts.Clear();
-        var list = allSongParts.Where(s =>  s.ArtistName.ToLower().Contains(e.NewTextValue.ToLower()) || 
-                                            s.Artist.AltName.ToLower().Contains(e.NewTextValue.ToLower()) ||
-                                            s.Title.ToLower().Contains(e.NewTextValue.ToLower())) 
-                                            .ToList();
-        foreach (var item in list)
-        {
-            AddSongPart.Invoke(sender, e);
-            songParts.Add(item);
-        }
-        SonglibraryListView.ItemsSource = songParts;
-    }
-
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
     {
         if (!HelperClass.HasInternetConnection())
@@ -87,6 +60,19 @@ public partial class SearchSongPartsView : ContentView
             MainViewModel.CurrentSongPart = songPart;
             PlaySongPart.Invoke(sender, e);
         }
+    }
+
+    private void PlayRandomButton_Clicked(object sender, EventArgs e)
+    {
+        if (!HelperClass.HasInternetConnection())
+            return;
+
+        var random = new Random();
+        int index = random.Next(songParts.Count);
+        SongPart songPart = songParts[index];
+
+        MainViewModel.CurrentSongPart = songPart;
+        PlaySongPart.Invoke(sender, e);
     }
 
     private void AddResultsButton_Clicked(object sender, EventArgs e)
@@ -101,17 +87,58 @@ public partial class SearchSongPartsView : ContentView
         CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
-    private void PlayRandomButton_Clicked(object sender, EventArgs e)
+    private void SonglibraryListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
-        if (!HelperClass.HasInternetConnection())
-            return;
+        SongPart songPart = (SongPart)SonglibraryListView.SelectedItem;
+        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
+        if (added)
+        {
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
 
-        var random = new Random();
-        int index = random.Next(songParts.Count);
-        SongPart songPart = songParts[index];
+        SonglibraryListView.SelectedItem = null;
+    }
 
-        MainViewModel.CurrentSongPart = songPart;
-        PlaySongPart.Invoke(sender, e);
+    private void SwipeItemAddSong(object sender, EventArgs e)
+    {
+        SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
+
+        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
+
+        if (added)
+        {
+            AddSongPart.Invoke(sender, e);
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
+    }
+
+    private void SwipeItemQueueSong(object sender, EventArgs e)
+    {
+        SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
+
+        if (!MainViewModel.SongPartsQueue.Contains(songPart))
+        {
+            MainViewModel.SongPartsQueue.Enqueue(songPart);
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
+
+        // Change mode to queue list
+        MainViewModel.PlayMode = PlayMode.Queue;
+    }
+
+    private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        songParts.Clear();
+        var list = allSongParts.Where(s => s.ArtistName.ToLower().Contains(e.NewTextValue.ToLower()) ||
+                                            s.Artist.AltName.ToLower().Contains(e.NewTextValue.ToLower()) ||
+                                            s.Title.ToLower().Contains(e.NewTextValue.ToLower()))
+                                            .ToList();
+        foreach (var item in list)
+        {
+            AddSongPart.Invoke(sender, e);
+            songParts.Add(item);
+        }
+        SonglibraryListView.ItemsSource = songParts;
     }
 
     private void SortButton_Clicked(object sender, EventArgs e)
@@ -180,35 +207,8 @@ public partial class SearchSongPartsView : ContentView
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                 songParts.ToList().ForEach(s => s.ShowClipLength = true);
                 songParts.CollectionChanged += SongPartsCollectionChanged;
-                SonglibraryListView.ItemsSource = songParts; 
-               break;
+                SonglibraryListView.ItemsSource = songParts;
+                break;
         }
-    }
-
-    private void SwipeItemAddSong(object sender, EventArgs e)
-    {
-        SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
-
-        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
-
-        if (added)
-        {
-            AddSongPart.Invoke(sender, e);
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-        }
-    }
-
-    private void SwipeItemQueueSong(object sender, EventArgs e)
-    {
-        SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
-
-        if (!MainViewModel.SongPartsQueue.Contains(songPart))
-        {
-            MainViewModel.SongPartsQueue.Enqueue(songPart);
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-        }
-
-        // Change mode to queue list
-        MainViewModel.PlayMode = PlayMode.Queue;
     }
 }

@@ -29,6 +29,7 @@ public partial class CurrentPlaylistView : ContentView
         {
             CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
 
+            PlaylistManager.Instance.CurrentPlaylist.SetLength();
             LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", PlaylistManager.Instance.CurrentPlaylist.Length);
             CountLabel.Text = $"Tot: {PlaylistManager.Instance.CurrentPlaylist.SongParts.Count}";
             BoygroupCountLabel.Text = $"BG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
@@ -145,7 +146,8 @@ public partial class CurrentPlaylistView : ContentView
         {
             SongPart songPart = (SongPart)e.DataItem;
             PlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
-            CountLabel.Text = PlaylistManager.Instance.CurrentPlaylist.Count.ToString();
+
+            RefreshPlaylist();
         }
     }
 
