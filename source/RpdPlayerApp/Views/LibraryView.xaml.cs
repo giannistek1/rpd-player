@@ -51,6 +51,7 @@ public partial class LibraryView : ContentView
 
                     string artistName = matches[n + 0].Groups[1].Value;
                     string albumTitle = matches[n + 1].Groups[1].Value;
+                    string videoURL = matches[n + 6].Groups[1].Value.Replace(".mp3", "mp4");
 
                     SongPart songPart = new SongPart(id: i,
                         artistName: artistName,
@@ -59,7 +60,9 @@ public partial class LibraryView : ContentView
                         partNameShort: $"{matches[n + 3].Groups[1].Value}",
                         partNameNumber: matches[n + 4].Groups[1].Value,
                         clipLength: Convert.ToDouble(matches[n + 5].Groups[1].Value),
-                        audioURL: matches[n + 6].Groups[1].Value);
+                        audioURL: matches[n + 6].Groups[1].Value,
+                        videoURL: videoURL
+                    );
 
                     songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
                     songPart.Artist = ArtistRepository.MatchArtist(artistName);
@@ -89,7 +92,7 @@ public partial class LibraryView : ContentView
     {
         if (PlaylistNameEntry.Text.IsNullOrBlank())
         {
-            Toast.Make($"Please fill in a name", CommunityToolkit.Maui.Core.ToastDuration.Short);
+            Toast.Make($"Please fill in a name", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             return;
         }
         
@@ -100,7 +103,7 @@ public partial class LibraryView : ContentView
 
             File.WriteAllText(fullPath, string.Empty);
 
-            Toast.Make($"{PlaylistNameEntry.Text} created!", CommunityToolkit.Maui.Core.ToastDuration.Short);
+            Toast.Make($"{PlaylistNameEntry.Text} created!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
 
             Playlist playlist = new Playlist(name: PlaylistNameEntry.Text, fullPath);
             playlist.SongParts = new ObservableCollection<SongPart>();
@@ -109,7 +112,7 @@ public partial class LibraryView : ContentView
         }
         catch (Exception ex)
         {
-            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
+            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
     }
 
@@ -128,11 +131,11 @@ public partial class LibraryView : ContentView
 
             File.WriteAllText(fullPath, string.Empty);
 
-            Toast.Make($"{PlaylistNameEntry.Text} - copy created!", CommunityToolkit.Maui.Core.ToastDuration.Short);
+            Toast.Make($"{PlaylistNameEntry.Text} - copy created!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
         catch (Exception ex)
         {
-            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
+            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
     }
 
@@ -177,7 +180,7 @@ public partial class LibraryView : ContentView
                 var matches = Regex.Matches(line, pattern);
                 if (matches.Count < MainViewModel.SongPartPropertyAmount)
                 {
-                    Toast.Make($"Found invalid or outdated playlists! They have been removed.", CommunityToolkit.Maui.Core.ToastDuration.Short);
+                    Toast.Make($"Found invalid or outdated playlists! They have been removed.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
                     File.Delete(file);
                     break;
                 }

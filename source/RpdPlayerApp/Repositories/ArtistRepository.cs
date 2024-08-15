@@ -29,17 +29,25 @@ internal static class ArtistRepository
 
         for (int i = 0; i < matches.Count / MainViewModel.SongPartPropertyAmount; i++)
         {
-            int n = MainViewModel.SongPartPropertyAmount * i; // artist number
+            int n = MainViewModel.ArtistPropertyAmount * i; // artist number
 
-            Enum.TryParse(matches[n + 3].Groups[1].Value, out GroupType groupType);
+            try
+            {
+                Enum.TryParse(matches[n + 3].Groups[1].Value, out GroupType groupType);
 
-            Artists.Add(new Artist(id: i, name: matches[n + 0].Groups[1].Value, 
-                altName: matches[n + 1].Groups[1].Value, 
-                debutDate: DateTime.ParseExact(matches[n + 2].Groups[1].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture),
-                groupType,
-                memberCount: Convert.ToInt16(matches[n + 4].Groups[1].Value),
-                company: matches[n + 5].Groups[1].Value,
-                imageURL: matches[n + 6].Groups[1].Value));
+                Artists.Add(new Artist(id: i, name: matches[n + 0].Groups[1].Value,
+                    altName: matches[n + 1].Groups[1].Value,
+                    debutDate: DateTime.ParseExact(matches[n + 2].Groups[1].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    groupType,
+                    memberCount: Convert.ToInt16(matches[n + 4].Groups[1].Value),
+                    company: matches[n + 5].Groups[1].Value,
+                    imageURL: matches[n + 6].Groups[1].Value));
+            }
+            catch(Exception ex)
+            {
+                SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}: Artist number: {n}");
+            }
+
         }
 
         return Artists.Count > 0;

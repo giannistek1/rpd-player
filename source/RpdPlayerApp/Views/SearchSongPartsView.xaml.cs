@@ -10,13 +10,13 @@ namespace RpdPlayerApp.Views;
 
 public partial class SearchSongPartsView : ContentView
 {
-    public event EventHandler PlaySongPart;
-    public event EventHandler AddSongPart;
-    public event EventHandler SortPressed;
+    internal event EventHandler? PlaySongPart;
+    internal event EventHandler? AddSongPart;
+    internal event EventHandler? SortPressed;
 
     internal ObservableCollection<SongPart> allSongParts;
     internal ObservableCollection<SongPart> songParts = new ObservableCollection<SongPart>();
-    public int SongCount { get; set; } = 0;
+    internal int SongCount { get; set; } = 0;
 
     public SearchSongPartsView()
     {
@@ -146,18 +146,42 @@ public partial class SearchSongPartsView : ContentView
         SortPressed.Invoke(sender, e);
     }
 
+    internal void SetSearchFilterMode()
+    {
+        songParts.CollectionChanged -= SongPartsCollectionChanged;
+        switch (MainViewModel.SearchFilterMode)
+        {
+            case SearchFilterMode.None: songParts = allSongParts; break;
+            case SearchFilterMode.Male: songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.BG).ToObservableCollection(); break;
+            case SearchFilterMode.Female: songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.GG).ToObservableCollection(); break;
+            case SearchFilterMode.YG: songParts = allSongParts.Where(s => s.Artist?.Company == "YG Entertainment").ToObservableCollection(); break;
+            case SearchFilterMode.JYP: songParts = allSongParts.Where(s => s.Artist?.Company == "JYP Entertainment").ToObservableCollection(); break;
+            case SearchFilterMode.SM: songParts = allSongParts.Where(s => s.Artist?.Company == "SM Entertainment").ToObservableCollection(); break;
+            case SearchFilterMode.Firstgen: songParts = allSongParts.Where(s => s.Album?.ReleaseDate < HelperClass.firstGenEndDate).ToObservableCollection(); break;
+            case SearchFilterMode.Secondgen: songParts = allSongParts.Where(s => s.Album?.ReleaseDate < HelperClass.firstGenEndDate).ToObservableCollection(); break;
+            case SearchFilterMode.Thirdgen: songParts = allSongParts.Where(s => s.Album?.ReleaseDate < HelperClass.firstGenEndDate).ToObservableCollection(); break;
+            case SearchFilterMode.Fourthgen: songParts = allSongParts.Where(s => s.Album?.ReleaseDate < HelperClass.firstGenEndDate).ToObservableCollection(); break;
+            case SearchFilterMode.Fifthgen: songParts = allSongParts.Where(s => s.Album?.ReleaseDate > HelperClass.fifthGenStartDate).ToObservableCollection(); break;
+            case SearchFilterMode.KR: songParts = allSongParts.Where(s => s.Album?.Language == "KR").ToObservableCollection(); break;
+            case SearchFilterMode.JP: songParts = allSongParts.Where(s => s.Album?.Language == "JP").ToObservableCollection(); break;
+            case SearchFilterMode.EN: songParts = allSongParts.Where(s => s.Album?.Language == "EN").ToObservableCollection(); break;
+        }
+        songParts.CollectionChanged += SongPartsCollectionChanged;
+        SonglibraryListView.ItemsSource = songParts;
+
+        ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
+    }
+
     internal void RefreshSort()
     {
+        songParts.CollectionChanged -= SongPartsCollectionChanged;
         switch (MainViewModel.SortMode)
         {
             case SortMode.ReleaseDate:
-                songParts.CollectionChanged -= SongPartsCollectionChanged;
                 songParts = songParts.OrderBy(s => s.Album?.ReleaseDate).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = true);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                 songParts.ToList().ForEach(s => s.ShowClipLength = false);
-                songParts.CollectionChanged += SongPartsCollectionChanged;
-                SonglibraryListView.ItemsSource = songParts;
                 break;
 
             case SortMode.Artist:
@@ -166,8 +190,6 @@ public partial class SearchSongPartsView : ContentView
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                 songParts.ToList().ForEach(s => s.ShowClipLength = false);
-                songParts.CollectionChanged += SongPartsCollectionChanged;
-                SonglibraryListView.ItemsSource = songParts;
                 break;
 
             case SortMode.Title:
@@ -176,8 +198,6 @@ public partial class SearchSongPartsView : ContentView
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                 songParts.ToList().ForEach(s => s.ShowClipLength = false);
-                songParts.CollectionChanged += SongPartsCollectionChanged;
-                SonglibraryListView.ItemsSource = songParts;
                 break;
 
             case SortMode.GroupType:
@@ -186,8 +206,6 @@ public partial class SearchSongPartsView : ContentView
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = true);
                 songParts.ToList().ForEach(s => s.ShowClipLength = false);
-                songParts.CollectionChanged += SongPartsCollectionChanged;
-                SonglibraryListView.ItemsSource = songParts;
                 break;
 
             case SortMode.SongPart:
@@ -196,19 +214,18 @@ public partial class SearchSongPartsView : ContentView
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                 songParts.ToList().ForEach(s => s.ShowClipLength = false);
-                songParts.CollectionChanged += SongPartsCollectionChanged;
-                SonglibraryListView.ItemsSource = songParts;
+
                 break;
 
             case SortMode.ClipLength:
-                songParts.CollectionChanged -= SongPartsCollectionChanged;
                 songParts = songParts.OrderBy(s => s.ClipLength).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                 songParts.ToList().ForEach(s => s.ShowClipLength = true);
-                songParts.CollectionChanged += SongPartsCollectionChanged;
-                SonglibraryListView.ItemsSource = songParts;
                 break;
         }
+
+        songParts.CollectionChanged += SongPartsCollectionChanged;
+        SonglibraryListView.ItemsSource = songParts;
     }
 }

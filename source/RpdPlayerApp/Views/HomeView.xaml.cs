@@ -1,10 +1,14 @@
+using CommunityToolkit.Maui.Alerts;
 using RpdPlayerApp.Repository;
+using RpdPlayerApp.ViewModel;
 using System.Collections.Specialized;
 
 namespace RpdPlayerApp.Views;
 
 public partial class HomeView : ContentView
 {
+    internal EventHandler? FilterPressed;
+
     public HomeView()
     {
         InitializeComponent();
@@ -49,11 +53,100 @@ public partial class HomeView : ContentView
     {
         AlbumCountLabel.Text = $",  Albums: {AlbumRepository.Albums.Count}";
     }
-
-    private void RandomListView_ItemTapped(object sender, ItemTappedEventArgs e)
+     
+    private void SetFilterFemale(object sender, TappedEventArgs e)
     {
-        //PlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist((Songpart)RandomListView.SelectedItem);
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Female;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
 
+    private void SetFilterMale(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Male;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterSM(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.SM;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterJYP(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.JYP;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterYG(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.YG;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterKR(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.KR;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterJP(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.JP;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterEN(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.EN;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterFirstGen(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Firstgen;
+        Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterSecondGen(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Secondgen;
+        Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterThirdGen(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Thirdgen;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterFourthGen(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Fourthgen;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void SetFilterFifthGen(object sender, TappedEventArgs e)
+    {
+        MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Fifthgen;
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void RandomListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
+    {
         RandomListView.SelectedItem = null;
     }
 }

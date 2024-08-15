@@ -5,6 +5,7 @@
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+             xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
              x:Class="RpdPlayerApp.Views.MainPage">
     
@@ -118,12 +119,12 @@
             <TableView Intent="Menu" Margin="0,0,0,40">
                 <TableRoot>
                     <TableSection Title="Sort by..." TextColor="White">
-                        <TextCell Tapped="SortByReleaseDate" Text="Release date" TextColor="White" />
                         <TextCell Tapped="SortByArtistName"  Text="Artist name" TextColor="White" />
-                        <TextCell Tapped="SortBySongTitle"  Text="Song title" TextColor="White" />
-                        <TextCell Tapped="SortByGroupType"  Text="Group type" TextColor="White" />
-                        <TextCell Tapped="SortBySongPart"  Text="Song part" TextColor="White" />
                         <TextCell Tapped="SortByClipLength"  Text="Clip length" TextColor="White" />
+                        <TextCell Tapped="SortByGroupType"  Text="Group type" TextColor="White" />
+                        <TextCell Tapped="SortByReleaseDate" Text="Release date" TextColor="White" />
+                        <TextCell Tapped="SortBySongPart"  Text="Song part" TextColor="White" />
+                        <TextCell Tapped="SortBySongTitle"  Text="Song title" TextColor="White" />
                         <TextCell Tapped="CancelSort"  Text="Cancel/hide" TextColor="White" />
                     </TableSection>
                 </TableRoot>

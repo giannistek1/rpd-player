@@ -8,14 +8,16 @@ namespace RpdPlayerApp.Views;
 public partial class MainPage : UraniumContentPage
 {
     IFileSaver fileSaver;
-
-    public LibraryView libraryView;
+    
+    public LibraryView? libraryView;
     public CurrentPlaylistView currentPlaylistView;
     public MainPage(IFileSaver fileSaver)
 	{
 		InitializeComponent();
         // In case you want to save files to a user chosen place
         this.fileSaver = fileSaver;
+
+        HomeView.FilterPressed += OnFilterPressed;
 
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
         SearchSongPartsView.AddSongPart += OnAddSongPart;
@@ -39,6 +41,11 @@ public partial class MainPage : UraniumContentPage
         {
             LibraryContainer.Children.Add(libraryView);
         }
+    }
+
+    private void OnFilterPressed(object? sender, EventArgs e)
+    {
+        SearchSongPartsView.SetSearchFilterMode();
     }
 
     private void OnAddSongPart(object? sender, EventArgs e)

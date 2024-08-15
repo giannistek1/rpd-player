@@ -11,10 +11,16 @@ internal static class MainViewModel
     /// </summary>
     public static readonly int SongPartPropertyAmount = 7;
 
+    /// <summary>
+    /// 7
+    /// </summary>
+    public static readonly int ArtistPropertyAmount = 7;
+
     public static readonly string Path = FileSystem.Current.AppDataDirectory;
 
     public static SortMode SortMode { get; set; }
-    
+    public static SearchFilterMode SearchFilterMode { get; set; }
+
     public static SongPart? CurrentSongPart { get; set; } = null;
 
     public static Queue<SongPart> SongPartsQueue { get; set; } = new Queue<SongPart>();

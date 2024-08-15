@@ -4,7 +4,6 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.ViewModel;
-using System.Collections.Specialized;
 using System.Text;
 
 namespace RpdPlayerApp.Views;
@@ -103,7 +102,7 @@ public partial class CurrentPlaylistView : ContentView
         }
         catch (Exception ex)
         {
-            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
+            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
         
 
@@ -112,11 +111,11 @@ public partial class CurrentPlaylistView : ContentView
             try
             {
                 DropboxRepository.SavePlaylist(PlaylistNameEntry.Text);
-                Toast.Make("Saved playlist!");
+                Toast.Make("Saved playlist!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             }
             catch (Exception ex)
             {
-                Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short);
+                Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             }
         }
     }

@@ -29,25 +29,35 @@ internal static class SongPartRepository
         {
             int n = MainViewModel.SongPartPropertyAmount * i; // songpart number
 
-            string artistName = matches[n + 0].Groups[1].Value;
-            string albumTitle = matches[n + 1].Groups[1].Value;
+            try
+            {
+                string artistName = matches[n + 0].Groups[1].Value;
+                string albumTitle = matches[n + 1].Groups[1].Value;
+                string videoURL = matches[n + 6].Groups[1].Value.Replace(".mp3", ".mp4");
 
-            SongPart songPart = new SongPart(
-                id: i, 
-                artistName: artistName, 
-                albumTitle: albumTitle, 
-                title: matches[n + 2].Groups[1].Value, 
-                partNameShort: $"{matches[n + 3].Groups[1].Value}", 
-                partNameNumber: matches[n + 4].Groups[1].Value,
-                clipLength: Convert.ToDouble(matches[n + 5].Groups[1].Value),
-                audioURL: matches[n + 6].Groups[1].Value
-            );
+                SongPart songPart = new SongPart(
+                    id: i,
+                    artistName: artistName,
+                    albumTitle: albumTitle,
+                    title: matches[n + 2].Groups[1].Value,
+                    partNameShort: $"{matches[n + 3].Groups[1].Value}",
+                    partNameNumber: matches[n + 4].Groups[1].Value,
+                    clipLength: Convert.ToDouble(matches[n + 5].Groups[1].Value),
+                    audioURL: matches[n + 6].Groups[1].Value,
+                    videoURL: videoURL
+                );
 
-            songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
-            songPart.Artist = ArtistRepository.MatchArtist(artistName);
+                songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
+                songPart.Artist = ArtistRepository.MatchArtist(artistName);
 
-            songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
-            SongParts.Add(songPart);
+                songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
+                SongParts.Add(songPart);
+            }
+            catch(Exception ex)
+            {
+                SentrySdk.CaptureMessage($"Error: {typeof(SongPartRepository).Name}: Artist number: {n}");
+            }
+
         }
 
         SongParts = SongParts.OrderBy(s => s.ArtistName).ThenBy(s => s.Album?.ReleaseDate).ToObservableCollection();

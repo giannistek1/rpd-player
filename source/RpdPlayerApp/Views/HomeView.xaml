@@ -2,92 +2,209 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              x:Class="RpdPlayerApp.Views.HomeView"
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="20, 20, 30, 30, 30, 30, 30, *"
+          RowDefinitions="auto, auto, auto, 560"
           ColumnDefinitions="*">
 
-        <HorizontalStackLayout>
-            <Label
-            Grid.Row="0"
-            Grid.Column="0"
-            x:Name="VersionLabel" Text="Version xx" />
-        </HorizontalStackLayout>
-        
-        
-        
-        <HorizontalStackLayout
-            Grid.Row="1">
+        <HorizontalStackLayout Grid.Row="0" >
 
-            <Label
-            Grid.Column="0"
-            x:Name="SongPartCountLabel" Text="{Binding SongPartCount}" />
-
-            <Label
-
-            Grid.Column="0"
-            x:Name="UniqueSongCountLabel" Text="{Binding UniqueSongCount}" />
+            <Label Grid.Column="0" x:Name="VersionLabel" Text="Version xx" />
             
         </HorizontalStackLayout>
 
-        <HorizontalStackLayout
-            Grid.Row="2">
-            
-            <Label
+        <HorizontalStackLayout Grid.Row="1">
+
+            <Label Grid.Column="0" x:Name="SongPartCountLabel" Text="{Binding SongPartCount}" />
+
+            <Label Grid.Column="0" x:Name="UniqueSongCountLabel" Text="{Binding UniqueSongCount}" />
+
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="2">
+
+            <Label Grid.Column="0" x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" />
+
+            <Label Grid.Column="0" x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
+        </HorizontalStackLayout>
+
+        <syncfusion:SfListView 
+            Grid.Row="3"
             Grid.Column="0"
-            x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" />
-
-            <Label
-            Grid.Column="0"
-            x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
-        </HorizontalStackLayout>
-
-        <HorizontalStackLayout
-        Grid.Row="3">
-
-            <Button Text="Female"/>
-            <Button Text="Male"/>
-
-        </HorizontalStackLayout>
-
-        <HorizontalStackLayout Grid.Row="4">
-            
-            <Button Text="1st gen"/>
-            <Button Text="2nd gen"/>
-            <Button Text="3rd gen"/>
-            <Button Text="4th gen"/>
-            
-        </HorizontalStackLayout>
-
-
-        <HorizontalStackLayout Grid.Row="5">
-            
-            <Button Text="JYP"/>
-            <Button Text="YG"/>
-            <Button Text="SM"/>
-            
-        </HorizontalStackLayout>
-
-        <HorizontalStackLayout Grid.Row="6">
-
-            <Button Text="KR"/>
-            <Button Text="JP"/>
-            <Button Text="EN"/>
-
-        </HorizontalStackLayout>
-
-
-        <ListView 
-            Grid.Row="7"
-            Grid.Column="0"
-            CachingStrategy="RecycleElement"
             x:Name="RandomListView" 
             BackgroundColor="DimGray" 
-            HasUnevenRows="true"
+            AutoFitMode="Height"
             ItemTapped="RandomListView_ItemTapped">
-            <ListView.ItemTemplate>
+
+            <syncfusion:SfListView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, *" ColumnDefinitions="*">
+
+                        <HorizontalStackLayout Grid.Row="3" HorizontalOptions="CenterAndExpand">
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterFemale"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    
+                                    <Image x:Name="FemaleImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="Female" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterMale"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="MaleImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="Male" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Row="4" HorizontalOptions="CenterAndExpand">
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterFirstGen"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="FirstGenImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="1st gen" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterSecondGen"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="SecondGenImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="2nd gen" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Row="5" HorizontalOptions="CenterAndExpand">
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterThirdGen"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="ThirdGenImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="3rd gen" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterFourthGen"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="FourthGenImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="4th gen" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                        </HorizontalStackLayout>
+
+
+                        <HorizontalStackLayout Grid.Row="6">
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterFifthGen"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="FifthGenImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="5th gen" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterJYP"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="JYPImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="JYP" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterYG"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="YGImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="YG" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Row="7">
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterSM"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="SMImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="SM" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterKR"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="KRImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="KR" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                        </HorizontalStackLayout>
+
+
+                        <HorizontalStackLayout Grid.Row="8">
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterJP"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="JPImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="JP" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                            <Frame>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SetFilterEN"/>
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <Image x:Name="ENImage" Aspect="AspectFit" HeightRequest="36" WidthRequest="36" />
+                                    <Label Text="EN" VerticalOptions="CenterAndExpand"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                        </HorizontalStackLayout>
+
+                    </Grid>
+                </DataTemplate>
+            </syncfusion:SfListView.HeaderTemplate>
+
+            <syncfusion:SfListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <HorizontalStackLayout Padding="6">
@@ -96,7 +213,7 @@
                         </HorizontalStackLayout>
                     </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </syncfusion:SfListView.ItemTemplate>
+        </syncfusion:SfListView>
     </Grid>
 </ContentView>

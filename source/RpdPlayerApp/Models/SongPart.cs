@@ -1,6 +1,4 @@
-﻿using Android.Health.Connect.DataTypes.Units;
-
-namespace RpdPlayerApp.Models;
+﻿namespace RpdPlayerApp.Models;
 
 internal class SongPart
 {
@@ -14,20 +12,20 @@ internal class SongPart
     /// PartNameShort (P, C, D, DB, O, T, etc)
     /// </summary>
     public string PartNameShort { get; set; }
-    public string PartNameNumber { get; set; }
-    public string PartNameFull { get; set; }
+    public string PartNameNumber { get; set; } = String.Empty;
+    public string PartNameFull { get; set; } = String.Empty;
     public string AlbumTitle { get; set; }
     public Album? Album { get; set; }
     public string AlbumURL { get; set; } = string.Empty;
     public string AudioURL { get; set; }
-    public string VideoURL { get; set; } = string.Empty; 
+    public string VideoURL { get; set; }
     public bool ShowClipLength { get; set; } = false;
     public double ClipLength { get; set; }
     public TimeSpan ClipLengthAsTimeSpan { get; set; }
 
     public bool IsPlaying { get; set; } = false;
 
-    public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, double clipLength, string audioURL)
+    public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, double clipLength, string audioURL, string videoURL)
     {
         Id = id;
         Title = title;
@@ -42,15 +40,17 @@ internal class SongPart
         AudioURL = audioURL;
         ClipLength = clipLength;
         ClipLengthAsTimeSpan = TimeSpan.FromSeconds(clipLength);
+        VideoURL = videoURL;
     }
 
-    public SongPart(string artistName, string albumName, string title, string partNameShort, string audioURL)
+    public SongPart(string artistName, string albumName, string title, string partNameShort, string audioURL, string videoURL)
     {
         Title = title;
         ArtistName = artistName;
         PartNameShort = partNameShort;
         AlbumTitle = albumName;
         AudioURL = audioURL;
+        VideoURL = videoURL;
     }
 
     private string GetPartNameLong(string partNameShort)
