@@ -41,12 +41,12 @@
 
             <syncfusion:SfListView.HeaderTemplate>
                 <DataTemplate>
-                    <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, *" ColumnDefinitions="*">
+                    <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, *" ColumnDefinitions="*">
 
                         <HorizontalStackLayout Grid.Row="3" HorizontalOptions="CenterAndExpand">
 
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterFemale"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -57,7 +57,7 @@
                             </Frame>
                             
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterMale"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -71,7 +71,7 @@
                         <HorizontalStackLayout Grid.Row="4" HorizontalOptions="CenterAndExpand">
 
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterFirstGen"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -81,7 +81,7 @@
                             </Frame>
 
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterSecondGen"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -95,7 +95,7 @@
                         <HorizontalStackLayout Grid.Row="5" HorizontalOptions="CenterAndExpand">
 
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterThirdGen"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -105,7 +105,7 @@
                             </Frame>
 
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterFourthGen"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -117,10 +117,10 @@
                         </HorizontalStackLayout>
 
 
-                        <HorizontalStackLayout Grid.Row="6">
+                        <HorizontalStackLayout Grid.Row="6" HorizontalOptions="CenterAndExpand">
 
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterFifthGen"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -130,7 +130,7 @@
                             </Frame>
 
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterJYP"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -139,8 +139,12 @@
                                 </HorizontalStackLayout>
                             </Frame>
 
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Row="7" HorizontalOptions="CenterAndExpand">
+
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterYG"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -149,12 +153,8 @@
                                 </HorizontalStackLayout>
                             </Frame>
 
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout Grid.Row="7">
-
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterSM"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -163,8 +163,13 @@
                                 </HorizontalStackLayout>
                             </Frame>
 
+                        </HorizontalStackLayout>
+
+
+                        <HorizontalStackLayout Grid.Row="8" HorizontalOptions="CenterAndExpand">
+
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterKR"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -173,13 +178,8 @@
                                 </HorizontalStackLayout>
                             </Frame>
 
-                        </HorizontalStackLayout>
-
-
-                        <HorizontalStackLayout Grid.Row="8">
-
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterJP"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -188,8 +188,12 @@
                                 </HorizontalStackLayout>
                             </Frame>
 
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Row="9" HorizontalOptions="CenterAndExpand">
+
                             <Frame>
-                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="130">
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="124">
                                     <HorizontalStackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="SetFilterEN"/>
                                     </HorizontalStackLayout.GestureRecognizers>
@@ -197,7 +201,7 @@
                                     <Label Text="EN" VerticalOptions="CenterAndExpand"/>
                                 </HorizontalStackLayout>
                             </Frame>
-
+                            
                         </HorizontalStackLayout>
 
                     </Grid>
