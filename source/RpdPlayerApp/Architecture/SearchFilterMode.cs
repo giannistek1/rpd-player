@@ -2,5 +2,10 @@
 
 internal enum SearchFilterMode
 {
-    None, Male, Female, YG, SM, JYP, KR, JP, EN, Firstgen, Secondgen, Thirdgen, Fourthgen, Fifthgen
+    None, 
+    Male, Female, 
+    Hybe, SM, JYP, YG, Cube, 
+    KR, JP, EN, 
+    Firstgen, Secondgen, Thirdgen, Fourthgen, Fifthgen, 
+    Solo, Duo, Trio, Quadruple, Quintet, Sextet, Septet, Octet, Nonet, Group
 }

@@ -58,7 +58,7 @@ public partial class SearchSongPartsView : ContentView
         if (songPart.AudioURL != string.Empty)
         {
             MainViewModel.CurrentSongPart = songPart;
-            PlaySongPart.Invoke(sender, e);
+            PlaySongPart?.Invoke(sender, e);
         }
     }
 
@@ -72,7 +72,7 @@ public partial class SearchSongPartsView : ContentView
         SongPart songPart = songParts[index];
 
         MainViewModel.CurrentSongPart = songPart;
-        PlaySongPart.Invoke(sender, e);
+        PlaySongPart?.Invoke(sender, e);
     }
 
     private void AddResultsButton_Clicked(object sender, EventArgs e)
@@ -107,7 +107,7 @@ public partial class SearchSongPartsView : ContentView
 
         if (added)
         {
-            AddSongPart.Invoke(sender, e);
+            AddSongPart?.Invoke(sender, e);
             CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
     }
@@ -128,22 +128,21 @@ public partial class SearchSongPartsView : ContentView
 
     private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
-        songParts.Clear();
-        var list = allSongParts.Where(s => s.ArtistName.ToLower().Contains(e.NewTextValue.ToLower()) ||
+        // Set filter if set
+        SetSearchFilterMode();
+
+        List<SongPart> list = songParts.Where(s => s.ArtistName.ToLower().Contains(e.NewTextValue.ToLower()) ||
                                             s.Artist.AltName.ToLower().Contains(e.NewTextValue.ToLower()) ||
                                             s.Title.ToLower().Contains(e.NewTextValue.ToLower()))
                                             .ToList();
-        foreach (var item in list)
-        {
-            AddSongPart.Invoke(sender, e);
-            songParts.Add(item);
-        }
-        SonglibraryListView.ItemsSource = songParts;
+
+        SonglibraryListView.ItemsSource = list;
+        ResultsLabel.Text = $"Currently showing: {list.Count} results";
     }
 
     private void SortButton_Clicked(object sender, EventArgs e)
     {
-        SortPressed.Invoke(sender, e);
+        SortPressed?.Invoke(sender, e);
     }
 
     internal void SetSearchFilterMode()
@@ -154,17 +153,29 @@ public partial class SearchSongPartsView : ContentView
             case SearchFilterMode.None: songParts = allSongParts; break;
             case SearchFilterMode.Male: songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.BG).ToObservableCollection(); break;
             case SearchFilterMode.Female: songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.GG).ToObservableCollection(); break;
+            case SearchFilterMode.Hybe: songParts = allSongParts.Where(s => s.Artist?.Company == "HYBE Labels" || s.Artist?.Company == "Big Hit Entertainment").ToObservableCollection(); break;
             case SearchFilterMode.YG: songParts = allSongParts.Where(s => s.Artist?.Company == "YG Entertainment").ToObservableCollection(); break;
             case SearchFilterMode.JYP: songParts = allSongParts.Where(s => s.Artist?.Company == "JYP Entertainment").ToObservableCollection(); break;
             case SearchFilterMode.SM: songParts = allSongParts.Where(s => s.Artist?.Company == "SM Entertainment").ToObservableCollection(); break;
-            case SearchFilterMode.Firstgen: songParts = allSongParts.Where(s => s.Album?.ReleaseDate < HelperClass.firstGenEndDate).ToObservableCollection(); break;
-            case SearchFilterMode.Secondgen: songParts = allSongParts.Where(s => s.Album?.ReleaseDate < HelperClass.firstGenEndDate).ToObservableCollection(); break;
-            case SearchFilterMode.Thirdgen: songParts = allSongParts.Where(s => s.Album?.ReleaseDate < HelperClass.firstGenEndDate).ToObservableCollection(); break;
-            case SearchFilterMode.Fourthgen: songParts = allSongParts.Where(s => s.Album?.ReleaseDate < HelperClass.firstGenEndDate).ToObservableCollection(); break;
-            case SearchFilterMode.Fifthgen: songParts = allSongParts.Where(s => s.Album?.ReleaseDate > HelperClass.fifthGenStartDate).ToObservableCollection(); break;
+            case SearchFilterMode.Cube: songParts = allSongParts.Where(s => s.Artist?.Company == "Cube Entertainment").ToObservableCollection(); break;
+            case SearchFilterMode.Firstgen: songParts = allSongParts.Where(s => s.Artist?.DebutDate < HelperClass.secondGenStartDate).ToObservableCollection(); break;
+            case SearchFilterMode.Secondgen: songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.secondGenStartDate && s.Artist?.DebutDate < HelperClass.thirdGenStartDate).ToObservableCollection(); break;
+            case SearchFilterMode.Thirdgen: songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.thirdGenStartDate && s.Artist?.DebutDate < HelperClass.fourthGenStartDate).ToObservableCollection(); break;
+            case SearchFilterMode.Fourthgen: songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.fourthGenStartDate && s.Artist?.DebutDate < HelperClass.fifthGenStartDate).ToObservableCollection(); break;
+            case SearchFilterMode.Fifthgen: songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.fifthGenStartDate).ToObservableCollection(); break;
             case SearchFilterMode.KR: songParts = allSongParts.Where(s => s.Album?.Language == "KR").ToObservableCollection(); break;
             case SearchFilterMode.JP: songParts = allSongParts.Where(s => s.Album?.Language == "JP").ToObservableCollection(); break;
             case SearchFilterMode.EN: songParts = allSongParts.Where(s => s.Album?.Language == "EN").ToObservableCollection(); break;
+            case SearchFilterMode.Solo: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 1).ToObservableCollection(); break;
+            case SearchFilterMode.Duo: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 2).ToObservableCollection(); break;
+            case SearchFilterMode.Trio: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 3).ToObservableCollection(); break;
+            case SearchFilterMode.Quadruple: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 4).ToObservableCollection(); break;
+            case SearchFilterMode.Quintet: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 5).ToObservableCollection(); break;
+            case SearchFilterMode.Sextet: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 6).ToObservableCollection(); break;
+            case SearchFilterMode.Septet: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 7).ToObservableCollection(); break;
+            case SearchFilterMode.Octet: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 8).ToObservableCollection(); break;
+            case SearchFilterMode.Nonet: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 9).ToObservableCollection(); break;
+            case SearchFilterMode.Group: songParts = allSongParts.Where(s => s.Artist?.MemberCount > 2).ToObservableCollection(); break;
         }
         songParts.CollectionChanged += SongPartsCollectionChanged;
         SonglibraryListView.ItemsSource = songParts;

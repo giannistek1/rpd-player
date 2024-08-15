@@ -5,8 +5,7 @@ namespace RpdPlayerApp.Architecture;
 
 internal static class HelperClass
 {
-    internal static readonly DateTime firstGenEndDate = new DateTime(2004, 1, 1);
-    internal static readonly DateTime secondGenStartDate = new DateTime(2005, 1, 1);
+    internal static readonly DateTime secondGenStartDate = new DateTime(2002, 12, 31);
     internal static readonly DateTime thirdGenStartDate = new DateTime(2012, 1, 1);
     internal static readonly DateTime fourthGenStartDate = new DateTime(2018, 1, 1);
     internal static readonly DateTime fifthGenStartDate = new DateTime(2023, 1, 1);
