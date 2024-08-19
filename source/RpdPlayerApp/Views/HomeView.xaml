@@ -33,7 +33,7 @@
 
         <ScrollView Grid.Row="3">
             
-            <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, *" ColumnDefinitions="*">
+            <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *" ColumnDefinitions="*">
 
                 <HorizontalStackLayout Grid.Row="0" HorizontalOptions="CenterAndExpand">
 
@@ -229,6 +229,32 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="fnc"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+
+                            <Image x:Name="FncImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
+                            <Label Text="Fnc" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+
+                    <Frame Padding="0">
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="pledis"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+
+                            <Image x:Name="PledisImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
+                            <Label Text="Pledis" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Grid.Row="8" HorizontalOptions="CenterAndExpand">
+
+                    <Frame Padding="0">
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
+                            <HorizontalStackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="SetFilter" CommandParameter="cube"/>
                             </HorizontalStackLayout.GestureRecognizers>
                             
@@ -250,7 +276,7 @@
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="8" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="9" HorizontalOptions="CenterAndExpand">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -275,9 +301,24 @@
                     </Frame>
 
                 </HorizontalStackLayout>
+                
+                    <HorizontalStackLayout Grid.Row="10" HorizontalOptions="CenterAndExpand">
+
+                    <Frame Padding="0">
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="starship"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+
+                            <Image x:Name="StarshipImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
+                            <Label Text="Starship" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+
+                </HorizontalStackLayout>
 
                 <syncfusion:SfListView 
-                     Grid.Row="9"
+                     Grid.Row="11"
                      Grid.Column="0"
                      x:Name="RandomListView" 
                      BackgroundColor="DimGray" 

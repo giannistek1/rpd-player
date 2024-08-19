@@ -82,6 +82,9 @@ public partial class HomeView : ContentView
         YGImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-yg.jpg?raw=true"));
         SMImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true"));
         CubeImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-cube.webp?raw=true"));
+        FncImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-fnc.png?raw=true"));
+        PledisImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-pledis.webp?raw=true"));
+        StarshipImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-starship.webp?raw=true"));
 
         KRImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true"));
         JPImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-jp.webp?raw=true"));
@@ -125,6 +128,7 @@ public partial class HomeView : ContentView
     {
         AlbumCountLabel.Text = $",  Albums: {AlbumRepository.Albums.Count}";
     }
+
     #region Filters
     private void SetFilter(object sender, TappedEventArgs e)
     {
@@ -149,6 +153,8 @@ public partial class HomeView : ContentView
             case "sm": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.SM; break;
             case "cube": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Cube; break;
             case "fnc": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.FNC; break;
+            case "pledis": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Pledis; break;
+            case "starship": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Starship; break;
 
             case "solo": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Solo; break;
             case "group": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Group; break;
