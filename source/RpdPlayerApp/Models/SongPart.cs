@@ -24,7 +24,7 @@ internal class SongPart
     public TimeSpan ClipLengthAsTimeSpan { get; set; }
 
     public bool IsPlaying { get; set; } = false;
-
+     
     public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, double clipLength, string audioURL, string videoURL)
     {
         Id = id;

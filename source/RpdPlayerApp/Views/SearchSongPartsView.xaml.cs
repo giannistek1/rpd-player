@@ -151,25 +151,31 @@ public partial class SearchSongPartsView : ContentView
         switch (MainViewModel.SearchFilterMode)
         {
             case SearchFilterMode.None: songParts = allSongParts; break;
+
             case SearchFilterMode.Male: songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.BG).ToObservableCollection(); break;
             case SearchFilterMode.Female: songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.GG).ToObservableCollection(); break;
+
             case SearchFilterMode.Hybe: songParts = allSongParts.Where(s => s.Artist?.Company == "HYBE Labels" || s.Artist?.Company == "Big Hit Entertainment").ToObservableCollection(); break;
             case SearchFilterMode.YG: songParts = allSongParts.Where(s => s.Artist?.Company == "YG Entertainment").ToObservableCollection(); break;
             case SearchFilterMode.JYP: songParts = allSongParts.Where(s => s.Artist?.Company == "JYP Entertainment").ToObservableCollection(); break;
             case SearchFilterMode.SM: songParts = allSongParts.Where(s => s.Artist?.Company == "SM Entertainment").ToObservableCollection(); break;
             case SearchFilterMode.Cube: songParts = allSongParts.Where(s => s.Artist?.Company == "Cube Entertainment").ToObservableCollection(); break;
+            case SearchFilterMode.FNC: songParts = allSongParts.Where(s => s.Artist?.Company == "FNC Entertainment").ToObservableCollection(); break;
+
             case SearchFilterMode.Firstgen: songParts = allSongParts.Where(s => s.Artist?.DebutDate < HelperClass.secondGenStartDate).ToObservableCollection(); break;
             case SearchFilterMode.Secondgen: songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.secondGenStartDate && s.Artist?.DebutDate < HelperClass.thirdGenStartDate).ToObservableCollection(); break;
             case SearchFilterMode.Thirdgen: songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.thirdGenStartDate && s.Artist?.DebutDate < HelperClass.fourthGenStartDate).ToObservableCollection(); break;
             case SearchFilterMode.Fourthgen: songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.fourthGenStartDate && s.Artist?.DebutDate < HelperClass.fifthGenStartDate).ToObservableCollection(); break;
             case SearchFilterMode.Fifthgen: songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.fifthGenStartDate).ToObservableCollection(); break;
+            
             case SearchFilterMode.KR: songParts = allSongParts.Where(s => s.Album?.Language == "KR").ToObservableCollection(); break;
             case SearchFilterMode.JP: songParts = allSongParts.Where(s => s.Album?.Language == "JP").ToObservableCollection(); break;
             case SearchFilterMode.EN: songParts = allSongParts.Where(s => s.Album?.Language == "EN").ToObservableCollection(); break;
+            
             case SearchFilterMode.Solo: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 1).ToObservableCollection(); break;
             case SearchFilterMode.Duo: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 2).ToObservableCollection(); break;
             case SearchFilterMode.Trio: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 3).ToObservableCollection(); break;
-            case SearchFilterMode.Quadruple: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 4).ToObservableCollection(); break;
+            case SearchFilterMode.Quadruplet: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 4).ToObservableCollection(); break;
             case SearchFilterMode.Quintet: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 5).ToObservableCollection(); break;
             case SearchFilterMode.Sextet: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 6).ToObservableCollection(); break;
             case SearchFilterMode.Septet: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 7).ToObservableCollection(); break;

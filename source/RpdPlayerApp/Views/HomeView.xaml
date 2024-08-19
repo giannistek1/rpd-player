@@ -40,7 +40,7 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterFemale"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="female"/>
                             </HorizontalStackLayout.GestureRecognizers>
 
                             <Image x:Name="FemaleImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
@@ -51,7 +51,7 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterMale"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="male"/>
                             </HorizontalStackLayout.GestureRecognizers>
                             
                             <Image x:Name="MaleImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
@@ -66,7 +66,8 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterFirstGen"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="firstgen"/>
+                                <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference FirstGenImage}"/>
                             </HorizontalStackLayout.GestureRecognizers>
                             
                             <Image x:Name="FirstGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
@@ -77,8 +78,10 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterSecondGen"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="secondgen"/>
+                                <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference SecondGenImage}"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="SecondGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="2nd gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -91,8 +94,10 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterThirdGen"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="thirdgen"/>
+                                <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference ThirdGenImage}"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="ThirdGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="3rd gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -101,8 +106,10 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterFourthGen"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="fourthgen"/>
+                                <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference FourthGenImage}"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="FourthGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="4th gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -116,8 +123,10 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterFifthGen"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="fifthgen"/>
+                                <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference FifthGenImage}"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="FifthGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="5th gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -126,8 +135,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterKR"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="kr"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="KRImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="KR" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -140,8 +150,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterJP"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="jp"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="JPImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="JP" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -150,8 +161,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterEN"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="en"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="ENImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="EN" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -165,8 +177,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterHybe"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="hybe"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="HybeImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="HYBE" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -175,8 +188,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterSM"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="sm"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="SMImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="SM" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -189,8 +203,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterJYP"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="jyp"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="JYPImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="JYP" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -199,8 +214,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterYG"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="yg"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="YGImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="YG" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -213,8 +229,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterCube"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="cube"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="CubeImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="Cube" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -223,8 +240,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterSolo"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="solo"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="SoloImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="Solo" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -237,8 +255,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterGroup"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="group"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="GroupImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="Group" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -247,8 +266,9 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilterNone"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="none"/>
                             </HorizontalStackLayout.GestureRecognizers>
+                            
                             <Image x:Name="AllImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="All" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
