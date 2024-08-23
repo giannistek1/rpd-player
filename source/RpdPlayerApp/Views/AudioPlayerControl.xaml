@@ -2,6 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
@@ -12,13 +13,24 @@
 
         <Slider x:Name="AudioProgressSlider" Margin="-20,0,-20,0" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="10" />
 
-        <Grid ColumnDefinitions="50, *, 80, 80">
+        <Grid ColumnDefinitions="50, *, 80, 60">
 
             <Image Grid.Column="0" x:Name="AlbumImage" />
 
             <Label Grid.Column="1" x:Name="NowPlayingLabel" Padding="16,0,0,16"  VerticalTextAlignment="Center" TextColor="White" Text="Nothing playing"/>
             <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,16,0,0"  VerticalTextAlignment="Center" FontSize="Micro" TextColor="White" Text="00:00"/>
 
+
+            <!--<buttons:SfButton Grid.Column="3" x:Name="PlayToggleButton" Clicked="PlayToggleButton_Pressed"
+                    TextColor="White" 
+                    ShowIcon="True"
+                    Padding="0">
+
+                <buttons:SfButton.ImageSource>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m2:MaterialOutlined.Play_pause}" Color="{StaticResource White}" />
+                </buttons:SfButton.ImageSource>
+                
+            </buttons:SfButton>-->
 
             <material:ButtonView Grid.Column="3" x:Name="PlayToggleButton"  Pressed="PlayToggleButton_Pressed">
                 <Image x:Name="PlayToggleImage">

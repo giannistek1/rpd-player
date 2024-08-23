@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              x:Class="RpdPlayerApp.Views.HomeView"
              BackgroundColor="Black">
 
@@ -29,13 +30,14 @@
             <Label Grid.Column="0" x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" />
 
             <Label Grid.Column="0" x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
+            
         </HorizontalStackLayout>
 
         <ScrollView Grid.Row="3">
             
             <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *" ColumnDefinitions="*">
 
-                <HorizontalStackLayout Grid.Row="0" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="0" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -61,7 +63,7 @@
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -89,7 +91,7 @@
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="2" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="2" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -97,7 +99,7 @@
                                 <TapGestureRecognizer Tapped="SetFilter" CommandParameter="thirdgen"/>
                                 <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference ThirdGenImage}"/>
                             </HorizontalStackLayout.GestureRecognizers>
-                            
+
                             <Image x:Name="ThirdGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="3rd gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -109,7 +111,7 @@
                                 <TapGestureRecognizer Tapped="SetFilter" CommandParameter="fourthgen"/>
                                 <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference FourthGenImage}"/>
                             </HorizontalStackLayout.GestureRecognizers>
-                            
+
                             <Image x:Name="FourthGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="4th gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -117,8 +119,7 @@
 
                 </HorizontalStackLayout>
 
-
-                <HorizontalStackLayout Grid.Row="3" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="3" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -145,7 +146,7 @@
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="4" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="4" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -170,9 +171,9 @@
                     </Frame>
 
                 </HorizontalStackLayout>
+                
 
-
-                <HorizontalStackLayout Grid.Row="5" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="5" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -198,7 +199,7 @@
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="6" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="6" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -224,7 +225,7 @@
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="7" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="7" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -250,7 +251,7 @@
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="8" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="8" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -266,52 +267,52 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="solo"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="starship"/>
                             </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="SoloImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Solo" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+
+                            <Image x:Name="StarshipImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
+                            <Label Text="Starship" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="9" HorizontalOptions="CenterAndExpand">
+                <HorizontalStackLayout Grid.Row="9" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
+
+                    <Frame Padding="0">
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="solo"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+
+                            <Image x:Name="SoloImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
+                            <Label Text="Solo" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="SetFilter" CommandParameter="group"/>
                             </HorizontalStackLayout.GestureRecognizers>
-                            
+
                             <Image x:Name="GroupImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="Group" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>
+
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Grid.Row="10" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="SetFilter" CommandParameter="none"/>
                             </HorizontalStackLayout.GestureRecognizers>
-                            
+
                             <Image x:Name="AllImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="All" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                </HorizontalStackLayout>
-                
-                    <HorizontalStackLayout Grid.Row="10" HorizontalOptions="CenterAndExpand">
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="starship"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-
-                            <Image x:Name="StarshipImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Starship" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>
 

@@ -173,6 +173,7 @@ public partial class SearchSongPartsView : ContentView
             case SearchFilterMode.KR: songParts = allSongParts.Where(s => s.Album?.Language == "KR").ToObservableCollection(); break;
             case SearchFilterMode.JP: songParts = allSongParts.Where(s => s.Album?.Language == "JP").ToObservableCollection(); break;
             case SearchFilterMode.EN: songParts = allSongParts.Where(s => s.Album?.Language == "EN").ToObservableCollection(); break;
+            case SearchFilterMode.TH: songParts = allSongParts.Where(s => s.Album?.Language == "TH").ToObservableCollection(); break;
             
             case SearchFilterMode.Solo: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 1).ToObservableCollection(); break;
             case SearchFilterMode.Duo: songParts = allSongParts.Where(s => s.Artist?.MemberCount == 2).ToObservableCollection(); break;

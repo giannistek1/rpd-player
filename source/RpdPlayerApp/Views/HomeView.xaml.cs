@@ -165,6 +165,11 @@ public partial class HomeView : ContentView
             case "septet": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Septet; break;
             case "octet": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Octet; break;
             case "nonet": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Nonet; break;
+
+            case "kr": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.KR; break;
+            case "jp": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.JP; break;
+            case "en": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.EN; break;
+            case "th": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.TH; break;
         }
 
         CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
