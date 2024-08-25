@@ -100,20 +100,6 @@ public partial class MainPage : UraniumContentPage
         SortModeBottomSheet.IsPresented = true;
     }
 
-    //private void SortBy(object sender, EventArgs e)
-    //{
-    //    SortModeBottomSheet.IsPresented = false;
-    //    SortModeBottomSheet.IsVisible = false;
-
-    //    switch(e.ToString())
-    //    {
-    //        default: break;
-    //    }
-        
-    //    MainViewModel.SortMode = Architecture.SortMode.ReleaseDate;
-    //    SearchSongPartsView.RefreshSort();
-    //}
-
     private void SortByReleaseDate(object sender, EventArgs e)
     {
         SortModeBottomSheet.IsPresented = false;
@@ -162,11 +148,27 @@ public partial class MainPage : UraniumContentPage
         SearchSongPartsView.RefreshSort();
     }
 
-    private void SortByCount(object sender, EventArgs e)
+    private void SortBySongCountPerArtist(object sender, EventArgs e)
     {
         SortModeBottomSheet.IsPresented = false;
         SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.Count;
+        MainViewModel.SortMode = Architecture.SortMode.SongCountPerArtist;
+        SearchSongPartsView.RefreshSort();
+    }
+
+    private void SortByLanguage(object sender, EventArgs e)
+    {
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
+        MainViewModel.SortMode = Architecture.SortMode.Language;
+        SearchSongPartsView.RefreshSort();
+    }
+
+    private void SortByMemberCount(object sender, EventArgs e)
+    {
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
+        MainViewModel.SortMode = Architecture.SortMode.MemberCount;
         SearchSongPartsView.RefreshSort();
     }
 

@@ -5,6 +5,7 @@ using RpdPlayerApp.Repository;
 using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.ViewModel;
 using RpdPlayerApp.Architecture;
+using Syncfusion.Maui.DataSource;
 
 namespace RpdPlayerApp.Views;
 
@@ -47,6 +48,11 @@ public partial class SearchSongPartsView : ContentView
     internal void RefreshSongParts()
     {
         SonglibraryListView.ItemsSource = songParts;
+    }
+
+    private void SonglibraryListView_Loaded(object sender, Syncfusion.Maui.ListView.ListViewLoadedEventArgs e)
+    {
+        SonglibraryListView.CollapseAll();
     }
 
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
@@ -211,21 +217,21 @@ public partial class SearchSongPartsView : ContentView
             case SearchFilterMode.Female: FilterLabel.Text = "Girl(group)"; 
                 songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.GG).ToObservableCollection(); break;
 
-            case SearchFilterMode.Hybe: FilterLabel.Text = "Hybe Label"; 
+            case SearchFilterMode.Hybe: FilterLabel.Text = "Hybe Labels"; 
                 songParts = allSongParts.Where(s => s.Artist?.Company == "HYBE Labels" || s.Artist?.Company == "Big Hit Entertainment").ToObservableCollection(); break;
-            case SearchFilterMode.YG: FilterLabel.Text = "YG Ent."; 
+            case SearchFilterMode.YG: FilterLabel.Text = "YG Entertainment"; 
                 songParts = allSongParts.Where(s => s.Artist?.Company == "YG Entertainment").ToObservableCollection(); break;
-            case SearchFilterMode.JYP: FilterLabel.Text = "JYP Ent."; 
+            case SearchFilterMode.JYP: FilterLabel.Text = "JYP Entertainment"; 
                 songParts = allSongParts.Where(s => s.Artist?.Company == "JYP Entertainment").ToObservableCollection(); break;
-            case SearchFilterMode.SM: FilterLabel.Text = "SM Ent."; 
+            case SearchFilterMode.SM: FilterLabel.Text = "SM Entertainment"; 
                 songParts = allSongParts.Where(s => s.Artist?.Company == "SM Entertainment").ToObservableCollection(); break;
-            case SearchFilterMode.Cube: FilterLabel.Text = "Cube Ent."; 
+            case SearchFilterMode.Cube: FilterLabel.Text = "Cube Entertainment"; 
                 songParts = allSongParts.Where(s => s.Artist?.Company == "Cube Entertainment").ToObservableCollection(); break;
-            case SearchFilterMode.FNC: FilterLabel.Text = "FNC Ent."; 
+            case SearchFilterMode.FNC: FilterLabel.Text = "FNC Entertainment"; 
                 songParts = allSongParts.Where(s => s.Artist?.Company == "FNC Entertainment").ToObservableCollection(); break;
-            case SearchFilterMode.Pledis: FilterLabel.Text = "Pledis Ent."; 
+            case SearchFilterMode.Pledis: FilterLabel.Text = "Pledis Entertainment"; 
                 songParts = allSongParts.Where(s => s.Artist?.Company == "Pledis Entertainment").ToObservableCollection(); break;
-            case SearchFilterMode.Starship: FilterLabel.Text = "Starship Ent."; 
+            case SearchFilterMode.Starship: FilterLabel.Text = "Starship Entertainment"; 
                 songParts = allSongParts.Where(s => s.Artist?.Company == "Starship Entertainment").ToObservableCollection(); break;
 
             case SearchFilterMode.Firstgen: FilterLabel.Text = "First gen (< 2002)"; 
@@ -236,7 +242,7 @@ public partial class SearchSongPartsView : ContentView
                 songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.thirdGenStartDate && s.Artist?.DebutDate < HelperClass.fourthGenStartDate).ToObservableCollection(); break;
             case SearchFilterMode.Fourthgen: FilterLabel.Text = "Fourth gen (2018 - 2022)"; 
                 songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.fourthGenStartDate && s.Artist?.DebutDate < HelperClass.fifthGenStartDate).ToObservableCollection(); break;
-            case SearchFilterMode.Fifthgen: FilterLabel.Text = "Fift gen (2023 >)"; 
+            case SearchFilterMode.Fifthgen: FilterLabel.Text = "Fifth gen (2023 >)"; 
                 songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.fifthGenStartDate).ToObservableCollection(); break;
             
             case SearchFilterMode.KR: FilterLabel.Text = "Korean"; 
@@ -280,6 +286,10 @@ public partial class SearchSongPartsView : ContentView
     internal void RefreshSort()
     {
         songParts.CollectionChanged -= SongPartsCollectionChanged;
+
+        SonglibraryListView?.DataSource?.GroupDescriptors.Clear();
+        SonglibraryListView?.DataSource?.SortDescriptors.Clear();
+
         switch (MainViewModel.SortMode)
         {
             case SortMode.ReleaseDate:
@@ -290,15 +300,58 @@ public partial class SearchSongPartsView : ContentView
                 break;
 
             case SortMode.Artist:
-                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                {
+                    PropertyName = "ArtistName",
+                    KeySelector = (object obj1) =>
+                    {
+                        var item = (obj1 as SongPart);
+                        return item!.ArtistName;
+                    },
+                });
+
                 songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                 songParts.ToList().ForEach(s => s.ShowClipLength = false);
                 break;
 
+            case SortMode.SongCountPerArtist:
+                SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                {
+                    PropertyName = "ArtistName",
+                    KeySelector = (object obj1) =>
+                    {
+                        var item = (obj1 as SongPart);
+                        return item!.ArtistName;
+                    },
+                });
+
+                foreach (var s in songParts)
+                {
+                    s.Artist!.FilteredTotalCount = 0;
+                }
+
+                foreach (var s in songParts)
+                {
+                    s.Artist!.FilteredTotalCount++;
+                }
+                songParts = songParts.OrderByDescending(s => s.Artist?.FilteredTotalCount).ToObservableCollection();
+                songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+                songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                songParts.ToList().ForEach(s => s.ShowClipLength = false);
+                break;
+
             case SortMode.Title:
-                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                //SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                //{
+                //    PropertyName = "Title",
+                //    KeySelector = (object obj1) =>
+                //    {
+                //        var item = (obj1 as SongPart);
+                //        return item.Title;
+                //    },
+                //});
                 songParts = songParts.OrderBy(s => s.Title).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
@@ -306,7 +359,15 @@ public partial class SearchSongPartsView : ContentView
                 break;
 
             case SortMode.GroupType:
-                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                {
+                    PropertyName = "GroupType",
+                    KeySelector = (object obj1) =>
+                    {
+                        var item = (obj1 as SongPart);
+                        return item!.Artist!.GroupType;
+                    },
+                });
                 songParts = songParts.OrderBy(s => s.Artist?.GroupType).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = true);
@@ -314,7 +375,16 @@ public partial class SearchSongPartsView : ContentView
                 break;
 
             case SortMode.SongPart:
-                songParts.CollectionChanged -= SongPartsCollectionChanged;
+                SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                {
+                    PropertyName = "PartNameFull",
+                    KeySelector = (object obj1) =>
+                    {
+                        var item = (obj1 as SongPart);
+                        return item!.PartNameFull;
+                    },
+                });
+
                 songParts = songParts.OrderBy(s => s.PartNameFull).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
@@ -329,16 +399,46 @@ public partial class SearchSongPartsView : ContentView
                 songParts.ToList().ForEach(s => s.ShowClipLength = true);
                 break;
 
-            case SortMode.Count:
-                songParts = songParts.OrderByDescending(s => s.Artist?.Count).ToObservableCollection();
+            case SortMode.Language:
+                SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                {
+                    PropertyName = "Language",
+                    KeySelector = (object obj1) =>
+                    {
+                        var item = (obj1 as SongPart);
+                        return item!.Album!.Language;
+                    },
+                });
+
+                songParts = songParts.OrderBy(s => s.Album?.Language).ToObservableCollection();
                 songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                 songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
-                songParts.ToList().ForEach(s => s.ShowClipLength = false);
+                songParts.ToList().ForEach(s => s.ShowClipLength = true);
+                break;
+
+            case SortMode.MemberCount:
+                SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                {
+                    PropertyName = "MemberCount",
+                    KeySelector = (object obj1) =>
+                    {
+                        var item = (obj1 as SongPart);
+                        if (item!.Artist!.MemberCount == 1)
+                            return $"{item!.Artist!.MemberCount} member";
+                        else
+                            return $"{item!.Artist!.MemberCount} members";
+                    },
+                });
+
+                songParts = songParts.OrderByDescending(s => s.Artist?.MemberCount).ToObservableCollection();
+                songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+                songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                songParts.ToList().ForEach(s => s.ShowClipLength = true);
                 break;
         }
 
         songParts.CollectionChanged += SongPartsCollectionChanged;
-        SonglibraryListView.ItemsSource = songParts;
+        SonglibraryListView!.ItemsSource = songParts;
     }
 
     #endregion

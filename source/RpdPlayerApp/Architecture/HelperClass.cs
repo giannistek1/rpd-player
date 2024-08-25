@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Alerts;
+using Dropbox.Api.TeamCommon;
 using RpdPlayerApp.Models;
 
 namespace RpdPlayerApp.Architecture;
@@ -69,10 +70,23 @@ internal static class HelperClass
     {
         SongPart previousSong = null;
         List<int> groupTypesCount = new List<int>();
+        groupTypesCount.Add(playlist.AsEnumerable().Count(s => s.Artist?.GroupType == Models.GroupType.BG));
+        groupTypesCount.Add(playlist.AsEnumerable().Count(s => s.Artist?.GroupType == Models.GroupType.GG));
+        groupTypesCount.Add(playlist.AsEnumerable().Count(s => s.Artist?.GroupType == Models.GroupType.MIX));
+        groupTypesCount.Add(playlist.AsEnumerable().Count(s => s.Artist?.GroupType == Models.GroupType.NOT_SET));
+
+        // You can do the same with artists
+        /*List<int> artistsCount = new List<int>();
+		// GroupBy basically groups everything that's the same into a list
+		var g = playlistSongs.GroupBy( i => i.artist );
+		foreach (var grp in g)
+		{
+			artistsCount.Add(grp.Count());
+		}*/
 
         for (int i = 0; i < playlist.Count; i++)
         {
-            SongPart temp = playlist[i];
+            SongPart temp = playlist[i];  
 
             // Select random song
             int randomIndex = rng.Next(i, playlist.Count);
@@ -90,7 +104,7 @@ internal static class HelperClass
             // If random song groupType is same as previous, get new randomIndex	
             if (previousSong != null)
             {
-                while (playlist[randomIndex].Artist.GroupType == previousSong.Artist.GroupType && emptyGroups < 3)
+                while (playlist[randomIndex].Artist?.GroupType == previousSong.Artist?.GroupType && emptyGroups < 3)
                 {
                     randomIndex = rng.Next(i, playlist.Count);
                 }

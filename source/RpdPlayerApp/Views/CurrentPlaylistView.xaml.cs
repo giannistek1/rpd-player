@@ -127,6 +127,12 @@ public partial class CurrentPlaylistView : ContentView
         CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
     }
 
+    private void MixedShufflePlaylistButton_Clicked(object sender, EventArgs e)
+    {
+        PlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizeAndAlternatePlaylist(PlaylistManager.Instance.CurrentPlaylist.SongParts.ToList()).ToObservableCollection();
+        CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
+    }
+
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
     {
         if (!HelperClass.HasInternetConnection())

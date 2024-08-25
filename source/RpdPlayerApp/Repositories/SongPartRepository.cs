@@ -49,7 +49,9 @@ internal static class SongPartRepository
 
                 songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
                 songPart.Artist = ArtistRepository.MatchArtist(artistName);
-                songPart.Artist.Count++;
+                songPart.Artist.TotalCount++;
+                // For filtered list
+                songPart.Artist.FilteredTotalCount++; 
 
                 songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
                 SongParts.Add(songPart);

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
-             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              x:Class="RpdPlayerApp.Views.CurrentPlaylistView"
              BackgroundColor="Black">
 
@@ -35,17 +36,57 @@
         </HorizontalStackLayout>
 
 
-        <HorizontalStackLayout Grid.Row="2" >
+        <HorizontalStackLayout Grid.Row="2" Spacing="8" >
 
-            <Button x:Name="BackButton" Margin="2" Clicked="BackButton_Clicked" Text="Back" />
+            <material:ButtonView x:Name="BackButton"  Pressed="BackButton_Clicked">
+                <Image x:Name="BackButtonImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
 
-            <Button x:Name="PlayPlaylistButton" Margin="2" Clicked="PlayPlaylistButton_Clicked" Text="Play" />
+            <material:ButtonView x:Name="PlayPlaylistButton"  Pressed="PlayPlaylistButton_Clicked">
+                <Image x:Name="PlayPlaylistButtonImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
 
             <Button x:Name="ClearPlaylistButton" Margin="2" Clicked="ClearButton_Clicked" Text="Clear" />
 
-            <Button x:Name="SavePlaylistButton" Margin="2" Clicked="SavePlaylistButton_Clicked" Text="Save" />
+            <material:ButtonView x:Name="SavePlaylistButton"  Pressed="SavePlaylistButton_Clicked">
+                <Image x:Name="SavePlaylistButtonImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Save}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
 
-            <Button x:Name="ShufflePlaylistButton" Margin="2" Clicked="ShufflePlaylistButton_Clicked" Text="Shuffle" />
+            <material:ButtonView x:Name="ShufflePlaylistButton"  Pressed="ShufflePlaylistButton_Clicked">
+                <Image x:Name="ShufflePlaylistButtonImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
+            <material:ButtonView x:Name="MixedShufflePlaylistButton"  Pressed="MixedShufflePlaylistButton_Clicked">
+                <HorizontalStackLayout>
+                    <Image x:Name="MixedShufflePlaylistButtonImage">
+                        <Image.Source>
+                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="DeepSkyBlue" />
+                        </Image.Source>
+                    </Image>
+                    
+                    <Image x:Name="MixedShufflePlaylistButtonImage2">
+                        <Image.Source>
+                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="Violet" />
+                        </Image.Source>
+                    </Image>
+                </HorizontalStackLayout>
+            </material:ButtonView>
 
         </HorizontalStackLayout>
 

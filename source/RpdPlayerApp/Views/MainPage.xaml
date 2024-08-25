@@ -120,9 +120,11 @@
                 <TableRoot>
                     <TableSection Title="Sort by..." TextColor="White">
                         <TextCell Tapped="SortByArtistName" Text="Artist name" TextColor="White" />
+                        <TextCell Tapped="SortBySongCountPerArtist" Text="Artist song count" TextColor="White" />
                         <TextCell Tapped="SortByClipLength"  Text="Clip length" TextColor="White" />
-                        <TextCell Tapped="SortByCount" Text="Count" TextColor="White" />
                         <TextCell Tapped="SortByGroupType"  Text="Group type" TextColor="White" />
+                        <TextCell Tapped="SortByLanguage" Text="Language" TextColor="White" />
+                        <TextCell Tapped="SortByMemberCount" Text="Member count" TextColor="White" />
                         <TextCell Tapped="SortByReleaseDate" Text="Release date" TextColor="White" />
                         <TextCell Tapped="SortBySongPart"  Text="Song part" TextColor="White" />
                         <TextCell Tapped="SortBySongTitle"  Text="Song title" TextColor="White" />
