@@ -115,12 +115,13 @@
     </Grid>
     
     <uranium:UraniumContentPage.Attachments>
-        <material:BottomSheetView x:Name="BottomSheet" BackgroundColor="Black" IsVisible="False">
+        <material:BottomSheetView x:Name="SortModeBottomSheet" BackgroundColor="Black" IsVisible="False">
             <TableView Intent="Menu" Margin="0,0,0,40">
                 <TableRoot>
                     <TableSection Title="Sort by..." TextColor="White">
-                        <TextCell Tapped="SortByArtistName"  Text="Artist name" TextColor="White" />
+                        <TextCell Tapped="SortByArtistName" Text="Artist name" TextColor="White" />
                         <TextCell Tapped="SortByClipLength"  Text="Clip length" TextColor="White" />
+                        <TextCell Tapped="SortByCount" Text="Count" TextColor="White" />
                         <TextCell Tapped="SortByGroupType"  Text="Group type" TextColor="White" />
                         <TextCell Tapped="SortByReleaseDate" Text="Release date" TextColor="White" />
                         <TextCell Tapped="SortBySongPart"  Text="Song part" TextColor="White" />
@@ -129,6 +130,12 @@
                     </TableSection>
                 </TableRoot>
             </TableView>
+        </material:BottomSheetView>
+
+        <material:BottomSheetView x:Name="SongDetailsBottomSheet" BackgroundColor="Black" IsVisible="False">
+            <VerticalStackLayout>
+                <Label Text="Test"/>
+            </VerticalStackLayout>
         </material:BottomSheetView>
     </uranium:UraniumContentPage.Attachments>
 </uranium:UraniumContentPage>

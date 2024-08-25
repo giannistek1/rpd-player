@@ -8,5 +8,6 @@ internal enum SortMode
     GroupType = 3,
     SongPart = 4,
     ClipLength = 5,
-    Language = 6
+    Language = 6,
+    Count = 7
 }

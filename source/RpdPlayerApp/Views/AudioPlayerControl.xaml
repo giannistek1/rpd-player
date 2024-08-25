@@ -5,8 +5,7 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
-             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
-             xmlns:m2="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.AudioPlayerControl">
     
     <VerticalStackLayout>
@@ -35,7 +34,7 @@
             <material:ButtonView Grid.Column="3" x:Name="PlayToggleButton"  Pressed="PlayToggleButton_Pressed">
                 <Image x:Name="PlayToggleImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m2:MaterialOutlined.Play_pause}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_pause}" Color="{StaticResource White}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>

@@ -1,5 +1,3 @@
-using CommunityToolkit.Maui.Alerts;
-using RpdPlayerApp.Models;
 using RpdPlayerApp.Repository;
 using RpdPlayerApp.ViewModel;
 using System.Collections.Specialized;
@@ -99,19 +97,6 @@ public partial class HomeView : ContentView
         ArtistRepository.GetArtists(); 
         AlbumRepository.GetAlbums();
         SongPartRepository.GetSongParts();
-
-        var groupedArtists = from s in SongPartRepository.SongParts
-                             group s.Artist by s.ArtistName into g
-                             orderby g.Count() descending
-                             select new { ArtistName = g.Key, ArtistCount = g.Count(), Artists = g.ToList() };
-
-        var groupedTitles = from s in SongPartRepository.SongParts
-                            group s.Title by s.Title into g
-                            select new { Title = g.Key, Titles = g.ToList() };
-
-        UniqueSongCountLabel.Text = $",  Unique songs: {groupedTitles.Count()}";
-
-        RandomListView.ItemsSource = groupedArtists;
     }
 
     private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -193,10 +178,5 @@ public partial class HomeView : ContentView
             image.WidthRequest = originalWidth;
             image.HeightRequest = originalHeight;
         }
-    }
-
-    private void RandomListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
-    {
-        RandomListView.SelectedItem = null;
     }
 }

@@ -95,62 +95,84 @@ public partial class MainPage : UraniumContentPage
 
     private void OnSortPressed(object sender, EventArgs e)
     {
-        
-        BottomSheet.IsVisible = true;
-        BottomSheet.IsPresented = true;
+
+        SortModeBottomSheet.IsVisible = true;
+        SortModeBottomSheet.IsPresented = true;
     }
+
+    //private void SortBy(object sender, EventArgs e)
+    //{
+    //    SortModeBottomSheet.IsPresented = false;
+    //    SortModeBottomSheet.IsVisible = false;
+
+    //    switch(e.ToString())
+    //    {
+    //        default: break;
+    //    }
+        
+    //    MainViewModel.SortMode = Architecture.SortMode.ReleaseDate;
+    //    SearchSongPartsView.RefreshSort();
+    //}
 
     private void SortByReleaseDate(object sender, EventArgs e)
     {
-        BottomSheet.IsPresented = false;
-        BottomSheet.IsVisible = false;
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
         MainViewModel.SortMode = Architecture.SortMode.ReleaseDate;
         SearchSongPartsView.RefreshSort();
     }
 
     private void SortByArtistName(object sender, EventArgs e)
     {
-        BottomSheet.IsPresented = false;
-        BottomSheet.IsVisible = false;
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
         MainViewModel.SortMode = Architecture.SortMode.Artist;
         SearchSongPartsView.RefreshSort();
     }
 
     private void SortBySongTitle(object sender, EventArgs e)
     {
-        BottomSheet.IsPresented = false;
-        BottomSheet.IsVisible = false;
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
         MainViewModel.SortMode = Architecture.SortMode.Title;
         SearchSongPartsView.RefreshSort();
     }
 
     private void SortByGroupType(object sender, EventArgs e)
     {
-        BottomSheet.IsPresented = false;
-        BottomSheet.IsVisible = false;
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
         MainViewModel.SortMode = Architecture.SortMode.GroupType;
         SearchSongPartsView.RefreshSort();
     }
 
     private void SortBySongPart(object sender, EventArgs e)
     {
-        BottomSheet.IsPresented = false;
-        BottomSheet.IsVisible = false;
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
         MainViewModel.SortMode = Architecture.SortMode.SongPart;
         SearchSongPartsView.RefreshSort();
     }
 
     private void SortByClipLength(object sender, EventArgs e)
     {
-        BottomSheet.IsPresented = false;
-        BottomSheet.IsVisible = false;
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
         MainViewModel.SortMode = Architecture.SortMode.ClipLength;
+        SearchSongPartsView.RefreshSort();
+    }
+
+    private void SortByCount(object sender, EventArgs e)
+    {
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
+        MainViewModel.SortMode = Architecture.SortMode.Count;
         SearchSongPartsView.RefreshSort();
     }
 
     private void CancelSort(object sender, EventArgs e)
     {
-        BottomSheet.IsPresented = false;
-        BottomSheet.IsVisible = false;
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
     }
 }

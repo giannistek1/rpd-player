@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.SearchSongPartsView"
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="20, 50, 50, *"
+          RowDefinitions="30, 20, 50, 50, *"
           ColumnDefinitions="*">
 
         <Label Grid.Row="0"
+             Grid.Column="0" 
+             x:Name="FilterLabel"
+             TextColor="White"
+             FontSize="20"
+             Text="All songs" />
+
+        <Label Grid.Row="1"
                Grid.Column="0" 
                x:Name="ResultsLabel"
                TextColor="White"
+               FontSize="12"
                Text="Results" />
 
-        <HorizontalStackLayout Grid.Row="1">
+        <HorizontalStackLayout Grid.Row="2">
 
             <SearchBar 
                    WidthRequest="270"
@@ -24,75 +36,139 @@
                    TextChanged="SearchBar_TextChanged"/>
 
             <Button x:Name="SortButton" Margin="2" Clicked="SortButton_Clicked" Text="Sort by..." />
-            
+
         </HorizontalStackLayout>
 
 
-        <HorizontalStackLayout Grid.Row="2">
+        <HorizontalStackLayout Grid.Row="3">
 
-            <Button  x:Name="PlayRandomButton" Margin="2" Clicked="PlayRandomButton_Clicked" Text="Play random" />
+            <material:ButtonView x:Name="PlayRandomButton"  Pressed="PlayRandomButton_Clicked">
+                <Image x:Name="PlayRandomButtonImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Casino}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
 
             <Button x:Name="AddResultsButton" Margin="2" Clicked="AddResultsButton_Clicked" Text="Add all results" />
 
+            <material:ButtonView x:Name="CollapseAllButton"  Pressed="CollapseAllButtonClicked">
+                <Image x:Name="CollapseAllButtonImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Collapse_all}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
+            <material:ButtonView x:Name="ExpandAllButton" Pressed="ExpandAllButtonClicked">
+                <Image x:Name="ExpandAllButtonImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Expand_all}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
         </HorizontalStackLayout>
 
-        <ListView 
-            Grid.Row="3"
+        <syncfusion:SfListView
+            Grid.Row="4"
             Grid.Column="0"
             x:Name="SonglibraryListView" 
-            CachingStrategy="RecycleElement"
             BackgroundColor="DimGray" 
-            HasUnevenRows="true"
-            ItemTapped="SonglibraryListView_ItemTapped">
-            <ListView.ItemTemplate>
+            AutoFitMode="Height"
+            SelectionMode="None"
+            AllowSwiping="True"
+            IsStickyGroupHeader="True"
+            AllowGroupExpandCollapse="True"
+            ItemTapped="SonglibraryListViewItemTapped"
+            SwipeEnded="SonglibraryListViewSwipeEnded">
+
+            <syncfusion:SfListView.DataSource>
+                <data:DataSource>
+                    <data:DataSource.GroupDescriptors>
+                        <data:GroupDescriptor PropertyName="ArtistName"/>
+                    </data:DataSource.GroupDescriptors>
+                    <data:DataSource.SortDescriptors>
+                        <data:SortDescriptor PropertyName="AlbumTitle"/>
+                    </data:DataSource.SortDescriptors>
+                </data:DataSource>
+            </syncfusion:SfListView.DataSource>
+
+            <syncfusion:SfListView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid BackgroundColor="{StaticResource Primary}">
+                            <Label Grid.Column="0" Text="{Binding Key}" FontSize="18" TextColor="White" VerticalTextAlignment="Center" Padding="5,0,0,0"/>
+                            <Label Grid.Column="1" Text="{Binding Count}" FontSize="18" TextColor="White" HorizontalOptions="End" VerticalTextAlignment="Center" Padding="0,0,10,0" />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </syncfusion:SfListView.GroupHeaderTemplate>
+
+            <syncfusion:SfListView.StartSwipeTemplate>
+                <DataTemplate>
+
+                    <Grid BackgroundColor="DarkGray">
+                        <Label VerticalOptions="CenterAndExpand" WidthRequest="80" Text="To queue" />
+                    </Grid>
+
+                </DataTemplate>
+            </syncfusion:SfListView.StartSwipeTemplate>
+
+            <syncfusion:SfListView.EndSwipeTemplate>
+                <DataTemplate>
+
+                    <Grid BackgroundColor="Green">
+                        <Label VerticalOptions="CenterAndExpand" WidthRequest="80" Text="To playlist" />
+                    </Grid>
+
+                </DataTemplate>
+            </syncfusion:SfListView.EndSwipeTemplate>
+
+            <syncfusion:SfListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <SwipeView>
-                            <SwipeView.LeftItems>
-                                <SwipeItem Text="To playlist" BackgroundColor="LightGreen" CommandParameter="{Binding .}" Invoked="SwipeItemAddSong"></SwipeItem>
-                                <SwipeItem Text="To queue" BackgroundColor="LightGray" CommandParameter="{Binding .}" Invoked="SwipeItemQueueSong"></SwipeItem>
-                            </SwipeView.LeftItems>
-                            <SwipeView.RightItems>
-                                <SwipeItem Text="Play" BackgroundColor="LightGreen" CommandParameter="{Binding .}" Invoked="SwipeItemPlaySongPart"></SwipeItem>
-                            </SwipeView.RightItems>
-                            
-                            <VerticalStackLayout Padding="10">
+                        <VerticalStackLayout Padding="10">
 
-                                <Label IsVisible="{Binding Album.ShowAlbumTitle}" VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />
-                                <Label IsVisible="{Binding Album.ShowAlbumReleaseDate}" VerticalOptions="CenterAndExpand" Text="{Binding Album.ReleaseDate, StringFormat='{0:yyyy-MM-dd}'}" />
-                                <Label IsVisible="{Binding Artist.ShowGroupType}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.GroupType}" />
-                                <Label IsVisible="{Binding Album.ShowLanguage}" VerticalOptions="CenterAndExpand" Text="{Binding Album.Language}" />
-                                <Label IsVisible="{Binding Artist.ShowMemberCount}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.MemberCount}" />
-                                <Label IsVisible="{Binding ShowClipLength}" VerticalOptions="CenterAndExpand" Text="{Binding ClipLengthAsTimeSpan, StringFormat='{0:mm\\:ss}'}" />
+                            <Label IsVisible="{Binding Album.ShowAlbumTitle}" VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />
+                            <Label IsVisible="{Binding Album.ShowAlbumReleaseDate}" VerticalOptions="CenterAndExpand" Text="{Binding Album.ReleaseDate, StringFormat='{0:yyyy-MM-dd}'}" />
+                            <Label IsVisible="{Binding Artist.ShowGroupType}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.GroupType}" />
+                            <Label IsVisible="{Binding Album.ShowLanguage}" VerticalOptions="CenterAndExpand" Text="{Binding Album.Language}" />
+                            <Label IsVisible="{Binding Artist.ShowMemberCount}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.MemberCount}" />
+                            <Label IsVisible="{Binding ShowClipLength}" VerticalOptions="CenterAndExpand" Text="{Binding ClipLengthAsTimeSpan, StringFormat='{0:mm\\:ss}'}" />
 
-                                <HorizontalStackLayout>
-                                    <Image HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                        <Image.Source>
-                                            <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
-                                        </Image.Source>
-                                    </Image>
-                                    <VerticalStackLayout Padding="10">
-                                        
-                                        <HorizontalStackLayout>
-                                            <Label VerticalOptions="Start" Text="{Binding Title}" />
-                                            <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
-                                        </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Image HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
+                                    </Image.Source>
+                                </Image>
+                                <VerticalStackLayout Padding="10">
 
-                                        <HorizontalStackLayout>
-                                            <Label VerticalOptions="Start" Text="{Binding ArtistName}" />
-                                            <!-- TODO: Not working -->
-                                            <Label IsVisible="{Binding IsPlaying}" VerticalOptions="CenterAndExpand" Text="▶️" />
-                                        </HorizontalStackLayout>
-                                        
-                                    </VerticalStackLayout>
-                                </HorizontalStackLayout>
+                                    <HorizontalStackLayout>
+                                        <Label VerticalOptions="Start" Text="{Binding Title}" />
+                                        <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                    </HorizontalStackLayout>
 
-                            </VerticalStackLayout>
-                        </SwipeView>
+                                    <HorizontalStackLayout>
+                                        <Label VerticalOptions="Start" Text="{Binding ArtistName}" />
+                                        <!-- TODO: Not working -->
+                                        <Label IsVisible="{Binding IsPlaying}" VerticalOptions="CenterAndExpand" Text="▶️" />
+                                    </HorizontalStackLayout>
+
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
                     </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </syncfusion:SfListView.ItemTemplate>
+        </syncfusion:SfListView>
     </Grid>
 
 </ContentView>

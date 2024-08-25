@@ -25,6 +25,8 @@ internal class Artist
     public bool ShowMemberCount { get; set; } = false;
     public bool ShowCompany { get; set; } = false;
 
+    public int Count { get; set; } = 0;
+
     public Artist(int id, string name, string altName = "", DateTime debutDate = new DateTime(), GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
     {
         Id = id;

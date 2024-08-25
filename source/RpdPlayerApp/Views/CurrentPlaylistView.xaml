@@ -58,7 +58,7 @@
             AllowSwiping="True"
             ItemTapped="CurrentPlaylistListView_ItemTapped"
             DragStartMode="OnHold,OnDragIndicator"
-            SwipeEnded="CurrentPlaylistListView_SwipeEnded" >
+            SwipeEnded="CurrentPlaylistListViewSwipeEnded" >
             
             <syncfusion:SfListView.StartSwipeTemplate>
                 <DataTemplate>

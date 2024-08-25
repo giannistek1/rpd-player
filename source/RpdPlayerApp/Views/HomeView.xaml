@@ -13,7 +13,7 @@
 
         <HorizontalStackLayout Grid.Row="0" >
 
-            <Label Grid.Column="0" x:Name="VersionLabel" Text="Version xx" />
+            <Label Grid.Column="0" x:Name="VersionLabel" HorizontalTextAlignment="End" FontSize="12" Text="Version xx" />
             
         </HorizontalStackLayout>
 
@@ -317,32 +317,6 @@
                     </Frame>
 
                 </HorizontalStackLayout>
-
-                <syncfusion:SfListView 
-                     Grid.Row="11"
-                     Grid.Column="0"
-                     x:Name="RandomListView" 
-                     BackgroundColor="DimGray" 
-                     AutoFitMode="Height"
-                     ItemTapped="RandomListView_ItemTapped">
-
-                    <!--<syncfusion:SfListView.HeaderTemplate>
-                        <DataTemplate>
-
-                        </DataTemplate>
-                    </syncfusion:SfListView.HeaderTemplate>-->
-
-                    <syncfusion:SfListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <HorizontalStackLayout Padding="6">
-                                    <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
-                                    <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistCount, StringFormat=' - {0}' }" />
-                                </HorizontalStackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </syncfusion:SfListView.ItemTemplate>
-                </syncfusion:SfListView>
 
             </Grid>
         </ScrollView>

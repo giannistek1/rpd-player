@@ -52,6 +52,7 @@ public partial class CurrentPlaylistView : ContentView
             return;
 
         SongPart songPart = (SongPart)e.DataItem;
+
         if (songPart.AudioURL != string.Empty)
         {
             // Mode to queue/single song
@@ -139,7 +140,7 @@ public partial class CurrentPlaylistView : ContentView
         }
     }
 
-    private void CurrentPlaylistListView_SwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
+    private void CurrentPlaylistListViewSwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
     {
         if (e.Direction == SwipeDirection.Right && e.Offset > 30)
         {
