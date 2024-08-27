@@ -119,6 +119,7 @@
             <TableView Intent="Menu" Margin="0,0,0,40">
                 <TableRoot>
                     <TableSection Title="Sort by..." TextColor="White">
+                        <TextCell Tapped="SortByAlbumName" Text="Album name" TextColor="White" />
                         <TextCell Tapped="SortByArtistName" Text="Artist name" TextColor="White" />
                         <TextCell Tapped="SortBySongCountPerArtist" Text="Artist song count" TextColor="White" />
                         <TextCell Tapped="SortByClipLength"  Text="Clip length" TextColor="White" />

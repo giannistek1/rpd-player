@@ -1,5 +1,4 @@
 using CommunityToolkit.Maui.Storage;
-using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModel;
 using UraniumUI.Pages;
 
@@ -169,6 +168,14 @@ public partial class MainPage : UraniumContentPage
         SortModeBottomSheet.IsPresented = false;
         SortModeBottomSheet.IsVisible = false;
         MainViewModel.SortMode = Architecture.SortMode.MemberCount;
+        SearchSongPartsView.RefreshSort();
+    }
+
+    private void SortByAlbumName(object sender, EventArgs e)
+    {
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
+        MainViewModel.SortMode = Architecture.SortMode.AlbumName;
         SearchSongPartsView.RefreshSort();
     }
 
