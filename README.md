@@ -1,7 +1,7 @@
 # Rpd-player
 Currently this hobby project is in a very WIP state.
 
-##Supported platforms
+## Supported platforms
 Android, iOS (Todo), Windows
 
 ## Overview
