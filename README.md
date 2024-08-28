@@ -13,7 +13,7 @@ Current playlist
 
 # Feature summary
 - Music Player app for (kpop) random play dances
-- Catalog of ~1500 songs and ~210 artists (~1000 songs and 170~ artists right now)
+- Catalog of ~1500 songs and ~210 artists (1000 songs and 170 artists right now)
    -  Mostly choruses and pre-choruses, but also dance breaks/bridges and tiktok versions
 - Create your own playlist, save it locally or online (todo: shareable)
 - Balanced randomizer for any playlist which mixes grouptypes and TODO: artists.
