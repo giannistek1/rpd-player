@@ -236,7 +236,7 @@ public partial class SearchSongPartsView : ContentView
 
             case SearchFilterMode.Firstgen: FilterLabel.Text = "First gen (< 2002)"; 
                 songParts = allSongParts.Where(s => s.Artist?.DebutDate < HelperClass.secondGenStartDate && s.Album?.Language == "KR").ToObservableCollection(); break;
-            case SearchFilterMode.Secondgen: FilterLabel.Text = "Second gen (2003 - 2011)"; 
+            case SearchFilterMode.Secondgen: FilterLabel.Text = "Second gen (2003 - 2012)"; 
                 songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.secondGenStartDate && s.Artist?.DebutDate < HelperClass.thirdGenStartDate).ToObservableCollection(); break;
             case SearchFilterMode.Thirdgen: FilterLabel.Text = "Third gen (2012 - 2017)"; 
                 songParts = allSongParts.Where(s => s.Artist?.DebutDate > HelperClass.thirdGenStartDate && s.Artist?.DebutDate < HelperClass.fourthGenStartDate).ToObservableCollection(); break;

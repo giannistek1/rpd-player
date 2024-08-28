@@ -109,7 +109,7 @@
                             <Label Grid.Column="1" Text="{Binding Count}" FontSize="18" TextColor="White" HorizontalOptions="End" VerticalTextAlignment="Center" Padding="0,0,40,0" />
                             <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,10,0">
                                 <Image.Source>
-                                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Keyboard_double_arrow_down}" Color="{StaticResource White}" />
+                                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Keyboard_arrow_down}" Color="{StaticResource White}" />
                                 </Image.Source>
                             </Image>
                         </Grid>
@@ -150,11 +150,13 @@
                             <Label IsVisible="{Binding ShowClipLength}" VerticalOptions="CenterAndExpand" Text="{Binding ClipLengthAsTimeSpan, StringFormat='{0:mm\\:ss}'}" />
 
                             <HorizontalStackLayout>
+                                
                                 <Image HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
                                         <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
                                     </Image.Source>
                                 </Image>
+                                
                                 <VerticalStackLayout Padding="10">
 
                                     <HorizontalStackLayout>

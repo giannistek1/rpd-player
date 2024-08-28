@@ -16,8 +16,8 @@
             <material:TabView.TabHeaderItemTemplate>
                 <DataTemplate>
                     <Button 
-                Text="{Binding Title}"
-                Command="{Binding Command}">
+                        Text="{Binding Title}"
+                        Command="{Binding Command}">
                         <Button.Triggers>
                         </Button.Triggers>
                     </Button>

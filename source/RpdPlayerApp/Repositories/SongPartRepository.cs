@@ -27,7 +27,7 @@ internal static class SongPartRepository
 
         for (int i = 0; i < matches.Count / MainViewModel.SongPartPropertyAmount; i++)
         {
-            int n = MainViewModel.SongPartPropertyAmount * i; // songpart number
+            int n = MainViewModel.SongPartPropertyAmount * i; // i = Songpart number
 
             try
             {
@@ -49,7 +49,7 @@ internal static class SongPartRepository
 
                 songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
                 songPart.Artist = ArtistRepository.MatchArtist(artistName);
-                songPart.Artist.TotalCount++;
+                songPart.Artist!.TotalCount++;
                 // For filtered list
                 songPart.Artist.FilteredTotalCount++; 
 
@@ -58,7 +58,7 @@ internal static class SongPartRepository
             }
             catch(Exception ex)
             {
-                SentrySdk.CaptureMessage($"Error: {typeof(SongPartRepository).Name}: Artist number: {n}");
+                SentrySdk.CaptureMessage($"Error: {typeof(SongPartRepository).Name}: Artist number: {i}");
             }
 
         }

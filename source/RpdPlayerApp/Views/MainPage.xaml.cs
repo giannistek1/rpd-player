@@ -49,13 +49,13 @@ public partial class MainPage : UraniumContentPage
 
     private void OnAddSongPart(object? sender, EventArgs e)
     {
-        currentPlaylistView.RefreshPlaylist();
+        currentPlaylistView.RefreshCurrentPlaylist();
     }
 
     private void OnBackToPlaylists(object? sender, EventArgs e)
     {
         currentPlaylistView.ResetCurrentPlaylist();
-        libraryView.LoadPlaylists();
+        libraryView!.LoadPlaylists();
         currentPlaylistView.IsVisible = false;
         libraryView.IsVisible = true;
     }
@@ -66,7 +66,7 @@ public partial class MainPage : UraniumContentPage
         libraryView.IsVisible = false;
         currentPlaylistView.IsVisible = true;
 
-        currentPlaylistView.SetCurrentPlaylist();
+        currentPlaylistView.RefreshCurrentPlaylist();
     }
 
     private void OnPause(object? sender, EventArgs e)
@@ -92,6 +92,7 @@ public partial class MainPage : UraniumContentPage
         }
     }
 
+    #region Sorting
     private void OnSortPressed(object sender, EventArgs e)
     {
 
@@ -184,4 +185,5 @@ public partial class MainPage : UraniumContentPage
         SortModeBottomSheet.IsPresented = false;
         SortModeBottomSheet.IsVisible = false;
     }
+    #endregion
 }

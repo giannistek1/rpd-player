@@ -29,7 +29,7 @@ internal static class ArtistRepository
 
         for (int i = 0; i < matches.Count / MainViewModel.SongPartPropertyAmount; i++)
         {
-            int n = MainViewModel.ArtistPropertyAmount * i; // artist number
+            int n = MainViewModel.ArtistPropertyAmount * i; // i = Artist number
 
             try
             {
@@ -45,7 +45,7 @@ internal static class ArtistRepository
             }
             catch(Exception ex)
             {
-                SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}: Artist number: {n}");
+                SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}: Artist number: {i}");
             }
 
         }

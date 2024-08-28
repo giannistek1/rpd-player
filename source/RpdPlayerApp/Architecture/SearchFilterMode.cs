@@ -3,7 +3,7 @@
 internal enum SearchFilterMode
 {
     None, 
-    Male, Female, 
+    Male, Female, Mixed,
     Hybe, SM, JYP, YG, Cube, FNC, Pledis, Starship,
     KR, JP, EN, CH, TH,
     Firstgen, Secondgen, Thirdgen, Fourthgen, Fifthgen, 

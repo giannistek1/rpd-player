@@ -1,3 +1,6 @@
+using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Items;
+using RpdPlayerApp.Models;
 using RpdPlayerApp.Repository;
 using RpdPlayerApp.ViewModel;
 using System.Collections.Specialized;
@@ -18,17 +21,12 @@ public partial class HomeView : ContentView
         AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;
         SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
 
-        FemaleImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-female.jpg?raw=true"));
-        MaleImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-male.png?raw=true"));
-
         // TODO:
         string[] firstGens = {
             "[SHINHWA][][1998-03-24][BG][6][SM Entertainment].jpg",
         };
 
         string firstGenArtist = firstGens[new Random().Next(0, firstGens.Length)];
-
-        FirstGenImage.Source = ImageSource.FromUri(new Uri($"https://github.com/giannistek1/rpd-artists/blob/main/{firstGenArtist}?raw=true"));
 
         string[] secondGens = {
             "[BIGBANG][][2006-08-19][BG][5][YG Entertainment].jpg",
@@ -40,7 +38,6 @@ public partial class HomeView : ContentView
         };
 
         string secondGenArtist = secondGens[new Random().Next(0, secondGens.Length)];
-        SecondGenImage.Source = ImageSource.FromUri(new Uri($"https://github.com/giannistek1/rpd-artists/blob/main/{secondGenArtist}?raw=true"));
 
         string[] thirdGens = {
             "[BTS][Bangtan Sonyeondan][2013-06-13][BG][7][Big Hit Entertainment].jpg",
@@ -48,22 +45,20 @@ public partial class HomeView : ContentView
             "[Twice][TWICE][2015-10-20][GG][9][JYP Entertainment].webp",
             "[Blackpink][BLACKPINK][2016-08-08][GG][4][YG Entertainment].jpg",
             "[GOT7][][2014-01-16][BG][7][JYP Entertainment].webp",
-            "[Red Velvet][][2014-08-01][GG][5][SM Entertainment].jpg"
+            "[Red Velvet][RV][2014-08-01][GG][5][SM Entertainment].jpg"
         };
 
         string thirdGenArtist = thirdGens[new Random().Next(0, thirdGens.Length)];
-        ThirdGenImage.Source = ImageSource.FromUri(new Uri($"https://github.com/giannistek1/rpd-artists/blob/main/{thirdGenArtist}?raw=true"));
-        
-        string[] fourthGens = { 
+
+        string[] fourthGens = {
             "[Stray Kids][SKZ][2018-03-25][BG][8][JYP Entertainment].jpg",
-            "[ATEEZ][][2018-10-24][BG][8][KQ Entertainment].jpeg", 
+            "[ATEEZ][][2018-10-24][BG][8][KQ Entertainment].jpeg",
             "[ITZY][][2019-02-12][GG][5][JYP Entertainment].webp",
             "[TXT][Tomorrow X Together][2019-03-04][BG][5][Big Hit Entertainment].jpg",
-            "[aespa][][2020-11-17][GG][4][SM Entertainment].jpg" 
+            "[aespa][][2020-11-17][GG][4][SM Entertainment].jpg"
         };
 
         string fourthGenArtist = fourthGens[new Random().Next(0, fourthGens.Length)];
-        FourthGenImage.Source = ImageSource.FromUri(new Uri($"https://github.com/giannistek1/rpd-artists/blob/main/{fourthGenArtist}?raw=true"));
 
         string[] fifthGens = {
             "[RIIZE][][2023-09-04][BG][7][SM Entertainment].jpg",
@@ -73,30 +68,158 @@ public partial class HomeView : ContentView
         };
 
         string fifthGenArtist = fifthGens[new Random().Next(0, fifthGens.Length)];
-        FifthGenImage.Source = ImageSource.FromUri(new Uri($"https://github.com/giannistek1/rpd-artists/blob/main/{fifthGenArtist}?raw=true"));
-
-        HybeImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-hybe-labels.webp?raw=true"));
-        JYPImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-jyp.jpg?raw=true"));
-        YGImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-yg.jpg?raw=true"));
-        SMImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true"));
-        CubeImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-cube.webp?raw=true"));
-        FncImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-fnc.png?raw=true"));
-        PledisImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-pledis.webp?raw=true"));
-        StarshipImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-starship.webp?raw=true"));
-
-        KRImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true"));
-        JPImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-jp.webp?raw=true"));
-        ENImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-us.webp?raw=true"));
-
-        SoloImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-solo.png?raw=true"));
-        GroupImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-group.jpg?raw=true"));
-
-        AllImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-artists/blob/main/[BTS][Bangtan Sonyeondan][2013-06-13][BG][7][Big Hit Entertainment].jpg?raw=true"));
 
         // Get
         ArtistRepository.GetArtists(); 
         AlbumRepository.GetAlbums();
         SongPartRepository.GetSongParts();
+
+        FemaleImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-female.jpg?raw=true"));
+        MaleImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-male.png?raw=true"));
+
+        SoloImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-solo.png?raw=true"));
+        GroupImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-group.jpg?raw=true"));
+
+        AllImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-all.png?raw=true"));
+
+        GenerationListView.ItemsSource = new List<HomeListViewItem>() { 
+            new HomeListViewItem(title: "1st Generation", 
+                                description: "First generation.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{firstGenArtist}?raw=true", 
+                                searchFilterMode: SearchFilterMode.Firstgen, 
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.DebutDate < HelperClass.secondGenStartDate && s.Album?.Language == "KR")
+                                ), 
+
+            new HomeListViewItem(title: "2nd Generation", 
+                                description: "Second generation.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{secondGenArtist}?raw=true", 
+                                searchFilterMode: SearchFilterMode.Secondgen,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.DebutDate > HelperClass.secondGenStartDate && s.Artist?.DebutDate < HelperClass.thirdGenStartDate)
+                                ),
+
+            new HomeListViewItem(title: "3rd Generation", 
+                                description: "Third generation.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{thirdGenArtist}?raw=true", 
+                                searchFilterMode: SearchFilterMode.Thirdgen,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.DebutDate > HelperClass.thirdGenStartDate && s.Artist?.DebutDate < HelperClass.fourthGenStartDate)
+                                ), 
+
+            new HomeListViewItem(title: "4th Generation", 
+                                description: "Fourth generation.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{fourthGenArtist}?raw=true", 
+                                searchFilterMode: SearchFilterMode.Fourthgen,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.DebutDate > HelperClass.fourthGenStartDate && s.Artist?.DebutDate < HelperClass.fifthGenStartDate)
+                                ),
+
+            new HomeListViewItem(title: "5th Generation", 
+                                description: "Fifth generation.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{fifthGenArtist}?raw=true", 
+                                searchFilterMode: SearchFilterMode.Fifthgen, 
+                                songCount : SongPartRepository.SongParts.Count(s => s.Artist?.DebutDate > HelperClass.fifthGenStartDate)
+                                ) 
+        };
+
+        CompanyListView.ItemsSource = new List<HomeListViewItem>() {
+            new HomeListViewItem(title: "HYBE Labels", 
+                                 description: "HYBE Labels, formerly known as Big Hit Entertainment with child company: Source Music", 
+                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-hybe-labels.webp?raw=true", 
+                                 searchFilterMode: SearchFilterMode.Hybe,
+                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "HYBE Labels" || s.Artist?.Company == "Big Hit Entertainment" || s.Artist?.Company == "Source Music")
+                                 ),
+
+
+            new HomeListViewItem(title: "SM Entertainment",
+                                description: "SM Entertainment.",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true",
+                                searchFilterMode: SearchFilterMode.SM,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "SM Entertainment")
+                                ),
+
+            new HomeListViewItem(title: "JYP Entertainment",
+                                description: "JYP Entertainment.",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-jyp.jpg?raw=true", 
+                                searchFilterMode: SearchFilterMode.JYP,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "YG Entertainment")
+                                ),
+
+            new HomeListViewItem(title: "YG Entertainment", 
+                                description: "YG Entertainment.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-yg.jpg?raw=true", 
+                                searchFilterMode: SearchFilterMode.YG,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "YG Entertainment")
+                                ),
+
+            new HomeListViewItem(title: "Starship Entertainment",
+                                description: "Starship Entertainment.",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-starship.webp?raw=true",
+                                searchFilterMode: SearchFilterMode.Starship,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Starship Entertainment")
+                                ),
+
+            new HomeListViewItem(title: "Cube Entertainment", 
+                                description: "Cube Entertainment.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-cube.webp?raw=true", 
+                                searchFilterMode: SearchFilterMode.Cube, 
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Cube Entertainment")
+                                ),
+
+            new HomeListViewItem(title: "Pledis Entertainment", 
+                                description: "Pledis Entertainment.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-pledis.webp?raw=true", 
+                                searchFilterMode: SearchFilterMode.Pledis, 
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Pledis Entertainment")
+                                ),
+
+            new HomeListViewItem(title: "FNC Entertainment",
+                                description: "FNC Entertainment.",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-fnc.png?raw=true",
+                                searchFilterMode: SearchFilterMode.FNC,
+                                songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "FNC Entertainment")
+                                ),
+        };
+
+        LanguageListView.ItemsSource = new List<HomeListViewItem>() {
+            new HomeListViewItem(title: "Korean", 
+                                description: "Korean music.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true", 
+                                searchFilterMode: SearchFilterMode.KR,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "KR")
+                                ),
+
+            new HomeListViewItem(title: "Japanese", 
+                                description: "Japanese music.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-jp.webp?raw=true", 
+                                searchFilterMode: SearchFilterMode.JP,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "JP")
+                                ),
+
+            new HomeListViewItem(title: "English", 
+                                description: "English music.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-us.webp?raw=true", 
+                                searchFilterMode: SearchFilterMode.EN,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "EN")
+                                ),
+
+            new HomeListViewItem(title: "Chinese", 
+                                description: "Chinese music.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-ch.png?raw=true", 
+                                searchFilterMode: SearchFilterMode.CH,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "CH")
+                                ),
+
+            new HomeListViewItem(title: "Thai", 
+                                description: "Thai music.", 
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-th.webp?raw=true", 
+                                searchFilterMode: SearchFilterMode.TH,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "TH")
+                                )
+        };
+
+        var groupedTitles = from s in SongPartRepository.SongParts
+                            group s.Title by s.Title into g
+                            select new { Title = g.Key, Titles = g.ToList() };
+
+        UniqueSongCountLabel.Text = $", Unique songs: {groupedTitles.Count()}";
     }
 
     private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -121,40 +244,21 @@ public partial class HomeView : ContentView
 
         switch(filterMode)
         {
-            case "none": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.None; break;
+            case "none": MainViewModel.SearchFilterMode = SearchFilterMode.None; break;
 
-            case "female": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Female; break;
-            case "male": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Male; break;
+            case "female": MainViewModel.SearchFilterMode = SearchFilterMode.Female; break;
+            case "male": MainViewModel.SearchFilterMode = SearchFilterMode.Male; break;
+            case "mixed": MainViewModel.SearchFilterMode = SearchFilterMode.Mixed; break;
 
-            case "firstgen": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Firstgen; break;
-            case "secondgen": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Secondgen; break;
-            case "thirdgen": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Thirdgen; break;
-            case "fourthgen": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Fourthgen; break;
-            case "fifthgen": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Fifthgen; break;
-
-            case "hybe": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Hybe; break;
-            case "jyp": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.JYP; break;
-            case "yg": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.YG; break;
-            case "sm": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.SM; break;
-            case "cube": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Cube; break;
-            case "fnc": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.FNC; break;
-            case "pledis": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Pledis; break;
-            case "starship": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Starship; break;
-
-            case "solo": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Solo; break;
-            case "group": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Group; break;
-            case "trio": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Trio; break;
-            case "quadruplet": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Quadruplet; break;
-            case "quintet": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Quintet; break;
-            case "sextet": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Sextet; break;
-            case "septet": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Septet; break;
-            case "octet": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Octet; break;
-            case "nonet": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.Nonet; break;
-
-            case "kr": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.KR; break;
-            case "jp": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.JP; break;
-            case "en": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.EN; break;
-            case "th": MainViewModel.SearchFilterMode = Architecture.SearchFilterMode.TH; break;
+            case "solo": MainViewModel.SearchFilterMode = SearchFilterMode.Solo; break;
+            case "group": MainViewModel.SearchFilterMode = SearchFilterMode.Group; break;
+            case "trio": MainViewModel.SearchFilterMode = SearchFilterMode.Trio; break;
+            case "quadruplet": MainViewModel.SearchFilterMode = SearchFilterMode.Quadruplet; break;
+            case "quintet": MainViewModel.SearchFilterMode = SearchFilterMode.Quintet; break;
+            case "sextet": MainViewModel.SearchFilterMode = SearchFilterMode.Sextet; break;
+            case "septet": MainViewModel.SearchFilterMode = SearchFilterMode.Septet; break;
+            case "octet": MainViewModel.SearchFilterMode = SearchFilterMode.Octet; break;
+            case "nonet": MainViewModel.SearchFilterMode = SearchFilterMode.Nonet; break;
         }
 
         CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
@@ -178,5 +282,54 @@ public partial class HomeView : ContentView
             image.WidthRequest = originalWidth;
             image.HeightRequest = originalHeight;
         }
+    }
+
+    private void GenerationListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
+    {
+        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
+            return;
+
+        HomeListViewItem item = (HomeListViewItem)e.DataItem;
+
+        if (item is not null)
+        {
+            MainViewModel.SearchFilterMode = item.SearchFilterMode;
+        }
+
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+
+    private void CompanyListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
+    {
+        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
+            return;
+
+        HomeListViewItem item = (HomeListViewItem)e.DataItem;
+
+        if (item is not null)
+        {
+            MainViewModel.SearchFilterMode = item.SearchFilterMode;
+        }
+
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
+
+    private void LanguageListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
+    {
+        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
+            return;
+
+        HomeListViewItem item = (HomeListViewItem)e.DataItem;
+
+        if (item is not null)
+        {
+            MainViewModel.SearchFilterMode = item.SearchFilterMode;
+        }
+
+        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
     }
 }

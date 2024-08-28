@@ -13,15 +13,15 @@
 
         <HorizontalStackLayout Grid.Row="0" >
 
-            <Label Grid.Column="0" x:Name="VersionLabel" HorizontalTextAlignment="End" FontSize="12" Text="Version xx" />
-            
+            <Label Grid.Column="0" x:Name="VersionLabel" HorizontalOptions="End" FontSize="12" Text="Version xx" />
+
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Grid.Row="1">
 
             <Label Grid.Column="0" x:Name="SongPartCountLabel" Text="{Binding SongPartCount}" />
 
-            <Label Grid.Column="0" x:Name="UniqueSongCountLabel" Text="{Binding UniqueSongCount}" />
+            <Label Grid.Column="1" x:Name="UniqueSongCountLabel" HorizontalTextAlignment="End" Text="{Binding UniqueSongCount}" />
 
         </HorizontalStackLayout>
 
@@ -29,15 +29,42 @@
 
             <Label Grid.Column="0" x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" />
 
-            <Label Grid.Column="0" x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
-            
+            <Label Grid.Column="1" x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
+
         </HorizontalStackLayout>
 
         <ScrollView Grid.Row="3">
-            
+
             <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *" ColumnDefinitions="*">
 
                 <HorizontalStackLayout Grid.Row="0" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
+
+                    <Frame Padding="0">
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="none"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+
+                            <Image x:Name="AllImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
+                            <Label Text="All" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+
+
+                    <Frame IsVisible="False" Padding="0">
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="none"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+
+                            <Image x:Name="EmptyImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
+                            <Label Text="All" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -55,7 +82,7 @@
                             <HorizontalStackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="SetFilter" CommandParameter="male"/>
                             </HorizontalStackLayout.GestureRecognizers>
-                            
+
                             <Image x:Name="MaleImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="Male" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
@@ -63,221 +90,7 @@
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="firstgen"/>
-                                <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference FirstGenImage}"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="FirstGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="1st gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="secondgen"/>
-                                <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference SecondGenImage}"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="SecondGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="2nd gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                </HorizontalStackLayout>
-
                 <HorizontalStackLayout Grid.Row="2" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="thirdgen"/>
-                                <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference ThirdGenImage}"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-
-                            <Image x:Name="ThirdGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="3rd gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="fourthgen"/>
-                                <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference FourthGenImage}"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-
-                            <Image x:Name="FourthGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="4th gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout Grid.Row="3" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="fifthgen"/>
-                                <TapGestureRecognizer Tapped="ZoomImage" NumberOfTapsRequired="2" CommandParameter="{x:Reference FifthGenImage}"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="FifthGenImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="5th gen" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="kr"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="KRImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="KR" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout Grid.Row="4" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="jp"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="JPImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="JP" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="en"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="ENImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="EN" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                </HorizontalStackLayout>
-                
-
-                <HorizontalStackLayout Grid.Row="5" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="hybe"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="HybeImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="HYBE" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="sm"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="SMImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="SM" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout Grid.Row="6" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="jyp"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="JYPImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="JYP" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="yg"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="YGImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="YG" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout Grid.Row="7" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="fnc"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-
-                            <Image x:Name="FncImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Fnc" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="pledis"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-
-                            <Image x:Name="PledisImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Pledis" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout Grid.Row="8" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="cube"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-                            
-                            <Image x:Name="CubeImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Cube" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="starship"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-
-                            <Image x:Name="StarshipImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Starship" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout Grid.Row="9" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -303,20 +116,125 @@
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="10" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
+                <Label Grid.Row="3"
+                        HeightRequest="40" 
+                        TextColor="{StaticResource White}"
+                        LineBreakMode="NoWrap"
+                        Padding="4" Text="Generations" FontAttributes="Bold"
+                        FontSize="18" HorizontalOptions="Start"
+                        VerticalOptions="Center"/>
 
-                    <Frame Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="none"/>
-                            </HorizontalStackLayout.GestureRecognizers>
+                <syncfusion:SfListView
+                        Grid.Row="4"
+                        x:Name="GenerationListView"
+                        Orientation="Horizontal"
+                        AutoFitMode="Height" 
+                        SelectionMode="None"
+                        ItemSpacing="8"
+                        HeightRequest="180"
+                        ItemTapped="GenerationListViewItemTapped">
 
-                            <Image x:Name="AllImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="All" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
+                    <syncfusion:SfListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <VerticalStackLayout Padding="0">
 
-                </HorizontalStackLayout>
+                                        <Image HeightRequest="120" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                            <Image.Source>
+                                                <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
+                                            </Image.Source>
+                                        </Image>
+
+                                        <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
+                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
+                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                        </HorizontalStackLayout>
+
+                                    </VerticalStackLayout>
+                                </ViewCell>
+                        </DataTemplate>
+                    </syncfusion:SfListView.ItemTemplate>
+                </syncfusion:SfListView>
+
+                <Label Grid.Row="5"
+                        HeightRequest="40" 
+                        TextColor="{StaticResource White}"
+                        LineBreakMode="NoWrap"
+                        Padding="4" Text="Companies" FontAttributes="Bold"
+                        FontSize="18" HorizontalOptions="Start"
+                        VerticalOptions="Center"/>
+
+                <syncfusion:SfListView
+                        Grid.Row="6"
+                        x:Name="CompanyListView"
+                        Orientation="Horizontal"
+                        AutoFitMode="Height" 
+                        SelectionMode="None"
+                        ItemSpacing="8"
+                        HeightRequest="160"
+                        ItemTapped="CompanyListView_ItemTapped">
+
+                    <syncfusion:SfListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <VerticalStackLayout Padding="0">
+
+                                    <Image HeightRequest="100" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                        <Image.Source>
+                                            <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
+                                        </Image.Source>
+                                    </Image>
+
+                                    <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
+                                        <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
+                                        <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                    </HorizontalStackLayout>
+
+                                </VerticalStackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </syncfusion:SfListView.ItemTemplate>
+                </syncfusion:SfListView>
+
+                <Label Grid.Row="7"
+                        HeightRequest="40" 
+                        TextColor="{StaticResource White}"
+                        LineBreakMode="NoWrap"
+                        Padding="4" Text="Languages" FontAttributes="Bold"
+                        FontSize="18" HorizontalOptions="Start"
+                        VerticalOptions="Center"/>
+
+                <syncfusion:SfListView
+                        Grid.Row="8"
+                        x:Name="LanguageListView"
+                        Orientation="Horizontal"
+                        AutoFitMode="Height" 
+                        SelectionMode="None"
+                        ItemSpacing="8"
+                        HeightRequest="140"
+                        ItemTapped="LanguageListView_ItemTapped">
+
+                    <syncfusion:SfListView.ItemTemplate>
+                        <DataTemplate>
+
+                                <VerticalStackLayout Padding="0">
+
+                                    <Image HeightRequest="80" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                        <Image.Source>
+                                            <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
+                                        </Image.Source>
+                                    </Image>
+
+                                    <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
+                                        <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
+                                        <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                    </HorizontalStackLayout>
+
+                                </VerticalStackLayout>
+
+                        </DataTemplate>
+                    </syncfusion:SfListView.ItemTemplate>
+                </syncfusion:SfListView>
 
             </Grid>
         </ScrollView>
