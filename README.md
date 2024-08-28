@@ -32,8 +32,8 @@ Todo...
 Todo...
 
 ## Libraries
-CommunityToolkit.Maui.MediaElement by Microsoft -> audio and video processing
-Dropbox API by Dropbox -> online playlist storage
-Syncfusion by Syncfusion -> Better advanced ListView
-UraniumUI by Enisn -> For the tabview, bottomsheet and icons
-Sentry by Sentry -> Crashlytics/analytics
+- CommunityToolkit.Maui.MediaElement by Microsoft -> audio and video processing
+- Dropbox API by Dropbox -> online playlist storage
+- Syncfusion by Syncfusion -> Better advanced ListView
+- UraniumUI by Enisn -> For the tabview, bottomsheet and icons
+- Sentry by Sentry -> Crashlytics/analytics
