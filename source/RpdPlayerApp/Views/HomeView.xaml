@@ -42,22 +42,10 @@
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="none"/>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="all"/>
                             </HorizontalStackLayout.GestureRecognizers>
 
                             <Image x:Name="AllImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="All" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-
-
-                    <Frame IsVisible="False" Padding="0">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="none"/>
-                            </HorizontalStackLayout.GestureRecognizers>
-
-                            <Image x:Name="EmptyImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
                             <Label Text="All" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>

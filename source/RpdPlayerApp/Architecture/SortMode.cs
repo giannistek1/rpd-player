@@ -9,7 +9,9 @@ internal enum SortMode
     SongPart = 4,
     ClipLength = 5,
     Language = 6,
-    SongCountPerArtist = 7,
+    ArtistSongCount = 7,
     MemberCount = 8,
-    AlbumName = 9
+    AlbumName = 9,
+    Company = 10,
+    Generation = 11
 }

@@ -29,11 +29,11 @@
             <Label WidthRequest="100" x:Name="LengthLabel" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" />
 
             <Label WidthRequest="100" x:Name="CountLabel" Text="{Binding SongCount, StringFormat='Count: {0}'}" />
-            
-            <Label WidthRequest="100" x:Name="GirlgroupCountLabel" Text="{Binding GirlgroupCount, StringFormat='GG: {0}'}" TextColor="Magenta" />
 
             <Label WidthRequest="100" x:Name="BoygroupCountLabel" Text="{Binding BoygroupCount, StringFormat='BG: {0}'}" TextColor="DeepSkyBlue"/>
-            
+
+            <Label WidthRequest="100" x:Name="GirlgroupCountLabel" Text="{Binding GirlgroupCount, StringFormat='GG: {0}'}" TextColor="Magenta" />
+
         </HorizontalStackLayout>
 
 
@@ -89,7 +89,7 @@
                     
                     <Image x:Name="MixedShufflePlaylistButtonImage2">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="Violet" />
+                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="Magenta" />
                         </Image.Source>
                     </Image>
                 </HorizontalStackLayout>
@@ -121,15 +121,26 @@
             <syncfusion:SfListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid ColumnDefinitions="50, *, 50" Padding="10">
+                        <Grid ColumnDefinitions="10, 50, *, 50" Padding="10">
 
-                            <Image Grid.Column="0" HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                            <!--<BoxView Grid.Column="0" HeightRequest="50" WidthRequest="10" HorizontalOptions="Start" BackgroundColor="{Binding GroupTypeColor}">
+                                
+                            </BoxView>-->
+
+                            <BoxView Color="{Binding GroupTypeColor}"
+                                    CornerRadius="10"
+                                    WidthRequest="20"
+                                    HeightRequest="80"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center" />
+
+                            <Image Grid.Column="1" Margin="4,0,0,0" HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                 <Image.Source>
                                     <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
                                 </Image.Source>
                             </Image>
 
-                            <VerticalStackLayout Grid.Column="1" Padding="10" MinimumWidthRequest="200">
+                            <VerticalStackLayout Grid.Column="2" Padding="10" MinimumWidthRequest="200">
 
                                 <HorizontalStackLayout>
                                     <Label VerticalOptions="Start" Text="{Binding Title}" />
@@ -140,7 +151,7 @@
 
                             </VerticalStackLayout>
 
-                            <syncfusion:DragIndicatorView Grid.Column="2" HeightRequest="15" ListView="{x:Reference CurrentPlaylistListView}" 
+                            <syncfusion:DragIndicatorView Grid.Column="3" HeightRequest="15" ListView="{x:Reference CurrentPlaylistListView}" 
                                                         HorizontalOptions="End" 
                                                         VerticalOptions="Center">
                                 <Image>

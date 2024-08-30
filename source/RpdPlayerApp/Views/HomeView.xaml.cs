@@ -87,35 +87,35 @@ public partial class HomeView : ContentView
                                 description: "First generation.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{firstGenArtist}?raw=true", 
                                 searchFilterMode: SearchFilterMode.Firstgen, 
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.DebutDate < HelperClass.secondGenStartDate && s.Album?.Language == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.Language == "KR")
                                 ), 
 
             new HomeListViewItem(title: "2nd Generation", 
                                 description: "Second generation.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{secondGenArtist}?raw=true", 
                                 searchFilterMode: SearchFilterMode.Secondgen,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.DebutDate > HelperClass.secondGenStartDate && s.Artist?.DebutDate < HelperClass.thirdGenStartDate)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.SECOND_GENERATION && s.Album?.Language == "KR")
                                 ),
 
             new HomeListViewItem(title: "3rd Generation", 
                                 description: "Third generation.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{thirdGenArtist}?raw=true", 
                                 searchFilterMode: SearchFilterMode.Thirdgen,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.DebutDate > HelperClass.thirdGenStartDate && s.Artist?.DebutDate < HelperClass.fourthGenStartDate)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.THIRD_GENERATION && s.Album?.Language == "KR")
                                 ), 
 
             new HomeListViewItem(title: "4th Generation", 
                                 description: "Fourth generation.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{fourthGenArtist}?raw=true", 
                                 searchFilterMode: SearchFilterMode.Fourthgen,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.DebutDate > HelperClass.fourthGenStartDate && s.Artist?.DebutDate < HelperClass.fifthGenStartDate)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FOURTH_GENERATION && s.Album?.Language == "KR")
                                 ),
 
             new HomeListViewItem(title: "5th Generation", 
                                 description: "Fifth generation.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{fifthGenArtist}?raw=true", 
                                 searchFilterMode: SearchFilterMode.Fifthgen, 
-                                songCount : SongPartRepository.SongParts.Count(s => s.Artist?.DebutDate > HelperClass.fifthGenStartDate)
+                                songCount : SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.Language == "KR")
                                 ) 
         };
 
@@ -156,6 +156,13 @@ public partial class HomeView : ContentView
                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Starship Entertainment")
                                 ),
 
+            new HomeListViewItem(title: "RBW Entertainment",
+                                description: "Rainbow Bridge World Entertainment.",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-rbw.png?raw=true",
+                                searchFilterMode: SearchFilterMode.RBW,
+                                songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "RBW Entertainment")
+                                ),
+
             new HomeListViewItem(title: "Cube Entertainment", 
                                 description: "Cube Entertainment.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-cube.webp?raw=true", 
@@ -175,6 +182,13 @@ public partial class HomeView : ContentView
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-fnc.png?raw=true",
                                 searchFilterMode: SearchFilterMode.FNC,
                                 songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "FNC Entertainment")
+                                ),
+
+            new HomeListViewItem(title: "Woollim Entertainment",
+                                description: "Woollim Entertainment.",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-woollim.webp?raw=true",
+                                searchFilterMode: SearchFilterMode.Woollim,
+                                songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Woollim Entertainment")
                                 ),
         };
 
@@ -242,9 +256,10 @@ public partial class HomeView : ContentView
     {
         string filterMode = e.Parameter.ToString();
 
-        switch(filterMode)
+        switch (filterMode)
         {
-            case "none": MainViewModel.SearchFilterMode = SearchFilterMode.None; break;
+            case "none":
+            case "all":MainViewModel.SearchFilterMode = SearchFilterMode.All; break;
 
             case "female": MainViewModel.SearchFilterMode = SearchFilterMode.Female; break;
             case "male": MainViewModel.SearchFilterMode = SearchFilterMode.Male; break;
@@ -262,6 +277,7 @@ public partial class HomeView : ContentView
         }
 
         CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+
         FilterPressed?.Invoke(this, e);
     }
     #endregion

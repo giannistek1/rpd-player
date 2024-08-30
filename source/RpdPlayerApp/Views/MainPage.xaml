@@ -123,6 +123,8 @@
                         <TextCell Tapped="SortByArtistName" Text="Artist name" TextColor="White" />
                         <TextCell Tapped="SortBySongCountPerArtist" Text="Artist song count" TextColor="White" />
                         <TextCell Tapped="SortByClipLength"  Text="Clip length" TextColor="White" />
+                        <TextCell Tapped="SortByCompany"  Text="Company" TextColor="White" />
+                        <TextCell Tapped="SortByGeneration"  Text="Generation" TextColor="White" />
                         <TextCell Tapped="SortByGroupType"  Text="Group type" TextColor="White" />
                         <TextCell Tapped="SortByLanguage" Text="Language" TextColor="White" />
                         <TextCell Tapped="SortByMemberCount" Text="Member count" TextColor="White" />

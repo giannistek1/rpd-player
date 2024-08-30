@@ -16,7 +16,7 @@
 
             <Image Grid.Column="0" x:Name="AlbumImage" />
 
-            <Label Grid.Column="1" x:Name="NowPlayingLabel" Padding="16,0,0,16"  VerticalTextAlignment="Center" TextColor="White" Text="Nothing playing"/>
+            <Label Grid.Column="1" x:Name="NowPlayingLabel" Padding="16,0,0,16"  VerticalTextAlignment="Center" FontSize="13"  TextColor="White" Text="Nothing playing"/>
             <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,16,0,0"  VerticalTextAlignment="Center" FontSize="Micro" TextColor="White" Text="00:00"/>
 
 

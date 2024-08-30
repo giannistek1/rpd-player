@@ -45,6 +45,7 @@ public partial class MainPage : UraniumContentPage
     private void OnFilterPressed(object? sender, EventArgs e)
     {
         SearchSongPartsView.SetSearchFilterMode();
+        SearchSongPartsView.RefreshSort(); 
     }
 
     private void OnAddSongPart(object? sender, EventArgs e)
@@ -95,7 +96,6 @@ public partial class MainPage : UraniumContentPage
     #region Sorting
     private void OnSortPressed(object sender, EventArgs e)
     {
-
         SortModeBottomSheet.IsVisible = true;
         SortModeBottomSheet.IsPresented = true;
     }
@@ -152,7 +152,7 @@ public partial class MainPage : UraniumContentPage
     {
         SortModeBottomSheet.IsPresented = false;
         SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.SongCountPerArtist;
+        MainViewModel.SortMode = Architecture.SortMode.ArtistSongCount;
         SearchSongPartsView.RefreshSort();
     }
 
@@ -177,6 +177,22 @@ public partial class MainPage : UraniumContentPage
         SortModeBottomSheet.IsPresented = false;
         SortModeBottomSheet.IsVisible = false;
         MainViewModel.SortMode = Architecture.SortMode.AlbumName;
+        SearchSongPartsView.RefreshSort();
+    }
+
+    private void SortByCompany(object sender, EventArgs e)
+    {
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
+        MainViewModel.SortMode = Architecture.SortMode.Company;
+        SearchSongPartsView.RefreshSort();
+    }
+
+    private void SortByGeneration(object sender, EventArgs e)
+    {
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
+        MainViewModel.SortMode = Architecture.SortMode.Generation;
         SearchSongPartsView.RefreshSort();
     }
 

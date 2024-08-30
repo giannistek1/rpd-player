@@ -167,7 +167,7 @@
                                     <HorizontalStackLayout>
                                         <Label VerticalOptions="Start" Text="{Binding ArtistName}" />
                                         <!-- TODO: Not working -->
-                                        <Label IsVisible="{Binding IsPlaying}" VerticalOptions="CenterAndExpand" Text="▶️" />
+                                        <!--<Label IsVisible="{Binding IsPlaying}" VerticalOptions="CenterAndExpand" Text="▶️" />-->
                                     </HorizontalStackLayout>
 
                                 </VerticalStackLayout>

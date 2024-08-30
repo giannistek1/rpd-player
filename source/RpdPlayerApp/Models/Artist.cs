@@ -1,4 +1,7 @@
-﻿namespace RpdPlayerApp.Models;
+﻿using RpdPlayerApp.Architecture;
+using RpdPlayerApp.ViewModel;
+
+namespace RpdPlayerApp.Models;
 
 public enum GroupType
 {
@@ -16,9 +19,11 @@ internal class Artist
     public DateTime DebutDate { get; set; }
     public GroupType GroupType { get; set; }
     // TODO
-    public Color GroupTypeColor { get; set; } 
+    public string GroupTypeColor { get; set; } 
     public int MemberCount { get; set; }
     public string Company { get; set; }
+    public string Generation {  get; set; }
+    public Gen Gen { get; set; }
     public string ImageURL { get; set; }
 
     public bool ShowGroupType { get; set; } = false;
@@ -39,5 +44,42 @@ internal class Artist
         MemberCount = memberCount;
         Company = company;
         ImageURL = imageURL;
+
+        // Kpop only
+        if (DebutDate < MainViewModel.secondGenStartDate)
+        {
+            Generation = MainViewModel.FIRST_GENERATION;
+            Gen = Gen.First;
+        }
+        else if (DebutDate > MainViewModel.secondGenStartDate && DebutDate < MainViewModel.thirdGenStartDate)
+        {
+            Generation = MainViewModel.SECOND_GENERATION;
+            Gen = Gen.Second;
+        }
+        else if (DebutDate > MainViewModel.thirdGenStartDate && DebutDate < MainViewModel.fourthGenStartDate)
+        {
+            Generation = MainViewModel.THIRD_GENERATION;
+            Gen = Gen.Third;
+        }
+        else if (DebutDate > MainViewModel.fourthGenStartDate && DebutDate < MainViewModel.fifthGenStartDate)
+        {
+            Generation = MainViewModel.FOURTH_GENERATION;
+            Gen = Gen.Fourth;
+        }
+        else if (DebutDate > MainViewModel.fifthGenStartDate)
+        {
+            Generation = MainViewModel.FIFTH_GENERATION;
+            Gen = Gen.Fifth;
+        }
+        
+        switch(groupType)
+        {
+            case GroupType.BG: GroupTypeColor = Colors.Blue.ToHex(); break;
+            case GroupType.GG: GroupTypeColor = Colors.Magenta.ToHex(); break;
+            case GroupType.MIX: GroupTypeColor = Colors.Gray.ToHex(); break;
+            case GroupType.NOT_SET: GroupTypeColor = Colors.White.ToHex(); break;
+            
+            default: GroupTypeColor = Colors.White.ToHex(); break;
+        }
     }
 }

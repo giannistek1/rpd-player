@@ -57,7 +57,7 @@ public partial class CurrentPlaylistView : ContentView
 
             File.WriteAllText(fullPath, sb.ToString());
 
-            Toast.Make($"Saved playlist: {PlaylistNameEntry.Text} locally!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"{PlaylistNameEntry.Text} saved locally!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
         catch (Exception ex)
         {
@@ -70,7 +70,7 @@ public partial class CurrentPlaylistView : ContentView
             try
             {
                 DropboxRepository.SavePlaylist(PlaylistNameEntry.Text);
-                Toast.Make($"Saved playlist {PlaylistNameEntry.Text}!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                Toast.Make($"{PlaylistNameEntry.Text} saved locally and online!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             }
             catch (Exception ex)
             {

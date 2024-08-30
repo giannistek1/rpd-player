@@ -1,17 +1,10 @@
 ﻿using CommunityToolkit.Maui.Alerts;
-using Dropbox.Api.TeamCommon;
 using RpdPlayerApp.Models;
 
 namespace RpdPlayerApp.Architecture;
 
 internal static class HelperClass
 {
-    internal static readonly DateTime secondGenStartDate = new DateTime(2002, 12, 31);
-    internal static readonly DateTime thirdGenStartDate = new DateTime(year: 2012, month: 5, day: 25);
-    internal static readonly DateTime fourthGenStartDate = new DateTime(2018, 1, 1);
-    internal static readonly DateTime fifthGenStartDate = new DateTime(2023, 1, 1);
-
-
     private static Random rng = new Random();
 
     public static bool HasInternetConnection()

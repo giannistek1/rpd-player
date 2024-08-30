@@ -38,7 +38,7 @@ internal static class ArtistRepository
                 Artists.Add(new Artist(id: i, name: matches[n + 0].Groups[1].Value,
                     altName: matches[n + 1].Groups[1].Value,
                     debutDate: DateTime.ParseExact(matches[n + 2].Groups[1].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture),
-                    groupType,
+                    groupType: groupType,
                     memberCount: Convert.ToInt16(matches[n + 4].Groups[1].Value),
                     company: matches[n + 5].Groups[1].Value,
                     imageURL: matches[n + 6].Groups[1].Value));

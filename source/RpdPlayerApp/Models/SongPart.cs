@@ -6,7 +6,7 @@ internal class SongPart
 
     public string Title { get; set; }
     public string ArtistName { get; set; }
-    public Artist? Artist { get; set; }
+    public Artist Artist { get; set; }
 
     /// <summary>
     /// PartNameShort (P, C, D, DB, O, T, etc)
@@ -15,7 +15,7 @@ internal class SongPart
     public string PartNameNumber { get; set; } = String.Empty;
     public string PartNameFull { get; set; } = String.Empty;
     public string AlbumTitle { get; set; }
-    public Album? Album { get; set; }
+    public Album Album { get; set; }
     public string AlbumURL { get; set; } = string.Empty;
     public string AudioURL { get; set; }
     public string VideoURL { get; set; }
@@ -34,7 +34,7 @@ internal class SongPart
         // Somehow make part name a two parter? like if CDB 3 = Chorus 3 & Dance Break
         PartNameShort = partNameShort; // C
         PartNameNumber = partNameNumber; // 1
-        PartNameFull = $"{GetPartNameLong(partNameShort)} {PartNameNumber}"; // Chorus 1
+        PartNameFull = GetPartNameLong(partNameShort, partNameNumber);
 
         AlbumTitle = albumTitle;
         AudioURL = audioURL;
@@ -53,23 +53,30 @@ internal class SongPart
         VideoURL = videoURL;
     }
 
-    private string GetPartNameLong(string partNameShort)
+    private string GetPartNameLong(string partNameShort, string partNumber)
     {
         return partNameShort switch
         {
-            "B" => "Bridge",
-            "C" => "Chorus",
-            "CDB" => "Chorus & Dance Break",
-            "CE" => "Chorus & Ending",
-            "DB" => "Dance break",
-            "DBC" => "Dance Break & Chorus",
-            "DBE" => "Dance Break & Ending",
-            "E" => "Ending",
-            "I" => "Intro",
-            "O" => "Outro",
-            "P" => "Pre-chorus",
-            "T" => "Tiktok",
-            "V" => "Verse",
+            "B" => $"Bridge {partNumber}",
+            "C" => $"Chorus {partNumber}",
+            "CDB" => $"Chorus {partNumber} & Dance Break",
+            "CE" => $"Chorus {partNumber} & Ending",
+            "DB" => $"Dance break {partNumber}",
+
+            // Consider renaming your DBC songpart to DBE cuz dance break (3) and chorus (3) is more confusing than dance break 1 and ending
+            //"DBC" => $"Dance Break {partNumber} & Chorus", 
+            "DBE" => $"Dance Break {partNumber} & Ending",
+
+            // No songpart yet
+            "DBO" => $"Dance Break {partNumber} & Outro", 
+
+            "E" => $"Ending {partNumber}",
+            "I" => $"Intro {partNumber}",
+            "O" => $"Outro {partNumber}",
+            "P" => $"Pre-chorus {partNumber}",
+            "PDB" => $"Pre-chorus {partNumber} & Dance Break",
+            "T" => $"Tiktok {partNumber}",
+            "V" => $"Verse {partNumber}",
 
             _ => "Unkown song part"
         };

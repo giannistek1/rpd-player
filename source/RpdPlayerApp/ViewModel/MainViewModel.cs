@@ -16,6 +16,18 @@ internal static class MainViewModel
     /// </summary>
     public static readonly int ArtistPropertyAmount = 7;
 
+    internal static readonly DateTime secondGenStartDate = new DateTime(2002, 12, 31);
+    internal static readonly DateTime thirdGenStartDate = new DateTime(year: 2012, month: 5, day: 25);
+    internal static readonly DateTime fourthGenStartDate = new DateTime(2018, 1, 1);
+    internal static readonly DateTime fifthGenStartDate = new DateTime(2023, 1, 1);
+
+    public const string NOT_KPOP = "NOT KPOP";
+    public const string FIRST_GENERATION = "First generation";
+    public const string SECOND_GENERATION = "Second generation";
+    public const string THIRD_GENERATION = "Third generation";
+    public const string FOURTH_GENERATION = "Fourth generation";
+    public const string FIFTH_GENERATION = "Fifth generation";
+
     public static readonly string Path = FileSystem.Current.AppDataDirectory;
 
     public static SortMode SortMode { get; set; }
