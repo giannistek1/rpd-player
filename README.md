@@ -19,7 +19,7 @@ Current playlist
 - Balanced randomizer for any playlist which mixes grouptypes and TODO: artists.
 - Todo: Generate your own random play dance playlist based on a few settings
 - Todo: Voice clips in between songs (3,2,1, dance break)
-- Multiple different filters/grouping: Group type, language, generation, artist, song title
+- Multiple different filters/grouping: artist, company, clip length, generation, group type, language, song title
 - Todo: Video player to learn dances with speed adjustment (0.5, 0.75 speed)
 
 ## Home 
