@@ -347,7 +347,7 @@ public partial class SearchSongPartsView : ContentView
                         KeySelector = (object obj1) =>
                         {
                             var item = (obj1 as SongPart);
-                            return item!.AlbumTitle;
+                            return item!.AlbumTitle.ToUpper()[0].ToString();
                         },
                     });
 
@@ -583,6 +583,15 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Title:
+                    SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                    {
+                        PropertyName = "Title",
+                        KeySelector = (object obj1) =>
+                        {
+                            var item = (obj1 as SongPart);
+                            return item!.Title.ToUpper()[0].ToString();
+                        },
+                    });
                     songParts = songParts.OrderBy(s => s.Title).ToObservableCollection();
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
