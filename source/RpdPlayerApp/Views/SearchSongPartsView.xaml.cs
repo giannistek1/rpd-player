@@ -335,6 +335,7 @@ public partial class SearchSongPartsView : ContentView
         songParts.CollectionChanged -= SongPartsCollectionChanged;
 
         SonglibraryListView.DataSource?.GroupDescriptors.Clear();
+        SonglibraryListView.DataSource?.SortDescriptors.Clear();
 
         try
         {
@@ -541,6 +542,7 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.ReleaseDate:
+                    songParts = songParts.OrderByDescending(s => s.Album.ReleaseDate).ToObservableCollection();
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "ReleaseYear",
@@ -558,7 +560,7 @@ public partial class SearchSongPartsView : ContentView
                             }
                         },
                     });
-                    songParts = songParts.OrderByDescending(s => s.Album.ReleaseDate).ToObservableCollection();
+                    
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = true);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
