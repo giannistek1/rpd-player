@@ -1,6 +1,5 @@
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Items;
-using RpdPlayerApp.Models;
 using RpdPlayerApp.Repository;
 using RpdPlayerApp.ViewModel;
 using System.Collections.Specialized;
