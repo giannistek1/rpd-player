@@ -122,4 +122,9 @@ public partial class AudioPlayerControl : ContentView
 
         DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
     }
+
+    internal void StopAudio()
+    {
+        AudioMediaElement.Stop();
+    }
 }

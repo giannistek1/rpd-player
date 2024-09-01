@@ -12,6 +12,7 @@ namespace RpdPlayerApp.Views;
 public partial class SearchSongPartsView : ContentView
 {
     internal event EventHandler? PlaySongPart;
+    internal event EventHandler? StopSongPart;
     internal event EventHandler? AddSongPart;
     internal event EventHandler? SortPressed;
 
@@ -251,6 +252,27 @@ public partial class SearchSongPartsView : ContentView
                 case SearchFilterMode.Woollim:
                     FilterLabel.Text = "Woollim Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Woollim Entertainment").ToObservableCollection(); break;
+                case SearchFilterMode.IST:
+                    FilterLabel.Text = "IST Entertainment";
+                    songParts = allSongParts.Where(s => s.Artist?.Company == "IST Entertainment").ToObservableCollection(); break;
+
+                case SearchFilterMode.CJ_ENM_Music:
+                    FilterLabel.Text = "CJ ENM Music";
+                    songParts = allSongParts.Where(s => s.Artist?.Company == "AOMG" || 
+                                                        s.Artist?.Company == "B2M Entertainment" || 
+                                                        s.Artist?.Company == "Jellyfish Entertainment" ||
+                                                        s.Artist?.Company == "Wake One" || // Formerly known as MMO Entertainment
+                                                        s.Artist?.Company == "Stone Music Entertainment").ToObservableCollection(); break;
+                case SearchFilterMode.Kakao_Entertainment:
+                    FilterLabel.Text = "Kakao Entertainment";
+                    songParts = allSongParts.Where(s => s.Artist?.Company == "IST Entertainment" || // Went through a lot of renaming: A Cube -> Play A -> PLay M
+                                                        s.Artist?.Company == "Starship Entertainment" ||
+                                                        s.Artist?.Company == "EDAM Entertainment" ||
+                                                        s.Artist?.Company == "Bluedot Entertainment" ||
+                                                        s.Artist?.Company == "High Up Entertainment" ||
+                                                        s.Artist?.Company == "Bluedot Entertainment" ||
+                                                        s.Artist?.Company == "Antenna" ||
+                                                        s.Artist?.Company == "FLEX M").ToObservableCollection(); break;
 
                 case SearchFilterMode.Firstgen:
                     FilterLabel.Text = "First gen (< 2002)";
@@ -616,4 +638,12 @@ public partial class SearchSongPartsView : ContentView
     }
 
     #endregion
+
+    private async void SonglibraryListViewItemDoubleTapped(object sender, Syncfusion.Maui.ListView.ItemDoubleTappedEventArgs e)
+    {
+        SongPart songPart = (SongPart)e.DataItem;
+        StopSongPart.Invoke(sender, e);
+
+        await Navigation.PushAsync(new VideoPage(songPart));
+    }
 }

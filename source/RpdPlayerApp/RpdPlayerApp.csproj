@@ -45,28 +45,28 @@
     <PublishTrimmed>False</PublishTrimmed>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
-    <ApplicationVersion>16</ApplicationVersion>
-    <ApplicationDisplayVersion>0.3.2</ApplicationDisplayVersion>
+    <ApplicationVersion>17</ApplicationVersion>
+    <ApplicationDisplayVersion>0.3.3</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
     <PublishTrimmed>True</PublishTrimmed>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
-    <ApplicationVersion>16</ApplicationVersion>
-    <ApplicationDisplayVersion>0.3.2</ApplicationDisplayVersion>
+    <ApplicationVersion>17</ApplicationVersion>
+    <ApplicationDisplayVersion>0.3.3</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
-    <ApplicationVersion>16</ApplicationVersion>
-    <ApplicationDisplayVersion>0.3.2</ApplicationDisplayVersion>
+    <ApplicationVersion>17</ApplicationVersion>
+    <ApplicationDisplayVersion>0.3.3</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
-    <ApplicationVersion>16</ApplicationVersion>
-    <ApplicationDisplayVersion>0.3.2</ApplicationDisplayVersion>
+    <ApplicationVersion>17</ApplicationVersion>
+    <ApplicationDisplayVersion>0.3.3</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
@@ -75,14 +75,14 @@
     <PublishTrimmed>True</PublishTrimmed>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
-    <ApplicationVersion>16</ApplicationVersion>
-    <ApplicationDisplayVersion>0.3.2</ApplicationDisplayVersion>
+    <ApplicationVersion>17</ApplicationVersion>
+    <ApplicationDisplayVersion>0.3.3</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
-    <ApplicationVersion>16</ApplicationVersion>
-    <ApplicationDisplayVersion>0.3.2</ApplicationDisplayVersion>
+    <ApplicationVersion>17</ApplicationVersion>
+    <ApplicationDisplayVersion>0.3.3</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
   </PropertyGroup>
@@ -160,6 +160,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SearchSongPartsView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\VideoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

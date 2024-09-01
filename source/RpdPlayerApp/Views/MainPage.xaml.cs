@@ -19,6 +19,7 @@ public partial class MainPage : UraniumContentPage
         HomeView.FilterPressed += OnFilterPressed;
 
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
+        SearchSongPartsView.StopSongPart += OnStopSongPart;
         SearchSongPartsView.AddSongPart += OnAddSongPart;
         SearchSongPartsView.SortPressed += OnSortPressed;
 
@@ -90,6 +91,14 @@ public partial class MainPage : UraniumContentPage
                 
 
             AudioPlayerControl.PlayAudio(MainViewModel.CurrentSongPart);
+        }
+    }
+
+    private void OnStopSongPart(object sender, EventArgs e)
+    {
+        if (MainViewModel.CurrentSongPart is not null)
+        {
+            AudioPlayerControl.StopAudio();
         }
     }
 

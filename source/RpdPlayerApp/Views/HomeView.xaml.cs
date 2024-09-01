@@ -120,13 +120,14 @@ public partial class HomeView : ContentView
         };
 
         CompanyListView.ItemsSource = new List<HomeListViewItem>() {
-            new HomeListViewItem(title: "HYBE Labels", 
-                                 description: "HYBE Labels, formerly known as Big Hit Entertainment with child company: Source Music", 
-                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-hybe-labels.webp?raw=true", 
+            new HomeListViewItem(title: "HYBE Labels",
+                                 description: "HYBE Labels, formerly known as Big Hit Entertainment with child company: Source Music",
+                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-hybe-labels.webp?raw=true",
                                  searchFilterMode: SearchFilterMode.Hybe,
-                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "HYBE Labels" || s.Artist?.Company == "Big Hit Entertainment" || s.Artist?.Company == "Source Music")
+                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "HYBE Labels" ||
+                                                                                    s.Artist?.Company == "Big Hit Entertainment" ||
+                                                                                    s.Artist?.Company == "Source Music")
                                  ),
-
 
             new HomeListViewItem(title: "SM Entertainment",
                                 description: "SM Entertainment.",
@@ -149,6 +150,19 @@ public partial class HomeView : ContentView
                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "YG Entertainment")
                                 ),
 
+            new HomeListViewItem(title: "Kakao Entertainment",
+                                 description: "Kakao Entertainment. Has many child companies: IST Entertainment, Starship Entertainment, EDAM Entertainment, Bluedot Entertainment, High Up Entertainment, Antenna and FLEX M.",
+                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-kakao.webp?raw=true",
+                                 searchFilterMode: SearchFilterMode.Kakao_Entertainment,
+                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "IST Entertainment" || // Went through a lot of renaming: A Cube -> Play A -> PLay M
+                                                                                    s.Artist?.Company == "Starship Entertainment" ||
+                                                                                    s.Artist?.Company == "EDAM Entertainment" ||
+                                                                                    s.Artist?.Company == "Bluedot Entertainment" ||
+                                                                                    s.Artist?.Company == "High Up Entertainment" ||
+                                                                                    s.Artist?.Company == "Antenna" ||
+                                                                                    s.Artist?.Company == "FLEX M")
+                                 ),
+
             new HomeListViewItem(title: "Starship Entertainment",
                                 description: "Starship Entertainment.",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-starship.webp?raw=true",
@@ -170,12 +184,30 @@ public partial class HomeView : ContentView
                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Cube Entertainment")
                                 ),
 
+            new HomeListViewItem(title: "IST Entertainment",
+                                description: "IST Entertainment. Formerly known as A Cube, Play A, Play M.",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-ist.webp?raw=true",
+                                searchFilterMode: SearchFilterMode.IST,
+                                songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "IST Entertainment")
+                                ),
+
             new HomeListViewItem(title: "Pledis Entertainment", 
                                 description: "Pledis Entertainment.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-pledis.webp?raw=true", 
                                 searchFilterMode: SearchFilterMode.Pledis, 
                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Pledis Entertainment")
                                 ),
+
+            new HomeListViewItem(title: "CJ ENM Music",
+                                 description: "CJ ENM Music.",
+                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-cjenm.webp?raw=true",
+                                 searchFilterMode: SearchFilterMode.CJ_ENM_Music,
+                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "AOMG" ||
+                                                                                    s.Artist?.Company == "B2M Entertainment" ||
+                                                                                    s.Artist?.Company == "Jellyfish Entertainment" ||
+                                                                                    s.Artist?.Company == "Wake One" || // Formerly known as MMO Entertainment
+                                                                                    s.Artist?.Company == "Stone Music Entertainment")
+                                 ),
 
             new HomeListViewItem(title: "FNC Entertainment",
                                 description: "FNC Entertainment.",

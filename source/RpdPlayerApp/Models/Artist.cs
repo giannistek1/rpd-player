@@ -22,7 +22,7 @@ internal class Artist
     public string GroupTypeColor { get; set; } 
     public int MemberCount { get; set; }
     public string Company { get; set; }
-    public string Generation {  get; set; }
+    public string Generation { get; set; } = MainViewModel.NOT_KPOP;
     public Gen Gen { get; set; }
     public string ImageURL { get; set; }
 

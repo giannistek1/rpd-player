@@ -82,6 +82,7 @@
             AllowGroupExpandCollapse="True"
             Loaded="SonglibraryListView_Loaded"
             ItemTapped="SonglibraryListViewItemTapped"
+            ItemDoubleTapped="SonglibraryListViewItemDoubleTapped"
             SwipeEnded="SonglibraryListViewSwipeEnded">
 
             <syncfusion:SfListView.DataSource>
