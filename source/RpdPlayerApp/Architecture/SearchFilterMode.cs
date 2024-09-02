@@ -2,7 +2,7 @@
 
 internal enum SearchFilterMode
 {
-    All, 
+    All, DanceVideo,
     Male, Female, Mixed,
     Hybe, SM, JYP, YG, Cube, FNC, Pledis, Starship, RBW, Woollim, IST, CJ_ENM_Music, Kakao_Entertainment,
     KR, JP, EN, CH, TH,

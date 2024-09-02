@@ -16,6 +16,11 @@ internal static class MainViewModel
     /// </summary>
     public static readonly int ArtistPropertyAmount = 7;
 
+    /// <summary>
+    /// 5
+    /// </summary>
+    public static readonly int VideoPropertyAmount = 5;
+
     internal static readonly DateTime secondGenStartDate = new DateTime(2002, 12, 31);
     internal static readonly DateTime thirdGenStartDate = new DateTime(year: 2012, month: 5, day: 25);
     internal static readonly DateTime fourthGenStartDate = new DateTime(2018, 1, 1);

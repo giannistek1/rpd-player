@@ -49,7 +49,7 @@ public partial class LibraryView : ContentView
 
                     string artistName = matches[n + 0].Groups[1].Value;
                     string albumTitle = matches[n + 1].Groups[1].Value;
-                    string videoURL = matches[n + 6].Groups[1].Value.Replace(".mp3", "mp4");
+                    string videoURL = matches[n + 6].Groups[1].Value.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos");
 
                     SongPart songPart = new SongPart(id: i,
                         artistName: artistName,

@@ -3,41 +3,82 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:syncfusionExpander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.HomeView"
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="auto, auto, auto, *"
+          RowDefinitions="auto, auto, *"
           ColumnDefinitions="*">
 
+        <!-- Version -->
         <HorizontalStackLayout Grid.Row="0" >
 
             <Label Grid.Column="0" x:Name="VersionLabel" HorizontalOptions="End" FontSize="12" Text="Version xx" />
 
         </HorizontalStackLayout>
 
-        <HorizontalStackLayout Grid.Row="1">
+        <!-- Stats -->
+        <syncfusionExpander:SfExpander Grid.Row="1" AnimationDuration="200" IsExpanded="False" >
 
-            <Label Grid.Column="0" x:Name="SongPartCountLabel" Text="{Binding SongPartCount}" />
+            <syncfusionExpander:SfExpander.Header>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-            <Label Grid.Column="1" x:Name="UniqueSongCountLabel" HorizontalTextAlignment="End" Text="{Binding UniqueSongCount}" />
+                    <Image Grid.Row="0" HorizontalOptions="Start" Margin="0,0,10,0">
+                        <Image.Source>
+                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Database}" Color="{StaticResource White}" />
+                        </Image.Source>
+                    </Image>
 
-        </HorizontalStackLayout>
+                    <Label Grid.Row="1" CharacterSpacing="0.25" FontFamily="Roboto-Regular"  Text="Stats" FontSize="14" Grid.Column="1" VerticalOptions="CenterAndExpand"/>
 
-        <HorizontalStackLayout Grid.Row="2">
+                </Grid>
+            </syncfusionExpander:SfExpander.Header>
 
-            <Label Grid.Column="0" x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" />
+            <syncfusionExpander:SfExpander.Content>
+                <VerticalStackLayout>
+                    <HorizontalStackLayout Grid.Row="1">
 
-            <Label Grid.Column="1" x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
+                        <Label Grid.Column="0" x:Name="SongPartCountLabel" Text="{Binding SongPartCount}" />
 
-        </HorizontalStackLayout>
+                        <Label Grid.Column="1" x:Name="UniqueSongCountLabel" HorizontalTextAlignment="End" Text="{Binding UniqueSongCount}" />
 
-        <ScrollView Grid.Row="3">
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Row="2">
 
-            <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *" ColumnDefinitions="*">
+                        <Label Grid.Column="0" x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" />
 
-                <HorizontalStackLayout Grid.Row="0" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
+                        <Label Grid.Column="1" x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
+
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </syncfusionExpander:SfExpander.Content>
+            
+        </syncfusionExpander:SfExpander>
+
+        <!-- Categories -->
+        <ScrollView Grid.Row="2">
+
+            <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
+
+                <Label Grid.Row="0"
+                        HeightRequest="40" 
+                        TextColor="{StaticResource White}"
+                        LineBreakMode="NoWrap"
+                        Padding="4" Text="Categories" FontAttributes="Bold"
+                        FontSize="18" HorizontalOptions="Start"
+                        VerticalOptions="Center"/>
+
+                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -46,13 +87,24 @@
                             </HorizontalStackLayout.GestureRecognizers>
 
                             <Image x:Name="AllImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="All" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                            <Label Text="All songs" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+
+                    <Frame Padding="0">
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetFilter" CommandParameter="hasdancevideo"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+
+                            <Image x:Name="DancePracticeImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
+                            <Label Text="Video" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
+                <HorizontalStackLayout Grid.Row="2" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -78,7 +130,7 @@
 
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="2" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
+                <HorizontalStackLayout Grid.Row="3" HorizontalOptions="CenterAndExpand" Padding="4" Spacing="8">
 
                     <Frame Padding="0">
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" WidthRequest="150">
@@ -103,8 +155,13 @@
                     </Frame>
 
                 </HorizontalStackLayout>
+                
+                <!-- Generations -->
+                <syncfusionExpander:SfExpander Grid.Row="4" AnimationDuration="200" IsExpanded="False" Margin="4, 0" HeaderBackground="{StaticResource Gray600}" HeaderIconColor="White">
 
-                <Label Grid.Row="3"
+                    <syncfusionExpander:SfExpander.Header>
+
+                        <Label
                         HeightRequest="40" 
                         TextColor="{StaticResource White}"
                         LineBreakMode="NoWrap"
@@ -112,22 +169,126 @@
                         FontSize="18" HorizontalOptions="Start"
                         VerticalOptions="Center"/>
 
-                <syncfusion:SfListView
-                        Grid.Row="4"
-                        x:Name="GenerationListView"
-                        Orientation="Horizontal"
-                        AutoFitMode="Height" 
-                        SelectionMode="None"
-                        ItemSpacing="8"
-                        HeightRequest="180"
-                        ItemTapped="GenerationListViewItemTapped">
+                    </syncfusionExpander:SfExpander.Header>
 
-                    <syncfusion:SfListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <VerticalStackLayout Padding="0">
+                    <syncfusionExpander:SfExpander.Content>
 
-                                        <Image HeightRequest="120" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                        <syncfusion:SfListView
+                            x:Name="GenerationListView"
+                            Orientation="Horizontal"
+                            AutoFitMode="Height" 
+                            SelectionMode="None"
+                            ItemSpacing="8"
+                            HeightRequest="180"
+                            ItemTapped="GenerationListViewItemTapped">
+
+                            <syncfusion:SfListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <VerticalStackLayout Padding="0">
+
+                                            <Image HeightRequest="120" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                                <Image.Source>
+                                                    <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
+                                                </Image.Source>
+                                            </Image>
+
+                                            <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
+                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
+                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                            </HorizontalStackLayout>
+
+                                        </VerticalStackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </syncfusion:SfListView.ItemTemplate>
+                        </syncfusion:SfListView>
+
+                    </syncfusionExpander:SfExpander.Content>
+
+                </syncfusionExpander:SfExpander>
+
+                <!-- Companies -->
+                <syncfusionExpander:SfExpander Grid.Row="5" AnimationDuration="200" IsExpanded="False" Margin="4, 0" HeaderBackground="{StaticResource Gray600}" HeaderIconColor="White">
+
+                    <syncfusionExpander:SfExpander.Header>
+                        
+                        <Label
+                        HeightRequest="40" 
+                        TextColor="{StaticResource White}"
+                        LineBreakMode="NoWrap"
+                        Padding="4" Text="Companies" FontAttributes="Bold"
+                        FontSize="18" HorizontalOptions="Start"
+                        VerticalOptions="Center"/>
+                        
+                    </syncfusionExpander:SfExpander.Header>
+
+                    <syncfusionExpander:SfExpander.Content>
+
+                        <syncfusion:SfListView
+                            x:Name="CompanyListView"
+                            Orientation="Horizontal"
+                            AutoFitMode="Height" 
+                            SelectionMode="None"
+                            ItemSpacing="8"
+                            HeightRequest="160"
+                            ItemTapped="CompanyListView_ItemTapped">
+
+                            <syncfusion:SfListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <VerticalStackLayout Padding="0">
+
+                                            <Image HeightRequest="100" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                                <Image.Source>
+                                                    <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
+                                                </Image.Source>
+                                            </Image>
+
+                                            <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
+                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
+                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                            </HorizontalStackLayout>
+
+                                        </VerticalStackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </syncfusion:SfListView.ItemTemplate>
+                        </syncfusion:SfListView>
+
+                    </syncfusionExpander:SfExpander.Content>
+
+                </syncfusionExpander:SfExpander>
+
+                <!-- Languages -->
+                <syncfusionExpander:SfExpander Grid.Row="6" AnimationDuration="200" IsExpanded="False" Margin="4, 0" HeaderBackground="{StaticResource Gray600}" HeaderIconColor="White">
+                    <syncfusionExpander:SfExpander.Header>
+                        <Label
+                        HeightRequest="40" 
+                        TextColor="{StaticResource White}"
+                        LineBreakMode="NoWrap"
+                        Padding="4" Text="Languages" FontAttributes="Bold"
+                        FontSize="18" HorizontalOptions="Start"
+                        VerticalOptions="Center"/>
+                    </syncfusionExpander:SfExpander.Header>
+
+                    <syncfusionExpander:SfExpander.Content>
+
+                        <syncfusion:SfListView
+                            x:Name="LanguageListView"
+                            Orientation="Horizontal"
+                            AutoFitMode="Height" 
+                            SelectionMode="None"
+                            ItemSpacing="8"
+                            HeightRequest="140"
+                            ItemTapped="LanguageListView_ItemTapped">
+
+                            <syncfusion:SfListView.ItemTemplate>
+                                <DataTemplate>
+
+                                    <VerticalStackLayout Padding="0">
+
+                                        <Image HeightRequest="80" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                             <Image.Source>
                                                 <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
                                             </Image.Source>
@@ -139,90 +300,14 @@
                                         </HorizontalStackLayout>
 
                                     </VerticalStackLayout>
-                                </ViewCell>
-                        </DataTemplate>
-                    </syncfusion:SfListView.ItemTemplate>
-                </syncfusion:SfListView>
 
-                <Label Grid.Row="5"
-                        HeightRequest="40" 
-                        TextColor="{StaticResource White}"
-                        LineBreakMode="NoWrap"
-                        Padding="4" Text="Companies" FontAttributes="Bold"
-                        FontSize="18" HorizontalOptions="Start"
-                        VerticalOptions="Center"/>
+                                </DataTemplate>
+                            </syncfusion:SfListView.ItemTemplate>
+                        </syncfusion:SfListView>
 
-                <syncfusion:SfListView
-                        Grid.Row="6"
-                        x:Name="CompanyListView"
-                        Orientation="Horizontal"
-                        AutoFitMode="Height" 
-                        SelectionMode="None"
-                        ItemSpacing="8"
-                        HeightRequest="160"
-                        ItemTapped="CompanyListView_ItemTapped">
+                    </syncfusionExpander:SfExpander.Content>
 
-                    <syncfusion:SfListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <VerticalStackLayout Padding="0">
-
-                                    <Image HeightRequest="100" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                        <Image.Source>
-                                            <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
-                                        </Image.Source>
-                                    </Image>
-
-                                    <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
-                                        <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
-                                        <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
-                                    </HorizontalStackLayout>
-
-                                </VerticalStackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </syncfusion:SfListView.ItemTemplate>
-                </syncfusion:SfListView>
-
-                <Label Grid.Row="7"
-                        HeightRequest="40" 
-                        TextColor="{StaticResource White}"
-                        LineBreakMode="NoWrap"
-                        Padding="4" Text="Languages" FontAttributes="Bold"
-                        FontSize="18" HorizontalOptions="Start"
-                        VerticalOptions="Center"/>
-
-                <syncfusion:SfListView
-                        Grid.Row="8"
-                        x:Name="LanguageListView"
-                        Orientation="Horizontal"
-                        AutoFitMode="Height" 
-                        SelectionMode="None"
-                        ItemSpacing="8"
-                        HeightRequest="140"
-                        ItemTapped="LanguageListView_ItemTapped">
-
-                    <syncfusion:SfListView.ItemTemplate>
-                        <DataTemplate>
-
-                                <VerticalStackLayout Padding="0">
-
-                                    <Image HeightRequest="80" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                        <Image.Source>
-                                            <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
-                                        </Image.Source>
-                                    </Image>
-
-                                    <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
-                                        <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
-                                        <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
-                                    </HorizontalStackLayout>
-
-                                </VerticalStackLayout>
-
-                        </DataTemplate>
-                    </syncfusion:SfListView.ItemTemplate>
-                </syncfusion:SfListView>
+                </syncfusionExpander:SfExpander>
 
             </Grid>
         </ScrollView>

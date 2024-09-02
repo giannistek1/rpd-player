@@ -1,6 +1,10 @@
-﻿namespace RpdPlayerApp.Models;
+﻿using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Repositories;
+using System.ComponentModel;
 
-internal class SongPart
+namespace RpdPlayerApp.Models;
+
+internal class SongPart : INotifyPropertyChanged
 {
     public int Id { get; set; }
 
@@ -14,43 +18,50 @@ internal class SongPart
     public string PartNameShort { get; set; }
     public string PartNameNumber { get; set; } = String.Empty;
     public string PartNameFull { get; set; } = String.Empty;
+    public SongPartOrder PartClassification { get; set; } = SongPartOrder.Unspecified;
     public string AlbumTitle { get; set; }
     public Album Album { get; set; }
     public string AlbumURL { get; set; } = string.Empty;
     public string AudioURL { get; set; }
     public string VideoURL { get; set; }
+    public bool HasVideo { get; set; }
     public bool ShowClipLength { get; set; } = false;
     public double ClipLength { get; set; }
     public TimeSpan ClipLengthAsTimeSpan { get; set; }
 
-    public bool IsPlaying { get; set; } = false;
-     
+    private bool isPlaying = false;
+    public bool IsPlaying
+    {
+        get
+        {
+            return isPlaying;
+        }
+
+        set
+        {
+            isPlaying = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsPlaying)));
+        }
+    }
+    public event PropertyChangedEventHandler PropertyChanged;
+
     public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, double clipLength, string audioURL, string videoURL)
     {
         Id = id;
         Title = title;
         ArtistName = artistName;
 
-        // Somehow make part name a two parter? like if CDB 3 = Chorus 3 & Dance Break
         PartNameShort = partNameShort; // C
         PartNameNumber = partNameNumber; // 1
         PartNameFull = GetPartNameLong(partNameShort, partNameNumber);
+        PartClassification = GetSongPartOrder(partNameShort);
 
         AlbumTitle = albumTitle;
         AudioURL = audioURL;
         ClipLength = clipLength;
         ClipLengthAsTimeSpan = TimeSpan.FromSeconds(clipLength);
         VideoURL = videoURL;
-    }
-
-    public SongPart(string artistName, string albumName, string title, string partNameShort, string audioURL, string videoURL)
-    {
-        Title = title;
-        ArtistName = artistName;
-        PartNameShort = partNameShort;
-        AlbumTitle = albumName;
-        AudioURL = audioURL;
-        VideoURL = videoURL;
+        HasVideo = VideoRepository.VideoExists(artistName: artistName, title: title, partNameShort: partNameShort, partNameNumber: partNameNumber);
     }
 
     private string GetPartNameLong(string partNameShort, string partNumber)
@@ -79,6 +90,22 @@ internal class SongPart
             "V" => $"Verse {partNumber}",
 
             _ => "Unkown song part"
+        };
+    }
+
+    private SongPartOrder GetSongPartOrder(string partNameShort)
+    {
+        return partNameShort switch
+        {
+            "P" or "PDB" => SongPartOrder.Prechorus,
+            "C" or "CDB" or "CE" => SongPartOrder.Chorus,
+            "B" or "DB" or "O" or "DBO" or "DBE" => SongPartOrder.Dancebreak,
+            "T" => SongPartOrder.Tiktok,
+            "E" or "O" => SongPartOrder.Ending,
+            "I" => SongPartOrder.Intro,
+            "V" => SongPartOrder.Verse,
+
+            "U" or _ => SongPartOrder.Unspecified
         };
     }
 }

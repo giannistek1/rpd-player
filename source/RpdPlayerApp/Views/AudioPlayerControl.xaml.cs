@@ -117,6 +117,7 @@ public partial class AudioPlayerControl : ContentView
         NowPlayingLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
 
         AudioMediaElement.Play();
+        songPart.IsPlaying = true;
 
         TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
 

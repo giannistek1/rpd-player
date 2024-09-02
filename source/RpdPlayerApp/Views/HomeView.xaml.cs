@@ -1,5 +1,6 @@
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Items;
+using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Repository;
 using RpdPlayerApp.ViewModel;
 using System.Collections.Specialized;
@@ -71,6 +72,7 @@ public partial class HomeView : ContentView
         // Get
         ArtistRepository.GetArtists(); 
         AlbumRepository.GetAlbums();
+        VideoRepository.GetVideos();
         SongPartRepository.GetSongParts();
 
         FemaleImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-female.jpg?raw=true"));
@@ -80,6 +82,7 @@ public partial class HomeView : ContentView
         GroupImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-group.jpg?raw=true"));
 
         AllImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-all.png?raw=true"));
+        DancePracticeImage.Source = ImageSource.FromUri(new Uri("https://github.com/giannistek1/rpd-images/blob/main/home-dance-practice.jpg?raw=true"));
 
         GenerationListView.ItemsSource = new List<HomeListViewItem>() { 
             new HomeListViewItem(title: "1st Generation", 
@@ -291,6 +294,7 @@ public partial class HomeView : ContentView
         {
             case "none":
             case "all":MainViewModel.SearchFilterMode = SearchFilterMode.All; break;
+            case "hasdancevideo": MainViewModel.SearchFilterMode = SearchFilterMode.DanceVideo; break;
 
             case "female": MainViewModel.SearchFilterMode = SearchFilterMode.Female; break;
             case "male": MainViewModel.SearchFilterMode = SearchFilterMode.Male; break;

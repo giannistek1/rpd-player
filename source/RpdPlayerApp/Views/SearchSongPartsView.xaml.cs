@@ -77,6 +77,7 @@ public partial class SearchSongPartsView : ContentView
         if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
             return;
 
+        // Play Song
         SongPart songPart = (SongPart)e.DataItem;
 
         if (songPart.AudioURL != string.Empty)
@@ -214,6 +215,9 @@ public partial class SearchSongPartsView : ContentView
             switch (MainViewModel.SearchFilterMode)
             {
                 case SearchFilterMode.All: FilterLabel.Text = "All songs"; songParts = allSongParts; break;
+
+                case SearchFilterMode.DanceVideo: FilterLabel.Text = "Mirrored dance video songs"; 
+                    songParts = allSongParts.Where(s => s.HasVideo).ToObservableCollection(); break;
 
                 case SearchFilterMode.Male:
                     FilterLabel.Text = "Boy(groups)";
@@ -460,6 +464,31 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.ClipLength:
                     songParts = songParts.OrderBy(s => s.ClipLength).ToObservableCollection();
+                    SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                    {
+                        PropertyName = "ClipLengthRange",
+                        KeySelector = (object obj1) =>
+                        {
+                            var item = (obj1 as SongPart);
+
+                            return item?.ClipLength switch
+                            {
+                                <= 20.0 => "< 20s",
+                                > 20.0 and <= 25.0 => "20-25s",
+                                > 25.0 and <= 30.0 => "25-30s",
+                                > 30.0 and <= 35.0 => "30-35s",
+                                > 35.0 and <= 40.0 => "35-40s",
+                                > 40.0 and <= 45.0 => "40-45s",
+                                > 45.0 and <= 50.0 => "45-50s",
+                                > 50.0 and <= 55.0 => "50-55s",
+                                > 55.0 and <= 60.0 => "55-60s",
+                                > 60.0 => "> 1 min",
+
+                                _ => "Unknown"
+                            };
+                        },
+                    });
+                    
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = true);
@@ -591,15 +620,15 @@ public partial class SearchSongPartsView : ContentView
                 case SortMode.SongPart:
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
-                        PropertyName = "PartNameFull",
+                        PropertyName = "PartNameClassification",
                         KeySelector = (object obj1) =>
                         {
                             var item = (obj1 as SongPart);
-                            return item!.PartNameFull;
+                            return item!.PartClassification;
                         },
                     });
 
-                    songParts = songParts.OrderBy(s => s.PartNameFull).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.PartClassification).ToObservableCollection();
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -616,7 +645,7 @@ public partial class SearchSongPartsView : ContentView
                             return item!.Title.ToUpper()[0].ToString();
                         },
                     });
-                    songParts = songParts.OrderBy(s => s.Title).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.Title).ThenBy(s => s.Artist).ThenBy(s => s.PartClassification).ToObservableCollection();
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);

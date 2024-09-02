@@ -150,29 +150,40 @@
                             <Label IsVisible="{Binding Artist.ShowMemberCount}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.MemberCount}" />
                             <Label IsVisible="{Binding ShowClipLength}" VerticalOptions="CenterAndExpand" Text="{Binding ClipLengthAsTimeSpan, StringFormat='{0:mm\\:ss}'}" />
 
-                            <HorizontalStackLayout>
-                                
-                                <Image HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                            <Grid ColumnDefinitions="auto, *, auto, auto">
+
+                                <Image Grid.Column="0" WidthRequest="50" MinimumWidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
                                         <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
                                     </Image.Source>
                                 </Image>
-                                
-                                <VerticalStackLayout Padding="10">
 
-                                    <HorizontalStackLayout>
-                                        <Label VerticalOptions="Start" Text="{Binding Title}" />
-                                        <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Padding="10">
+
+                                    <HorizontalStackLayout >
+                                        <Label VerticalOptions="StartAndExpand" Text="{Binding Title}" />
+                                        <Label VerticalOptions="StartAndExpand" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
                                     </HorizontalStackLayout>
 
                                     <HorizontalStackLayout>
-                                        <Label VerticalOptions="Start" Text="{Binding ArtistName}" />
-                                        <!-- TODO: Not working -->
-                                        <!--<Label IsVisible="{Binding IsPlaying}" VerticalOptions="CenterAndExpand" Text="▶️" />-->
+                                        <Label VerticalOptions="StartAndExpand" Text="{Binding ArtistName}" />
+                                        
                                     </HorizontalStackLayout>
 
                                 </VerticalStackLayout>
-                            </HorizontalStackLayout>
+
+                                <Image Grid.Column="2" IsVisible="{Binding HasVideo}" HeightRequest="30" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Videocam}" Color="{StaticResource White}" />
+                                    </Image.Source>
+                                </Image>
+                            
+                                <Image Grid.Column="3" IsVisible="{Binding IsPlaying}" HeightRequest="30" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{StaticResource White}" />
+                                    </Image.Source>
+                                </Image>
+                            </Grid>
 
                         </VerticalStackLayout>
                     </ViewCell>
