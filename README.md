@@ -45,13 +45,19 @@ Android, iOS (Todo), Windows
 - Todo: Video player to learn dances with speed adjustment (0.5, 0.75 speed)
 
 ## Home 
-Todo...
+<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/home.jpg?raw=true" width="280">
 
 ## Search library
-Todo...
+<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/search-song.jpg?raw=true" width="280">
+
+## Sorting
+<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/order-by.jpg?raw=true" width="280">
 
 ## Playlists
-Todo...
+<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/playlists.jpg?raw=true" width="280">
+
+## Current playlist
+<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/current-playlist.jpg?raw=true" width="280">
 
 ## Libraries
 - CommunityToolkit.Maui.MediaElement by Microsoft -> audio and video processing
