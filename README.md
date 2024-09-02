@@ -1,6 +1,16 @@
 # Rpd-player
 Currently this hobby project is in a very WIP state.
 
+## Overview
+- Context
+- Supported platforms
+- Problems Solved
+- Summary
+- Home screen
+- Search/library screen
+- Playlists screen
+- Current playlist
+
 ## Context
 RPD stands for Random Play Dance. <br/>
 These are socia, international, dance events where a group of people stand around in a rectangle and dance in the rectangle when they hear a song they know the dance of. <br/>
@@ -10,13 +20,6 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 
 ## Supported platforms
 Android, iOS (Todo), Windows
-
-## Overview
-- Summary
-- Home screen
-- Search/library screen
-- Playlists screen
-- Current playlist
 
 ## Problems solved:
 - Todo: Hours of searching and editing music/videos -> Mere minutes of making a RPD playlist by importing your songlist or searching one by one.
