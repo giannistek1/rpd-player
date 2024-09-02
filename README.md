@@ -45,7 +45,11 @@ Android, iOS (Todo), Windows
 - Todo: Video player to learn dances with speed adjustment (0.5, 0.75 speed)
 
 ## Home 
-<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/home.jpg?raw=true" width="280">
+<p float="left">
+   <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/home-1.jpg?raw=true" width="280">
+   ----
+   <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/home-2.jpg?raw=true" width="280">
+</p>
 
 ## Search library
 <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/search-song.jpg?raw=true" width="280">
