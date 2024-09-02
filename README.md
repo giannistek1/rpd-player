@@ -34,7 +34,7 @@ Android, iOS (Todo), Windows
 - Todo: Language variety (Kpop, cpop, jpop, tpop)
 
 # Feature summary
-- Music Player app for (kpop) random play dances
+- Music Player app for (kpop) random play dances. Includes playing, pausing and moving the audio progress slider.
 - Catalog of ~1500 songs and ~210 artists (1000 songs and 170 artists right now)
    -  Mostly choruses and pre-choruses, but also dance breaks/bridges and tiktok versions
 - Create your own playlist, save it locally or online (todo: shareable)
