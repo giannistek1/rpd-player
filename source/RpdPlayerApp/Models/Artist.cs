@@ -74,7 +74,7 @@ internal class Artist
         
         switch(groupType)
         {
-            case GroupType.BG: GroupTypeColor = Colors.Blue.ToHex(); break;
+            case GroupType.BG: GroupTypeColor = Colors.DeepSkyBlue.ToHex(); break;
             case GroupType.GG: GroupTypeColor = Colors.Magenta.ToHex(); break;
             case GroupType.MIX: GroupTypeColor = Colors.Gray.ToHex(); break;
             case GroupType.NOT_SET: GroupTypeColor = Colors.White.ToHex(); break;

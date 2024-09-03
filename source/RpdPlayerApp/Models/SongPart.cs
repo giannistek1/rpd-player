@@ -43,6 +43,94 @@ internal class SongPart : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsPlaying)));
         }
     }
+
+    private double playingIconScaleY1 = 1.0;
+    public double PlayingIconScaleY1
+    {
+        get
+        {
+            return playingIconScaleY1;
+        }
+
+        set
+        {
+            playingIconScaleY1 = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PlayingIconScaleY1)));
+        }
+    }
+    private double playingIconTranslationY1 = 1.0;
+    public double PlayingIconTranslationY1
+    {
+        get
+        {
+            return playingIconTranslationY1;
+        }
+
+        set
+        {
+            playingIconTranslationY1 = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PlayingIconTranslationY1)));
+        }
+    }
+
+    private double playingIconScaleY2 = 0.2;
+    public double PlayingIconScaleY2
+    {
+        get
+        {
+            return playingIconScaleY2;
+        }
+
+        set
+        {
+            playingIconScaleY2 = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PlayingIconScaleY2)));
+        }
+    }
+    private double playingIconTranslationY2 = 1.0;
+    public double PlayingIconTranslationY2
+    {
+        get
+        {
+            return playingIconTranslationY2;
+        }
+
+        set
+        {
+            playingIconTranslationY2 = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PlayingIconTranslationY2)));
+        }
+    }
+
+    private double playingIconScaleY3 = 0.6;
+    public double PlayingIconScaleY3
+    {
+        get
+        {
+            return playingIconScaleY3;
+        }
+
+        set
+        {
+            playingIconScaleY3 = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PlayingIconScaleY3)));
+        }
+    }
+    private double playingIconTranslationY3 = 1.0;
+    public double PlayingIconTranslationY3
+    {
+        get
+        {
+            return playingIconTranslationY3;
+        }
+
+        set
+        {
+            playingIconTranslationY3 = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PlayingIconTranslationY3)));
+        }
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, double clipLength, string audioURL, string videoURL)

@@ -6,6 +6,8 @@ namespace RpdPlayerApp.ViewModel;
 
 internal static class MainViewModel
 {
+    #region Constants
+    // Margin/padding order: Left, Top, Right, and Bottom. LTRB (Clockwise from 9)
     /// <summary>
     /// 7
     /// </summary>
@@ -34,6 +36,8 @@ internal static class MainViewModel
     public const string FIFTH_GENERATION = "Fifth generation";
 
     public static readonly string Path = FileSystem.Current.AppDataDirectory;
+
+    #endregion
 
     public static SortMode SortMode { get; set; }
     public static SearchFilterMode SearchFilterMode { get; set; }

@@ -12,29 +12,22 @@
 
         <Slider x:Name="AudioProgressSlider" Margin="-20,0,-20,0" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="10" />
 
-        <Grid ColumnDefinitions="50, *, 80, 60">
+        <Grid ColumnDefinitions="50, *, 80, 50">
 
-            <Image Grid.Column="0" x:Name="AlbumImage" />
+            <Image Grid.Column="0" HeightRequest="50" x:Name="AlbumImage" />
 
-            <Label Grid.Column="1" x:Name="NowPlayingLabel" Padding="16,0,0,16"  VerticalTextAlignment="Center" FontSize="13"  TextColor="White" Text="Nothing playing"/>
-            <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,16,0,0"  VerticalTextAlignment="Center" FontSize="Micro" TextColor="White" Text="00:00"/>
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
+                <Label x:Name="NowPlayingLabel" Padding="16,0,0,0" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" FontSize="14"  TextColor="White" Text="Nothing playing"/>
+                <Label x:Name="NowPlayingPartLabel" Padding="16,0,0,0" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="12"  TextColor="White" Text=""/>
+            </VerticalStackLayout>
+
+            <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,0,0,0"  VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="Micro" TextColor="White" Text="00:00"/>
 
 
-            <!--<buttons:SfButton Grid.Column="3" x:Name="PlayToggleButton" Clicked="PlayToggleButton_Pressed"
-                    TextColor="White" 
-                    ShowIcon="True"
-                    Padding="0">
-
-                <buttons:SfButton.ImageSource>
-                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m2:MaterialOutlined.Play_pause}" Color="{StaticResource White}" />
-                </buttons:SfButton.ImageSource>
-                
-            </buttons:SfButton>-->
-
-            <material:ButtonView Grid.Column="3" x:Name="PlayToggleButton"  Pressed="PlayToggleButton_Pressed">
+            <material:ButtonView Grid.Column="3" MinimumHeightRequest="50" x:Name="PlayToggleButton"  Pressed="PlayToggleButton_Pressed">
                 <Image x:Name="PlayToggleImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_pause}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Play_arrow}" Color="{StaticResource White}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>

@@ -6,6 +6,7 @@ using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.ViewModel;
 using RpdPlayerApp.Architecture;
 using Syncfusion.Maui.DataSource;
+using CommunityToolkit.Maui.Animations;
 
 namespace RpdPlayerApp.Views;
 
@@ -18,6 +19,7 @@ public partial class SearchSongPartsView : ContentView
 
     internal ObservableCollection<SongPart> allSongParts;
     internal ObservableCollection<SongPart> songParts = new ObservableCollection<SongPart>();
+    internal List<SongPart> searchFilteredSongParts = new List<SongPart>();
     internal int SongCount { get; set; } = 0;
 
     public SearchSongPartsView()
@@ -69,6 +71,7 @@ public partial class SearchSongPartsView : ContentView
         }
     }
 
+    // Sender is a Syncfusion.Maui.ListView.SfListView
     private void SonglibraryListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
         if (!HelperClass.HasInternetConnection())
@@ -87,6 +90,8 @@ public partial class SearchSongPartsView : ContentView
 
             MainViewModel.CurrentSongPart = songPart;
             PlaySongPart?.Invoke(sender, e);
+            TimerManager.songPart = songPart;
+            TimerManager.StartInfiniteScaleYAnimationWithTimer();
         }
 
         SonglibraryListView.SelectedItems?.Clear();
@@ -172,7 +177,7 @@ public partial class SearchSongPartsView : ContentView
             return;
         }
 
-        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
+        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(searchFilteredSongParts.ToList());
         CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
@@ -191,13 +196,13 @@ public partial class SearchSongPartsView : ContentView
         // Set filter if set
         SetSearchFilterMode();
 
-        List<SongPart> list = songParts.Where(s => s.ArtistName.ToLower().Contains(e.NewTextValue.ToLower()) ||
+        searchFilteredSongParts = songParts.Where(s => s.ArtistName.ToLower().Contains(e.NewTextValue.ToLower()) ||
                                             s.Artist.AltName.ToLower().Contains(e.NewTextValue.ToLower()) ||
                                             s.Title.ToLower().Contains(e.NewTextValue.ToLower()))
                                             .ToList();
 
-        SonglibraryListView.ItemsSource = list;
-        ResultsLabel.Text = $"Currently showing: {list.Count} results";
+        SonglibraryListView.ItemsSource = searchFilteredSongParts;
+        ResultsLabel.Text = $"Currently showing: {searchFilteredSongParts.Count} results";
     }
 
     private void SortButton_Clicked(object sender, EventArgs e)
@@ -216,7 +221,8 @@ public partial class SearchSongPartsView : ContentView
             {
                 case SearchFilterMode.All: FilterLabel.Text = "All songs"; songParts = allSongParts; break;
 
-                case SearchFilterMode.DanceVideo: FilterLabel.Text = "Mirrored dance video songs"; 
+                case SearchFilterMode.DanceVideo:
+                    FilterLabel.Text = "Mirrored dance video songs";
                     songParts = allSongParts.Where(s => s.HasVideo).ToObservableCollection(); break;
 
                 case SearchFilterMode.Male:
@@ -262,8 +268,8 @@ public partial class SearchSongPartsView : ContentView
 
                 case SearchFilterMode.CJ_ENM_Music:
                     FilterLabel.Text = "CJ ENM Music";
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "AOMG" || 
-                                                        s.Artist?.Company == "B2M Entertainment" || 
+                    songParts = allSongParts.Where(s => s.Artist?.Company == "AOMG" ||
+                                                        s.Artist?.Company == "B2M Entertainment" ||
                                                         s.Artist?.Company == "Jellyfish Entertainment" ||
                                                         s.Artist?.Company == "Wake One" || // Formerly known as MMO Entertainment
                                                         s.Artist?.Company == "Stone Music Entertainment").ToObservableCollection(); break;
@@ -346,7 +352,7 @@ public partial class SearchSongPartsView : ContentView
 
             ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             SentrySdk.CaptureException(ex);
         }
@@ -356,8 +362,8 @@ public partial class SearchSongPartsView : ContentView
     #region Sort
     internal void RefreshSort()
     {
-        if (SonglibraryListView is null || SonglibraryListView.DataSource is  null) { return; }
-        
+        if (SonglibraryListView is null || SonglibraryListView.DataSource is null) { return; }
+
         songParts.CollectionChanged -= SongPartsCollectionChanged;
 
         SonglibraryListView.DataSource?.GroupDescriptors.Clear();
@@ -492,7 +498,7 @@ public partial class SearchSongPartsView : ContentView
                             };
                         },
                     });
-                    
+
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = true);
@@ -571,7 +577,7 @@ public partial class SearchSongPartsView : ContentView
                             {
                                 return "Album not found";
                             }
-                            
+
                         }
                     });
                     songParts.ToList().ForEach(s => s.Album.ShowAlbumReleaseDate = false);
@@ -619,7 +625,7 @@ public partial class SearchSongPartsView : ContentView
                             }
                         },
                     });
-                    
+
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = true);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -662,8 +668,8 @@ public partial class SearchSongPartsView : ContentView
                     break;
             }
         }
-        catch(Exception ex)
-        { 
+        catch (Exception ex)
+        {
             Dictionary<string, object> dict = new();
             dict.Add("SortMode", MainViewModel.SortMode.ToString());
             dict.Add("SearchFilterMode", MainViewModel.SearchFilterMode.ToString());
@@ -680,9 +686,20 @@ public partial class SearchSongPartsView : ContentView
 
     private async void SonglibraryListViewItemDoubleTapped(object sender, Syncfusion.Maui.ListView.ItemDoubleTappedEventArgs e)
     {
+        if (!HelperClass.HasInternetConnection())
+            return;
+
+        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
+            return;
+
         SongPart songPart = (SongPart)e.DataItem;
+        if (!songPart.HasVideo) { return; }
+
         StopSongPart.Invoke(sender, e);
 
-        await Navigation.PushAsync(new VideoPage(songPart));
+        if (Navigation.NavigationStack.Count == 0 || Navigation.NavigationStack.Last().GetType() != typeof(VideoPage))
+        {
+            await Navigation.PushAsync(new VideoPage(songPart), true);
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace RpdPlayerApp.Views;
 public partial class AudioPlayerControl : ContentView
 {
     private FontImageSource _pauseIcon = new();
-    private  FontImageSource _playIcon = new();
+    private FontImageSource _playIcon = new();
 
     public EventHandler Pause;
     
@@ -24,17 +24,19 @@ public partial class AudioPlayerControl : ContentView
         AudioProgressSlider.DragStarted += AudioProgressSliderDragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
 
-        //_pauseIcon = new FontImageSource
-        //{
-        //    FontFamily = "MaterialRegular",
-        //    Glyph = MaterialOutlined.Pause,
-        //};
+        _pauseIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRegular",
+            Glyph = MaterialOutlined.Pause,
+        };
 
-        //_playIcon = new FontImageSource
-        //{
-        //    FontFamily = "MaterialRegular",
-        //    Glyph = MaterialOutlined.Play_arrow,
-        //};
+        _playIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRegular",
+            Glyph = MaterialOutlined.Play_arrow,
+        };
+
+        PlayToggleImage.Source = _playIcon;
     }
 
     #region AudioProgressSlider
@@ -67,12 +69,16 @@ public partial class AudioPlayerControl : ContentView
             case PlayMode.Queue:
                 if (MainViewModel.SongPartsQueue.Count > 0)
                 {
-                    PlayAudio(MainViewModel.SongPartsQueue.Dequeue());
+                    SongPart songPart = MainViewModel.SongPartsQueue.Dequeue();
+                    PlayAudio(songPart);
+                    MainViewModel.CurrentSongPart = songPart;
                 }
                 else
                 {
                     AudioMediaElement.Stop();
                     AudioMediaElement.SeekTo(new TimeSpan(0));
+                    PlayToggleImage.Source = _playIcon;
+                    MainViewModel.CurrentSongPart.IsPlaying = false;
                 }
                 break;
 
@@ -95,17 +101,25 @@ public partial class AudioPlayerControl : ContentView
         if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
         {
             AudioMediaElement.Play();
+            PlayToggleImage.Source = _pauseIcon;
+            MainViewModel.CurrentSongPart.IsPlaying = true;
+            TimerManager.StartInfiniteScaleYAnimationWithTimer();
         }
         // If audio is paused (in middle)
         else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
         {
             AudioMediaElement.Play();
+            PlayToggleImage.Source = _pauseIcon;
+            MainViewModel.CurrentSongPart.IsPlaying = true;
+            TimerManager.StartInfiniteScaleYAnimationWithTimer();
         }
         // Else pause
         else if (AudioMediaElement.CurrentState == MediaElementState.Playing)
         {
             AudioMediaElement.Pause();
             Pause.Invoke(sender, e);
+            PlayToggleImage.Source = _playIcon;
+            MainViewModel.CurrentSongPart.IsPlaying = false;
         }
     }
 
@@ -114,10 +128,12 @@ public partial class AudioPlayerControl : ContentView
         AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
 
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
-        NowPlayingLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
+        NowPlayingLabel.Text = $"{songPart.Title}";
+        NowPlayingPartLabel.Text = $"{songPart.PartNameFull}";
 
         AudioMediaElement.Play();
         songPart.IsPlaying = true;
+        PlayToggleImage.Source = _pauseIcon;
 
         TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
 
@@ -127,5 +143,7 @@ public partial class AudioPlayerControl : ContentView
     internal void StopAudio()
     {
         AudioMediaElement.Stop();
+        MainViewModel.CurrentSongPart.IsPlaying = false;
+        PlayToggleImage.Source = _playIcon;
     }
 }

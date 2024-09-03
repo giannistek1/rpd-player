@@ -121,18 +121,14 @@
             <syncfusion:SfListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid ColumnDefinitions="10, 50, *, 50" Padding="10">
+                        <Grid ColumnDefinitions="4, 2*, 7*, *" Padding="0">
 
-                            <!--<BoxView Grid.Column="0" HeightRequest="50" WidthRequest="10" HorizontalOptions="Start" BackgroundColor="{Binding GroupTypeColor}">
-                                
-                            </BoxView>-->
-
-                            <BoxView Color="{Binding GroupTypeColor}"
-                                    CornerRadius="10"
-                                    WidthRequest="20"
-                                    HeightRequest="80"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center" />
+                            <BoxView Grid.Column="0"
+                                     Color="{Binding Artist.GroupTypeColor}"
+                                     WidthRequest="4"
+                                     HeightRequest="80"
+                                     VerticalOptions="Center"
+                                     HorizontalOptions="Center" />
 
                             <Image Grid.Column="1" Margin="4,0,0,0" HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                 <Image.Source>
@@ -140,25 +136,30 @@
                                 </Image.Source>
                             </Image>
 
-                            <VerticalStackLayout Grid.Column="2" Padding="10" MinimumWidthRequest="200">
+                            <VerticalStackLayout Grid.Column="2" Padding="10">
 
                                 <HorizontalStackLayout>
-                                    <Label VerticalOptions="Start" Text="{Binding Title}" />
-                                    <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                    <Label VerticalOptions="Start" Text="{Binding Title}" LineBreakMode="NoWrap" />
+                                    <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" LineBreakMode="TailTruncation"  />
                                 </HorizontalStackLayout>
                                 
                                 <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
 
                             </VerticalStackLayout>
 
-                            <syncfusion:DragIndicatorView Grid.Column="3" HeightRequest="15" ListView="{x:Reference CurrentPlaylistListView}" 
-                                                        HorizontalOptions="End" 
-                                                        VerticalOptions="Center">
-                                <Image>
+                            <syncfusion:DragIndicatorView Grid.Column="3" 
+                                                          HeightRequest="15" 
+                                                          ListView="{x:Reference CurrentPlaylistListView}" 
+                                                          HorizontalOptions="EndAndExpand" 
+                                                          VerticalOptions="Center"
+                                                          Margin="0,0,16,0">
+                                
+                                <Image HorizontalOptions="EndAndExpand">
                                     <Image.Source>
                                         <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.GripVertical}" Color="White" />
                                     </Image.Source>
                                 </Image>
+                                
                             </syncfusion:DragIndicatorView>
 
                         </Grid>

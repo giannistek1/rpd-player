@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
@@ -150,7 +151,7 @@
                             <Label IsVisible="{Binding Artist.ShowMemberCount}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.MemberCount}" />
                             <Label IsVisible="{Binding ShowClipLength}" VerticalOptions="CenterAndExpand" Text="{Binding ClipLengthAsTimeSpan, StringFormat='{0:mm\\:ss}'}" />
 
-                            <Grid ColumnDefinitions="auto, *, auto, auto">
+                            <Grid ColumnDefinitions="auto, *, auto, auto, auto, auto">
 
                                 <Image Grid.Column="0" WidthRequest="50" MinimumWidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
@@ -167,20 +168,30 @@
 
                                     <HorizontalStackLayout>
                                         <Label VerticalOptions="StartAndExpand" Text="{Binding ArtistName}" />
-                                        
+
                                     </HorizontalStackLayout>
 
                                 </VerticalStackLayout>
-
+                                
                                 <Image Grid.Column="2" IsVisible="{Binding HasVideo}" HeightRequest="30" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
                                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Videocam}" Color="{StaticResource White}" />
                                     </Image.Source>
                                 </Image>
-                            
-                                <Image Grid.Column="3" IsVisible="{Binding IsPlaying}" HeightRequest="30" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+
+                                <Image Grid.Column="3" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY1}" TranslationY="{Binding PlayingIconTranslationY1}" IsVisible="{Binding IsPlaying}" BackgroundColor="White" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Bar_chart_4_bars }" Color="{StaticResource White}" />
+                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{StaticResource White}" />
+                                    </Image.Source>
+                                </Image>
+                                <Image Grid.Column="4" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY2}" TranslationY="{Binding PlayingIconTranslationY2}" IsVisible="{Binding IsPlaying}" BackgroundColor="White" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{StaticResource White}" />
+                                    </Image.Source>
+                                </Image>
+                                <Image Grid.Column="5" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY3}" TranslationY="{Binding PlayingIconTranslationY3}" IsVisible="{Binding IsPlaying}" BackgroundColor="White" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{StaticResource White}" />
                                     </Image.Source>
                                 </Image>
                             </Grid>

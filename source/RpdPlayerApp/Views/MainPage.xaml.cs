@@ -82,11 +82,11 @@ public partial class MainPage : UraniumContentPage
         {
             if (SearchSongPartsView.songParts != null && SearchSongPartsView.songParts.Count > 0)
             {
-                // TODO: NOT WORKING
-                //SearchSongPartsView.songParts.CollectionChanged -= SearchSongPartsView.SongPartsCollectionChanged;
-                //SearchSongPartsView.songParts.FirstOrDefault(s => s.Id == MainViewModel.CurrentSongPart?.Id).IsPlaying = true;
-                //SearchSongPartsView.RefreshSongParts();
-                //SearchSongPartsView.songParts.CollectionChanged += SearchSongPartsView.SongPartsCollectionChanged;
+                // TODO: Based on song history
+                foreach (var songPart in SearchSongPartsView.songParts)
+                {
+                    songPart.IsPlaying = false;
+                }
             }
                 
 
