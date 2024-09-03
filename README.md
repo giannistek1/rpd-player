@@ -25,6 +25,7 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - Only Korean, Chinese, Japanese, English and Thai songs for now.
 - Dance practices for most songs included with priority for more popular songs.
 - May make an account system to save and load your own playlists online.
+- May add bpm per song to add countings and make animation based on bpm.
 
 ## Problems solved:
 - Todo: Hours of searching and editing music/videos -> Mere minutes of making a RPD playlist by importing your songlist or searching one by one.
