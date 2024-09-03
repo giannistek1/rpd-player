@@ -368,6 +368,8 @@ public partial class SearchSongPartsView : ContentView
             switch (MainViewModel.SortMode)
             {
                 case SortMode.AlbumName:
+                    songParts = songParts.OrderBy(s => s.AlbumTitle).ToObservableCollection();
+
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "AlbumTitle",
@@ -378,7 +380,6 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
-                    songParts = songParts.OrderBy(s => s.AlbumTitle).ToObservableCollection();
                     // TODO: SHOW ALBUM NAME
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
@@ -386,6 +387,8 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Artist:
+                    songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
+
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "ArtistName",
@@ -396,7 +399,6 @@ public partial class SearchSongPartsView : ContentView
                         }
                     });
 
-                    songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -437,6 +439,8 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Company:
+                    songParts = songParts.OrderBy(s => s.Artist?.Company).ToObservableCollection();
+
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "Company",
@@ -455,7 +459,6 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
-                    songParts = songParts.OrderBy(s => s.Artist?.Company).ToObservableCollection();
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -464,6 +467,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.ClipLength:
                     songParts = songParts.OrderBy(s => s.ClipLength).ToObservableCollection();
+
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "ClipLengthRange",
@@ -495,6 +499,9 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Generation:
+                    // Shows only korean songs, else you have to mess with the group non-kpop which gets in the way of grouping order.
+                    songParts = songParts.Where(s => s.Album.Language == "KR").OrderByDescending(s => s.Artist.Gen).ToObservableCollection();
+
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "Generation",
@@ -513,8 +520,6 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
-                    // Shows only korean songs, else you have to mess with the group non-kpop which gets in the way of grouping order.
-                    songParts = songParts.Where(s => s.Album.Language == "KR").OrderByDescending(s => s.Artist.Gen).ToObservableCollection();
                     foreach (SongPart sp in songParts)
                     {
                         sp.Album.ShowAlbumReleaseDate = false;
@@ -524,6 +529,8 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.GroupType:
+                    songParts = songParts.OrderBy(s => s.Artist?.GroupType).ToObservableCollection();
+
                     SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "GroupType",
@@ -541,14 +548,16 @@ public partial class SearchSongPartsView : ContentView
                             }
                         },
                     });
-                    songParts = songParts.OrderBy(s => s.Artist?.GroupType).ToObservableCollection();
+
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = true);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
                     break;
 
                 case SortMode.Language:
-                    SonglibraryListView.DataSource.GroupDescriptors.Add(new GroupDescriptor()
+                    songParts = songParts.OrderBy(s => s.Album?.Language).ToObservableCollection();
+
+                    SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "Language",
                         KeySelector = (object obj1) =>
@@ -565,14 +574,14 @@ public partial class SearchSongPartsView : ContentView
                             
                         }
                     });
-
-                    songParts = songParts.OrderBy(s => s.Album?.Language).ToObservableCollection();
                     songParts.ToList().ForEach(s => s.Album.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
                     break;
 
                 case SortMode.MemberCount:
+                    songParts = songParts.OrderByDescending(s => s.Artist?.MemberCount).ToObservableCollection();
+
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "MemberCount",
@@ -585,8 +594,6 @@ public partial class SearchSongPartsView : ContentView
                                 return $"{item!.Artist!.MemberCount} members";
                         },
                     });
-
-                    songParts = songParts.OrderByDescending(s => s.Artist?.MemberCount).ToObservableCollection();
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -594,6 +601,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.ReleaseDate:
                     songParts = songParts.OrderByDescending(s => s.Album.ReleaseDate).ToObservableCollection();
+
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "ReleaseYear",
@@ -618,6 +626,8 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.SongPart:
+                    songParts = songParts.OrderBy(s => s.PartClassification).ToObservableCollection();
+
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "PartNameClassification",
@@ -627,8 +637,6 @@ public partial class SearchSongPartsView : ContentView
                             return item!.PartClassification;
                         },
                     });
-
-                    songParts = songParts.OrderBy(s => s.PartClassification).ToObservableCollection();
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -636,6 +644,8 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Title:
+                    songParts = songParts.OrderBy(s => s.Title).ToObservableCollection();
+
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "Title",
@@ -645,7 +655,7 @@ public partial class SearchSongPartsView : ContentView
                             return item!.Title.ToUpper()[0].ToString();
                         },
                     });
-                    songParts = songParts.OrderBy(s => s.Title).ThenBy(s => s.Artist).ThenBy(s => s.PartClassification).ToObservableCollection();
+
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);

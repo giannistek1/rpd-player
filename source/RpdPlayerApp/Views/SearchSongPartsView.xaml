@@ -180,7 +180,7 @@
                             
                                 <Image Grid.Column="3" IsVisible="{Binding IsPlaying}" HeightRequest="30" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{StaticResource White}" />
+                                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Bar_chart_4_bars }" Color="{StaticResource White}" />
                                     </Image.Source>
                                 </Image>
                             </Grid>
