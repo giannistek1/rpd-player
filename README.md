@@ -18,8 +18,13 @@ This is paired with a short countdown between each song so people have enough ti
 Tyically in South Korea they last an hour. <br/>
 However in other countries they may be scheduled from 12:00-18:00 with several breaks and several different playlists of each 1-2 hours.
 
-## Supported platforms
-Android, iOS (Todo), Windows
+## Supported platforms and scope
+- Android, iOS (Todo), Windows
+- Music player will only play mp3, because it is high quality and compressed.
+- Playlists will be saved locally and online.
+- Only Korean, Chinese, Japanese, English and Thai songs for now.
+- Dance practices for most songs included with priority for more popular songs.
+- May make an account system to save and load your own playlists online.
 
 ## Problems solved:
 - Todo: Hours of searching and editing music/videos -> Mere minutes of making a RPD playlist by importing your songlist or searching one by one.
