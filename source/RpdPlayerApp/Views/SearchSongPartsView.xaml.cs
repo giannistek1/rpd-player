@@ -693,11 +693,12 @@ public partial class SearchSongPartsView : ContentView
             return;
 
         SongPart songPart = (SongPart)e.DataItem;
+
         if (!songPart.HasVideo) { return; }
 
         StopSongPart.Invoke(sender, e);
 
-        if (Navigation.NavigationStack.Count == 0 || Navigation.NavigationStack.Last().GetType() != typeof(VideoPage))
+        if (Navigation.NavigationStack.Count < 2)
         {
             await Navigation.PushAsync(new VideoPage(songPart), true);
         }
