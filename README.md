@@ -27,7 +27,7 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - May make an account system to save and load your own playlists online.
 - May add bpm per song to add countings and make animation based on bpm.
 
-## Problems solved:
+## Problems solved and benefits:
 - Todo: Hours of searching and editing music/videos -> Mere minutes of making a RPD playlist by importing your songlist or searching one by one.
 - Storage space saved on your phone by streaming the songs.
 - Save countless playlists, see how long they are and are easily editable.
@@ -38,6 +38,8 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - Todo: Easy way to share your playlist with other people when they have the app or send them a textual list.
 - Todo: Easy way to randomize your playlist with good variety.
 - Todo: Language variety (Kpop, cpop, jpop, tpop)
+- Songs are 30% louder than usual, which is ideal for people with smaller speakers.
+- Todo: No double songparts any more in your playlist
 
 # Feature summary
 - Music Player app for (kpop) random play dances. Includes playing, pausing and moving the audio progress slider.
@@ -76,7 +78,14 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - UraniumUI by Enisn -> For the tabview, bottomsheet and icons
 - Sentry by Sentry -> Crashlytics/analytics
 
-## Backlog dump 2024-09-03
+## Inspiration 
+- Spotify
+
+## Rival apps?
+- STEPIN - KPOP DANCE (100k users)
+- Sparky: Learn Kpop Dance (50k users)
+
+## Backlog dump 2024-09-06
 - Existing songs 
 - Louder:
 - Lion louder
@@ -87,14 +96,15 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - Dazzling light louder
 - Precious louder
 - Clc helicopter louder
-
+- 
 - Work it louder
 - Limitles louder 
 - Giants louder
 - What type of x louder
 - Highway to heaven louder
 - 4 walls louder 
-
+- No celestial LESS loud
+- 
 - Audio new:
 - Chung ha love u
 - Gleam new audio (live)
@@ -107,18 +117,19 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - Crazy over you bp new music
 - Rock ur body new music, sounds old
 - Sneakers new music
-- Exo power new music (live) 
------------------
+- Exo power new music (live)
+- 
+- -----------------
 - New songs
 - Lit dance break
-- No diggity db 
-
+- No diggity dance break
+- 
 - Nct dream songs
 - !!!Twice breakthrough, doughnut
 - Bad girl snsd jp
 - NiziU
-- Xikers
 - Henry
+- Wooah Blush
 - AlexA
 - Cignature
 - Skz booster
@@ -153,7 +164,6 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - ATBO
 - Key songs
 - Power 
-- Lisa Rockstar, new woman
 - Crazy - lsf
 - StayC
 - Enhypen
@@ -181,19 +191,32 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - Evnne
 - Me:i
 - Jo Yuri
+- NSYNC 
 - Izna
 - Old boygroups (teen top, big bang, suju, bap, etc)
-
+- Beast bad girl has a dancebreak but live and mv are different 
+- More Source artists: Eden, MIO,  Kan Miyoun, 8Eight, GLAM
+- 
 - Features
-
+- 
 - General
+- Grouptype color in header when sorting by artist. Binding GroupedGroupTypeColorVisible
+- If searching and empty and filter mode, show text, sadly could not find anything, try this clear filter button.
+- 
+- Scrollable labels? Auto scroll.
+- Video icon bottom right, playing icon right top
+- !!!!Update playlist stats
+- User feedback page or request song with checkbox include dance practice.
+- List song history for graph visible
+- IsInCurrentPlaylist
 - Icon toggle: outline, grayed and red, and one is full and black green
 - Rbw kara
+- Spanish words filter (te quiero, Mamacita, senorita, etc)?
+- Xikers has no videos?!
+- Skz2020 albums maken, hellevator = 2017
 - Mamamoo has mamamoo+?!
 - Go to bottom button 
 - Go to top button
-- More Source artists: Eden, MIO,  Kan Miyoun, 8Eight, GLAM
-- Grouped by "chorus" or "pre-chorus" or "dancebreak"
 - Change font
 - Song detail page
 - Looping
@@ -202,60 +225,64 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - Animate three rectangles on listitem when playing(visible true?) 
 - Next song by swipe gesture left 
 - Announcements: Dance break, chorus X, verse, tiktok
-
+- 
 - Notification channel 
 - Android auto
-
+- 
 - SearchSongPart
+- Add all results doesnt add because it only looks at filteredsearchlist.
+- Sort By verplaatsen en sorted by ->
+- Advanced search: artist: aaa, title: sjdhd
 - Double tap video = single tap with video icon (grayed out or not)
+- Video icon to the right
 - Order by release date: order by date within group
 - Turn on/off grouping
 - Bug: Searchfilter removes orderby?
 - Bug: Orderby ignores searchfilter 
 - AddAllResults update playlistscreen
 - Looping
-
+- 
 - Categories: like home screen
 - Viewmode: treenode or listview
 - Lazy loading?
-
+- 
 - Home
 - Settings button (for day6, the rose, etc), master volume
 - User
-- Expandable stats.
 - Press filter to go to searchsong tab.
 - Generate random playlist of half an hour, an hour, 1.5 hours etc. Eventually add details (bg/gg ratio, gens).
-- Years category?
-
+- 
 - Configurable filters
 - Recent years: 2020, 2021, 2022, 2023, 2024
-
+- 
 - Preconfigured playlists from dropbox (new/recent, popular, oldschool, etc)
-
+- 
 - Currentplaylist
-- Vertical bar at the start of the item with color of grouptype, maybe look into color uneven rows
-- Checkbox -> cloud symbol
+- Randomize: begin with most grouptype
+- Checkbox -> cloud toggle button
+- Expanded for extra stats
+- Expander for advanced options (voices, countdown)
 - Playlists subtabview (Local list, online list, currentplaylist)
-- group balance shuffle, 
+- Artist balance shuffle
 - Checkbox: add fade out/fade in between songs
 - The 321 in between
 - Looping
-
+- 
 - VideoPage
 - Mirrored label 
 - Speed adjustment
 - Details
 - Landscape mode
 - 8 Counts
-
+- 
 - Playlists
 - DataGrid
-
+- 
 - Queue page or tabpage? Or mainpage attachment?
-
-
+- 
+- 
 - Future: 
 - What if... You could swipe a whole group so it gets added to the playlist?!
 - Or tap to add (quick add) mode
-
-- Website previews all songs
+- 
+- website previews all songs
