@@ -666,6 +666,47 @@ public partial class SearchSongPartsView : ContentView
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
                     break;
+
+                case SortMode.ReleaseWeekDay:
+                    songParts = songParts.OrderBy(s => s.Album.ReleaseDate.DayOfWeek).ToObservableCollection();
+
+                    SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                    {
+                        PropertyName = "ReleaseDateWeekDAy",
+                        KeySelector = (object obj1) =>
+                        {
+                            var item = (obj1 as SongPart);
+                            return item!.Album.ReleaseDate.DayOfWeek.ToString();
+                        },
+                    });
+
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                    songParts.ToList().ForEach(s => s.ShowClipLength = false);
+                    break;
+
+                case SortMode.YearlyDate:
+                    songParts = songParts.OrderBy(s => s.Album.ReleaseDate.Month).ThenBy(s => s.Album.ReleaseDate.Day).ToObservableCollection();
+
+                    SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                    {
+                        PropertyName = "YearlyDate",
+                        KeySelector = (object obj1) =>
+                        {
+                            var item = (obj1 as SongPart);
+                            int month = item!.Album.ReleaseDate.Month;
+                            int day = item!.Album.ReleaseDate.Day;
+
+                            // Consider whether you want DateTime.UtcNow.Year instead
+                            DateTime date = new(DateTime.Now.Year, month, day);
+                            return date.ToString("MM/dd");
+                        },
+                    });
+
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                    songParts.ToList().ForEach(s => s.ShowClipLength = false);
+                    break;
             }
         }
         catch (Exception ex)

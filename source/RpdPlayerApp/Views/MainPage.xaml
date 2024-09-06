@@ -118,7 +118,7 @@
         <material:BottomSheetView x:Name="SortModeBottomSheet" BackgroundColor="Black" IsVisible="False">
             <TableView Intent="Menu" Margin="0,0,0,40">
                 <TableRoot>
-                    <TableSection Title="Sort by..." TextColor="White">
+                    <TableSection Title="Sort by..." TextColor="LightGreen">
                         <TextCell Tapped="SortByAlbumName" Text="Album name" TextColor="White" />
                         <TextCell Tapped="SortByArtistName" Text="Artist name" TextColor="White" />
                         <TextCell Tapped="SortBySongCountPerArtist" Text="Artist song count" TextColor="White" />
@@ -129,9 +129,11 @@
                         <TextCell Tapped="SortByLanguage" Text="Language" TextColor="White" />
                         <TextCell Tapped="SortByMemberCount" Text="Member count" TextColor="White" />
                         <TextCell Tapped="SortByReleaseDate" Text="Release date" TextColor="White" />
+                        <TextCell Tapped="SortByReleaseWeekDay"  Text="Release Weekday" TextColor="White" />
                         <TextCell Tapped="SortBySongPart"  Text="Song part" TextColor="White" />
                         <TextCell Tapped="SortBySongTitle"  Text="Song title" TextColor="White" />
-                        <TextCell Tapped="CancelSort"  Text="Cancel/hide" TextColor="White" />
+                        <TextCell Tapped="SortByYearlyDate"  Text="Yearly date" TextColor="White" />
+                        <TextCell Tapped="CancelSort"  Text="Cancel/hide" TextColor="Red" />
                     </TableSection>
                 </TableRoot>
             </TableView>

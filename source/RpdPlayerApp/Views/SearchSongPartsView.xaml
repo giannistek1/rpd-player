@@ -162,18 +162,18 @@
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Padding="10">
 
                                     <HorizontalStackLayout >
-                                        <Label VerticalOptions="StartAndExpand" Text="{Binding Title}" />
-                                        <Label VerticalOptions="StartAndExpand" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                        <Label VerticalOptions="StartAndExpand" FontSize="14" Text="{Binding Title}" />
+                                        <Label VerticalOptions="StartAndExpand" FontSize="13" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
                                     </HorizontalStackLayout>
 
                                     <HorizontalStackLayout>
-                                        <Label VerticalOptions="StartAndExpand" Text="{Binding ArtistName}" />
+                                        <Label VerticalOptions="StartAndExpand" FontSize="13" TextColor="LightGray" Text="{Binding ArtistName}" />
 
                                     </HorizontalStackLayout>
 
                                 </VerticalStackLayout>
                                 
-                                <Image Grid.Column="2" IsVisible="{Binding HasVideo}" HeightRequest="30" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                <Image Grid.Column="2" IsVisible="{Binding HasVideo}" HeightRequest="30" HorizontalOptions="End" Margin="6,0" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
                                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Videocam}" Color="{StaticResource White}" />
                                     </Image.Source>

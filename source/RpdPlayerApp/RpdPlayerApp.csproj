@@ -90,6 +90,11 @@
     <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
   
+  <!-- Supposedly makes debug version faster but disables hot reload -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <MauiForceXamlCForDebug>true</MauiForceXamlCForDebug>
+  </PropertyGroup>
+  
 	<ItemGroup>
     <!-- App Icon -->
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appicon.svg" Color="#64b06c" />

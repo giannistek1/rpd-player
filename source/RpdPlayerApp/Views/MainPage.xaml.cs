@@ -205,6 +205,22 @@ public partial class MainPage : UraniumContentPage
         SearchSongPartsView.RefreshSort();
     }
 
+    private void SortByReleaseWeekDay(object sender, EventArgs e)
+    {
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
+        MainViewModel.SortMode = Architecture.SortMode.ReleaseWeekDay;
+        SearchSongPartsView.RefreshSort();
+    }
+
+    private void SortByYearlyDate(object sender, EventArgs e)
+    {
+        SortModeBottomSheet.IsPresented = false;
+        SortModeBottomSheet.IsVisible = false;
+        MainViewModel.SortMode = Architecture.SortMode.YearlyDate;
+        SearchSongPartsView.RefreshSort();
+    }
+
     private void CancelSort(object sender, EventArgs e)
     {
         SortModeBottomSheet.IsPresented = false;

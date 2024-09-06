@@ -13,5 +13,7 @@ internal enum SortMode
     MemberCount = 8,
     AlbumName = 9,
     Company = 10,
-    Generation = 11
+    Generation = 11,
+    ReleaseWeekDay = 12,
+    YearlyDate = 13
 }
