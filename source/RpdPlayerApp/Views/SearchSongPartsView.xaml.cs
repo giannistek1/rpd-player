@@ -177,7 +177,16 @@ public partial class SearchSongPartsView : ContentView
             return;
         }
 
-        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(searchFilteredSongParts.ToList());
+        int addedSongParts;
+        if (searchFilteredSongParts.Count >= 0)
+        {
+            addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(searchFilteredSongParts.ToList());
+        }
+        else
+        {
+            addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
+        }
+
         CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
