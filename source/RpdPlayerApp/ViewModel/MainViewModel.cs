@@ -47,6 +47,7 @@ internal static class MainViewModel
     public static Queue<SongPart> SongPartsQueue { get; set; } = new Queue<SongPart>();
 
     public static PlayMode PlayMode { get; set; }
+    public static bool UsingVideoMode { get; set; } = false;
 
     public static bool IsPlayingPlaylist { get; set; }
 

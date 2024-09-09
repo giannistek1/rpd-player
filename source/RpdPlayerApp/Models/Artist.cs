@@ -18,7 +18,7 @@ internal class Artist
     public string AltName { get; set; }
     public DateTime DebutDate { get; set; }
     public GroupType GroupType { get; set; }
-    // TODO
+    public bool ShowGroupTypeColor { get; set; } = false;
     public string GroupTypeColor { get; set; } 
     public int MemberCount { get; set; }
     public string Company { get; set; }
@@ -81,5 +81,10 @@ internal class Artist
             
             default: GroupTypeColor = Colors.White.ToHex(); break;
         }
+    }
+
+    public override string ToString()
+    {
+        return Name;
     }
 }

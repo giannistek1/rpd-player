@@ -1,5 +1,6 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Repositories;
+using RpdPlayerApp.Repository;
 using System.ComponentModel;
 
 namespace RpdPlayerApp.Models;
@@ -16,9 +17,9 @@ internal class SongPart : INotifyPropertyChanged
     /// PartNameShort (P, C, D, DB, O, T, etc)
     /// </summary>
     public string PartNameShort { get; set; }
-    public string PartNameNumber { get; set; } = String.Empty;
-    public string PartNameFull { get; set; } = String.Empty;
-    public SongPartOrder PartClassification { get; set; } = SongPartOrder.Unspecified;
+    public string PartNameNumber { get; set; }
+    public string PartNameFull { get; set; }
+    public SongPartOrder PartClassification { get; set; }
     public string AlbumTitle { get; set; }
     public Album Album { get; set; }
     public string AlbumURL { get; set; } = string.Empty;
@@ -150,6 +151,9 @@ internal class SongPart : INotifyPropertyChanged
         ClipLengthAsTimeSpan = TimeSpan.FromSeconds(clipLength);
         VideoURL = videoURL;
         HasVideo = VideoRepository.VideoExists(artistName: artistName, title: title, partNameShort: partNameShort, partNameNumber: partNameNumber);
+
+        Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
+        Artist = ArtistRepository.MatchArtist(artistName);
     }
 
     private string GetPartNameLong(string partNameShort, string partNumber)

@@ -46,9 +46,7 @@ internal static class SongPartRepository
                     audioURL: matches[n + 6].Groups[1].Value,
                     videoURL: videoURL
                 );
-
-                songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
-                songPart.Artist = ArtistRepository.MatchArtist(artistName);
+                
                 songPart.Artist!.TotalCount++;
                 // For filtered list
                 songPart.Artist.FilteredTotalCount++; 

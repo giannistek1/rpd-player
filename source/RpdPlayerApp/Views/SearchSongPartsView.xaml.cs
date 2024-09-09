@@ -6,12 +6,15 @@ using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.ViewModel;
 using RpdPlayerApp.Architecture;
 using Syncfusion.Maui.DataSource;
-using CommunityToolkit.Maui.Animations;
+using UraniumUI.Icons.MaterialSymbols;
 
 namespace RpdPlayerApp.Views;
 
 public partial class SearchSongPartsView : ContentView
 {
+    private FontImageSource _videoOnIcon = new();
+    private FontImageSource _videoOffIcon = new();
+
     internal event EventHandler? PlaySongPart;
     internal event EventHandler? StopSongPart;
     internal event EventHandler? AddSongPart;
@@ -41,6 +44,20 @@ public partial class SearchSongPartsView : ContentView
         SongCount = allSongParts.Count;
 
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
+
+        _videoOnIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRegular",
+            Glyph = MaterialOutlined.Videocam,
+        };
+
+        _videoOffIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRegular",
+            Glyph = MaterialOutlined.Videocam_off,
+        };
+
+        ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
     }
 
     internal void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -55,6 +72,33 @@ public partial class SearchSongPartsView : ContentView
 
     private void SonglibraryListView_Loaded(object sender, Syncfusion.Maui.ListView.ListViewLoadedEventArgs e)
     {
+        SonglibraryListView.DataSource?.GroupDescriptors.Clear();
+
+        songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
+        songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = true);
+
+        SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+        {
+            PropertyName = "ArtistName",
+            KeySelector = (object obj1) =>
+            {
+                var item = (obj1 as SongPart);
+
+                if (item.Artist is not null)
+                {
+                    return item.Artist;
+                }
+                else
+                {
+                    return "Artist not found";
+                }
+            },
+        });
+
+        songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+        songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+        songParts.ToList().ForEach(s => s.ShowClipLength = false);
+
         SonglibraryListView.CollapseAll();
     }
 
@@ -72,7 +116,7 @@ public partial class SearchSongPartsView : ContentView
     }
 
     // Sender is a Syncfusion.Maui.ListView.SfListView
-    private void SonglibraryListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
+    private async void SonglibraryListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
         if (!HelperClass.HasInternetConnection())
             return;
@@ -80,10 +124,18 @@ public partial class SearchSongPartsView : ContentView
         if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
             return;
 
-        // Play Song
         SongPart songPart = (SongPart)e.DataItem;
 
-        if (songPart.AudioURL != string.Empty)
+        if (MainViewModel.UsingVideoMode && songPart.HasVideo)
+        {
+            StopSongPart.Invoke(sender, e);
+
+            if (Navigation.NavigationStack.Count < 2)
+            {
+                await Navigation.PushAsync(new VideoPage(songPart), true);
+            }
+        }
+        else if (songPart.AudioURL != string.Empty)
         {
             // Mode to queue/single song
             MainViewModel.PlayMode = PlayMode.Queue;
@@ -178,7 +230,7 @@ public partial class SearchSongPartsView : ContentView
         }
 
         int addedSongParts;
-        if (searchFilteredSongParts.Count >= 0)
+        if (searchFilteredSongParts.Count > 0)
         {
             addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(searchFilteredSongParts.ToList());
         }
@@ -199,6 +251,11 @@ public partial class SearchSongPartsView : ContentView
     {
         SonglibraryListView.ExpandAll();
     }
+    private void ToggleAudioModeButtonClicked(object sender, EventArgs e)
+    {
+        MainViewModel.UsingVideoMode = !MainViewModel.UsingVideoMode;
+        ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
+    }
 
     private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -211,7 +268,7 @@ public partial class SearchSongPartsView : ContentView
                                             .ToList();
 
         SonglibraryListView.ItemsSource = searchFilteredSongParts;
-        ResultsLabel.Text = $"Currently showing: {searchFilteredSongParts.Count} results";
+        ResultsLabel.Text = $"Currently showing {searchFilteredSongParts.Count} results";
     }
 
     private void SortButton_Clicked(object sender, EventArgs e)
@@ -230,8 +287,8 @@ public partial class SearchSongPartsView : ContentView
             {
                 case SearchFilterMode.All: FilterLabel.Text = "All songs"; songParts = allSongParts; break;
 
-                case SearchFilterMode.DanceVideo:
-                    FilterLabel.Text = "Mirrored dance video songs";
+                case SearchFilterMode.DanceVideos:
+                    FilterLabel.Text = "Dance videos";
                     songParts = allSongParts.Where(s => s.HasVideo).ToObservableCollection(); break;
 
                 case SearchFilterMode.Male:
@@ -384,6 +441,7 @@ public partial class SearchSongPartsView : ContentView
             {
                 case SortMode.AlbumName:
                     songParts = songParts.OrderBy(s => s.AlbumTitle).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -403,23 +461,8 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.Artist:
                     songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = true);
 
-                    SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
-                    {
-                        PropertyName = "ArtistName",
-                        KeySelector = (object obj1) =>
-                        {
-                            var item = (obj1 as SongPart);
-                            return item!.ArtistName;
-                        }
-                    });
-
-                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
-                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
-                    songParts.ToList().ForEach(s => s.ShowClipLength = false);
-                    break;
-
-                case SortMode.ArtistSongCount:
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "ArtistName",
@@ -429,7 +472,32 @@ public partial class SearchSongPartsView : ContentView
 
                             if (item.Artist is not null)
                             {
-                                return item!.ArtistName;
+                                return item.Artist;
+                            }
+                            else
+                            {
+                                return "Artist not found";
+                            }
+                        },
+                    });
+
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+                    songParts.ToList().ForEach(s => s.ShowClipLength = false);
+                    break;
+
+                case SortMode.ArtistSongCount:
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = true);
+                    SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                    {
+                        PropertyName = "ArtistName",
+                        KeySelector = (object obj1) =>
+                        {
+                            var item = (obj1 as SongPart);
+
+                            if (item.Artist is not null)
+                            {
+                                return item.Artist;
                             }
                             else
                             {
@@ -455,6 +523,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.Company:
                     songParts = songParts.OrderBy(s => s.Artist?.Company).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -482,6 +551,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.ClipLength:
                     songParts = songParts.OrderBy(s => s.ClipLength).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -516,6 +586,7 @@ public partial class SearchSongPartsView : ContentView
                 case SortMode.Generation:
                     // Shows only korean songs, else you have to mess with the group non-kpop which gets in the way of grouping order.
                     songParts = songParts.Where(s => s.Album.Language == "KR").OrderByDescending(s => s.Artist.Gen).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -546,6 +617,9 @@ public partial class SearchSongPartsView : ContentView
                 case SortMode.GroupType:
                     songParts = songParts.OrderBy(s => s.Artist?.GroupType).ToObservableCollection();
 
+                    // TODO: Does not work because you need to give Artist object and override ToString() needs to give grouptype somehow but now it gives artist name.
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = true); 
+
                     SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "GroupType",
@@ -571,6 +645,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.Language:
                     songParts = songParts.OrderBy(s => s.Album?.Language).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -596,6 +671,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.MemberCount:
                     songParts = songParts.OrderByDescending(s => s.Artist?.MemberCount).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -616,6 +692,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.ReleaseDate:
                     songParts = songParts.OrderByDescending(s => s.Album.ReleaseDate).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -642,6 +719,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.SongPart:
                     songParts = songParts.OrderBy(s => s.PartClassification).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -660,6 +738,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.Title:
                     songParts = songParts.OrderBy(s => s.Title).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -678,6 +757,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.ReleaseWeekDay:
                     songParts = songParts.OrderBy(s => s.Album.ReleaseDate.DayOfWeek).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -696,6 +776,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.YearlyDate:
                     songParts = songParts.OrderBy(s => s.Album.ReleaseDate.Month).ThenBy(s => s.Album.ReleaseDate.Day).ToObservableCollection();
+                    songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -730,27 +811,9 @@ public partial class SearchSongPartsView : ContentView
 
         songParts.CollectionChanged += SongPartsCollectionChanged;
         SonglibraryListView!.ItemsSource = songParts;
+
+        SortModeLabel.Text = MainViewModel.SortMode.ToString();
     }
 
     #endregion
-
-    private async void SonglibraryListViewItemDoubleTapped(object sender, Syncfusion.Maui.ListView.ItemDoubleTappedEventArgs e)
-    {
-        if (!HelperClass.HasInternetConnection())
-            return;
-
-        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
-            return;
-
-        SongPart songPart = (SongPart)e.DataItem;
-
-        if (!songPart.HasVideo) { return; }
-
-        StopSongPart.Invoke(sender, e);
-
-        if (Navigation.NavigationStack.Count < 2)
-        {
-            await Navigation.PushAsync(new VideoPage(songPart), true);
-        }
-    }
 }

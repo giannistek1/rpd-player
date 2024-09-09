@@ -294,7 +294,7 @@ public partial class HomeView : ContentView
         {
             case "none":
             case "all":MainViewModel.SearchFilterMode = SearchFilterMode.All; break;
-            case "hasdancevideo": MainViewModel.SearchFilterMode = SearchFilterMode.DanceVideo; break;
+            case "hasdancevideo": MainViewModel.SearchFilterMode = SearchFilterMode.DanceVideos; break;
 
             case "female": MainViewModel.SearchFilterMode = SearchFilterMode.Female; break;
             case "male": MainViewModel.SearchFilterMode = SearchFilterMode.Male; break;

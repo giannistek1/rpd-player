@@ -62,9 +62,6 @@ public partial class LibraryView : ContentView
                         videoURL: videoURL
                     );
 
-                    songPart.Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
-                    songPart.Artist = ArtistRepository.MatchArtist(artistName);
-
                     songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
                     playlist.SongParts.Add(songPart);
                 }

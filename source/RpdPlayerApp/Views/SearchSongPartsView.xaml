@@ -10,22 +10,44 @@
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="30, 20, 50, 50, *"
+          RowDefinitions="34, 20, 50, 50, *"
           ColumnDefinitions="*">
 
-        <Label Grid.Row="0"
-             Grid.Column="0" 
-             x:Name="FilterLabel"
+        <Grid Grid.Row="0" ColumnDefinitions="7*, 3*">
+            
+            <Label x:Name="FilterLabel"
+                   Grid.Column="0"
              TextColor="White"
              FontSize="20"
              Text="All songs" />
 
-        <Label Grid.Row="1"
+            <Button x:Name="SortButton" Grid.Column="1" HorizontalOptions="EndAndExpand" Margin="4,4,4,4" Clicked="SortButton_Clicked" Text="Sort by..." />
+
+        </Grid>
+
+
+        <Grid Grid.Row="1" ColumnDefinitions="7*, 3*">
+
+            <Label 
                Grid.Column="0" 
                x:Name="ResultsLabel"
                TextColor="White"
                FontSize="12"
                Text="Results" />
+
+
+            <Label 
+               Grid.Column="1" 
+               x:Name="SortModeLabel"
+               HorizontalOptions="EndAndExpand"
+               HorizontalTextAlignment="End"
+               TextColor="White"
+               FontSize="12"
+               Text="" />
+
+        </Grid>
+
+
 
         <HorizontalStackLayout Grid.Row="2">
 
@@ -35,8 +57,6 @@
                    Placeholder="Artist or title"
                    PlaceholderColor="LightGray"
                    TextChanged="SearchBar_TextChanged"/>
-
-            <Button x:Name="SortButton" Margin="2" Clicked="SortButton_Clicked" Text="Sort by..." />
 
         </HorizontalStackLayout>
 
@@ -69,6 +89,14 @@
                 </Image>
             </material:ButtonView>
 
+            <material:ButtonView x:Name="ToggleAudioModeButton"  Pressed="ToggleAudioModeButtonClicked">
+                <Image x:Name="ToggleAudioModeImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Videocam}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
         </HorizontalStackLayout>
 
         <syncfusion:SfListView
@@ -83,38 +111,28 @@
             AllowGroupExpandCollapse="True"
             Loaded="SonglibraryListView_Loaded"
             ItemTapped="SonglibraryListViewItemTapped"
-            ItemDoubleTapped="SonglibraryListViewItemDoubleTapped"
             SwipeEnded="SonglibraryListViewSwipeEnded">
-
-            <syncfusion:SfListView.DataSource>
-                <data:DataSource>
-                    <data:DataSource.GroupDescriptors>
-                        <data:GroupDescriptor PropertyName="ArtistName"/>
-                    </data:DataSource.GroupDescriptors>
-                    <data:DataSource.SortDescriptors>
-                        <data:SortDescriptor PropertyName="AlbumTitle"/>
-                    </data:DataSource.SortDescriptors>
-                </data:DataSource>
-            </syncfusion:SfListView.DataSource>
 
             <syncfusion:SfListView.GroupHeaderTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid BackgroundColor="{StaticResource Gray600}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        
-                        <Grid BackgroundColor="{StaticResource Gray600}">
-                            <Label Grid.Column="0" Text="{Binding Key}" FontSize="18" TextColor="White" VerticalTextAlignment="Center" Padding="5,0,0,0"/>
-                            <Label Grid.Column="1" Text="{Binding Count}" FontSize="18" TextColor="White" HorizontalOptions="End" VerticalTextAlignment="Center" Padding="0,0,40,0" />
-                            <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,10,0">
-                                <Image.Source>
-                                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Keyboard_arrow_down}" Color="{StaticResource White}" />
-                                </Image.Source>
-                            </Image>
-                        </Grid>
+                        <Label Grid.Column="0" ZIndex="0" LineBreakMode="TailTruncation" BackgroundColor="{StaticResource Gray600}" Text="{Binding Key}" FontSize="18" TextColor="White" VerticalTextAlignment="Center" Padding="5,0,0,0"/>
+                        <Label Grid.Column="1" Text="{Binding Count}" FontSize="18" TextColor="White" HorizontalOptions="End" VerticalTextAlignment="Center" Padding="0,0,8,0" />
+                        <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,10,0">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Keyboard_arrow_down}" Color="{StaticResource White}" />
+                            </Image.Source>
+                        </Image>
+
+                        <BoxView Grid.Column="3" WidthRequest="4" IsVisible="{Binding Key.ShowGroupTypeColor}"
+                        BackgroundColor="{Binding Key.GroupTypeColor}" Color="{Binding Key.GroupTypeColor}" />
+
                     </Grid>
                 </DataTemplate>
             </syncfusion:SfListView.GroupHeaderTemplate>
@@ -172,28 +190,29 @@
                                     </HorizontalStackLayout>
 
                                 </VerticalStackLayout>
-                                
-                                <Image Grid.Column="2" IsVisible="{Binding HasVideo}" HeightRequest="30" HorizontalOptions="End" Margin="6,0" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+
+                                <Image Grid.Column="2" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY1}" TranslationY="{Binding PlayingIconTranslationY1}" IsVisible="{Binding IsPlaying}" BackgroundColor="White" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{StaticResource White}" />
+                                    </Image.Source>
+                                </Image>
+                                <Image Grid.Column="3" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY2}" TranslationY="{Binding PlayingIconTranslationY2}" IsVisible="{Binding IsPlaying}" BackgroundColor="White" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{StaticResource White}" />
+                                    </Image.Source>
+                                </Image>
+                                <Image Grid.Column="4" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY3}" TranslationY="{Binding PlayingIconTranslationY3}" IsVisible="{Binding IsPlaying}" BackgroundColor="White" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{StaticResource White}" />
+                                    </Image.Source>
+                                </Image>
+
+                                <Image Grid.Column="5" IsVisible="{Binding HasVideo}" HeightRequest="30" HorizontalOptions="End" Margin="6,0" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
                                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Videocam}" Color="{StaticResource White}" />
                                     </Image.Source>
                                 </Image>
 
-                                <Image Grid.Column="3" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY1}" TranslationY="{Binding PlayingIconTranslationY1}" IsVisible="{Binding IsPlaying}" BackgroundColor="White" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                    <Image.Source>
-                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{StaticResource White}" />
-                                    </Image.Source>
-                                </Image>
-                                <Image Grid.Column="4" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY2}" TranslationY="{Binding PlayingIconTranslationY2}" IsVisible="{Binding IsPlaying}" BackgroundColor="White" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                    <Image.Source>
-                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{StaticResource White}" />
-                                    </Image.Source>
-                                </Image>
-                                <Image Grid.Column="5" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY3}" TranslationY="{Binding PlayingIconTranslationY3}" IsVisible="{Binding IsPlaying}" BackgroundColor="White" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                    <Image.Source>
-                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{StaticResource White}" />
-                                    </Image.Source>
-                                </Image>
                             </Grid>
 
                         </VerticalStackLayout>
