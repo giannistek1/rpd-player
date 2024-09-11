@@ -79,6 +79,7 @@ public partial class AudioPlayerControl : ContentView
                     AudioMediaElement.SeekTo(new TimeSpan(0));
                     PlayToggleImage.Source = _playIcon;
                     MainViewModel.CurrentSongPart.IsPlaying = false;
+                    MainViewModel.CurrentlyPlaying = false;
                 }
                 break;
 
@@ -134,6 +135,7 @@ public partial class AudioPlayerControl : ContentView
         AudioMediaElement.Play();
         songPart.IsPlaying = true;
         PlayToggleImage.Source = _pauseIcon;
+        MainViewModel.CurrentlyPlaying = true;
 
         TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
 

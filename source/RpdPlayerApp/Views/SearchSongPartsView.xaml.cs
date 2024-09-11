@@ -163,7 +163,6 @@ public partial class SearchSongPartsView : ContentView
 
             // Change mode to queue list
             MainViewModel.PlayMode = PlayMode.Queue;
-
         }
 
         // Swipe right to left (end)
@@ -217,8 +216,19 @@ public partial class SearchSongPartsView : ContentView
         int index = random.Next(songParts.Count);
         SongPart songPart = songParts[index];
 
-        MainViewModel.CurrentSongPart = songPart;
-        PlaySongPart?.Invoke(sender, e);
+        if (MainViewModel.CurrentlyPlaying)
+        {
+            if (!MainViewModel.SongPartsQueue.Contains(songPart))
+            {
+                MainViewModel.SongPartsQueue.Enqueue(songPart);
+                CommunityToolkit.Maui.Alerts.Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            }
+        }
+        else
+        {
+            MainViewModel.CurrentSongPart = songPart;
+            PlaySongPart?.Invoke(sender, e);
+        }
     }
 
     private void AddResultsButton_Clicked(object sender, EventArgs e)

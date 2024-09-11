@@ -48,6 +48,7 @@ internal static class MainViewModel
 
     public static PlayMode PlayMode { get; set; }
     public static bool UsingVideoMode { get; set; } = false;
+    public static bool CurrentlyPlaying { get; set; } = false;
 
     public static bool IsPlayingPlaylist { get; set; }
 
