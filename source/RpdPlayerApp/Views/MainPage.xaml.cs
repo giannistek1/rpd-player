@@ -41,12 +41,14 @@ public partial class MainPage : UraniumContentPage
         {
             LibraryContainer.Children.Add(libraryView);
         }
+
     }
 
     private void OnFilterPressed(object? sender, EventArgs e)
     {
         SearchSongPartsView.SetSearchFilterMode();
-        SearchSongPartsView.RefreshSort(); 
+        SearchSongPartsView.RefreshSort();
+        MainContainer.SelectedIndex = 1;
     }
 
     private void OnAddSongPart(object? sender, EventArgs e)

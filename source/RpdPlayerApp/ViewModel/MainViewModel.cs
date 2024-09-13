@@ -39,7 +39,7 @@ internal static class MainViewModel
 
     #endregion
 
-    public static SortMode SortMode { get; set; }
+    public static SortMode SortMode { get; set; } = SortMode.Artist;
     public static SearchFilterMode SearchFilterMode { get; set; }
 
     public static SongPart? CurrentSongPart { get; set; } = null;

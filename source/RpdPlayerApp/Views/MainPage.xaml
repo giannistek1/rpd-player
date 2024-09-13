@@ -11,105 +11,35 @@
     
     <Grid RowDefinitions="*, Auto">
 
-        <material:TabView x:Name="PrimaryPageLayout" TabPlacement="Bottom" CachingStrategy="CacheOnLayout" Grid.Row="0">
-            
-            <material:TabView.TabHeaderItemTemplate>
-                <DataTemplate>
-                    <Button 
-                        Text="{Binding Title}"
-                        Command="{Binding Command}">
-                        <Button.Triggers>
-                        </Button.Triggers>
-                    </Button>
-                </DataTemplate>
-            </material:TabView.TabHeaderItemTemplate>
-            
-            <!-- Item 1 -->
-            <material:TabItem>
-                <material:TabItem.HeaderTemplate>
-                    <DataTemplate>
-                        <VerticalStackLayout>
-                            <Button Text="Home" Command="{Binding Command}">
-                                <Button.Triggers>
-                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="BackgroundColor" Value="{StaticResource Gray900}" />
-                                        <Setter Property="TextColor" Value="{StaticResource Primary}"/>
-                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Home}, Color={StaticResource Primary}}" />
-                                    </DataTrigger>
-                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
-                                        <Setter Property="BackgroundColor" Value="{StaticResource Gray900}" />
-                                        <Setter Property="TextColor" Value="White"/>
-                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Home}, Color={StaticResource White}}" />
-                                    </DataTrigger>
-                                </Button.Triggers>
-                            </Button>
-                        </VerticalStackLayout>
-                    </DataTemplate>
-                </material:TabItem.HeaderTemplate>
-                
-                <material:TabItem.Content>
+        <tabView:SfTabView x:Name="MainContainer" TabBarPlacement="Bottom" IndicatorBackground="{StaticResource Primary}" IndicatorPlacement="Fill" IndicatorWidthMode="Stretch">
+
+            <tabView:SfTabItem Header="Home" TextColor="White" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Home}, Color={StaticResource White}}">
+                <tabView:SfTabItem.Content>
+
                     <views:HomeView x:Name="HomeView" />
-                </material:TabItem.Content>
-            </material:TabItem>
-            
-            <!-- Item 2 -->
-            <material:TabItem>
-                <material:TabItem.HeaderTemplate>
-                    <DataTemplate>
-                        <Button Text="Search" Command="{Binding Command}">
-                            <Button.Triggers>
-                                <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Gray900}" />
-                                    <Setter Property="TextColor" Value="{StaticResource Primary}"/>
-                                    <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Search}, Color={StaticResource Primary}}" />
-                                </DataTrigger>
-                                <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Gray900}" />
-                                    <Setter Property="TextColor" Value="White"/>
-                                    <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Search}, Color={StaticResource White}}" />
-                                </DataTrigger>
-                            </Button.Triggers>
-                        </Button>
-                    </DataTemplate>
-                </material:TabItem.HeaderTemplate>
 
-                <material:TabItem.Content>
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+
+            <tabView:SfTabItem Header="Search" TextColor="White" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Search}, Color={StaticResource White}}">
+                <tabView:SfTabItem.Content>
+
                     <views:SearchSongPartsView x:Name="SearchSongPartsView" />
-                </material:TabItem.Content>
-            </material:TabItem>
 
-            <!-- Item 3 -->
-            <material:TabItem>
-                <material:TabItem.HeaderTemplate>
-                    <DataTemplate>
-                        <HorizontalStackLayout BackgroundColor="{StaticResource Gray900}">
-                            <Button Text="Library" Command="{Binding Command}">
-                                <Button.Triggers>
-                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="BackgroundColor" Value="{StaticResource Gray900}" />
-                                        <Setter Property="TextColor" Value="{StaticResource Primary}"/>
-                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Library_books}, Color={StaticResource Primary}}" />
-                                    </DataTrigger>
-                                    <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
-                                        <Setter Property="BackgroundColor" Value="{StaticResource Gray900}" />
-                                        <Setter Property="TextColor" Value="White"/>
-                                        <Setter Property="ImageSource" Value="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Library_books}, Color={StaticResource White}}" />
-                                    </DataTrigger>
-                                </Button.Triggers>
-                            </Button>
-                        </HorizontalStackLayout>
-                    </DataTemplate>
-                </material:TabItem.HeaderTemplate>
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
 
-                <material:TabItem.Content>
+            <tabView:SfTabItem Header="Library" TextColor="White" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Library_books}, Color={StaticResource White}}">
+                <tabView:SfTabItem.Content>
+
                     <Grid x:Name="LibraryContainer">
                         <views:LibraryView x:Name="LibraryView" />
                     </Grid>
-                </material:TabItem.Content>
-                
-            </material:TabItem>
-            
-        </material:TabView>
+
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+
+        </tabView:SfTabView>
 
         <views:AudioPlayerControl x:Name="AudioPlayerControl" Grid.Row="1"/>
     </Grid>
@@ -119,6 +49,7 @@
             <TableView Intent="Menu" Margin="0,0,0,40">
                 <TableRoot>
                     <TableSection Title="Sort by..." TextColor="LightGreen">
+                        <TextCell Tapped="CancelSort"  Text="Cancel/hide" TextColor="Red" />
                         <TextCell Tapped="SortByAlbumName" Text="Album name" TextColor="White" />
                         <TextCell Tapped="SortByArtistName" Text="Artist name" TextColor="White" />
                         <TextCell Tapped="SortBySongCountPerArtist" Text="Artist song count" TextColor="White" />
@@ -133,7 +64,6 @@
                         <TextCell Tapped="SortBySongPart"  Text="Song part" TextColor="White" />
                         <TextCell Tapped="SortBySongTitle"  Text="Song title" TextColor="White" />
                         <TextCell Tapped="SortByYearlyDate"  Text="Yearly date" TextColor="White" />
-                        <TextCell Tapped="CancelSort"  Text="Cancel/hide" TextColor="Red" />
                     </TableSection>
                 </TableRoot>
             </TableView>
