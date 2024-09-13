@@ -272,9 +272,9 @@ public partial class SearchSongPartsView : ContentView
         // Set filter if set
         SetSearchFilterMode();
 
-        searchFilteredSongParts = songParts.Where(s => s.ArtistName.ToLower().Contains(e.NewTextValue.ToLower()) ||
-                                            s.Artist.AltName.ToLower().Contains(e.NewTextValue.ToLower()) ||
-                                            s.Title.ToLower().Contains(e.NewTextValue.ToLower()))
+        searchFilteredSongParts = songParts.Where(s => s.ArtistName.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
+                                            s.Artist.AltName.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
+                                            s.Title.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
                                             .ToList();
 
         SonglibraryListView.ItemsSource = searchFilteredSongParts;

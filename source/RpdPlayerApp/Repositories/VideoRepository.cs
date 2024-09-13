@@ -54,10 +54,10 @@ internal class VideoRepository
         return Videos.Count > 0;
     }
 
-    internal static bool VideoExists(string artistName, string title, string partNameShort, string partNameNumber) => Videos.Exists(a => a.ArtistName.ToLower().Equals(artistName.ToLower()) &&
-                                                                                                                                                  a.Title.ToLower().Equals(title.ToLower()) &&
-                                                                                                                                                  a.PartNameShort.ToLower().Equals(partNameShort.ToLower()) &&
-                                                                                                                                                  a.PartNameNumber.ToLower().Equals(partNameNumber.ToLower()));
+    internal static bool VideoExists(string artistName, string title, string partNameShort, string partNameNumber) => Videos.Exists(a => a.ArtistName.Equals(artistName, StringComparison.OrdinalIgnoreCase) &&
+                                                                                                                                                  a.Title.Equals(title, StringComparison.OrdinalIgnoreCase) &&
+                                                                                                                                                  a.PartNameShort.Equals(partNameShort, StringComparison.OrdinalIgnoreCase) &&
+                                                                                                                                                  a.PartNameNumber.Equals(partNameNumber, StringComparison.OrdinalIgnoreCase));
 
     private static string GetStringFromURL()
     {

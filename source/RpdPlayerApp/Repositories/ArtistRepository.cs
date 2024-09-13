@@ -55,7 +55,7 @@ internal static class ArtistRepository
 
     internal static Artist? MatchArtist(string artistName)
     {
-        return Artists.FirstOrDefault(a => a.Name.ToLower().Equals(artistName.ToLower()));
+        return Artists.FirstOrDefault(a => a.Name.Equals(artistName, StringComparison.OrdinalIgnoreCase));
     }
 
     private static string GetStringFromURL()
