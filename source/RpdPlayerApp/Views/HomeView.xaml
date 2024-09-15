@@ -180,7 +180,7 @@
                             SelectionMode="None"
                             ItemSpacing="8"
                             HeightRequest="180"
-                            ItemTapped="GenerationListViewItemTapped">
+                            ItemTapped="CategoryListViewItemTapped">
 
                             <syncfusion:SfListView.ItemTemplate>
                                 <DataTemplate>
@@ -232,7 +232,7 @@
                             SelectionMode="None"
                             ItemSpacing="8"
                             HeightRequest="160"
-                            ItemTapped="CompanyListView_ItemTapped">
+                            ItemTapped="CategoryListViewItemTapped">
 
                             <syncfusion:SfListView.ItemTemplate>
                                 <DataTemplate>
@@ -281,7 +281,7 @@
                             SelectionMode="None"
                             ItemSpacing="8"
                             HeightRequest="140"
-                            ItemTapped="LanguageListView_ItemTapped">
+                            ItemTapped="CategoryListViewItemTapped">
 
                             <syncfusion:SfListView.ItemTemplate>
                                 <DataTemplate>

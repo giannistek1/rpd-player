@@ -311,11 +311,29 @@ public partial class HomeView : ContentView
             case "nonet": MainViewModel.SearchFilterMode = SearchFilterMode.Nonet; break;
         }
 
-        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        //CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
 
         FilterPressed?.Invoke(this, e);
     }
+
+    private void CategoryListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
+    {
+        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
+            return;
+
+        HomeListViewItem item = (HomeListViewItem)e.DataItem;
+
+        if (item is not null)
+        {
+            MainViewModel.SearchFilterMode = item.SearchFilterMode;
+        }
+
+        //CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        FilterPressed?.Invoke(this, e);
+    }
     #endregion
+
+    // Not used
 
     double originalWidth = 70.0;
     double originalHeight = 70.0;
@@ -333,54 +351,5 @@ public partial class HomeView : ContentView
             image.WidthRequest = originalWidth;
             image.HeightRequest = originalHeight;
         }
-    }
-
-    private void GenerationListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
-    {
-        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
-            return;
-
-        HomeListViewItem item = (HomeListViewItem)e.DataItem;
-
-        if (item is not null)
-        {
-            MainViewModel.SearchFilterMode = item.SearchFilterMode;
-        }
-
-        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-        FilterPressed?.Invoke(this, e);
-    }
-
-
-    private void CompanyListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
-    {
-        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
-            return;
-
-        HomeListViewItem item = (HomeListViewItem)e.DataItem;
-
-        if (item is not null)
-        {
-            MainViewModel.SearchFilterMode = item.SearchFilterMode;
-        }
-
-        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-        FilterPressed?.Invoke(this, e);
-    }
-
-    private void LanguageListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
-    {
-        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
-            return;
-
-        HomeListViewItem item = (HomeListViewItem)e.DataItem;
-
-        if (item is not null)
-        {
-            MainViewModel.SearchFilterMode = item.SearchFilterMode;
-        }
-
-        CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-        FilterPressed?.Invoke(this, e);
     }
 }

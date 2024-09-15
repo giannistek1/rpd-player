@@ -21,6 +21,9 @@ public partial class VideoPage : ContentPage
         //DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
 
         this.Disappearing += OnDisappearing;
+
+        ArtistLabel.Text = songPart.ArtistName;
+        SongTitleLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
     }
 
     private void OnDisappearing(object? sender, EventArgs e)

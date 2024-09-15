@@ -5,9 +5,23 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="VideoPage">
     
-    <Grid ColumnDefinitions="auto">
+    <Grid RowDefinitions="50,50, auto" ColumnDefinitions="*">
+
+        <HorizontalStackLayout Grid.Row="0">
+
+            <Label x:Name="ArtistLabel" TextColor="White" />
+            
+        </HorizontalStackLayout>
         
-        <toolkit:MediaElement HeightRequest="300" WidthRequest="400" x:Name="VideoMediaElement"/>
+        <HorizontalStackLayout Grid.Row="1">
+           
+            <Label x:Name="SongTitleLabel" TextColor="White" />
+
+            <Label Text="(Mirrored)" TextColor="White"/>
+
+        </HorizontalStackLayout>
+
+        <toolkit:MediaElement Grid.Row="2" HeightRequest="290" x:Name="VideoMediaElement"/>
         
     </Grid>
 </ContentPage>

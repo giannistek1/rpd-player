@@ -5,11 +5,15 @@ using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.ViewModel;
 using System.Text;
+using UraniumUI.Icons.MaterialSymbols;
 
 namespace RpdPlayerApp.Views;
 
 public partial class CurrentPlaylistView : ContentView
 {
+    private FontImageSource _cloudOnIcon = new();
+    private FontImageSource _cloudOffIcon = new();
+
     public event EventHandler? PlaySongPart;
     public event EventHandler? BackToPlaylists;
 
@@ -18,6 +22,20 @@ public partial class CurrentPlaylistView : ContentView
         InitializeComponent();
 
         CurrentPlaylistListView.DragDropController!.UpdateSource = true;
+
+        _cloudOnIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRegular",
+            Glyph = MaterialOutlined.Cloud,
+        };
+
+        _cloudOffIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRegular",
+            Glyph = MaterialOutlined.Cloud_off,
+        };
+
+        ToggleSaveModeImage.Source = (MainViewModel.UsingCloudMode) ? _cloudOnIcon : _cloudOffIcon;
     }
 
     private void BackButton_Clicked(object sender, EventArgs e)
@@ -26,6 +44,19 @@ public partial class CurrentPlaylistView : ContentView
     }
 
     #region Playlist
+    private void ToggleSaveMode_Pressed(object sender, EventArgs e)
+    {
+        if (MainViewModel.UsingCloudMode)
+        {
+            MainViewModel.UsingCloudMode = false;
+            ToggleSaveModeImage.Source = _cloudOffIcon;
+        }
+        else
+        {
+            MainViewModel.UsingCloudMode = true;
+            ToggleSaveModeImage.Source = _cloudOnIcon;
+        }
+    }
     public void RefreshCurrentPlaylist()
     {
         PlaylistNameEntry.Text = PlaylistManager.Instance.CurrentPlaylist.Name;
@@ -65,7 +96,7 @@ public partial class CurrentPlaylistView : ContentView
         }
 
 
-        if (ViaCloudCheckBox.IsChecked && HelperClass.HasInternetConnection())
+        if (MainViewModel.UsingCloudMode && HelperClass.HasInternetConnection())
         {
             try
             {
@@ -166,4 +197,5 @@ public partial class CurrentPlaylistView : ContentView
     }
 
     #endregion
+
 }

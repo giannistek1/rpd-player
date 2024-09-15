@@ -18,8 +18,6 @@
                                  Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Pencil}}" AccentColor="DeepSkyBlue">
             </material:TextField>
 
-            <material:CheckBox x:Name="ViaCloudCheckBox" VerticalOptions="CenterAndExpand" Margin="10" IsChecked="False" Text="To (shared) cloud"/>
-
         </HorizontalStackLayout>
 
 

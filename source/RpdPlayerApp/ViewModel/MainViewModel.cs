@@ -54,5 +54,6 @@ internal static class MainViewModel
 
     public static ObservableCollection<Playlist> Playlists { get; set; } = new ObservableCollection<Playlist>();
 
+    public static bool UsingCloudMode { get; set; } = false;
 
 }
