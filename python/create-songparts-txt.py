@@ -26,5 +26,5 @@ with open(f'{audio_path}songparts.txt', 'w') as f:
             title = matches[2].replace("[", "").replace("]", "")  # Title
             part_name = matches[3].replace("[", "").replace("]", "")  # Song part
             part_number = matches[4].replace("[", "").replace("]", "")  # Song part number
-            # audioUrl = f"{github_url}{filename}?raw=true"
-            print(f'{{{artist}}}{{{album}}}{{{title}}}{{{part_name}}}{{{part_number}}}', file=f)
+            audioUrl = f"{github_url}{filename}?raw=true"
+            print(f'{{{artist}}}{{{album}}}{{{title}}}{{{part_name}}}{{{part_number}}}{{{clipLengthEuropean}}}{{{audioUrl}}}', file=f)

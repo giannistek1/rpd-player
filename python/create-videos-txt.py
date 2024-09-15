@@ -1,11 +1,9 @@
-from email.mime import audio
 import os
 import re
 
 # Forbidden symbols: :, apostrophes, the long dash, accent letters or language specific letters (ae, polish l etc)
 
-video_path = "D:\\Projects MAUI\\rpd-video\\"
-github_url = "https://github.com/giannistek1/rpd-video/blob/main/"
+video_path = "D:\\Projects MAUI\\rpd-videos\\"
 
 open(f'{video_path}videos.txt').close()
 
