@@ -300,7 +300,10 @@ public partial class SearchSongPartsView : ContentView
 
                 case SearchFilterMode.DanceVideos:
                     FilterLabel.Text = "Dance videos";
-                    songParts = allSongParts.Where(s => s.HasVideo).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.HasVideo).ToObservableCollection();
+                    MainViewModel.UsingVideoMode = true;
+                    ToggleAudioModeImage.Source = _videoOnIcon;
+                    break;
 
                 case SearchFilterMode.Male:
                     FilterLabel.Text = "Boy(groups)";

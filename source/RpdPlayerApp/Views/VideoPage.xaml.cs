@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.ViewModel;
 
 namespace RpdPlayerApp.Views;
 
@@ -14,7 +15,8 @@ public partial class VideoPage : ContentPage
         //AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         //NowPlayingLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
 
-        VideoMediaElement.Play();
+        //VideoMediaElement.Play();
+        VideoMediaElement.ShouldAutoPlay = true;
 
         //TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
 
@@ -24,6 +26,13 @@ public partial class VideoPage : ContentPage
 
         ArtistLabel.Text = songPart.ArtistName;
         SongTitleLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
+
+        VideoMediaElement.ShouldLoopPlayback = MainViewModel.ShouldLoopVideo;
+    }
+
+    private void SpeedSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)
+    {
+        VideoMediaElement.Speed = e.NewValue;
     }
 
     private void OnDisappearing(object? sender, EventArgs e)

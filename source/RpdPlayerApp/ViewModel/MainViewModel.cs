@@ -56,4 +56,6 @@ internal static class MainViewModel
 
     public static bool UsingCloudMode { get; set; } = false;
 
+    public static bool ShouldLoopVideo { get; set; } = true;
+
 }
