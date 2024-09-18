@@ -233,6 +233,7 @@ public partial class SearchSongPartsView : ContentView
 
     private void AddResultsButton_Clicked(object sender, EventArgs e)
     {
+        // TODO: BUGGY
         if (PlaylistManager.Instance.CurrentPlaylist is null)
         {
             CommunityToolkit.Maui.Alerts.Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
@@ -819,4 +820,21 @@ public partial class SearchSongPartsView : ContentView
     }
 
     #endregion
+
+    private void SwipeGroupItemAddSongs(object sender, EventArgs e)
+    {
+        // TODO: BUGGY
+        if (PlaylistManager.Instance.CurrentPlaylist is null)
+        {
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            return;
+        }
+
+        MenuItem mi = (MenuItem)sender;
+        var songParts = (IEnumerable<SongPart>)mi.CommandParameter;
+
+        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
+
+        CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+    }
 }

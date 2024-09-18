@@ -115,25 +115,39 @@
 
             <syncfusion:SfListView.GroupHeaderTemplate>
                 <DataTemplate>
-                    <Grid BackgroundColor="{StaticResource Gray600}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" ZIndex="0" LineBreakMode="TailTruncation" BackgroundColor="{StaticResource Gray600}" Text="{Binding Key}" FontSize="18" TextColor="White" VerticalTextAlignment="Center" Padding="5,0,0,0"/>
-                        <Label Grid.Column="1" Text="{Binding Count}" FontSize="18" TextColor="White" HorizontalOptions="End" VerticalTextAlignment="Center" Padding="0,0,8,0" />
-                        <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,10,0">
-                            <Image.Source>
-                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Keyboard_arrow_down}" Color="{StaticResource White}" />
-                            </Image.Source>
-                        </Image>
 
-                        <BoxView Grid.Column="3" WidthRequest="4" IsVisible="{Binding Key.ShowGroupTypeColor}"
-                        BackgroundColor="{Binding Key.GroupTypeColor}" Color="{Binding Key.GroupTypeColor}" />
+                    <!--<SwipeView>
+                        
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Invoked="SwipeGroupItemAddSongs" CommandParameter="{Binding Items}" Text="To playlist" BackgroundColor="LightGreen"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>-->
 
-                    </Grid>
+                        <Grid BackgroundColor="{StaticResource Gray600}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" ZIndex="0" LineBreakMode="TailTruncation" BackgroundColor="{StaticResource Gray600}" Text="{Binding Key}" FontSize="18" TextColor="White" VerticalTextAlignment="Center" Padding="5,0,0,0"/>
+                            <Label Grid.Column="1" Text="{Binding Count}" FontSize="18" TextColor="White" HorizontalOptions="End" VerticalTextAlignment="Center" Padding="0,0,8,0" />
+
+                            <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,10,0">
+                                <Image.Source>
+                                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Keyboard_arrow_down}" Color="{StaticResource White}" />
+                                </Image.Source>
+                            </Image>
+
+                            <BoxView Grid.Column="3" WidthRequest="4" IsVisible="{Binding Key.ShowGroupTypeColor}"
+                                     BackgroundColor="{Binding Key.GroupTypeColor}" Color="{Binding Key.GroupTypeColor}" />
+
+                        </Grid>
+                        
+                    <!--</SwipeView>-->
+
                 </DataTemplate>
             </syncfusion:SfListView.GroupHeaderTemplate>
 
