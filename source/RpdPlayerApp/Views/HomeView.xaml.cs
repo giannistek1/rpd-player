@@ -173,7 +173,7 @@ public partial class HomeView : ContentView
                                 ),
 
             new HomeListViewItem(title: "RBW Entertainment",
-                                description: "Rainbow Bridge World Entertainment.",
+                                description: "Rainbow Bridge World Entertainment, includes WM entertainment.",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-rbw.png?raw=true",
                                 searchFilterMode: SearchFilterMode.RBW,
                                 songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "RBW Entertainment")
@@ -227,36 +227,36 @@ public partial class HomeView : ContentView
         };
 
         LanguageListView.ItemsSource = new List<HomeListViewItem>() {
-            new HomeListViewItem(title: "Korean", 
-                                description: "Korean music.", 
+            new HomeListViewItem(title: "K-pop", 
+                                description: "Korean pop music.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true", 
                                 searchFilterMode: SearchFilterMode.KR,
                                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "KR")
                                 ),
 
-            new HomeListViewItem(title: "Japanese", 
-                                description: "Japanese music.", 
+            new HomeListViewItem(title: "J-pop", 
+                                description: "Japanese pop music.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-jp.webp?raw=true", 
                                 searchFilterMode: SearchFilterMode.JP,
                                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "JP")
                                 ),
 
-            new HomeListViewItem(title: "English", 
-                                description: "English music.", 
+            new HomeListViewItem(title: "English pop", 
+                                description: "English pop music.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-us.webp?raw=true", 
                                 searchFilterMode: SearchFilterMode.EN,
                                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "EN")
                                 ),
 
-            new HomeListViewItem(title: "Chinese", 
-                                description: "Chinese music.", 
+            new HomeListViewItem(title: "C-pop", 
+                                description: "Chinese pop music.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-ch.png?raw=true", 
                                 searchFilterMode: SearchFilterMode.CH,
                                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "CH")
                                 ),
 
-            new HomeListViewItem(title: "Thai", 
-                                description: "Thai music.", 
+            new HomeListViewItem(title: "T-pop", 
+                                description: "Thai pop music.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-th.webp?raw=true", 
                                 searchFilterMode: SearchFilterMode.TH,
                                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "TH")

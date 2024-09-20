@@ -6,6 +6,7 @@
              xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+             xmlns:local="clr-namespace:RpdPlayerApp.Architecture"
              x:Class="RpdPlayerApp.Views.SearchSongPartsView"
              BackgroundColor="Black">
 
@@ -116,13 +117,13 @@
             <syncfusion:SfListView.GroupHeaderTemplate>
                 <DataTemplate>
 
-                    <!--<SwipeView>
-                        
-                        <SwipeView.RightItems>
+                    <local:CustomSwipeView>
+
+                        <local:CustomSwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItem Invoked="SwipeGroupItemAddSongs" CommandParameter="{Binding Items}" Text="To playlist" BackgroundColor="LightGreen"/>
                             </SwipeItems>
-                        </SwipeView.RightItems>-->
+                        </local:CustomSwipeView.RightItems>
 
                         <Grid BackgroundColor="{StaticResource Gray600}">
                             <Grid.ColumnDefinitions>
@@ -146,7 +147,7 @@
 
                         </Grid>
                         
-                    <!--</SwipeView>-->
+                    </local:CustomSwipeView>
 
                 </DataTemplate>
             </syncfusion:SfListView.GroupHeaderTemplate>

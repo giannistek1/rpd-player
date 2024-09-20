@@ -338,7 +338,8 @@ public partial class SearchSongPartsView : ContentView
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Starship Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.RBW:
                     FilterLabel.Text = "RBW Entertainment";
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "RBW Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Artist?.Company == "RBW Entertainment" || 
+                                                        s.Artist?.Company == "WM Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.Woollim:
                     FilterLabel.Text = "Woollim Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Woollim Entertainment").ToObservableCollection(); break;
@@ -381,19 +382,19 @@ public partial class SearchSongPartsView : ContentView
                     songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.Language == "KR").ToObservableCollection(); break;
 
                 case SearchFilterMode.KR:
-                    FilterLabel.Text = "Korean";
+                    FilterLabel.Text = "K-pop";
                     songParts = allSongParts.Where(s => s.Album?.Language == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.JP:
-                    FilterLabel.Text = "Japanese";
+                    FilterLabel.Text = "J-pop";
                     songParts = allSongParts.Where(s => s.Album?.Language == "JP").ToObservableCollection(); break;
                 case SearchFilterMode.EN:
-                    FilterLabel.Text = "English";
+                    FilterLabel.Text = "English pop";
                     songParts = allSongParts.Where(s => s.Album?.Language == "EN").ToObservableCollection(); break;
                 case SearchFilterMode.CH:
-                    FilterLabel.Text = "Chinese";
+                    FilterLabel.Text = "C-pop";
                     songParts = allSongParts.Where(s => s.Album?.Language == "CH").ToObservableCollection(); break;
                 case SearchFilterMode.TH:
-                    FilterLabel.Text = "Thai";
+                    FilterLabel.Text = "T-pop";
                     songParts = allSongParts.Where(s => s.Album?.Language == "TH").ToObservableCollection(); break;
 
                 case SearchFilterMode.Solo:
@@ -475,6 +476,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.Artist:
                     songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
+
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = true);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
@@ -502,23 +504,6 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.ArtistSongCount:
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = true);
-                    SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
-                    {
-                        PropertyName = "ArtistName",
-                        KeySelector = (object obj1) =>
-                        {
-                            var item = (obj1 as SongPart);
-
-                            if (item.Artist is not null)
-                            {
-                                return item.Artist;
-                            }
-                            else
-                            {
-                                return "Artist not found";
-                            }
-                        },
-                    });
 
                     foreach (var s in songParts)
                     {
@@ -529,7 +514,29 @@ public partial class SearchSongPartsView : ContentView
                     {
                         s.Artist!.FilteredTotalCount++;
                     }
-                    songParts = songParts.OrderByDescending(s => s.Artist?.FilteredTotalCount).ToObservableCollection();
+                    songParts = songParts.OrderByDescending(s => s.Artist?.FilteredTotalCount)
+                                         .ThenBy(s => s.Album.ReleaseDate)
+                                         .ThenBy(s => s.PartClassification)
+                                         .ThenBy(s => s.PartNameNumber).ToObservableCollection();
+
+                    SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
+                    {
+                        PropertyName = "ArtistName",
+                        KeySelector = (object obj1) =>
+                        {
+                            var item = (obj1 as SongPart);
+
+                            if (item?.Artist is not null)
+                            {
+                                return item.Artist;
+                            }
+                            else
+                            {
+                                return "Artist not found";
+                            }
+                        },
+                    });
+
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -545,7 +552,7 @@ public partial class SearchSongPartsView : ContentView
                         {
                             var item = (obj1 as SongPart);
 
-                            if (item.Artist is not null)
+                            if (item?.Artist is not null)
                             {
                                 return item!.Artist!.Company;
                             }
@@ -824,6 +831,9 @@ public partial class SearchSongPartsView : ContentView
 
     #endregion
 
+
+    // SwipeEnded does not work because commandparameter only works with swipeitem
+    // TODO: SwipeMode execute with a label that is EASY to see, right now you would need to swipe half the screen if swipemode execute...
     private void SwipeGroupItemAddSongs(object sender, EventArgs e)
     {
         // TODO: BUGGY

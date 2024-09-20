@@ -64,9 +64,12 @@ public partial class AudioPlayerControl : ContentView
 
     private void AudioMediaElementMediaEnded(object? sender, EventArgs e)
     {
+        if (!MainViewModel.SongPartsQueue.Any()) { return; }
+        
         switch (MainViewModel.PlayMode)
         {
             case PlayMode.Queue:
+
                 if (MainViewModel.SongPartsQueue.Count > 0)
                 {
                     SongPart songPart = MainViewModel.SongPartsQueue.Dequeue();
@@ -81,6 +84,7 @@ public partial class AudioPlayerControl : ContentView
                     MainViewModel.CurrentSongPart.IsPlaying = false;
                     MainViewModel.CurrentlyPlaying = false;
                 }
+
                 break;
 
             case PlayMode.Playlist:
@@ -122,6 +126,11 @@ public partial class AudioPlayerControl : ContentView
             PlayToggleImage.Source = _playIcon;
             MainViewModel.CurrentSongPart.IsPlaying = false;
         }
+    }
+
+    private void NextButton_Pressed(object sender, EventArgs e)
+    {
+        AudioMediaElementMediaEnded(sender, e);
     }
 
     internal void PlayAudio(SongPart songPart)
