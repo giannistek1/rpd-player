@@ -21,7 +21,7 @@ internal class SongPart : INotifyPropertyChanged
     public string PartNameFull { get; set; }
     public SongPartOrder PartClassification { get; set; }
     public string AlbumTitle { get; set; }
-    public Album Album { get; set; }
+    public Album Album { get; set; } 
     public string AlbumURL { get; set; } = string.Empty;
     public string AudioURL { get; set; }
     public string VideoURL { get; set; }
@@ -132,9 +132,9 @@ internal class SongPart : INotifyPropertyChanged
         }
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-    public SongPart(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber, double clipLength, string audioURL, string videoURL)
+    public SongPart(int id = -1, string artistName = "", string albumTitle = "", string title = "", string partNameShort = "", string partNameNumber = "", double clipLength = 0.0, string audioURL = "", string videoURL = "")
     {
         Id = id;
         Title = title;
@@ -143,7 +143,7 @@ internal class SongPart : INotifyPropertyChanged
         PartNameShort = partNameShort; // C
         PartNameNumber = partNameNumber; // 1
         PartNameFull = GetPartNameLong(partNameShort, partNameNumber);
-        PartClassification = GetSongPartOrder(partNameShort);
+        PartClassification = SongPart.GetSongPartOrder(partNameShort);
 
         AlbumTitle = albumTitle;
         AudioURL = audioURL;
@@ -152,11 +152,11 @@ internal class SongPart : INotifyPropertyChanged
         VideoURL = videoURL;
         HasVideo = VideoRepository.VideoExists(artistName: artistName, title: title, partNameShort: partNameShort, partNameNumber: partNameNumber);
 
-        Album = AlbumRepository.MatchAlbum(artistName, albumTitle);
-        Artist = ArtistRepository.MatchArtist(artistName);
+        Album = AlbumRepository.MatchAlbum(artistName: artistName, albumTitle: albumTitle);
+        Artist = ArtistRepository.MatchArtist(artistName: artistName);
     }
 
-    private string GetPartNameLong(string partNameShort, string partNumber)
+    private static string GetPartNameLong(string partNameShort, string partNumber)
     {
         return partNameShort switch
         {
@@ -185,7 +185,7 @@ internal class SongPart : INotifyPropertyChanged
         };
     }
 
-    private SongPartOrder GetSongPartOrder(string partNameShort)
+    private static SongPartOrder GetSongPartOrder(string partNameShort)
     {
         return partNameShort switch
         {

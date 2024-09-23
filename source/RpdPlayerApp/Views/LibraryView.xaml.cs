@@ -11,14 +11,14 @@ namespace RpdPlayerApp.Views;
 
 public partial class LibraryView : ContentView
 {
-    public event EventHandler PlayPlaylist;
-    public event EventHandler ShowPlaylist;
+    public event EventHandler? PlayPlaylist;
+    public event EventHandler? ShowPlaylist;
 
     public LibraryView()
     {
         InitializeComponent();
 
-        CheckValidPlaylists();
+        LibraryView.CheckValidPlaylists();
 
         LoadPlaylists();
     }
@@ -80,7 +80,7 @@ public partial class LibraryView : ContentView
     {
         Playlist playlist = (Playlist)e.DataItem;
         PlaylistManager.Instance.CurrentPlaylist = playlist;
-        ShowPlaylist.Invoke(sender, e);
+        ShowPlaylist?.Invoke(sender, e);
     }
 
     private void NewPlaylistButton_Clicked(object sender, EventArgs e)
@@ -140,7 +140,7 @@ public partial class LibraryView : ContentView
 
         // Change mode to playlist
         MainViewModel.PlayMode = PlayMode.Playlist;
-        PlayPlaylist.Invoke(sender, e);
+        PlayPlaylist?.Invoke(sender, e);
     }
 
     private void SwipeItemRemoveSongPart(object sender, EventArgs e)
@@ -152,6 +152,8 @@ public partial class LibraryView : ContentView
     // Remove/delete playlist
     private void PlaylistsListView_SwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
     {
+        if (e.DataItem is null) { return; }
+
         if (e.Direction == SwipeDirection.Right && e.Offset > 30)
         {
             Playlist playlist = (Playlist)e.DataItem;
@@ -162,7 +164,7 @@ public partial class LibraryView : ContentView
         }
     }
 
-    private void CheckValidPlaylists()
+    private static void CheckValidPlaylists()
     {
         string[] files = Directory.GetFiles(MainViewModel.Path, "*.txt");
         foreach (string file in files)

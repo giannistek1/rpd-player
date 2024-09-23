@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModel;
 using System.Collections.ObjectModel;
@@ -57,6 +58,7 @@ internal static class SongPartRepository
             catch(Exception ex)
             {
                 SentrySdk.CaptureMessage($"Error: {typeof(SongPartRepository).Name}: Artist number: {i}");
+                Toast.Make($"Error InitSongPart: {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
             }
 
         }

@@ -8,7 +8,7 @@ internal class PlaylistManager : BindableObject
 {
     private static readonly PlaylistManager instance = new();
 
-    private Playlist currentPlaylist;
+    private Playlist currentPlaylist = new();
     public Playlist CurrentPlaylist
     {
         get => currentPlaylist;

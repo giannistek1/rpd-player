@@ -13,7 +13,7 @@ internal class Album
     public bool ShowAlbumReleaseDate { get; set; } = false;
     public bool ShowLanguage { get; set; } = false;
 
-    public Album(int id, string artistName, DateTime releaseDate, string title, string language, string imageURL = "")
+    public Album(int id = -1, string artistName = "", DateTime releaseDate = new DateTime(), string title = "", string language = "", string imageURL = "")
     {
         Id = id;
         ArtistName = artistName;

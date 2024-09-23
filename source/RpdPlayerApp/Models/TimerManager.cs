@@ -6,7 +6,7 @@ internal static class TimerManager
     internal static SongPart songPart;
     internal static void StartInfiniteScaleYAnimationWithTimer()
     {
-        if (timer is not null) { timer.Close(); timer = null; }
+        if (timer is not null) { timer.Close(); timer.Dispose(); }
 
         double startScaleY = 1;
         double endScaleY = 2;

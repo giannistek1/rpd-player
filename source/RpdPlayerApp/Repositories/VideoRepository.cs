@@ -1,4 +1,5 @@
-﻿using RpdPlayerApp.Architecture;
+﻿using CommunityToolkit.Maui.Alerts;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModel;
 using System.Text.RegularExpressions;
@@ -45,6 +46,7 @@ internal class VideoRepository
             catch (Exception ex)
             {
                 SentrySdk.CaptureMessage($"Error: {typeof(Video).Name}: Video number: {i}");
+                Toast.Make($"Error InitVideo: {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
             }
 
         }

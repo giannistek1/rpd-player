@@ -16,12 +16,28 @@
 
             <Image Grid.Column="0" HeightRequest="50" x:Name="AlbumImage" />
 
-            <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
-                <Label x:Name="NowPlayingLabel" Padding="16,0,0,0" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" FontSize="14"  TextColor="White" Text="Nothing playing"/>
-                <Label x:Name="NowPlayingPartLabel" Padding="16,0,0,0" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="12"  TextColor="White" Text=""/>
-            </VerticalStackLayout>
+            <SwipeView Grid.Column="1" x:Name="NowPlayingSwipeView" SwipeEnded="NowPlayingSwipeViewSwipeEnded" VerticalOptions="CenterAndExpand">
 
-            <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,0,8,0" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="Micro" TextColor="White" Text="00:00"/>
+                <SwipeView.RightItems>
+                    <SwipeItems Mode="Execute">
+                        <SwipeItem Text="Next" BackgroundColor="{StaticResource Gray950}"/>
+                    </SwipeItems>
+                </SwipeView.RightItems>
+
+                <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ViewSongPartDetailsTapped"
+                              NumberOfTapsRequired="1" />
+                    </VerticalStackLayout.GestureRecognizers>
+
+                    <Label x:Name="NowPlayingLabel" Padding="16,0,0,0" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" FontSize="14"  TextColor="White" Text="Nothing playing"/>
+                    <Label x:Name="NowPlayingPartLabel" Padding="16,0,0,0" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="11"  TextColor="White" Text=""/>
+                
+                </VerticalStackLayout>
+                
+            </SwipeView>
+
+            <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,0,8,0" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="10" TextColor="White" Text="00:00"/>
 
             <!--<buttons:SfButton x:Name="NextButton" Grid.Column="3" Background="{StaticResource Primary}" ImageSize="40" HeightRequest="40" Clicked="NextButton_Pressed" HorizontalOptions="Center" VerticalOptions="Center"
                     TextColor="White" 

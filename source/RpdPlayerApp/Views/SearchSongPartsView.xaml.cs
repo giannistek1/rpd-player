@@ -84,7 +84,7 @@ public partial class SearchSongPartsView : ContentView
             {
                 var item = (obj1 as SongPart);
 
-                if (item.Artist is not null)
+                if (item is not null && item.Artist is not null)
                 {
                     return item.Artist;
                 }
@@ -128,7 +128,7 @@ public partial class SearchSongPartsView : ContentView
 
         if (MainViewModel.UsingVideoMode && songPart.HasVideo)
         {
-            StopSongPart.Invoke(sender, e);
+            StopSongPart?.Invoke(sender, e);
 
             if (Navigation.NavigationStack.Count < 2)
             {
@@ -150,7 +150,9 @@ public partial class SearchSongPartsView : ContentView
     }
     private void SonglibraryListViewSwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
     {
-        // Swipe left to right (start)
+        if (e.DataItem is null) { return; }
+        
+        // Swipe left to right (start), add to queue
         if (e.Direction == SwipeDirection.Right && e.Offset > 30)
         {
             SongPart songPart = (SongPart)e.DataItem;
@@ -165,7 +167,7 @@ public partial class SearchSongPartsView : ContentView
             MainViewModel.PlayMode = PlayMode.Queue;
         }
 
-        // Swipe right to left (end)
+        // Swipe right to left (end), add to playlist
         else if (e.Direction == SwipeDirection.Left && e.Offset > -30)
         {
             SongPart songPart = (SongPart)e.DataItem;
@@ -177,7 +179,6 @@ public partial class SearchSongPartsView : ContentView
                 AddSongPart?.Invoke(sender, e);
                 CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             }
-
         }
     }
     private void SwipeItemAddSong(object sender, EventArgs e)
@@ -486,7 +487,7 @@ public partial class SearchSongPartsView : ContentView
                         {
                             var item = (obj1 as SongPart);
 
-                            if (item.Artist is not null)
+                            if (item is not null && item.Artist is not null)
                             {
                                 return item.Artist;
                             }
@@ -615,7 +616,7 @@ public partial class SearchSongPartsView : ContentView
                         {
                             var item = (obj1 as SongPart);
 
-                            if (item.Artist is not null)
+                            if (item is not null && item.Artist is not null)
                             {
                                 return item.Artist.Generation;
                             }
@@ -647,7 +648,7 @@ public partial class SearchSongPartsView : ContentView
                         {
                             var item = (obj1 as SongPart);
 
-                            if (item.Artist is not null)
+                            if (item is not null && item.Artist is not null)
                             {
                                 return item!.Artist!.GroupType.ToString();
                             }
@@ -672,7 +673,7 @@ public partial class SearchSongPartsView : ContentView
                         KeySelector = (object obj1) =>
                         {
                             var item = (obj1 as SongPart);
-                            if (item.Album is not null)
+                            if (item is not null && item.Album is not null)
                             {
                                 return item.Album.Language.ToString();
                             }
@@ -719,7 +720,7 @@ public partial class SearchSongPartsView : ContentView
                         {
                             var item = (obj1 as SongPart);
 
-                            if (item.Album is not null)
+                            if (item is not null && item.Album is not null)
                             {
                                 return item.Album.ReleaseDate.Year;
                             }

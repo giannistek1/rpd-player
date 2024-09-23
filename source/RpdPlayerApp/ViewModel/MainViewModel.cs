@@ -42,9 +42,10 @@ internal static class MainViewModel
     public static SortMode SortMode { get; set; } = SortMode.Artist;
     public static SearchFilterMode SearchFilterMode { get; set; }
 
-    public static SongPart? CurrentSongPart { get; set; } = null;
+    // TODO: Make non-nullable and check for default values
+    public static SongPart CurrentSongPart { get; set; } = new(); 
     public static Queue<SongPart> PlaylistQueue { get; set; } = new();
-    public static List<SongPart> SongPartHistory { get; set; } = new();
+    public static List<SongPart> SongPartHistory { get; set; } = [];
 
     public static Queue<SongPart> SongPartsQueue { get; set; } = new();
 
@@ -54,7 +55,7 @@ internal static class MainViewModel
 
     public static bool IsPlayingPlaylist { get; set; }
 
-    public static ObservableCollection<Playlist> Playlists { get; set; } = new();
+    public static ObservableCollection<Playlist> Playlists { get; set; } = [];
 
     public static bool UsingCloudMode { get; set; } = false;
 

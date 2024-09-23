@@ -38,10 +38,10 @@ namespace RpdPlayerApp.Architecture
         public void OnTap(TapEventArgs e)
         {
             var parent = this.GetParent(this);
-            if (parent is ListViewGroupHeaderItem)
-            {
-                (parent as ListViewGroupHeaderItem).OnTap(e);
-            }
+
+            if (parent is not ListViewGroupHeaderItem) { return; }
+
+            ((ListViewGroupHeaderItem)parent).OnTap(e);
         }
 
         internal object GetParent(object currentView)

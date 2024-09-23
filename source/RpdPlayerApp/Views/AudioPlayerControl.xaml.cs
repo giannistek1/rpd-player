@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
@@ -12,7 +13,7 @@ public partial class AudioPlayerControl : ContentView
     private FontImageSource _pauseIcon = new();
     private FontImageSource _playIcon = new();
 
-    public EventHandler Pause;
+    internal EventHandler? Pause;
     
     public AudioPlayerControl()
     {
@@ -68,16 +69,14 @@ public partial class AudioPlayerControl : ContentView
         {
             case PlayMode.Queue:
 
-                if (!MainViewModel.SongPartsQueue.Any()) { return; }
-
-                if (MainViewModel.SongPartsQueue.Count > 0)
+                if (MainViewModel.SongPartsQueue.Any())
                 {
                     SongPart queueSongPart = MainViewModel.SongPartsQueue.Dequeue();
                     MainViewModel.CurrentSongPart = queueSongPart;
                     PlayAudio(MainViewModel.CurrentSongPart);
-                    
+
                 }
-                else
+                else if (MainViewModel.CurrentSongPart.IsPlaying)
                 {
                     AudioMediaElement.Stop();
                     AudioMediaElement.SeekTo(new TimeSpan(0));
@@ -90,8 +89,7 @@ public partial class AudioPlayerControl : ContentView
 
             case PlayMode.Playlist:
 
-                // TODO: When play new song, clear queue, add queue
-                // TODO: When press next song, update queue
+                // TODO: When play new song, clear queue, add queue?
 
                 if (!MainViewModel.PlaylistQueue.Any()) { return; }
 
@@ -132,7 +130,7 @@ public partial class AudioPlayerControl : ContentView
         else if (AudioMediaElement.CurrentState == MediaElementState.Playing)
         {
             AudioMediaElement.Pause();
-            Pause.Invoke(sender, e);
+            Pause?.Invoke(sender, e);
             PlayToggleImage.Source = _playIcon;
             MainViewModel.CurrentSongPart.IsPlaying = false;
         }
@@ -172,5 +170,15 @@ public partial class AudioPlayerControl : ContentView
         PlayToggleImage.Source = _playIcon;
 
         MainViewModel.CurrentSongPart.IsPlaying = false;
+    }
+
+    private void NowPlayingSwipeViewSwipeEnded(object sender, SwipeEndedEventArgs e)
+    {
+        AudioMediaElementMediaEnded(sender, e);
+    }
+
+    private void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
+    {
+        Toast.Make($"Showing detail screen!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 }

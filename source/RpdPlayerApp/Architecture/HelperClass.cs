@@ -61,7 +61,7 @@ internal static class HelperClass
     // Extra functionality
     public static List<SongPart> RandomizeAndAlternatePlaylist(List<SongPart> playlist)
     {
-        SongPart previousSong = null;
+        SongPart previousSong = new();
         List<int> groupTypesCount = new List<int>();
         groupTypesCount.Add(playlist.AsEnumerable().Count(s => s.Artist?.GroupType == Models.GroupType.BG));
         groupTypesCount.Add(playlist.AsEnumerable().Count(s => s.Artist?.GroupType == Models.GroupType.GG));

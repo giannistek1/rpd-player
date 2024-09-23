@@ -1,4 +1,5 @@
-﻿using RpdPlayerApp.Architecture;
+﻿using CommunityToolkit.Maui.Alerts;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModel;
 using System.Collections.ObjectModel;
@@ -46,6 +47,7 @@ internal static class ArtistRepository
             catch(Exception ex)
             {
                 SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}: Artist number: {i}");
+                Toast.Make($"Error InitArtist: {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
             }
 
         }
@@ -53,9 +55,9 @@ internal static class ArtistRepository
         return Artists.Count > 0;
     }
 
-    internal static Artist? MatchArtist(string artistName)
+    internal static Artist MatchArtist(string artistName)
     {
-        return Artists.FirstOrDefault(a => a.Name.Equals(artistName, StringComparison.OrdinalIgnoreCase));
+        return Artists.FirstOrDefault(a => a.Name.Equals(artistName, StringComparison.OrdinalIgnoreCase), new());
     }
 
     private static string GetStringFromURL()

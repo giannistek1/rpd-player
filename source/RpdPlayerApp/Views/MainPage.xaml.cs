@@ -77,7 +77,7 @@ public partial class MainPage : UraniumContentPage
     // Used by currentplaylistView
     private void OnPlaySongPart(object sender, EventArgs e)
     {
-        if (MainViewModel.CurrentSongPart is null) { return; }
+        if (MainViewModel.CurrentSongPart.Id == -1) { return; }
 
         switch (MainViewModel.PlayMode)
         {
@@ -106,7 +106,7 @@ public partial class MainPage : UraniumContentPage
 
     private void OnStopSongPart(object sender, EventArgs e)
     {
-        if (MainViewModel.CurrentSongPart is not null)
+        if (MainViewModel.CurrentSongPart.Id != -1)
         {
             AudioPlayerControl.StopAudio();
         }

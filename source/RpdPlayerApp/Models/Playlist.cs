@@ -9,7 +9,7 @@ internal class Playlist
     public int Count { get; set; }
     public TimeSpan Length { get; set; }
 
-    public ObservableCollection<SongPart> SongParts;
+    public ObservableCollection<SongPart> SongParts = [];
 
     public Playlist(string name = "", string path = "", int count = 0)
     {
@@ -28,15 +28,9 @@ internal class Playlist
 
     public bool SetLength()
     {
-        if (SongParts is not null)
-        {
-            double lengthDouble = SongParts.Sum(t => t.ClipLength);
-            Length = TimeSpan.FromSeconds(lengthDouble);
+        double lengthDouble = SongParts.Sum(t => t.ClipLength);
+        Length = TimeSpan.FromSeconds(lengthDouble);
 
-            return lengthDouble > 0;
-        }
-
-        return false;
-        
+        return lengthDouble > 0;
     }
 }

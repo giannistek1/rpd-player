@@ -288,6 +288,8 @@ public partial class HomeView : ContentView
     #region Filters
     private void SetFilter(object sender, TappedEventArgs e)
     {
+        if (e.Parameter is null) { return; } 
+
         string filterMode = e.Parameter.ToString();
 
         switch (filterMode)
@@ -339,6 +341,8 @@ public partial class HomeView : ContentView
     double originalHeight = 70.0;
     private void ZoomImage(object sender, TappedEventArgs e)
     {
+        if (e.Parameter == null) { return; }
+        
         Image image = (Image)e.Parameter;
         
         if ((int)image.Width == (int)originalWidth)
