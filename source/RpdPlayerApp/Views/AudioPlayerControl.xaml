@@ -12,7 +12,7 @@
 
         <Slider x:Name="AudioProgressSlider" Margin="-20,0,-20,0" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="10" />
 
-        <Grid ColumnDefinitions="50, *, 80, 50, 50">
+        <Grid ColumnDefinitions="50, *, 50, 50, 50">
 
             <Image Grid.Column="0" HeightRequest="50" x:Name="AlbumImage" />
 
