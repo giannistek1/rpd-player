@@ -64,17 +64,18 @@ public partial class AudioPlayerControl : ContentView
 
     private void AudioMediaElementMediaEnded(object? sender, EventArgs e)
     {
-        if (!MainViewModel.SongPartsQueue.Any()) { return; }
-        
         switch (MainViewModel.PlayMode)
         {
             case PlayMode.Queue:
 
+                if (!MainViewModel.SongPartsQueue.Any()) { return; }
+
                 if (MainViewModel.SongPartsQueue.Count > 0)
                 {
-                    SongPart songPart = MainViewModel.SongPartsQueue.Dequeue();
-                    PlayAudio(songPart);
-                    MainViewModel.CurrentSongPart = songPart;
+                    SongPart queueSongPart = MainViewModel.SongPartsQueue.Dequeue();
+                    MainViewModel.CurrentSongPart = queueSongPart;
+                    PlayAudio(MainViewModel.CurrentSongPart);
+                    
                 }
                 else
                 {
@@ -89,12 +90,21 @@ public partial class AudioPlayerControl : ContentView
 
             case PlayMode.Playlist:
 
-                PlaylistManager.Instance.IncrementSongPartIndex();
+                // TODO: When play new song, clear queue, add queue
+                // TODO: When press next song, update queue
 
-                int index = PlaylistManager.Instance.CurrentSongPartIndex;
-                MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist.SongParts[index];
+                if (!MainViewModel.PlaylistQueue.Any()) { return; }
 
-                PlayAudio(MainViewModel.CurrentSongPart);
+                // Remove song from queue that was just played and add to history.
+                SongPart playlistSongPart = MainViewModel.PlaylistQueue.Dequeue();
+                MainViewModel.SongPartHistory.Add(playlistSongPart);
+                
+                // If there is a next song, next song will be current song.
+                if (MainViewModel.PlaylistQueue.Count > 0)
+                {
+                    MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Peek();
+                    PlayAudio(MainViewModel.CurrentSongPart);
+                }
 
                 break;
         }
@@ -132,29 +142,35 @@ public partial class AudioPlayerControl : ContentView
     {
         AudioMediaElementMediaEnded(sender, e);
     }
-
+    /// <summary>
+    /// Plays audio from audioURL, updates AudioPlayerControl controls
+    /// </summary>
+    /// <param name="songPart"></param>
     internal void PlayAudio(SongPart songPart)
     {
         AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
+        AudioMediaElement.Play();
 
+        // Update UI
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         NowPlayingLabel.Text = $"{songPart.Title}";
         NowPlayingPartLabel.Text = $"{songPart.PartNameFull}";
-
-        AudioMediaElement.Play();
-        songPart.IsPlaying = true;
         PlayToggleImage.Source = _pauseIcon;
-        MainViewModel.CurrentlyPlaying = true;
 
         TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
-
         DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
+
+        // Update vars
+        songPart.IsPlaying = true;
+        MainViewModel.CurrentlyPlaying = true;
     }
 
     internal void StopAudio()
     {
         AudioMediaElement.Stop();
-        MainViewModel.CurrentSongPart.IsPlaying = false;
+
         PlayToggleImage.Source = _playIcon;
+
+        MainViewModel.CurrentSongPart.IsPlaying = false;
     }
 }

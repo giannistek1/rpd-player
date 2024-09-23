@@ -43,8 +43,10 @@ internal static class MainViewModel
     public static SearchFilterMode SearchFilterMode { get; set; }
 
     public static SongPart? CurrentSongPart { get; set; } = null;
+    public static Queue<SongPart> PlaylistQueue { get; set; } = new();
+    public static List<SongPart> SongPartHistory { get; set; } = new();
 
-    public static Queue<SongPart> SongPartsQueue { get; set; } = new Queue<SongPart>();
+    public static Queue<SongPart> SongPartsQueue { get; set; } = new();
 
     public static PlayMode PlayMode { get; set; }
     public static bool UsingVideoMode { get; set; } = false;
@@ -52,7 +54,7 @@ internal static class MainViewModel
 
     public static bool IsPlayingPlaylist { get; set; }
 
-    public static ObservableCollection<Playlist> Playlists { get; set; } = new ObservableCollection<Playlist>();
+    public static ObservableCollection<Playlist> Playlists { get; set; } = new();
 
     public static bool UsingCloudMode { get; set; } = false;
 

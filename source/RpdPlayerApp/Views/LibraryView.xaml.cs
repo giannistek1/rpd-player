@@ -136,9 +136,7 @@ public partial class LibraryView : ContentView
 
     private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
     {
-        PlaylistManager.Instance.CurrentSongPartIndex = 0;
-        int index = PlaylistManager.Instance.CurrentSongPartIndex;
-        MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist.SongParts[index];
+        MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist.SongParts[0];
 
         // Change mode to playlist
         MainViewModel.PlayMode = PlayMode.Playlist;

@@ -1,4 +1,4 @@
-using CommunityToolkit.Maui.Storage;
+using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModel;
 using UraniumUI.Pages;
 
@@ -6,15 +6,10 @@ namespace RpdPlayerApp.Views;
 
 public partial class MainPage : UraniumContentPage
 {
-    IFileSaver fileSaver;
-    
-    public LibraryView? libraryView;
     public CurrentPlaylistView currentPlaylistView;
-    public MainPage(IFileSaver fileSaver)
+    public MainPage()
 	{
 		InitializeComponent();
-        // In case you want to save files to a user chosen place
-        this.fileSaver = fileSaver;
 
         HomeView.FilterPressed += OnFilterPressed;
 
@@ -23,7 +18,7 @@ public partial class MainPage : UraniumContentPage
         SearchSongPartsView.AddSongPart += OnAddSongPart;
         SearchSongPartsView.SortPressed += OnSortPressed;
 
-        LibraryView.PlayPlaylist += OnPlaySongPart;
+        LibraryView.PlayPlaylist += OnPlaySongPart; // Not used
         LibraryView.ShowPlaylist += OnShowPlaylist;
 
         currentPlaylistView = new CurrentPlaylistView();
@@ -37,9 +32,9 @@ public partial class MainPage : UraniumContentPage
         {
             LibraryContainer.Children.Add(currentPlaylistView);
         }
-        if (!LibraryContainer.Children.Contains(libraryView))
+        if (!LibraryContainer.Children.Contains(LibraryView))
         {
-            LibraryContainer.Children.Add(libraryView);
+            LibraryContainer.Children.Add(LibraryView);
         }
 
     }
@@ -59,15 +54,15 @@ public partial class MainPage : UraniumContentPage
     private void OnBackToPlaylists(object? sender, EventArgs e)
     {
         currentPlaylistView.ResetCurrentPlaylist();
-        libraryView!.LoadPlaylists();
+        LibraryView!.LoadPlaylists();
         currentPlaylistView.IsVisible = false;
-        libraryView.IsVisible = true;
+        LibraryView.IsVisible = true;
     }
 
     private void OnShowPlaylist(object? sender, EventArgs e)
     {
-        libraryView = (LibraryView)LibraryContainer.Children[0];
-        libraryView.IsVisible = false;
+        LibraryView = (LibraryView)LibraryContainer.Children[0];
+        LibraryView.IsVisible = false;
         currentPlaylistView.IsVisible = true;
 
         currentPlaylistView.RefreshCurrentPlaylist();
@@ -78,22 +73,35 @@ public partial class MainPage : UraniumContentPage
         SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
     }
 
+    // Used by searchsongpartsView
+    // Used by currentplaylistView
     private void OnPlaySongPart(object sender, EventArgs e)
     {
-        if (MainViewModel.CurrentSongPart is not null)
-        {
-            if (SearchSongPartsView.songParts != null && SearchSongPartsView.songParts.Count > 0)
-            {
-                // TODO: Based on song history
-                foreach (var songPart in SearchSongPartsView.songParts)
-                {
-                    songPart.IsPlaying = false;
-                }
-            }
-                
+        if (MainViewModel.CurrentSongPart is null) { return; }
 
-            AudioPlayerControl.PlayAudio(MainViewModel.CurrentSongPart);
+        switch (MainViewModel.PlayMode)
+        {
+            case Architecture.PlayMode.Playlist:
+                if (PlaylistManager.Instance.CurrentPlaylist != null && SearchSongPartsView.songParts.Count > 0)
+                {
+
+                }
+
+                break;
+
+            case Architecture.PlayMode.Queue:
+                if (SearchSongPartsView.songParts != null && SearchSongPartsView.songParts.Count > 0)
+                {
+                    // TODO: Based on song history
+                    foreach (var songPart in SearchSongPartsView.songParts)
+                    {
+                        songPart.IsPlaying = false;
+                    }
+                }
+                break;
         }
+
+        AudioPlayerControl.PlayAudio(MainViewModel.CurrentSongPart);
     }
 
     private void OnStopSongPart(object sender, EventArgs e)
