@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
-using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 using RpdPlayerApp.Views;
 using Syncfusion.Maui.Core.Hosting;
 using UraniumUI;
@@ -12,6 +13,12 @@ namespace RpdPlayerApp
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
+            /* fx for: Java.Lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap, but may have been fixed in newer versions? */
+#if ANDROID
+            ImageHandler.Mapper.PrependToMapping(nameof(Microsoft.Maui.IImage.Source), (handler, view) => handler.PlatformView?.Clear());
+#endif
+
             builder
                 .UseMauiApp<App>()
                 .UseUraniumUI()
