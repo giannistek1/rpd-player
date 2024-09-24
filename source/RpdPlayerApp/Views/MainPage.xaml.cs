@@ -41,7 +41,7 @@ public partial class MainPage : UraniumContentPage
 
     private void OnFilterPressed(object? sender, EventArgs e)
     {
-        SearchSongPartsView.SetSearchFilterMode();
+        SearchSongPartsView.SetFilterMode();
         SearchSongPartsView.RefreshSort();
         MainContainer.SelectedIndex = 1;
     }

@@ -334,26 +334,4 @@ public partial class HomeView : ContentView
         FilterPressed?.Invoke(this, e);
     }
     #endregion
-
-    // Not used
-
-    double originalWidth = 70.0;
-    double originalHeight = 70.0;
-    private void ZoomImage(object sender, TappedEventArgs e)
-    {
-        if (e.Parameter == null) { return; }
-        
-        Image image = (Image)e.Parameter;
-        
-        if ((int)image.Width == (int)originalWidth)
-        {
-            image.WidthRequest = 170;
-            image.HeightRequest = 170;
-        }
-        else
-        {
-            image.WidthRequest = originalWidth;
-            image.HeightRequest = originalHeight;
-        }
-    }
 }

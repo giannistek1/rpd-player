@@ -5,6 +5,7 @@ using Microsoft.Maui.Platform;
 using RpdPlayerApp.Views;
 using Syncfusion.Maui.Core.Hosting;
 using UraniumUI;
+using static Dropbox.Api.Paper.UserOnPaperDocFilter;
 
 namespace RpdPlayerApp
 {
@@ -22,7 +23,7 @@ namespace RpdPlayerApp
             builder
                 .UseMauiApp<App>()
                 .UseUraniumUI()
-                .UseUraniumUIMaterial()
+                .UseUraniumUIMaterial() // Do NOT get V2.10. Get MissingMethodException: System.MissingMethodException Method not found: Microsoft.Maui.Controls.Shapes.Geometry InputKit.Shared.Controls.PredefinedShapes.get_CheckCircle()
                 .UseSentry(options => {
                         // The DSN is the only required setting.
                         options.Dsn = "https://6ebbf9f141d92c4913f52e13810622fb@o4507512238637056.ingest.de.sentry.io/4507512245256272";

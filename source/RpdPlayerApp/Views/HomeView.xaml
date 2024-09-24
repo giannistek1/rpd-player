@@ -4,6 +4,7 @@
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:syncfusionExpander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
+             xmlns:effectsView="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.HomeView"
@@ -14,20 +15,22 @@
           ColumnDefinitions="*">
 
         <!-- Version -->
-        <HorizontalStackLayout Grid.Row="0" >
+        <HorizontalStackLayout x:Name="VersionStackLayout" Grid.Row="0" >
 
             <Label Grid.Column="0" x:Name="VersionLabel" HorizontalOptions="End" FontSize="12" Text="Version xx" />
 
         </HorizontalStackLayout>
 
         <!-- Stats -->
-        <syncfusionExpander:SfExpander Grid.Row="1" AnimationDuration="200" IsExpanded="False" >
+        <syncfusionExpander:SfExpander Grid.Row="1" x:Name="StatsExpander" AnimationDuration="200" IsExpanded="False" >
 
             <syncfusionExpander:SfExpander.Header>
-                <Grid >
+                
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="48"/>
                     </Grid.RowDefinitions>
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="35"/>
                         <ColumnDefinition Width="*"/>
@@ -42,6 +45,7 @@
                     <Label Grid.Row="1" CharacterSpacing="0.25" FontFamily="Roboto-Regular"  Text="Stats" FontSize="14" Grid.Column="1" VerticalOptions="CenterAndExpand"/>
 
                 </Grid>
+                
             </syncfusionExpander:SfExpander.Header>
 
             <syncfusionExpander:SfExpander.Content>
@@ -62,14 +66,45 @@
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </syncfusionExpander:SfExpander.Content>
-            
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroupList>
+                    <VisualStateGroup>
+                        <VisualState Name="Expanded">
+                            <VisualState.Setters>
+                                <Setter Property="HeaderBackground" Value="#000"/>
+                                <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Collapsed">
+                            <VisualState.Setters>
+                                <Setter Property="HeaderBackground" Value="#000"/>
+                                <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="HeaderBackground" Value="#000"/>
+                                <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="HeaderBackground" Value="#000"/>
+                                <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </VisualStateManager.VisualStateGroups>
+
         </syncfusionExpander:SfExpander>
 
-        <!-- Categories -->
         <ScrollView Grid.Row="2">
 
             <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
 
+                <!-- Categories header -->
                 <Label Grid.Row="0"
                         HeightRequest="40" 
                         TextColor="{StaticResource White}"
@@ -157,7 +192,7 @@
                 </HorizontalStackLayout>
                 
                 <!-- Generations -->
-                <syncfusionExpander:SfExpander Grid.Row="4" AnimationDuration="200" IsExpanded="False" Margin="4, 0" HeaderBackground="{StaticResource Gray600}" HeaderIconColor="White">
+                <syncfusionExpander:SfExpander Grid.Row="4" AnimationDuration="200" IsExpanded="False" Margin="4, 0">
 
                     <syncfusionExpander:SfExpander.Header>
 
@@ -206,10 +241,41 @@
 
                     </syncfusionExpander:SfExpander.Content>
 
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup>
+                                <VisualState Name="Expanded">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Primary}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Collapsed">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+
                 </syncfusionExpander:SfExpander>
 
                 <!-- Companies -->
-                <syncfusionExpander:SfExpander Grid.Row="5" AnimationDuration="200" IsExpanded="False" Margin="4, 0" HeaderBackground="{StaticResource Gray600}" HeaderIconColor="White">
+                <syncfusionExpander:SfExpander Grid.Row="5" AnimationDuration="200" IsExpanded="False" Margin="4, 0">
 
                     <syncfusionExpander:SfExpander.Header>
                         
@@ -258,10 +324,42 @@
 
                     </syncfusionExpander:SfExpander.Content>
 
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup>
+                                <VisualState Name="Expanded">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Primary}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Collapsed">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+
                 </syncfusionExpander:SfExpander>
 
                 <!-- Languages -->
-                <syncfusionExpander:SfExpander Grid.Row="6" AnimationDuration="200" IsExpanded="False" Margin="4, 0" HeaderBackground="{StaticResource Gray600}" HeaderIconColor="White">
+                <syncfusionExpander:SfExpander Grid.Row="6" AnimationDuration="200" IsExpanded="False" Margin="4, 0">
+
                     <syncfusionExpander:SfExpander.Header>
                         <Label
                         HeightRequest="40" 
@@ -306,6 +404,37 @@
                         </syncfusion:SfListView>
 
                     </syncfusionExpander:SfExpander.Content>
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup>
+                                <VisualState Name="Expanded">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Primary}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Collapsed">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
+                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
 
                 </syncfusionExpander:SfExpander>
 

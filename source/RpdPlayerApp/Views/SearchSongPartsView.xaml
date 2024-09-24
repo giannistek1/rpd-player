@@ -52,7 +52,7 @@
 
         <HorizontalStackLayout Grid.Row="2">
 
-            <SearchBar 
+            <SearchBar x:Name="SearchBarInput"
                    WidthRequest="270"
                    TextColor="White"
                    Placeholder="Artist or title"

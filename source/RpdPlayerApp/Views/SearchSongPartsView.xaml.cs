@@ -21,8 +21,8 @@ public partial class SearchSongPartsView : ContentView
     internal event EventHandler? SortPressed;
 
     internal ObservableCollection<SongPart> allSongParts;
-    internal ObservableCollection<SongPart> songParts = new ObservableCollection<SongPart>();
-    internal List<SongPart> searchFilteredSongParts = new List<SongPart>();
+    internal ObservableCollection<SongPart> songParts = [];
+    internal List<SongPart> searchFilteredSongParts = [];
     internal int SongCount { get; set; } = 0;
 
     public SearchSongPartsView()
@@ -59,6 +59,13 @@ public partial class SearchSongPartsView : ContentView
 
         ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
     }
+
+    private void ToggleAudioModeButtonClicked(object sender, EventArgs e)
+    {
+        MainViewModel.UsingVideoMode = !MainViewModel.UsingVideoMode;
+        ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
+    }
+
 
     internal void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
@@ -263,23 +270,44 @@ public partial class SearchSongPartsView : ContentView
     {
         SonglibraryListView.ExpandAll();
     }
-    private void ToggleAudioModeButtonClicked(object sender, EventArgs e)
+
+    // SwipeEnded does not work because commandparameter only works with swipeitem
+    // TODO: SwipeMode execute with a label that is EASY to see, right now you would need to swipe half the screen if swipemode execute...
+    private void SwipeGroupItemAddSongs(object sender, EventArgs e)
     {
-        MainViewModel.UsingVideoMode = !MainViewModel.UsingVideoMode;
-        ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
+        // TODO: BUGGY
+        if (PlaylistManager.Instance.CurrentPlaylist is null)
+        {
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            return;
+        }
+
+        MenuItem mi = (MenuItem)sender;
+        var songParts = (IEnumerable<SongPart>)mi.CommandParameter;
+
+        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
+
+        CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
     private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
         // Set filter if set
-        SetSearchFilterMode();
+        SetFilterMode();
 
-        searchFilteredSongParts = songParts.Where(s => s.ArtistName.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
-                                            s.Artist.AltName.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase) ||
-                                            s.Title.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase))
-                                            .ToList();
+        SetSearchFilteredDataSource();
+    }
+
+    private void SetSearchFilteredDataSource()
+    {
+        searchFilteredSongParts = songParts.Where(s => s.ArtistName.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase) ||
+                                    s.Artist.AltName.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase) ||
+                                    s.Title.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase))
+                                    .ToList();
+
 
         SonglibraryListView.ItemsSource = searchFilteredSongParts;
+
         ResultsLabel.Text = $"Currently showing {searchFilteredSongParts.Count} results";
     }
 
@@ -289,7 +317,11 @@ public partial class SearchSongPartsView : ContentView
     }
 
     #region Filter
-    internal void SetSearchFilterMode()
+
+    /// <summary>
+    /// Sets filter mode and updates filterLabel
+    /// </summary>
+    internal void SetFilterMode()
     {
         songParts.CollectionChanged -= SongPartsCollectionChanged;
 
@@ -429,6 +461,7 @@ public partial class SearchSongPartsView : ContentView
                     FilterLabel.Text = "Groups (2+ members)";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount > 2).ToObservableCollection(); break;
             }
+
             songParts.CollectionChanged += SongPartsCollectionChanged;
             SonglibraryListView.ItemsSource = songParts;
 
@@ -824,31 +857,19 @@ public partial class SearchSongPartsView : ContentView
             SentrySdk.CaptureException(ex);
         }
 
+        if (SearchBarInput is not null && SearchBarInput.Text is not null && SearchBarInput.Text.Trim().Length > 0)
+        {
+            SetSearchFilteredDataSource();
+        }
+        else
+        {
+            SonglibraryListView!.ItemsSource = songParts;
+        }
+
         songParts.CollectionChanged += SongPartsCollectionChanged;
-        SonglibraryListView!.ItemsSource = songParts;
 
         SortModeLabel.Text = MainViewModel.SortMode.ToString();
     }
 
     #endregion
-
-
-    // SwipeEnded does not work because commandparameter only works with swipeitem
-    // TODO: SwipeMode execute with a label that is EASY to see, right now you would need to swipe half the screen if swipemode execute...
-    private void SwipeGroupItemAddSongs(object sender, EventArgs e)
-    {
-        // TODO: BUGGY
-        if (PlaylistManager.Instance.CurrentPlaylist is null)
-        {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-            return;
-        }
-
-        MenuItem mi = (MenuItem)sender;
-        var songParts = (IEnumerable<SongPart>)mi.CommandParameter;
-
-        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
-
-        CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-    }
 }
