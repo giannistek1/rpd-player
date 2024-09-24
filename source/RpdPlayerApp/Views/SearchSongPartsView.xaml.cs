@@ -103,7 +103,7 @@ public partial class SearchSongPartsView : ContentView
         });
 
         songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
-        songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
+        songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
         songParts.ToList().ForEach(s => s.ShowClipLength = false);
 
         SonglibraryListView.CollapseAll();
@@ -490,6 +490,8 @@ public partial class SearchSongPartsView : ContentView
             switch (MainViewModel.SortMode)
             {
                 case SortMode.AlbumName:
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = true);
+
                     songParts = songParts.OrderBy(s => s.AlbumTitle).ToObservableCollection();
                     
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
@@ -502,7 +504,6 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
-                    // TODO: SHOW ALBUM NAME
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -531,6 +532,7 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -571,6 +573,7 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -597,6 +600,7 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -632,6 +636,7 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = true);
@@ -692,6 +697,7 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = true);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -717,6 +723,8 @@ public partial class SearchSongPartsView : ContentView
 
                         }
                     });
+
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -738,6 +746,8 @@ public partial class SearchSongPartsView : ContentView
                                 return $"{item!.Artist!.MemberCount} members";
                         },
                     });
+
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -764,6 +774,7 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = true);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -781,6 +792,8 @@ public partial class SearchSongPartsView : ContentView
                             return item!.PartClassification;
                         },
                     });
+
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -800,6 +813,7 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -818,6 +832,7 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
@@ -841,6 +856,7 @@ public partial class SearchSongPartsView : ContentView
                         },
                     });
 
+                    songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = false);
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumReleaseDate = false);
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupType = false);
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
