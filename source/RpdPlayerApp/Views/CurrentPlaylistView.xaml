@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:syncfusionpopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
@@ -11,22 +12,32 @@
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="50, 80, 40, *"
+          RowDefinitions="70, 50, 40, *"
           ColumnDefinitions="*">
 
-        <Grid Grid.Row="0" ColumnDefinitions="*,50,50,50,50,74">
+        <!-- Toolbar -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,50,50,50">
 
-            <Grid Grid.Column="0">
-                <material:ButtonView x:Name="BackButton" HorizontalOptions="Start" Pressed="BackButton_Clicked" HeightRequest="50">
+            <Grid Grid.Column="0" ColumnDefinitions="50,*">
+                
+                <material:ButtonView Grid.Column="0" x:Name="BackButton" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButton_Clicked" HeightRequest="50">
                     <Image x:Name="BackButtonImage">
                         <Image.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{StaticResource White}" />
                         </Image.Source>
                     </Image>
                 </material:ButtonView>
+
+                <inputLayout:SfTextInputLayout Grid.Column="1" WidthRequest="160" Hint="Name" CharMaxLength="20" ContainerType="None">
+                    <Entry x:Name="PlaylistNameEntry" VerticalOptions="CenterAndExpand" TextColor="White" Text="test" FontSize="11" />
+                </inputLayout:SfTextInputLayout>
+                
             </Grid>
 
-            <material:ButtonView Grid.Column="1" x:Name="PlayPlaylistButton" HorizontalOptions="End" Pressed="PlayPlaylistButton_Clicked">
+            <!--<Entry WidthRequest="180" x:Name="PlaylistNameEntry" Margin="0,10,0,10" TextColor="White" Text="Playlist name" MaxLength="20">
+            </Entry>-->
+
+            <material:ButtonView Grid.Column="1" x:Name="PlayPlaylistButton" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="PlayPlaylistButton_Clicked">
                 <Image x:Name="PlayPlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{StaticResource White}" />
@@ -34,7 +45,7 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="2" x:Name="ClearPlaylistButton" HorizontalOptions="End" BackgroundColor="Red" Pressed="ClearPlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="2" x:Name="ClearPlaylistButton" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" BackgroundColor="Red" Pressed="ClearPlaylistButton_Clicked">
                 <Image x:Name="ClearPlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Delete}" Color="{StaticResource White}" />
@@ -42,7 +53,7 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="3" x:Name="SavePlaylistButton" HorizontalOptions="End" Pressed="SavePlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="3" x:Name="SavePlaylistButton" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="SavePlaylistButton_Clicked">
                 <Image x:Name="SavePlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Save}" Color="{StaticResource White}" />
@@ -50,7 +61,12 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="4" x:Name="ShufflePlaylistButton" HorizontalOptions="End" Pressed="ShufflePlaylistButton_Clicked">
+        </Grid>
+        
+        <!-- Secondary toolbar -->
+        <Grid Grid.Row="1" ColumnDefinitions="50,74,50">
+
+            <material:ButtonView Grid.Column="0" x:Name="ShufflePlaylistButton" HorizontalOptions="End" Pressed="ShufflePlaylistButton_Clicked">
                 <Image x:Name="ShufflePlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{StaticResource White}" />
@@ -58,7 +74,7 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="5" x:Name="MixedShufflePlaylistButton" HorizontalOptions="End" Pressed="MixedShufflePlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="1" x:Name="MixedShufflePlaylistButton" HorizontalOptions="End" Pressed="MixedShufflePlaylistButton_Clicked">
                 <HorizontalStackLayout>
                     <Image x:Name="MixedShufflePlaylistButtonImage">
                         <Image.Source>
@@ -72,17 +88,10 @@
                         </Image.Source>
                     </Image>
                 </HorizontalStackLayout>
+
             </material:ButtonView>
 
-        </Grid>
-
-        <HorizontalStackLayout Grid.Row="1" Spacing="16">
-
-            <material:TextField WidthRequest="180" x:Name="PlaylistNameEntry" Margin="0,10,0,10" TitleColor="White" Title="Playlist name" MaxLength="20"
-                                 Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Pencil}}" AccentColor="DeepSkyBlue">
-            </material:TextField>
-
-            <material:ButtonView x:Name="ToggleSaveMode" Pressed="ToggleSaveMode_Pressed" HeightRequest="50">
+            <material:ButtonView Grid.Column="2" x:Name="ToggleSaveMode" HorizontalOptions="End" Pressed="ToggleSaveMode_Pressed" HeightRequest="50">
                 <Image x:Name="ToggleSaveModeImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Cloud}" Color="{StaticResource White}" />
@@ -90,7 +99,7 @@
                 </Image>
             </material:ButtonView>
 
-        </HorizontalStackLayout>
+        </Grid>
 
         <HorizontalStackLayout Grid.Row="2">
 
