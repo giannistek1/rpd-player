@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui;
+﻿using Android.Content.Res;
+using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -23,7 +24,7 @@ namespace RpdPlayerApp
             Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(Entry), (handler, view) =>
             {
 #if ANDROID
-                handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+                handler.PlatformView.BackgroundTintList = ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
 #endif
             });
 

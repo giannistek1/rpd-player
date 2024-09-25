@@ -12,11 +12,11 @@
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="70, 50, 40, *"
+          RowDefinitions="60, 50, 40, *"
           ColumnDefinitions="*">
 
         <!-- Toolbar -->
-        <Grid Grid.Row="0" ColumnDefinitions="*,50,50,50">
+        <Grid Grid.Row="0" BackgroundColor="Red" ColumnDefinitions="*,50,50,50">
 
             <Grid Grid.Column="0" ColumnDefinitions="50,*">
 
@@ -28,7 +28,7 @@
                     </Image>
                 </material:ButtonView>
 
-                <Entry Grid.Column="1" x:Name="PlaylistNameEntry" WidthRequest="160" VerticalOptions="CenterAndExpand" MaxLength="20" TextColor="White" Text="test" FontSize="13" />
+                <Entry Grid.Column="1" x:Name="PlaylistNameEntry" WidthRequest="160" VerticalOptions="CenterAndExpand" MaxLength="20" TextColor="White" Text="test" FontSize="14" />
 
             </Grid>
 
