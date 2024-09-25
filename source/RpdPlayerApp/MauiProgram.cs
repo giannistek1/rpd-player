@@ -19,6 +19,13 @@ namespace RpdPlayerApp
 #if ANDROID
             ImageHandler.Mapper.PrependToMapping(nameof(Microsoft.Maui.IImage.Source), (handler, view) => handler.PlatformView?.Clear());
 #endif
+            /* Code to remove underline of Android control Entry */
+            Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(Entry), (handler, view) =>
+            {
+#if ANDROID
+                handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+#endif
+            });
 
             builder
                 .UseMauiApp<App>()
