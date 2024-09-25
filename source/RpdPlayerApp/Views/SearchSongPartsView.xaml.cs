@@ -58,6 +58,7 @@ public partial class SearchSongPartsView : ContentView
         };
 
         ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
+        ClearFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
     }
 
     private void ToggleAudioModeButtonClicked(object sender, EventArgs e)
@@ -215,6 +216,34 @@ public partial class SearchSongPartsView : ContentView
         MainViewModel.PlayMode = PlayMode.Queue;
     }
 
+    // SwipeEnded does not work because commandparameter only works with swipeitem
+    // TODO: SwipeMode execute with a label that is EASY to see, right now you would need to swipe half the screen if swipemode execute...
+    private void SwipeGroupItemAddSongs(object sender, EventArgs e)
+    {
+        // TODO: BUGGY
+        if (PlaylistManager.Instance.CurrentPlaylist is null)
+        {
+            CommunityToolkit.Maui.Alerts.Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            return;
+        }
+
+        MenuItem mi = (MenuItem)sender;
+        var songParts = (IEnumerable<SongPart>)mi.CommandParameter;
+
+        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
+
+        CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+    }
+
+    private void GoToBottomButtonClicked(object sender, EventArgs e)
+    {
+        SonglibraryListView.ScrollTo(int.MaxValue);
+    }
+    private void GoToTopButtonClicked(object sender, EventArgs e)
+    {
+        SonglibraryListView.ScrollTo(0);
+    }
+
     private void PlayRandomButton_Clicked(object sender, EventArgs e)
     {
         if (!HelperClass.HasInternetConnection())
@@ -271,25 +300,6 @@ public partial class SearchSongPartsView : ContentView
         SonglibraryListView.ExpandAll();
     }
 
-    // SwipeEnded does not work because commandparameter only works with swipeitem
-    // TODO: SwipeMode execute with a label that is EASY to see, right now you would need to swipe half the screen if swipemode execute...
-    private void SwipeGroupItemAddSongs(object sender, EventArgs e)
-    {
-        // TODO: BUGGY
-        if (PlaylistManager.Instance.CurrentPlaylist is null)
-        {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-            return;
-        }
-
-        MenuItem mi = (MenuItem)sender;
-        var songParts = (IEnumerable<SongPart>)mi.CommandParameter;
-
-        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
-
-        CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-    }
-
     private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
         // Set filter if set
@@ -317,6 +327,13 @@ public partial class SearchSongPartsView : ContentView
     }
 
     #region Filter
+    private void ClearFilterButtonClicked(object sender, EventArgs e)
+    {
+        MainViewModel.SearchFilterMode = SearchFilterMode.All;
+        SetFilterMode();
+
+        SetSearchFilteredDataSource();
+    }
 
     /// <summary>
     /// Sets filter mode and updates filterLabel
@@ -324,6 +341,8 @@ public partial class SearchSongPartsView : ContentView
     internal void SetFilterMode()
     {
         songParts.CollectionChanged -= SongPartsCollectionChanged;
+
+        ClearFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
 
         try
         {

@@ -11,15 +11,32 @@
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="auto, auto, *"
+          RowDefinitions="50, auto, *"
           ColumnDefinitions="*">
 
-        <!-- Version -->
-        <HorizontalStackLayout x:Name="VersionStackLayout" Grid.Row="0" >
+        <!-- Toolbar -->
+        <Grid Grid.Row="0" x:Name="HomeViewToolbar" ColumnDefinitions="*,50,50" BackgroundColor="{StaticResource Black}">
 
-            <Label Grid.Column="0" x:Name="VersionLabel" HorizontalOptions="End" FontSize="12" Text="Version xx" />
+            <!-- Version -->
+            <Label Grid.Column="0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="12" Text="Version xx" />
 
-        </HorizontalStackLayout>
+            <material:ButtonView Grid.Column="1" IsEnabled="False" MinimumHeightRequest="50" x:Name="FeedbackButton" HorizontalOptions="End">
+                <Image x:Name="FeedbackImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Rate_review}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
+            <material:ButtonView Grid.Column="2" IsEnabled="False" MinimumHeightRequest="50" x:Name="SettingsButton" HorizontalOptions="End">
+                <Image x:Name="SettingsImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Settings}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
+        </Grid>
 
         <!-- Stats -->
         <syncfusionExpander:SfExpander Grid.Row="1" x:Name="StatsExpander" AnimationDuration="200" IsExpanded="False" >
@@ -100,6 +117,7 @@
 
         </syncfusionExpander:SfExpander>
 
+        <!-- Categories -->
         <ScrollView Grid.Row="2">
 
             <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">

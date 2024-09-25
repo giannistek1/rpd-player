@@ -11,10 +11,10 @@
              BackgroundColor="Black">
 
     <Grid Padding="5"
-          RowDefinitions="80, 40, 50, *"
+          RowDefinitions="50, 80, 40, *"
           ColumnDefinitions="*">
 
-        <HorizontalStackLayout Grid.Row="0" Spacing="16">
+        <HorizontalStackLayout Grid.Row="0" Spacing="8" >
 
             <material:ButtonView x:Name="BackButton" Pressed="BackButton_Clicked" HeightRequest="50">
                 <Image x:Name="BackButtonImage">
@@ -23,36 +23,6 @@
                     </Image.Source>
                 </Image>
             </material:ButtonView>
-
-            <material:TextField WidthRequest="180" x:Name="PlaylistNameEntry" Margin="0,10,0,10" TitleColor="White" Title="Playlist name" MaxLength="20"
-                                 Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Pencil}}" AccentColor="DeepSkyBlue">
-            </material:TextField>
-
-            <material:ButtonView x:Name="ToggleSaveMode" Pressed="ToggleSaveMode_Pressed" HeightRequest="50">
-                <Image x:Name="ToggleSaveModeImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Cloud}" Color="{StaticResource White}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
-
-        </HorizontalStackLayout>
-
-        <HorizontalStackLayout Grid.Row="1">
-
-            <Label WidthRequest="100" x:Name="LengthLabel" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" />
-
-            <Label WidthRequest="100" x:Name="CountLabel" Text="{Binding SongCount, StringFormat='Count: {0}'}" />
-
-            <Label WidthRequest="100" x:Name="BoygroupCountLabel" Text="{Binding BoygroupCount, StringFormat='BG: {0}'}" TextColor="DeepSkyBlue"/>
-
-            <Label WidthRequest="100" x:Name="GirlgroupCountLabel" Text="{Binding GirlgroupCount, StringFormat='GG: {0}'}" TextColor="Magenta" />
-
-        </HorizontalStackLayout>
-
-
-        <HorizontalStackLayout Grid.Row="2" Spacing="8" >
-
 
             <material:ButtonView x:Name="PlayPlaylistButton"  Pressed="PlayPlaylistButton_Clicked">
                 <Image x:Name="PlayPlaylistButtonImage">
@@ -93,7 +63,7 @@
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="DeepSkyBlue" />
                         </Image.Source>
                     </Image>
-                    
+
                     <Image x:Name="MixedShufflePlaylistButtonImage2">
                         <Image.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="Magenta" />
@@ -101,6 +71,34 @@
                     </Image>
                 </HorizontalStackLayout>
             </material:ButtonView>
+
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="1" Spacing="16">
+
+            <material:TextField WidthRequest="180" x:Name="PlaylistNameEntry" Margin="0,10,0,10" TitleColor="White" Title="Playlist name" MaxLength="20"
+                                 Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Pencil}}" AccentColor="DeepSkyBlue">
+            </material:TextField>
+
+            <material:ButtonView x:Name="ToggleSaveMode" Pressed="ToggleSaveMode_Pressed" HeightRequest="50">
+                <Image x:Name="ToggleSaveModeImage">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Cloud}" Color="{StaticResource White}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="2">
+
+            <Label WidthRequest="100" x:Name="LengthLabel" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" />
+
+            <Label WidthRequest="100" x:Name="CountLabel" Text="{Binding SongCount, StringFormat='Count: {0}'}" />
+
+            <Label WidthRequest="100" x:Name="BoygroupCountLabel" Text="{Binding BoygroupCount, StringFormat='BG: {0}'}" TextColor="DeepSkyBlue"/>
+
+            <Label WidthRequest="100" x:Name="GirlgroupCountLabel" Text="{Binding GirlgroupCount, StringFormat='GG: {0}'}" TextColor="Magenta" />
 
         </HorizontalStackLayout>
 
@@ -146,7 +144,7 @@
                             <VerticalStackLayout Grid.Column="2" Padding="10">
 
                                 <HorizontalStackLayout>
-                                    <Label VerticalOptions="Start" Text="{Binding Title}" LineBreakMode="NoWrap" />
+                                    <Label VerticalOptions="Start" Text="{Binding Title}" LineBreakMode="TailTruncation" />
                                     <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" LineBreakMode="TailTruncation"  />
                                 </HorizontalStackLayout>
                                 

@@ -48,21 +48,7 @@
 
         </Grid>
 
-
-
-        <HorizontalStackLayout Grid.Row="2">
-
-            <SearchBar x:Name="SearchBarInput"
-                   WidthRequest="270"
-                   TextColor="White"
-                   Placeholder="Artist or title"
-                   PlaceholderColor="LightGray"
-                   TextChanged="SearchBar_TextChanged"/>
-
-        </HorizontalStackLayout>
-
-
-        <HorizontalStackLayout Grid.Row="3" Spacing="8">
+        <HorizontalStackLayout Grid.Row="2" Spacing="8">
 
             <material:ButtonView x:Name="PlayRandomButton"  Pressed="PlayRandomButton_Clicked">
                 <Image x:Name="PlayRandomButtonImage">
@@ -71,8 +57,6 @@
                     </Image.Source>
                 </Image>
             </material:ButtonView>
-
-            <Button x:Name="AddResultsButton" Margin="2" Clicked="AddResultsButton_Clicked" Text="Add all results" />
 
             <material:ButtonView x:Name="CollapseAllButton"  Pressed="CollapseAllButtonClicked">
                 <Image x:Name="CollapseAllButtonImage">
@@ -100,19 +84,47 @@
 
         </HorizontalStackLayout>
 
+        <HorizontalStackLayout Grid.Row="3">
+
+            <SearchBar x:Name="SearchBarInput"
+                   WidthRequest="260"
+                   TextColor="White"
+                   Placeholder="Artist or title"
+                   PlaceholderColor="LightGray"
+                   TextChanged="SearchBar_TextChanged"/>
+
+            <Button x:Name="AddResultsButton" Margin="2" Clicked="AddResultsButton_Clicked" Text="Add results" />
+
+        </HorizontalStackLayout>
+
+        
+
         <syncfusion:SfListView
             Grid.Row="4"
             Grid.Column="0"
             x:Name="SonglibraryListView" 
-            BackgroundColor="DimGray" 
+            BackgroundColor="{StaticResource Gray950}" 
             AutoFitMode="Height"
             SelectionMode="None"
             AllowSwiping="True"
             IsStickyGroupHeader="True"
+            IsStickyHeader="False"
             AllowGroupExpandCollapse="True"
             Loaded="SonglibraryListView_Loaded"
             ItemTapped="SonglibraryListViewItemTapped"
             SwipeEnded="SonglibraryListViewSwipeEnded">
+
+            <syncfusion:SfListView.HeaderTemplate>
+                <DataTemplate>
+                    <Button x:Name="GoToBottomButton" HorizontalOptions="StartAndExpand" Clicked="GoToBottomButtonClicked" WidthRequest="160"  Text="Go to bottom"/>
+                </DataTemplate>
+            </syncfusion:SfListView.HeaderTemplate>
+
+            <syncfusion:SfListView.FooterTemplate>
+                <DataTemplate>
+                    <Button x:Name="GoToTopButton" HorizontalOptions="StartAndExpand" Clicked="GoToTopButtonClicked" WidthRequest="160"  Text="Go to top"/>
+                </DataTemplate>
+            </syncfusion:SfListView.FooterTemplate>
 
             <syncfusion:SfListView.GroupHeaderTemplate>
                 <DataTemplate>
@@ -195,12 +207,12 @@
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Padding="10">
 
                                     <HorizontalStackLayout >
-                                        <Label VerticalOptions="StartAndExpand" FontSize="14" Text="{Binding Title}" />
-                                        <Label VerticalOptions="StartAndExpand" FontSize="13" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                        <Label VerticalOptions="StartAndExpand" FontSize="14" LineBreakMode="TailTruncation" Text="{Binding Title}" />
+                                        <Label VerticalOptions="StartAndExpand" FontSize="13" LineBreakMode="TailTruncation" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
                                     </HorizontalStackLayout>
 
                                     <HorizontalStackLayout>
-                                        <Label VerticalOptions="StartAndExpand" FontSize="13" TextColor="LightGray" Text="{Binding ArtistName}" />
+                                        <Label VerticalOptions="StartAndExpand" FontSize="13" LineBreakMode="TailTruncation" TextColor="LightGray" Text="{Binding ArtistName}" />
 
                                     </HorizontalStackLayout>
 
@@ -234,6 +246,17 @@
                     </ViewCell>
                 </DataTemplate>
             </syncfusion:SfListView.ItemTemplate>
+
+            <syncfusion:SfListView.EmptyView>
+                <StackLayout VerticalOptions="CenterAndExpand" >
+                    <Label Text="Found nothing." HorizontalTextAlignment="Center"     
+                         VerticalOptions="CenterAndExpand"
+                         FontSize="18" FontFamily="Roboto-Regular"/>
+
+                    <Button x:Name="ClearFilterButton" Clicked="ClearFilterButtonClicked" WidthRequest="200"  Text="Clear filter"/>
+                </StackLayout>
+            </syncfusion:SfListView.EmptyView>
+        
         </syncfusion:SfListView>
     </Grid>
 
