@@ -14,17 +14,19 @@
           RowDefinitions="50, 80, 40, *"
           ColumnDefinitions="*">
 
-        <HorizontalStackLayout Grid.Row="0" Spacing="8" >
+        <Grid Grid.Row="0" ColumnDefinitions="*,50,50,50,50,74">
 
-            <material:ButtonView x:Name="BackButton" Pressed="BackButton_Clicked" HeightRequest="50">
-                <Image x:Name="BackButtonImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{StaticResource White}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
+            <Grid Grid.Column="0">
+                <material:ButtonView x:Name="BackButton" HorizontalOptions="Start" Pressed="BackButton_Clicked" HeightRequest="50">
+                    <Image x:Name="BackButtonImage">
+                        <Image.Source>
+                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{StaticResource White}" />
+                        </Image.Source>
+                    </Image>
+                </material:ButtonView>
+            </Grid>
 
-            <material:ButtonView x:Name="PlayPlaylistButton"  Pressed="PlayPlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="1" x:Name="PlayPlaylistButton" HorizontalOptions="End" Pressed="PlayPlaylistButton_Clicked">
                 <Image x:Name="PlayPlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{StaticResource White}" />
@@ -32,7 +34,7 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView x:Name="ClearPlaylistButton" BackgroundColor="Red" Pressed="ClearPlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="2" x:Name="ClearPlaylistButton" HorizontalOptions="End" BackgroundColor="Red" Pressed="ClearPlaylistButton_Clicked">
                 <Image x:Name="ClearPlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Delete}" Color="{StaticResource White}" />
@@ -40,7 +42,7 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView x:Name="SavePlaylistButton"  Pressed="SavePlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="3" x:Name="SavePlaylistButton" HorizontalOptions="End" Pressed="SavePlaylistButton_Clicked">
                 <Image x:Name="SavePlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Save}" Color="{StaticResource White}" />
@@ -48,7 +50,7 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView x:Name="ShufflePlaylistButton"  Pressed="ShufflePlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="4" x:Name="ShufflePlaylistButton" HorizontalOptions="End" Pressed="ShufflePlaylistButton_Clicked">
                 <Image x:Name="ShufflePlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{StaticResource White}" />
@@ -56,7 +58,7 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView x:Name="MixedShufflePlaylistButton"  Pressed="MixedShufflePlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="5" x:Name="MixedShufflePlaylistButton" HorizontalOptions="End" Pressed="MixedShufflePlaylistButton_Clicked">
                 <HorizontalStackLayout>
                     <Image x:Name="MixedShufflePlaylistButtonImage">
                         <Image.Source>
@@ -72,7 +74,7 @@
                 </HorizontalStackLayout>
             </material:ButtonView>
 
-        </HorizontalStackLayout>
+        </Grid>
 
         <HorizontalStackLayout Grid.Row="1" Spacing="16">
 
