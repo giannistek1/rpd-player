@@ -19,7 +19,7 @@
         <Grid Grid.Row="0" ColumnDefinitions="*,50,50,50">
 
             <Grid Grid.Column="0" ColumnDefinitions="50,*">
-                
+
                 <material:ButtonView Grid.Column="0" x:Name="BackButton" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButton_Clicked" HeightRequest="50">
                     <Image x:Name="BackButtonImage">
                         <Image.Source>
@@ -28,14 +28,9 @@
                     </Image>
                 </material:ButtonView>
 
-                <inputLayout:SfTextInputLayout Grid.Column="1" WidthRequest="160" Hint="Name" CharMaxLength="20" ContainerType="None">
-                    <Entry x:Name="PlaylistNameEntry" VerticalOptions="CenterAndExpand" TextColor="White" Text="test" FontSize="11" />
-                </inputLayout:SfTextInputLayout>
-                
-            </Grid>
+                <Entry Grid.Column="1" x:Name="PlaylistNameEntry" WidthRequest="160" VerticalOptions="CenterAndExpand" MaxLength="20" TextColor="White" Text="test" FontSize="13" />
 
-            <!--<Entry WidthRequest="180" x:Name="PlaylistNameEntry" Margin="0,10,0,10" TextColor="White" Text="Playlist name" MaxLength="20">
-            </Entry>-->
+            </Grid>
 
             <material:ButtonView Grid.Column="1" x:Name="PlayPlaylistButton" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="PlayPlaylistButton_Clicked">
                 <Image x:Name="PlayPlaylistButtonImage">

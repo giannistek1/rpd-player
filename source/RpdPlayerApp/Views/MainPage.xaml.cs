@@ -39,6 +39,20 @@ public partial class MainPage : UraniumContentPage
 
     }
 
+    protected override bool OnBackButtonPressed()
+    {
+        if (currentPlaylistView.IsVisible)
+        {
+            BackToPlaylists();
+            return true;
+        }
+        else
+        {
+            base.OnBackButtonPressed();
+            return false;
+        }
+    }
+
     private void OnFilterPressed(object? sender, EventArgs e)
     {
         SearchSongPartsView.SetFilterMode();
@@ -52,6 +66,11 @@ public partial class MainPage : UraniumContentPage
     }
 
     private void OnBackToPlaylists(object? sender, EventArgs e)
+    {
+        BackToPlaylists();
+    }
+
+    private void BackToPlaylists()
     {
         currentPlaylistView.ResetCurrentPlaylist();
         LibraryView!.LoadPlaylists();
@@ -73,8 +92,7 @@ public partial class MainPage : UraniumContentPage
         SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
     }
 
-    // Used by searchsongpartsView
-    // Used by currentplaylistView
+    // Used by searchsongpartsView, currentplaylistView
     private void OnPlaySongPart(object sender, EventArgs e)
     {
         if (MainViewModel.CurrentSongPart.Id == -1) { return; }
