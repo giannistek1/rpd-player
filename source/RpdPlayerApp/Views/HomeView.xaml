@@ -10,7 +10,7 @@
              x:Class="RpdPlayerApp.Views.HomeView"
              BackgroundColor="Black">
 
-    <Grid Padding="5"
+    <Grid Padding="0"
           RowDefinitions="50, auto, *"
           ColumnDefinitions="*">
 

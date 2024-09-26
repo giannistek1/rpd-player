@@ -26,7 +26,7 @@
                 </Image>
             </material:ButtonView>
 
-            <Entry Grid.Column="1" x:Name="PlaylistNameEntry" WidthRequest="160" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Start" MaxLength="20" TextColor="White" Text="test" FontSize="14" />
+            <Entry Grid.Column="1" x:Name="PlaylistNameEntry" WidthRequest="160" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Start" MaxLength="20" TextColor="White" Text="test" FontSize="16" FontAttributes="Bold" />
 
             <material:ButtonView Grid.Column="2" x:Name="PlayPlaylistButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="PlayPlaylistButton_Clicked">
                 <Image x:Name="PlayPlaylistButtonImage">
@@ -67,6 +67,7 @@
 
             <material:ButtonView Grid.Column="1" x:Name="MixedShufflePlaylistButton" MinimumHeightRequest="50" HorizontalOptions="End" Pressed="MixedShufflePlaylistButton_Clicked">
                 <HorizontalStackLayout>
+                    
                     <Image x:Name="MixedShufflePlaylistButtonImage">
                         <Image.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="DeepSkyBlue" />
@@ -78,11 +79,12 @@
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="Magenta" />
                         </Image.Source>
                     </Image>
+
                 </HorizontalStackLayout>
 
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="2" x:Name="ToggleSaveMode" MinimumHeightRequest="50" HorizontalOptions="End" Pressed="ToggleSaveMode_Pressed" HeightRequest="50">
+            <material:ButtonView Grid.Column="2" x:Name="ToggleSaveMode" MinimumHeightRequest="50" HorizontalOptions="End" Pressed="ToggleSaveMode_Pressed">
                 <Image x:Name="ToggleSaveModeImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Cloud}" Color="{StaticResource White}" />
@@ -92,7 +94,7 @@
 
         </Grid>
 
-        <HorizontalStackLayout Grid.Row="2">
+        <HorizontalStackLayout Grid.Row="2" Margin="0,8,0,0">
 
             <Label WidthRequest="100" x:Name="LengthLabel" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" />
 

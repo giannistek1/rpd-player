@@ -10,7 +10,7 @@
              x:Class="RpdPlayerApp.Views.SearchSongPartsView"
              BackgroundColor="Black">
 
-    <Grid Padding="5"
+    <Grid Padding="0"
           RowDefinitions="50, 20, 50, *"
           ColumnDefinitions="*">
 
@@ -66,9 +66,7 @@
                     </Image.Source>
                 </Image>
             </material:ButtonView>
-
-            <!--<Button x:Name="SortButton" Grid.Column="1" HorizontalOptions="EndAndExpand" Margin="4,4,4,4" Clicked="SortButton_Clicked" Text="Sort by..." />-->
-
+            
         </Grid>
 
 
