@@ -6,7 +6,6 @@ using Microsoft.Maui.Platform;
 using RpdPlayerApp.Views;
 using Syncfusion.Maui.Core.Hosting;
 using UraniumUI;
-using static Dropbox.Api.Paper.UserOnPaperDocFilter;
 
 namespace RpdPlayerApp
 {

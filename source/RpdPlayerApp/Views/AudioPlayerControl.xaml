@@ -20,7 +20,7 @@
 
                 <SwipeView.RightItems>
                     <SwipeItems Mode="Execute">
-                        <SwipeItem Text="Next" BackgroundColor="{StaticResource Gray950}"/>
+                        <SwipeItem Text="Next" BackgroundColor="{StaticResource Gray900}"/>
                     </SwipeItems>
                 </SwipeView.RightItems>
 
@@ -39,17 +39,7 @@
 
             <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,0,8,0" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="10" TextColor="White" Text="00:00"/>
 
-            <!--<buttons:SfButton x:Name="NextButton" Grid.Column="3" Background="{StaticResource Primary}" ImageSize="40" HeightRequest="40" Clicked="NextButton_Pressed" HorizontalOptions="Center" VerticalOptions="Center"
-                    TextColor="White" 
-                    ShowIcon="True">
-
-                <buttons:SfButton.ImageSource>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_next}" Color="{StaticResource White}" />
-                </buttons:SfButton.ImageSource>
-
-            </buttons:SfButton>-->
-
-            <material:ButtonView Grid.Column="3" HeightRequest="46" x:Name="NextButton" Pressed="NextButton_Pressed" VerticalOptions="CenterAndExpand">
+            <material:ButtonView Grid.Column="3" HeightRequest="46" x:Name="NextButton" Pressed="NextButton_Pressed" VerticalOptions="CenterAndExpand" Background="{StaticResource Gray900}">
                 <Image x:Name="NextImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_next}" Color="{StaticResource White}" />

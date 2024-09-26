@@ -18,7 +18,7 @@
         <Grid Grid.Row="0" BackgroundColor="{StaticResource Primary}" x:Name="HomeViewToolbar" ColumnDefinitions="*,50,50">
 
             <!-- Version -->
-            <Label Grid.Column="0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="12" Text="Version xx" />
+            <Label Grid.Column="0" Padding="5,0,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="12" Text="Version xx" />
 
             <material:ButtonView Grid.Column="1" IsEnabled="False" MinimumHeightRequest="50" x:Name="FeedbackButton" HorizontalOptions="End">
                 <Image x:Name="FeedbackImage">
@@ -118,7 +118,7 @@
         </syncfusionExpander:SfExpander>
 
         <!-- Categories -->
-        <ScrollView Grid.Row="2">
+        <ScrollView Grid.Row="2" VerticalScrollBarVisibility="Never">
 
             <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
 

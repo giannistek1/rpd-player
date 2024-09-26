@@ -18,7 +18,7 @@
         <!-- Toolbar -->
         <Grid Grid.Row="0" BackgroundColor="{StaticResource Primary}" ColumnDefinitions="1*,5*,1*,1*,1*">
 
-            <material:ButtonView Grid.Column="0" x:Name="BackButton" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButton_Clicked" HeightRequest="50">
+            <material:ButtonView Grid.Column="0" x:Name="BackButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButton_Clicked" >
                 <Image x:Name="BackButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{StaticResource White}" />
