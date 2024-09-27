@@ -50,11 +50,13 @@ public partial class CurrentPlaylistView : ContentView
         {
             MainViewModel.UsingCloudMode = false;
             ToggleSaveModeImage.Source = _cloudOffIcon;
+            Toast.Make($"Playlist will save locally", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
         else
         {
             MainViewModel.UsingCloudMode = true;
             ToggleSaveModeImage.Source = _cloudOnIcon;
+            Toast.Make($"Playlist will save online", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
     }
     public void RefreshCurrentPlaylist()

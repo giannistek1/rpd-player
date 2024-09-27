@@ -7,6 +7,7 @@ using RpdPlayerApp.ViewModel;
 using RpdPlayerApp.Architecture;
 using Syncfusion.Maui.DataSource;
 using UraniumUI.Icons.MaterialSymbols;
+using CommunityToolkit.Maui.Alerts;
 
 namespace RpdPlayerApp.Views;
 
@@ -65,6 +66,15 @@ public partial class SearchSongPartsView : ContentView
     {
         MainViewModel.UsingVideoMode = !MainViewModel.UsingVideoMode;
         ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
+
+        if (MainViewModel.UsingVideoMode)
+        {
+            Toast.Make($"Choreo video mode", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
+        else
+        {
+            Toast.Make($"Audio only mode", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
     }
 
 
