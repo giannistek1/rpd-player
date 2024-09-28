@@ -44,7 +44,6 @@ public partial class AudioPlayerControl : ContentView
     private void AudioProgressSliderDragCompleted(object? sender, EventArgs e)
     {
         AudioMediaElement.SeekTo(TimeSpan.FromSeconds(AudioProgressSlider.Value/100*AudioMediaElement.Duration.TotalSeconds));
-        //AudioMediaElement.Play();
 
         AudioMediaElement.PositionChanged += AudioMediaElementPositionChanged;
     }
@@ -52,8 +51,6 @@ public partial class AudioPlayerControl : ContentView
     private void AudioProgressSliderDragStarted(object? sender, EventArgs e)
     {
         AudioMediaElement.PositionChanged -= AudioMediaElementPositionChanged;
-
-        //AudioMediaElement.Pause();
     }
     #endregion
 

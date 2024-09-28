@@ -1,0 +1,9 @@
+Made with mediamodifier.
+pn2svg.com
+
+bg: #33806C
+globe: #4DAD94
+music/dab: #70F8D5
+
+alternative:
+https://www.ucraft.com/ai-logo-generator/app/brand-book-preview?company=Rpd+player&keywords=global%2Cdance%2Ckpop%2Cmusic&colors=%2333806C%2C%2379D6FF%2C%23B3FFEC%2C%239DE0CF%2C%235A806E&colorTabId=green&palletId=greenPallet4&paletteName=Cold&industry=Arts+%26+Crafts&isGenerating=true&generationId=d960bcc2-15ce-4fa3-a09e-c37228109372&offset=0&limit=30&generationIsDone=true&fromVersions=true&versionId=42f6b045-db98-405d-a923-45a9123bc334
