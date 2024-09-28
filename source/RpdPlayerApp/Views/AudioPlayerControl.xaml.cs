@@ -78,11 +78,7 @@ public partial class AudioPlayerControl : ContentView
                 }
                 else if (MainViewModel.CurrentSongPart.IsPlaying)
                 {
-                    AudioMediaElement.Stop();
-                    AudioMediaElement.SeekTo(new TimeSpan(0));
-                    PlayToggleImage.Source = _playIcon;
-                    MainViewModel.CurrentSongPart.IsPlaying = false;
-                    MainViewModel.CurrentlyPlaying = false;
+                    StopAudio();
                 }
 
                 break;
@@ -146,7 +142,27 @@ public partial class AudioPlayerControl : ContentView
     /// <param name="songPart"></param>
     internal void PlayAudio(SongPart songPart)
     {
+        if (!HelperClass.HasInternetConnection()) { return; }
+
         AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
+
+        using (var client = new MyClient())
+        {
+            client.HeadOnly = true;
+            // throws 404
+            try
+            {
+                client.DownloadString(songPart.AudioURL);
+            }
+            catch
+            {
+                StopAudio();
+                Toast.Make($"Media URL of the song is invalid.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                SentrySdk.CaptureMessage($"Tried to play Invalid URL: {songPart.AudioURL}");
+                return;
+            }
+        }
+
         AudioMediaElement.Play();
 
         // Update UI
@@ -166,10 +182,12 @@ public partial class AudioPlayerControl : ContentView
     internal void StopAudio()
     {
         AudioMediaElement.Stop();
+        AudioMediaElement.SeekTo(new TimeSpan(0));
 
         PlayToggleImage.Source = _playIcon;
 
         MainViewModel.CurrentSongPart.IsPlaying = false;
+        MainViewModel.CurrentlyPlaying = false;
     }
 
     private void NowPlayingSwipeViewSwipeEnded(object sender, SwipeEndedEventArgs e)

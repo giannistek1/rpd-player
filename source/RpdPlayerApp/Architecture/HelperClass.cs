@@ -7,6 +7,10 @@ internal static class HelperClass
 {
     private static Random rng = new Random();
 
+    /// <summary>
+    /// Checks whether Network has internet access. If false, shows toast saying "No internet connection!"
+    /// </summary>
+    /// <returns></returns>
     public static bool HasInternetConnection()
     {
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
