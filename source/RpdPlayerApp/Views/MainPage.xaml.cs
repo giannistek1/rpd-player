@@ -100,7 +100,7 @@ public partial class MainPage : UraniumContentPage
         switch (MainViewModel.PlayMode)
         {
             case Architecture.PlayMode.Playlist:
-                if (PlaylistManager.Instance.CurrentPlaylist != null && SearchSongPartsView.songParts.Count > 0)
+                if (PlaylistManager.Instance.CurrentPlaylist is not null && SearchSongPartsView.songParts.Count > 0)
                 {
 
                 }
@@ -108,7 +108,7 @@ public partial class MainPage : UraniumContentPage
                 break;
 
             case Architecture.PlayMode.Queue:
-                if (SearchSongPartsView.songParts != null && SearchSongPartsView.songParts.Count > 0)
+                if (SearchSongPartsView.songParts is not null && SearchSongPartsView.songParts.Count > 0)
                 {
                     // TODO: Based on song history
                     foreach (var songPart in SearchSongPartsView.songParts)

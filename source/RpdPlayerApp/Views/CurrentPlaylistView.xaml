@@ -26,7 +26,7 @@
                 </Image>
             </material:ButtonView>
 
-            <Entry Grid.Column="1" x:Name="PlaylistNameEntry" WidthRequest="160" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Start" MaxLength="20" TextColor="White" Text="test" FontSize="16" FontAttributes="Bold" />
+            <Entry Grid.Column="1" x:Name="PlaylistNameEntry" WidthRequest="160" VerticalOptions="CenterAndExpand"  HorizontalOptions="Start" HorizontalTextAlignment="Start" MaxLength="20" TextColor="White" Text="test" FontSize="16" FontAttributes="Bold" />
 
             <material:ButtonView Grid.Column="2" x:Name="PlayPlaylistButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="PlayPlaylistButton_Clicked">
                 <Image x:Name="PlayPlaylistButtonImage">

@@ -99,7 +99,7 @@ internal static class HelperClass
             }
 
             // If random song groupType is same as previous, get new randomIndex	
-            if (previousSong != null)
+            if (previousSong is not null)
             {
                 while (playlist[randomIndex].Artist?.GroupType == previousSong.Artist?.GroupType && emptyGroups < 3)
                 {

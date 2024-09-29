@@ -18,7 +18,7 @@ namespace RpdPlayerApp.Architecture
 
         protected override void OnHandlerChanged()
         {
-            if (this.Handler != null)
+            if (this.Handler is not null)
             {
 #if ANDROID
                (this.Handler.PlatformView as Android.Views.View)!.Touch += CustomSwipeView_Touch;
@@ -46,7 +46,7 @@ namespace RpdPlayerApp.Architecture
 
         internal object GetParent(object currentView)
         {
-            while (currentView != null && currentView.GetType() != typeof(ListViewGroupHeaderItem))
+            while (currentView is not null && currentView.GetType() != typeof(ListViewGroupHeaderItem))
             {
                 return this.GetParent((currentView as Element).Parent);
 

@@ -143,22 +143,22 @@ public partial class AudioPlayerControl : ContentView
 
         AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
 
-        using (var client = new MyClient())
-        {
-            client.HeadOnly = true;
-            // throws 404
-            try
-            {
-                client.DownloadString(songPart.AudioURL);
-            }
-            catch
-            {
-                StopAudio();
-                Toast.Make($"Media URL of the song is invalid.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-                SentrySdk.CaptureMessage($"Tried to play Invalid URL: {songPart.AudioURL}");
-                return;
-            }
-        }
+        //using (var client = new MyClient())
+        //{
+        //    client.HeadOnly = true;
+        //    // throws 404
+        //    try
+        //    {
+        //        client.DownloadString(songPart.AudioURL);
+        //    }
+        //    catch
+        //    {
+        //        StopAudio();
+        //        Toast.Make($"Media URL of the song is invalid.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        //        SentrySdk.CaptureMessage($"Tried to play Invalid URL: {songPart.AudioURL}");
+        //        return;
+        //    }
+        //}
 
         AudioMediaElement.Play();
 

@@ -263,7 +263,7 @@
                          VerticalOptions="CenterAndExpand"
                          FontSize="18" FontFamily="Roboto-Regular"/>
 
-                    <Button x:Name="ClearFilterButton" Clicked="ClearFilterButtonClicked" WidthRequest="200"  Text="Clear filter"/>
+                    <Button x:Name="ClearFilterButton" Clicked="ClearFilterButtonClicked" WidthRequest="280"  Text="Clear category filter"/>
                 </StackLayout>
             </syncfusion:SfListView.EmptyView>
         

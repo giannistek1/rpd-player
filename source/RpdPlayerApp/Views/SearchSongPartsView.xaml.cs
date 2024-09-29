@@ -126,7 +126,7 @@ public partial class SearchSongPartsView : ContentView
             return;
 
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
-        if (songPart.AudioURL != string.Empty)
+        if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
         {
             MainViewModel.CurrentSongPart = songPart;
             PlaySongPart?.Invoke(sender, e);
@@ -153,7 +153,7 @@ public partial class SearchSongPartsView : ContentView
                 await Navigation.PushAsync(new VideoPage(songPart), true);
             }
         }
-        else if (songPart.AudioURL != string.Empty)
+        else if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
         {
             // Mode to queue/single song
             MainViewModel.PlayMode = PlayMode.Queue;
@@ -199,6 +199,8 @@ public partial class SearchSongPartsView : ContentView
             }
         }
     }
+
+    // Not used
     private void SwipeItemAddSong(object sender, EventArgs e)
     {
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
@@ -238,16 +240,18 @@ public partial class SearchSongPartsView : ContentView
         }
 
         MenuItem mi = (MenuItem)sender;
-        var songParts = (IEnumerable<SongPart>)mi.CommandParameter;
+        var songPartsFromGroup = (IEnumerable<SongPart>)mi.CommandParameter;
 
-        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
+        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songPartsFromGroup.ToList());
 
         Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
     private void GoToBottomButtonClicked(object sender, EventArgs e)
     {
-        SonglibraryListView.ScrollTo(int.MaxValue);
+        // TODO: Impossible to go to bottom when all groups are expanded... 
+        // Maybe save group states, collapse groups, go to bottom and expand groups again.
+        SonglibraryListView.ScrollTo(double.MaxValue);
     }
     private void GoToTopButtonClicked(object sender, EventArgs e)
     {
@@ -288,6 +292,7 @@ public partial class SearchSongPartsView : ContentView
         }
 
         int addedSongParts;
+        // If search filtered or not
         if (searchFilteredSongParts.Count > 0)
         {
             addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(searchFilteredSongParts.ToList());
@@ -297,7 +302,15 @@ public partial class SearchSongPartsView : ContentView
             addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
         }
 
-        Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        // Show result
+
+        if (addedSongParts > 0)
+        {
+            AddSongPart?.Invoke(sender, e);
+            Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
+
+        
     }
 
     private void CollapseAllButtonClicked(object sender, EventArgs e)

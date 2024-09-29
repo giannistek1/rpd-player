@@ -168,7 +168,7 @@ public partial class CurrentPlaylistView : ContentView
 
         SongPart songPart = (SongPart)e.DataItem;
 
-        if (songPart.AudioURL != string.Empty)
+        if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
         {
             MainViewModel.PlayMode = PlayMode.Playlist;
 
@@ -197,7 +197,7 @@ public partial class CurrentPlaylistView : ContentView
             return;
 
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
-        if (songPart.AudioURL != string.Empty)
+        if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
         {
             MainViewModel.CurrentSongPart = songPart;
             PlaySongPart!.Invoke(sender, e);
