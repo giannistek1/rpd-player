@@ -178,7 +178,7 @@ public partial class SearchSongPartsView : ContentView
             if (!MainViewModel.SongPartsQueue.Contains(songPart))
             {
                 MainViewModel.SongPartsQueue.Enqueue(songPart);
-                CommunityToolkit.Maui.Alerts.Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             }
 
             // Change mode to queue list
@@ -195,7 +195,7 @@ public partial class SearchSongPartsView : ContentView
             if (added)
             {
                 AddSongPart?.Invoke(sender, e);
-                CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             }
         }
     }
@@ -208,7 +208,7 @@ public partial class SearchSongPartsView : ContentView
         if (added)
         {
             AddSongPart?.Invoke(sender, e);
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
     }
 
@@ -219,7 +219,7 @@ public partial class SearchSongPartsView : ContentView
         if (!MainViewModel.SongPartsQueue.Contains(songPart))
         {
             MainViewModel.SongPartsQueue.Enqueue(songPart);
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
 
         // Change mode to queue list
@@ -233,7 +233,7 @@ public partial class SearchSongPartsView : ContentView
         // TODO: BUGGY
         if (PlaylistManager.Instance.CurrentPlaylist is null)
         {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             return;
         }
 
@@ -242,7 +242,7 @@ public partial class SearchSongPartsView : ContentView
 
         int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
 
-        CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
     private void GoToBottomButtonClicked(object sender, EventArgs e)
@@ -268,7 +268,7 @@ public partial class SearchSongPartsView : ContentView
             if (!MainViewModel.SongPartsQueue.Contains(songPart))
             {
                 MainViewModel.SongPartsQueue.Enqueue(songPart);
-                CommunityToolkit.Maui.Alerts.Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             }
         }
         else
@@ -283,7 +283,7 @@ public partial class SearchSongPartsView : ContentView
         // TODO: BUGGY
         if (PlaylistManager.Instance.CurrentPlaylist is null)
         {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             return;
         }
 
@@ -297,7 +297,7 @@ public partial class SearchSongPartsView : ContentView
             addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
         }
 
-        CommunityToolkit.Maui.Alerts.Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
     private void CollapseAllButtonClicked(object sender, EventArgs e)
