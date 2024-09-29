@@ -375,7 +375,7 @@
 
                 </syncfusionExpander:SfExpander>
 
-                <!-- Languages -->
+                <!-- Genres -->
                 <syncfusionExpander:SfExpander Grid.Row="6" AnimationDuration="200" IsExpanded="False" Margin="4, 0">
 
                     <syncfusionExpander:SfExpander.Header>
@@ -383,7 +383,7 @@
                         HeightRequest="40" 
                         TextColor="{StaticResource White}"
                         LineBreakMode="NoWrap"
-                        Padding="4" Text="Languages" FontAttributes="Bold"
+                        Padding="4" Text="Genres" FontAttributes="Bold"
                         FontSize="18" HorizontalOptions="Start"
                         VerticalOptions="Center"/>
                     </syncfusionExpander:SfExpander.Header>
@@ -391,7 +391,7 @@
                     <syncfusionExpander:SfExpander.Content>
 
                         <syncfusion:SfListView
-                            x:Name="LanguageListView"
+                            x:Name="GenreListView"
                             Orientation="Horizontal"
                             AutoFitMode="Height" 
                             SelectionMode="None"
@@ -410,7 +410,7 @@
                                             </Image.Source>
                                         </Image>
 
-                                        <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
+                                        <HorizontalStackLayout HeightRequest="32" VerticalOptions="End">
                                             <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
                                             <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
                                         </HorizontalStackLayout>

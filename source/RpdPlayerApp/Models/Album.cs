@@ -6,7 +6,7 @@ internal class Album
     public string ArtistName { get; set; }
     public string Title { get; set; }
     public DateTime ReleaseDate { get; set; }
-    public string Language { get; set; }
+    public string Genre { get; set; }
     public string ImageURL { get; set; }
 
     public bool ShowAlbumTitle { get; set; } = false;
@@ -19,7 +19,7 @@ internal class Album
         ArtistName = artistName;
         ReleaseDate = releaseDate;
         Title = title;
-        Language = language;
+        Genre = language;
         ImageURL = imageURL;
     }
 }

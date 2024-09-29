@@ -429,35 +429,35 @@ public partial class SearchSongPartsView : ContentView
 
                 case SearchFilterMode.Firstgen:
                     FilterLabel.Text = "First gen (< 2002)";
-                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.Language == "KR").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.Genre == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.Secondgen:
                     FilterLabel.Text = "Second gen (2003 - 2012)";
-                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.SECOND_GENERATION && s.Album?.Language == "KR").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.SECOND_GENERATION && s.Album?.Genre == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.Thirdgen:
                     FilterLabel.Text = "Third gen (2012 - 2017)";
-                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.THIRD_GENERATION && s.Album?.Language == "KR").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.THIRD_GENERATION && s.Album?.Genre == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.Fourthgen:
                     FilterLabel.Text = "Fourth gen (2018 - 2022)";
-                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FOURTH_GENERATION && s.Album?.Language == "KR").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FOURTH_GENERATION && s.Album?.Genre == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.Fifthgen:
                     FilterLabel.Text = "Fifth gen (2023 >)";
-                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.Language == "KR").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.Genre == "KR").ToObservableCollection(); break;
 
                 case SearchFilterMode.KR:
                     FilterLabel.Text = "K-pop";
-                    songParts = allSongParts.Where(s => s.Album?.Language == "KR").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.Genre == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.JP:
                     FilterLabel.Text = "J-pop";
-                    songParts = allSongParts.Where(s => s.Album?.Language == "JP").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.Genre == "JP").ToObservableCollection(); break;
                 case SearchFilterMode.EN:
                     FilterLabel.Text = "English pop";
-                    songParts = allSongParts.Where(s => s.Album?.Language == "EN").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.Genre == "EN").ToObservableCollection(); break;
                 case SearchFilterMode.CH:
                     FilterLabel.Text = "C-pop";
-                    songParts = allSongParts.Where(s => s.Album?.Language == "CH").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.Genre == "CH").ToObservableCollection(); break;
                 case SearchFilterMode.TH:
                     FilterLabel.Text = "T-pop";
-                    songParts = allSongParts.Where(s => s.Album?.Language == "TH").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.Genre == "TH").ToObservableCollection(); break;
 
                 case SearchFilterMode.Solo:
                     FilterLabel.Text = "Solo artists";
@@ -673,7 +673,7 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.Generation:
                     // Shows only korean songs, else you have to mess with the group non-kpop which gets in the way of grouping order.
-                    songParts = songParts.Where(s => s.Album.Language == "KR").OrderByDescending(s => s.Artist.Gen).ToObservableCollection();
+                    songParts = songParts.Where(s => s.Album.Genre == "KR").OrderByDescending(s => s.Artist.Gen).ToObservableCollection();
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
@@ -733,7 +733,7 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Language:
-                    songParts = songParts.OrderBy(s => s.Album?.Language).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.Album?.Genre).ToObservableCollection();
 
                     SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -743,7 +743,7 @@ public partial class SearchSongPartsView : ContentView
                             var item = (obj1 as SongPart);
                             if (item is not null && item.Album is not null)
                             {
-                                return item.Album.Language.ToString();
+                                return item.Album.Genre.ToString();
                             }
                             else
                             {

@@ -89,35 +89,35 @@ public partial class HomeView : ContentView
                                 description: "First generation.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{firstGenArtist}?raw=true", 
                                 searchFilterMode: SearchFilterMode.Firstgen, 
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.Language == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.Genre == "KR")
                                 ), 
 
             new HomeListViewItem(title: "2nd Generation", 
                                 description: "Second generation.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{secondGenArtist}?raw=true", 
                                 searchFilterMode: SearchFilterMode.Secondgen,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.SECOND_GENERATION && s.Album?.Language == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.SECOND_GENERATION && s.Album?.Genre == "KR")
                                 ),
 
             new HomeListViewItem(title: "3rd Generation", 
                                 description: "Third generation.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{thirdGenArtist}?raw=true", 
                                 searchFilterMode: SearchFilterMode.Thirdgen,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.THIRD_GENERATION && s.Album?.Language == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.THIRD_GENERATION && s.Album?.Genre == "KR")
                                 ), 
 
             new HomeListViewItem(title: "4th Generation", 
                                 description: "Fourth generation.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{fourthGenArtist}?raw=true", 
                                 searchFilterMode: SearchFilterMode.Fourthgen,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FOURTH_GENERATION && s.Album?.Language == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FOURTH_GENERATION && s.Album?.Genre == "KR")
                                 ),
 
             new HomeListViewItem(title: "5th Generation", 
                                 description: "Fifth generation.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-artists/blob/main/{fifthGenArtist}?raw=true", 
                                 searchFilterMode: SearchFilterMode.Fifthgen, 
-                                songCount : SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.Language == "KR")
+                                songCount : SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.Genre == "KR")
                                 ) 
         };
 
@@ -226,40 +226,40 @@ public partial class HomeView : ContentView
                                 ),
         };
 
-        LanguageListView.ItemsSource = new List<HomeListViewItem>() {
+        GenreListView.ItemsSource = new List<HomeListViewItem>() {
             new HomeListViewItem(title: "K-pop", 
                                 description: "Korean pop music.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true", 
                                 searchFilterMode: SearchFilterMode.KR,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Genre == "KR")
                                 ),
 
             new HomeListViewItem(title: "J-pop", 
                                 description: "Japanese pop music.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-jp.webp?raw=true", 
                                 searchFilterMode: SearchFilterMode.JP,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "JP")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Genre == "JP")
                                 ),
 
             new HomeListViewItem(title: "English pop", 
                                 description: "English pop music.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-us.webp?raw=true", 
                                 searchFilterMode: SearchFilterMode.EN,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "EN")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Genre == "EN")
                                 ),
 
             new HomeListViewItem(title: "C-pop", 
                                 description: "Chinese pop music.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-ch.png?raw=true", 
                                 searchFilterMode: SearchFilterMode.CH,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "CH")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Genre == "CH")
                                 ),
 
             new HomeListViewItem(title: "T-pop", 
                                 description: "Thai pop music.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-th.webp?raw=true", 
                                 searchFilterMode: SearchFilterMode.TH,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Language == "TH")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.Genre == "TH")
                                 )
         };
 
