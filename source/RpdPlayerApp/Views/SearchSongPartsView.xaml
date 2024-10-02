@@ -194,6 +194,7 @@
                 </DataTemplate>
             </syncfusion:SfListView.EndSwipeTemplate>
 
+            <!-- Item -->
             <syncfusion:SfListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
