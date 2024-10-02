@@ -26,8 +26,7 @@
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
                     <VerticalStackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ViewSongPartDetailsTapped"
-                              NumberOfTapsRequired="1" />
+                        <TapGestureRecognizer Tapped="ViewSongPartDetailsTapped" NumberOfTapsRequired="1" />
                     </VerticalStackLayout.GestureRecognizers>
 
                     <Label x:Name="NowPlayingLabel" Padding="16,0,0,0" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" FontSize="14"  TextColor="White" Text="Nothing playing"/>
