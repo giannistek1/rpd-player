@@ -65,16 +65,18 @@ public partial class AudioPlayerControl : ContentView
         {
             case PlayMode.Queue:
 
-                if (MainViewModel.SongPartsQueue.Any())
-                {
-                    SongPart queueSongPart = MainViewModel.SongPartsQueue.Dequeue();
-                    MainViewModel.CurrentSongPart = queueSongPart;
-                    PlayAudio(MainViewModel.CurrentSongPart);
+                if (!MainViewModel.SongPartsQueue.Any()) { return; }
 
-                }
-                else if (MainViewModel.CurrentSongPart.IsPlaying)
+                MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
+
+                // Next song
+                MainViewModel.CurrentSongPart = MainViewModel.SongPartsQueue.Dequeue();
+                PlayAudio(MainViewModel.CurrentSongPart);
+
+                if (MainViewModel.SongPartsQueue.Count > 0)
                 {
-                    StopAudio();
+                    NextSwipeItem.IsVisible = true;
+                    NextSwipeItem.Text = MainViewModel.SongPartsQueue.Peek().Title;
                 }
 
                 break;
@@ -85,15 +87,15 @@ public partial class AudioPlayerControl : ContentView
 
                 if (!MainViewModel.PlaylistQueue.Any()) { return; }
 
-                // Remove song from queue that was just played and add to history.
-                SongPart playlistSongPart = MainViewModel.PlaylistQueue.Dequeue();
-                MainViewModel.SongPartHistory.Add(playlistSongPart);
-                
-                // If there is a next song, next song will be current song.
+                MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
+ 
+                MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
+                PlayAudio(MainViewModel.CurrentSongPart);
+
                 if (MainViewModel.PlaylistQueue.Count > 0)
                 {
-                    MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Peek();
-                    PlayAudio(MainViewModel.CurrentSongPart);
+                    NextSwipeItem.IsVisible = true;
+                    NextSwipeItem.Text = MainViewModel.PlaylistQueue.Peek().Title;
                 }
 
                 break;
@@ -142,6 +144,7 @@ public partial class AudioPlayerControl : ContentView
 
         AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
 
+        // This is very slow :(
         //using (var client = new MyClient())
         //{
         //    client.HeadOnly = true;
@@ -170,6 +173,8 @@ public partial class AudioPlayerControl : ContentView
         TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
         DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
 
+        UpdateNextSwipeItem();
+
         // Update vars
         songPart.IsPlaying = true;
         MainViewModel.CurrentlyPlaying = true;
@@ -188,7 +193,11 @@ public partial class AudioPlayerControl : ContentView
 
     private void NowPlayingSwipeViewSwipeEnded(object sender, SwipeEndedEventArgs e)
     {
-        AudioMediaElementMediaEnded(sender, e);
+        if (e.SwipeDirection == SwipeDirection.Left && e.IsOpen)
+        {
+            NowPlayingSwipeView.Close();
+            AudioMediaElementMediaEnded(sender, e);
+        }
     }
 
     private async void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
@@ -198,6 +207,25 @@ public partial class AudioPlayerControl : ContentView
         if (Navigation.NavigationStack.Count < 2)
         {
             await Navigation.PushAsync(new SongPartDetailPage(MainViewModel.CurrentSongPart));
+        }
+    }
+
+    internal void UpdateNextSwipeItem()
+    {
+        if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.PlaylistQueue.Count > 0)
+        {
+            NextSwipeItem.IsVisible = true;
+            NextSwipeItem.Text = MainViewModel.PlaylistQueue.Peek().Title;
+        }
+        else if (MainViewModel.PlayMode == PlayMode.Queue && MainViewModel.SongPartsQueue.Count > 0)
+        {
+            NextSwipeItem.IsVisible = true;
+            NextSwipeItem.Text = MainViewModel.SongPartsQueue.Peek().Title;
+        }
+        else
+        {
+            NextSwipeItem.IsVisible = false;
+            NextSwipeItem.Text = string.Empty;
         }
     }
 }

@@ -19,8 +19,8 @@
             <SwipeView Grid.Column="1" x:Name="NowPlayingSwipeView" SwipeEnded="NowPlayingSwipeViewSwipeEnded" VerticalOptions="CenterAndExpand">
 
                 <SwipeView.RightItems>
-                    <SwipeItems Mode="Execute">
-                        <SwipeItem Text="Next" BackgroundColor="{StaticResource Gray900}"/>
+                    <SwipeItems Mode="Reveal" SwipeBehaviorOnInvoked="Close">
+                        <SwipeItem x:Name="NextSwipeItem" IsVisible="False" Text="Next" BackgroundColor="{StaticResource Gray900}"/>
                     </SwipeItems>
                 </SwipeView.RightItems>
 

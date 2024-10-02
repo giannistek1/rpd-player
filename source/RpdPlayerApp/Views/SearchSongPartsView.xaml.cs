@@ -20,6 +20,7 @@ public partial class SearchSongPartsView : ContentView
     internal event EventHandler? PlaySongPart;
     internal event EventHandler? StopSongPart;
     internal event EventHandler? AddSongPart;
+    internal event EventHandler? EnqueueSongPart;
     internal event EventHandler? SortPressed;
 
     internal ObservableCollection<SongPart> allSongParts;
@@ -187,6 +188,8 @@ public partial class SearchSongPartsView : ContentView
 
             // Change mode to queue list
             MainViewModel.PlayMode = PlayMode.Queue;
+
+            EnqueueSongPart?.Invoke(sender, e);
         }
 
         // Swipe right to left (end), add to playlist

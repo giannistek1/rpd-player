@@ -16,6 +16,7 @@ public partial class MainPage : UraniumContentPage
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
         SearchSongPartsView.StopSongPart += OnStopSongPart;
         SearchSongPartsView.AddSongPart += OnAddSongPart;
+        SearchSongPartsView.EnqueueSongPart += OnEnqueueSongPart;
         SearchSongPartsView.SortPressed += OnSortPressed;
 
         LibraryView.PlayPlaylist += OnPlaySongPart; // Not used
@@ -37,6 +38,11 @@ public partial class MainPage : UraniumContentPage
             LibraryContainer.Children.Add(LibraryView);
         }
 
+    }
+
+    private void OnEnqueueSongPart(object? sender, EventArgs e)
+    {
+        AudioPlayerControl.UpdateNextSwipeItem();
     }
 
     protected override bool OnBackButtonPressed()

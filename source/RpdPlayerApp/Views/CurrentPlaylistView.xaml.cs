@@ -130,8 +130,10 @@ public partial class CurrentPlaylistView : ContentView
 
     private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
     {
-        MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist.SongParts[0];
+        // Change mode to playlist
+        MainViewModel.PlayMode = PlayMode.Playlist;
 
+        
         // Clear playlist queue and fill playlist queue
         MainViewModel.PlaylistQueue.Clear();
 
@@ -139,10 +141,10 @@ public partial class CurrentPlaylistView : ContentView
         foreach (var songPart in songParts)
         {
             MainViewModel.PlaylistQueue.Enqueue(songPart);
-        }  
+        }
 
-        // Change mode to playlist
-        MainViewModel.PlayMode = PlayMode.Playlist;
+        MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
+
         PlaySongPart!.Invoke(sender, e);
     }
 
@@ -172,8 +174,6 @@ public partial class CurrentPlaylistView : ContentView
         {
             MainViewModel.PlayMode = PlayMode.Playlist;
 
-            MainViewModel.CurrentSongPart = songPart;
-
             MainViewModel.PlaylistQueue.Clear();
 
             List<SongPart> songParts = PlaylistManager.Instance.CurrentPlaylist.SongParts.ToList();
@@ -184,6 +184,8 @@ public partial class CurrentPlaylistView : ContentView
                 MainViewModel.PlaylistQueue.Enqueue(songParts[index]);
                 index++;
             }
+
+            MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
 
             PlaySongPart?.Invoke(sender, e);
         }
