@@ -1,4 +1,3 @@
-using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
@@ -192,8 +191,13 @@ public partial class AudioPlayerControl : ContentView
         AudioMediaElementMediaEnded(sender, e);
     }
 
-    private void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
+    private async void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
     {
-        Toast.Make($"Showing detail screen!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        if (MainViewModel.CurrentSongPart is null || MainViewModel.CurrentSongPart.Id <= 0) { return; }
+
+        if (Navigation.NavigationStack.Count < 2)
+        {
+            await Navigation.PushAsync(new SongPartDetailPage(MainViewModel.CurrentSongPart));
+        }
     }
 }

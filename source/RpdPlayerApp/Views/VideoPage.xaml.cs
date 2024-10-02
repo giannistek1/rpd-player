@@ -16,7 +16,7 @@ public partial class VideoPage : ContentPage
         //NowPlayingLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
 
         //VideoMediaElement.Play();
-        VideoMediaElement.ShouldAutoPlay = true;
+
 
         //TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
 
@@ -27,6 +27,7 @@ public partial class VideoPage : ContentPage
         ArtistLabel.Text = songPart.ArtistName;
         SongTitleLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
 
+        VideoMediaElement.ShouldAutoPlay = true;
         VideoMediaElement.ShouldLoopPlayback = MainViewModel.ShouldLoopVideo;
     }
 

@@ -94,6 +94,10 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <MauiForceXamlCForDebug>true</MauiForceXamlCForDebug>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios'">
+    <CodesignKey>Apple Development: Created via API (GFZ7M2JBD5)</CodesignKey>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+  </PropertyGroup>
   
 	<ItemGroup>
     <!-- App Icon -->
@@ -174,6 +178,12 @@
 	  <MauiXaml Update="Views\VideoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+    <MauiXaml Update="Views\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\SongPartDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>

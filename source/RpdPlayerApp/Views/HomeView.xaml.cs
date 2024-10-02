@@ -1,5 +1,6 @@
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Items;
+using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Repository;
 using RpdPlayerApp.ViewModel;
@@ -334,4 +335,17 @@ public partial class HomeView : ContentView
         FilterPressed?.Invoke(this, e);
     }
     #endregion
+
+    private void FeedbackButton_Pressed(object sender, EventArgs e)
+    {
+
+    }
+
+    private async void SettingsButton_Pressed(object sender, EventArgs e)
+    {
+        if (Navigation.NavigationStack.Count < 2)
+        {
+            await Navigation.PushAsync(new SettingsPage(), true);
+        }
+    }
 }
