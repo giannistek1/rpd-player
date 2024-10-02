@@ -1,6 +1,7 @@
 Made with mediamodifier.
 pn2svg.com
 
+.NET MAUI default color: #512BD4
 bg: #33806C
 globe: #4DAD94
 music/dab: #70F8D5
