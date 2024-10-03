@@ -61,4 +61,8 @@ internal static class MainViewModel
 
     public static bool ShouldLoopVideo { get; set; } = true;
 
+    /// <summary>
+    /// 0.0 - 1.0
+    /// </summary>
+    public static double MainVolume = 1.0;
 }

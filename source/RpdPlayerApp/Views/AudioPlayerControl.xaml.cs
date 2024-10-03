@@ -57,6 +57,12 @@ public partial class AudioPlayerControl : ContentView
     {
         // Can also use a timer and update value on main thread after time elapsed.
         AudioProgressSlider.Value = e.Position.TotalSeconds / AudioMediaElement.Duration.TotalSeconds * 100;
+
+
+        //if ((AudioMediaElement.Volume < MainViewModel.MainVolume - 0.02) && (AudioMediaElement.Volume > MainViewModel.MainVolume + 0.02))
+        //{
+            AudioMediaElement.Volume = MainViewModel.MainVolume;
+        //}
     }
 
     private void AudioMediaElementMediaEnded(object? sender, EventArgs e)
@@ -65,7 +71,10 @@ public partial class AudioPlayerControl : ContentView
         {
             case PlayMode.Queue:
 
-                if (!MainViewModel.SongPartsQueue.Any()) { return; }
+                if (!MainViewModel.SongPartsQueue.Any()) {
+                    if (AudioProgressSlider.Value >= AudioProgressSlider.Maximum-1) { StopAudio(); }
+                    return; 
+                }
 
                 MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
 
