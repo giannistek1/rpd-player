@@ -11,6 +11,7 @@ public partial class VideoPage : ContentPage
 		InitializeComponent();
 
         VideoMediaElement.Source = MediaSource.FromUri(songPart.VideoURL);
+        VideoMediaElement.Volume = MainViewModel.MainVolume;
 
         //AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         //NowPlayingLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";

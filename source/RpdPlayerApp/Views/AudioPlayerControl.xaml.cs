@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
@@ -72,7 +73,7 @@ public partial class AudioPlayerControl : ContentView
             case PlayMode.Queue:
 
                 if (!MainViewModel.SongPartsQueue.Any()) {
-                    if (AudioProgressSlider.Value >= AudioProgressSlider.Maximum-1) { StopAudio(); }
+                    if (AudioProgressSlider.Value >= AudioProgressSlider.Maximum - 2) { StopAudio(); }
                     return; 
                 }
 
@@ -154,22 +155,7 @@ public partial class AudioPlayerControl : ContentView
         AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
 
         // This is very slow :(
-        //using (var client = new MyClient())
-        //{
-        //    client.HeadOnly = true;
-        //    // throws 404
-        //    try
-        //    {
-        //        client.DownloadString(songPart.AudioURL);
-        //    }
-        //    catch
-        //    {
-        //        StopAudio();
-        //        Toast.Make($"Media URL of the song is invalid.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-        //        SentrySdk.CaptureMessage($"Tried to play Invalid URL: {songPart.AudioURL}");
-        //        return;
-        //    }
-        //}
+        //CheckValidUrl(songPart);
 
         AudioMediaElement.Play();
 
@@ -198,6 +184,25 @@ public partial class AudioPlayerControl : ContentView
 
         MainViewModel.CurrentSongPart.IsPlaying = false;
         MainViewModel.CurrentlyPlaying = false;
+    }
+
+    private void CheckValidUrl(SongPart songPart)
+    {
+        using (var client = new MyClient())
+        {
+            client.HeadOnly = true;
+            // throws 404
+            try
+            {
+                client.DownloadString(songPart.AudioURL);
+            }
+            catch
+            {
+                StopAudio();
+                Toast.Make($"Media URL of the song is invalid.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                SentrySdk.CaptureMessage($"Tried to play Invalid URL: {songPart.AudioURL}");
+            }
+        }
     }
 
     private void NowPlayingSwipeViewSwipeEnded(object sender, SwipeEndedEventArgs e)

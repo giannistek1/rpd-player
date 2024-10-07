@@ -264,6 +264,50 @@ public partial class HomeView : ContentView
                                 )
         };
 
+        KpopYearsListView.ItemsSource = new List<HomeListViewItem>() {
+            new HomeListViewItem(title: "2019",
+                                description: "K-pop 2019",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
+                                searchFilterMode: SearchFilterMode.kpop2019,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2019)
+                                ),
+
+            new HomeListViewItem(title: "2020",
+                                description: "K-pop 2020",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
+                                searchFilterMode: SearchFilterMode.kpop2020,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2020)
+                                ),
+
+            new HomeListViewItem(title: "2021",
+                                description: "K-pop 2021",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
+                                searchFilterMode: SearchFilterMode.kpop2021,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2021)
+                                ),
+
+            new HomeListViewItem(title: "2022",
+                                description: "K-pop 2022",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
+                                searchFilterMode: SearchFilterMode.kpop2022,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2022)
+                                ),
+
+            new HomeListViewItem(title: "2023",
+                                description: "K-pop 2023",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
+                                searchFilterMode: SearchFilterMode.kpop2023,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2023)
+                                ),
+
+            new HomeListViewItem(title: "2024",
+                                description: "K-pop 2024",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
+                                searchFilterMode: SearchFilterMode.kpop2024,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2024)
+                                )
+        };
+
         var groupedTitles = from s in SongPartRepository.SongParts
                             group s.Title by s.Title into g
                             select new { Title = g.Key, Titles = g.ToList() };

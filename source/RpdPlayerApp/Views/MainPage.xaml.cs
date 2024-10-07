@@ -37,7 +37,12 @@ public partial class MainPage : UraniumContentPage
         {
             LibraryContainer.Children.Add(LibraryView);
         }
-
+        
+        // Has to be run on MainThread (UI thread) for iOS.
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            DeviceDisplay.Current.KeepScreenOn = true;
+        });
     }
 
     private void OnEnqueueSongPart(object? sender, EventArgs e)
@@ -261,4 +266,23 @@ public partial class MainPage : UraniumContentPage
         SortModeBottomSheet.IsVisible = false;
     }
     #endregion
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        HomeView.FilterPressed -= OnFilterPressed;
+
+        SearchSongPartsView.PlaySongPart -= OnPlaySongPart;
+        SearchSongPartsView.StopSongPart -= OnStopSongPart;
+        SearchSongPartsView.AddSongPart -= OnAddSongPart;
+        SearchSongPartsView.EnqueueSongPart -= OnEnqueueSongPart;
+        SearchSongPartsView.SortPressed -= OnSortPressed;
+
+        LibraryView.PlayPlaylist -= OnPlaySongPart; // Not used
+        LibraryView.ShowPlaylist -= OnShowPlaylist;
+
+        currentPlaylistView.BackToPlaylists -= OnBackToPlaylists;
+        currentPlaylistView.PlaySongPart -= OnPlaySongPart;
+    }
 }

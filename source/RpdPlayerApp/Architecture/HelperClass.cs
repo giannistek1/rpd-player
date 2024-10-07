@@ -65,12 +65,31 @@ internal static class HelperClass
     // Extra functionality
     public static List<SongPart> RandomizeAndAlternatePlaylist(List<SongPart> playlist)
     {
-        SongPart previousSong = new();
-        List<int> groupTypesCount = new List<int>();
-        groupTypesCount.Add(playlist.AsEnumerable().Count(s => s.Artist?.GroupType == Models.GroupType.BG));
-        groupTypesCount.Add(playlist.AsEnumerable().Count(s => s.Artist?.GroupType == Models.GroupType.GG));
-        groupTypesCount.Add(playlist.AsEnumerable().Count(s => s.Artist?.GroupType == Models.GroupType.MIX));
-        groupTypesCount.Add(playlist.AsEnumerable().Count(s => s.Artist?.GroupType == Models.GroupType.NOT_SET));
+        SongPart previousSong = null;
+
+        var firstGroupType = GroupType.GG;
+
+        int bgCount = playlist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG);
+        int ggCount = playlist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG);
+        int mixCount = playlist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.MIX);
+        int nsCount = playlist.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.NOT_SET);
+
+        if (bgCount > ggCount)
+        {
+            firstGroupType = GroupType.BG;
+        }
+        if (mixCount > bgCount)
+        {
+            firstGroupType = GroupType.MIX;
+        }
+
+        List<int> groupTypesCount =
+        [
+            bgCount,
+            ggCount,
+            mixCount,
+            nsCount,
+        ];
 
         // You can do the same with artists
         /*List<int> artistsCount = new List<int>();
@@ -88,37 +107,45 @@ internal static class HelperClass
             // Select random song
             int randomIndex = rng.Next(i, playlist.Count);
 
-            int emptyGroups = 0;
-            // Check for empty groupTypes
+            int depletedGrouptypes = 0;
+            // Check for depleted groupTypes
             foreach (int groupTypeCount in groupTypesCount)
             {
                 if (groupTypeCount == 0)
                 {
-                    emptyGroups++;
+                    depletedGrouptypes++;
                 }
             }
 
-            // If random song groupType is same as previous, get new randomIndex	
+            // If random song groupType is same as previous, get new randomIndex.	
             if (previousSong is not null)
             {
-                while (playlist[randomIndex].Artist?.GroupType == previousSong.Artist?.GroupType && emptyGroups < 3)
+                while (playlist[randomIndex].Artist?.GroupType == previousSong.Artist?.GroupType && depletedGrouptypes < 3)
+                {
+                    randomIndex = rng.Next(i, playlist.Count);
+                }
+            }
+            else
+            {
+                // Choose random index while grouptype is different than first grouptype.
+                while (playlist[randomIndex].Artist?.GroupType != firstGroupType && depletedGrouptypes < 3)
                 {
                     randomIndex = rng.Next(i, playlist.Count);
                 }
             }
 
-            // Substract from count based on groupType
+            // Substract from count based on groupType.
             groupTypesCount[(int)playlist[randomIndex].Artist.GroupType]--;
 
-            // Set previous song and put song in playlist
+            // Set previous song and put song in playlist.
             previousSong = playlist[randomIndex];
             playlist[i] = playlist[randomIndex];
 
-            // Swap the two songs
+            // Swap the two songs.
             playlist[randomIndex] = temp;
         }
 
-        SentrySdk.CaptureMessage($"Randomized alternating playlist with {playlist.Count} songs");
+        //SentrySdk.CaptureMessage($"Randomized alternating playlist with {playlist.Count} songs");
 
         return playlist;
     }

@@ -16,8 +16,7 @@
             VerticalOptions="Center" 
             HorizontalOptions="Start" />
 
-        <sliders:SfSlider Grid.Row="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSlider_ValueChanged" Minimum="0" Interval="50" Maximum="100"
-                  ShowLabels="True">
+        <sliders:SfSlider Grid.Row="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSlider_ValueChanged" Minimum="0" Interval="50" Maximum="100">
 
             <sliders:SfSlider.TrackStyle>
                 <sliders:SliderTrackStyle ActiveFill="{StaticResource Primary}"
@@ -27,15 +26,7 @@
             <sliders:SfSlider.ThumbStyle>
                 <sliders:SliderThumbStyle Fill="{StaticResource Primary}" />
             </sliders:SfSlider.ThumbStyle>
-
-            <sliders:SfSlider.LabelStyle>
-                <sliders:SliderLabelStyle ActiveTextColor="White"
-                          InactiveTextColor="LightGray"
-                          ActiveFontAttributes="Italic"
-                          InactiveFontAttributes="Italic"
-                          ActiveFontSize="16"
-                          InactiveFontSize="16" />
-            </sliders:SfSlider.LabelStyle>
+            
         </sliders:SfSlider>
 
         <Label 

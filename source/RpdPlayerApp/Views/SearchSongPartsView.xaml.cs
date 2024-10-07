@@ -198,9 +198,11 @@ public partial class SearchSongPartsView : ContentView
             SongPart songPart = (SongPart)e.DataItem;
 
             bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
+            
 
             if (added)
             {
+                MainViewModel.PlaylistQueue.Enqueue(songPart);
                 AddSongPart?.Invoke(sender, e);
                 Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             }
@@ -509,6 +511,25 @@ public partial class SearchSongPartsView : ContentView
                 case SearchFilterMode.Group:
                     FilterLabel.Text = "Groups (2+ members)";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount > 2).ToObservableCollection(); break;
+
+                case SearchFilterMode.kpop2019:
+                    FilterLabel.Text = "K-pop 2019";
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2019).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2020:
+                    FilterLabel.Text = "K-pop 2020";
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2020).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2021:
+                    FilterLabel.Text = "K-pop 2021";
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2021).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2022:
+                    FilterLabel.Text = "K-pop 2022";
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2022).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2023:
+                    FilterLabel.Text = "K-pop 2023";
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2023).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2024:
+                    FilterLabel.Text = "K-pop 2024";
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2024).ToObservableCollection(); break;
             }
 
             songParts.CollectionChanged += SongPartsCollectionChanged;
