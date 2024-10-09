@@ -143,7 +143,7 @@ internal class SongPart : INotifyPropertyChanged
         PartNameShort = partNameShort; // C
         PartNameNumber = partNameNumber; // 1
         PartNameFull = GetPartNameLong(partNameShort, partNameNumber);
-        PartClassification = SongPart.GetSongPartOrder(partNameShort);
+        PartClassification = GetSongPartOrder(partNameShort);
 
         AlbumTitle = albumTitle;
         AudioURL = audioURL;
@@ -166,8 +166,7 @@ internal class SongPart : INotifyPropertyChanged
             "CE" => $"Chorus {partNumber} & Ending",
             "DB" => $"Dance break {partNumber}",
 
-            // Consider renaming your DBC songpart to DBE cuz dance break (3) and chorus (3) is more confusing than dance break 1 and ending
-            //"DBC" => $"Dance Break {partNumber} & Chorus", 
+            "DBC" => $"Dance Break {partNumber} & Chorus", 
             "DBE" => $"Dance Break {partNumber} & Ending",
 
             // No songpart yet
@@ -181,7 +180,7 @@ internal class SongPart : INotifyPropertyChanged
             "T" => $"Tiktok {partNumber}",
             "V" => $"Verse {partNumber}",
 
-            _ => "Unkown song part"
+            _ => "Unknown song part"
         };
     }
 
@@ -191,7 +190,7 @@ internal class SongPart : INotifyPropertyChanged
         {
             "P" or "PDB" => SongPartOrder.Prechorus,
             "C" or "CDB" or "CE" => SongPartOrder.Chorus,
-            "B" or "DB" or "O" or "DBO" or "DBE" => SongPartOrder.Dancebreak,
+            "B" or "DB" or "O" or "DBO" or "DBC" or "DBE" => SongPartOrder.Dancebreak,
             "T" => SongPartOrder.Tiktok,
             "E" or "O" => SongPartOrder.Ending,
             "I" => SongPartOrder.Intro,

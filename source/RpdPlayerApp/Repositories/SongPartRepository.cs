@@ -26,7 +26,13 @@ internal static class SongPartRepository
         // 0 1 2 3 4 5 6  Songpart 1
         // 7 8 9 10 11 12  Songpart 2
 
-        for (int i = 0; i < matches.Count / MainViewModel.SongPartPropertyAmount; i++)
+        var substractedSongParts = 0;
+
+#if IOS
+        substractedSongParts = 1000;
+#endif
+
+        for (int i = 0; i < (matches.Count / MainViewModel.SongPartPropertyAmount) - substractedSongParts; i++)
         {
             int n = MainViewModel.SongPartPropertyAmount * i; // i = Songpart number
 

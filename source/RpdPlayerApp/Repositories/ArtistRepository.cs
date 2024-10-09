@@ -27,8 +27,7 @@ internal static class ArtistRepository
         // 0 1 2 3  4  5  6  Artist 1
         // 7 8 9 10 11 12 13  Artist 2
 
-
-        for (int i = 0; i < matches.Count / MainViewModel.SongPartPropertyAmount; i++)
+        for (int i = 0; i < matches.Count / MainViewModel.ArtistPropertyAmount; i++)
         {
             int n = MainViewModel.ArtistPropertyAmount * i; // i = Artist number
 

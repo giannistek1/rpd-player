@@ -123,6 +123,13 @@ public partial class HomeView : ContentView
         };
 
         CompanyListView.ItemsSource = new List<HomeListViewItem>() {
+            new HomeListViewItem(title: "SM Entertainment",
+                                description: "SM Entertainment.",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true",
+                                searchFilterMode: SearchFilterMode.SM,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "SM Entertainment")
+                                ),
+
             new HomeListViewItem(title: "HYBE Labels",
                                  description: "HYBE Labels, formerly known as Big Hit Entertainment with child company: Source Music",
                                  imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-hybe-labels.webp?raw=true",
@@ -131,13 +138,6 @@ public partial class HomeView : ContentView
                                                                                     s.Artist?.Company == "Big Hit Entertainment" ||
                                                                                     s.Artist?.Company == "Source Music")
                                  ),
-
-            new HomeListViewItem(title: "SM Entertainment",
-                                description: "SM Entertainment.",
-                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true",
-                                searchFilterMode: SearchFilterMode.SM,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "SM Entertainment")
-                                ),
 
             new HomeListViewItem(title: "JYP Entertainment",
                                 description: "JYP Entertainment.",
