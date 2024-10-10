@@ -21,6 +21,11 @@ internal static class MainViewModel
     /// <summary>
     /// 5
     /// </summary>
+    public static readonly int AlbumPropertyAmount = 5;
+
+    /// <summary>
+    /// 5
+    /// </summary>
     public static readonly int VideoPropertyAmount = 5;
 
     internal static readonly DateTime secondGenStartDate = new DateTime(2002, 12, 31);

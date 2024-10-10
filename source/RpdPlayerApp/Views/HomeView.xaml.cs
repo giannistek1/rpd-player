@@ -150,7 +150,8 @@ public partial class HomeView : ContentView
                                 description: "YG Entertainment.", 
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-yg.jpg?raw=true", 
                                 searchFilterMode: SearchFilterMode.YG,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "YG Entertainment")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "YG Entertainment" || 
+                                                                                   s.Artist?.Company == "The Black Label")
                                 ),
 
             new HomeListViewItem(title: "Kakao Entertainment",

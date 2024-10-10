@@ -1,5 +1,7 @@
-﻿using RpdPlayerApp.Architecture;
+﻿using CommunityToolkit.Maui.Alerts;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.ViewModel;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -24,12 +26,33 @@ internal static class AlbumRepository
         // 0 1 2 3 4  Album 1
         // 5 6 7 8 9  Album 2
 
+        string artist;
+        DateTime date;
+        string title;
+        string language;
+        string imageUrl;
 
-        for (int i = 0; i < matches.Count / 5; i++)
+        for (int i = 0; i < matches.Count / MainViewModel.AlbumPropertyAmount; i++)
         {
-            int n = 5 * i; // album number
-            Albums.Add(new Album(id: i, artistName: matches[n + 0].Groups[1].Value, releaseDate: DateTime.ParseExact(matches[n + 1].Groups[1].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture), title: matches[n + 2].Groups[1].Value, language: matches[n + 3].Groups[1].Value, imageURL: matches[n + 4].Groups[1].Value));
+            int n = MainViewModel.AlbumPropertyAmount * i; // n = property index, i = number
+
+            try
+            {
+                artist = matches[n + 0].Groups[1].Value;
+                date = DateTime.ParseExact(matches[n + 1].Groups[1].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                title = matches[n + 2].Groups[1].Value;
+                language = matches[n + 3].Groups[1].Value;
+                imageUrl = matches[n + 4].Groups[1].Value;
+
+                Albums.Add(new Album(id: i, artistName: artist, releaseDate: date, title: title, language: language, imageURL: imageUrl));
+            }
+            catch (Exception ex)
+            {
+                SentrySdk.CaptureMessage($"ERROR album: {typeof(SongPartRepository).Name}, album {i+1}, {ex.Message}"); // i was the last number that worked
+                Toast.Make($"ERROR: InitAlbums, album {i+1}. {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+            }
         }
+
 
         return Albums.Count > 0;
     }

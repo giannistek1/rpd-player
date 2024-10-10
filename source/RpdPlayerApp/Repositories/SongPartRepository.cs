@@ -63,8 +63,8 @@ internal static class SongPartRepository
             }
             catch(Exception ex)
             {
-                SentrySdk.CaptureMessage($"Error: {typeof(SongPartRepository).Name}: Artist number: {i}");
-                Toast.Make($"Error InitSongPart: {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+                SentrySdk.CaptureMessage($"ERROR: {typeof(SongPartRepository).Name}, songpart {i + 1}, {ex.Message}");
+                Toast.Make($"ERROR: InitSongPart songpart {i + 1}. {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
             }
 
         }

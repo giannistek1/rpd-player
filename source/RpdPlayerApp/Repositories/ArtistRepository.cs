@@ -45,8 +45,8 @@ internal static class ArtistRepository
             }
             catch(Exception ex)
             {
-                SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}: Artist number: {i}");
-                Toast.Make($"Error InitArtist: {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+                SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}, artist {i + 1}, {ex.Message}");
+                Toast.Make($"ERRROR: InitArtist, artist {i+1}, {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
             }
 
         }

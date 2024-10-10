@@ -45,8 +45,8 @@ internal class VideoRepository
             }
             catch (Exception ex)
             {
-                SentrySdk.CaptureMessage($"Error: {typeof(Video).Name}: Video number: {i}");
-                Toast.Make($"Error InitVideo: {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+                SentrySdk.CaptureMessage($"ERROR: {typeof(Video).Name}, video number: {i + 1}, {ex.Message}");
+                Toast.Make($"ERROR: InitVideo video {i + 1}. {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
             }
 
         }
