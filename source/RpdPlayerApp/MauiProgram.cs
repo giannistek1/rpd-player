@@ -5,6 +5,7 @@ using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using RpdPlayerApp.Views;
 using Syncfusion.Maui.Core.Hosting;
+using The49.Maui.BottomSheet;
 using UraniumUI;
 
 namespace RpdPlayerApp
@@ -29,6 +30,7 @@ namespace RpdPlayerApp
 
             builder
                 .UseMauiApp<App>()
+                .UseBottomSheet()
                 .UseUraniumUI()
                 .UseUraniumUIMaterial() // Do NOT get V2.10. Get MissingMethodException: System.MissingMethodException Method not found: Microsoft.Maui.Controls.Shapes.Geometry InputKit.Shared.Controls.PredefinedShapes.get_CheckCircle()
                 .UseSentry(options => {

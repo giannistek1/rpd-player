@@ -21,7 +21,7 @@ public partial class SearchSongPartsView : ContentView
     internal event EventHandler? StopSongPart;
     internal event EventHandler? AddSongPart;
     internal event EventHandler? EnqueueSongPart;
-    internal event EventHandler? SortPressed;
+    internal event EventHandler? ShowSortBy;
 
     internal ObservableCollection<SongPart> allSongParts;
     internal ObservableCollection<SongPart> songParts = [];
@@ -244,7 +244,7 @@ public partial class SearchSongPartsView : ContentView
         // TODO: BUGGY
         if (PlaylistManager.Instance.CurrentPlaylist is null)
         {
-            Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"Select a playlist first!", ToastDuration.Short, 14).Show();
             return;
         }
 
@@ -253,7 +253,7 @@ public partial class SearchSongPartsView : ContentView
 
         int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songPartsFromGroup.ToList());
 
-        Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        Toast.Make($"{addedSongParts} songs added!", ToastDuration.Short, 14).Show();
     }
 
     private void GoToBottomButtonClicked(object sender, EventArgs e)
@@ -355,7 +355,7 @@ public partial class SearchSongPartsView : ContentView
 
     private void SortButton_Clicked(object sender, EventArgs e)
     {
-        SortPressed?.Invoke(sender, e);
+        ShowSortBy?.Invoke(sender, e);
     }
 
     #region Filter

@@ -1,12 +1,14 @@
+using CommunityToolkit.Maui.Core.Primitives;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModel;
-using UraniumUI.Pages;
 
 namespace RpdPlayerApp.Views;
 
-public partial class MainPage : UraniumContentPage
+public partial class MainPage
 {
-    public CurrentPlaylistView currentPlaylistView;
+    private CurrentPlaylistView currentPlaylistView = new();
+    private readonly SortByBottomSheet sortBySheet = new();
+    private readonly SongPartDetailBottomSheet detailBottomSheet = new();
     public MainPage()
 	{
 		InitializeComponent();
@@ -17,17 +19,24 @@ public partial class MainPage : UraniumContentPage
         SearchSongPartsView.StopSongPart += OnStopSongPart;
         SearchSongPartsView.AddSongPart += OnAddSongPart;
         SearchSongPartsView.EnqueueSongPart += OnEnqueueSongPart;
-        SearchSongPartsView.SortPressed += OnSortPressed;
+        SearchSongPartsView.ShowSortBy += OnShowSortBy;
 
         LibraryView.PlayPlaylist += OnPlaySongPart; // Not used
         LibraryView.ShowPlaylist += OnShowPlaylist;
 
-        currentPlaylistView = new CurrentPlaylistView();
         currentPlaylistView.IsVisible = false;
         currentPlaylistView.BackToPlaylists += OnBackToPlaylists;
         currentPlaylistView.PlaySongPart += OnPlaySongPart;
 
+        sortBySheet.CloseSheet += OnCloseSheet;
+
+        detailBottomSheet.PlayToggleSongPart += OnPlayToggleSongPart;
+        detailBottomSheet.PreviousSong += OnPreviousSong;
+        detailBottomSheet.NextSong += OnNextSong;
+
         AudioPlayerControl.Pause += OnPause;
+        AudioPlayerControl.ShowDetails += OnShowDetails;
+        AudioPlayerControl.UpdateProgress += OnUpdateProgress;
 
         if (!LibraryContainer.Children.Contains(currentPlaylistView))
         {
@@ -43,6 +52,37 @@ public partial class MainPage : UraniumContentPage
         {
             DeviceDisplay.Current.KeepScreenOn = true;
         });
+    }
+
+    private void OnUpdateProgress(object? sender, EventArgs e)
+    {
+        detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider.Value);
+    }
+
+    private void OnPlayToggleSongPart(object? sender, EventArgs e)
+    {
+        AudioPlayerControl.PlayToggleButton_Pressed(sender, e);
+    }
+
+    private void OnPreviousSong(object? sender, EventArgs e)
+    {
+        AudioPlayerControl.PlayPreviousSongPart(sender, e);
+
+        detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        detailBottomSheet.UpdateUI();
+    }
+
+    private void OnNextSong(object? sender, EventArgs e)
+    {
+        AudioPlayerControl.NextButton_Pressed(sender, e);
+        detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        detailBottomSheet.UpdateUI();
+    }
+
+    private void OnCloseSheet(object? sender, EventArgs e)
+    {
+        sortBySheet.DismissAsync();
+        SearchSongPartsView.RefreshSort();
     }
 
     private void OnEnqueueSongPart(object? sender, EventArgs e)
@@ -121,7 +161,7 @@ public partial class MainPage : UraniumContentPage
             case Architecture.PlayMode.Queue:
                 if (SearchSongPartsView.songParts is not null && SearchSongPartsView.songParts.Count > 0)
                 {
-                    // TODO: Based on song history
+                    // TODO: Based on song history?
                     foreach (var songPart in SearchSongPartsView.songParts)
                     {
                         songPart.IsPlaying = false;
@@ -141,129 +181,24 @@ public partial class MainPage : UraniumContentPage
         }
     }
 
-    #region Sorting
-    private void OnSortPressed(object sender, EventArgs e)
+    #region Show BottomSheets
+    private void OnShowSortBy(object sender, EventArgs e)
     {
-        SortModeBottomSheet.IsVisible = true;
-        SortModeBottomSheet.IsPresented = true;
+        sortBySheet.HasHandle = true;
+        sortBySheet.IsCancelable = true;
+        sortBySheet.HasBackdrop = true;
+        sortBySheet.ShowAsync();
     }
 
-    private void SortByReleaseDate(object sender, EventArgs e)
+    private void OnShowDetails(object sender, EventArgs e)
     {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.ReleaseDate;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortByArtistName(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.Artist;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortBySongTitle(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.Title;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortByGroupType(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.GroupType;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortBySongPart(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.SongPart;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortByClipLength(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.ClipLength;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortBySongCountPerArtist(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.ArtistSongCount;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortByLanguage(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.Language;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortByMemberCount(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.MemberCount;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortByAlbumName(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.AlbumName;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortByCompany(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.Company;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortByGeneration(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.Generation;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortByReleaseWeekDay(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.ReleaseWeekDay;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void SortByYearlyDate(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
-        MainViewModel.SortMode = Architecture.SortMode.YearlyDate;
-        SearchSongPartsView.RefreshSort();
-    }
-
-    private void CancelSort(object sender, EventArgs e)
-    {
-        SortModeBottomSheet.IsPresented = false;
-        SortModeBottomSheet.IsVisible = false;
+        detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        detailBottomSheet.UpdateUI();
+        
+        detailBottomSheet.HasHandle = true;
+        detailBottomSheet.IsCancelable = true;
+        detailBottomSheet.HasBackdrop = true;
+        detailBottomSheet.ShowAsync();
     }
     #endregion
 
@@ -277,12 +212,17 @@ public partial class MainPage : UraniumContentPage
         SearchSongPartsView.StopSongPart -= OnStopSongPart;
         SearchSongPartsView.AddSongPart -= OnAddSongPart;
         SearchSongPartsView.EnqueueSongPart -= OnEnqueueSongPart;
-        SearchSongPartsView.SortPressed -= OnSortPressed;
+        SearchSongPartsView.ShowSortBy -= OnShowSortBy;
 
         LibraryView.PlayPlaylist -= OnPlaySongPart; // Not used
         LibraryView.ShowPlaylist -= OnShowPlaylist;
 
         currentPlaylistView.BackToPlaylists -= OnBackToPlaylists;
         currentPlaylistView.PlaySongPart -= OnPlaySongPart;
+
+        AudioPlayerControl.Pause -= OnPause;
+        AudioPlayerControl.ShowDetails -= OnShowDetails;
+
+        sortBySheet.CloseSheet -= OnCloseSheet;
     }
 }

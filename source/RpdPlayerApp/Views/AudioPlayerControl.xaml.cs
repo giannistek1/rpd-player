@@ -14,10 +14,17 @@ public partial class AudioPlayerControl : ContentView
     private FontImageSource _playIcon = new();
 
     internal EventHandler? Pause;
-    
+    internal EventHandler? ShowDetails;
+    internal EventHandler? UpdateProgress;
+
+    internal Slider audioProgressSlider;
+
+
     public AudioPlayerControl()
     {
         InitializeComponent();
+
+        audioProgressSlider = AudioProgressSlider;
 
         AudioMediaElement.MediaEnded += AudioMediaElementMediaEnded;
         AudioMediaElement.PositionChanged += AudioMediaElementPositionChanged;
@@ -64,6 +71,8 @@ public partial class AudioPlayerControl : ContentView
         //{
             AudioMediaElement.Volume = MainViewModel.MainVolume;
         //}
+
+        UpdateProgress?.Invoke(sender, e);
     }
 
     private void AudioMediaElementMediaEnded(object? sender, EventArgs e)
@@ -89,6 +98,9 @@ public partial class AudioPlayerControl : ContentView
                     NextSwipeItem.Text = MainViewModel.SongPartsQueue.Peek().Title;
                 }
 
+                PreviousSwipeItem.IsVisible = true;
+                PreviousSwipeItem.Text = MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1].Title;
+
                 break;
 
             case PlayMode.Playlist:
@@ -108,11 +120,14 @@ public partial class AudioPlayerControl : ContentView
                     NextSwipeItem.Text = MainViewModel.PlaylistQueue.Peek().Title;
                 }
 
+                PreviousSwipeItem.IsVisible = true;
+                PreviousSwipeItem.Text = MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count-1].Title;
+
                 break;
         }
     }
 
-    private void PlayToggleButton_Pressed(object sender, EventArgs e)
+    internal void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
         // If audio is done playing
         if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
@@ -140,10 +155,24 @@ public partial class AudioPlayerControl : ContentView
         }
     }
 
-    private void NextButton_Pressed(object sender, EventArgs e)
+    internal void PlayPreviousSongPart(object sender, EventArgs e)
+    {
+        if (MainViewModel.SongPartHistory.Count > 0)
+        {
+            MainViewModel.CurrentSongPart = MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1];
+
+            PlayAudio(MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
+            MainViewModel.SongPartHistory.RemoveAt(MainViewModel.SongPartHistory.Count - 1);
+
+            UpdatePreviousSwipeItem();
+        }
+    }
+
+    internal void NextButton_Pressed(object sender, EventArgs e)
     {
         AudioMediaElementMediaEnded(sender, e);
     }
+
     /// <summary>
     /// Plays audio from audioURL, updates AudioPlayerControl controls
     /// </summary>
@@ -207,20 +236,38 @@ public partial class AudioPlayerControl : ContentView
 
     private void NowPlayingSwipeViewSwipeEnded(object sender, SwipeEndedEventArgs e)
     {
+        // Next song.
         if (e.SwipeDirection == SwipeDirection.Left && e.IsOpen)
         {
             NowPlayingSwipeView.Close();
             AudioMediaElementMediaEnded(sender, e);
         }
+        // Previous song
+        else if (e.SwipeDirection == SwipeDirection.Right && e.IsOpen)
+        {
+            NowPlayingSwipeView.Close();
+
+            // Or PlayNext/Previous bool
+            PlayPreviousSongPart(sender, e);
+        }
     }
 
-    private async void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
+    internal void UpdatePreviousSwipeItem()
     {
-        if (MainViewModel.CurrentSongPart is null || MainViewModel.CurrentSongPart.Id <= 0) { return; }
-
-        if (Navigation.NavigationStack.Count < 2)
+        if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.SongPartHistory.Count > 0)
         {
-            await Navigation.PushAsync(new SongPartDetailPage(MainViewModel.CurrentSongPart));
+            PreviousSwipeItem.IsVisible = true;
+            PreviousSwipeItem.Text = MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1].Title;
+        }
+        else if (MainViewModel.PlayMode == PlayMode.Queue && MainViewModel.SongPartHistory.Count > 0)
+        {
+            PreviousSwipeItem.IsVisible = true;
+            PreviousSwipeItem.Text = MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1].Title;
+        }
+        else
+        {
+            PreviousSwipeItem.IsVisible = false;
+            PreviousSwipeItem.Text = string.Empty;
         }
     }
 
@@ -241,5 +288,11 @@ public partial class AudioPlayerControl : ContentView
             NextSwipeItem.IsVisible = false;
             NextSwipeItem.Text = string.Empty;
         }
+    }
+    private void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
+    {
+        if (MainViewModel.CurrentSongPart is null || MainViewModel.CurrentSongPart.Id <= 0) { return; }
+
+        ShowDetails?.Invoke(sender, e);
     }
 }

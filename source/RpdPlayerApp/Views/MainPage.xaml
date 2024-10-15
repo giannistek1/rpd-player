@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<uranium:UraniumContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+             xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
-             xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
              x:Class="RpdPlayerApp.Views.MainPage">
-    
+
     <Grid RowDefinitions="*, Auto">
 
         <tabView:SfTabView x:Name="MainContainer" TabBarPlacement="Bottom" IndicatorBackground="{StaticResource Primary}" IndicatorPlacement="Fill" IndicatorWidthMode="Stretch">
@@ -43,36 +45,4 @@
 
         <views:AudioPlayerControl x:Name="AudioPlayerControl" Grid.Row="1"/>
     </Grid>
-    
-    <uranium:UraniumContentPage.Attachments>
-        <material:BottomSheetView x:Name="SortModeBottomSheet" BackgroundColor="Black" IsVisible="False">
-            <TableView Intent="Menu" Margin="0,0,0,40">
-                <TableRoot>
-                    <TableSection Title="Sort by..." TextColor="LightGreen">
-                        <TextCell Tapped="CancelSort"  Text="Cancel/hide" TextColor="Red" />
-                        <TextCell Tapped="SortByAlbumName" Text="Album name" TextColor="White" />
-                        <TextCell Tapped="SortByArtistName" Text="Artist name" TextColor="White" />
-                        <TextCell Tapped="SortBySongCountPerArtist" Text="Artist song count" TextColor="White" />
-                        <TextCell Tapped="SortByClipLength"  Text="Clip length" TextColor="White" />
-                        <TextCell Tapped="SortByCompany"  Text="Company" TextColor="White" />
-                        <TextCell Tapped="SortByGeneration"  Text="Generation" TextColor="White" />
-                        <TextCell Tapped="SortByGroupType"  Text="Group type" TextColor="White" />
-                        <TextCell Tapped="SortByLanguage" Text="Language" TextColor="White" />
-                        <TextCell Tapped="SortByMemberCount" Text="Member count" TextColor="White" />
-                        <TextCell Tapped="SortByReleaseDate" Text="Release date" TextColor="White" />
-                        <TextCell Tapped="SortByReleaseWeekDay"  Text="Release Weekday" TextColor="White" />
-                        <TextCell Tapped="SortBySongPart"  Text="Song part" TextColor="White" />
-                        <TextCell Tapped="SortBySongTitle"  Text="Song title" TextColor="White" />
-                        <TextCell Tapped="SortByYearlyDate"  Text="Yearly date" TextColor="White" />
-                    </TableSection>
-                </TableRoot>
-            </TableView>
-        </material:BottomSheetView>
-
-        <material:BottomSheetView x:Name="SongDetailsBottomSheet" BackgroundColor="Black" IsVisible="False">
-            <VerticalStackLayout>
-                <Label Text="Test"/>
-            </VerticalStackLayout>
-        </material:BottomSheetView>
-    </uranium:UraniumContentPage.Attachments>
-</uranium:UraniumContentPage>
+</ContentPage>

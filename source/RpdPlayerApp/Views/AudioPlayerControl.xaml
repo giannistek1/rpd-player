@@ -14,9 +14,19 @@
 
         <Grid ColumnDefinitions="50, *, 50, 50, 50">
 
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ViewSongPartDetailsTapped" NumberOfTapsRequired="1" />
+            </Grid.GestureRecognizers>
+
             <Image Grid.Column="0" HeightRequest="50" x:Name="AlbumImage" />
 
             <SwipeView Grid.Column="1" x:Name="NowPlayingSwipeView" SwipeEnded="NowPlayingSwipeViewSwipeEnded" VerticalOptions="CenterAndExpand">
+
+                <SwipeView.LeftItems>
+                    <SwipeItems Mode="Reveal" SwipeBehaviorOnInvoked="Close">
+                        <SwipeItem x:Name="PreviousSwipeItem" IsVisible="False" Text="Previous" BackgroundColor="{StaticResource Gray900}"/>
+                    </SwipeItems>
+                </SwipeView.LeftItems>
 
                 <SwipeView.RightItems>
                     <SwipeItems Mode="Reveal" SwipeBehaviorOnInvoked="Close">
@@ -24,10 +34,8 @@
                     </SwipeItems>
                 </SwipeView.RightItems>
 
+
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
-                    <VerticalStackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ViewSongPartDetailsTapped" NumberOfTapsRequired="1" />
-                    </VerticalStackLayout.GestureRecognizers>
 
                     <Label x:Name="NowPlayingLabel" Padding="16,0,0,0" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" FontSize="14"  TextColor="White" Text="Nothing playing"/>
                     <Label x:Name="NowPlayingPartLabel" Padding="16,0,0,0" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="11"  TextColor="White" Text=""/>

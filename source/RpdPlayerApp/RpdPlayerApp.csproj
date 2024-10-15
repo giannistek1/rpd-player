@@ -117,6 +117,10 @@
 	</ItemGroup>
   
 	<ItemGroup>
+	  <AndroidResource Remove="Platforms\Android\Resources\values\styles.xml" />
+	</ItemGroup>
+  
+	<ItemGroup>
 	  <None Remove="Resources\Images\house.svg" />
 	  <None Remove="Resources\Images\magnifyingglasses.svg" />
 	  <None Remove="Resources\Images\musiclist.svg" />
@@ -141,6 +145,7 @@
 		<PackageReference Include="Syncfusion.Maui.Popup" Version="26.1.41" />
 		<PackageReference Include="Syncfusion.Maui.Sliders" Version="26.1.41" />
 		<PackageReference Include="Syncfusion.Maui.TabView" Version="26.1.41" />
+		<PackageReference Include="The49.Maui.BottomSheet" Version="8.0.3" />
 		<PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.10.0" />
 		<PackageReference Include="UraniumUI.Icons.MaterialIcons" Version="2.10.0" />
 		<PackageReference Include="UraniumUI.Icons.MaterialSymbols" Version="2.10.0" />
@@ -175,13 +180,16 @@
 	  <MauiXaml Update="Views\SearchSongPartsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\SongPartDetailBottomSheet.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SortByBottomSheet.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\VideoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
     <MauiXaml Update="Views\SettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="Views\SongPartDetailPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
 	</ItemGroup>
