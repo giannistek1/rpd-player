@@ -6,8 +6,7 @@
              Padding="0,32">
 
     <the49:BottomSheet.Detents>
-        <!-- Stop at the height of the screen -->
-        <the49:ContentDetent />
+        <the49:RatioDetent Ratio="0.95"  />
     </the49:BottomSheet.Detents>
 
     <TableView Intent="Menu" Margin="0,0,0,0">

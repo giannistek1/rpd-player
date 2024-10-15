@@ -1,11 +1,12 @@
-using CommunityToolkit.Maui.Core.Primitives;
 using RpdPlayerApp.Models;
+using The49.Maui.BottomSheet;
 
 namespace RpdPlayerApp.Views;
 
 public partial class SongPartDetailBottomSheet
 {
     internal SongPart? songPart = null;
+    internal bool isShown = false;
 
     internal EventHandler? PlayToggleSongPart;
     internal EventHandler? PreviousSong;
@@ -15,6 +16,13 @@ public partial class SongPartDetailBottomSheet
 	public SongPartDetailBottomSheet()
 	{
 		InitializeComponent();
+
+        this.Dismissed += OnDismissed;
+    }
+
+    private void OnDismissed(object? sender, DismissOrigin e)
+    {
+        isShown = false;
     }
 
     internal void UpdateUI()

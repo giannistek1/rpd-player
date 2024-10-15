@@ -7,8 +7,9 @@ namespace RpdPlayerApp.Views;
 public partial class MainPage
 {
     private CurrentPlaylistView currentPlaylistView = new();
-    private readonly SortByBottomSheet sortBySheet = new();
+    private readonly SortByBottomSheet sortByBottomSheet = new();
     private readonly SongPartDetailBottomSheet detailBottomSheet = new();
+
     public MainPage()
 	{
 		InitializeComponent();
@@ -28,7 +29,7 @@ public partial class MainPage
         currentPlaylistView.BackToPlaylists += OnBackToPlaylists;
         currentPlaylistView.PlaySongPart += OnPlaySongPart;
 
-        sortBySheet.CloseSheet += OnCloseSheet;
+        sortByBottomSheet.CloseSheet += OnCloseSortBySheet;
 
         detailBottomSheet.PlayToggleSongPart += OnPlayToggleSongPart;
         detailBottomSheet.PreviousSong += OnPreviousSong;
@@ -75,13 +76,14 @@ public partial class MainPage
     private void OnNextSong(object? sender, EventArgs e)
     {
         AudioPlayerControl.NextButton_Pressed(sender, e);
+
         detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
         detailBottomSheet.UpdateUI();
     }
 
-    private void OnCloseSheet(object? sender, EventArgs e)
+    private void OnCloseSortBySheet(object? sender, EventArgs e)
     {
-        sortBySheet.DismissAsync();
+        sortByBottomSheet.DismissAsync();
         SearchSongPartsView.RefreshSort();
     }
 
@@ -95,6 +97,16 @@ public partial class MainPage
         if (currentPlaylistView.IsVisible)
         {
             BackToPlaylists();
+            return true;
+        }
+        else if (detailBottomSheet.isShown)
+        {
+            detailBottomSheet.DismissAsync();
+            return true;
+        }
+        else if (sortByBottomSheet.isShown)
+        {
+            sortByBottomSheet.DismissAsync();
             return true;
         }
         else
@@ -184,10 +196,11 @@ public partial class MainPage
     #region Show BottomSheets
     private void OnShowSortBy(object sender, EventArgs e)
     {
-        sortBySheet.HasHandle = true;
-        sortBySheet.IsCancelable = true;
-        sortBySheet.HasBackdrop = true;
-        sortBySheet.ShowAsync();
+        sortByBottomSheet.HasHandle = true;
+        sortByBottomSheet.IsCancelable = true;
+        sortByBottomSheet.HasBackdrop = true;
+        sortByBottomSheet.isShown = true;
+        sortByBottomSheet.ShowAsync();
     }
 
     private void OnShowDetails(object sender, EventArgs e)
@@ -198,6 +211,7 @@ public partial class MainPage
         detailBottomSheet.HasHandle = true;
         detailBottomSheet.IsCancelable = true;
         detailBottomSheet.HasBackdrop = true;
+        detailBottomSheet.isShown = true;
         detailBottomSheet.ShowAsync();
     }
     #endregion
@@ -223,6 +237,6 @@ public partial class MainPage
         AudioPlayerControl.Pause -= OnPause;
         AudioPlayerControl.ShowDetails -= OnShowDetails;
 
-        sortBySheet.CloseSheet -= OnCloseSheet;
+        sortByBottomSheet.CloseSheet -= OnCloseSortBySheet;
     }
 }

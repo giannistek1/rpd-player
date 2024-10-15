@@ -1,17 +1,27 @@
 using RpdPlayerApp.ViewModel;
+using The49.Maui.BottomSheet;
 
 namespace RpdPlayerApp.Views;
 
 public partial class SortByBottomSheet
 {
+    internal bool isShown = false;
+
     internal EventHandler? CloseSheet;
 
 	public SortByBottomSheet()
 	{
 		InitializeComponent();
+
+        this.Dismissed += OnDismissed;
 	}
 
     #region Sorting
+
+    private void OnDismissed(object? sender, DismissOrigin e)
+    {
+        isShown = false;
+    }
 
     private void SortByReleaseDate(object sender, EventArgs e)
     {
