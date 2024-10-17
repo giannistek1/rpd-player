@@ -27,6 +27,8 @@ public partial class SongPartDetailBottomSheet
 
     internal void UpdateUI()
     {
+        if (songPart is null) { return; }
+
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
 
         AlbumLabel.Text = $"{songPart.AlbumTitle} ";
@@ -38,7 +40,7 @@ public partial class SongPartDetailBottomSheet
 
         TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
 
-        DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
+        DurationLabel.Text = string.Format("{0:mm\\:ss}", duration);
     }
 
     internal void UpdateProgress(double value)
@@ -49,7 +51,7 @@ public partial class SongPartDetailBottomSheet
         {
             TimeSpan duration = TimeSpan.FromSeconds(value/100 * songPart.ClipLength);
 
-            ProgressLabel.Text = String.Format("{0:mm\\:ss}", duration);
+            ProgressLabel.Text = string.Format("{0:mm\\:ss}", duration);
         }
         else
         {

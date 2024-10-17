@@ -38,6 +38,7 @@ public partial class MainPage
         AudioPlayerControl.Pause += OnPause;
         AudioPlayerControl.ShowDetails += OnShowDetails;
         AudioPlayerControl.UpdateProgress += OnUpdateProgress;
+        AudioPlayerControl.AudioEnded += OnAudioEnded;
 
         if (!LibraryContainer.Children.Contains(currentPlaylistView))
         {
@@ -53,11 +54,6 @@ public partial class MainPage
         {
             DeviceDisplay.Current.KeepScreenOn = true;
         });
-    }
-
-    private void OnUpdateProgress(object? sender, EventArgs e)
-    {
-        detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider.Value);
     }
 
     private void OnPlayToggleSongPart(object? sender, EventArgs e)
@@ -150,11 +146,6 @@ public partial class MainPage
         currentPlaylistView.RefreshCurrentPlaylist();
     }
 
-    private void OnPause(object? sender, EventArgs e)
-    {
-        SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
-    }
-
     // Used by searchsongpartsView, currentplaylistView
     private void OnPlaySongPart(object sender, EventArgs e)
     {
@@ -203,17 +194,36 @@ public partial class MainPage
         sortByBottomSheet.ShowAsync();
     }
 
+    #region AudioPlayerControl Events
+    private void OnPause(object? sender, EventArgs e)
+    {
+        SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
+    }
+    private void OnAudioEnded(object? sender, EventArgs e)
+    {
+        detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        detailBottomSheet.UpdateUI();
+    }
+
+    private void OnUpdateProgress(object? sender, EventArgs e)
+    {
+        detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider.Value);
+    }
+
     private void OnShowDetails(object sender, EventArgs e)
     {
         detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
         detailBottomSheet.UpdateUI();
-        
+
         detailBottomSheet.HasHandle = true;
         detailBottomSheet.IsCancelable = true;
         detailBottomSheet.HasBackdrop = true;
         detailBottomSheet.isShown = true;
         detailBottomSheet.ShowAsync();
     }
+    #endregion
+
+
     #endregion
 
     protected override void OnDisappearing()

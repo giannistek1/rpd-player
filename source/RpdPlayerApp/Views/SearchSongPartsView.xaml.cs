@@ -20,6 +20,9 @@ public partial class SearchSongPartsView : ContentView
     internal event EventHandler? PlaySongPart;
     internal event EventHandler? StopSongPart;
     internal event EventHandler? AddSongPart;
+    /// <summary>
+    /// Updates swipe next item.
+    /// </summary>
     internal event EventHandler? EnqueueSongPart;
     internal event EventHandler? ShowSortBy;
 
@@ -282,6 +285,7 @@ public partial class SearchSongPartsView : ContentView
             {
                 MainViewModel.SongPartsQueue.Enqueue(songPart);
                 Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                EnqueueSongPart?.Invoke(sender, e);
             }
         }
         else
@@ -312,7 +316,6 @@ public partial class SearchSongPartsView : ContentView
         }
 
         // Show result
-
         if (addedSongParts > 0)
         {
             AddSongPart?.Invoke(sender, e);

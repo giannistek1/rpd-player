@@ -16,6 +16,7 @@ public partial class AudioPlayerControl : ContentView
     internal EventHandler? Pause;
     internal EventHandler? ShowDetails;
     internal EventHandler? UpdateProgress;
+    internal EventHandler? AudioEnded;
 
     internal Slider audioProgressSlider;
 
@@ -125,6 +126,8 @@ public partial class AudioPlayerControl : ContentView
 
                 break;
         }
+
+        AudioEnded?.Invoke(sender, e);
     }
 
     internal void PlayToggleButton_Pressed(object sender, EventArgs e)
