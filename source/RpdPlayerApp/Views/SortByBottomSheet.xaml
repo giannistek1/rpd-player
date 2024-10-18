@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
              x:Class="RpdPlayerApp.Views.SortByBottomSheet"
-             Padding="0,32">
+             Padding="0,0">
 
     <the49:BottomSheet.Detents>
         <the49:RatioDetent Ratio="0.95"  />
@@ -20,7 +20,7 @@
                 <TextCell Tapped="SortByCompany"  Text="Company" TextColor="White" />
                 <TextCell Tapped="SortByGeneration"  Text="Generation" TextColor="White" />
                 <TextCell Tapped="SortByGroupType"  Text="Group type" TextColor="White" />
-                <TextCell Tapped="SortByLanguage" Text="Language" TextColor="White" />
+                <TextCell Tapped="SortByGenre" Text="Genre" TextColor="White" />
                 <TextCell Tapped="SortByMemberCount" Text="Member count" TextColor="White" />
                 <TextCell Tapped="SortByReleaseDate" Text="Release date" TextColor="White" />
                 <TextCell Tapped="SortByReleaseWeekDay"  Text="Release Weekday" TextColor="White" />

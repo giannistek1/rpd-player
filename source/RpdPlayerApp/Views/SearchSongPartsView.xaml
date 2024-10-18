@@ -203,7 +203,7 @@
                             <Label IsVisible="{Binding Album.ShowAlbumTitle}" VerticalOptions="CenterAndExpand" Text="{Binding AlbumTitle}" />
                             <Label IsVisible="{Binding Album.ShowAlbumReleaseDate}" VerticalOptions="CenterAndExpand" Text="{Binding Album.ReleaseDate, StringFormat='{0:yyyy-MM-dd}'}" />
                             <Label IsVisible="{Binding Artist.ShowGroupType}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.GroupType}" />
-                            <Label IsVisible="{Binding Album.ShowLanguage}" VerticalOptions="CenterAndExpand" Text="{Binding Album.Language}" />
+                            <Label IsVisible="{Binding Album.ShowGenreShort}" VerticalOptions="CenterAndExpand" Text="{Binding Album.GenreFull}" />
                             <Label IsVisible="{Binding Artist.ShowMemberCount}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.MemberCount}" />
                             <Label IsVisible="{Binding ShowClipLength}" VerticalOptions="CenterAndExpand" Text="{Binding ClipLengthAsTimeSpan, StringFormat='{0:mm\\:ss}'}" />
 

@@ -65,9 +65,9 @@ public partial class SortByBottomSheet
         CloseSheet?.Invoke(sender, e);
     }
 
-    private void SortByLanguage(object sender, EventArgs e)
+    private void SortByGenre(object sender, EventArgs e)
     {      
-        MainViewModel.SortMode = Architecture.SortMode.Language;
+        MainViewModel.SortMode = Architecture.SortMode.Genre;
         CloseSheet?.Invoke(sender, e);
     }
 

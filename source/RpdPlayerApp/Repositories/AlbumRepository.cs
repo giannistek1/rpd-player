@@ -21,7 +21,7 @@ internal static class AlbumRepository
         var pattern = @"\{(.*?)\}";
         var matches = Regex.Matches(albumsText, pattern);
 
-        // artist, albumtitle, releasedate, language, url
+        // artist, albumtitle, releasedate, genreShort, url
         // matches = 5 * 800 = 4000 
         // 0 1 2 3 4  Album 1
         // 5 6 7 8 9  Album 2
@@ -29,7 +29,7 @@ internal static class AlbumRepository
         string artist;
         DateTime date;
         string title;
-        string language;
+        string genreShort;
         string imageUrl;
 
         for (int i = 0; i < matches.Count / MainViewModel.AlbumPropertyAmount; i++)
@@ -41,10 +41,10 @@ internal static class AlbumRepository
                 artist = matches[n + 0].Groups[1].Value;
                 date = DateTime.ParseExact(matches[n + 1].Groups[1].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 title = matches[n + 2].Groups[1].Value;
-                language = matches[n + 3].Groups[1].Value;
+                genreShort = matches[n + 3].Groups[1].Value;
                 imageUrl = matches[n + 4].Groups[1].Value;
 
-                Albums.Add(new Album(id: i, artistName: artist, releaseDate: date, title: title, language: language, imageURL: imageUrl));
+                Albums.Add(new Album(id: i, artistName: artist, releaseDate: date, title: title, genreShort: genreShort, imageURL: imageUrl));
             }
             catch (Exception ex)
             {

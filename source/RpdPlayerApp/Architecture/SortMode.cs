@@ -8,7 +8,7 @@ internal enum SortMode
     GroupType = 3,
     SongPart = 4,
     ClipLength = 5,
-    Language = 6,
+    Genre = 6,
     ArtistSongCount = 7,
     MemberCount = 8,
     AlbumName = 9,

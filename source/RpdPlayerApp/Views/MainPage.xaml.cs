@@ -1,4 +1,3 @@
-using CommunityToolkit.Maui.Core.Primitives;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModel;
 
@@ -6,13 +5,13 @@ namespace RpdPlayerApp.Views;
 
 public partial class MainPage
 {
-    private CurrentPlaylistView currentPlaylistView = new();
+    private readonly CurrentPlaylistView currentPlaylistView = new();
     private readonly SortByBottomSheet sortByBottomSheet = new();
     private readonly SongPartDetailBottomSheet detailBottomSheet = new();
 
     public MainPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
         HomeView.FilterPressed += OnFilterPressed;
 
@@ -48,7 +47,7 @@ public partial class MainPage
         {
             LibraryContainer.Children.Add(LibraryView);
         }
-        
+
         // Has to be run on MainThread (UI thread) for iOS.
         MainThread.BeginInvokeOnMainThread(() =>
         {
@@ -195,6 +194,17 @@ public partial class MainPage
     }
 
     #region AudioPlayerControl Events
+    private void OnShowDetails(object sender, EventArgs e)
+    {
+        detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        detailBottomSheet.UpdateUI();
+
+        detailBottomSheet.HasHandle = true;
+        detailBottomSheet.IsCancelable = true;
+        detailBottomSheet.HasBackdrop = true;
+        detailBottomSheet.isShown = true;
+        detailBottomSheet.ShowAsync();
+    }
     private void OnPause(object? sender, EventArgs e)
     {
         SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
@@ -208,18 +218,6 @@ public partial class MainPage
     private void OnUpdateProgress(object? sender, EventArgs e)
     {
         detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider.Value);
-    }
-
-    private void OnShowDetails(object sender, EventArgs e)
-    {
-        detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        detailBottomSheet.UpdateUI();
-
-        detailBottomSheet.HasHandle = true;
-        detailBottomSheet.IsCancelable = true;
-        detailBottomSheet.HasBackdrop = true;
-        detailBottomSheet.isShown = true;
-        detailBottomSheet.ShowAsync();
     }
     #endregion
 
@@ -248,5 +246,21 @@ public partial class MainPage
         AudioPlayerControl.ShowDetails -= OnShowDetails;
 
         sortByBottomSheet.CloseSheet -= OnCloseSortBySheet;
+    }
+
+    private void MainContainer_TabItemTapped(object sender, Syncfusion.Maui.TabView.TabItemTappedEventArgs e)
+    {
+        if (HomeTabItem == e.TabItem)
+        {
+
+        }
+        else if (SearchTabItem == e.TabItem)
+        {
+
+        }
+        else if (LibraryTabItem == e.TabItem)
+        {
+
+        }
     }
 }

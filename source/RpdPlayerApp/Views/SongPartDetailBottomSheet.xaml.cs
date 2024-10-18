@@ -33,6 +33,7 @@ public partial class SongPartDetailBottomSheet
 
         AlbumLabel.Text = $"{songPart.AlbumTitle} ";
         ReleaseDateLabel.Text = $"{songPart.Album.ReleaseDate:d}";
+        GenreLabel.Text = $"{songPart.Album.GenreFull}";
 
         SongTitleLabel.Text = $"{songPart.Title}";
         SongPartLabel.Text = $"{songPart.PartNameFull}";

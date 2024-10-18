@@ -17,7 +17,7 @@ public partial class LibraryView : ContentView
     {
         InitializeComponent();
 
-        LibraryView.CheckValidPlaylists();
+        CheckValidPlaylists();
 
         LoadPlaylists();
     }
