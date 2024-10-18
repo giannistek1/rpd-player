@@ -92,7 +92,7 @@
             <Label 
                 Grid.Column="0"
                 x:Name="ProgressLabel"
-                Text="0:00"
+                Text="00:00"
                 FontSize="14"
                 TextColor="LightGray"
                 VerticalOptions="Center" 
@@ -103,7 +103,7 @@
             <Label 
                 Grid.Column="2"
                 x:Name="DurationLabel"
-                Text="1:00"
+                Text="99:99"
                 FontSize="14"
                 TextColor="LightGray"
                 VerticalOptions="Center" 

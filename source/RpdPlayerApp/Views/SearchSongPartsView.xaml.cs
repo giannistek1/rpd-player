@@ -210,6 +210,8 @@ public partial class SearchSongPartsView : ContentView
                 Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             }
         }
+
+        // TODO: How to close swipe item automatically after swipe?
     }
 
     // Not used

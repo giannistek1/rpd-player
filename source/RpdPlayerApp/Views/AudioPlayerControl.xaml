@@ -2,6 +2,8 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
@@ -12,7 +14,7 @@
 
         <Slider x:Name="AudioProgressSlider" Margin="-20,0,-20,0" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="10" />
 
-        <Grid ColumnDefinitions="50, *, 50, 50, 50">
+        <Grid ColumnDefinitions="50, 5*, 1*, 1*, 1*">
 
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Tapped="ViewSongPartDetailsTapped" NumberOfTapsRequired="1" />
@@ -20,25 +22,44 @@
 
             <Image Grid.Column="0" HeightRequest="50" x:Name="AlbumImage" />
 
-            <SwipeView Grid.Column="1" x:Name="NowPlayingSwipeView" SwipeEnded="NowPlayingSwipeViewSwipeEnded" VerticalOptions="CenterAndExpand">
+            <SwipeView android:SwipeView.SwipeTransitionMode="Drag" ios:SwipeView.SwipeTransitionMode="Drag"
+                       Grid.Column="1" x:Name="NowPlayingSwipeView" SwipeEnded="NowPlayingSwipeViewSwipeEnded" VerticalOptions="CenterAndExpand">
 
                 <SwipeView.LeftItems>
                     <SwipeItems Mode="Reveal" SwipeBehaviorOnInvoked="Close">
-                        <SwipeItem x:Name="PreviousSwipeItem" IsVisible="False" Text="Previous" BackgroundColor="{StaticResource Gray900}"/>
+
+                        <SwipeItemView x:Name="PreviousSwipeItem" IsVisible="False" BackgroundColor="{StaticResource Gray900}">
+                            <VerticalStackLayout WidthRequest="120" Margin="0,0,16,0" BackgroundColor="{StaticResource Gray900}">
+                                <Label Grid.Row="0" x:Name="PreviousSwipeItemTitle" FontSize="12" TextColor="White"  VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" HorizontalTextAlignment="Start" LineBreakMode="TailTruncation" />
+                                <Label Grid.Row="1" x:Name="PreviousSwipeItemSongPart" FontSize="10" TextColor="LightGray" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                        </SwipeItemView>
+                        
                     </SwipeItems>
+
                 </SwipeView.LeftItems>
 
+                
                 <SwipeView.RightItems>
+
                     <SwipeItems Mode="Reveal" SwipeBehaviorOnInvoked="Close">
-                        <SwipeItem x:Name="NextSwipeItem" IsVisible="False" Text="Next" BackgroundColor="{StaticResource Gray900}"/>
+                        
+                        <SwipeItemView x:Name="NextSwipeItem" IsVisible="False" BackgroundColor="{StaticResource Gray900}">
+                            <VerticalStackLayout WidthRequest="120" Margin="16,0,0,0"  BackgroundColor="{StaticResource Gray900}">
+                                <Label Grid.Row="0" x:Name="NextSwipeItemTitle" FontSize="12" TextColor="White" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" HorizontalTextAlignment="Start" LineBreakMode="TailTruncation" />
+                                <Label Grid.Row="1" x:Name="NextSwipeItemSongPart" FontSize="10" TextColor="LightGray" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                        </SwipeItemView>
+                        
                     </SwipeItems>
+                    
                 </SwipeView.RightItems>
 
+                <!-- SongPart playing -->
+                <VerticalStackLayout Padding="16,0,0,0" VerticalOptions="CenterAndExpand">
 
-                <VerticalStackLayout VerticalOptions="CenterAndExpand">
-
-                    <Label x:Name="NowPlayingLabel" Padding="16,0,0,0" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" FontSize="14"  TextColor="White" Text="Nothing playing"/>
-                    <Label x:Name="NowPlayingPartLabel" Padding="16,0,0,0" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="11"  TextColor="White" Text=""/>
+                    <Label x:Name="NowPlayingLabel" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" FontSize="12"  TextColor="White" Text="Nothing playing"/>
+                    <Label x:Name="NowPlayingPartLabel" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="10"  TextColor="LightGray" Text=""/>
                 
                 </VerticalStackLayout>
                 
@@ -54,13 +75,22 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="4" MinimumHeightRequest="50" x:Name="PlayToggleButton"  Pressed="PlayToggleButton_Pressed">
-                <Image x:Name="PlayToggleImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Play_arrow}" Color="{StaticResource White}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
+            <Border Grid.Column="4"
+                      Padding="0"
+                      HeightRequest="42"
+                      WidthRequest="42"
+                      StrokeShape="RoundRectangle 21"
+                      VerticalOptions="Center">
+                
+                <material:ButtonView Grid.Column="4" HeightRequest="42" x:Name="PlayToggleButton"  Pressed="PlayToggleButton_Pressed">
+                    <Image x:Name="PlayToggleImage" HeightRequest="42">
+                        <Image.Source>
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Play_arrow}" Color="{StaticResource White}" />
+                        </Image.Source>
+                    </Image>
+                </material:ButtonView>
+                
+            </Border>
 
             <toolkit:MediaElement x:Name="AudioMediaElement" IsVisible="False"/>
 

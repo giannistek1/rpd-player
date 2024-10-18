@@ -16,17 +16,15 @@ public partial class VideoPage : ContentPage
         //AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         //NowPlayingLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
 
-        //VideoMediaElement.Play();
-
-
         //TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
 
         //DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
 
         this.Disappearing += OnDisappearing;
 
+        SongTitleLabel.Text = $"{songPart.Title}";
         ArtistLabel.Text = songPart.ArtistName;
-        SongTitleLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
+        SongPartLabel.Text = $"{songPart.PartNameFull}";
 
         VideoMediaElement.ShouldAutoPlay = true;
         VideoMediaElement.ShouldLoopPlayback = MainViewModel.ShouldLoopVideo;

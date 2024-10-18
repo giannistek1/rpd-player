@@ -1,6 +1,5 @@
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Items;
-using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Repository;
 using RpdPlayerApp.ViewModel;
@@ -10,6 +9,8 @@ namespace RpdPlayerApp.Views;
 
 public partial class HomeView : ContentView
 {
+    private SettingsPage _settingsPage = new();
+
     internal EventHandler? FilterPressed;
 
     public HomeView()
@@ -391,7 +392,7 @@ public partial class HomeView : ContentView
         // TODO: Bug: If you open settingspage, listviewitems and audioplayercontrol break
         if (Navigation.NavigationStack.Count < 2)
         {
-            await Navigation.PushAsync(new SettingsPage(), true);
+            await Navigation.PushAsync(_settingsPage, true);
         }
     }
 }

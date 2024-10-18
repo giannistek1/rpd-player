@@ -2,7 +2,7 @@
 
 internal static class TimerManager
 {
-    private static System.Timers.Timer timer;
+    private static System.Timers.Timer? timer;
     internal static SongPart songPart;
     internal static void StartInfiniteScaleYAnimationWithTimer()
     {

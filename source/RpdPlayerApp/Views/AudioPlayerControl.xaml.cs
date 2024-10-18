@@ -95,12 +95,10 @@ public partial class AudioPlayerControl : ContentView
 
                 if (MainViewModel.SongPartsQueue.Count > 0)
                 {
-                    NextSwipeItem.IsVisible = true;
-                    NextSwipeItem.Text = MainViewModel.SongPartsQueue.Peek().Title;
+                    SetNextSwipeItem(isVisible: true, songPart: MainViewModel.SongPartsQueue.Peek());
                 }
 
-                PreviousSwipeItem.IsVisible = true;
-                PreviousSwipeItem.Text = MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1].Title;
+                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
 
                 break;
 
@@ -117,12 +115,10 @@ public partial class AudioPlayerControl : ContentView
 
                 if (MainViewModel.PlaylistQueue.Count > 0)
                 {
-                    NextSwipeItem.IsVisible = true;
-                    NextSwipeItem.Text = MainViewModel.PlaylistQueue.Peek().Title;
+                    SetNextSwipeItem(isVisible: true, songPart: MainViewModel.PlaylistQueue.Peek());
                 }
 
-                PreviousSwipeItem.IsVisible = true;
-                PreviousSwipeItem.Text = MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count-1].Title;
+                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
 
                 break;
         }
@@ -242,12 +238,16 @@ public partial class AudioPlayerControl : ContentView
         // Next song.
         if (e.SwipeDirection == SwipeDirection.Left && e.IsOpen)
         {
+            // TODO: UGLY, needs fadeout or a delay or text invisible, be creative (PROBABLY CHANGE TO CAROUSELVIEW?).
+
             NowPlayingSwipeView.Close();
             AudioMediaElementMediaEnded(sender, e);
         }
         // Previous song
         else if (e.SwipeDirection == SwipeDirection.Right && e.IsOpen)
         {
+            // TODO: UGLY, needs fadeout or a delay or text invisible, be creative (PROBABLY CHANGE TO CAROUSELVIEW?).
+
             NowPlayingSwipeView.Close();
 
             // Or PlayNext/Previous bool
@@ -259,39 +259,49 @@ public partial class AudioPlayerControl : ContentView
     {
         if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.SongPartHistory.Count > 0)
         {
-            PreviousSwipeItem.IsVisible = true;
-            PreviousSwipeItem.Text = MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1].Title;
+            SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
+
         }
         else if (MainViewModel.PlayMode == PlayMode.Queue && MainViewModel.SongPartHistory.Count > 0)
         {
-            PreviousSwipeItem.IsVisible = true;
-            PreviousSwipeItem.Text = MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1].Title;
+            SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
         }
         else
         {
-            PreviousSwipeItem.IsVisible = false;
-            PreviousSwipeItem.Text = string.Empty;
+            SetPreviousSwipeItem(isVisible: false, songPart: null);
         }
+    }
+
+    private void SetPreviousSwipeItem(bool isVisible, SongPart? songPart)
+    {
+        PreviousSwipeItem.IsVisible = isVisible;
+        PreviousSwipeItemTitle.Text = isVisible ? songPart!.Title : string.Empty;
+        PreviousSwipeItemSongPart.Text = isVisible ? songPart!.PartNameFull : string.Empty;
     }
 
     internal void UpdateNextSwipeItem()
     {
         if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.PlaylistQueue.Count > 0)
         {
-            NextSwipeItem.IsVisible = true;
-            NextSwipeItem.Text = MainViewModel.PlaylistQueue.Peek().Title;
+            SetNextSwipeItem(isVisible: true, songPart: MainViewModel.PlaylistQueue.Peek());
         }
         else if (MainViewModel.PlayMode == PlayMode.Queue && MainViewModel.SongPartsQueue.Count > 0)
         {
-            NextSwipeItem.IsVisible = true;
-            NextSwipeItem.Text = MainViewModel.SongPartsQueue.Peek().Title;
+            SetNextSwipeItem(isVisible: true, songPart: MainViewModel.SongPartsQueue.Peek());
         }
         else
         {
-            NextSwipeItem.IsVisible = false;
-            NextSwipeItem.Text = string.Empty;
+            SetNextSwipeItem(isVisible: false, songPart: null);
         }
     }
+
+    private void SetNextSwipeItem(bool isVisible, SongPart? songPart)
+    {
+        NextSwipeItem.IsVisible = isVisible;
+        NextSwipeItemTitle.Text = isVisible ? songPart!.Title : string.Empty;
+        NextSwipeItemSongPart.Text = isVisible ? songPart!.PartNameFull : string.Empty;
+    }
+
     private void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
     {
         if (MainViewModel.CurrentSongPart is null || MainViewModel.CurrentSongPart.Id <= 0) { return; }

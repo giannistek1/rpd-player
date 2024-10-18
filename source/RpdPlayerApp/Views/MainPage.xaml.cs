@@ -5,9 +5,9 @@ namespace RpdPlayerApp.Views;
 
 public partial class MainPage
 {
-    private readonly CurrentPlaylistView currentPlaylistView = new();
-    private readonly SortByBottomSheet sortByBottomSheet = new();
-    private readonly SongPartDetailBottomSheet detailBottomSheet = new();
+    private readonly CurrentPlaylistView _currentPlaylistView = new();
+    private readonly SortByBottomSheet _sortByBottomSheet = new();
+    private readonly SongPartDetailBottomSheet _detailBottomSheet = new();
 
     public MainPage()
     {
@@ -24,24 +24,24 @@ public partial class MainPage
         LibraryView.PlayPlaylist += OnPlaySongPart; // Not used
         LibraryView.ShowPlaylist += OnShowPlaylist;
 
-        currentPlaylistView.IsVisible = false;
-        currentPlaylistView.BackToPlaylists += OnBackToPlaylists;
-        currentPlaylistView.PlaySongPart += OnPlaySongPart;
+        _currentPlaylistView.IsVisible = false;
+        _currentPlaylistView.BackToPlaylists += OnBackToPlaylists;
+        _currentPlaylistView.PlaySongPart += OnPlaySongPart;
 
-        sortByBottomSheet.CloseSheet += OnCloseSortBySheet;
+        _sortByBottomSheet.CloseSheet += OnCloseSortBySheet;
 
-        detailBottomSheet.PlayToggleSongPart += OnPlayToggleSongPart;
-        detailBottomSheet.PreviousSong += OnPreviousSong;
-        detailBottomSheet.NextSong += OnNextSong;
+        _detailBottomSheet.PlayToggleSongPart += OnPlayToggleSongPart;
+        _detailBottomSheet.PreviousSong += OnPreviousSong;
+        _detailBottomSheet.NextSong += OnNextSong;
 
         AudioPlayerControl.Pause += OnPause;
         AudioPlayerControl.ShowDetails += OnShowDetails;
         AudioPlayerControl.UpdateProgress += OnUpdateProgress;
         AudioPlayerControl.AudioEnded += OnAudioEnded;
 
-        if (!LibraryContainer.Children.Contains(currentPlaylistView))
+        if (!LibraryContainer.Children.Contains(_currentPlaylistView))
         {
-            LibraryContainer.Children.Add(currentPlaylistView);
+            LibraryContainer.Children.Add(_currentPlaylistView);
         }
         if (!LibraryContainer.Children.Contains(LibraryView))
         {
@@ -64,21 +64,21 @@ public partial class MainPage
     {
         AudioPlayerControl.PlayPreviousSongPart(sender, e);
 
-        detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        detailBottomSheet.UpdateUI();
+        _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        _detailBottomSheet.UpdateUI();
     }
 
     private void OnNextSong(object? sender, EventArgs e)
     {
         AudioPlayerControl.NextButton_Pressed(sender, e);
 
-        detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        detailBottomSheet.UpdateUI();
+        _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        _detailBottomSheet.UpdateUI();
     }
 
     private void OnCloseSortBySheet(object? sender, EventArgs e)
     {
-        sortByBottomSheet.DismissAsync();
+        _sortByBottomSheet.DismissAsync();
         SearchSongPartsView.RefreshSort();
     }
 
@@ -89,19 +89,19 @@ public partial class MainPage
 
     protected override bool OnBackButtonPressed()
     {
-        if (currentPlaylistView.IsVisible)
+        if (_currentPlaylistView.IsVisible)
         {
             BackToPlaylists();
             return true;
         }
-        else if (detailBottomSheet.isShown)
+        else if (_detailBottomSheet.isShown)
         {
-            detailBottomSheet.DismissAsync();
+            _detailBottomSheet.DismissAsync();
             return true;
         }
-        else if (sortByBottomSheet.isShown)
+        else if (_sortByBottomSheet.isShown)
         {
-            sortByBottomSheet.DismissAsync();
+            _sortByBottomSheet.DismissAsync();
             return true;
         }
         else
@@ -120,7 +120,7 @@ public partial class MainPage
 
     private void OnAddSongPart(object? sender, EventArgs e)
     {
-        currentPlaylistView.RefreshCurrentPlaylist();
+        _currentPlaylistView.RefreshCurrentPlaylist();
     }
 
     private void OnBackToPlaylists(object? sender, EventArgs e)
@@ -130,9 +130,9 @@ public partial class MainPage
 
     private void BackToPlaylists()
     {
-        currentPlaylistView.ResetCurrentPlaylist();
+        _currentPlaylistView.ResetCurrentPlaylist();
         LibraryView!.LoadPlaylists();
-        currentPlaylistView.IsVisible = false;
+        _currentPlaylistView.IsVisible = false;
         LibraryView.IsVisible = true;
     }
 
@@ -140,9 +140,9 @@ public partial class MainPage
     {
         LibraryView = (LibraryView)LibraryContainer.Children[0];
         LibraryView.IsVisible = false;
-        currentPlaylistView.IsVisible = true;
+        _currentPlaylistView.IsVisible = true;
 
-        currentPlaylistView.RefreshCurrentPlaylist();
+        _currentPlaylistView.RefreshCurrentPlaylist();
     }
 
     // Used by searchsongpartsView, currentplaylistView
@@ -186,24 +186,24 @@ public partial class MainPage
     #region Show BottomSheets
     private void OnShowSortBy(object sender, EventArgs e)
     {
-        sortByBottomSheet.HasHandle = true;
-        sortByBottomSheet.IsCancelable = true;
-        sortByBottomSheet.HasBackdrop = true;
-        sortByBottomSheet.isShown = true;
-        sortByBottomSheet.ShowAsync();
+        _sortByBottomSheet.HasHandle = true;
+        _sortByBottomSheet.IsCancelable = true;
+        _sortByBottomSheet.HasBackdrop = true;
+        _sortByBottomSheet.isShown = true;
+        _sortByBottomSheet.ShowAsync();
     }
 
     #region AudioPlayerControl Events
     private void OnShowDetails(object sender, EventArgs e)
     {
-        detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        detailBottomSheet.UpdateUI();
+        _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        _detailBottomSheet.UpdateUI();
 
-        detailBottomSheet.HasHandle = true;
-        detailBottomSheet.IsCancelable = true;
-        detailBottomSheet.HasBackdrop = true;
-        detailBottomSheet.isShown = true;
-        detailBottomSheet.ShowAsync();
+        _detailBottomSheet.HasHandle = true;
+        _detailBottomSheet.IsCancelable = true;
+        _detailBottomSheet.HasBackdrop = true;
+        _detailBottomSheet.isShown = true;
+        _detailBottomSheet.ShowAsync();
     }
     private void OnPause(object? sender, EventArgs e)
     {
@@ -211,13 +211,13 @@ public partial class MainPage
     }
     private void OnAudioEnded(object? sender, EventArgs e)
     {
-        detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        detailBottomSheet.UpdateUI();
+        _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        _detailBottomSheet.UpdateUI();
     }
 
     private void OnUpdateProgress(object? sender, EventArgs e)
     {
-        detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider.Value);
+        _detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider.Value);
     }
     #endregion
 

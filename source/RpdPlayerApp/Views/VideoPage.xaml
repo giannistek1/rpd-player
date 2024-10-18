@@ -6,57 +6,57 @@
              xmlns:sliders="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
              Title="Mirrored Choreography">
     
-    <Grid RowDefinitions="30,40,30,120,auto" ColumnDefinitions="*">
-
-        <HorizontalStackLayout Grid.Row="0">
-
-            <Label x:Name="ArtistLabel" Padding="12,0,0,0" FontSize="20" TextColor="White" />
-            
-        </HorizontalStackLayout>
+    <ScrollView>
         
-        <HorizontalStackLayout Grid.Row="1">
+        <Grid RowDefinitions="34,30,30,auto,120" ColumnDefinitions="*">
 
-            <Label x:Name="SongTitleLabel" Padding="12,0,0,0" FontSize="18" TextColor="White" />
+            <Label Grid.Row="0" x:Name="SongTitleLabel" FontSize="18" FontAttributes="Bold" TextColor="White" HorizontalOptions="CenterAndExpand" />
 
-        </HorizontalStackLayout>
+            <Label Grid.Row="1" x:Name="ArtistLabel" FontSize="12" TextColor="LightGray" HorizontalOptions="CenterAndExpand" />
 
-        <Label Grid.Row="2" x:Name="SpeedLabel" Padding="12,0,0,0" FontSize="16" Text="Video speed:" TextColor="White" />
+            <Label Grid.Row="2" x:Name="SongPartLabel" FontSize="10" TextColor="LightGray" HorizontalOptions="CenterAndExpand" />
 
-        <sliders:SfSlider Grid.Row="3" VerticalOptions="CenterAndExpand" x:Name="SpeedSlider" ValueChanged="SpeedSlider_ValueChanged" Minimum="0.5" Maximum="1.5" Value="1" StepSize="0.05" 
-                          ShowLabels="True" ShowTicks="True" NumberFormat="0.##x" Interval="0.5">
-            <sliders:SfSlider.Tooltip>
-                <sliders:SliderTooltip 
-                                ShowAlways="True"
-                                Fill="{StaticResource Primary}"
-                                Stroke="White"
-                                StrokeThickness="2"
-                                TextColor="White"
-                                FontSize="14"
-                                FontAttributes="Bold"
-                                Padding="12,12"
-                                NumberFormat="0.##x speed" />
-            </sliders:SfSlider.Tooltip>
+            <toolkit:MediaElement Grid.Row="3" HeightRequest="290" x:Name="VideoMediaElement" Margin="0,0,0,16"/>
 
-            <sliders:SfSlider.TrackStyle>
-                <sliders:SliderTrackStyle ActiveFill="{StaticResource Primary}"
-                                  InactiveFill="LightGray" />
-            </sliders:SfSlider.TrackStyle>
+            <!-- Speed slider -->
+            <!--<Label Grid.Row="4" x:Name="SpeedLabel" FontSize="16" Text="Video speed" TextColor="White" HorizontalOptions="CenterAndExpand" />-->
 
-            <sliders:SfSlider.ThumbStyle>
-                <sliders:SliderThumbStyle Fill="{StaticResource Primary}" />
-            </sliders:SfSlider.ThumbStyle>
+            <sliders:SfSlider Grid.Row="4" VerticalOptions="CenterAndExpand" x:Name="SpeedSlider" ValueChanged="SpeedSlider_ValueChanged" Minimum="0.5" Maximum="1.5" Value="1" StepSize="0.05" 
+              ShowLabels="True" ShowTicks="True" NumberFormat="0.##x" Interval="0.5">
+                <sliders:SfSlider.Tooltip>
+                    <sliders:SliderTooltip 
+                    ShowAlways="True"
+                    Fill="{StaticResource Primary}"
+                    Stroke="White"
+                    StrokeThickness="2"
+                    TextColor="White"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    Padding="12,12"
+                    NumberFormat="0.##x speed" />
+                </sliders:SfSlider.Tooltip>
 
-            <sliders:SfSlider.LabelStyle>
-                <sliders:SliderLabelStyle ActiveTextColor="White"
-                                  InactiveTextColor="LightGray"
-                                  ActiveFontAttributes="Italic"
-                                  InactiveFontAttributes="Italic"
-                                  ActiveFontSize="16"
-                                  InactiveFontSize="16" />
-            </sliders:SfSlider.LabelStyle>
-        </sliders:SfSlider>
+                <sliders:SfSlider.TrackStyle>
+                    <sliders:SliderTrackStyle ActiveFill="{StaticResource Primary}"
+                      InactiveFill="LightGray" />
+                </sliders:SfSlider.TrackStyle>
 
-        <toolkit:MediaElement Grid.Row="4" HeightRequest="290" x:Name="VideoMediaElement"/>
+                <sliders:SfSlider.ThumbStyle>
+                    <sliders:SliderThumbStyle Fill="{StaticResource Primary}" />
+                </sliders:SfSlider.ThumbStyle>
+
+                <sliders:SfSlider.LabelStyle>
+                    <sliders:SliderLabelStyle ActiveTextColor="White"
+                      InactiveTextColor="LightGray"
+                      ActiveFontAttributes="Italic"
+                      InactiveFontAttributes="Italic"
+                      ActiveFontSize="16"
+                      InactiveFontSize="16" />
+                </sliders:SfSlider.LabelStyle>
+            </sliders:SfSlider>
+
+        </Grid>
         
-    </Grid>
+    </ScrollView>
+    
 </ContentPage>
