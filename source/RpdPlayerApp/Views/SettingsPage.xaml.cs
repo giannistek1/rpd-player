@@ -2,7 +2,7 @@ using RpdPlayerApp.ViewModel;
 
 namespace RpdPlayerApp.Views;
 
-public partial class SettingsPage
+public partial class SettingsPage : ContentPage
 {
 	public SettingsPage()
 	{
