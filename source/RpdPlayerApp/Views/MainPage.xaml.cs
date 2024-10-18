@@ -224,30 +224,6 @@ public partial class MainPage
 
     #endregion
 
-    protected override void OnDisappearing()
-    {
-        base.OnDisappearing();
-
-        HomeView.FilterPressed -= OnFilterPressed;
-
-        SearchSongPartsView.PlaySongPart -= OnPlaySongPart;
-        SearchSongPartsView.StopSongPart -= OnStopSongPart;
-        SearchSongPartsView.AddSongPart -= OnAddSongPart;
-        SearchSongPartsView.EnqueueSongPart -= OnEnqueueSongPart;
-        SearchSongPartsView.ShowSortBy -= OnShowSortBy;
-
-        LibraryView.PlayPlaylist -= OnPlaySongPart; // Not used
-        LibraryView.ShowPlaylist -= OnShowPlaylist;
-
-        currentPlaylistView.BackToPlaylists -= OnBackToPlaylists;
-        currentPlaylistView.PlaySongPart -= OnPlaySongPart;
-
-        AudioPlayerControl.Pause -= OnPause;
-        AudioPlayerControl.ShowDetails -= OnShowDetails;
-
-        sortByBottomSheet.CloseSheet -= OnCloseSortBySheet;
-    }
-
     private void MainContainer_TabItemTapped(object sender, Syncfusion.Maui.TabView.TabItemTappedEventArgs e)
     {
         if (HomeTabItem == e.TabItem)
