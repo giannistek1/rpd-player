@@ -28,6 +28,9 @@ public partial class VideoPage : ContentPage
 
         VideoMediaElement.ShouldAutoPlay = true;
         VideoMediaElement.ShouldLoopPlayback = MainViewModel.ShouldLoopVideo;
+
+        // Don't put the starting value in the XML because then you can't move the slider!
+        SpeedSlider.Value = 1; 
     }
 
     private void SpeedSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)

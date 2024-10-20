@@ -29,7 +29,7 @@ internal static class SongPartRepository
         var substractedSongParts = 0;
 
 #if IOS
-        substractedSongParts = 1000;
+        substractedSongParts = 0;
 #endif
 
         for (int i = 0; i < (matches.Count / MainViewModel.SongPartPropertyAmount) - substractedSongParts; i++)
