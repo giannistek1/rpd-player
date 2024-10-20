@@ -2,7 +2,7 @@
 using RpdPlayerApp.Models;
 using System.Collections.ObjectModel;
 
-namespace RpdPlayerApp.ViewModel;
+namespace RpdPlayerApp.ViewModels;
 
 internal static class MainViewModel
 {
@@ -44,8 +44,15 @@ internal static class MainViewModel
 
     #endregion
 
+    #region Modes
     public static SortMode SortMode { get; set; } = SortMode.Artist;
     public static SearchFilterMode SearchFilterMode { get; set; }
+
+    public static PlayMode PlayMode { get; set; }
+    public static bool UsingVideoMode { get; set; } = false;
+    public static bool UsingCloudMode { get; set; } = false;
+
+    #endregion
 
     // TODO: Make non-nullable and check for default values
     public static SongPart CurrentSongPart { get; set; } = new(); 
@@ -54,20 +61,16 @@ internal static class MainViewModel
 
     public static Queue<SongPart> SongPartsQueue { get; set; } = new();
 
-    public static PlayMode PlayMode { get; set; }
-    public static bool UsingVideoMode { get; set; } = false;
-    public static bool CurrentlyPlaying { get; set; } = false;
 
-    public static bool IsPlayingPlaylist { get; set; }
+    public static bool CurrentlyPlaying { get; set; } = false;
 
     public static ObservableCollection<Playlist> Playlists { get; set; } = [];
 
-    public static bool UsingCloudMode { get; set; } = false;
-
-    public static bool ShouldLoopVideo { get; set; } = true;
-
+    #region Settings
     /// <summary>
     /// 0.0 - 1.0
     /// </summary>
     public static double MainVolume = 1.0;
+    public static bool ShouldLoopVideo { get; set; } = true;
+    #endregion
 }

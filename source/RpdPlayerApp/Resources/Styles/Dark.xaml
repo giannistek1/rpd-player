@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RpdPlayerApp.Resources.Styles.Dark">
+
+    <!-- (Reusable) main colors -->
+    <Color x:Key="Primary">#64b06c</Color>
+
+    <Color x:Key="NavigationBackgroundColor">#64b06c</Color>
+    <Color x:Key="BackgroundColor">#212121</Color>
+    <Color x:Key="IconColor">#FFF</Color>
+    <Color x:Key="ToolbarIconColor">#FFF</Color>
+    <Color x:Key="InputBackgroundColor">#ACACAC</Color>
+    
+    <Color x:Key="PrimaryTextColor">#FFF</Color>
+    <Color x:Key="SecondaryTextColor">#ACACAC</Color>
+    <Color x:Key="PlaceholderColor">#ACACAC</Color>
+
+    <Color x:Key="PrimaryButton">#64b06c</Color>
+    <Color x:Key="SecondaryButton">#404040</Color>
+
+    <!-- Controls colors -->
+    <Color x:Key="FrameColor">#404040</Color>
+    <Color x:Key="BorderColor">#404040</Color>
+    <Color x:Key="ListViewGroupBackgroundColor">#404040</Color>
+    <Color x:Key="ExpanderColor">#212121</Color>
+    <Color x:Key="ExpanderExpandedColor">#212121</Color>
+    <Color x:Key="TabViewBackgroundColor">#212121</Color>
+    <Color x:Key="AudioPlayerBackgroundColor">#212121</Color>
+    <Color x:Key="AudioProgressColor">#FFF</Color>
+    
+
+    <!-- Default (should be gone) -->
+    <Color x:Key="PrimaryDark">#64b06c</Color>
+    <Color x:Key="PrimaryDarkText">#242424</Color>
+    <Color x:Key="Secondary">#DFD8F7</Color>
+    <Color x:Key="SecondaryDarkText">#64b06c</Color>
+    <Color x:Key="Tertiary">#2B0B98</Color>
+
+    <Color x:Key="White">White</Color>
+    <Color x:Key="Black">Black</Color>
+    <Color x:Key="Magenta">#D600AA</Color>
+    <Color x:Key="MidnightBlue">#190649</Color>
+    <Color x:Key="OffBlack">#1f1f1f</Color>
+
+    <Color x:Key="Gray100">#E1E1E1</Color>
+    <Color x:Key="Gray200">#C8C8C8</Color>
+    <Color x:Key="Gray300">#ACACAC</Color>
+    <Color x:Key="Gray400">#919191</Color>
+    <Color x:Key="Gray500">#6E6E6E</Color>
+    <Color x:Key="Gray600">#404040</Color>
+    <Color x:Key="Gray900">#212121</Color>
+    <Color x:Key="Gray950">#141414</Color>
+
+</ResourceDictionary>

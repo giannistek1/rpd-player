@@ -5,44 +5,22 @@
              xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
-             x:Class="RpdPlayerApp.Views.SongPartDetailBottomSheet">
+             x:Class="RpdPlayerApp.Views.SongPartDetailBottomSheet"
+             Background="{DynamicResource BackgroundColor}">
 
     <the49:BottomSheet.Detents>
-        <the49:RatioDetent Ratio="0.95"  />
+        <the49:RatioDetent Ratio="0.95" />
     </the49:BottomSheet.Detents>
 
     <Grid RowDefinitions="46, 300, 30, 30, 30, 50, 60" Padding="12,0,12,0">
 
         <Grid Grid.Row="0" ColumnDefinitions="2*, 4*, 2*" Margin="0,16,0,0">
 
-            <Label 
-               Grid.Column="0"
-               x:Name="GenreLabel"
-               Text="K-pop"
-               FontSize="12"
-               TextColor="White"
-               VerticalOptions="Center" 
-               HorizontalOptions="Start" />
+            <Label Grid.Column="0" x:Name="GenreLabel" Text="K-pop" FontSize="12" TextColor="{DynamicResource PrimaryTextColor}" VerticalOptions="Center" HorizontalOptions="Start" />
 
-            <Label 
-                Grid.Column="1"
-                x:Name="AlbumLabel"
-                Text="Album"
-                FontSize="14"
-                TextColor="White"
-                FontAttributes="Italic"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center"
-                LineBreakMode="TailTruncation" />
+            <Label Grid.Column="1" x:Name="AlbumLabel" Text="Album" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}" FontAttributes="Italic" VerticalOptions="Center"  HorizontalOptions="Center" LineBreakMode="TailTruncation" />
 
-            <Label 
-               Grid.Column="2"
-               x:Name="ReleaseDateLabel"
-               Text="01-01-2000"
-               FontSize="12"
-               TextColor="White"
-               VerticalOptions="Center" 
-               HorizontalOptions="End" />
+            <Label Grid.Column="2" x:Name="ReleaseDateLabel" Text="01-01-2000" FontSize="12" TextColor="{DynamicResource PrimaryTextColor}" VerticalOptions="Center"  HorizontalOptions="End" />
             
         </Grid>
         
@@ -64,7 +42,7 @@
             x:Name="SongTitleLabel"
             Text="Song title"
             FontSize="20"
-            TextColor="White"
+            TextColor="{DynamicResource PrimaryTextColor}"
             FontAttributes="Bold"
             VerticalOptions="Center" 
             HorizontalOptions="CenterAndExpand" />
@@ -74,7 +52,7 @@
             x:Name="SongPartLabel"
             Text="Song part"
             FontSize="14"
-            TextColor="LightGray"
+            TextColor="{DynamicResource SecondaryTextColor}"
             VerticalOptions="Center" 
             HorizontalOptions="CenterAndExpand" />
 
@@ -83,7 +61,7 @@
             x:Name="ArtistLabel"
             Text="Artist"
             FontSize="12"
-            TextColor="LightGray"
+            TextColor="{DynamicResource SecondaryTextColor}"
             VerticalOptions="Center" 
             HorizontalOptions="CenterAndExpand" />
 
@@ -94,18 +72,18 @@
                 x:Name="ProgressLabel"
                 Text="00:00"
                 FontSize="14"
-                TextColor="LightGray"
+                TextColor="{DynamicResource SecondaryTextColor}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
 
-            <Slider Grid.Column="1" x:Name="AudioProgressSlider" Margin="-30,-10,-30,-10" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="50" />
+            <Slider Grid.Column="1" x:Name="AudioProgressSlider" BackgroundColor="{DynamicResource AudioPlayerBackgroundColor}" MinimumTrackColor="{DynamicResource AudioProgressColor}" Margin="-30,-10,-30,-10" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="50" />
 
             <Label 
                 Grid.Column="2"
                 x:Name="DurationLabel"
                 Text="99:99"
                 FontSize="14"
-                TextColor="LightGray"
+                TextColor="{DynamicResource SecondaryTextColor}"
                 VerticalOptions="Center" 
                 HorizontalOptions="End" />
             
@@ -116,7 +94,7 @@
             <material:ButtonView Grid.Column="0" HeightRequest="40"  x:Name="PreviousButton" Background="Transparent" Pressed="PreviousButton_Pressed">
                 <Image x:Name="PreviousImage" HeightRequest="50" HorizontalOptions="Center">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_previous}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_previous}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
@@ -131,7 +109,7 @@
                 <material:ButtonView  HeightRequest="60" x:Name="PlayToggleButton" Pressed="PlayToggleButton_Pressed">
                     <Image x:Name="PlayToggleImage" HeightRequest="60" HorizontalOptions="Center">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Play_pause}" Color="{StaticResource White}" />
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Play_pause}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
                 </material:ButtonView>
@@ -141,7 +119,7 @@
             <material:ButtonView Grid.Column="2" HeightRequest="40" x:Name="NextButton" Background="Transparent" Pressed="NextButton_Pressed">
                 <Image x:Name="NextImage" HeightRequest="50" HorizontalOptions="Center">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_next}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_next}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>

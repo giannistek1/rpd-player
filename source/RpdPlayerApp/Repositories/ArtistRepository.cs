@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
-using RpdPlayerApp.ViewModel;
+using RpdPlayerApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;

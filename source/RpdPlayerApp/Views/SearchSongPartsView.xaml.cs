@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repository;
 using CommunityToolkit.Maui.Core.Extensions;
-using RpdPlayerApp.ViewModel;
+using RpdPlayerApp.ViewModels;
 using RpdPlayerApp.Architecture;
 using Syncfusion.Maui.DataSource;
 using UraniumUI.Icons.MaterialSymbols;
@@ -55,12 +55,14 @@ public partial class SearchSongPartsView : ContentView
         {
             FontFamily = "MaterialRegular",
             Glyph = MaterialOutlined.Videocam,
+            Color = (Color)Application.Current.Resources["IconColor"] // Sucks because this only gets set once.
         };
 
         _videoOffIcon = new FontImageSource
         {
             FontFamily = "MaterialRegular",
             Glyph = MaterialOutlined.Videocam_off,
+            Color = (Color)Application.Current.Resources["IconColor"] // Sucks because this only gets set once.
         };
 
         ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;

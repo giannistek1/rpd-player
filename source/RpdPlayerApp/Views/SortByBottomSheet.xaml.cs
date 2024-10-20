@@ -1,4 +1,4 @@
-using RpdPlayerApp.ViewModel;
+using RpdPlayerApp.ViewModels;
 using The49.Maui.BottomSheet;
 
 namespace RpdPlayerApp.Views;

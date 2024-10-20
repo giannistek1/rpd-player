@@ -1,6 +1,4 @@
-﻿using RpdPlayerApp.Architecture;
-using RpdPlayerApp.ViewModel;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace RpdPlayerApp.Models;
 

@@ -9,19 +9,19 @@
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
              x:Class="RpdPlayerApp.Views.CurrentPlaylistView"
-             BackgroundColor="Black">
+             BackgroundColor="{DynamicResource BackgroundColor}">
 
     <Grid Padding="0"
           RowDefinitions="50, 50, 40, *"
           ColumnDefinitions="*">
 
         <!-- Toolbar -->
-        <Grid Grid.Row="0" BackgroundColor="{StaticResource Primary}" ColumnDefinitions="1*,5*,1*,1*,1*">
+        <Grid Grid.Row="0" BackgroundColor="{DynamicResource NavigationBackgroundColor}" ColumnDefinitions="1*,5*,1*,1*,1*">
 
             <material:ButtonView Grid.Column="0" x:Name="BackButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButton_Clicked" >
                 <Image x:Name="BackButtonImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{DynamicResource ToolbarIconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
@@ -31,7 +31,7 @@
             <material:ButtonView Grid.Column="2" x:Name="PlayPlaylistButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="PlayPlaylistButton_Clicked">
                 <Image x:Name="PlayPlaylistButtonImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{DynamicResource ToolbarIconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
@@ -39,7 +39,7 @@
             <material:ButtonView Grid.Column="3" x:Name="SavePlaylistButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="SavePlaylistButton_Clicked">
                 <Image x:Name="SavePlaylistButtonImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Save}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Save}" Color="{DynamicResource ToolbarIconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
@@ -47,7 +47,7 @@
             <material:ButtonView Grid.Column="4" x:Name="ClearPlaylistButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" BackgroundColor="Red" Pressed="ClearPlaylistButton_Clicked">
                 <Image x:Name="ClearPlaylistButtonImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Delete}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Delete}" Color="{DynamicResource ToolbarIconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
@@ -57,15 +57,15 @@
         <!-- Secondary toolbar -->
         <Grid Grid.Row="1" ColumnDefinitions="50,74,50" Margin="0,8,0,0">
 
-            <material:ButtonView Grid.Column="0" x:Name="ShufflePlaylistButton" MinimumHeightRequest="50" HorizontalOptions="End" Pressed="ShufflePlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="0" x:Name="ShufflePlaylistButton" HeightRequest="50" HorizontalOptions="End" Pressed="ShufflePlaylistButton_Clicked">
                 <Image x:Name="ShufflePlaylistButtonImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="1" x:Name="MixedShufflePlaylistButton" MinimumHeightRequest="50" HorizontalOptions="End" Pressed="MixedShufflePlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="1" x:Name="MixedShufflePlaylistButton" HeightRequest="50" HorizontalOptions="End" Pressed="MixedShufflePlaylistButton_Clicked">
                 <HorizontalStackLayout>
                     
                     <Image x:Name="MixedShufflePlaylistButtonImage">
@@ -84,10 +84,10 @@
 
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="2" x:Name="ToggleSaveMode" MinimumHeightRequest="50" HorizontalOptions="End" Pressed="ToggleSaveMode_Pressed">
+            <material:ButtonView Grid.Column="2" x:Name="ToggleSaveMode" HeightRequest="50" HorizontalOptions="End" Pressed="ToggleSaveMode_Pressed">
                 <Image x:Name="ToggleSaveModeImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Cloud}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Cloud}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
@@ -110,7 +110,7 @@
         <syncfusion:SfListView 
             Grid.Row="3" 
             x:Name="CurrentPlaylistListView" 
-            BackgroundColor="{StaticResource Gray950}" 
+            BackgroundColor="{DynamicResource BackgroundColor}" 
             SelectionMode="None"
             AutoFitMode="Height"
             AllowSwiping="True"
@@ -149,11 +149,11 @@
                             <VerticalStackLayout Grid.Column="2" Padding="10">
 
                                 <HorizontalStackLayout>
-                                    <Label VerticalOptions="Start" Text="{Binding Title}" LineBreakMode="TailTruncation" />
-                                    <Label VerticalOptions="Start" Text="{Binding PartNameFull, StringFormat=' - {0}'}" LineBreakMode="TailTruncation"  />
+                                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" VerticalOptions="Start" LineBreakMode="TailTruncation" />
+                                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding PartNameFull, StringFormat=' - {0}'}" VerticalOptions="Start" LineBreakMode="TailTruncation"  />
                                 </HorizontalStackLayout>
-                                
-                                <Label VerticalOptions="CenterAndExpand" Text="{Binding ArtistName}" />
+
+                                <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding ArtistName}" VerticalOptions="CenterAndExpand" />
 
                             </VerticalStackLayout>
 
@@ -166,7 +166,7 @@
                                 
                                 <Image HorizontalOptions="EndAndExpand">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.GripVertical}" Color="White" />
+                                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.GripVertical}" Color="{DynamicResource IconColor}" />
                                     </Image.Source>
                                 </Image>
                                 

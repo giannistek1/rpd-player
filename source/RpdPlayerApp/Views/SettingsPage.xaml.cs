@@ -1,4 +1,4 @@
-using RpdPlayerApp.ViewModel;
+using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
@@ -8,7 +8,11 @@ public partial class SettingsPage : ContentPage
 	{
 		InitializeComponent();
 
+        ThemeViewModel _viewModel = new();
+
         MasterVolumeSlider.Value = MainViewModel.MainVolume * 100;
+
+        BindingContext = _viewModel;
     }
 
     private async void BackButton_Pressed(object sender, EventArgs e)

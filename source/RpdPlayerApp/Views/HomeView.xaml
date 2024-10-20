@@ -8,30 +8,31 @@
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.HomeView"
-             BackgroundColor="Black">
+             BackgroundColor="{DynamicResource BackgroundColor}">
 
     <Grid Padding="0"
           RowDefinitions="50, auto, *"
           ColumnDefinitions="*">
 
         <!-- Toolbar -->
-        <Grid Grid.Row="0" BackgroundColor="{StaticResource Primary}" x:Name="HomeViewToolbar" ColumnDefinitions="*,50,50">
+        <Grid Grid.Row="0" BackgroundColor="{DynamicResource NavigationBackgroundColor}" x:Name="HomeViewToolbar" ColumnDefinitions="*,50,50">
 
             <!-- Version -->
             <Label Grid.Column="0" Padding="5,0,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="12" Text="Version xx" />
 
-            <material:ButtonView Grid.Column="1" IsEnabled="False" MinimumHeightRequest="50" x:Name="FeedbackButton" Pressed="FeedbackButton_Pressed" HorizontalOptions="End">
+            <material:ButtonView Grid.Column="1" BackgroundColor="{DynamicResource PrimaryButton}" IsEnabled="False" HeightRequest="50" x:Name="FeedbackButton" Pressed="FeedbackButton_Pressed" HorizontalOptions="End">
                 <Image x:Name="FeedbackImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Rate_review}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Rate_review}" Color="{DynamicResource ToolbarIconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="2" IsEnabled="True" MinimumHeightRequest="50" x:Name="SettingsButton" Pressed="SettingsButton_Pressed" HorizontalOptions="End">
+            <!-- Settings button, for some reason always green? -->
+            <material:ButtonView Grid.Column="2" BackgroundColor="{DynamicResource PrimaryButton}" IsEnabled="True" HeightRequest="50" x:Name="SettingsButton" Pressed="SettingsButton_Pressed" HorizontalOptions="End">
                 <Image x:Name="SettingsImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Settings}" Color="{StaticResource White}" />
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Settings}" Color="{DynamicResource ToolbarIconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
@@ -55,7 +56,7 @@
 
                     <Image Grid.Row="0" HorizontalOptions="Start" Margin="0,0,10,0">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Database}" Color="{StaticResource White}" />
+                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Database}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
 
@@ -89,26 +90,26 @@
                     <VisualStateGroup>
                         <VisualState Name="Expanded">
                             <VisualState.Setters>
-                                <Setter Property="HeaderBackground" Value="#000"/>
-                                <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderExpandedColor}"/>
+                                <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState Name="Collapsed">
                             <VisualState.Setters>
-                                <Setter Property="HeaderBackground" Value="#000"/>
-                                <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState Name="PointerOver">
                             <VisualState.Setters>
-                                <Setter Property="HeaderBackground" Value="#000"/>
-                                <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState Name="Normal">
                             <VisualState.Setters>
-                                <Setter Property="HeaderBackground" Value="#000"/>
-                                <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -125,7 +126,6 @@
                 <!-- Categories header -->
                 <Label Grid.Row="0"
                         HeightRequest="40" 
-                        TextColor="{StaticResource White}"
                         LineBreakMode="NoWrap"
                         Padding="4" Text="Categories" FontAttributes="Bold"
                         FontSize="18" HorizontalOptions="Start"
@@ -140,7 +140,7 @@
                             </HorizontalStackLayout.GestureRecognizers>
 
                             <Image x:Name="AllImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="All songs" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                            <Label Text="All songs" TextColor="{DynamicResource PrimaryTextColor}" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>
 
@@ -151,7 +151,7 @@
                             </HorizontalStackLayout.GestureRecognizers>
 
                             <Image x:Name="DancePracticeImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Video" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                            <Label Text="Video" TextColor="{DynamicResource PrimaryTextColor}" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>
 
@@ -166,7 +166,7 @@
                             </HorizontalStackLayout.GestureRecognizers>
 
                             <Image x:Name="FemaleImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Female" WidthRequest="80" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                            <Label Text="Female" TextColor="{DynamicResource PrimaryTextColor}" WidthRequest="80" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>
 
@@ -177,7 +177,7 @@
                             </HorizontalStackLayout.GestureRecognizers>
 
                             <Image x:Name="MaleImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Male" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                            <Label Text="Male" TextColor="{DynamicResource PrimaryTextColor}" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>
 
@@ -192,7 +192,7 @@
                             </HorizontalStackLayout.GestureRecognizers>
 
                             <Image x:Name="SoloImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Solo" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                            <Label Text="Solo" TextColor="{DynamicResource PrimaryTextColor}" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>
 
@@ -203,7 +203,7 @@
                             </HorizontalStackLayout.GestureRecognizers>
 
                             <Image x:Name="GroupImage" Aspect="AspectFit" HeightRequest="70" WidthRequest="70" />
-                            <Label Text="Group" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                            <Label Text="Group" TextColor="{DynamicResource PrimaryTextColor}" Padding="8,0,0,0" HorizontalOptions="End" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
                     </Frame>
 
@@ -216,7 +216,7 @@
 
                         <Label
                         HeightRequest="40" 
-                        TextColor="{StaticResource White}"
+                        TextColor="{DynamicResource PrimaryTextColor}"
                         LineBreakMode="NoWrap"
                         Padding="4" Text="Generations" FontAttributes="Bold"
                         FontSize="18" HorizontalOptions="Start"
@@ -247,8 +247,8 @@
                                             </Image>
 
                                             <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
-                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
-                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
                                             </HorizontalStackLayout>
 
                                         </VerticalStackLayout>
@@ -264,26 +264,26 @@
                             <VisualStateGroup>
                                 <VisualState Name="Expanded">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Primary}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderExpandedColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="Collapsed">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="Normal">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -299,7 +299,7 @@
                         
                         <Label
                         HeightRequest="40" 
-                        TextColor="{StaticResource White}"
+                        TextColor="{DynamicResource PrimaryTextColor}"
                         LineBreakMode="NoWrap"
                         Padding="4" Text="Companies" FontAttributes="Bold"
                         FontSize="18" HorizontalOptions="Start"
@@ -330,8 +330,8 @@
                                             </Image>
 
                                             <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
-                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
-                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
                                             </HorizontalStackLayout>
 
                                         </VerticalStackLayout>
@@ -347,26 +347,26 @@
                             <VisualStateGroup>
                                 <VisualState Name="Expanded">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Primary}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderExpandedColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="Collapsed">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="Normal">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -381,7 +381,7 @@
                     <syncfusionExpander:SfExpander.Header>
                         <Label
                         HeightRequest="40" 
-                        TextColor="{StaticResource White}"
+                        TextColor="{DynamicResource PrimaryTextColor}"
                         LineBreakMode="NoWrap"
                         Padding="4" Text="Genres" FontAttributes="Bold"
                         FontSize="18" HorizontalOptions="Start"
@@ -411,8 +411,8 @@
                                         </Image>
 
                                         <HorizontalStackLayout HeightRequest="32" VerticalOptions="End">
-                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
-                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
                                         </HorizontalStackLayout>
 
                                     </VerticalStackLayout>
@@ -428,26 +428,26 @@
                             <VisualStateGroup>
                                 <VisualState Name="Expanded">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Primary}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderExpandedColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="Collapsed">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="Normal">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -456,15 +456,15 @@
 
                 </syncfusionExpander:SfExpander>
 
-                <!-- K-pop years -->
+                <!-- K-pop per year -->
                 <syncfusionExpander:SfExpander Grid.Row="7" AnimationDuration="200" IsExpanded="False" Margin="4, 0">
 
                     <syncfusionExpander:SfExpander.Header>
                         <Label
                             HeightRequest="40" 
-                            TextColor="{StaticResource White}"
+                            TextColor="{DynamicResource PrimaryTextColor}"
                             LineBreakMode="NoWrap"
-                            Padding="4" Text="K-pop years" FontAttributes="Bold"
+                            Padding="4" Text="K-pop per year" FontAttributes="Bold"
                             FontSize="18" HorizontalOptions="Start"
                             VerticalOptions="Center"/>
                     </syncfusionExpander:SfExpander.Header>
@@ -492,8 +492,8 @@
                                         </Image>
 
                                         <HorizontalStackLayout HeightRequest="32" VerticalOptions="End">
-                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding Title}" />
-                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{StaticResource White}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
                                         </HorizontalStackLayout>
 
                                     </VerticalStackLayout>
@@ -509,26 +509,26 @@
                             <VisualStateGroup>
                                 <VisualState Name="Expanded">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Primary}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderExpandedColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="Collapsed">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState Name="Normal">
                                     <VisualState.Setters>
-                                        <Setter Property="HeaderBackground" Value="{StaticResource Gray600}"/>
-                                        <Setter Property="HeaderIconColor" Value="#FFFFFF"/>
+                                        <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
+                                        <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>

@@ -6,10 +6,7 @@
     xmlns:local="clr-namespace:RpdPlayerApp"
     xmlns:views="clr-namespace:RpdPlayerApp.Views"
     Shell.FlyoutBehavior="Disabled"
-    Title="Rpd Player"
-    Shell.TabBarBackgroundColor="Black"
-    Shell.TabBarTitleColor="LightGreen"
-    Shell.TabBarUnselectedColor="White">
+    Title="Rpd Player">
 
     <ShellContent
         ContentTemplate="{DataTemplate views:MainPage}"

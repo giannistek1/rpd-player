@@ -5,10 +5,12 @@
              xmlns:sliders="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
-             
+             xmlns:local="clr-namespace:RpdPlayerApp.ViewModels"
+             x:DataType="local:ThemeViewModel"
+             BackgroundColor="{DynamicResource BackgroundColor}"
              Title="Settings">
 
-    <Grid RowDefinitions="30,60,30,30,30" Padding="8,0,8,0">
+    <Grid RowDefinitions="30,60,30,44,30" Padding="8,0,8,0">
 
         <Label 
             Grid.Row="0"
@@ -19,12 +21,12 @@
         <sliders:SfSlider Grid.Row="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSlider_ValueChanged" Minimum="0" Interval="50" Maximum="100">
 
             <sliders:SfSlider.TrackStyle>
-                <sliders:SliderTrackStyle ActiveFill="{StaticResource Primary}"
+                <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"
                           InactiveFill="LightGray" />
             </sliders:SfSlider.TrackStyle>
 
             <sliders:SfSlider.ThumbStyle>
-                <sliders:SliderThumbStyle Fill="{StaticResource Primary}" />
+                <sliders:SliderThumbStyle Fill="{DynamicResource Primary}" />
             </sliders:SfSlider.ThumbStyle>
             
         </sliders:SfSlider>
@@ -35,11 +37,10 @@
             VerticalOptions="Center" 
             HorizontalOptions="Start" />
 
-        <Label 
-            Grid.Row="3"
-            Text="*Themes*"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Picker Grid.Row="3" x:Name="ThemePicker" 
+                    ItemsSource="{Binding Themes}"
+                    SelectedItem="{Binding SelectedTheme}"
+                    ItemDisplayBinding="{Binding Name}"/>
 
         <Label
             Grid.Row="4"

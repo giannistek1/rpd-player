@@ -3,7 +3,7 @@ using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
-using RpdPlayerApp.ViewModel;
+using RpdPlayerApp.ViewModels;
 using System.Text;
 using UraniumUI.Icons.MaterialSymbols;
 

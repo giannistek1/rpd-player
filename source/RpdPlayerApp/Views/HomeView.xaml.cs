@@ -2,7 +2,7 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Items;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Repository;
-using RpdPlayerApp.ViewModel;
+using RpdPlayerApp.ViewModels;
 using System.Collections.Specialized;
 
 namespace RpdPlayerApp.Views;
