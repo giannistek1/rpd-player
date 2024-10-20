@@ -1,5 +1,7 @@
+<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/overview.jpg?raw=true" width="1120">
+
 # Rpd-player
-Currently this hobby project is in a very WIP state.
+Currently this hobby project is in a WIP state.
 
 ## Overview
 - Context
@@ -62,10 +64,10 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 ## Search library
 <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/search-song.jpg?raw=true" width="280">
 
-## Sorting
+## Sorting (need to update)
 <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/order-by.jpg?raw=true" width="280">
 
-## Playlists
+## Playlists (need to update)
 <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/playlists.jpg?raw=true" width="280">
 
 ## Current playlist
