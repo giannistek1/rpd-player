@@ -66,7 +66,7 @@ public partial class SearchSongPartsView : ContentView
         };
 
         ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
-        ClearFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
+        ClearCategoryFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
     }
 
     private void ToggleAudioModeButtonClicked(object sender, EventArgs e)
@@ -369,12 +369,17 @@ public partial class SearchSongPartsView : ContentView
     }
 
     #region Filter
-    private void ClearFilterButtonClicked(object sender, EventArgs e)
+    private void ClearCategoryFilterButtonClicked(object sender, EventArgs e)
     {
         MainViewModel.SearchFilterMode = SearchFilterMode.All;
         SetFilterMode();
 
         SetSearchFilteredDataSource();
+    }
+
+    private void ClearSearchFilterButtonClicked(object sender, EventArgs e)
+    {
+        SearchBarInput.Text = string.Empty;
     }
 
     /// <summary>
@@ -384,7 +389,7 @@ public partial class SearchSongPartsView : ContentView
     {
         songParts.CollectionChanged -= SongPartsCollectionChanged;
 
-        ClearFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
+        ClearCategoryFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
 
         try
         {

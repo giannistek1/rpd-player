@@ -215,10 +215,10 @@
 
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Padding="10">
 
-                                    <HorizontalStackLayout >
+                                    <HorizontalStackLayout>
 
-                                        <Label VerticalOptions="StartAndExpand" FontSize="14" LineBreakMode="TailTruncation" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
-                                        <Label VerticalOptions="StartAndExpand" FontSize="13" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                        <Label VerticalOptions="CenterAndExpand" FontSize="14" LineBreakMode="TailTruncation" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                                        <Label VerticalOptions="CenterAndExpand" FontSize="13" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
                                         
                                     </HorizontalStackLayout>
 
@@ -262,13 +262,16 @@
             </syncfusion:SfListView.ItemTemplate>
 
             <syncfusion:SfListView.EmptyView>
-                <StackLayout VerticalOptions="CenterAndExpand" >
-                    <Label Text="Found nothing." HorizontalTextAlignment="Center"     
-                         VerticalOptions="CenterAndExpand"
-                         FontSize="18" FontFamily="Roboto-Regular"/>
+                
+                <StackLayout VerticalOptions="CenterAndExpand" Spacing="16">
+                    
+                    <Label Text="Found nothing." HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" FontSize="18" FontFamily="Roboto-Regular"/>
 
-                    <Button x:Name="ClearFilterButton" Clicked="ClearFilterButtonClicked" WidthRequest="280"  Text="Clear category filter"/>
+                    <Button x:Name="ClearCategoryFilterButton" Clicked="ClearCategoryFilterButtonClicked" WidthRequest="280" Text="Clear category filter"/>
+                    <Button x:Name="ClearSearchFilterButton" Clicked="ClearSearchFilterButtonClicked" WidthRequest="220" Text="Clear search filter"/>
+
                 </StackLayout>
+                
             </syncfusion:SfListView.EmptyView>
         
         </syncfusion:SfListView>
