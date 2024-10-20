@@ -10,19 +10,20 @@
         
         <Grid RowDefinitions="34,30,30,auto,120" ColumnDefinitions="*">
 
-            <Label Grid.Row="0" x:Name="SongTitleLabel" FontSize="18" FontAttributes="Bold" TextColor="White" HorizontalOptions="CenterAndExpand" />
+            <Label Grid.Row="0" x:Name="SongTitleLabel" FontSize="18" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" HorizontalOptions="CenterAndExpand" />
 
-            <Label Grid.Row="1" x:Name="ArtistLabel" FontSize="12" TextColor="LightGray" HorizontalOptions="CenterAndExpand" />
+            <Label Grid.Row="1" x:Name="ArtistLabel" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" HorizontalOptions="CenterAndExpand" />
 
-            <Label Grid.Row="2" x:Name="SongPartLabel" FontSize="10" TextColor="LightGray" HorizontalOptions="CenterAndExpand" />
+            <Label Grid.Row="2" x:Name="SongPartLabel" FontSize="10" TextColor="{DynamicResource SecondaryTextColor}" HorizontalOptions="CenterAndExpand" />
 
             <toolkit:MediaElement Grid.Row="3" HeightRequest="290" x:Name="VideoMediaElement" Margin="0,0,0,16"/>
 
             <!-- Speed slider -->
             <!--<Label Grid.Row="4" x:Name="SpeedLabel" FontSize="16" Text="Video speed" TextColor="White" HorizontalOptions="CenterAndExpand" />-->
 
-            <sliders:SfSlider Grid.Row="4" VerticalOptions="CenterAndExpand" x:Name="SpeedSlider" ValueChanged="SpeedSlider_ValueChanged" Minimum="0.5" Maximum="1.5" Value="1" StepSize="0.05" 
+            <sliders:SfSlider Grid.Row="4" x:Name="SpeedSlider" VerticalOptions="CenterAndExpand"  ValueChanged="SpeedSlider_ValueChanged" Minimum="0.5" Maximum="1.5" Value="1" StepSize="0.05" 
               ShowLabels="True" ShowTicks="True" NumberFormat="0.##x" Interval="0.5">
+                
                 <sliders:SfSlider.Tooltip>
                     <sliders:SliderTooltip 
                     ShowAlways="True"
@@ -37,17 +38,17 @@
                 </sliders:SfSlider.Tooltip>
 
                 <sliders:SfSlider.TrackStyle>
-                    <sliders:SliderTrackStyle ActiveFill="{StaticResource Primary}"
-                      InactiveFill="LightGray" />
+                    <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"
+                      InactiveFill="{DynamicResource SecondaryTextColor}" />
                 </sliders:SfSlider.TrackStyle>
 
                 <sliders:SfSlider.ThumbStyle>
-                    <sliders:SliderThumbStyle Fill="{StaticResource Primary}" />
+                    <sliders:SliderThumbStyle Fill="{DynamicResource Primary}" />
                 </sliders:SfSlider.ThumbStyle>
 
                 <sliders:SfSlider.LabelStyle>
-                    <sliders:SliderLabelStyle ActiveTextColor="White"
-                      InactiveTextColor="LightGray"
+                    <sliders:SliderLabelStyle ActiveTextColor="{DynamicResource PrimaryTextColor}"
+                      InactiveTextColor="{DynamicResource SecondaryTextColor}"
                       ActiveFontAttributes="Italic"
                       InactiveFontAttributes="Italic"
                       ActiveFontSize="16"
