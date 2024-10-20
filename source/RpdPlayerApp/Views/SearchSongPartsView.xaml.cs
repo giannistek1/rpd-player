@@ -55,14 +55,14 @@ public partial class SearchSongPartsView : ContentView
         {
             FontFamily = "MaterialRegular",
             Glyph = MaterialOutlined.Videocam,
-            Color = (Color)Application.Current.Resources["IconColor"] // Sucks because this only gets set once.
+            Color = (Color)Application.Current!.Resources["ToolbarIconColor"] // Sucks because this only gets set once.
         };
 
         _videoOffIcon = new FontImageSource
         {
             FontFamily = "MaterialRegular",
             Glyph = MaterialOutlined.Videocam_off,
-            Color = (Color)Application.Current.Resources["IconColor"] // Sucks because this only gets set once.
+            Color = (Color)Application.Current!.Resources["ToolbarIconColor"] // Sucks because this only gets set once.
         };
 
         ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;

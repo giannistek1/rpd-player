@@ -8,27 +8,28 @@
     <Color x:Key="Primary">#B11E31</Color>
 
     <Color x:Key="NavigationBackgroundColor">#64b06c</Color>
-    <Color x:Key="BackgroundColor">#B11E31</Color>
+    <Color x:Key="ToolbarBackgroundColor">#64b06c</Color>
+    <Color x:Key="BackgroundColor">#EEE</Color>
     <Color x:Key="IconColor">#64b06c</Color>
-    <Color x:Key="ToolbarIconColor">#FFF</Color>
+    <Color x:Key="ToolbarIconColor">#EEE</Color>
     <Color x:Key="InputBackgroundColor">#EEE</Color>
 
     <Color x:Key="PrimaryTextColor">#111</Color>
     <Color x:Key="SecondaryTextColor">#ACACAC</Color>
-    <Color x:Key="PlaceholderColor">#ACACAC</Color>
+    <Color x:Key="PlaceholderColor">#999</Color>
 
-    <Color x:Key="PrimaryButton">#64b06c</Color>
+    <Color x:Key="PrimaryButton">#B11E31</Color>
     <Color x:Key="SecondaryButton">#ACACAC</Color>
 
     <!-- Controls colors -->
-    <Color x:Key="FrameColor">#FFF</Color>
-    <Color x:Key="BorderColor">#FFF</Color>
-    <Color x:Key="ListViewGroupBackgroundColor">#FFF</Color>
-    <Color x:Key="ExpanderColor">#CCC</Color>
-    <Color x:Key="ExpanderExpandedColor">#CCC</Color>
-    <Color x:Key="TabViewBackgroundColor">#FFF</Color>
+    <Color x:Key="FrameColor">#EEE</Color>
+    <Color x:Key="BorderColor">#EEE</Color>
+    <Color x:Key="ListViewGroupBackgroundColor">#EEE</Color>
+    <Color x:Key="ExpanderColor">#EEE</Color>
+    <Color x:Key="ExpanderExpandedColor">#EEE</Color>
+    <Color x:Key="TabViewBackgroundColor">#EEE</Color>
     <Color x:Key="AudioPlayerBackgroundColor">#B11E31</Color>
-    <Color x:Key="AudioProgressColor">#FFF</Color>
+    <Color x:Key="AudioProgressColor">#EEE</Color>
 
 
     <!-- Default (should be gone)-->

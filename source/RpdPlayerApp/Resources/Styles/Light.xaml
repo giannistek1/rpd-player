@@ -8,10 +8,11 @@
     <Color x:Key="Primary">#64b06c</Color>
 
     <Color x:Key="NavigationBackgroundColor">#64b06c</Color>
+    <Color x:Key="ToolbarBackgroundColor">#64b06c</Color>
     <Color x:Key="BackgroundColor">#CCC</Color>
     <Color x:Key="IconColor">#222</Color>
     <Color x:Key="ToolbarIconColor">#FFF</Color>
-    <Color x:Key="InputBackgroundColor">#EEE</Color>
+    <Color x:Key="InputBackgroundColor">#CCC</Color>
 
     <Color x:Key="PrimaryTextColor">#111</Color>
     <Color x:Key="SecondaryTextColor">#333</Color>

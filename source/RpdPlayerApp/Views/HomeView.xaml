@@ -15,12 +15,12 @@
           ColumnDefinitions="*">
 
         <!-- Toolbar -->
-        <Grid Grid.Row="0" BackgroundColor="{DynamicResource NavigationBackgroundColor}" x:Name="HomeViewToolbar" ColumnDefinitions="*,50,50">
+        <Grid Grid.Row="0" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" x:Name="HomeViewToolbar" ColumnDefinitions="*,50,50">
 
             <!-- Version -->
             <Label Grid.Column="0" Padding="5,0,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="12" Text="Version xx" />
 
-            <material:ButtonView Grid.Column="1" BackgroundColor="{DynamicResource PrimaryButton}" IsEnabled="False" HeightRequest="50" x:Name="FeedbackButton" Pressed="FeedbackButton_Pressed" HorizontalOptions="End">
+            <material:ButtonView Grid.Column="1" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" IsEnabled="False" HeightRequest="50" x:Name="FeedbackButton" Pressed="FeedbackButton_Pressed" HorizontalOptions="End">
                 <Image x:Name="FeedbackImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Rate_review}" Color="{DynamicResource ToolbarIconColor}" />
@@ -29,7 +29,7 @@
             </material:ButtonView>
 
             <!-- Settings button, for some reason always green? -->
-            <material:ButtonView Grid.Column="2" BackgroundColor="{DynamicResource PrimaryButton}" IsEnabled="True" HeightRequest="50" x:Name="SettingsButton" Pressed="SettingsButton_Pressed" HorizontalOptions="End">
+            <material:ButtonView Grid.Column="2" x:Name="SettingsButton" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" IsEnabled="True" HeightRequest="50" Pressed="SettingsButton_Pressed" HorizontalOptions="End">
                 <Image x:Name="SettingsImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Settings}" Color="{DynamicResource ToolbarIconColor}" />

@@ -16,9 +16,9 @@
           ColumnDefinitions="*">
 
         <!-- Toolbar -->
-        <Grid Grid.Row="0" BackgroundColor="{DynamicResource NavigationBackgroundColor}" ColumnDefinitions="1*,5*,1*,1*,1*">
+        <Grid Grid.Row="0" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" ColumnDefinitions="1*,5*,1*,1*,1*">
 
-            <material:ButtonView Grid.Column="0" x:Name="BackButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButton_Clicked" >
+            <material:ButtonView Grid.Column="0" x:Name="BackButton" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButton_Clicked" >
                 <Image x:Name="BackButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{DynamicResource ToolbarIconColor}" />
@@ -28,7 +28,7 @@
 
             <Entry Grid.Column="1" x:Name="PlaylistNameEntry" WidthRequest="160" VerticalOptions="CenterAndExpand"  HorizontalOptions="Start" HorizontalTextAlignment="Start" MaxLength="20" TextColor="White" Text="test" FontSize="16" FontAttributes="Bold" />
 
-            <material:ButtonView Grid.Column="2" x:Name="PlayPlaylistButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="PlayPlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="2" x:Name="PlayPlaylistButton" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="PlayPlaylistButton_Clicked">
                 <Image x:Name="PlayPlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{DynamicResource ToolbarIconColor}" />
@@ -36,7 +36,7 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="3" x:Name="SavePlaylistButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="SavePlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="3" x:Name="SavePlaylistButton" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" Pressed="SavePlaylistButton_Clicked">
                 <Image x:Name="SavePlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Save}" Color="{DynamicResource ToolbarIconColor}" />
@@ -44,7 +44,7 @@
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="4" x:Name="ClearPlaylistButton" MinimumHeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" BackgroundColor="Red" Pressed="ClearPlaylistButton_Clicked">
+            <material:ButtonView Grid.Column="4" x:Name="ClearPlaylistButton" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="End" BackgroundColor="Red" Pressed="ClearPlaylistButton_Clicked">
                 <Image x:Name="ClearPlaylistButtonImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Delete}" Color="{DynamicResource ToolbarIconColor}" />

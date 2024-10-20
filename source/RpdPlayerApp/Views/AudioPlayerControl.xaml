@@ -68,7 +68,7 @@
 
             <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,0,8,0" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="10" TextColor="{DynamicResource SecondaryTextColor}" Text="00:00"/>
 
-            <material:ButtonView Grid.Column="3" HeightRequest="46" x:Name="NextButton" Pressed="NextButton_Pressed" VerticalOptions="CenterAndExpand" Background="{DynamicResource BackgroundColor}">
+            <material:ButtonView Grid.Column="3" HeightRequest="46" x:Name="NextButton" Background="{DynamicResource AudioPlayerBackgroundColor}" Pressed="NextButton_Pressed" VerticalOptions="CenterAndExpand">
                 <Image x:Name="NextImage">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_next}" Color="{DynamicResource IconColor}" />
