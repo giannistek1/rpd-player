@@ -73,10 +73,10 @@
                 Text="00:00"
                 FontSize="14"
                 TextColor="{DynamicResource SecondaryTextColor}"
-                VerticalOptions="Center" 
+                VerticalOptions="Center"
                 HorizontalOptions="Start" />
 
-            <Slider Grid.Column="1" x:Name="AudioProgressSlider" BackgroundColor="{DynamicResource AudioPlayerBackgroundColor}" MinimumTrackColor="{DynamicResource AudioProgressColor}" Margin="-30,-10,-30,-10" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="50" />
+            <Slider Grid.Column="1" x:Name="AudioProgressSlider" BackgroundColor="{DynamicResource BackgroundColor}" MinimumTrackColor="{DynamicResource DetailAudioProgressColor}" Margin="-30,-10,-30,-10" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="50" />
 
             <Label 
                 Grid.Column="2"

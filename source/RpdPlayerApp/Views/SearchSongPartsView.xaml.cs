@@ -102,7 +102,10 @@ public partial class SearchSongPartsView : ContentView
     {
         SonglibraryListView.DataSource?.GroupDescriptors.Clear();
 
-        songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
+        songParts = songParts.OrderBy(s => s.ArtistName)
+                             .ThenBy(s => s.Title)
+                             .ThenBy(s => s.PartClassification).ToObservableCollection();
+
         songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = true);
 
         SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
@@ -569,7 +572,7 @@ public partial class SearchSongPartsView : ContentView
                 case SortMode.AlbumName:
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = true);
 
-                    songParts = songParts.OrderBy(s => s.AlbumTitle).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.AlbumTitle).ThenBy(s => s.Title).ThenBy(s => s.PartClassification).ToObservableCollection();
                     
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -587,7 +590,9 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Artist:
-                    songParts = songParts.OrderBy(s => s.ArtistName).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.ArtistName)
+                                         .ThenBy(s => s.Title)
+                                         .ThenBy(s => s.PartClassification).ToObservableCollection();
 
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = true);
 
@@ -629,6 +634,7 @@ public partial class SearchSongPartsView : ContentView
                     }
                     songParts = songParts.OrderByDescending(s => s.Artist?.FilteredTotalCount)
                                          .ThenBy(s => s.Album.ReleaseDate)
+                                         .ThenBy(s => s.Title)
                                          .ThenBy(s => s.PartClassification)
                                          .ThenBy(s => s.PartNameNumber).ToObservableCollection();
 
@@ -657,7 +663,9 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Company:
-                    songParts = songParts.OrderBy(s => s.Artist?.Company).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.Artist?.Company)
+                                         .ThenBy(s => s.Title)
+                                         .ThenBy(s => s.PartClassification).ToObservableCollection();
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -721,7 +729,10 @@ public partial class SearchSongPartsView : ContentView
 
                 case SortMode.Generation:
                     // Shows only korean songs, else you have to mess with the group non-kpop which gets in the way of grouping order.
-                    songParts = songParts.Where(s => s.Album.GenreShort == "KR").OrderByDescending(s => s.Artist.Gen).ToObservableCollection();
+                    songParts = songParts.Where(s => s.Album.GenreShort == "KR").OrderByDescending(s => s.Artist.Gen)
+                                                                                .ThenBy(s => s.Title)
+                                                                                .ThenBy(s => s.PartClassification) .ToObservableCollection();
+
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
@@ -751,7 +762,9 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.GroupType:
-                    songParts = songParts.OrderBy(s => s.Artist?.GroupType).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.Artist?.GroupType)
+                                         .ThenBy(s => s.Title)
+                                         .ThenBy(s => s.PartClassification).ToObservableCollection();
 
                     // TODO: Does not work because you need to give Artist object and override ToString() needs to give grouptype somehow but now it gives artist name.
                     //songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false); 
@@ -781,7 +794,9 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Genre:
-                    songParts = songParts.OrderBy(s => s.Album?.GenreShort).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.Album?.GenreShort)
+                                         .ThenBy(s => s.Title)
+                                         .ThenBy(s => s.PartClassification).ToObservableCollection();
 
                     SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -808,7 +823,10 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.MemberCount:
-                    songParts = songParts.OrderByDescending(s => s.Artist?.MemberCount).ToObservableCollection();
+                    songParts = songParts.OrderByDescending(s => s.Artist?.MemberCount)
+                                         .ThenBy(s => s.Title)
+                                         .ThenBy(s => s.PartClassification).ToObservableCollection();
+
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
@@ -831,7 +849,9 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.ReleaseDate:
-                    songParts = songParts.OrderByDescending(s => s.Album.ReleaseDate).ToObservableCollection();
+                    songParts = songParts.OrderByDescending(s => s.Album.ReleaseDate)
+                                         .ThenBy(s => s.Title)
+                                         .ThenBy(s => s.PartClassification).ToObservableCollection();
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -878,7 +898,8 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Title:
-                    songParts = songParts.OrderBy(s => s.Title).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.Title)
+                                         .ThenBy(s => s.PartClassification).ToObservableCollection();
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -897,7 +918,9 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.ReleaseWeekDay:
-                    songParts = songParts.OrderBy(s => s.Album.ReleaseDate.DayOfWeek).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.Album.ReleaseDate.DayOfWeek)
+                                         .ThenBy(s => s.Title)
+                                         .ThenBy(s => s.PartClassification).ToObservableCollection();
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -916,7 +939,10 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.YearlyDate:
-                    songParts = songParts.OrderBy(s => s.Album.ReleaseDate.Month).ThenBy(s => s.Album.ReleaseDate.Day).ToObservableCollection();
+                    songParts = songParts.OrderBy(s => s.Album.ReleaseDate.Month)
+                                         .ThenBy(s => s.Album.ReleaseDate.Day)
+                                         .ThenBy(s => s.Title)
+                                         .ThenBy(s => s.PartClassification).ToObservableCollection();
 
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {

@@ -28,9 +28,11 @@
     <Color x:Key="ExpanderColor">#212121</Color>
     <Color x:Key="ExpanderExpandedColor">#212121</Color>
     <Color x:Key="TabViewBackgroundColor">#212121</Color>
+    
     <Color x:Key="AudioPlayerBackgroundColor">#212121</Color>
     <Color x:Key="AudioProgressColor">#FFF</Color>
-    
+    <Color x:Key="DetailAudioProgressColor">#FFF</Color>
+
 
     <!-- Default (should be gone) -->
     <Color x:Key="PrimaryDark">#64b06c</Color>

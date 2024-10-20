@@ -381,9 +381,9 @@
             </Style>
 
             <Style TargetType="Slider">
-                <Setter Property="MinimumTrackColor" Value="{AppThemeBinding Light={DynamicResource Primary}, Dark={DynamicResource White}}" />
-                <Setter Property="MaximumTrackColor" Value="{AppThemeBinding Light={DynamicResource Gray200}, Dark={DynamicResource Gray600}}" />
-                <Setter Property="ThumbColor" Value="{AppThemeBinding Light={DynamicResource Primary}, Dark={DynamicResource White}}" />
+                <Setter Property="MinimumTrackColor" Value="{DynamicResource Primary}" />
+                <Setter Property="MaximumTrackColor" Value="{DynamicResource BackgroundColor}" />
+                <Setter Property="ThumbColor" Value="{DynamicResource Primary}" />
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">

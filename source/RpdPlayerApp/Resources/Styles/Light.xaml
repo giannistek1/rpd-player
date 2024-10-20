@@ -15,7 +15,7 @@
     <Color x:Key="InputBackgroundColor">#CCC</Color>
 
     <Color x:Key="PrimaryTextColor">#111</Color>
-    <Color x:Key="SecondaryTextColor">#333</Color>
+    <Color x:Key="SecondaryTextColor">#555</Color>
     <Color x:Key="PlaceholderColor">#ACACAC</Color>
 
     <Color x:Key="PrimaryButton">#64b06c</Color>
@@ -28,8 +28,11 @@
     <Color x:Key="ExpanderColor">#CCC</Color>
     <Color x:Key="ExpanderExpandedColor">#CCC</Color>
     <Color x:Key="TabViewBackgroundColor">#FFF</Color>
+    
     <Color x:Key="AudioPlayerBackgroundColor">#CCC</Color>
     <Color x:Key="AudioProgressColor">#000</Color>
+    <Color x:Key="DetailAudioProgressColor">#000</Color>
+    
 
 
     <!-- Default (should be gone)-->
