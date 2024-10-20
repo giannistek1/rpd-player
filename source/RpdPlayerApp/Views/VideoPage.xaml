@@ -18,19 +18,16 @@
 
             <toolkit:MediaElement Grid.Row="3" HeightRequest="290" x:Name="VideoMediaElement" Margin="0,0,0,16"/>
 
-            <!-- Speed slider -->
-            <!--<Label Grid.Row="4" x:Name="SpeedLabel" FontSize="16" Text="Video speed" TextColor="White" HorizontalOptions="CenterAndExpand" />-->
-
             <sliders:SfSlider Grid.Row="4" x:Name="SpeedSlider" VerticalOptions="CenterAndExpand"  ValueChanged="SpeedSlider_ValueChanged" Minimum="0.5" Maximum="1.5" Value="1" StepSize="0.05" 
               ShowLabels="True" ShowTicks="True" NumberFormat="0.##x" Interval="0.5">
                 
                 <sliders:SfSlider.Tooltip>
                     <sliders:SliderTooltip 
                     ShowAlways="True"
-                    Fill="{StaticResource Primary}"
-                    Stroke="White"
+                    Fill="{DynamicResource Primary}"
+                    Stroke="{DynamicResource PrimaryTextColor}"
                     StrokeThickness="2"
-                    TextColor="White"
+                    TextColor="{DynamicResource PrimaryTextColor}"
                     FontSize="14"
                     FontAttributes="Bold"
                     Padding="12,12"
