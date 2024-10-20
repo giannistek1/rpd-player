@@ -1,4 +1,4 @@
-<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/overview.jpg?raw=true" width="1120">
+<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/overview.png?raw=true" width="1120">
 
 # Rpd-player
 Currently this hobby project is in a WIP state.
