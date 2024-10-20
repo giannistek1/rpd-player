@@ -89,18 +89,13 @@
 
         </Grid>
 
-        <HorizontalStackLayout Grid.Row="2">
+        <Grid Grid.Row="2" ColumnDefinitions="6*, 4*">
 
-            <SearchBar x:Name="SearchBarInput"
-                   WidthRequest="260"
-                   TextColor="{DynamicResource PrimaryTextColor}"
-                   Placeholder="Artist or title"
-                   PlaceholderColor="{DynamicResource PlaceholderColor}"
-                   TextChanged="SearchBar_TextChanged"/>
+            <SearchBar Grid.Column="0" x:Name="SearchBarInput" TextColor="{DynamicResource PrimaryTextColor}" Placeholder="Artist or title" PlaceholderColor="{DynamicResource PlaceholderColor}" TextChanged="SearchBar_TextChanged"/>
 
-            <Button x:Name="AddResultsButton" Margin="2" Clicked="AddResultsButton_Clicked" Text="Add results" />
+            <Button Grid.Column="1" x:Name="AddResultsButton" Margin="2" Clicked="AddResultsButton_Clicked" Text="Add results" />
 
-        </HorizontalStackLayout>
+        </Grid>
 
         
 
