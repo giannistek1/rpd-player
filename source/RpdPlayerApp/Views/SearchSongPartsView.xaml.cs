@@ -77,22 +77,12 @@ public partial class SearchSongPartsView : ContentView
         if (MainViewModel.UsingVideoMode)
         { 
             //CancellationToken cancellationToken = new CancellationToken();
-            //Toast.Make($"Choreo video mode", ToastDuration.Short, 14).Show();
+            Toast.Make($"Choreo video mode", ToastDuration.Short, 14).Show();
             //CommunityToolkit.Maui.Alerts.Snackbar.Make($"Choreo video mode").Show();
-
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-            string text = "This is a Toast";
-            ToastDuration duration = ToastDuration.Short;
-            double fontSize = 14;
-
-            var toast = Toast.Make(text, duration, fontSize);
-
-            await toast.Show(cancellationTokenSource.Token);
         }
         else
         {
-            //Toast.Make($"Audio only mode", ToastDuration.Short, 14).Show();
+            Toast.Make($"Audio only mode", ToastDuration.Short, 14).Show();
             //CommunityToolkit.Maui.Alerts.Snackbar.Make($"Choreo video mode").Show();
         }
     }
