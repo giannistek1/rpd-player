@@ -15,10 +15,12 @@ Currently this hobby project is in a WIP state.
 
 ## Context
 RPD stands for Random Play Dance. <br/>
-These are socia, international, dance events where a group of people stand around in a rectangle and dance in the rectangle when they hear a song they know the dance of. <br/>
-This is paired with a short countdown between each song so people have enough time to leave the area (so it is empty again) and prepare for the next song to dance to. Otherwise it would be very chaotic. <br/>
-Tyically in South Korea they last an hour. <br/>
-However in other countries they may be scheduled from 12:00-18:00 with several breaks and several different playlists of each 1-2 hours.
+An RPD is a social, international, dance event where people stand around a marked area (usually a large rectangle), where they should dance when they know the dance of the song that is playing. <br/>
+A short countdown is played between each song so people have enough time to leave the area (so it is empty again) and prepare for the next song to dance to. Otherwise the transition would be very chaotic. <br/>
+
+### More in-depth context
+Tyically in South Korea they last an hour <br/>
+However in other countries they may be for the whole afternoon from 12:00-18:00 with several short breaks and several different playlists of each 1-2 hours with different twists, other dancing minigames and/or different dancecrews covering mashups or full songs.
 
 ## Supported platforms and scope
 - Android, iOS (Todo), Windows
@@ -33,19 +35,20 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - Todo: Hours of searching and editing music/videos -> Mere minutes of making a RPD playlist by importing your songlist or searching one by one.
 - Storage space saved on your phone by streaming the songs.
 - Save countless playlists, see how long they are and are easily editable.
-- Todo: Easy way to search up the dance practice in one place and slow it down.
+- Updating over time: Easy way to search up the dance practice in one place and slow it down.
 - Todo: Generate your own random play dance of X hours with certain settings, instead of going to the same old youtube videos.
 - Random play dance by generation (sometimes people prefer certain kpop generations, because that is when they mostly listened to kpop).
+- Random play dance by k-pop year.
 - Random play dance by company, for example someone may be a SM stan and mostly listen to SM groups, e.g. NCT, aespa, Red Velvet, etc.
 - Todo: Easy way to share your playlist with other people when they have the app or send them a textual list.
 - Todo: Easy way to randomize your playlist with good variety.
 - Todo: Language variety (Kpop, cpop, jpop, tpop)
 - Songs are 30% louder than usual, which is ideal for people with smaller speakers.
-- Todo: No double songparts any more in your playlist
+- No double songparts any more in your playlist
 
 # Feature summary
 - Music Player app for (kpop) random play dances. Includes playing, pausing and moving the audio progress slider.
-- Catalog of ~1500 songs and ~210 artists (1000 songs and 170 artists right now)
+- Catalog of ~1500 songs and ~210 artists (1200 songs and 192 artists right now)
    -  Mostly choruses and pre-choruses, but also dance breaks/bridges and tiktok versions
 - Create your own playlist, save it locally or online (todo: shareable)
 - Balanced randomizer for any playlist which mixes grouptypes and TODO: artists.
@@ -53,7 +56,7 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 - Todo: Generate your own random play dance playlist based on a few settings
 - Todo: Voice clips in between songs (3,2,1, dance break)
 - Multiple different filters/grouping: artist, company, clip length, generation, group type, language, song title
-- Todo: Video player to learn dances with speed adjustment (0.5, 0.75 speed)
+- Video player to learn dances with speed adjustment (0.5, 0.75 speed)
 
 ## Home 
 <p float="left">
