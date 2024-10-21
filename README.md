@@ -49,6 +49,7 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
    -  Mostly choruses and pre-choruses, but also dance breaks/bridges and tiktok versions
 - Create your own playlist, save it locally or online (todo: shareable)
 - Balanced randomizer for any playlist which mixes grouptypes and TODO: artists.
+- Themes! Thanks to Daniel Hindrik's tutorial.
 - Todo: Generate your own random play dance playlist based on a few settings
 - Todo: Voice clips in between songs (3,2,1, dance break)
 - Multiple different filters/grouping: artist, company, clip length, generation, group type, language, song title
@@ -76,9 +77,11 @@ However in other countries they may be scheduled from 12:00-18:00 with several b
 ## Libraries
 - CommunityToolkit.Maui.MediaElement by Microsoft -> audio and video processing
 - Dropbox API by Dropbox -> online playlist storage
-- Syncfusion by Syncfusion -> Better advanced ListView
-- UraniumUI by Enisn -> For the tabview, bottomsheet and icons
+- Syncfusion by Syncfusion -> Better ListView, slider, tabview, expander
+- UraniumUI by Enisn -> For the icons and input
+- The49 BottomSheet -> For the bottomsheet views duh
 - Sentry by Sentry -> Crashlytics/analytics
+- https://github.com/dhindrik/MauiThemes
 
 ## Inspiration 
 - Spotify
