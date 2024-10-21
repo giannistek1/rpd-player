@@ -10,6 +10,8 @@ namespace RpdPlayerApp.Views;
 
 public partial class AudioPlayerControl : ContentView
 {
+    private Random random = new();
+
     private FontImageSource _pauseIcon = new();
     private FontImageSource _playIcon = new();
 
@@ -19,6 +21,7 @@ public partial class AudioPlayerControl : ContentView
     internal EventHandler? AudioEnded;
 
     internal Slider audioProgressSlider;
+
 
 
     public AudioPlayerControl()
@@ -86,7 +89,7 @@ public partial class AudioPlayerControl : ContentView
 
                 MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
 
-                if (MainViewModel.AutoplayMode == 1)
+                if (MainViewModel.AutoplayMode == 1) // Autoplay
                 {
                     int index = MainViewModel.SongParts.FindIndex(s => s.Id == MainViewModel.CurrentSongPart.Id);
 
@@ -95,6 +98,16 @@ public partial class AudioPlayerControl : ContentView
                     {
                         MainViewModel.SongPartsQueue.Enqueue(MainViewModel.SongParts[index + 1]);
                     }
+                }
+                else if (MainViewModel.AutoplayMode == 2) // Shuffle
+                {
+                    int index = random.Next(MainViewModel.SongParts.Count);
+                    MainViewModel.SongPartsQueue.Enqueue(MainViewModel.SongParts[index]);
+                }
+                else if (MainViewModel.AutoplayMode == 3) // Repeat one
+                {
+                    // TOOD: Rewrite with audioplayer.LoopPlayback = true (saves data and performance?)
+                    MainViewModel.SongPartsQueue.Enqueue(MainViewModel.CurrentSongPart);
                 }
 
                 if (!MainViewModel.SongPartsQueue.Any()) {
