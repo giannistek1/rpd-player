@@ -15,7 +15,7 @@ Currently this hobby project is in a WIP state.
 
 ## Context
 RPD stands for Random Play Dance. <br/>
-An RPD is a social, international, dance event where people stand around a marked area (usually a large rectangle), where they should dance when they know the dance of the song that is playing. <br/>
+A RPD is a social, international, dance event where people stand around a marked area (usually a large rectangle), where they should dance when they know the dance of the song that is playing. <br/>
 A short countdown is played between each song so people have enough time to leave the area (so it is empty again) and prepare for the next song to dance to. Otherwise the transition would be very chaotic. <br/>
 
 ### More in-depth context
