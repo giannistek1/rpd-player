@@ -52,9 +52,22 @@ internal static class MainViewModel
     public static bool UsingVideoMode { get; set; } = false;
     public static bool UsingCloudMode { get; set; } = false;
 
-    public static bool ReplayMode { get; set; } = false;
-    public static bool AutoplayMode { get; set; } = false;
-    public static bool ShuffleMode { get;set; } = false;
+    // TODO: Enums
+    /// <summary>
+    /// 0 = off
+    /// 1 = autoplay
+    /// 2 = shuffle
+    /// 3 = repeat
+    /// </summary>
+    public static byte AutoplayMode { get; set; } = 0;
+    /// <summary>
+    /// 0 = off
+    /// 1 = 3s
+    /// 2 = 5s
+    /// </summary>
+    public static byte TimerMode { get; set; } = 0;
+
+    public static bool UsingAnnouncements { get; set; } = false;
 
     #endregion
 

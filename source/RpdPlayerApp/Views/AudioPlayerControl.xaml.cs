@@ -35,14 +35,16 @@ public partial class AudioPlayerControl : ContentView
 
         _pauseIcon = new FontImageSource
         {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Pause,
+            FontFamily = "MaterialRounded",
+            Glyph = MaterialRounded.Pause,
+            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Iconmanager, that updates all icons when theme changes? Currently sucks because this only gets set once.
         };
 
         _playIcon = new FontImageSource
         {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Play_arrow,
+            FontFamily = "MaterialRounded",
+            Glyph = MaterialRounded.Play_arrow,
+            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
         };
 
         PlayToggleImage.Source = _playIcon;
@@ -84,7 +86,7 @@ public partial class AudioPlayerControl : ContentView
 
                 MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
 
-                if (MainViewModel.AutoplayMode)
+                if (MainViewModel.AutoplayMode == 1)
                 {
                     int index = MainViewModel.SongParts.FindIndex(s => s.Id == MainViewModel.CurrentSongPart.Id);
 

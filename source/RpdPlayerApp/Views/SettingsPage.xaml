@@ -12,24 +12,35 @@
 
     <Grid RowDefinitions="30,60,60,44,30" Padding="8,0,8,0">
 
+        <!-- Volume -->
         <Label 
             Grid.Row="0"
             Text="Master volume"
             VerticalOptions="Center" 
             HorizontalOptions="Start" />
 
-        <sliders:SfSlider Grid.Row="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSlider_ValueChanged" Minimum="0" Interval="50" Maximum="100">
-
-            <sliders:SfSlider.TrackStyle>
-                <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"
-                          InactiveFill="LightGray" />
-            </sliders:SfSlider.TrackStyle>
-
-            <sliders:SfSlider.ThumbStyle>
-                <sliders:SliderThumbStyle Fill="{DynamicResource Primary}" />
-            </sliders:SfSlider.ThumbStyle>
+        <Grid Grid.Row="1" ColumnDefinitions="1*, 7*">
             
-        </sliders:SfSlider>
+            <Image Grid.Column="0" x:Name="VolumeImage" HeightRequest="40" HorizontalOptions="Center">
+                <Image.Source>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Volume_up}" Color="{DynamicResource IconColor}" />
+                </Image.Source>
+            </Image>
+
+            <sliders:SfSlider Grid.Column="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSlider_ValueChanged" Minimum="0" Interval="50" Maximum="100">
+
+                <sliders:SfSlider.TrackStyle>
+                    <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"
+                          InactiveFill="LightGray" />
+                </sliders:SfSlider.TrackStyle>
+
+                <sliders:SfSlider.ThumbStyle>
+                    <sliders:SliderThumbStyle Fill="{DynamicResource Primary}" />
+                </sliders:SfSlider.ThumbStyle>
+
+            </sliders:SfSlider>
+
+        </Grid>
 
         <Label 
             Grid.Row="2"

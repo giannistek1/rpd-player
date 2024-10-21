@@ -12,7 +12,7 @@
         <the49:RatioDetent Ratio="0.95" />
     </the49:BottomSheet.Detents>
 
-    <Grid RowDefinitions="46, 300, 30, 30, 30, 50, 60" Padding="12,0,12,0">
+    <Grid RowDefinitions="46, 300, 30, 30, 30, 50, 70, 50" Padding="12,0,12,0">
 
         <Grid Grid.Row="0" ColumnDefinitions="2*, 4*, 2*" Margin="0,16,0,0">
 
@@ -89,30 +89,39 @@
             
         </Grid>
 
-        <Grid Grid.Row="6" ColumnDefinitions="2*, 2*, 2*, 2*, 2*">
+        <Grid Grid.Row="6" ColumnDefinitions="2*, 2*, 2*, 2*, 2*, 2*, 2*">
 
-            <material:ButtonView Grid.Column="0" HeightRequest="40"  x:Name="ShuffleButton" Background="Transparent" Pressed="ShuffleButton_Pressed">
-                <Image x:Name="ShuffleImage" HeightRequest="50" HorizontalOptions="Center">
+
+            <material:ButtonView Grid.Column="0" HeightRequest="34"  x:Name="VoiceButton" Background="Transparent" Pressed="VoiceButton_Pressed">
+                <Image x:Name="VoiceImage" HeightRequest="34" HorizontalOptions="Center">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Shuffle}" Color="{DynamicResource IconColor}" />
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Voice_selection_off}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="1" HeightRequest="40"  x:Name="PreviousButton" Background="Transparent" Pressed="PreviousButton_Pressed">
-                <Image x:Name="PreviousImage" HeightRequest="50" HorizontalOptions="Center">
+            <material:ButtonView Grid.Column="1" HeightRequest="34"  x:Name="TimerButton" Background="Transparent" Pressed="TimerButton_Pressed">
+                <Image x:Name="TimerImage" HeightRequest="34" HorizontalOptions="Center">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Timer_off}" Color="{DynamicResource IconColor}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
+            <material:ButtonView Grid.Column="2" HeightRequest="40"  x:Name="PreviousButton" Background="Transparent" Pressed="PreviousButton_Pressed">
+                <Image x:Name="PreviousImage" HeightRequest="40" HorizontalOptions="Center">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_previous}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
 
-            <Border Grid.Column="2"
+            <Border Grid.Column="3"
                       Padding="0"
                       HeightRequest="60"
                       WidthRequest="60"
                       StrokeShape="RoundRectangle 30"
-                      VerticalOptions="Start">
+                      VerticalOptions="Center">
 
                 <material:ButtonView  HeightRequest="60" x:Name="PlayToggleButton" Pressed="PlayToggleButton_Pressed">
                     <Image x:Name="PlayToggleImage" HeightRequest="60" HorizontalOptions="Center">
@@ -124,21 +133,54 @@
 
             </Border>
 
-            <material:ButtonView Grid.Column="3" HeightRequest="40" x:Name="NextButton" Background="Transparent" Pressed="NextButton_Pressed">
-                <Image x:Name="NextImage" HeightRequest="50" HorizontalOptions="Center">
+            <material:ButtonView Grid.Column="4" HeightRequest="40" x:Name="NextButton" Background="Transparent" Pressed="NextButton_Pressed">
+                <Image x:Name="NextImage" HeightRequest="40" HorizontalOptions="Center">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_next}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
 
-            <material:ButtonView Grid.Column="4" HeightRequest="40"  x:Name="AutoplayButton" Background="Transparent" Pressed="AutoplayButton_Pressed">
-                <Image x:Name="AutoplayImage" HeightRequest="50" HorizontalOptions="Center">
+            <material:ButtonView Grid.Column="5" HeightRequest="36"  x:Name="AutoplayButton" Background="Transparent" Pressed="AutoplayButton_Pressed">
+                <Image x:Name="AutoplayImage" HeightRequest="36" HorizontalOptions="Center">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Autoplay}" Color="{DynamicResource IconColor}" />
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Block}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
+
+            <material:ButtonView Grid.Column="6" HeightRequest="36" Background="Transparent">
+                <Image x:Name="FillImage" HeightRequest="36" HorizontalOptions="Center">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Block}" Color="Transparent" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
+        </Grid>
+
+        <!-- Volume -->
+        <Grid Grid.Row="7" ColumnDefinitions="1*, 7*">
+
+            <Image Grid.Column="0" x:Name="VolumeImage" HeightRequest="30" HorizontalOptions="Center">
+                <Image.Source>
+                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Volume_up}" Color="{DynamicResource IconColor}" />
+                </Image.Source>
+            </Image>
+
+            <sliders:SfSlider Grid.Column="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSlider_ValueChanged" Minimum="0" Interval="50" Maximum="100">
+
+                <sliders:SfSlider.TrackStyle>
+                    <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"
+                          InactiveFill="LightGray" />
+                </sliders:SfSlider.TrackStyle>
+
+                <sliders:SfSlider.ThumbStyle>
+                    <sliders:SliderThumbStyle Fill="{DynamicResource Primary}" />
+                </sliders:SfSlider.ThumbStyle>
+
+            </sliders:SfSlider>
+
 
         </Grid>
 

@@ -56,14 +56,14 @@ public partial class SearchSongPartsView : ContentView
         {
             FontFamily = "MaterialRegular",
             Glyph = MaterialOutlined.Videocam,
-            Color = (Color)Application.Current!.Resources["ToolbarIconColor"] // Sucks because this only gets set once.
+            Color = (Color)Application.Current!.Resources["ToolbarIconColor"] // TODO: Sucks because this only gets set once.
         };
 
         _videoOffIcon = new FontImageSource
         {
             FontFamily = "MaterialRegular",
             Glyph = MaterialOutlined.Videocam_off,
-            Color = (Color)Application.Current!.Resources["ToolbarIconColor"] // Sucks because this only gets set once.
+            Color = (Color)Application.Current!.Resources["ToolbarIconColor"] // TODO: Sucks because this only gets set once.
         };
 
         ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
@@ -92,12 +92,7 @@ public partial class SearchSongPartsView : ContentView
     internal void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
-    }
-
-    internal void RefreshSongParts()
-    {
-        SonglibraryListView.ItemsSource = songParts;
-    }
+    } 
 
     private void SonglibraryListView_Loaded(object sender, Syncfusion.Maui.ListView.ListViewLoadedEventArgs e)
     {
@@ -363,6 +358,7 @@ public partial class SearchSongPartsView : ContentView
 
 
         SonglibraryListView.ItemsSource = searchFilteredSongParts;
+        MainViewModel.SongParts = songParts.ToList();
 
         ResultsLabel.Text = $"Currently showing {searchFilteredSongParts.Count} results";
     }
@@ -553,6 +549,7 @@ public partial class SearchSongPartsView : ContentView
 
             songParts.CollectionChanged += SongPartsCollectionChanged;
             SonglibraryListView.ItemsSource = songParts;
+            MainViewModel.SongParts = songParts.ToList();
 
             ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
         }
