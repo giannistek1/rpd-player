@@ -47,6 +47,7 @@ public partial class SearchSongPartsView : ContentView
             i++;
         }
         SonglibraryListView.ItemsSource = songParts;
+        MainViewModel.SongParts = songParts.ToList();
         SongCount = allSongParts.Count;
 
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
@@ -191,7 +192,7 @@ public partial class SearchSongPartsView : ContentView
             if (!MainViewModel.SongPartsQueue.Contains(songPart))
             {
                 MainViewModel.SongPartsQueue.Enqueue(songPart);
-                Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
             }
 
             // Change mode to queue list
@@ -212,7 +213,7 @@ public partial class SearchSongPartsView : ContentView
             {
                 MainViewModel.PlaylistQueue.Enqueue(songPart);
                 AddSongPart?.Invoke(sender, e);
-                Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
             }
         }
 
@@ -229,7 +230,7 @@ public partial class SearchSongPartsView : ContentView
         if (added)
         {
             AddSongPart?.Invoke(sender, e);
-            Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
         }
     }
 
@@ -240,7 +241,7 @@ public partial class SearchSongPartsView : ContentView
         if (!MainViewModel.SongPartsQueue.Contains(songPart))
         {
             MainViewModel.SongPartsQueue.Enqueue(songPart);
-            Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
         }
 
         // Change mode to queue list
@@ -277,6 +278,11 @@ public partial class SearchSongPartsView : ContentView
         SonglibraryListView.ScrollTo(0);
     }
 
+    /// <summary>
+    /// Plays or adds random songpart.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void PlayRandomButton_Clicked(object sender, EventArgs e)
     {
         if (!HelperClass.HasInternetConnection())
@@ -291,7 +297,7 @@ public partial class SearchSongPartsView : ContentView
             if (!MainViewModel.SongPartsQueue.Contains(songPart))
             {
                 MainViewModel.SongPartsQueue.Enqueue(songPart);
-                Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
                 EnqueueSongPart?.Invoke(sender, e);
             }
         }
@@ -307,7 +313,7 @@ public partial class SearchSongPartsView : ContentView
         // TODO: BUGGY
         if (PlaylistManager.Instance.CurrentPlaylist is null)
         {
-            Toast.Make($"Select a playlist first!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"Select a playlist first!", ToastDuration.Short, 14).Show();
             return;
         }
 
@@ -326,10 +332,8 @@ public partial class SearchSongPartsView : ContentView
         if (addedSongParts > 0)
         {
             AddSongPart?.Invoke(sender, e);
-            Toast.Make($"{addedSongParts} songs added!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"{addedSongParts} songs added!", ToastDuration.Short, 14).Show();
         }
-
-        
     }
 
     private void CollapseAllButtonClicked(object sender, EventArgs e)

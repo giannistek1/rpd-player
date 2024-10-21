@@ -82,23 +82,34 @@ public partial class AudioPlayerControl : ContentView
         {
             case PlayMode.Queue:
 
+                MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
+
+                if (MainViewModel.AutoplayMode)
+                {
+                    int index = MainViewModel.SongParts.FindIndex(s => s.Id == MainViewModel.CurrentSongPart.Id);
+
+                    // Imagine index = 1220 count = 1221
+                    if (index + 1 < MainViewModel.SongParts.Count)
+                    {
+                        MainViewModel.SongPartsQueue.Enqueue(MainViewModel.SongParts[index + 1]);
+                    }
+                }
+
                 if (!MainViewModel.SongPartsQueue.Any()) {
                     if (AudioProgressSlider.Value >= AudioProgressSlider.Maximum - 2) { StopAudio(); }
                     return; 
                 }
 
-                MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
-
                 // Next song
                 MainViewModel.CurrentSongPart = MainViewModel.SongPartsQueue.Dequeue();
                 PlayAudio(MainViewModel.CurrentSongPart);
+
+                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
 
                 if (MainViewModel.SongPartsQueue.Count > 0)
                 {
                     SetNextSwipeItem(isVisible: true, songPart: MainViewModel.SongPartsQueue.Peek());
                 }
-
-                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
 
                 break;
 
@@ -106,23 +117,25 @@ public partial class AudioPlayerControl : ContentView
 
                 // TODO: When play new song, clear queue, add queue?
 
-                if (!MainViewModel.PlaylistQueue.Any()) { return; }
-
                 MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
+
+                // If queue empty, return
+                if (!MainViewModel.PlaylistQueue.Any()) { return; }
  
                 MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
                 PlayAudio(MainViewModel.CurrentSongPart);
+
+                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
 
                 if (MainViewModel.PlaylistQueue.Count > 0)
                 {
                     SetNextSwipeItem(isVisible: true, songPart: MainViewModel.PlaylistQueue.Peek());
                 }
 
-                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
-
                 break;
         }
 
+        // Updates song detail UI
         AudioEnded?.Invoke(sender, e);
     }
 

@@ -89,9 +89,17 @@
             
         </Grid>
 
-        <Grid Grid.Row="6" ColumnDefinitions="3*, 3*, 3*">
+        <Grid Grid.Row="6" ColumnDefinitions="2*, 2*, 2*, 2*, 2*">
 
-            <material:ButtonView Grid.Column="0" HeightRequest="40"  x:Name="PreviousButton" Background="Transparent" Pressed="PreviousButton_Pressed">
+            <material:ButtonView Grid.Column="0" HeightRequest="40"  x:Name="ShuffleButton" Background="Transparent" Pressed="ShuffleButton_Pressed">
+                <Image x:Name="ShuffleImage" HeightRequest="50" HorizontalOptions="Center">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Shuffle}" Color="{DynamicResource IconColor}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
+            <material:ButtonView Grid.Column="1" HeightRequest="40"  x:Name="PreviousButton" Background="Transparent" Pressed="PreviousButton_Pressed">
                 <Image x:Name="PreviousImage" HeightRequest="50" HorizontalOptions="Center">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_previous}" Color="{DynamicResource IconColor}" />
@@ -99,7 +107,7 @@
                 </Image>
             </material:ButtonView>
 
-            <Border Grid.Column="1"
+            <Border Grid.Column="2"
                       Padding="0"
                       HeightRequest="60"
                       WidthRequest="60"
@@ -116,10 +124,18 @@
 
             </Border>
 
-            <material:ButtonView Grid.Column="2" HeightRequest="40" x:Name="NextButton" Background="Transparent" Pressed="NextButton_Pressed">
+            <material:ButtonView Grid.Column="3" HeightRequest="40" x:Name="NextButton" Background="Transparent" Pressed="NextButton_Pressed">
                 <Image x:Name="NextImage" HeightRequest="50" HorizontalOptions="Center">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_next}" Color="{DynamicResource IconColor}" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+
+            <material:ButtonView Grid.Column="4" HeightRequest="40"  x:Name="AutoplayButton" Background="Transparent" Pressed="AutoplayButton_Pressed">
+                <Image x:Name="AutoplayImage" HeightRequest="50" HorizontalOptions="Center">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Autoplay}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>

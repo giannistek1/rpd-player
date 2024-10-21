@@ -52,9 +52,15 @@ internal static class MainViewModel
     public static bool UsingVideoMode { get; set; } = false;
     public static bool UsingCloudMode { get; set; } = false;
 
+    public static bool ReplayMode { get; set; } = false;
+    public static bool AutoplayMode { get; set; } = false;
+    public static bool ShuffleMode { get;set; } = false;
+
     #endregion
 
     // TODO: Make non-nullable and check for default values
+
+    public static List<SongPart> SongParts { get; set; } = new();
     public static SongPart CurrentSongPart { get; set; } = new(); 
     public static Queue<SongPart> PlaylistQueue { get; set; } = new();
     public static List<SongPart> SongPartHistory { get; set; } = [];

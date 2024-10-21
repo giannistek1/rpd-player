@@ -1,4 +1,6 @@
+using CommunityToolkit.Maui.Alerts;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.ViewModels;
 using The49.Maui.BottomSheet;
 
 namespace RpdPlayerApp.Views;
@@ -74,4 +76,18 @@ public partial class SongPartDetailBottomSheet
     {
         NextSong?.Invoke(sender, e);
     }
+
+    private void ShuffleButton_Pressed(object sender, EventArgs e)
+    {
+        MainViewModel.ShuffleMode = !MainViewModel.ShuffleMode;
+
+        Toast.Make($"Shuffle: {MainViewModel.ShuffleMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+    }
+
+    private void AutoplayButton_Pressed(object sender, EventArgs e)
+    {
+        MainViewModel.AutoplayMode = !MainViewModel.AutoplayMode;
+
+        Toast.Make($"Autoplay: {MainViewModel.AutoplayMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+    } 
 }
