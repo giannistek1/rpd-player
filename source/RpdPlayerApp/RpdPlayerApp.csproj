@@ -90,7 +90,7 @@
     <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
   
-  <!-- Supposedly makes debug version faster but disables hot reload -->
+  <!-- Supposedly makes debug version build faster but disables hot reload -->
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <MauiForceXamlCForDebug>true</MauiForceXamlCForDebug>
   </PropertyGroup>
