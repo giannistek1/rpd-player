@@ -47,6 +47,7 @@ internal static class MainViewModel
     #region Modes
     public static SortMode SortMode { get; set; } = SortMode.Artist;
     public static SearchFilterMode SearchFilterMode { get; set; }
+    public static string SearchFilterModeText { get; set; }
 
     public static PlayMode PlayMode { get; set; }
     public static bool UsingVideoMode { get; set; } = false;

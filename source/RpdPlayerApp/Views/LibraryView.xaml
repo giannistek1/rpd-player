@@ -10,37 +10,20 @@
              BackgroundColor="{DynamicResource BackgroundColor}">
 
     <Grid Padding="0"
-          RowDefinitions="50, 64, *"
+          RowDefinitions="64, *"
           ColumnDefinitions="*">
 
-        <!-- Toolbar -->
-        <Grid Grid.Row="0" BackgroundColor="{DynamicResource NavigationBackgroundColor}" ColumnDefinitions="*, 1*">
-
-            <!-- Title -->
-            <Label x:Name="PlaylistsLabel" Grid.Column="0" TextColor="{DynamicResource PrimaryTextColor}" FontSize="20" Padding="8,0,0,0" VerticalOptions="CenterAndExpand" Text="Playlists" />
-
-
-            <material:ButtonView Grid.Column="1" x:Name="NewPlaylistButton" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" HorizontalOptions="End" MinimumHeightRequest="50" Pressed="NewPlaylistButton_Clicked">
-                <Image x:Name="NewPlaylistButtonImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Add}" Color="{DynamicResource ToolbarIconColor}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
-
-
-            <!--<Button x:Name="PlayPlaylistButton" Margin="2" Clicked="PlayPlaylistButton_Clicked" Text="Play" />
+        <!--<Button x:Name="PlayPlaylistButton" Margin="2" Clicked="PlayPlaylistButton_Clicked" Text="Play" />
 
             <Button x:Name="CopyPlaylistButton" Margin="2" Clicked="CopyPlaylistButton_Clicked" Text="Copy" />-->
-        </Grid>
 
-        <material:TextField Grid.Row="1" x:Name="PlaylistNameEntry" Margin="8,0,8,0" TitleColor="{DynamicResource PrimaryTextColor}" Title="Playlist name" MaxLength="20"
+        <material:TextField Grid.Row="0" x:Name="PlaylistNameEntry" Margin="8,0,8,0" TitleColor="{DynamicResource PrimaryTextColor}" Title="Playlist name" MaxLength="20"
                                  Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Pencil}}" AccentColor="{DynamicResource Primary}">
         </material:TextField>
 
         <!-- Playlists -->
         <syncfusion:SfListView 
-            Grid.Row="2" 
+            Grid.Row="1" 
             x:Name="PlaylistsListView"
             SelectionMode="None"
             BackgroundColor="{DynamicResource BackgroundColor}" 

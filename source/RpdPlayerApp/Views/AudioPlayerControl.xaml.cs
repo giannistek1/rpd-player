@@ -332,7 +332,7 @@ public partial class AudioPlayerControl : ContentView
 
     private void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
     {
-        if (MainViewModel.CurrentSongPart is null || MainViewModel.CurrentSongPart.Id <= 0) { return; }
+        if (MainViewModel.CurrentSongPart is null || MainViewModel.CurrentSongPart.Id < 0) { return; }
 
         ShowDetails?.Invoke(sender, e);
     }

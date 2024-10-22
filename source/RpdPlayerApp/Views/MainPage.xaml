@@ -8,11 +8,14 @@
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
+             Shell.BackgroundColor="{DynamicResource NavigationBackgroundColor}"
+             Shell.TitleColor="{DynamicResource PrimaryTextColor}"
              x:Class="RpdPlayerApp.Views.MainPage">
 
     <Grid RowDefinitions="*, Auto">
+        
 
-        <tabView:SfTabView x:Name="MainContainer" TabBarPlacement="Bottom" TabItemTapped="MainContainer_TabItemTapped" BackgroundColor="{DynamicResource TabViewBackgroundColor}" IndicatorBackground="{DynamicResource Primary}" IndicatorPlacement="Fill" IndicatorWidthMode="Stretch">
+        <tabView:SfTabView x:Name="MainContainer" TabBarPlacement="Bottom" TabItemTapped="MainContainerTabItemTapped" BackgroundColor="{DynamicResource TabViewBackgroundColor}" IndicatorBackground="{DynamicResource Primary}" IndicatorPlacement="Fill" IndicatorWidthMode="Stretch">
 
             <tabView:SfTabItem x:Name="HomeTabItem" Header="Home" TextColor="{DynamicResource PrimaryTextColor}" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Home}, Color={DynamicResource IconColor}}">
                 <tabView:SfTabItem.Content>

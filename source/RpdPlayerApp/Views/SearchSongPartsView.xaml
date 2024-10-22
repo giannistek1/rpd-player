@@ -13,60 +13,10 @@
              BackgroundColor="{DynamicResource BackgroundColor}">
 
     <Grid Padding="0"
-          RowDefinitions="50, 24, 50, *"
+          RowDefinitions="24, 50, *"
           ColumnDefinitions="*">
 
-        <!-- Toolbar -->
-        <Grid Grid.Row="0" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" ColumnDefinitions="4*, 1*, 1*, 1*, 1*, 1*">
-            
-            <!-- Title -->
-            <Label x:Name="FilterLabel" Grid.Column="0" TextColor="{DynamicResource PrimaryTextColor}" FontSize="16" Padding="8,0,0,0" VerticalOptions="CenterAndExpand" Text="All songs" />
-
-
-            <material:ButtonView Grid.Column="1" x:Name="PlayRandomButton" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" HeightRequest="50" Pressed="PlayRandomButton_Clicked">
-                <Image x:Name="PlayRandomButtonImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Casino}" Color="{DynamicResource ToolbarIconColor}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
-
-            <material:ButtonView Grid.Column="2" x:Name="CollapseAllButton" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" HeightRequest="50" Pressed="CollapseAllButtonClicked">
-                <Image x:Name="CollapseAllButtonImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Collapse_all}" Color="{DynamicResource ToolbarIconColor}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
-
-            <material:ButtonView Grid.Column="3" x:Name="ExpandAllButton" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" HeightRequest="50" Pressed="ExpandAllButtonClicked">
-                <Image x:Name="ExpandAllButtonImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Expand_all}" Color="{DynamicResource ToolbarIconColor}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
-
-            <material:ButtonView Grid.Column="4" x:Name="ToggleAudioModeButton" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" HeightRequest="50" Pressed="ToggleAudioModeButtonClicked">
-                <Image x:Name="ToggleAudioModeImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Videocam}" Color="{DynamicResource ToolbarIconColor}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
-
-            <material:ButtonView Grid.Column="5" x:Name="SortButton" BackgroundColor="{DynamicResource ToolbarBackgroundColor}" HeightRequest="50" Pressed="SortButton_Clicked">
-                <Image x:Name="SortButtonImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Sort}" Color="{DynamicResource ToolbarIconColor}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
-            
-        </Grid>
-
-
-        <Grid Grid.Row="1" Padding="0,4,0,0" ColumnDefinitions="7*, 3*">
+        <Grid Grid.Row="0" Padding="0,4,0,0" ColumnDefinitions="7*, 3*">
 
             <Label 
                Grid.Column="0" 
@@ -89,7 +39,7 @@
 
         </Grid>
 
-        <Grid Grid.Row="2" ColumnDefinitions="6*, 4*">
+        <Grid Grid.Row="1" ColumnDefinitions="6*, 4*">
 
             <SearchBar Grid.Column="0" x:Name="SearchBarInput" TextColor="{DynamicResource PrimaryTextColor}" Placeholder="Artist or title" PlaceholderColor="{DynamicResource PlaceholderColor}" TextChanged="SearchBar_TextChanged"/>
 
@@ -100,7 +50,7 @@
         
 
         <syncfusion:SfListView
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="0"
             x:Name="SonglibraryListView" 
             BackgroundColor="{DynamicResource BackgroundColor}" 

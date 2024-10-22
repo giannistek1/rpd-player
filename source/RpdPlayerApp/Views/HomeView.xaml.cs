@@ -13,6 +13,8 @@ public partial class HomeView : ContentView
 
     internal EventHandler? FilterPressed;
 
+    internal MainPage ParentPage { get; set; }
+
     public HomeView()
     {
         InitializeComponent();
@@ -382,14 +384,14 @@ public partial class HomeView : ContentView
     }
     #endregion
 
-    private void FeedbackButton_Pressed(object sender, EventArgs e)
-    {
 
+    internal void FeedbackButtonPressed(object? sender, EventArgs e)
+    {
+        
     }
 
-    private async void SettingsButton_Pressed(object sender, EventArgs e)
+    internal async void SettingsButtonPressed(object? sender, EventArgs e)
     {
-        // TODO: Bug: If you open settingspage, listviewitems and audioplayercontrol break
         if (Navigation.NavigationStack.Count < 2)
         {
             await Navigation.PushAsync(_settingsPage, true);

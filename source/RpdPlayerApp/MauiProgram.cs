@@ -30,7 +30,15 @@ namespace RpdPlayerApp
 
             builder
                 .UseMauiApp<App>()
+                // This fixes the shell title view in iOS not being displayed
+//                .ConfigureMauiHandlers(handlers =>
+//                {
+//#if IOS
+//                    handlers.AddHandler(typeof(Shell), typeof(RpdPlayerApp.Platforms.iOS.Renderers.CustomShellRenderer));
+//#endif
+//                })
                 .UseBottomSheet()
+                .UseMauiCommunityToolkit()
                 .UseUraniumUI()
                 .UseUraniumUIMaterial() // Do NOT get V2.10. Get MissingMethodException: System.MissingMethodException Method not found: Microsoft.Maui.Controls.Shapes.Geometry InputKit.Shared.Controls.PredefinedShapes.get_CheckCircle()
 //                .UseSentry(options => {

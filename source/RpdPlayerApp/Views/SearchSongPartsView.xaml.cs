@@ -6,7 +6,6 @@ using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.ViewModels;
 using RpdPlayerApp.Architecture;
 using Syncfusion.Maui.DataSource;
-using UraniumUI.Icons.MaterialSymbols;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 
@@ -14,9 +13,6 @@ namespace RpdPlayerApp.Views;
 
 public partial class SearchSongPartsView : ContentView
 {
-    private FontImageSource _videoOnIcon = new();
-    private FontImageSource _videoOffIcon = new();
-
     internal event EventHandler? PlaySongPart;
     internal event EventHandler? StopSongPart;
     internal event EventHandler? AddSongPart;
@@ -30,6 +26,7 @@ public partial class SearchSongPartsView : ContentView
     internal ObservableCollection<SongPart> songParts = [];
     internal List<SongPart> searchFilteredSongParts = [];
     internal int SongCount { get; set; } = 0;
+    internal MainPage ParentPage { get; set; }
 
     public SearchSongPartsView()
     {
@@ -52,28 +49,14 @@ public partial class SearchSongPartsView : ContentView
 
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
 
-        _videoOnIcon = new FontImageSource
-        {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Videocam,
-            Color = (Color)Application.Current!.Resources["ToolbarIconColor"] // TODO: Sucks because this only gets set once.
-        };
-
-        _videoOffIcon = new FontImageSource
-        {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Videocam_off,
-            Color = (Color)Application.Current!.Resources["ToolbarIconColor"] // TODO: Sucks because this only gets set once.
-        };
-
-        ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
+        ParentPage?.SetupSearchToolbar();
         ClearCategoryFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
     }
 
-    private async void ToggleAudioModeButtonClicked(object sender, EventArgs e)
+    internal void ToggleAudioModeButtonClicked(object? sender, EventArgs e)
     {
         MainViewModel.UsingVideoMode = !MainViewModel.UsingVideoMode;
-        ToggleAudioModeImage.Source = (MainViewModel.UsingVideoMode) ? _videoOnIcon : _videoOffIcon;
+        ParentPage.SetupSearchToolbar();
 
         if (MainViewModel.UsingVideoMode)
         { 
@@ -278,7 +261,7 @@ public partial class SearchSongPartsView : ContentView
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void PlayRandomButton_Clicked(object sender, EventArgs e)
+    internal void PlayRandomButtonClicked(object? sender, EventArgs e)
     {
         if (!HelperClass.HasInternetConnection())
             return;
@@ -331,12 +314,12 @@ public partial class SearchSongPartsView : ContentView
         }
     }
 
-    private void CollapseAllButtonClicked(object sender, EventArgs e)
+    internal void CollapseAllButtonClicked(object? sender, EventArgs e)
     {
         SonglibraryListView.CollapseAll();
     }
 
-    private void ExpandAllButtonClicked(object sender, EventArgs e)
+    internal void ExpandAllButtonClicked(object? sender, EventArgs e)
     {
         SonglibraryListView.ExpandAll();
     }
@@ -363,7 +346,7 @@ public partial class SearchSongPartsView : ContentView
         ResultsLabel.Text = $"Currently showing {searchFilteredSongParts.Count} results";
     }
 
-    private void SortButton_Clicked(object sender, EventArgs e)
+    internal void SortButtonClicked(object? sender, EventArgs e)
     {
         ShowSortBy?.Invoke(sender, e);
     }
@@ -395,66 +378,49 @@ public partial class SearchSongPartsView : ContentView
         {
             switch (MainViewModel.SearchFilterMode)
             {
-                case SearchFilterMode.All: FilterLabel.Text = "All songs"; songParts = allSongParts; break;
+                case SearchFilterMode.All: songParts = allSongParts; break;
 
                 case SearchFilterMode.DanceVideos:
-                    FilterLabel.Text = "Dance videos";
                     songParts = allSongParts.Where(s => s.HasVideo).ToObservableCollection();
                     MainViewModel.UsingVideoMode = true;
-                    ToggleAudioModeImage.Source = _videoOnIcon;
                     break;
 
                 case SearchFilterMode.Male:
-                    FilterLabel.Text = "Boy(groups)";
                     songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.BG).ToObservableCollection(); break;
                 case SearchFilterMode.Female:
-                    FilterLabel.Text = "Girl(groups)";
                     songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.GG).ToObservableCollection(); break;
 
                 case SearchFilterMode.Hybe:
-                    FilterLabel.Text = "Hybe Labels";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "HYBE Labels" || s.Artist?.Company == "Big Hit Entertainment" || s.Artist?.Company == "Source Music").ToObservableCollection(); break;
                 case SearchFilterMode.YG:
-                    FilterLabel.Text = "YG Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "YG Entertainment" || s.Artist?.Company == "The Black Label").ToObservableCollection(); break;
                 case SearchFilterMode.JYP:
-                    FilterLabel.Text = "JYP Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "JYP Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.SM:
-                    FilterLabel.Text = "SM Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "SM Entertainment" || s.Artist?.Company == "Label V").ToObservableCollection(); break;
                 case SearchFilterMode.Cube:
-                    FilterLabel.Text = "Cube Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Cube Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.FNC:
-                    FilterLabel.Text = "FNC Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "FNC Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.Pledis:
-                    FilterLabel.Text = "Pledis Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Pledis Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.Starship:
-                    FilterLabel.Text = "Starship Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Starship Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.RBW:
-                    FilterLabel.Text = "RBW Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "RBW Entertainment" || 
                                                         s.Artist?.Company == "WM Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.Woollim:
-                    FilterLabel.Text = "Woollim Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Woollim Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.IST:
-                    FilterLabel.Text = "IST Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "IST Entertainment").ToObservableCollection(); break;
 
                 case SearchFilterMode.CJ_ENM_Music:
-                    FilterLabel.Text = "CJ ENM Music";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "AOMG" ||
                                                         s.Artist?.Company == "B2M Entertainment" ||
                                                         s.Artist?.Company == "Jellyfish Entertainment" ||
                                                         s.Artist?.Company == "Wake One" || // Formerly known as MMO Entertainment
                                                         s.Artist?.Company == "Stone Music Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.Kakao_Entertainment:
-                    FilterLabel.Text = "Kakao Entertainment";
                     songParts = allSongParts.Where(s => s.Artist?.Company == "IST Entertainment" || // Went through a lot of renaming: A Cube -> Play A -> PLay M
                                                         s.Artist?.Company == "Starship Entertainment" ||
                                                         s.Artist?.Company == "EDAM Entertainment" ||
@@ -465,87 +431,63 @@ public partial class SearchSongPartsView : ContentView
                                                         s.Artist?.Company == "FLEX M").ToObservableCollection(); break;
 
                 case SearchFilterMode.Firstgen:
-                    FilterLabel.Text = "First gen (< 2002)";
                     songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.Secondgen:
-                    FilterLabel.Text = "Second gen (2003 - 2012)";
                     songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.SECOND_GENERATION && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.Thirdgen:
-                    FilterLabel.Text = "Third gen (2012 - 2017)";
                     songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.THIRD_GENERATION && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.Fourthgen:
-                    FilterLabel.Text = "Fourth gen (2018 - 2022)";
                     songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FOURTH_GENERATION && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.Fifthgen:
-                    FilterLabel.Text = "Fifth gen (2023 >)";
                     songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
 
                 case SearchFilterMode.KR:
-                    FilterLabel.Text = "K-pop";
                     songParts = allSongParts.Where(s => s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.JP:
-                    FilterLabel.Text = "J-pop";
                     songParts = allSongParts.Where(s => s.Album?.GenreShort == "JP").ToObservableCollection(); break;
                 case SearchFilterMode.EN:
-                    FilterLabel.Text = "English pop";
                     songParts = allSongParts.Where(s => s.Album?.GenreShort == "EN").ToObservableCollection(); break;
                 case SearchFilterMode.CH:
-                    FilterLabel.Text = "C-pop";
                     songParts = allSongParts.Where(s => s.Album?.GenreShort == "CH").ToObservableCollection(); break;
                 case SearchFilterMode.TH:
-                    FilterLabel.Text = "T-pop";
                     songParts = allSongParts.Where(s => s.Album?.GenreShort == "TH").ToObservableCollection(); break;
 
                 case SearchFilterMode.Solo:
-                    FilterLabel.Text = "Solo artists";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount == 1).ToObservableCollection(); break;
                 case SearchFilterMode.Duo:
-                    FilterLabel.Text = "Duos";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount == 2).ToObservableCollection(); break;
                 case SearchFilterMode.Trio:
-                    FilterLabel.Text = "Trios";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount == 3).ToObservableCollection(); break;
                 case SearchFilterMode.Quadruplet:
-                    FilterLabel.Text = "Quadruplets";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount == 4).ToObservableCollection(); break;
                 case SearchFilterMode.Quintet:
-                    FilterLabel.Text = "Quintets";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount == 5).ToObservableCollection(); break;
                 case SearchFilterMode.Sextet:
-                    FilterLabel.Text = "Sextets";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount == 6).ToObservableCollection(); break;
                 case SearchFilterMode.Septet:
-                    FilterLabel.Text = "Septets";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount == 7).ToObservableCollection(); break;
                 case SearchFilterMode.Octet:
-                    FilterLabel.Text = "Octets";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount == 8).ToObservableCollection(); break;
                 case SearchFilterMode.Nonet:
-                    FilterLabel.Text = "Nonets";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount == 9).ToObservableCollection(); break;
                 case SearchFilterMode.Group:
-                    FilterLabel.Text = "Groups (2+ members)";
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount > 2).ToObservableCollection(); break;
 
                 case SearchFilterMode.kpop2019:
-                    FilterLabel.Text = "K-pop 2019";
                     songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2019).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2020:
-                    FilterLabel.Text = "K-pop 2020";
                     songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2020).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2021:
-                    FilterLabel.Text = "K-pop 2021";
                     songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2021).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2022:
-                    FilterLabel.Text = "K-pop 2022";
                     songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2022).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2023:
-                    FilterLabel.Text = "K-pop 2023";
                     songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2023).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2024:
-                    FilterLabel.Text = "K-pop 2024";
                     songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2024).ToObservableCollection(); break;
             }
+
+            ParentPage.SetupSearchToolbar();
 
             songParts.CollectionChanged += SongPartsCollectionChanged;
             SonglibraryListView.ItemsSource = songParts;

@@ -10,8 +10,12 @@ namespace RpdPlayerApp.Views;
 
 public partial class LibraryView : ContentView
 {
+    internal MainPage ParentPage { get; set; }
+
+
     public event EventHandler? PlayPlaylist;
     public event EventHandler? ShowPlaylist;
+
 
     public LibraryView()
     {
@@ -82,7 +86,7 @@ public partial class LibraryView : ContentView
         ShowPlaylist?.Invoke(sender, e);
     }
 
-    private void NewPlaylistButton_Clicked(object sender, EventArgs e)
+    internal void NewPlaylistButtonClicked(object? sender, EventArgs e)
     {
         if (PlaylistNameEntry.Text.IsNullOrBlank())
         {
