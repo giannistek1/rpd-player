@@ -78,13 +78,14 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/current-playlist.jpg?raw=true" width="280">
 
 ## Libraries
+- CommunityToolkit by Microsoft -> Toasts
 - CommunityToolkit.Maui.MediaElement by Microsoft -> audio and video processing
-- Dropbox API by Dropbox -> online playlist storage
-- Syncfusion by Syncfusion -> Better ListView, slider, tabview, expander
+- Dropbox API by Dropbox -> Online playlist storage
+- Syncfusion by Syncfusion -> Better ListView, slider, tabview, expander and Windows support (however bottomsheet is sadly not a Windows feature)
 - UraniumUI by Enisn -> For the icons and input
-- The49 BottomSheet -> For the bottomsheet views duh
-- Sentry by Sentry -> Crashlytics/analytics
-- https://github.com/dhindrik/MauiThemes
+- The49 BottomSheet -> For the bottomsheet
+- Sentry by Sentry -> Crashlytics
+- https://github.com/dhindrik/MauiThemes -> For themes
 
 ## Inspiration 
 - Spotify
