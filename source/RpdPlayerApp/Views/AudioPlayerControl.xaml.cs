@@ -4,7 +4,6 @@ using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
-using UraniumUI.Icons.MaterialSymbols;
 
 namespace RpdPlayerApp.Views;
 
@@ -12,17 +11,12 @@ public partial class AudioPlayerControl : ContentView
 {
     private Random random = new();
 
-    private FontImageSource _pauseIcon = new();
-    private FontImageSource _playIcon = new();
-
     internal EventHandler? Pause;
     internal EventHandler? ShowDetails;
     internal EventHandler? UpdateProgress;
     internal EventHandler? AudioEnded;
 
     internal Slider audioProgressSlider;
-
-
 
     public AudioPlayerControl()
     {
@@ -36,21 +30,12 @@ public partial class AudioPlayerControl : ContentView
         AudioProgressSlider.DragStarted += AudioProgressSliderDragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
 
-        _pauseIcon = new FontImageSource
-        {
-            FontFamily = "MaterialRounded",
-            Glyph = MaterialRounded.Pause,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Iconmanager, that updates all icons when theme changes? Currently sucks because this only gets set once.
-        };
+        PlayToggleImage.Source = IconManager.PlayIcon;
+    }
 
-        _playIcon = new FontImageSource
-        {
-            FontFamily = "MaterialRounded",
-            Glyph = MaterialRounded.Play_arrow,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-
-        PlayToggleImage.Source = _playIcon;
+    internal void UpdateUI()
+    {
+        PlayToggleImage.Source = MainViewModel.CurrentlyPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
     }
 
     #region AudioProgressSlider
@@ -160,7 +145,7 @@ public partial class AudioPlayerControl : ContentView
         if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
         {
             AudioMediaElement.Play();
-            PlayToggleImage.Source = _pauseIcon;
+            PlayToggleImage.Source = IconManager.PauseIcon;
             MainViewModel.CurrentSongPart.IsPlaying = true;
             TimerManager.StartInfiniteScaleYAnimationWithTimer();
         }
@@ -168,7 +153,7 @@ public partial class AudioPlayerControl : ContentView
         else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
         {
             AudioMediaElement.Play();
-            PlayToggleImage.Source = _pauseIcon;
+            PlayToggleImage.Source = IconManager.PauseIcon;
             MainViewModel.CurrentSongPart.IsPlaying = true;
             TimerManager.StartInfiniteScaleYAnimationWithTimer();
         }
@@ -177,7 +162,7 @@ public partial class AudioPlayerControl : ContentView
         {
             AudioMediaElement.Pause();
             Pause?.Invoke(sender, e);
-            PlayToggleImage.Source = _playIcon;
+            PlayToggleImage.Source = IconManager.PlayIcon;
             MainViewModel.CurrentSongPart.IsPlaying = false;
         }
     }
@@ -208,6 +193,10 @@ public partial class AudioPlayerControl : ContentView
     {
         if (!HelperClass.HasInternetConnection()) { return; }
 
+        // Update vars
+        songPart.IsPlaying = true;
+        MainViewModel.CurrentlyPlaying = true;
+
         AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
 
         // This is very slow :(
@@ -219,16 +208,14 @@ public partial class AudioPlayerControl : ContentView
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         NowPlayingLabel.Text = $"{songPart.Title}";
         NowPlayingPartLabel.Text = $"{songPart.PartNameFull}";
-        PlayToggleImage.Source = _pauseIcon;
+        PlayToggleImage.Source = IconManager.PauseIcon;
 
         TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
         DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
 
         UpdateNextSwipeItem();
 
-        // Update vars
-        songPart.IsPlaying = true;
-        MainViewModel.CurrentlyPlaying = true;
+
     }
 
     internal void StopAudio()
@@ -236,7 +223,7 @@ public partial class AudioPlayerControl : ContentView
         AudioMediaElement.Stop();
         AudioMediaElement.SeekTo(new TimeSpan(0));
 
-        PlayToggleImage.Source = _playIcon;
+        PlayToggleImage.Source = IconManager.PlayIcon;
 
         MainViewModel.CurrentSongPart.IsPlaying = false;
         MainViewModel.CurrentlyPlaying = false;

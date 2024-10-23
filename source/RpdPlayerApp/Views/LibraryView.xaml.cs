@@ -79,7 +79,7 @@ public partial class LibraryView : ContentView
         PlaylistsListView.ItemsSource = MainViewModel.Playlists;
     }
 
-    private void PlaylistsListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
+    private void PlaylistsListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
         Playlist playlist = (Playlist)e.DataItem;
         PlaylistManager.Instance.CurrentPlaylist = playlist;

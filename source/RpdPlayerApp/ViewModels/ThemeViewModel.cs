@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models.Themes;
 
 namespace RpdPlayerApp.ViewModels;
@@ -69,5 +70,6 @@ public partial class ThemeViewModel : ObservableObject
         Preferences.Set("theme", value.Key);
 
         WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(value.Key));
+        IconManager.RefreshIcons();
     }
 }

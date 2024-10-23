@@ -13,8 +13,14 @@ public partial class SortByBottomSheet
 	{
 		InitializeComponent();
 
+        this.Shown += OnShown;
         this.Dismissed += OnDismissed;
 	}
+
+    private void OnShown(object? sender, EventArgs e)
+    {
+        SortTable.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
+    }
 
     #region Sorting
 

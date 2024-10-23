@@ -9,7 +9,7 @@
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
              Shell.BackgroundColor="{DynamicResource NavigationBackgroundColor}"
-             Shell.TitleColor="{DynamicResource PrimaryTextColor}"
+             Shell.TitleColor="{DynamicResource TitleTextColor}"
              x:Class="RpdPlayerApp.Views.MainPage">
 
     <Grid RowDefinitions="*, Auto">

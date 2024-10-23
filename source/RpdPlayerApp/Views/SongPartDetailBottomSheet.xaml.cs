@@ -1,28 +1,13 @@
 using CommunityToolkit.Maui.Alerts;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
 using The49.Maui.BottomSheet;
-using UraniumUI.Icons.MaterialSymbols;
 
 namespace RpdPlayerApp.Views;
 
 public partial class SongPartDetailBottomSheet
 {
-    private FontImageSource _pauseIcon = new();
-    private FontImageSource _playIcon = new();
-
-    private FontImageSource _offIcon = new();
-    private FontImageSource _autoplayIcon = new();
-    private FontImageSource _shuffleIcon = new();
-    private FontImageSource _repeatOneIcon = new();
-
-    private FontImageSource _timerOffIcon = new();
-    private FontImageSource _timer3Icon = new();
-    private FontImageSource _timer5Icon = new();
-
-    private FontImageSource _voiceOffIcon = new();
-    private FontImageSource _voiceOnIcon = new();
-
     internal SongPart? songPart = null;
     internal bool isShown = false;
 
@@ -30,91 +15,18 @@ public partial class SongPartDetailBottomSheet
     internal EventHandler? PreviousSong;
     internal EventHandler? NextSong;
 
-
 	public SongPartDetailBottomSheet()
 	{
 		InitializeComponent();
 
         this.Dismissed += OnDismissed;
         this.Shown += OnShown;
-
-        _pauseIcon = new FontImageSource
-        {
-            FontFamily = "MaterialOutlined",
-            Glyph = MaterialOutlined.Pause,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-        _playIcon = new FontImageSource
-        {
-            FontFamily = "MaterialOutlined",
-            Glyph = MaterialOutlined.Play_arrow,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-
-
-        _offIcon = new FontImageSource
-        {
-            FontFamily = "MaterialOutlined",
-            Glyph = MaterialOutlined.Block,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-        _autoplayIcon = new FontImageSource
-        {
-            FontFamily = "MaterialOutlined",
-            Glyph = MaterialOutlined.Autoplay,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-        _shuffleIcon = new FontImageSource
-        {
-            FontFamily = "MaterialOutlined",
-            Glyph = MaterialOutlined.Shuffle,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-        _repeatOneIcon = new FontImageSource
-        {
-            FontFamily = "MaterialOutlined",
-            Glyph = MaterialOutlined.Repeat_one,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-
-
-        _timerOffIcon = new FontImageSource
-        {
-            FontFamily = "MaterialOutlined",
-            Glyph = MaterialOutlined.Timer_off,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-        _timer3Icon = new FontImageSource
-        {
-            FontFamily = "MaterialOutlined",
-            Glyph = MaterialOutlined.Timer_3_alt_1,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-        _timer5Icon = new FontImageSource
-        {
-            FontFamily = "MaterialOutlined",
-            Glyph = MaterialOutlined.Timer_5,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-
-        _voiceOffIcon = new FontImageSource
-        {
-            FontFamily = "MaterialSharp",
-            Glyph = MaterialSharp.Voice_selection_off,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
-        _voiceOnIcon = new FontImageSource
-        {
-            FontFamily = "MaterialSharp",
-            Glyph = MaterialSharp.Voice_selection,
-            Color = (Color)Application.Current!.Resources["IconColor"] // TODO: Sucks because this only gets set once.
-        };
     }
 
     private void OnShown(object? sender, EventArgs e)
     {
         // TODO: Set image to play once song ends
-        PlayToggleImage.Source = MainViewModel.CurrentSongPart.IsPlaying ? _pauseIcon : _playIcon;
+        PlayToggleImage.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
 
         MasterVolumeSlider.Value = MainViewModel.MainVolume * 100;
     }
@@ -131,16 +43,28 @@ public partial class SongPartDetailBottomSheet
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
 
         AlbumLabel.Text = $"{songPart.AlbumTitle} ";
+        AlbumLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
         ReleaseDateLabel.Text = $"{songPart.Album.ReleaseDate:d}";
+        ReleaseDateLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
         GenreLabel.Text = $"{songPart.Album.GenreFull}";
+        GenreLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
 
         SongTitleLabel.Text = $"{songPart.Title}";
+        SongTitleLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
         SongPartLabel.Text = $"{songPart.PartNameFull}";
+        SongPartLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
         ArtistLabel.Text = songPart.ArtistName;
+        ArtistLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
 
         TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
 
         DurationLabel.Text = string.Format("{0:mm\\:ss}", duration);
+        DurationLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
+
+        ProgressLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
+
+        MasterVolumeSlider.TrackStyle.ActiveFill = (Color)Application.Current!.Resources["Primary"];
+        MasterVolumeSlider.ThumbStyle.Fill = (Color)Application.Current!.Resources["Primary"];
     }
 
     internal void UpdateProgress(double value)
@@ -167,7 +91,7 @@ public partial class SongPartDetailBottomSheet
     private void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
         PlayToggleSongPart?.Invoke(sender, e);
-        PlayToggleImage.Source = MainViewModel.CurrentSongPart.IsPlaying ? _pauseIcon : _playIcon;
+        PlayToggleImage.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
     }
 
     private void NextButton_Pressed(object sender, EventArgs e)
@@ -188,9 +112,9 @@ public partial class SongPartDetailBottomSheet
 
         switch (MainViewModel.TimerMode)
         {
-            case 0: TimerImage.Source = _timerOffIcon; break;
-            case 1: TimerImage.Source = _timer3Icon; break;
-            case 2: TimerImage.Source = _timer5Icon; break;
+            case 0: TimerImage.Source = IconManager.TimerOffIcon; break;
+            case 1: TimerImage.Source = IconManager.Timer3Icon; break;
+            case 2: TimerImage.Source = IconManager.Timer5Icon; break;
         }
 
         //Toast.Make($"TimerMode: {MainViewModel.TimerMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
@@ -209,10 +133,10 @@ public partial class SongPartDetailBottomSheet
 
         switch(MainViewModel.AutoplayMode)
         {
-            case 0: AutoplayImage.Source = _offIcon; break;
-            case 1: AutoplayImage.Source = _autoplayIcon; break;
-            case 2: AutoplayImage.Source = _shuffleIcon; break;
-            case 3: AutoplayImage.Source = _repeatOneIcon; break;
+            case 0: AutoplayImage.Source = IconManager.OffIcon; break;
+            case 1: AutoplayImage.Source = IconManager.AutoplayIcon; break;
+            case 2: AutoplayImage.Source = IconManager.ShuffleIcon; break;
+            case 3: AutoplayImage.Source = IconManager.RepeatOneIcon; break;
         }
 
         //Toast.Make($"Autoplay: {MainViewModel.AutoplayMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
@@ -222,7 +146,7 @@ public partial class SongPartDetailBottomSheet
     {
         MainViewModel.UsingAnnouncements = !MainViewModel.UsingAnnouncements;
 
-        VoiceImage.Source = MainViewModel.UsingAnnouncements ? _voiceOnIcon : _voiceOffIcon;
+        VoiceImage.Source = MainViewModel.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
 
         //Toast.Make($"Using announcements: {MainViewModel.UsingAnnouncements}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }

@@ -30,7 +30,7 @@
             EmptyView="No playlists yet. Create a playlist!"
             AutoFitMode="Height"
             AllowSwiping="True"
-            ItemTapped="PlaylistsListView_ItemTapped"
+            ItemTapped="PlaylistsListViewItemTapped"
             SwipeEnded="PlaylistsListView_SwipeEnded" >
             
             <syncfusion:SfListView.StartSwipeTemplate>

@@ -237,11 +237,12 @@ public partial class SearchSongPartsView : ContentView
             return;
         }
 
-        MenuItem mi = (MenuItem)sender;
+        SwipeItemView mi = (SwipeItemView)sender;
         var songPartsFromGroup = (IEnumerable<SongPart>)mi.CommandParameter;
 
         int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songPartsFromGroup.ToList());
 
+        AddSongPart?.Invoke(sender, e);
         Toast.Make($"{addedSongParts} songs added!", ToastDuration.Short, 14).Show();
     }
 

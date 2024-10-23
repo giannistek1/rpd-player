@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:RpdPlayerApp.ViewModels"
              x:DataType="local:ThemeViewModel"
              Shell.BackgroundColor="{DynamicResource NavigationBackgroundColor}"
-             Shell.TitleColor="{DynamicResource PrimaryTextColor}"
+             Shell.TitleColor="{DynamicResource TitleTextColor}"
              BackgroundColor="{DynamicResource BackgroundColor}"
              Title="Settings">
 
@@ -53,7 +53,8 @@
         <Picker Grid.Row="3" x:Name="ThemePicker" 
                     ItemsSource="{Binding Themes}"
                     SelectedItem="{Binding SelectedTheme}"
-                    ItemDisplayBinding="{Binding Name}"/>
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedIndexChanged="ThemePickerSelectedIndexChanged"/>
 
         <Label
             Grid.Row="4"

@@ -1,7 +1,6 @@
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
-using UraniumUI.Icons.MaterialSymbols;
 
 namespace RpdPlayerApp.Views;
 
@@ -11,32 +10,18 @@ public partial class MainPage
     private readonly SortByBottomSheet _sortByBottomSheet = new();
     private readonly SongPartDetailBottomSheet _detailBottomSheet = new();
 
-    private FontImageSource _videoOnIcon = new();
-    private FontImageSource _videoOffIcon = new();
-
     public MainPage()
     {
         InitializeComponent();
 
-        _videoOnIcon = new FontImageSource
-        {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Videocam,
-            Color = (Color)Application.Current!.Resources["ToolbarIconColor"] // TODO: Sucks because this only gets set once.
-        };
-
-        _videoOffIcon = new FontImageSource
-        {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Videocam_off,
-            Color = (Color)Application.Current!.Resources["ToolbarIconColor"] // TODO: Sucks because this only gets set once.
-        };
-
         HomeView.ParentPage = this;
         SearchSongPartsView.ParentPage = this;
         LibraryView.ParentPage = this;
+        _currentPlaylistView.ParentPage = this;
 
-        SetViewEvents();
+        this.Appearing += OnAppearing;
+
+        SetContentViewEvents();
 
         if (!LibraryContainer.Children.Contains(_currentPlaylistView))
         {
@@ -56,7 +41,12 @@ public partial class MainPage
         SetupHomeToolbar();
     }
 
-    private void SetViewEvents()
+    private void OnAppearing(object? sender, EventArgs e)
+    {
+        AudioPlayerControl.UpdateUI();
+    }
+
+    private void SetContentViewEvents()
     {
         HomeView.FilterPressed += OnFilterPressed;
 
@@ -103,7 +93,7 @@ public partial class MainPage
         }
     }
 
-    private void SetupHomeToolbar()
+    internal void SetupHomeToolbar()
     {
         ToolbarItems.Clear();
 
@@ -112,7 +102,7 @@ public partial class MainPage
         ToolbarItem feedbackToolbarItem = new ToolbarItem
         {
             Text = "",
-            IconImageSource = new FontImageSource() { FontFamily = "MaterialRounded", Glyph = MaterialRounded.Rate_review },
+            IconImageSource = IconManager.ToolbarRateReviewIcon,
             Order = ToolbarItemOrder.Default, // Primary or Secondary
             Priority = 0 // the lower the number, the higher the priority
         };
@@ -120,7 +110,7 @@ public partial class MainPage
         ToolbarItem settingsToolbarItem = new ToolbarItem
         {
             Text = "",
-            IconImageSource = new FontImageSource() { FontFamily = "MaterialRounded", Glyph = MaterialRounded.Settings },
+            IconImageSource = IconManager.ToolbarSettingsIcon,
             Order = ToolbarItemOrder.Default, // Primary or Secondary
             Priority = 1 // the lower the number, the higher the priority
         };
@@ -198,7 +188,7 @@ public partial class MainPage
         ToolbarItem playOrAddRandomToolbarItem = new ToolbarItem
         {
             Text = "",
-            IconImageSource = new FontImageSource() { FontFamily = "MaterialRounded", Glyph = MaterialRounded.Casino },
+            IconImageSource = IconManager.ToolbarCasinoIcon,
             Order = ToolbarItemOrder.Default, // Primary or Secondary
             Priority = 0 // the lower the number, the higher the priority
         };
@@ -206,7 +196,7 @@ public partial class MainPage
         ToolbarItem videoModeToolbarItem = new ToolbarItem
         {
             Text = "",
-            IconImageSource = (MainViewModel.UsingVideoMode ? _videoOnIcon : _videoOffIcon),
+            IconImageSource = (MainViewModel.UsingVideoMode ? IconManager.ToolbarVideoIcon : IconManager.ToolbarVideoOffIcon),
             Order = ToolbarItemOrder.Default, // Primary or Secondary
             Priority = 1 // the lower the number, the higher the priority
         };
@@ -214,7 +204,7 @@ public partial class MainPage
         ToolbarItem sortToolbarItem = new ToolbarItem
         {
             Text = "",
-            IconImageSource = new FontImageSource() { FontFamily = "MaterialRounded", Glyph = MaterialRounded.Sort },
+            IconImageSource = IconManager.ToolbarSortIcon,
             Order = ToolbarItemOrder.Default, // Primary or Secondary
             Priority = 2 // the lower the number, the higher the priority
         };
@@ -222,7 +212,7 @@ public partial class MainPage
         ToolbarItem collapseAllToolbarItem = new ToolbarItem
         {
             Text = "Collapse all",
-            IconImageSource = new FontImageSource() { FontFamily = "MaterialRounded", Glyph = MaterialRounded.Collapse_all },
+            IconImageSource = IconManager.ToolbarCollapseAllIcon,
             Order = ToolbarItemOrder.Secondary, // Primary or Secondary
             Priority = 4 // the lower the number, the higher the priority
         };
@@ -230,7 +220,7 @@ public partial class MainPage
         ToolbarItem expandAllToolbarItem = new ToolbarItem
         {
             Text = "Expand all",
-            IconImageSource = new FontImageSource() { FontFamily = "MaterialRounded", Glyph = MaterialRounded.Expand_all },
+            IconImageSource = IconManager.ToolbarExpandAllIcon,
             Order = ToolbarItemOrder.Secondary, // Primary or Secondary
             Priority = 5 // the lower the number, the higher the priority
         };
@@ -247,22 +237,66 @@ public partial class MainPage
         ToolbarItems.Add(expandAllToolbarItem);
     }
 
-    private void SetupLibraryToolbar()
+    internal void SetupLibraryToolbar()
     {
         ToolbarItems.Clear();
 
-        Title = "Playlists";
-
-        ToolbarItem newPlaylistToolbarItem = new ToolbarItem
+        if (LibraryView.IsVisible)
         {
-            Text = "",
-            IconImageSource = new FontImageSource() { FontFamily = "MaterialRounded", Glyph = MaterialRounded.Add },
-            Order = ToolbarItemOrder.Default, // Primary or Secondary
-            Priority = 1 // the lower the number, the higher the priority
-        };
+            Title = "Playlists";
+            ToolbarItem newPlaylistToolbarItem = new ToolbarItem
+            {
+                Text = "",
+                IconImageSource = IconManager.ToolbarAddIcon,
+                Order = ToolbarItemOrder.Default, // Primary or Secondary
+                Priority = 1 // the lower the number, the higher the priority
+            };
 
-        newPlaylistToolbarItem.Clicked += LibraryView.NewPlaylistButtonClicked;
-        ToolbarItems.Add(newPlaylistToolbarItem);
+            newPlaylistToolbarItem.Clicked += LibraryView.NewPlaylistButtonClicked;
+            ToolbarItems.Add(newPlaylistToolbarItem);
+        }
+        else
+        {
+            Title = PlaylistManager.Instance.CurrentPlaylist.Name;
+            ToolbarItem playPlaylistToolbarItem = new ToolbarItem
+            {
+                Text = "",
+                IconImageSource = IconManager.ToolbarPlayIcon,
+                Order = ToolbarItemOrder.Default, // Primary or Secondary
+                Priority = 1 // the lower the number, the higher the priority
+            };
+            ToolbarItem savePlaylistToolbarItem = new ToolbarItem
+            {
+                Text = "",
+                IconImageSource = IconManager.ToolbarSaveIcon,
+                Order = ToolbarItemOrder.Default, // Primary or Secondary
+                Priority = 2 // the lower the number, the higher the priority
+            };
+            ToolbarItem clearToolbarItem = new ToolbarItem
+            {
+                Text = "",
+                IconImageSource = IconManager.ToolbarClearIcon,
+                Order = ToolbarItemOrder.Default, // Primary or Secondary
+                Priority = 3 // the lower the number, the higher the priority
+            };
+            ToolbarItem cloudToolbarItem = new ToolbarItem
+            {
+                Text = "",
+                IconImageSource = MainViewModel.UsingCloudMode ? IconManager.ToolbarCloudIcon : IconManager.ToolbarCloudOffIcon,
+                Order = ToolbarItemOrder.Default, // Primary or Secondary
+                Priority = 4 // the lower the number, the higher the priority
+            };
+
+            playPlaylistToolbarItem.Clicked += _currentPlaylistView.PlayPlaylistButtonClicked;
+            savePlaylistToolbarItem.Clicked += _currentPlaylistView.SavePlaylistButtonClicked;
+            clearToolbarItem.Clicked += _currentPlaylistView.ClearPlaylistButtonClicked;
+            cloudToolbarItem.Clicked += _currentPlaylistView.ToggleCloudModePressed;
+
+            ToolbarItems.Add(playPlaylistToolbarItem);
+            ToolbarItems.Add(savePlaylistToolbarItem);
+            ToolbarItems.Add(clearToolbarItem);
+            ToolbarItems.Add(cloudToolbarItem);
+        }
     }
 
     #endregion
@@ -320,8 +354,11 @@ public partial class MainPage
     {
         _currentPlaylistView.ResetCurrentPlaylist();
         LibraryView!.LoadPlaylists();
+
         _currentPlaylistView.IsVisible = false;
         LibraryView.IsVisible = true;
+
+        SetupLibraryToolbar();
     }
 
     private void OnShowPlaylist(object? sender, EventArgs e)
@@ -330,6 +367,7 @@ public partial class MainPage
         LibraryView.IsVisible = false;
         _currentPlaylistView.IsVisible = true;
 
+        SetupLibraryToolbar();
         _currentPlaylistView.RefreshCurrentPlaylist();
     }
 
@@ -340,7 +378,7 @@ public partial class MainPage
 
         switch (MainViewModel.PlayMode)
         {
-            case Architecture.PlayMode.Playlist:
+            case PlayMode.Playlist:
                 if (PlaylistManager.Instance.CurrentPlaylist is not null && SearchSongPartsView.songParts.Count > 0)
                 {
 
@@ -348,7 +386,7 @@ public partial class MainPage
 
                 break;
 
-            case Architecture.PlayMode.Queue:
+            case PlayMode.Queue:
                 if (SearchSongPartsView.songParts is not null && SearchSongPartsView.songParts.Count > 0)
                 {
                     // TODO: Based on song history?

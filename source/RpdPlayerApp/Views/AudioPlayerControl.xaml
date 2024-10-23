@@ -86,7 +86,7 @@
                 <material:ButtonView Grid.Column="4" HeightRequest="42" x:Name="PlayToggleButton" BackgroundColor="{DynamicResource PrimaryButton}" Pressed="PlayToggleButton_Pressed">
                     <Image x:Name="PlayToggleImage" HeightRequest="42">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Play_arrow}" Color="{DynamicResource IconColor}" />
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Play_arrow}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
                 </material:ButtonView>

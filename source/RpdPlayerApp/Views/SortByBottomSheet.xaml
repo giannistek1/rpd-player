@@ -2,33 +2,35 @@
 <the49:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
-             x:Class="RpdPlayerApp.Views.SortByBottomSheet"
-             Background="{DynamicResource BackgroundColor}">
+             x:Class="RpdPlayerApp.Views.SortByBottomSheet">
 
     <the49:BottomSheet.Detents>
         <the49:RatioDetent Ratio="0.95"  />
     </the49:BottomSheet.Detents>
-
-    <TableView Intent="Menu" Margin="0,0,0,0" BackgroundColor="{DynamicResource BackgroundColor}">
-        <TableRoot>
-            <TableSection Title="Sort by..." TextColor="LightGreen">
-                <TextCell Tapped="CancelSort"  Text="Cancel/hide" TextColor="Red" />
-                <TextCell Tapped="SortByAlbumName" Text="Album name" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortByArtistName" Text="Artist name" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortBySongCountPerArtist" Text="Artist song count" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortByClipLength"  Text="Clip length" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortByCompany"  Text="Company" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortByGeneration"  Text="Generation" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortByGroupType"  Text="Group type" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortByGenre" Text="Genre" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortByMemberCount" Text="Member count" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortByReleaseDate" Text="Release date" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortByReleaseWeekDay"  Text="Release Weekday" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortBySongPart"  Text="Song part" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortBySongTitle"  Text="Song title" TextColor="{DynamicResource PrimaryTextColor}" />
-                <TextCell Tapped="SortByYearlyDate"  Text="Yearly date" TextColor="{DynamicResource PrimaryTextColor}" />
-            </TableSection>
-        </TableRoot>
-    </TableView>
+    
+    <ScrollView>
+        <TableView x:Name="SortTable" Intent="Menu" Margin="0,0,0,0" Background="{DynamicResource BackgroundColor}">
+            <TableRoot>
+                <TableSection x:Name="Header"  Title="Sort by..." TextColor="{DynamicResource Good}">
+                    <TextCell x:Name="CancelOption" Tapped="CancelSort"  Text="Cancel/hide" TextColor="{DynamicResource Bad}" />
+                    <TextCell x:Name="AlbumNameOption" Tapped="SortByAlbumName" Text="Album name" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="ArtistNameOption" Tapped="SortByArtistName" Text="Artist name" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="SongCountPerArtisOption" Tapped="SortBySongCountPerArtist" Text="Artist song count" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="ClipLengthOption" Tapped="SortByClipLength"  Text="Clip length" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="CompanyOption" Tapped="SortByCompany"  Text="Company" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="GenerationOption" Tapped="SortByGeneration"  Text="Generation" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="GroupTypeOption" Tapped="SortByGroupType"  Text="Group type" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="GenreOption" Tapped="SortByGenre" Text="Genre" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="MemberCountOption" Tapped="SortByMemberCount" Text="Member count" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="ReleaseDateOption" Tapped="SortByReleaseDate" Text="Release date" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="ReleaseWeekDayOption" Tapped="SortByReleaseWeekDay"  Text="Release Weekday" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="SongPartOption" Tapped="SortBySongPart"  Text="Song part" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="SongTitleOption" Tapped="SortBySongTitle"  Text="Song title" TextColor="{DynamicResource PrimaryTextColor}" />
+                    <TextCell x:Name="YearlyDateOption" Tapped="SortByYearlyDate"  Text="Yearly date" TextColor="{DynamicResource PrimaryTextColor}" />
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </ScrollView>
+    
 
 </the49:BottomSheet>

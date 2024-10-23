@@ -6,14 +6,17 @@
 
     <!-- (Reusable) main colors -->
     <Color x:Key="Primary">#B11E31</Color>
+    <Color x:Key="Good">#64b06c</Color>
+    <Color x:Key="Bad">#B11E31</Color>
 
     <Color x:Key="NavigationBackgroundColor">#64b06c</Color>
     <Color x:Key="ToolbarBackgroundColor">#64b06c</Color>
     <Color x:Key="BackgroundColor">#EEE</Color>
-    <Color x:Key="IconColor">#64b06c</Color>
     <Color x:Key="ToolbarIconColor">#EEE</Color>
+    <Color x:Key="IconColor">#64b06c</Color>
     <Color x:Key="InputBackgroundColor">#EEE</Color>
 
+    <Color x:Key="TitleTextColor">#EEE</Color>
     <Color x:Key="PrimaryTextColor">#111</Color>
     <Color x:Key="SecondaryTextColor">#555</Color>
     <Color x:Key="PlaceholderColor">#999</Color>

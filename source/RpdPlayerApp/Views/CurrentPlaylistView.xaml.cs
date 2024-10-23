@@ -5,37 +5,20 @@ using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.ViewModels;
 using System.Text;
-using UraniumUI.Icons.MaterialSymbols;
 
 namespace RpdPlayerApp.Views;
 
 public partial class CurrentPlaylistView : ContentView
 {
-    private FontImageSource _cloudOnIcon = new();
-    private FontImageSource _cloudOffIcon = new();
-
     public event EventHandler? PlaySongPart;
     public event EventHandler? BackToPlaylists;
 
+    internal MainPage ParentPage { get; set; }
     public CurrentPlaylistView()
     {
         InitializeComponent();
 
         CurrentPlaylistListView.DragDropController!.UpdateSource = true;
-
-        _cloudOnIcon = new FontImageSource
-        {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Cloud,
-        };
-
-        _cloudOffIcon = new FontImageSource
-        {
-            FontFamily = "MaterialRegular",
-            Glyph = MaterialOutlined.Cloud_off,
-        };
-
-        ToggleSaveModeImage.Source = (MainViewModel.UsingCloudMode) ? _cloudOnIcon : _cloudOffIcon;
     }
 
     private void BackButton_Clicked(object sender, EventArgs e)
@@ -44,38 +27,27 @@ public partial class CurrentPlaylistView : ContentView
     }
 
     #region Playlist
-    private void ToggleSaveMode_Pressed(object sender, EventArgs e)
+    internal void PlayPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        if (MainViewModel.UsingCloudMode)
+       if (!PlaylistManager.Instance.CurrentPlaylist.SongParts.Any()) { return; }
+        
+        // Change mode to playlist
+        MainViewModel.PlayMode = PlayMode.Playlist;
+        
+        // Clear playlist queue and fill playlist queue
+        MainViewModel.PlaylistQueue.Clear();
+
+        List<SongPart> songParts = PlaylistManager.Instance.CurrentPlaylist.SongParts.ToList();
+        foreach (var songPart in songParts)
         {
-            MainViewModel.UsingCloudMode = false;
-            ToggleSaveModeImage.Source = _cloudOffIcon;
-            Toast.Make($"Playlist will save locally", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            MainViewModel.PlaylistQueue.Enqueue(songPart);
         }
-        else
-        {
-            MainViewModel.UsingCloudMode = true;
-            ToggleSaveModeImage.Source = _cloudOnIcon;
-            Toast.Make($"Playlist will save online", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-        }
+
+        MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
+
+        PlaySongPart!.Invoke(sender, e);
     }
-    public void RefreshCurrentPlaylist()
-    {
-        PlaylistNameEntry.Text = PlaylistManager.Instance.CurrentPlaylist.Name;
-
-        if (PlaylistManager.Instance.CurrentPlaylist.SongParts is not null)
-        {
-            CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
-
-            PlaylistManager.Instance.CurrentPlaylist.SetLength();
-            LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", PlaylistManager.Instance.CurrentPlaylist.Length);
-            CountLabel.Text = $"Tot: {PlaylistManager.Instance.CurrentPlaylist.SongParts.Count}";
-            BoygroupCountLabel.Text = $"BG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
-            GirlgroupCountLabel.Text = $"GG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
-        }
-    }
-
-    private void SavePlaylistButton_Clicked(object sender, EventArgs e)
+    internal void SavePlaylistButtonClicked(object? sender, EventArgs e)
     {
         try
         {
@@ -111,8 +83,32 @@ public partial class CurrentPlaylistView : ContentView
             }
         }
     }
+    internal void ToggleCloudModePressed(object? sender, EventArgs e)
+    {
+        MainViewModel.UsingCloudMode = !MainViewModel.UsingCloudMode;
 
-    private void ClearPlaylistButton_Clicked(object sender, EventArgs e)
+        string toastText = MainViewModel.UsingCloudMode ? $"Playlist will save online" : $"Playlist will save locally";
+        Toast.Make(toastText, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+
+        ParentPage.SetupLibraryToolbar();
+    }
+    public void RefreshCurrentPlaylist()
+    {
+        PlaylistNameEntry.Text = PlaylistManager.Instance.CurrentPlaylist.Name;
+
+        if (PlaylistManager.Instance.CurrentPlaylist.SongParts is not null)
+        {
+            CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
+
+            PlaylistManager.Instance.CurrentPlaylist.SetLength();
+            LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", PlaylistManager.Instance.CurrentPlaylist.Length);
+            CountLabel.Text = $"Tot: {PlaylistManager.Instance.CurrentPlaylist.SongParts.Count}";
+            BoygroupCountLabel.Text = $"BG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
+            GirlgroupCountLabel.Text = $"GG: {PlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
+        }
+    }
+
+    internal void ClearPlaylistButtonClicked(object? sender, EventArgs e)
     {
         PlaylistManager.Instance.ClearCurrentPlaylist();
         RefreshCurrentPlaylist();
@@ -128,25 +124,6 @@ public partial class CurrentPlaylistView : ContentView
         }
     }
 
-    private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
-    {
-        // Change mode to playlist
-        MainViewModel.PlayMode = PlayMode.Playlist;
-
-        
-        // Clear playlist queue and fill playlist queue
-        MainViewModel.PlaylistQueue.Clear();
-
-        List<SongPart> songParts = PlaylistManager.Instance.CurrentPlaylist.SongParts.ToList();
-        foreach (var songPart in songParts)
-        {
-            MainViewModel.PlaylistQueue.Enqueue(songPart);
-        }
-
-        MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
-
-        PlaySongPart!.Invoke(sender, e);
-    }
 
     private void ShufflePlaylistButton_Clicked(object sender, EventArgs e)
     {

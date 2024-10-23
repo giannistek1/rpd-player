@@ -41,7 +41,7 @@
 
         <Grid Grid.Row="1" ColumnDefinitions="6*, 4*">
 
-            <SearchBar Grid.Column="0" x:Name="SearchBarInput" TextColor="{DynamicResource PrimaryTextColor}" Placeholder="Artist or title" PlaceholderColor="{DynamicResource PlaceholderColor}" TextChanged="SearchBar_TextChanged"/>
+            <SearchBar Grid.Column="0" x:Name="SearchBarInput" Background="{DynamicResource BackgroundColor}" TextColor="{DynamicResource PrimaryTextColor}" Placeholder="Artist or title" PlaceholderColor="{DynamicResource PlaceholderColor}" TextChanged="SearchBar_TextChanged"/>
 
             <Button Grid.Column="1" x:Name="AddResultsButton" Margin="2" Clicked="AddResultsButton_Clicked" Text="Add results" />
 
@@ -84,9 +84,15 @@
                     <local:CustomSwipeView>
 
                         <local:CustomSwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem Invoked="SwipeGroupItemAddSongs" CommandParameter="{Binding Items}" Text="To playlist" BackgroundColor="LightGreen"/>
+                            
+                            <SwipeItems Mode="Execute">
+                                <SwipeItemView Invoked="SwipeGroupItemAddSongs" CommandParameter="{Binding Items}">
+                                    <Grid BackgroundColor="{DynamicResource Good}">
+                                        <Label Text="To playlist" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" Padding="8,8" />
+                                    </Grid>
+                                </SwipeItemView>
                             </SwipeItems>
+                            
                         </local:CustomSwipeView.RightItems>
 
                         <Grid BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}">

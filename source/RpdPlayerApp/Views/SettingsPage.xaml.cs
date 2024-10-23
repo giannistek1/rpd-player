@@ -24,4 +24,10 @@ public partial class SettingsPage : ContentPage
     {
         MainViewModel.MainVolume = e.NewValue / 100;
     }
+
+    private void ThemePickerSelectedIndexChanged(object sender, EventArgs e)
+    {
+        MasterVolumeSlider.TrackStyle.ActiveFill = (Color)Application.Current!.Resources["Primary"];
+        MasterVolumeSlider.ThumbStyle.Fill = (Color)Application.Current!.Resources["Primary"];
+    }
 }
