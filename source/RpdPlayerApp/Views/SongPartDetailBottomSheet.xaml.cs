@@ -14,6 +14,7 @@ public partial class SongPartDetailBottomSheet
     internal EventHandler? PlayToggleSongPart;
     internal EventHandler? PreviousSong;
     internal EventHandler? NextSong;
+    internal EventHandler? Close;
 
 	public SongPartDetailBottomSheet()
 	{
@@ -154,5 +155,10 @@ public partial class SongPartDetailBottomSheet
     private void MasterVolumeSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)
     {
         MainViewModel.MainVolume = e.NewValue / 100;
+    }
+
+    private void CloseButton_Pressed(object sender, EventArgs e)
+    {
+        Close?.Invoke(sender, e);
     }
 }

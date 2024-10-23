@@ -63,11 +63,12 @@ public partial class MainPage
         _currentPlaylistView.BackToPlaylists += OnBackToPlaylists;
         _currentPlaylistView.PlaySongPart += OnPlaySongPart;
 
-        _sortByBottomSheet.CloseSheet += OnCloseSortBySheet;
+        _sortByBottomSheet.Close += OnCloseSortBySheet;
 
         _detailBottomSheet.PlayToggleSongPart += OnPlayToggleSongPart;
         _detailBottomSheet.PreviousSong += OnPreviousSong;
         _detailBottomSheet.NextSong += OnNextSong;
+        _detailBottomSheet.Close += OnCloseDetailSheet;
 
         AudioPlayerControl.Pause += OnPause;
         AudioPlayerControl.ShowDetails += OnShowDetails;
@@ -320,6 +321,11 @@ public partial class MainPage
 
         _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
         _detailBottomSheet.UpdateUI();
+    }
+
+    private void OnCloseDetailSheet(object? sender, EventArgs e)
+    {
+        _detailBottomSheet.DismissAsync();
     }
 
     private void OnCloseSortBySheet(object? sender, EventArgs e)

@@ -21,8 +21,11 @@ public partial class CurrentPlaylistView : ContentView
         CurrentPlaylistListView.DragDropController!.UpdateSource = true;
     }
 
-    private void BackButton_Clicked(object sender, EventArgs e)
+    private void BackButtonClicked(object sender, EventArgs e)
     {
+        // To hide soft keyboard programmatically
+        PlaylistNameEntry.IsEnabled = false;
+        PlaylistNameEntry.IsEnabled = true;
         BackToPlaylists!.Invoke(sender, e);
     }
 

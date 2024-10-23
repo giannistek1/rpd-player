@@ -12,57 +12,61 @@
              BackgroundColor="{DynamicResource BackgroundColor}"
              Title="Settings">
 
-    <Grid RowDefinitions="30,60,60,44,30" Padding="8,0,8,0">
+    <ScrollView>
 
-        <!-- Volume -->
-        <Label 
-            Grid.Row="0"
-            Text="Master volume"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" />
+        <Grid RowDefinitions="30,60,60,44,30" Padding="8,0,8,0">
 
-        <Grid Grid.Row="1" ColumnDefinitions="1*, 7*">
+            <!-- Volume -->
+            <Label 
+                Grid.Row="0"
+                Text="Master volume"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Grid Grid.Row="1" ColumnDefinitions="1*, 7*">
             
-            <Image Grid.Column="0" x:Name="VolumeImage" HeightRequest="40" HorizontalOptions="Center">
-                <Image.Source>
-                    <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Volume_up}" Color="{DynamicResource IconColor}" />
-                </Image.Source>
-            </Image>
+                <Image Grid.Column="0" x:Name="VolumeImage" HeightRequest="40" HorizontalOptions="Center">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Volume_up}" Color="{DynamicResource IconColor}" />
+                    </Image.Source>
+                </Image>
 
-            <sliders:SfSlider Grid.Column="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSlider_ValueChanged" Minimum="0" Interval="50" Maximum="100">
+                <sliders:SfSlider Grid.Column="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSlider_ValueChanged" Minimum="0" Interval="50" Maximum="100">
 
-                <sliders:SfSlider.TrackStyle>
-                    <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"
-                          InactiveFill="LightGray" />
-                </sliders:SfSlider.TrackStyle>
+                    <sliders:SfSlider.TrackStyle>
+                        <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"
+                              InactiveFill="LightGray" />
+                    </sliders:SfSlider.TrackStyle>
 
-                <sliders:SfSlider.ThumbStyle>
-                    <sliders:SliderThumbStyle Fill="{DynamicResource Primary}" />
-                </sliders:SfSlider.ThumbStyle>
+                    <sliders:SfSlider.ThumbStyle>
+                        <sliders:SliderThumbStyle Fill="{DynamicResource Primary}" />
+                    </sliders:SfSlider.ThumbStyle>
 
-            </sliders:SfSlider>
+                </sliders:SfSlider>
+
+            </Grid>
+
+            <Label 
+                Grid.Row="2"
+                Text="Theme: (may need app restart)"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
+            <Picker Grid.Row="3" x:Name="ThemePicker" 
+                        ItemsSource="{Binding Themes}"
+                        SelectedItem="{Binding SelectedTheme}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedIndexChanged="ThemePickerSelectedIndexChanged"/>
+
+            <Label
+                Grid.Row="4"
+                Text="Non-choreography songs:"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+
 
         </Grid>
 
-        <Label 
-            Grid.Row="2"
-            Text="Theme: (may need app restart)"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" />
+    </ScrollView>
 
-        <Picker Grid.Row="3" x:Name="ThemePicker" 
-                    ItemsSource="{Binding Themes}"
-                    SelectedItem="{Binding SelectedTheme}"
-                    ItemDisplayBinding="{Binding Name}"
-                    SelectedIndexChanged="ThemePickerSelectedIndexChanged"/>
-
-        <Label
-            Grid.Row="4"
-            Text="Non-choreography songs:"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" />
-
-
-    </Grid>
-    
 </ContentPage>
