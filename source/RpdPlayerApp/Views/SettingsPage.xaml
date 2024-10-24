@@ -48,7 +48,7 @@
 
             <Label 
                 Grid.Row="2"
-                Text="Theme: (may need app restart)"
+                Text="Theme:"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
 

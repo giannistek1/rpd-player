@@ -1,6 +1,5 @@
 ﻿using Syncfusion.Maui.Core.Internals;
 using Syncfusion.Maui.ListView;
-using Microsoft.Maui.Controls;
 #if IOS
 using UIKit;
 #endif

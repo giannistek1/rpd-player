@@ -9,6 +9,16 @@ internal static class IconManager
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Autoplay,
         Color = (Color)Application.Current!.Resources["IconColor"]
+    }; 
+    internal static FontImageSource BackIcon = new FontImageSource
+    {
+        FontFamily = "MaterialRounded",
+        #if IOS
+            Glyph = MaterialRounded.Arrow_back_ios,
+        #else
+            Glyph = MaterialRounded.Arrow_back,
+        #endif
+        Color = (Color)Application.Current!.Resources["IconColor"]
     };
     internal static FontImageSource OffIcon = new FontImageSource
     {
@@ -77,6 +87,16 @@ internal static class IconManager
         Glyph = MaterialRounded.Add,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+    internal static FontImageSource ToolbarBackIcon = new FontImageSource()
+    {
+        FontFamily = "MaterialRounded",
+#if IOS
+        Glyph = MaterialRounded.Arrow_back_ios,
+        #else
+            Glyph = MaterialRounded.Arrow_back,
+        #endif
+        Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
+    };
     internal static FontImageSource ToolbarCasinoIcon = new FontImageSource()
     {
         FontFamily = "MaterialRounded",
@@ -111,6 +131,12 @@ internal static class IconManager
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Expand_all,
+        Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
+    };
+    internal static FontImageSource ToolbarMoreItemsIcon = new FontImageSource()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.More_vert,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
     internal static FontImageSource ToolbarPlayIcon = new FontImageSource()
@@ -165,6 +191,16 @@ internal static class IconManager
         {
             FontFamily = "MaterialRounded",
             Glyph = MaterialRounded.Autoplay,
+            Color = (Color)Application.Current!.Resources["IconColor"]
+        };
+        BackIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRounded",
+            #if IOS
+            Glyph = MaterialRounded.Arrow_back_ios,
+            #else
+                    Glyph = MaterialRounded.Arrow_back,
+            #endif
             Color = (Color)Application.Current!.Resources["IconColor"]
         };
         OffIcon = new FontImageSource
@@ -234,6 +270,16 @@ internal static class IconManager
             Glyph = MaterialRounded.Add,
             Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
         };
+        ToolbarBackIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRounded",
+            #if IOS
+            Glyph = MaterialRounded.Arrow_back_ios,
+            #else
+                Glyph = MaterialRounded.Arrow_back,
+            #endif
+            Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
+        };
         ToolbarCasinoIcon = new FontImageSource
         {
             FontFamily = "MaterialRounded",
@@ -268,6 +314,12 @@ internal static class IconManager
         {
             FontFamily = "MaterialRounded",
             Glyph = MaterialRounded.Expand_all,
+            Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
+        };
+        ToolbarMoreItemsIcon = new FontImageSource
+        {
+            FontFamily = "MaterialRounded",
+            Glyph = MaterialRounded.More_vert,
             Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
         };
         ToolbarPlayIcon = new FontImageSource

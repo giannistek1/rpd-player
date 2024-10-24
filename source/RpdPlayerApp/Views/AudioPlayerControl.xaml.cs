@@ -31,6 +31,7 @@ public partial class AudioPlayerControl : ContentView
         AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
 
         PlayToggleImage.Source = IconManager.PlayIcon;
+        SongPartsCarouselView.ItemsSource = MainViewModel.CarouselSongParts;
     }
 
     internal void UpdateUI()
@@ -111,6 +112,8 @@ public partial class AudioPlayerControl : ContentView
                     SetNextSwipeItem(isVisible: true, songPart: MainViewModel.SongPartsQueue.Peek());
                 }
 
+                SongPartsCarouselView.CurrentItem = MainViewModel.CurrentSongPart;
+
                 break;
 
             case PlayMode.Playlist:
@@ -131,6 +134,8 @@ public partial class AudioPlayerControl : ContentView
                 {
                     SetNextSwipeItem(isVisible: true, songPart: MainViewModel.PlaylistQueue.Peek());
                 }
+
+                CarouselSelectCurrentSong();
 
                 break;
         }
@@ -214,8 +219,6 @@ public partial class AudioPlayerControl : ContentView
         DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
 
         UpdateNextSwipeItem();
-
-
     }
 
     internal void StopAudio()
@@ -322,5 +325,10 @@ public partial class AudioPlayerControl : ContentView
         if (MainViewModel.CurrentSongPart is null || MainViewModel.CurrentSongPart.Id < 0) { return; }
 
         ShowDetails?.Invoke(sender, e);
+    }
+
+    internal void CarouselSelectCurrentSong()
+    {
+        SongPartsCarouselView.CurrentItem = MainViewModel.CurrentSongPart;
     }
 }
