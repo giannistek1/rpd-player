@@ -20,7 +20,6 @@ public partial class SortByBottomSheet
     private void OnShown(object? sender, EventArgs e)
     {
         SortTable.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
-        Header.TextColor = (Color)Application.Current!.Resources["Good"];
     }
 
     #region Sorting

@@ -4,7 +4,7 @@
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:syncfusionExpander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
-             xmlns:sfCore="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:effectsView="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.HomeView"
@@ -448,16 +448,6 @@
 
                     <syncfusionExpander:SfExpander.Content>
 
-                        <!--<sfCore:SfChipGroup x:Name="YearChips"
-			                            ChipPadding="8,8,0,0" 
-			                            DisplayMemberPath="Title"
-			                            ChipBackground="white"
-			                            ChipTextColor="Black"
-			                            HorizontalOptions="Start" 
-			                            VerticalOptions="Center">
-                            
-                        </sfCore:SfChipGroup>-->
-                        
                         <syncfusion:SfListView
                             x:Name="KpopYearsListView"
                             Orientation="Horizontal"

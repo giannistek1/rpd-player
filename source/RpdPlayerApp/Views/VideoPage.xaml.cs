@@ -6,19 +6,13 @@ namespace RpdPlayerApp.Views;
 
 public partial class VideoPage : ContentPage
 {
-    internal SongPart SongPart { get; set; }
 	internal VideoPage(SongPart songPart)
 	{
 		InitializeComponent();
 
-        SongPart = songPart;
+        VideoMediaElement.Source = MediaSource.FromUri(songPart.VideoURL);
+        VideoMediaElement.Volume = MainViewModel.MainVolume;
 
-        this.Appearing += OnAppearing;
-        this.Disappearing += OnDisappearing;
-    }
-
-    private void OnAppearing(object? sender, EventArgs e)
-    {
         //AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         //NowPlayingLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
 
@@ -26,18 +20,17 @@ public partial class VideoPage : ContentPage
 
         //DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
 
-        VideoMediaElement.Source = MediaSource.FromUri(SongPart.VideoURL);
-        VideoMediaElement.Volume = MainViewModel.MainVolume;
+        this.Disappearing += OnDisappearing;
 
-        SongTitleLabel.Text = $"{SongPart.Title}";
-        ArtistLabel.Text = SongPart.ArtistName;
-        SongPartLabel.Text = $"{SongPart.PartNameFull}";
+        SongTitleLabel.Text = $"{songPart.Title}";
+        ArtistLabel.Text = songPart.ArtistName;
+        SongPartLabel.Text = $"{songPart.PartNameFull}";
 
         VideoMediaElement.ShouldAutoPlay = true;
         VideoMediaElement.ShouldLoopPlayback = MainViewModel.ShouldLoopVideo;
 
         // Don't put the starting value in the XML because then you can't move the slider!
-        SpeedSlider.Value = 1;
+        SpeedSlider.Value = 1; 
     }
 
     private void SpeedSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)

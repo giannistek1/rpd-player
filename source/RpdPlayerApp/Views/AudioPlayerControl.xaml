@@ -23,12 +23,12 @@
             <!-- Album image -->
             <Image Grid.Column="0" HeightRequest="50" x:Name="AlbumImage" />
 
-            <CarouselView Grid.Column="1" x:Name="SongPartsCarouselView" CurrentItemChanged="SongPartsCarouselView_CurrentItemChanged" IsBounceEnabled="False" HorizontalScrollBarVisibility="Never" Loop="False" HeightRequest="50" BackgroundColor="Transparent">
+            <CarouselView Grid.Column="1" x:Name="SongPartsCarouselView" IsBounceEnabled="False" HorizontalScrollBarVisibility="Never" Loop="False" HeightRequest="50" BackgroundColor="Transparent">
 
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
 
-                        <VerticalStackLayout Padding="16,4,0,0" VerticalOptions="CenterAndExpand">
+                        <VerticalStackLayout Padding="16,8,0,0" VerticalOptions="CenterAndExpand">
 
                             <Label x:Name="NowPlayingLabel" LineBreakMode="TailTruncation" VerticalOptions="Center" VerticalTextAlignment="Start" FontSize="12"  TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}"/>
                             <Label x:Name="NowPlayingPartLabel" LineBreakMode="TailTruncation" VerticalOptions="Center" VerticalTextAlignment="Center" FontSize="10"  TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding PartNameFull}"/>
