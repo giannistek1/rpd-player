@@ -96,9 +96,9 @@ public partial class MainPage
 
     internal void SetupHomeToolbar()
     {
-        Title = "Home";
-
         ToolbarItems.Clear();
+
+        Title = "Home";
 
         ToolbarItem feedbackToolbarItem = new ToolbarItem
         {
@@ -125,7 +125,7 @@ public partial class MainPage
     /// <summary>
     /// Setups or refreshes the toolbar.
     /// </summary>
-    internal void SetupSearchToolbar(object? sender = null, EventArgs? e = null)
+    internal void SetupSearchToolbar()
     {
         ToolbarItems.Clear();
 
@@ -198,72 +198,42 @@ public partial class MainPage
         {
             Text = "",
             IconImageSource = (MainViewModel.UsingVideoMode ? IconManager.ToolbarVideoIcon : IconManager.ToolbarVideoOffIcon),
-            Order = ToolbarItemOrder.Default,
-            Priority = 1
+            Order = ToolbarItemOrder.Default, // Primary or Secondary
+            Priority = 1 // the lower the number, the higher the priority
         };
 
         ToolbarItem sortToolbarItem = new ToolbarItem
         {
             Text = "",
             IconImageSource = IconManager.ToolbarSortIcon,
-            Order = ToolbarItemOrder.Default,
-            Priority = 2
+            Order = ToolbarItemOrder.Default, // Primary or Secondary
+            Priority = 2 // the lower the number, the higher the priority
         };
 
-        ToolbarItem moreItemsToolbarItem = new ToolbarItem
+        ToolbarItem collapseAllToolbarItem = new ToolbarItem
         {
-            Text = "",
-            IconImageSource = IconManager.ToolbarMoreItemsIcon,
-            Order = ToolbarItemOrder.Default, // Secondary does not create a vertical dots icon on iOS.
-            Priority = 3
+            Text = "Collapse all",
+            IconImageSource = IconManager.ToolbarCollapseAllIcon,
+            Order = ToolbarItemOrder.Secondary, // Primary or Secondary
+            Priority = 4 // the lower the number, the higher the priority
+        };
+
+        ToolbarItem expandAllToolbarItem = new ToolbarItem
+        {
+            Text = "Expand all",
+            IconImageSource = IconManager.ToolbarExpandAllIcon,
+            Order = ToolbarItemOrder.Secondary, // Primary or Secondary
+            Priority = 5 // the lower the number, the higher the priority
         };
 
         playOrAddRandomToolbarItem.Clicked += SearchSongPartsView.PlayRandomButtonClicked;
         videoModeToolbarItem.Clicked += SearchSongPartsView.ToggleAudioModeButtonClicked;
         sortToolbarItem.Clicked += SearchSongPartsView.SortButtonClicked;
-        moreItemsToolbarItem.Clicked += ShowSecondaryToolbarItems;
-
+        collapseAllToolbarItem.Clicked += SearchSongPartsView.CollapseAllButtonClicked;
+        expandAllToolbarItem.Clicked += SearchSongPartsView.ExpandAllButtonClicked;
         ToolbarItems.Add(playOrAddRandomToolbarItem);
         ToolbarItems.Add(videoModeToolbarItem);
         ToolbarItems.Add(sortToolbarItem);
-        ToolbarItems.Add(moreItemsToolbarItem);
-    }
-
-    // iOS secondary workaround until MAUI team fixes this
-    private void ShowSecondaryToolbarItems(object? sender, EventArgs e)
-    {
-        Title = string.Empty;
-
-        ToolbarItems.Clear();
-
-        ToolbarItem backToolbarItem = new ToolbarItem
-        {
-            Text = "Back",
-            //IconImageSource = IconManager.ToolbarBackIcon, // Ideally both back and icon, but iOS doesn't do that...
-            Order = ToolbarItemOrder.Primary, 
-            Priority = 4
-        };
-        ToolbarItem collapseAllToolbarItem = new ToolbarItem
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarCollapseAllIcon,
-            Order = ToolbarItemOrder.Primary,
-            Priority = 5
-        };
-
-        ToolbarItem expandAllToolbarItem = new ToolbarItem
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarExpandAllIcon,
-            Order = ToolbarItemOrder.Primary, 
-            Priority = 6
-        };
-
-        backToolbarItem.Clicked += SetupSearchToolbar;
-        collapseAllToolbarItem.Clicked += SearchSongPartsView.CollapseAllButtonClicked;
-        expandAllToolbarItem.Clicked += SearchSongPartsView.ExpandAllButtonClicked;
-
-        ToolbarItems.Add(backToolbarItem);
         ToolbarItems.Add(collapseAllToolbarItem);
         ToolbarItems.Add(expandAllToolbarItem);
     }
@@ -504,10 +474,5 @@ public partial class MainPage
             base.OnBackButtonPressed();
             return false;
         }
-    }
-
-    internal void CarouselSelectCurrentSong()
-    {
-        AudioPlayerControl.CarouselSelectCurrentSong();
     }
 }

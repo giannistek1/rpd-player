@@ -75,11 +75,11 @@ internal static class MainViewModel
     // TODO: Make non-nullable and check for default values
 
     public static List<SongPart> SongParts { get; set; } = new();
-    public static List<SongPart> SongPartHistory { get; set; } = [];
     public static SongPart CurrentSongPart { get; set; } = new(); 
     public static Queue<SongPart> PlaylistQueue { get; set; } = new();
+    public static List<SongPart> SongPartHistory { get; set; } = [];
+
     public static Queue<SongPart> SongPartsQueue { get; set; } = new();
-    public static ObservableCollection<SongPart> CarouselSongParts { get; set; } = [];
 
 
     public static bool CurrentlyPlaying { get; set; } = false;

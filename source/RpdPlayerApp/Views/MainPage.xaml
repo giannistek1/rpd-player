@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
-             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Carousel;assembly=Syncfusion.Maui.Carousel"
              xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
@@ -15,9 +14,10 @@
 
     <Grid RowDefinitions="*, Auto">
         
+
         <tabView:SfTabView x:Name="MainContainer" TabBarPlacement="Bottom" TabItemTapped="MainContainerTabItemTapped" BackgroundColor="{DynamicResource TabViewBackgroundColor}" IndicatorBackground="{DynamicResource Primary}" IndicatorPlacement="Fill" IndicatorWidthMode="Stretch">
 
-            <tabView:SfTabItem x:Name="HomeTabItem" Header="Home" TextColor="{DynamicResource PrimaryTextColor}" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialRounded, Glyph={x:Static m:MaterialRounded.Home}, Color={DynamicResource IconColor}}">
+            <tabView:SfTabItem x:Name="HomeTabItem" Header="Home" TextColor="{DynamicResource PrimaryTextColor}" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Home}, Color={DynamicResource IconColor}}">
                 <tabView:SfTabItem.Content>
 
                     <views:HomeView x:Name="HomeView" />
@@ -25,7 +25,7 @@
                 </tabView:SfTabItem.Content>
             </tabView:SfTabItem>
 
-            <tabView:SfTabItem x:Name="SearchTabItem" Header="Search" TextColor="{DynamicResource PrimaryTextColor}" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialRounded, Glyph={x:Static m:MaterialRounded.Search}, Color={DynamicResource IconColor}}">
+            <tabView:SfTabItem x:Name="SearchTabItem" Header="Search" TextColor="{DynamicResource PrimaryTextColor}" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Search}, Color={DynamicResource IconColor}}">
                 <tabView:SfTabItem.Content>
 
                     <views:SearchSongPartsView x:Name="SearchSongPartsView" />
@@ -33,7 +33,7 @@
                 </tabView:SfTabItem.Content>
             </tabView:SfTabItem>
 
-            <tabView:SfTabItem x:Name="LibraryTabItem" Header="Library" TextColor="{DynamicResource PrimaryTextColor}" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialRounded, Glyph={x:Static m:MaterialRounded.Format_list_bulleted}, Color={DynamicResource IconColor}}">
+            <tabView:SfTabItem x:Name="LibraryTabItem" Header="Library" TextColor="{DynamicResource PrimaryTextColor}" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialOutlined, Glyph={x:Static m:MaterialOutlined.Library_books}, Color={DynamicResource IconColor}}">
                 <tabView:SfTabItem.Content>
 
                     <Grid x:Name="LibraryContainer">

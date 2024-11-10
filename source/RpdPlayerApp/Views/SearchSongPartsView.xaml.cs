@@ -136,7 +136,6 @@ public partial class SearchSongPartsView : ContentView
 
         SongPart songPart = (SongPart)e.DataItem;
 
-        // Videomode
         if (MainViewModel.UsingVideoMode && songPart.HasVideo)
         {
             StopSongPart?.Invoke(sender, e);
@@ -152,10 +151,6 @@ public partial class SearchSongPartsView : ContentView
             MainViewModel.PlayMode = PlayMode.Queue;
 
             MainViewModel.CurrentSongPart = songPart;
-
-            MainViewModel.CarouselSongParts.Insert(0,songPart);
-            ParentPage.CarouselSelectCurrentSong();
-
             PlaySongPart?.Invoke(sender, e);
             TimerManager.songPart = songPart;
             TimerManager.StartInfiniteScaleYAnimationWithTimer();
@@ -175,8 +170,6 @@ public partial class SearchSongPartsView : ContentView
             if (!MainViewModel.SongPartsQueue.Contains(songPart))
             {
                 MainViewModel.SongPartsQueue.Enqueue(songPart);
-                MainViewModel.CarouselSongParts.Add(songPart);
-
                 Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
             }
 
@@ -226,7 +219,6 @@ public partial class SearchSongPartsView : ContentView
         if (!MainViewModel.SongPartsQueue.Contains(songPart))
         {
             MainViewModel.SongPartsQueue.Enqueue(songPart);
-            MainViewModel.CarouselSongParts.Add(songPart);
             Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
         }
 
@@ -284,7 +276,6 @@ public partial class SearchSongPartsView : ContentView
             if (!MainViewModel.SongPartsQueue.Contains(songPart))
             {
                 MainViewModel.SongPartsQueue.Enqueue(songPart);
-                MainViewModel.CarouselSongParts.Add(songPart);
                 Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
                 EnqueueSongPart?.Invoke(sender, e);
             }
@@ -292,7 +283,6 @@ public partial class SearchSongPartsView : ContentView
         else
         {
             MainViewModel.CurrentSongPart = songPart;
-            MainViewModel.CarouselSongParts.Add(songPart);
             PlaySongPart?.Invoke(sender, e);
         }
     }
