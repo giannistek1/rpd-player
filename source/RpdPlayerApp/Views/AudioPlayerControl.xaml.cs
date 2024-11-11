@@ -36,6 +36,7 @@ public partial class AudioPlayerControl : ContentView
     internal void UpdateUI()
     {
         PlayToggleImage.Source = MainViewModel.CurrentlyPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleButton.BackgroundColor = (Color)Application.Current!.Resources["PrimaryButton"];
     }
 
     #region AudioProgressSlider

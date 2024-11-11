@@ -132,8 +132,8 @@
                           WidthRequest="60"
                           StrokeShape="RoundRectangle 30"
                           VerticalOptions="Center">
-
-                    <material:ButtonView  HeightRequest="60" x:Name="PlayToggleButton" Pressed="PlayToggleButton_Pressed">
+                    
+                    <material:ButtonView  HeightRequest="60" x:Name="PlayToggleButton" Pressed="PlayToggleButton_Pressed" Background="{DynamicResource PrimaryButton}">
                         <Image x:Name="PlayToggleImage" HeightRequest="60" HorizontalOptions="Center">
                             <Image.Source>
                                 <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Play_pause}" Color="{DynamicResource IconColor}" />

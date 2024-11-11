@@ -6,7 +6,7 @@
 
     <!-- (Reusable) main colors -->
     <Color x:Key="Primary">#64b06c</Color>
-    <Color x:Key="Good">#90EE90</Color>
+    <Color x:Key="Good">#64b06c</Color>
     <Color x:Key="Bad">#F00</Color>
 
     <Color x:Key="NavigationBackgroundColor">#64b06c</Color>

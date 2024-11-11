@@ -19,6 +19,8 @@ public partial class CurrentPlaylistView : ContentView
         InitializeComponent();
 
         CurrentPlaylistListView.DragDropController!.UpdateSource = true;
+
+        BackButtonImage.Source = IconManager.BackIcon;
     }
 
     private void BackButtonClicked(object sender, EventArgs e)
