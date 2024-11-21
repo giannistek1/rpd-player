@@ -1,11 +1,16 @@
 <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/overview.png?raw=true" width="1120">
 
+# Disclaimer
+I do not own any rights to any of these songs. 
+They were written and produced by their respective artists. 
+I am simply cutting parts out of the songs to use in this free-to-use app.
+
 # Rpd-player
-Currently this hobby project is in a WIP state.
+This is a hobby project I work on in my free time. 
 
 ## Overview
 - Context
-- Supported platforms
+- Scope
 - Problems Solved
 - Summary
 - Home screen
@@ -22,14 +27,14 @@ A short countdown is played between each song so people have enough time to leav
 Tyically in South Korea they last an hour <br/>
 However in other countries they may be for the whole afternoon from 12:00-18:00 with several short breaks and several different playlists of each 1-2 hours with different twists, other dancing minigames and/or different dancecrews covering mashups or full songs.
 
-## Supported platforms and scope
-- Android, iOS (Todo), Windows
+## Scope
+- Platforms: Android, iOS and hopefully Windows
 - Music player will only play mp3, because it is high quality and compressed.
 - Playlists will be saved locally and online.
-- Only Korean, Chinese, Japanese, English and Thai songs for now.
-- Dance practices for most songs included with priority for more popular songs.
-- May make an account system to save and load your own playlists online.
-- May add bpm per song to add countings and make animation based on bpm.
+- Only Korean, Chinese-pop, Japanese-pop, English and Thai-pop songs for now.
+- Todo: Dance practices for most songs included with priority for more popular songs.
+- Future: May make an account system to save and load your own playlists online.
+- Future: May add bpm per song to add countings and make animation based on bpm.
 
 ## Problems solved and benefits:
 - Todo: Hours of searching and editing music/videos -> Mere minutes of making a RPD playlist by importing your songlist or searching one by one.
@@ -43,13 +48,14 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 - Todo: Easy way to share your playlist with other people when they have the app or send them a textual list.
 - Todo: Easy way to randomize your playlist with good variety.
 - Todo: Language variety (Kpop, cpop, jpop, tpop)
-- Songs are 30% louder than usual, which is ideal for people with smaller speakers.
+- Songs are ~30% louder than usual, which is ideal for people with smaller speakers.
 - No double songparts any more in your playlist
 
 # Feature summary
 - Music Player app for (kpop) random play dances. Includes playing, pausing and moving the audio progress slider.
 - Catalog of ~1500 songs and ~210 artists (1200 songs and 192 artists right now)
    -  Mostly choruses and pre-choruses, but also dance breaks/bridges and tiktok versions
+   -  In-app song request function
 - Create your own playlist, save it locally or online (todo: shareable)
 - Balanced randomizer for any playlist which mixes grouptypes and TODO: artists.
 - Themes! Thanks to Daniel Hindrik's tutorial.
@@ -89,6 +95,7 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 
 ## Inspiration 
 - Spotify
+- Nintendo Music
 
 ## Rival apps?
 - STEPIN - KPOP DANCE (100k users)
@@ -210,10 +217,7 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 - 
 - General
 - Grouptype color in header when sorting by artist. Binding GroupedGroupTypeColorVisible
-- If searching and empty and filter mode, show text, sadly could not find anything, try this clear filter button.
-- 
 - Scrollable labels? Auto scroll.
-- Video icon bottom right, playing icon right top
 - !!!!Update playlist stats
 - User feedback page or request song with checkbox include dance practice.
 - List song history for graph visible
@@ -224,30 +228,19 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 - Xikers has no videos?!
 - Skz2020 albums maken, hellevator = 2017
 - Mamamoo has mamamoo+?!
-- Go to bottom button 
-- Go to top button
 - Change font
-- Song detail page
-- Looping
 - Titleok
 - Shortlived token ophalen via textfile
 - Animate three rectangles on listitem when playing(visible true?) 
-- Next song by swipe gesture left 
 - Announcements: Dance break, chorus X, verse, tiktok
 - 
 - Notification channel 
 - Android auto
 - 
 - SearchSongPart
-- Add all results doesnt add because it only looks at filteredsearchlist.
-- Sort By verplaatsen en sorted by ->
 - Advanced search: artist: aaa, title: sjdhd
-- Double tap video = single tap with video icon (grayed out or not)
-- Video icon to the right
 - Order by release date: order by date within group
 - Turn on/off grouping
-- Bug: Searchfilter removes orderby?
-- Bug: Orderby ignores searchfilter 
 - AddAllResults update playlistscreen
 - Looping
 - 
@@ -262,13 +255,10 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 - Generate random playlist of half an hour, an hour, 1.5 hours etc. Eventually add details (bg/gg ratio, gens).
 - 
 - Configurable filters
-- Recent years: 2020, 2021, 2022, 2023, 2024
 - 
 - Preconfigured playlists from dropbox (new/recent, popular, oldschool, etc)
 - 
 - Currentplaylist
-- Randomize: begin with most grouptype
-- Checkbox -> cloud toggle button
 - Expanded for extra stats
 - Expander for advanced options (voices, countdown)
 - Playlists subtabview (Local list, online list, currentplaylist)
@@ -278,8 +268,6 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 - Looping
 - 
 - VideoPage
-- Mirrored label 
-- Speed adjustment
 - Details
 - Landscape mode
 - 8 Counts
