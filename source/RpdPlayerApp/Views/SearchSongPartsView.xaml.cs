@@ -474,6 +474,20 @@ public partial class SearchSongPartsView : ContentView
                 case SearchFilterMode.Group:
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount > 2).ToObservableCollection(); break;
 
+                case SearchFilterMode.kpop2012:
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2012).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2013:
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2013).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2014:
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2014).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2015:
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2015).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2016:
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2016).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2017:
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2017).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2018:
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2018).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2019:
                     songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2019).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2020:

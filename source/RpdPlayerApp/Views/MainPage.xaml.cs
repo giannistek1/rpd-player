@@ -123,7 +123,7 @@ public partial class MainPage
         ToolbarItems.Add(settingsToolbarItem);
     }
     /// <summary>
-    /// Setups or refreshes the toolbar.
+    /// Setups title and toolbar items or refreshes the toolbar.
     /// </summary>
     internal void SetupSearchToolbar(object? sender = null, EventArgs? e = null)
     {
@@ -175,6 +175,13 @@ public partial class MainPage
             SearchFilterMode.Nonet => "Nonets",
             SearchFilterMode.Group => "Groups (2+ members)",
 
+            SearchFilterMode.kpop2012 => "K-pop 2012",
+            SearchFilterMode.kpop2013 => "K-pop 2013",
+            SearchFilterMode.kpop2014 => "K-pop 2014",
+            SearchFilterMode.kpop2015 => "K-pop 2015",
+            SearchFilterMode.kpop2016 => "K-pop 2016",
+            SearchFilterMode.kpop2017 => "K-pop 2017",
+            SearchFilterMode.kpop2018 => "K-pop 2018",
             SearchFilterMode.kpop2019 => "K-pop 2019",
             SearchFilterMode.kpop2020 => "K-pop 2020",
             SearchFilterMode.kpop2021 => "K-pop 2021",
