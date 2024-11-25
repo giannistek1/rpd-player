@@ -269,6 +269,20 @@ public partial class HomeView : ContentView
         };
 
         KpopYearsListView.ItemsSource = new List<HomeListViewItem>() {
+            new HomeListViewItem(title: "2017",
+                                description: "K-pop 2017",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
+                                searchFilterMode: SearchFilterMode.kpop2017,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2017)
+                                ),
+
+            new HomeListViewItem(title: "2018",
+                                description: "K-pop 2018",
+                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
+                                searchFilterMode: SearchFilterMode.kpop2018,
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2018)
+                                ),
+
             new HomeListViewItem(title: "2019",
                                 description: "K-pop 2019",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",

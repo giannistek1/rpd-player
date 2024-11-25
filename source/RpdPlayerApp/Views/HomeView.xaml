@@ -453,27 +453,28 @@
                             Orientation="Horizontal"
                             AutoFitMode="Height" 
                             SelectionMode="None"
-                            ItemSpacing="8"
-                            HeightRequest="140"
+                            ItemSpacing="4"
+                            HeightRequest="70"
                             ItemTapped="CategoryListViewItemTapped">
+
+                            <syncfusion:SfListView.ItemsLayout>
+                                <syncfusion:GridLayout SpanCount="2" />
+                            </syncfusion:SfListView.ItemsLayout>
 
                             <syncfusion:SfListView.ItemTemplate>
                                 <DataTemplate>
 
-                                    <VerticalStackLayout Padding="0">
+                                    <Border Padding="0"
+                                      HeightRequest="32"
+                                      StrokeShape="RoundRectangle 8"
+                                      VerticalOptions="Center">
 
-                                        <Image HeightRequest="80" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                            <Image.Source>
-                                                <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
-                                            </Image.Source>
-                                        </Image>
-
-                                        <HorizontalStackLayout HeightRequest="32" VerticalOptions="End">
-                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
-                                            <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                        <HorizontalStackLayout HeightRequest="32" VerticalOptions="Center" BackgroundColor="{DynamicResource SecondaryButton}" Padding="4">
+                                            <Label VerticalOptions="Center" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                                            <Label VerticalOptions="Center" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
                                         </HorizontalStackLayout>
 
-                                    </VerticalStackLayout>
+                                    </Border>
 
                                 </DataTemplate>
                             </syncfusion:SfListView.ItemTemplate>
