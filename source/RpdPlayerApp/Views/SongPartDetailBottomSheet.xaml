@@ -16,10 +16,10 @@
        
         <Grid RowDefinitions="22, 40, auto, 30, 30, 30, 50, 70, 50" Padding="12,0,12,0">
 
-            <material:ButtonView Grid.Row="0" HeightRequest="40" x:Name="CloseButton" HorizontalOptions="EndAndExpand" Background="Transparent" Pressed="CloseButton_Pressed">
-                <Image x:Name="CloseImage" HeightRequest="40" HorizontalOptions="End">
+            <material:ButtonView Grid.Row="0" HeightRequest="40" x:Name="CloseButton" HorizontalOptions="CenterAndExpand" Background="Transparent" Pressed="CloseButton_Pressed">
+                <Image x:Name="CloseImage" HeightRequest="40" HorizontalOptions="Center">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Keyboard_arrow_down}" Color="{DynamicResource IconColor}" />
+                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Minimize}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
