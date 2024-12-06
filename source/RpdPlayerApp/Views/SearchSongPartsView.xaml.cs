@@ -26,7 +26,7 @@ public partial class SearchSongPartsView : ContentView
     internal ObservableCollection<SongPart> songParts = [];
     internal List<SongPart> searchFilteredSongParts = [];
     internal int SongCount { get; set; } = 0;
-    internal MainPage ParentPage { get; set; }
+    internal MainPage? ParentPage { get; set; }
 
     public SearchSongPartsView()
     {
@@ -44,7 +44,7 @@ public partial class SearchSongPartsView : ContentView
             i++;
         }
         SonglibraryListView.ItemsSource = songParts;
-        MainViewModel.SongParts = songParts.ToList();
+        MainViewModel.SongParts = [.. songParts];
         SongCount = allSongParts.Count;
 
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
@@ -56,7 +56,7 @@ public partial class SearchSongPartsView : ContentView
     internal void ToggleAudioModeButtonClicked(object? sender, EventArgs e)
     {
         MainViewModel.UsingVideoMode = !MainViewModel.UsingVideoMode;
-        ParentPage.SetupSearchToolbar();
+        ParentPage?.SetupSearchToolbar();
 
         if (MainViewModel.UsingVideoMode)
         { 
@@ -300,11 +300,11 @@ public partial class SearchSongPartsView : ContentView
         // If search filtered or not
         if (searchFilteredSongParts.Count > 0)
         {
-            addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(searchFilteredSongParts.ToList());
+            addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist([.. searchFilteredSongParts]);
         }
         else
         {
-            addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songParts.ToList());
+            addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist([.. songParts]);
         }
 
         // Show result
@@ -342,7 +342,7 @@ public partial class SearchSongPartsView : ContentView
 
 
         SonglibraryListView.ItemsSource = searchFilteredSongParts;
-        MainViewModel.SongParts = songParts.ToList();
+        MainViewModel.SongParts = [.. songParts];
 
         ResultsLabel.Text = $"Currently showing {searchFilteredSongParts.Count} results";
     }
@@ -502,11 +502,11 @@ public partial class SearchSongPartsView : ContentView
                     songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2024).ToObservableCollection(); break;
             }
 
-            ParentPage.SetupSearchToolbar();
+            ParentPage?.SetupSearchToolbar();
 
             songParts.CollectionChanged += SongPartsCollectionChanged;
             SonglibraryListView.ItemsSource = songParts;
-            MainViewModel.SongParts = songParts.ToList();
+            MainViewModel.SongParts = [.. songParts];
 
             ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
         }
@@ -916,8 +916,7 @@ public partial class SearchSongPartsView : ContentView
                             int month = item!.Album.ReleaseDate.Month;
                             int day = item!.Album.ReleaseDate.Day;
 
-                            // Consider whether you want DateTime.UtcNow.Year instead
-                            DateTime date = new(DateTime.Now.Year, month, day);
+                            DateTime date = new(DateTime.Now.Year, month, day, 0, 0, 0, DateTimeKind.Utc);
                             return date.ToString("MM/dd");
                         },
                     });
@@ -931,9 +930,11 @@ public partial class SearchSongPartsView : ContentView
         }
         catch (Exception ex)
         {
-            Dictionary<string, object> dict = new();
-            dict.Add("SortMode", MainViewModel.SortMode.ToString());
-            dict.Add("SearchFilterMode", MainViewModel.SearchFilterMode.ToString());
+            Dictionary<string, object> dict = new()
+            {
+                { "SortMode", MainViewModel.SortMode.ToString() },
+                { "SearchFilterMode", MainViewModel.SearchFilterMode.ToString() }
+            };
             ex.AddSentryContext("data", dict);
 
             SentrySdk.CaptureException(ex);

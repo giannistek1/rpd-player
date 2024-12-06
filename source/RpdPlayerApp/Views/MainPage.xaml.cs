@@ -80,18 +80,10 @@ public partial class MainPage
 
     private void MainContainerTabItemTapped(object sender, Syncfusion.Maui.TabView.TabItemTappedEventArgs e)
     {
-        if (HomeTabItem == e.TabItem)
-        {
-            SetupHomeToolbar();
-        }
-        else if (SearchTabItem == e.TabItem)
-        {
-            SetupSearchToolbar();
-        }
-        else if (LibraryTabItem == e.TabItem)
-        {
-            SetupLibraryToolbar();
-        }
+        // Can't make a switch out of this. A constant value of type SfTabItem is needed.
+        if      (HomeTabItem == e.TabItem)      { SetupHomeToolbar(); }
+        else if (SearchTabItem == e.TabItem)    { SetupSearchToolbar(); }
+        else if (LibraryTabItem == e.TabItem)   { SetupLibraryToolbar(); }
     }
 
     internal void SetupHomeToolbar()
@@ -100,7 +92,7 @@ public partial class MainPage
 
         ToolbarItems.Clear();
 
-        ToolbarItem feedbackToolbarItem = new ToolbarItem
+        ToolbarItem feedbackToolbarItem = new()
         {
             Text = "",
             IconImageSource = IconManager.ToolbarRateReviewIcon,
@@ -108,7 +100,7 @@ public partial class MainPage
             Priority = 0 // the lower the number, the higher the priority
         };
 
-        ToolbarItem settingsToolbarItem = new ToolbarItem
+        ToolbarItem settingsToolbarItem = new()
         {
             Text = "",
             IconImageSource = IconManager.ToolbarSettingsIcon,
@@ -193,7 +185,7 @@ public partial class MainPage
 
         Title = MainViewModel.SearchFilterModeText;
 
-        ToolbarItem playOrAddRandomToolbarItem = new ToolbarItem
+        ToolbarItem playOrAddRandomToolbarItem = new()
         {
             Text = "",
             IconImageSource = IconManager.ToolbarCasinoIcon,
@@ -201,7 +193,7 @@ public partial class MainPage
             Priority = 0 // the lower the number, the higher the priority
         };
 
-        ToolbarItem videoModeToolbarItem = new ToolbarItem
+        ToolbarItem videoModeToolbarItem = new()
         {
             Text = "",
             IconImageSource = (MainViewModel.UsingVideoMode ? IconManager.ToolbarVideoIcon : IconManager.ToolbarVideoOffIcon),
@@ -209,7 +201,7 @@ public partial class MainPage
             Priority = 1
         };
 
-        ToolbarItem sortToolbarItem = new ToolbarItem
+        ToolbarItem sortToolbarItem = new()
         {
             Text = "",
             IconImageSource = IconManager.ToolbarSortIcon,
@@ -217,7 +209,7 @@ public partial class MainPage
             Priority = 2
         };
 
-        ToolbarItem moreItemsToolbarItem = new ToolbarItem
+        ToolbarItem moreItemsToolbarItem = new()
         {
             Text = "",
             IconImageSource = IconManager.ToolbarMoreItemsIcon,
@@ -243,14 +235,14 @@ public partial class MainPage
 
         ToolbarItems.Clear();
 
-        ToolbarItem backToolbarItem = new ToolbarItem
+        ToolbarItem backToolbarItem = new()
         {
             Text = "Back",
             //IconImageSource = IconManager.ToolbarBackIcon, // Ideally both back and icon, but iOS doesn't do that...
             Order = ToolbarItemOrder.Primary,
             Priority = 4
         };
-        ToolbarItem collapseAllToolbarItem = new ToolbarItem
+        ToolbarItem collapseAllToolbarItem = new()
         {
             Text = "",
             IconImageSource = IconManager.ToolbarCollapseAllIcon,
@@ -258,7 +250,7 @@ public partial class MainPage
             Priority = 5
         };
 
-        ToolbarItem expandAllToolbarItem = new ToolbarItem
+        ToolbarItem expandAllToolbarItem = new()
         {
             Text = "",
             IconImageSource = IconManager.ToolbarExpandAllIcon,
@@ -282,7 +274,7 @@ public partial class MainPage
         if (LibraryView.IsVisible)
         {
             Title = "Playlists";
-            ToolbarItem newPlaylistToolbarItem = new ToolbarItem
+            ToolbarItem newPlaylistToolbarItem = new()
             {
                 Text = "",
                 IconImageSource = IconManager.ToolbarAddIcon,
@@ -296,28 +288,28 @@ public partial class MainPage
         else
         {
             Title = PlaylistManager.Instance.CurrentPlaylist.Name;
-            ToolbarItem playPlaylistToolbarItem = new ToolbarItem
+            ToolbarItem playPlaylistToolbarItem = new()
             {
                 Text = "",
                 IconImageSource = IconManager.ToolbarPlayIcon,
                 Order = ToolbarItemOrder.Default, // Primary or Secondary
                 Priority = 1 // the lower the number, the higher the priority
             };
-            ToolbarItem savePlaylistToolbarItem = new ToolbarItem
+            ToolbarItem savePlaylistToolbarItem = new()
             {
                 Text = "",
                 IconImageSource = IconManager.ToolbarSaveIcon,
                 Order = ToolbarItemOrder.Default, // Primary or Secondary
                 Priority = 2 // the lower the number, the higher the priority
             };
-            ToolbarItem clearToolbarItem = new ToolbarItem
+            ToolbarItem clearToolbarItem = new()
             {
                 Text = "",
                 IconImageSource = IconManager.ToolbarClearIcon,
                 Order = ToolbarItemOrder.Default, // Primary or Secondary
                 Priority = 3 // the lower the number, the higher the priority
             };
-            ToolbarItem cloudToolbarItem = new ToolbarItem
+            ToolbarItem cloudToolbarItem = new()
             {
                 Text = "",
                 IconImageSource = MainViewModel.UsingCloudMode ? IconManager.ToolbarCloudIcon : IconManager.ToolbarCloudOffIcon,
@@ -341,12 +333,12 @@ public partial class MainPage
 
     private void OnPlayToggleSongPart(object? sender, EventArgs e)
     {
-        AudioPlayerControl.PlayToggleButton_Pressed(sender, e);
+        AudioPlayerControl.PlayToggleButton_Pressed(sender!, e);
     }
 
     private void OnPreviousSong(object? sender, EventArgs e)
     {
-        AudioPlayerControl.PlayPreviousSongPart(sender, e);
+        AudioPlayerControl.PlayPreviousSongPart(sender!, e);
 
         _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
         _detailBottomSheet.UpdateUI();
@@ -354,7 +346,7 @@ public partial class MainPage
 
     private void OnNextSong(object? sender, EventArgs e)
     {
-        AudioPlayerControl.NextButton_Pressed(sender, e);
+        AudioPlayerControl.NextButton_Pressed(sender!, e);
 
         _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
         _detailBottomSheet.UpdateUI();
@@ -415,7 +407,7 @@ public partial class MainPage
     }
 
     // Used by searchsongpartsView, currentplaylistView
-    private void OnPlaySongPart(object sender, EventArgs e)
+    private void OnPlaySongPart(object? sender, EventArgs e)
     {
         if (MainViewModel.CurrentSongPart.Id < 0) { return; }
 
@@ -424,7 +416,7 @@ public partial class MainPage
             case PlayMode.Playlist:
                 if (PlaylistManager.Instance.CurrentPlaylist is not null && SearchSongPartsView.songParts.Count > 0)
                 {
-
+                    // Nothing
                 }
 
                 break;
@@ -444,7 +436,7 @@ public partial class MainPage
         AudioPlayerControl.PlayAudio(MainViewModel.CurrentSongPart);
     }
 
-    private void OnStopSongPart(object sender, EventArgs e)
+    private void OnStopSongPart(object? sender, EventArgs e)
     {
         if (MainViewModel.CurrentSongPart.Id > 0)
         {
@@ -452,7 +444,7 @@ public partial class MainPage
         }
     }
 
-    private void OnShowSortBy(object sender, EventArgs e)
+    private void OnShowSortBy(object? sender, EventArgs e)
     {
         _sortByBottomSheet.HasHandle = true;
         _sortByBottomSheet.IsCancelable = true;
@@ -462,7 +454,7 @@ public partial class MainPage
     }
 
     #region AudioPlayerControl Events
-    private void OnShowDetails(object sender, EventArgs e)
+    private void OnShowDetails(object? sender, EventArgs e)
     {
         _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
         _detailBottomSheet.UpdateUI();
