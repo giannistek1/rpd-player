@@ -97,21 +97,19 @@ public partial class MainPage
             Text = "",
             IconImageSource = IconManager.ToolbarRateReviewIcon,
             Order = ToolbarItemOrder.Default, // Primary or Secondary
-            Priority = 0 // the lower the number, the higher the priority
+            Priority = 0
         };
+        feedbackToolbarItem.Clicked += HomeView.FeedbackButtonPressed;
+        ToolbarItems.Add(feedbackToolbarItem);
 
         ToolbarItem settingsToolbarItem = new()
         {
             Text = "",
             IconImageSource = IconManager.ToolbarSettingsIcon,
             Order = ToolbarItemOrder.Default, // Primary or Secondary
-            Priority = 1 // the lower the number, the higher the priority
+            Priority = 1
         };
-
-        feedbackToolbarItem.Clicked += HomeView.FeedbackButtonPressed;
         settingsToolbarItem.Clicked += HomeView.SettingsButtonPressed;
-
-        ToolbarItems.Add(feedbackToolbarItem);
         ToolbarItems.Add(settingsToolbarItem);
     }
     /// <summary>
@@ -144,11 +142,11 @@ public partial class MainPage
             SearchFilterMode.CJ_ENM_Music => "CJ ENM Music",
             SearchFilterMode.Kakao_Entertainment => "Kakao Entertainment",
 
-            SearchFilterMode.Firstgen => "First gen (< 2002)",
-            SearchFilterMode.Secondgen => "Second gen (2003 - 2012)",
-            SearchFilterMode.Thirdgen => "Third gen (2012 - 2017)",
-            SearchFilterMode.Fourthgen => "Fourth gen (2018 - 2022)",
-            SearchFilterMode.Fifthgen => "Fifth gen (2023 >)",
+            SearchFilterMode.Firstgen => "1st gen (< 2002)",
+            SearchFilterMode.Secondgen => "2nd gen (2003..12)",
+            SearchFilterMode.Thirdgen => "3rd gen (2012..17)",
+            SearchFilterMode.Fourthgen => "4th gen (2018..22)",
+            SearchFilterMode.Fifthgen => "5th gen (2023 >)",
 
             SearchFilterMode.KR => "K-pop",
             SearchFilterMode.JP => "J-pop",
@@ -185,30 +183,6 @@ public partial class MainPage
 
         Title = MainViewModel.SearchFilterModeText;
 
-        ToolbarItem playOrAddRandomToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarCasinoIcon,
-            Order = ToolbarItemOrder.Default, // Primary or Secondary
-            Priority = 0 // the lower the number, the higher the priority
-        };
-
-        ToolbarItem videoModeToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = (MainViewModel.UsingVideoMode ? IconManager.ToolbarVideoIcon : IconManager.ToolbarVideoOffIcon),
-            Order = ToolbarItemOrder.Default,
-            Priority = 1
-        };
-
-        ToolbarItem sortToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarSortIcon,
-            Order = ToolbarItemOrder.Default,
-            Priority = 2
-        };
-
         ToolbarItem moreItemsToolbarItem = new()
         {
             Text = "",
@@ -216,20 +190,12 @@ public partial class MainPage
             Order = ToolbarItemOrder.Default, // Secondary does not create a vertical dots icon on iOS.
             Priority = 3
         };
-
-        playOrAddRandomToolbarItem.Clicked += SearchSongPartsView.PlayRandomButtonClicked;
-        videoModeToolbarItem.Clicked += SearchSongPartsView.ToggleAudioModeButtonClicked;
-        sortToolbarItem.Clicked += SearchSongPartsView.SortButtonClicked;
         moreItemsToolbarItem.Clicked += ShowSecondaryToolbarItems;
-
-        ToolbarItems.Add(playOrAddRandomToolbarItem);
-        ToolbarItems.Add(videoModeToolbarItem);
-        ToolbarItems.Add(sortToolbarItem);
         ToolbarItems.Add(moreItemsToolbarItem);
     }
 
     // iOS secondary workaround until MAUI team fixes this
-    private void ShowSecondaryToolbarItems(object? sender, EventArgs e)
+    internal void ShowSecondaryToolbarItems(object? sender = null, EventArgs? e = null)
     {
         Title = string.Empty;
 
@@ -237,34 +203,63 @@ public partial class MainPage
 
         ToolbarItem backToolbarItem = new()
         {
-            Text = "Back",
-            //IconImageSource = IconManager.ToolbarBackIcon, // Ideally both back and icon, but iOS doesn't do that...
+            Text = "",
+            IconImageSource = IconManager.ToolbarBackIcon,
             Order = ToolbarItemOrder.Primary,
-            Priority = 4
+            Priority = 10
         };
+        backToolbarItem.Clicked += SetupSearchToolbar;
+        ToolbarItems.Add(backToolbarItem);
+
+        ToolbarItem playOrAddRandomToolbarItem = new()
+        {
+            Text = "",
+            IconImageSource = IconManager.ToolbarCasinoIcon,
+            Order = ToolbarItemOrder.Default, // Primary or Secondary
+            Priority = 11
+        };
+        playOrAddRandomToolbarItem.Clicked += SearchSongPartsView.PlayRandomButtonClicked;
+        ToolbarItems.Add(playOrAddRandomToolbarItem);
+
+        ToolbarItem videoModeToolbarItem = new()
+        {
+            Text = "",
+            IconImageSource = (MainViewModel.UsingVideoMode ? IconManager.ToolbarVideoIcon : IconManager.ToolbarVideoOffIcon),
+            Order = ToolbarItemOrder.Default,
+            Priority = 12
+        };
+        videoModeToolbarItem.Clicked += SearchSongPartsView.ToggleAudioModeButtonClicked;
+        ToolbarItems.Add(videoModeToolbarItem);
+
         ToolbarItem collapseAllToolbarItem = new()
         {
             Text = "",
             IconImageSource = IconManager.ToolbarCollapseAllIcon,
             Order = ToolbarItemOrder.Primary,
-            Priority = 5
+            Priority = 20
         };
+        collapseAllToolbarItem.Clicked += SearchSongPartsView.CollapseAllButtonClicked;
+        ToolbarItems.Add(collapseAllToolbarItem);
 
         ToolbarItem expandAllToolbarItem = new()
         {
             Text = "",
             IconImageSource = IconManager.ToolbarExpandAllIcon,
             Order = ToolbarItemOrder.Primary,
-            Priority = 6
+            Priority = 21
         };
-
-        backToolbarItem.Clicked += SetupSearchToolbar;
-        collapseAllToolbarItem.Clicked += SearchSongPartsView.CollapseAllButtonClicked;
         expandAllToolbarItem.Clicked += SearchSongPartsView.ExpandAllButtonClicked;
-
-        ToolbarItems.Add(backToolbarItem);
-        ToolbarItems.Add(collapseAllToolbarItem);
         ToolbarItems.Add(expandAllToolbarItem);
+
+        ToolbarItem sortToolbarItem = new()
+        {
+            Text = "",
+            IconImageSource = IconManager.ToolbarSortIcon,
+            Order = ToolbarItemOrder.Default,
+            Priority = 30
+        };
+        sortToolbarItem.Clicked += SearchSongPartsView.SortButtonClicked;
+        ToolbarItems.Add(sortToolbarItem);
     }
 
     internal void SetupLibraryToolbar()
@@ -279,9 +274,8 @@ public partial class MainPage
                 Text = "",
                 IconImageSource = IconManager.ToolbarAddIcon,
                 Order = ToolbarItemOrder.Default, // Primary or Secondary
-                Priority = 1 // the lower the number, the higher the priority
+                Priority = 1
             };
-
             newPlaylistToolbarItem.Clicked += LibraryView.NewPlaylistButtonClicked;
             ToolbarItems.Add(newPlaylistToolbarItem);
         }
@@ -293,38 +287,39 @@ public partial class MainPage
                 Text = "",
                 IconImageSource = IconManager.ToolbarPlayIcon,
                 Order = ToolbarItemOrder.Default, // Primary or Secondary
-                Priority = 1 // the lower the number, the higher the priority
+                Priority = 1
             };
+            playPlaylistToolbarItem.Clicked += _currentPlaylistView.PlayPlaylistButtonClicked;
+            ToolbarItems.Add(playPlaylistToolbarItem);
+
             ToolbarItem savePlaylistToolbarItem = new()
             {
                 Text = "",
                 IconImageSource = IconManager.ToolbarSaveIcon,
                 Order = ToolbarItemOrder.Default, // Primary or Secondary
-                Priority = 2 // the lower the number, the higher the priority
+                Priority = 2
             };
+            savePlaylistToolbarItem.Clicked += _currentPlaylistView.SavePlaylistButtonClicked;
+            ToolbarItems.Add(savePlaylistToolbarItem);
+
             ToolbarItem clearToolbarItem = new()
             {
                 Text = "",
                 IconImageSource = IconManager.ToolbarClearIcon,
                 Order = ToolbarItemOrder.Default, // Primary or Secondary
-                Priority = 3 // the lower the number, the higher the priority
+                Priority = 3
             };
+            clearToolbarItem.Clicked += _currentPlaylistView.ClearPlaylistButtonClicked;
+            ToolbarItems.Add(clearToolbarItem);
+
             ToolbarItem cloudToolbarItem = new()
             {
                 Text = "",
                 IconImageSource = MainViewModel.UsingCloudMode ? IconManager.ToolbarCloudIcon : IconManager.ToolbarCloudOffIcon,
                 Order = ToolbarItemOrder.Default, // Primary or Secondary
-                Priority = 4 // the lower the number, the higher the priority
+                Priority = 4
             };
-
-            playPlaylistToolbarItem.Clicked += _currentPlaylistView.PlayPlaylistButtonClicked;
-            savePlaylistToolbarItem.Clicked += _currentPlaylistView.SavePlaylistButtonClicked;
-            clearToolbarItem.Clicked += _currentPlaylistView.ClearPlaylistButtonClicked;
             cloudToolbarItem.Clicked += _currentPlaylistView.ToggleCloudModePressed;
-
-            ToolbarItems.Add(playPlaylistToolbarItem);
-            ToolbarItems.Add(savePlaylistToolbarItem);
-            ToolbarItems.Add(clearToolbarItem);
             ToolbarItems.Add(cloudToolbarItem);
         }
     }

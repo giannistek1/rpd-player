@@ -56,7 +56,14 @@ public partial class SearchSongPartsView : ContentView
     internal void ToggleAudioModeButtonClicked(object? sender, EventArgs e)
     {
         MainViewModel.UsingVideoMode = !MainViewModel.UsingVideoMode;
-        ParentPage?.SetupSearchToolbar();
+        if (ParentPage.Title.Equals(string.Empty))
+        {
+            ParentPage.ShowSecondaryToolbarItems();
+        }
+        else
+        {
+            ParentPage.SetupSearchToolbar();
+        }
 
         if (MainViewModel.UsingVideoMode)
         { 
