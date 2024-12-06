@@ -392,7 +392,7 @@ public partial class SearchSongPartsView : ContentView
                     songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.GG).ToObservableCollection(); break;
 
                 case SearchFilterMode.Hybe:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "HYBE Labels" || s.Artist?.Company == "Big Hit Entertainment" || s.Artist?.Company == "Source Music").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Artist?.Company == "HYBE Labels" || s.Artist?.Company == "Big Hit Entertainment" || s.Artist?.Company == "Source Music" || s.Artist?.Company == "Pledis Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.YG:
                     songParts = allSongParts.Where(s => s.Artist?.Company == "YG Entertainment" || s.Artist?.Company == "The Black Label").ToObservableCollection(); break;
                 case SearchFilterMode.JYP:

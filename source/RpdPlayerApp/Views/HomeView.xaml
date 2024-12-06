@@ -291,24 +291,28 @@
                             Orientation="Horizontal"
                             AutoFitMode="Height" 
                             SelectionMode="None"
-                            ItemSpacing="8"
-                            HeightRequest="160"
+                            ItemSpacing="4"
+                            HeightRequest="190"
                             ItemTapped="CategoryListViewItemTapped">
+
+                            <syncfusion:SfListView.ItemsLayout>
+                                <syncfusion:GridLayout SpanCount="2" />
+                            </syncfusion:SfListView.ItemsLayout>
 
                             <syncfusion:SfListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <VerticalStackLayout Padding="0">
 
-                                            <Image HeightRequest="100" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                            <Image HeightRequest="60" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                                 <Image.Source>
                                                     <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
                                                 </Image.Source>
                                             </Image>
 
-                                            <HorizontalStackLayout HeightRequest="26" VerticalOptions="End">
-                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
-                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                            <HorizontalStackLayout HeightRequest="32" VerticalOptions="End">
+                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" LineBreakMode="WordWrap" />
+                                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" LineBreakMode="WordWrap" />
                                             </HorizontalStackLayout>
 
                                         </VerticalStackLayout>
@@ -352,7 +356,7 @@
 
                 </syncfusionExpander:SfExpander>
 
-                <!-- Genres -->
+                <!-- Genres (used to be languages) -->
                 <syncfusionExpander:SfExpander Grid.Row="6" AnimationDuration="200" IsExpanded="False" Margin="4, 0">
 
                     <syncfusionExpander:SfExpander.Header>
@@ -373,7 +377,7 @@
                             AutoFitMode="Height" 
                             SelectionMode="None"
                             ItemSpacing="8"
-                            HeightRequest="140"
+                            HeightRequest="120"
                             ItemTapped="CategoryListViewItemTapped">
 
                             <syncfusion:SfListView.ItemTemplate>
@@ -381,7 +385,7 @@
 
                                     <VerticalStackLayout Padding="0">
 
-                                        <Image HeightRequest="80" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                        <Image HeightRequest="60" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                             <Image.Source>
                                                 <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
                                             </Image.Source>
