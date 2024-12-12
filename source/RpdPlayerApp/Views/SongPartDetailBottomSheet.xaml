@@ -151,7 +151,7 @@
                     </Image>
                 </material:ButtonView>
 
-                <material:ButtonView Grid.Column="5" HeightRequest="36"  x:Name="AutoplayButton" Background="Transparent" Pressed="AutoplayButton_Pressed">
+                <material:ButtonView Grid.Column="5" HeightRequest="36" x:Name="AutoplayButton" Background="Transparent" Pressed="AutoplayButton_Pressed">
                     <Image x:Name="AutoplayImage" HeightRequest="36" HorizontalOptions="Center">
                         <Image.Source>
                             <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Block}" Color="{DynamicResource IconColor}" />
@@ -159,10 +159,10 @@
                     </Image>
                 </material:ButtonView>
 
-                <material:ButtonView Grid.Column="6" HeightRequest="36" Background="Transparent">
-                    <Image x:Name="FillImage" HeightRequest="36" HorizontalOptions="Center">
+                <material:ButtonView Grid.Column="6" HeightRequest="36" x:Name="FavoriteButton" Background="Transparent" Pressed="FavoriteButton_Pressed">
+                    <Image x:Name="FavoriteImage" HeightRequest="36" HorizontalOptions="Center">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Block}" Color="Transparent" />
+                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Favorite}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
                 </material:ButtonView>

@@ -16,12 +16,16 @@ public partial class SongPartDetailBottomSheet
     internal EventHandler? NextSong;
     internal EventHandler? Close;
 
+    private PlaylistsManager _playlistsManager;
+
 	public SongPartDetailBottomSheet()
 	{
 		InitializeComponent();
 
         this.Dismissed += OnDismissed;
         this.Shown += OnShown;
+
+        _playlistsManager = new();
     }
 
     private void OnShown(object? sender, EventArgs e)
@@ -83,16 +87,15 @@ public partial class SongPartDetailBottomSheet
             ProgressLabel.Text = "0:00";
         }
     }
-
-    private void PreviousButton_Pressed(object sender, EventArgs e)
-    {
-        PreviousSong?.Invoke(sender, e);
-    }
-
     private void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
         PlayToggleSongPart?.Invoke(sender, e);
         PlayToggleImage.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+    }
+
+    private void PreviousButton_Pressed(object sender, EventArgs e)
+    {
+        PreviousSong?.Invoke(sender, e);
     }
 
     private void NextButton_Pressed(object sender, EventArgs e)
@@ -152,9 +155,16 @@ public partial class SongPartDetailBottomSheet
         //Toast.Make($"Using announcements: {MainViewModel.UsingAnnouncements}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
+    private void FavoriteButton_Pressed(object sender, EventArgs e)
+    {
+        _playlistsManager.AddToPlaylist("Favorites", songPart);
+        
+        Toast.Make($"Favorited: {songPart?.Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+    }
+
     private void MasterVolumeSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)
     {
-        MainViewModel.MainVolume = e.NewValue / 100;
+        MainViewModel.MainVolume = (e.NewValue / 100);
     }
 
     private void CloseButton_Pressed(object sender, EventArgs e)

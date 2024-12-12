@@ -7,7 +7,13 @@ internal class Album
     public string Title { get; set; }
     public DateTime ReleaseDate { get; set; }
     // TODO: Change KR, CH, TH, EN etc to Genre
+    /// <summary>
+    /// KR, CH, TH, EN, etc...
+    /// </summary>
     public string GenreShort { get; set; }
+    /// <summary>
+    /// K-Pop, J-Pop, Pop, etc...
+    /// </summary>
     public string GenreFull { get; set; }
     public string ImageURL { get; set; }
 

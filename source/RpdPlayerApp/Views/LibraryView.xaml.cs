@@ -10,7 +10,7 @@ namespace RpdPlayerApp.Views;
 
 public partial class LibraryView : ContentView
 {
-    internal MainPage ParentPage { get; set; }
+    internal MainPage? ParentPage { get; set; }
 
 
     public event EventHandler? PlayPlaylist;
@@ -37,8 +37,10 @@ public partial class LibraryView : ContentView
             {
                 int lines = File.ReadAllLines(file).Count();
 
-                Playlist playlist = new Playlist(name: Path.GetFileNameWithoutExtension(file), path: file, count: lines);
-                playlist.SongParts = new ObservableCollection<SongPart>();
+                Playlist playlist = new(name: Path.GetFileNameWithoutExtension(file), path: file, count: lines)
+                {
+                    SongParts = []
+                };
 
                 string? result = HelperClass.ReadTextFile(file);
 
@@ -54,7 +56,7 @@ public partial class LibraryView : ContentView
                     string albumTitle = matches[n + 1].Groups[1].Value;
                     string videoURL = matches[n + 6].Groups[1].Value.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos");
 
-                    SongPart songPart = new SongPart(id: i,
+                    SongPart songPart = new(id: i,
                         artistName: artistName,
                         albumTitle: albumTitle,
                         title: matches[n + 2].Groups[1].Value,
@@ -103,8 +105,10 @@ public partial class LibraryView : ContentView
 
             Toast.Make($"{PlaylistNameEntry.Text} created!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
 
-            Playlist playlist = new Playlist(name: PlaylistNameEntry.Text, fullPath);
-            playlist.SongParts = new ObservableCollection<SongPart>();
+            Playlist playlist = new(name: PlaylistNameEntry.Text, fullPath)
+            {
+                SongParts = []
+            };
 
             MainViewModel.Playlists.Add(playlist);
         }

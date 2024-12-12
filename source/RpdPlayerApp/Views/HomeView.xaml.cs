@@ -274,56 +274,56 @@ public partial class HomeView : ContentView
                                 description: "K-pop 2017",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.kpop2017,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2017)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2017 && s.Album?.GenreShort == "KR")
                                 ),
 
             new(title: "2018",
                                 description: "K-pop 2018",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.kpop2018,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2018)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2018 && s.Album?.GenreShort == "KR")
                                 ),
 
             new(title: "2019",
                                 description: "K-pop 2019",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.kpop2019,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2019)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2019 && s.Album?.GenreShort == "KR")
                                 ),
 
             new(title: "2020",
                                 description: "K-pop 2020",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.kpop2020,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2020)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album ?.ReleaseDate.Year == 2020 && s.Album ?.GenreShort == "KR")
                                 ),
 
             new(title: "2021",
                                 description: "K-pop 2021",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.kpop2021,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2021)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album ?.ReleaseDate.Year == 2021 && s.Album ?.GenreShort == "KR")
                                 ),
 
             new(title: "2022",
                                 description: "K-pop 2022",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.kpop2022,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2022)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album ?.ReleaseDate.Year == 2022 && s.Album ?.GenreShort == "KR")
                                 ),
 
             new(title: "2023",
                                 description: "K-pop 2023",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.kpop2023,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2023)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album ?.ReleaseDate.Year == 2023 && s.Album ?.GenreShort == "KR")
                                 ),
 
             new(title: "2024",
                                 description: "K-pop 2024",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.kpop2024,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2024)
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album ?.ReleaseDate.Year == 2024 && s.Album ?.GenreShort == "KR")
                                 )
         };
 

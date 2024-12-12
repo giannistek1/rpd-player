@@ -13,7 +13,7 @@ public partial class CurrentPlaylistView : ContentView
     public event EventHandler? PlaySongPart;
     public event EventHandler? BackToPlaylists;
 
-    internal MainPage ParentPage { get; set; }
+    internal MainPage? ParentPage { get; set; }
     public CurrentPlaylistView()
     {
         InitializeComponent();
@@ -95,7 +95,7 @@ public partial class CurrentPlaylistView : ContentView
         string toastText = MainViewModel.UsingCloudMode ? $"Playlist will save online" : $"Playlist will save locally";
         Toast.Make(toastText, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
 
-        ParentPage.SetupLibraryToolbar();
+        ParentPage?.SetupLibraryToolbar();
     }
     public void RefreshCurrentPlaylist()
     {

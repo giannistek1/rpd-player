@@ -34,7 +34,7 @@ internal class Artist
     public int TotalCount { get; set; } = 0;
     public int FilteredTotalCount { get; set; } = 0;
 
-    public Artist(int id = -1, string name = "", string altName = "", DateTime debutDate = new DateTime(), GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
+    public Artist(int id = -1, string name = "", string altName = "", DateTime debutDate = new(), GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
     {
         Id = id;
         Name = name;

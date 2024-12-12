@@ -482,31 +482,31 @@ public partial class SearchSongPartsView : ContentView
                     songParts = allSongParts.Where(s => s.Artist?.MemberCount > 2).ToObservableCollection(); break;
 
                 case SearchFilterMode.kpop2012:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2012).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2012 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2013:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2013).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2013 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2014:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2014).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2014 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2015:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2015).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2015 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2016:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2016).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2016 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2017:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2017).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2017 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2018:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2018).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2018 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2019:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2019).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2019 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2020:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2020).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2020 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2021:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2021).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2021 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2022:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2022).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2022 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2023:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2023).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2023 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
                 case SearchFilterMode.kpop2024:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2024).ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2024 && s.Album?.GenreShort == "KR").ToObservableCollection(); break;
             }
 
             ParentPage?.SetupSearchToolbar();
