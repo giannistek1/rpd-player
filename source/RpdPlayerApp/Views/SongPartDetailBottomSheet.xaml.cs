@@ -14,6 +14,7 @@ public partial class SongPartDetailBottomSheet
     internal EventHandler? PlayToggleSongPart;
     internal EventHandler? PreviousSong;
     internal EventHandler? NextSong;
+    internal EventHandler? UpdateFavorites;
     internal EventHandler? Close;
 
     private PlaylistsManager _playlistsManager;
@@ -30,16 +31,13 @@ public partial class SongPartDetailBottomSheet
 
     private void OnShown(object? sender, EventArgs e)
     {
-        // TODO: Set image to play once song ends
+        // TODO: Set image to play once song ends.
         PlayToggleImage.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
 
         MasterVolumeSlider.Value = MainViewModel.MainVolume * 100;
     }
 
-    private void OnDismissed(object? sender, DismissOrigin e)
-    {
-        isShown = false;
-    }
+    private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
 
     internal void UpdateUI()
     {
@@ -157,18 +155,15 @@ public partial class SongPartDetailBottomSheet
 
     private void FavoriteButton_Pressed(object sender, EventArgs e)
     {
-        _playlistsManager.AddToPlaylist("Favorites", songPart);
+        _playlistsManager.AddToPlaylist("Favorites", songPart!);
+
+        // Update libraryview
+        //UpdateFavorites?.Invoke(sender, e);
         
         Toast.Make($"Favorited: {songPart?.Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
-    private void MasterVolumeSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)
-    {
-        MainViewModel.MainVolume = (e.NewValue / 100);
-    }
+    private void MasterVolumeSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e) => MainViewModel.MainVolume = e.NewValue / 100;
 
-    private void CloseButton_Pressed(object sender, EventArgs e)
-    {
-        Close?.Invoke(sender, e);
-    }
+    private void CloseButton_Pressed(object sender, EventArgs e) => Close?.Invoke(sender, e);
 }

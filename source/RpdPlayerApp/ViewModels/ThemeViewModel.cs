@@ -11,7 +11,7 @@ public partial class ThemeViewModel : ObservableObject
     private List<Theme> _themes;
 
     [ObservableProperty]
-    private Theme _selectedTheme;
+    private Theme? _selectedTheme;
 
     public ThemeViewModel()
     {
@@ -62,10 +62,7 @@ public partial class ThemeViewModel : ObservableObject
 
     partial void OnSelectedThemeChanged(Theme value)
     {
-        if (value == null)
-        {
-            return;
-        }
+        if (value == null) { return; }
 
         Preferences.Set("theme", value.Key);
 
