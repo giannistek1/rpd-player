@@ -14,9 +14,9 @@
 
     <ScrollView>
 
-        <Grid RowDefinitions="30,60,60,44,30" Padding="8,0,8,0">
+        <Grid RowDefinitions="30, 60, 60, 44, 40, 40" Padding="8,0,8,0">
 
-            <!-- Volume -->
+            <!-- Master volume -->
             <Label 
                 Grid.Row="0"
                 Text="Master volume"
@@ -46,9 +46,10 @@
 
             </Grid>
 
+            <!-- Theme -->
             <Label 
                 Grid.Row="2"
-                Text="Theme: "
+                Text="Theme:"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
 
@@ -58,12 +59,20 @@
                         ItemDisplayBinding="{Binding Name}"
                         SelectedIndexChanged="ThemePickerSelectedIndexChanged"/>
 
+            <!-- Options -->
             <Label
                 Grid.Row="4"
                 Text="Non-choreography songs:"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
 
+            <HorizontalStackLayout Grid.Row="5">
+                
+                <Label Text="Analytics: " VerticalOptions="Center" HorizontalOptions="Start" />
+
+                <CheckBox x:Name="AnalyticsCheckBox " />
+
+            </HorizontalStackLayout>
 
         </Grid>
 

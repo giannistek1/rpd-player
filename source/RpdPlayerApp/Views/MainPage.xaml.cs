@@ -10,6 +10,9 @@ public partial class MainPage
     private readonly SortByBottomSheet _sortByBottomSheet = new();
     private readonly SongPartDetailBottomSheet _detailBottomSheet = new();
 
+    // TODO: Settings class
+    private const string MAIN_VOLUME = "MAIN_VOLUME";
+
     public MainPage()
     {
         InitializeComponent();
@@ -18,6 +21,12 @@ public partial class MainPage
         SearchSongPartsView.ParentPage = this;
         LibraryView.ParentPage = this;
         _currentPlaylistView.ParentPage = this;
+
+        // Load settings.
+        if (Preferences.ContainsKey(MAIN_VOLUME))
+        {
+            MainViewModel.MainVolume = Preferences.Get(key: MAIN_VOLUME, 1.0);
+        }
 
         this.Appearing += OnAppearing;
 

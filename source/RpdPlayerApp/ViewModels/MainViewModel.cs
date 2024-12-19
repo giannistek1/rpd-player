@@ -88,7 +88,7 @@ internal static class MainViewModel
 
     #region Settings
     /// <summary>
-    /// 0.0 - 1.0
+    /// 0.0 - 1.0 as Double
     /// </summary>
     public static double MainVolume = 1.0;
     public static bool ShouldLoopVideo { get; set; } = true;

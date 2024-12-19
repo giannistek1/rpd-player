@@ -19,7 +19,10 @@ public partial class SongPartDetailBottomSheet
 
     private PlaylistsManager _playlistsManager;
 
-	public SongPartDetailBottomSheet()
+    // TODO: Settings class
+    private const string MAIN_VOLUME = "MAIN_VOLUME";
+
+    public SongPartDetailBottomSheet()
 	{
 		InitializeComponent();
 
@@ -163,7 +166,11 @@ public partial class SongPartDetailBottomSheet
         Toast.Make($"Favorited: {songPart?.Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
-    private void MasterVolumeSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e) => MainViewModel.MainVolume = e.NewValue / 100;
+    private void MasterVolumeSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)
+    {
+        MainViewModel.MainVolume = e.NewValue / 100;
+        Preferences.Set(MAIN_VOLUME, MainViewModel.MainVolume);
+    }
 
     private void CloseButton_Pressed(object sender, EventArgs e) => Close?.Invoke(sender, e);
 }
