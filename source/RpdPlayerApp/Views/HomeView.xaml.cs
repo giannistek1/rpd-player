@@ -8,7 +8,7 @@ namespace RpdPlayerApp.Views;
 
 public partial class HomeView : ContentView
 {
-    private SettingsPage _settingsPage = new();
+    private readonly SettingsPage _settingsPage = new();
 
     internal EventHandler? FilterPressed;
 
@@ -18,7 +18,12 @@ public partial class HomeView : ContentView
     {
         InitializeComponent();
 
-        VersionLabel.Text = $"v{AppInfo.Current.VersionString}.{AppInfo.Current.BuildString}";
+#if DEBUG
+        string releaseMode = "D"; // Debug
+#else
+        string releaseMode = "P"; // Production
+#endif
+        VersionLabel.Text = $"v{AppInfo.Current.VersionString}.{AppInfo.Current.BuildString}.{releaseMode}";
 
         ArtistRepository.Artists.CollectionChanged += ArtistsCollectionChanged;
         AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;

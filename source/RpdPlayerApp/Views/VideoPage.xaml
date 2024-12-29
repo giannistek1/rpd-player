@@ -6,11 +6,11 @@
              xmlns:sliders="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
              Shell.BackgroundColor="{DynamicResource NavigationBackgroundColor}"
              Shell.TitleColor="{DynamicResource TitleTextColor}"
-             Title="Mirrored Choreography">
+             Title="Mirrored Dance">
     
     <ScrollView>
         
-        <Grid RowDefinitions="34,30,30,auto,120" ColumnDefinitions="*">
+        <Grid RowDefinitions="34, 30, 30, auto, 120" ColumnDefinitions="*">
 
             <Label Grid.Row="0" x:Name="SongTitleLabel" FontSize="18" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" HorizontalOptions="CenterAndExpand" />
 
