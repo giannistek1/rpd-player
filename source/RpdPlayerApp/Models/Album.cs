@@ -21,7 +21,7 @@ internal class Album
     public bool ShowAlbumReleaseDate { get; set; } = false;
     public bool ShowGenreShort { get; set; } = false;
 
-    public Album(int id = -1, string artistName = "", DateTime releaseDate = new DateTime(), string title = "", string genreShort = "", string imageURL = "")
+    public Album(int id = -1, string artistName = "", DateTime releaseDate = new(), string title = "", string genreShort = "", string imageURL = "")
     {
         Id = id;
         ArtistName = artistName;

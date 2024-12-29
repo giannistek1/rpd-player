@@ -42,7 +42,7 @@ internal static class SongPartRepository
                 string albumTitle = matches[n + 1].Groups[1].Value;
                 string videoURL = matches[n + 6].Groups[1].Value.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos");
 
-                SongPart songPart = new SongPart(
+                SongPart songPart = new(
                     id: i,
                     artistName: artistName,
                     albumTitle: albumTitle,
@@ -55,7 +55,7 @@ internal static class SongPartRepository
                 );
                 
                 songPart.Artist!.TotalCount++;
-                // For filtered list
+                // For filtered list.
                 songPart.Artist.FilteredTotalCount++; 
 
                 songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
@@ -82,11 +82,11 @@ internal static class SongPartRepository
 
         if (accessType != NetworkAccess.Internet)
         {
-            CommunityToolkit.Maui.Alerts.Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             return songPartsAsText;
         }
 
-        using (HttpClient client = new HttpClient())
+        using (HttpClient client = new())
         {
             songPartsAsText = client.GetStringAsync(SONG_PARTS_TXT_URL).Result;
         }

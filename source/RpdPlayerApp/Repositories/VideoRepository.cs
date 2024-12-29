@@ -10,7 +10,7 @@ internal class VideoRepository
 {
     private const string VIDEOS_TXT_URL = "https://github.com/giannistek1/rpd-videos/blob/main/videos.txt?raw=true";
 
-    public static List<Video> Videos = new List<Video>();
+    public static List<Video> Videos = new();
 
     public static bool GetVideos() => InitVideos(GetStringFromURL());
     public static bool InitVideos(string videosText)
@@ -20,20 +20,20 @@ internal class VideoRepository
         var matches = Regex.Matches(videosText, pattern);
 
         // artist, album, title, partname, (and number), url
-        // matches = 5 * 800 = 5600 
-        // 0 1 2 3 4 5 6  Songpart 1
-        // 7 8 9 10 11 12  Songpart 2
+        // matches = 5 * 200 = 1000 
+        // 0 1 2 3 4 Video 1
+        // 5 6 7 8 9 Video 2
 
-        for (int i = 0; i < matches.Count / MainViewModel.SongPartPropertyAmount; i++)
+        for (int i = 0; i < matches.Count / MainViewModel.VideoPropertyAmount; i++)
         {
-            int n = MainViewModel.VideoPropertyAmount * i; // i = Songpart number
+            int n = MainViewModel.VideoPropertyAmount * i; // i = Video number
 
             try
             {
                 string artistName = matches[n + 0].Groups[1].Value;
                 string albumTitle = matches[n + 1].Groups[1].Value;
 
-                Video video = new Video(
+                Video video = new(
                     id: i,
                     artistName: artistName,
                     albumTitle: albumTitle,
@@ -51,7 +51,7 @@ internal class VideoRepository
 
         }
 
-        Videos = Videos.OrderBy(s => s.ArtistName).ToList();
+        Videos = [.. Videos.OrderBy(s => s.ArtistName)];
 
         return Videos.Count > 0;
     }
@@ -68,7 +68,7 @@ internal class VideoRepository
 
         string videosAsText = string.Empty;
 
-        using (HttpClient client = new HttpClient())
+        using (HttpClient client = new())
         {
             videosAsText = client.GetStringAsync(VIDEOS_TXT_URL).Result;
         }

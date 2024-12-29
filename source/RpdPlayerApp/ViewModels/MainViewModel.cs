@@ -28,10 +28,10 @@ internal static class MainViewModel
     /// </summary>
     public static readonly int VideoPropertyAmount = 5;
 
-    internal static readonly DateTime secondGenStartDate = new DateTime(2002, 12, 31);
-    internal static readonly DateTime thirdGenStartDate = new DateTime(year: 2012, month: 5, day: 25);
-    internal static readonly DateTime fourthGenStartDate = new DateTime(2018, 1, 1);
-    internal static readonly DateTime fifthGenStartDate = new DateTime(2023, 1, 1);
+    internal static readonly DateTime secondGenStartDate = new(2002, 12, 31, 0, 0,0, DateTimeKind.Utc);
+    internal static readonly DateTime thirdGenStartDate = new(year: 2012, month: 5, day: 25, 0,0,0, DateTimeKind.Utc);
+    internal static readonly DateTime fourthGenStartDate = new(2018, 1, 1,0,0,0, DateTimeKind.Utc);
+    internal static readonly DateTime fifthGenStartDate = new(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
     public const string NOT_KPOP = "NOT KPOP";
     public const string FIRST_GENERATION = "First generation";
@@ -47,7 +47,7 @@ internal static class MainViewModel
     #region Modes
     public static SortMode SortMode { get; set; } = SortMode.Artist;
     public static SearchFilterMode SearchFilterMode { get; set; }
-    public static string SearchFilterModeText { get; set; }
+    public static string SearchFilterModeText { get; set; } = string.Empty;
 
     public static PlayMode PlayMode { get; set; }
     public static bool UsingVideoMode { get; set; } = false;
@@ -55,15 +55,15 @@ internal static class MainViewModel
 
     // TODO: Enums
     /// <summary>
-    /// 0 = off
-    /// 1 = autoplay
-    /// 2 = shuffle
+    /// 0 = off,
+    /// 1 = autoplay,
+    /// 2 = shuffle,
     /// 3 = repeat
     /// </summary>
     public static byte AutoplayMode { get; set; } = 0;
     /// <summary>
-    /// 0 = off
-    /// 1 = 3s
+    /// 0 = off,
+    /// 1 = 3s,
     /// 2 = 5s
     /// </summary>
     public static byte TimerMode { get; set; } = 0;

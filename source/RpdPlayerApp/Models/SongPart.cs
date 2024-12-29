@@ -7,6 +7,9 @@ namespace RpdPlayerApp.Models;
 
 internal class SongPart : INotifyPropertyChanged
 {
+    /// <summary>
+    /// This is an index based on a playlist. For a unique identifier, use the audioURL.
+    /// </summary>
     public int Id { get; set; }
 
     public string Title { get; set; }
@@ -23,6 +26,9 @@ internal class SongPart : INotifyPropertyChanged
     public string AlbumTitle { get; set; }
     public Album Album { get; set; } 
     public string AlbumURL { get; set; } = string.Empty;
+    /// <summary>
+    /// Unique.
+    /// </summary>
     public string AudioURL { get; set; }
     public string VideoURL { get; set; }
     public bool HasVideo { get; set; }

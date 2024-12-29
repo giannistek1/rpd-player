@@ -442,7 +442,7 @@ public partial class MainPage
 
     private void OnStopSongPart(object? sender, EventArgs e)
     {
-        if (MainViewModel.CurrentSongPart.Id > 0)
+        if (MainViewModel.CurrentSongPart.Id >= 0)
         {
             AudioPlayerControl.StopAudio();
         }

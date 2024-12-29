@@ -23,6 +23,8 @@ public partial class SongPartDetailBottomSheet
     // TODO: Settings class
     private const string MAIN_VOLUME = "MAIN_VOLUME";
 
+    private const string FAVORITES = "Favorites";
+
     public SongPartDetailBottomSheet()
 	{
 		InitializeComponent();
@@ -31,6 +33,7 @@ public partial class SongPartDetailBottomSheet
         this.Shown += OnShown;
 
         _playlistsManager = new();
+        FavoriteImage.Source = IconManager.FavoriteIcon;
     }
 
     private void OnShown(object? sender, EventArgs e)
@@ -40,7 +43,7 @@ public partial class SongPartDetailBottomSheet
 
         MasterVolumeSlider.Value = MainViewModel.MainVolume * 100;
 
-        FavoriteImage.Source = IconManager.FavoriteIcon;
+        FavoriteImage.Source = _playlistsManager.IsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
 
     private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
@@ -125,7 +128,10 @@ public partial class SongPartDetailBottomSheet
             case 2: TimerImage.Source = IconManager.Timer5Icon; break;
         }
 
-        //Toast.Make($"TimerMode: {MainViewModel.TimerMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        if (MainViewModel.TimerMode != 0)
+        {
+            Toast.Make($"Using timer between song parts.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
     }
 
     private void AutoplayButton_Pressed(object sender, EventArgs e)
@@ -156,13 +162,16 @@ public partial class SongPartDetailBottomSheet
 
         VoiceImage.Source = MainViewModel.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
 
-        //Toast.Make($"Using announcements: {MainViewModel.UsingAnnouncements}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        if (MainViewModel.UsingAnnouncements)
+        {
+            Toast.Make($"Using voiced announcements.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
     }
 
     private void FavoriteButton_Pressed(object sender, EventArgs e)
     {
-        _playlistsManager.AddToPlaylist("Favorites", songPart!);
-        FavoriteImage.Source = IconManager.FavoriteIcon;
+        _playlistsManager.AddToPlaylist(FAVORITES, songPart!);
+        FavoriteImage.Source = IconManager.FavoritedIcon;
 
         // Update libraryview
         //UpdateFavorites?.Invoke(sender, e);

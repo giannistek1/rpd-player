@@ -48,7 +48,7 @@ internal static class AlbumRepository
             }
             catch (Exception ex)
             {
-                SentrySdk.CaptureMessage($"ERROR album: {typeof(SongPartRepository).Name}, album {i+1}, {ex.Message}"); // i was the last number that worked
+                SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}, album {i + 1}, {ex.Message}");
                 Toast.Make($"ERROR: InitAlbums, album {i+1}. {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
             }
         }
