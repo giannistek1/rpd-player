@@ -77,7 +77,7 @@ public partial class AudioPlayerControl : ContentView
 
                 if (MainViewModel.AutoplayMode == 1) // Autoplay
                 {
-                    int index = MainViewModel.SongParts.FindIndex(s => s.Id == MainViewModel.CurrentSongPart.Id);
+                    int index = MainViewModel.SongParts.FindIndex(s => s.AudioURL == MainViewModel.CurrentSongPart.AudioURL);
 
                     // Imagine index = 1220 count = 1221
                     if (index + 1 < MainViewModel.SongParts.Count)
@@ -96,7 +96,7 @@ public partial class AudioPlayerControl : ContentView
                     MainViewModel.SongPartsQueue.Enqueue(MainViewModel.CurrentSongPart);
                 }
 
-                if (!MainViewModel.SongPartsQueue.Any()) {
+                if (MainViewModel.SongPartsQueue.Count == 0) {
                     if (AudioProgressSlider.Value >= AudioProgressSlider.Maximum - 2) { StopAudio(); }
                     return; 
                 }
@@ -121,7 +121,7 @@ public partial class AudioPlayerControl : ContentView
                 MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
 
                 // If queue empty, return
-                if (!MainViewModel.PlaylistQueue.Any()) { return; }
+                if (MainViewModel.PlaylistQueue.Count == 0) { return; }
  
                 MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
                 PlayAudio(MainViewModel.CurrentSongPart);
@@ -142,7 +142,7 @@ public partial class AudioPlayerControl : ContentView
 
     internal void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
-        // If audio is done playing
+        // If audio is done playing.
         if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
         {
             AudioMediaElement.Play();
@@ -150,7 +150,7 @@ public partial class AudioPlayerControl : ContentView
             MainViewModel.CurrentSongPart.IsPlaying = true;
             TimerManager.StartInfiniteScaleYAnimationWithTimer();
         }
-        // If audio is paused (in middle)
+        // If audio is paused (in middle).
         else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
         {
             AudioMediaElement.Play();
@@ -158,7 +158,7 @@ public partial class AudioPlayerControl : ContentView
             MainViewModel.CurrentSongPart.IsPlaying = true;
             TimerManager.StartInfiniteScaleYAnimationWithTimer();
         }
-        // Else pause
+        // Else pause.
         else if (AudioMediaElement.CurrentState == MediaElementState.Playing)
         {
             AudioMediaElement.Pause();
@@ -194,7 +194,7 @@ public partial class AudioPlayerControl : ContentView
     {
         if (!HelperClass.HasInternetConnection()) { return; }
 
-        // Update vars
+        // Update vars.
         songPart.IsPlaying = true;
         MainViewModel.CurrentlyPlaying = true;
 
@@ -205,7 +205,7 @@ public partial class AudioPlayerControl : ContentView
 
         AudioMediaElement.Play();
 
-        // Update UI
+        // Update UI.
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         NowPlayingLabel.Text = $"{songPart.Title}";
         NowPlayingPartLabel.Text = $"{songPart.PartNameFull}";
@@ -215,8 +215,6 @@ public partial class AudioPlayerControl : ContentView
         DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
 
         UpdateNextSwipeItem();
-
-
     }
 
     internal void StopAudio()

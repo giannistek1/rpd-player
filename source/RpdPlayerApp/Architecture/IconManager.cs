@@ -374,13 +374,13 @@ internal static class IconManager
         };
         ToolbarVideoIcon = new()
         {
-            FontFamily = "MaterialRegular",
+            FontFamily = "MaterialRounded",
             Glyph = MaterialRounded.Videocam,
             Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
         };
         ToolbarVideoOffIcon = new()
         {
-            FontFamily = "MaterialRegular",
+            FontFamily = "MaterialRounded",
             Glyph = MaterialRounded.Videocam_off,
             Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
         };

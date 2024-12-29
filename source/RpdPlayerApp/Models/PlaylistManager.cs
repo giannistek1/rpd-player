@@ -72,9 +72,11 @@ internal class PlaylistManager : BindableObject
 
     internal void RemoveSongpartOfCurrentPlaylist(SongPart songpart)
     {
-        var songpartToRemove = currentPlaylist.SongParts.SingleOrDefault(x => x.Id == songpart.Id);
+        var songpartToRemove = currentPlaylist.SongParts.FirstOrDefault(x => x.AudioURL == songpart.AudioURL);
         if (songpartToRemove is not null)
+        {
             currentPlaylist.SongParts.Remove(songpartToRemove);
+        }
     }
 
     internal void ClearCurrentPlaylist() => currentPlaylist.SongParts.Clear();

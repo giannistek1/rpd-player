@@ -9,7 +9,7 @@ internal class PlaylistsManager
             
     }
 
-    internal void AddToPlaylist(string playlistName, SongPart songPartToAdd)
+    internal bool TryAddToPlaylist(string playlistName, SongPart songPartToAdd)
     {
         var playlistExists = MainViewModel.Playlists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         if (playlistExists is null) 
@@ -18,10 +18,17 @@ internal class PlaylistsManager
             playlist.SongParts.Add(songPartToAdd);
 
             MainViewModel.Playlists.Add(playlist);
+            return true;
         }
         else
         {
-            playlistExists.SongParts.Add(songPartToAdd);
+            if (!IsInPlaylist(playlistName, songPartToAdd))
+            {
+                playlistExists.SongParts.Add(songPartToAdd);
+                return true;
+            }
+            // Song already in playlist.
+            return false;
         }
     }
 

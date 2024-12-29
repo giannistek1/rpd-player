@@ -152,9 +152,9 @@ public partial class MainPage
             SearchFilterMode.Kakao_Entertainment => "Kakao Entertainment",
 
             SearchFilterMode.Firstgen => "1st gen (< 2002)",
-            SearchFilterMode.Secondgen => "2nd gen (2003..12)",
-            SearchFilterMode.Thirdgen => "3rd gen (2012..17)",
-            SearchFilterMode.Fourthgen => "4th gen (2018..22)",
+            SearchFilterMode.Secondgen => "2nd gen (2003-12)",
+            SearchFilterMode.Thirdgen => "3rd gen (2012-2017)",
+            SearchFilterMode.Fourthgen => "4th gen (2018-2022)",
             SearchFilterMode.Fifthgen => "5th gen (2023 >)",
 
             SearchFilterMode.KR => "K-pop",

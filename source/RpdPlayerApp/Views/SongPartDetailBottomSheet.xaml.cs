@@ -170,7 +170,10 @@ public partial class SongPartDetailBottomSheet
 
     private void FavoriteButton_Pressed(object sender, EventArgs e)
     {
-        _playlistsManager.AddToPlaylist(FAVORITES, songPart!);
+        // TODO: Unfavorite?
+        bool success = _playlistsManager.TryAddToPlaylist(FAVORITES, songPart!);
+        if (!success) { return; }
+
         FavoriteImage.Source = IconManager.FavoritedIcon;
 
         // Update libraryview
