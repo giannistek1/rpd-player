@@ -11,7 +11,7 @@ internal static class SongPartRepository
 {
     private const string SONG_PARTS_TXT_URL = "https://github.com/giannistek1/rpd-audio/blob/main/songparts.txt?raw=true";
 
-    public static ObservableCollection<SongPart> SongParts = new ObservableCollection<SongPart>();
+    public static ObservableCollection<SongPart> SongParts = [];
 
     public static bool GetSongParts() => InitSongParts(GetStringFromURL());
 
