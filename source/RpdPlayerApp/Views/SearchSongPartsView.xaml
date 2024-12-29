@@ -184,17 +184,17 @@
                                 <!-- Playing animation -->
                                 <Image Grid.Column="2" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY1}" TranslationY="{Binding PlayingIconTranslationY1}" IsVisible="{Binding IsPlaying}" BackgroundColor="{DynamicResource IconColor}" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{DynamicResource IconColor}" />
+                                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Check_box_outline_blank }" Color="{DynamicResource IconColor}" />
                                     </Image.Source>
                                 </Image>
                                 <Image Grid.Column="3" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY2}" TranslationY="{Binding PlayingIconTranslationY2}" IsVisible="{Binding IsPlaying}" BackgroundColor="{DynamicResource IconColor}" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{DynamicResource IconColor}" />
+                                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Check_box_outline_blank }" Color="{DynamicResource IconColor}" />
                                     </Image.Source>
                                 </Image>
                                 <Image Grid.Column="4" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY3}" TranslationY="{Binding PlayingIconTranslationY3}" IsVisible="{Binding IsPlaying}" BackgroundColor="{DynamicResource IconColor}" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Check_box_outline_blank }" Color="{DynamicResource IconColor}" />
+                                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Check_box_outline_blank }" Color="{DynamicResource IconColor}" />
                                     </Image.Source>
                                 </Image>
 

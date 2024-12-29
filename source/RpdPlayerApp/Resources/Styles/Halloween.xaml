@@ -24,6 +24,7 @@
     <Color x:Key="PrimaryButton">#FFA500</Color>
     <Color x:Key="SecondaryButton">#404040</Color>
 
+    <!-- Specifics -->
     <!-- Controls colors -->
     <Color x:Key="FrameColor">#404040</Color>
     <Color x:Key="BorderColor">#404040</Color>
@@ -35,9 +36,10 @@
     <Color x:Key="AudioPlayerBackgroundColor">#212121</Color>
     <Color x:Key="AudioProgressColor">#FFF</Color>
     <Color x:Key="DetailAudioProgressColor">#FFA500</Color>
+    <Color x:Key="FavoriteIconColor">#F77</Color>
 
 
-    <!-- Default (should be gone)-->
+    <!-- Defaults (should be gone)-->
     <Color x:Key="PrimaryDark">#64b06c</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>

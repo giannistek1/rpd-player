@@ -71,7 +71,7 @@
             <material:ButtonView Grid.Column="3" HeightRequest="46" x:Name="NextButton" Background="{DynamicResource AudioPlayerBackgroundColor}" Pressed="NextButton_Pressed" VerticalOptions="CenterAndExpand">
                 <Image x:Name="NextImage">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_next}" Color="{DynamicResource IconColor}" />
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_next}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>

@@ -19,7 +19,7 @@
             <material:ButtonView Grid.Row="0" HeightRequest="40" x:Name="CloseButton" HorizontalOptions="CenterAndExpand" Background="Transparent" Pressed="CloseButton_Pressed">
                 <Image x:Name="CloseImage" HeightRequest="40" HorizontalOptions="Center">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Minimize}" Color="{DynamicResource IconColor}" />
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Minimize}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
             </material:ButtonView>
@@ -105,7 +105,7 @@
                 <material:ButtonView Grid.Column="0" HeightRequest="34"  x:Name="VoiceButton" Background="Transparent" Pressed="VoiceButton_Pressed">
                     <Image x:Name="VoiceImage" HeightRequest="34" HorizontalOptions="Center">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Voice_selection_off}" Color="{DynamicResource IconColor}" />
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Voice_selection_off}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
                 </material:ButtonView>
@@ -113,7 +113,7 @@
                 <material:ButtonView Grid.Column="1" HeightRequest="34"  x:Name="TimerButton" Background="Transparent" Pressed="TimerButton_Pressed">
                     <Image x:Name="TimerImage" HeightRequest="34" HorizontalOptions="Center">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Timer_off}" Color="{DynamicResource IconColor}" />
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Timer_off}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
                 </material:ButtonView>
@@ -121,7 +121,7 @@
                 <material:ButtonView Grid.Column="2" HeightRequest="40"  x:Name="PreviousButton" Background="Transparent" Pressed="PreviousButton_Pressed">
                     <Image x:Name="PreviousImage" HeightRequest="40" HorizontalOptions="Center">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_previous}" Color="{DynamicResource IconColor}" />
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_previous}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
                 </material:ButtonView>
@@ -136,7 +136,7 @@
                     <material:ButtonView  HeightRequest="60" x:Name="PlayToggleButton" Pressed="PlayToggleButton_Pressed" Background="{DynamicResource PrimaryButton}">
                         <Image x:Name="PlayToggleImage" HeightRequest="60" HorizontalOptions="Center">
                             <Image.Source>
-                                <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Play_pause}" Color="{DynamicResource IconColor}" />
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Play_pause}" Color="{DynamicResource IconColor}" />
                             </Image.Source>
                         </Image>
                     </material:ButtonView>
@@ -146,7 +146,7 @@
                 <material:ButtonView Grid.Column="4" HeightRequest="40" x:Name="NextButton" Background="Transparent" Pressed="NextButton_Pressed">
                     <Image x:Name="NextImage" HeightRequest="40" HorizontalOptions="Center">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Skip_next}" Color="{DynamicResource IconColor}" />
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_next}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
                 </material:ButtonView>
@@ -154,7 +154,7 @@
                 <material:ButtonView Grid.Column="5" HeightRequest="36" x:Name="AutoplayButton" Background="Transparent" Pressed="AutoplayButton_Pressed">
                     <Image x:Name="AutoplayImage" HeightRequest="36" HorizontalOptions="Center">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Block}" Color="{DynamicResource IconColor}" />
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Block}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
                 </material:ButtonView>
@@ -162,7 +162,7 @@
                 <material:ButtonView Grid.Column="6" HeightRequest="36" x:Name="FavoriteButton" Background="Transparent" Pressed="FavoriteButton_Pressed">
                     <Image x:Name="FavoriteImage" HeightRequest="36" HorizontalOptions="Center">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Favorite}" Color="{DynamicResource IconColor}" />
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Favorite}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
                 </material:ButtonView>
@@ -174,7 +174,7 @@
 
                 <Image Grid.Column="0" x:Name="VolumeImage" HeightRequest="30" HorizontalOptions="Center">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Volume_up}" Color="{DynamicResource IconColor}" />
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Volume_up}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
 

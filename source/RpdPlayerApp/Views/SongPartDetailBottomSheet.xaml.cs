@@ -3,6 +3,7 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
 using The49.Maui.BottomSheet;
+using UraniumUI.Icons.MaterialSymbols;
 
 namespace RpdPlayerApp.Views;
 
@@ -38,6 +39,8 @@ public partial class SongPartDetailBottomSheet
         PlayToggleImage.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
 
         MasterVolumeSlider.Value = MainViewModel.MainVolume * 100;
+
+        FavoriteImage.Source = IconManager.FavoriteIcon;
     }
 
     private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
@@ -159,10 +162,11 @@ public partial class SongPartDetailBottomSheet
     private void FavoriteButton_Pressed(object sender, EventArgs e)
     {
         _playlistsManager.AddToPlaylist("Favorites", songPart!);
+        FavoriteImage.Source = IconManager.FavoriteIcon;
 
         // Update libraryview
         //UpdateFavorites?.Invoke(sender, e);
-        
+
         Toast.Make($"Favorited: {songPart?.Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 

@@ -80,7 +80,6 @@ namespace RpdPlayerApp
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                fonts.AddMaterialIconFonts();
                 fonts.AddMaterialSymbolsFonts();
                 fonts.AddFontAwesomeIconFonts();
             });

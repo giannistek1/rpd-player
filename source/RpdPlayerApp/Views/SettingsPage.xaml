@@ -27,7 +27,7 @@
             
                 <Image Grid.Column="0" x:Name="VolumeImage" HeightRequest="40" HorizontalOptions="Center">
                     <Image.Source>
-                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static m:MaterialSharp.Volume_up}" Color="{DynamicResource IconColor}" />
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Volume_up}" Color="{DynamicResource IconColor}" />
                     </Image.Source>
                 </Image>
 
