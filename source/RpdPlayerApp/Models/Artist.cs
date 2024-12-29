@@ -71,16 +71,16 @@ internal class Artist
             Generation = MainViewModel.FIFTH_GENERATION;
             Gen = Gen.Fifth;
         }
-        
-        switch(groupType)
+
+        GroupTypeColor = groupType switch
         {
-            case GroupType.BG: GroupTypeColor = Colors.DeepSkyBlue.ToHex(); break;
-            case GroupType.GG: GroupTypeColor = Colors.Magenta.ToHex(); break;
-            case GroupType.MIX: GroupTypeColor = Colors.Gray.ToHex(); break;
-            case GroupType.NOT_SET: GroupTypeColor = Colors.White.ToHex(); break;
-            
-            default: GroupTypeColor = Colors.White.ToHex(); break;
-        }
+            GroupType.BG => Colors.DeepSkyBlue.ToHex(),
+            GroupType.GG => Colors.Magenta.ToHex(),
+            GroupType.MIX => Colors.Gray.ToHex(),
+            GroupType.NOT_SET => Colors.White.ToHex(),
+
+            _ => Colors.White.ToHex(),
+        };
     }
 
     public override string ToString()

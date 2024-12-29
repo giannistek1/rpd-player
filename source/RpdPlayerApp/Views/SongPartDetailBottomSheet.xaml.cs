@@ -3,7 +3,6 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
 using The49.Maui.BottomSheet;
-using UraniumUI.Icons.MaterialSymbols;
 
 namespace RpdPlayerApp.Views;
 
@@ -18,7 +17,7 @@ public partial class SongPartDetailBottomSheet
     internal EventHandler? UpdateFavorites;
     internal EventHandler? Close;
 
-    private PlaylistsManager _playlistsManager;
+    private readonly PlaylistsManager _playlistsManager;
 
     // TODO: Settings class
     private const string MAIN_VOLUME = "MAIN_VOLUME";

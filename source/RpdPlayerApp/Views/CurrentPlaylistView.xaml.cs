@@ -42,7 +42,7 @@ public partial class CurrentPlaylistView : ContentView
         // Clear playlist queue and fill playlist queue
         MainViewModel.PlaylistQueue.Clear();
 
-        List<SongPart> songParts = PlaylistManager.Instance.CurrentPlaylist.SongParts.ToList();
+        List<SongPart> songParts = [.. PlaylistManager.Instance.CurrentPlaylist.SongParts];
         foreach (var songPart in songParts)
         {
             MainViewModel.PlaylistQueue.Enqueue(songPart);
@@ -59,7 +59,7 @@ public partial class CurrentPlaylistView : ContentView
             // Create file on system
             var fullPath = Path.Combine(MainViewModel.Path, $"{PlaylistNameEntry.Text}.txt");
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             foreach (SongPart songPart in PlaylistManager.Instance.CurrentPlaylist.SongParts)
             {
                 sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.ClipLength}}}{{{songPart.AudioURL}}}");
@@ -132,13 +132,13 @@ public partial class CurrentPlaylistView : ContentView
 
     private void ShufflePlaylistButton_Clicked(object sender, EventArgs e)
     {
-        PlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizePlaylist(PlaylistManager.Instance.CurrentPlaylist.SongParts.ToList()).ToObservableCollection();
+        PlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizePlaylist([.. PlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
         CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
     }
 
     private void MixedShufflePlaylistButton_Clicked(object sender, EventArgs e)
     {
-        PlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizeAndAlternatePlaylist(PlaylistManager.Instance.CurrentPlaylist.SongParts.ToList()).ToObservableCollection();
+        PlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizeAndAlternatePlaylist([.. PlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
         CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
     }
 
@@ -158,7 +158,7 @@ public partial class CurrentPlaylistView : ContentView
 
             MainViewModel.PlaylistQueue.Clear();
 
-            List<SongPart> songParts = PlaylistManager.Instance.CurrentPlaylist.SongParts.ToList();
+            List<SongPart> songParts = [.. PlaylistManager.Instance.CurrentPlaylist.SongParts];
             int index = songParts.FindIndex(s => s.Id == songPart.Id);
 
             while (index < songParts.Count)

@@ -9,7 +9,7 @@ namespace RpdPlayerApp.Views;
 
 public partial class AudioPlayerControl : ContentView
 {
-    private Random random = new();
+    private readonly Random random = new();
 
     internal EventHandler? Pause;
     internal EventHandler? ShowDetails;
@@ -105,7 +105,7 @@ public partial class AudioPlayerControl : ContentView
                 MainViewModel.CurrentSongPart = MainViewModel.SongPartsQueue.Dequeue();
                 PlayAudio(MainViewModel.CurrentSongPart);
 
-                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
+                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]); //^1 means count minus 1
 
                 if (MainViewModel.SongPartsQueue.Count > 0)
                 {
@@ -126,7 +126,7 @@ public partial class AudioPlayerControl : ContentView
                 MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
                 PlayAudio(MainViewModel.CurrentSongPart);
 
-                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
+                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]);
 
                 if (MainViewModel.PlaylistQueue.Count > 0)
                 {
@@ -172,9 +172,9 @@ public partial class AudioPlayerControl : ContentView
     {
         if (MainViewModel.SongPartHistory.Count > 0)
         {
-            MainViewModel.CurrentSongPart = MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1];
+            MainViewModel.CurrentSongPart = MainViewModel.SongPartHistory[^1];
 
-            PlayAudio(MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
+            PlayAudio(MainViewModel.SongPartHistory[^1]);
             MainViewModel.SongPartHistory.RemoveAt(MainViewModel.SongPartHistory.Count - 1);
 
             UpdatePreviousSwipeItem();
@@ -230,20 +230,18 @@ public partial class AudioPlayerControl : ContentView
 
     private void CheckValidUrl(SongPart songPart)
     {
-        using (var client = new MyClient())
+        using var client = new MyClient();
+        client.HeadOnly = true;
+        // throws 404
+        try
         {
-            client.HeadOnly = true;
-            // throws 404
-            try
-            {
-                client.DownloadString(songPart.AudioURL);
-            }
-            catch
-            {
-                StopAudio();
-                Toast.Make($"Media URL of the song is invalid.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-                SentrySdk.CaptureMessage($"Tried to play Invalid URL: {songPart.AudioURL}");
-            }
+            client.DownloadString(songPart.AudioURL);
+        }
+        catch
+        {
+            StopAudio();
+            Toast.Make($"Media URL of the song is invalid.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            SentrySdk.CaptureMessage($"Tried to play Invalid URL: {songPart.AudioURL}");
         }
     }
 
@@ -273,12 +271,12 @@ public partial class AudioPlayerControl : ContentView
     {
         if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.SongPartHistory.Count > 0)
         {
-            SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
+            SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]);
 
         }
         else if (MainViewModel.PlayMode == PlayMode.Queue && MainViewModel.SongPartHistory.Count > 0)
         {
-            SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[MainViewModel.SongPartHistory.Count - 1]);
+            SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]);
         }
         else
         {

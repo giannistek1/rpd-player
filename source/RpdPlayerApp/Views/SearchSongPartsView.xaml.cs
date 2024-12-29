@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using RpdPlayerApp.Models;
-using RpdPlayerApp.Repository;
+using RpdPlayerApp.Repositories;
 using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.ViewModels;
 using RpdPlayerApp.Architecture;

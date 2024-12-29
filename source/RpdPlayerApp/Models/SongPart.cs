@@ -1,6 +1,5 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Repositories;
-using RpdPlayerApp.Repository;
 using System.ComponentModel;
 
 namespace RpdPlayerApp.Models;

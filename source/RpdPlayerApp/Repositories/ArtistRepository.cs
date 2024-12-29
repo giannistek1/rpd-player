@@ -6,13 +6,13 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace RpdPlayerApp.Repository;
+namespace RpdPlayerApp.Repositories;
 
 internal static class ArtistRepository
 {
     private const string ARTISTS_TXT_URL = "https://github.com/giannistek1/rpd-artists/blob/main/artists.txt?raw=true";
 
-    public readonly static ObservableCollection<Artist> Artists = new ObservableCollection<Artist>();
+    public readonly static ObservableCollection<Artist> Artists = [];
 
     public static bool GetArtists() => InitArtists(GetStringFromURL());
 
@@ -43,10 +43,10 @@ internal static class ArtistRepository
                     company: matches[n + 5].Groups[1].Value,
                     imageURL: matches[n + 6].Groups[1].Value));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}, artist {i + 1}, {ex.Message}");
-                Toast.Make($"ERRROR: InitArtist, artist {i+1}, {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+                Toast.Make($"ERRROR: InitArtist, artist {i + 1}, {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
             }
 
         }
@@ -66,7 +66,7 @@ internal static class ArtistRepository
 
         string artistsAsText = string.Empty;
 
-        using (HttpClient client = new HttpClient())
+        using (HttpClient client = new())
         {
             artistsAsText = client.GetStringAsync(ARTISTS_TXT_URL).Result;
         }

@@ -6,13 +6,13 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace RpdPlayerApp.Repository;
+namespace RpdPlayerApp.Repositories;
 
 internal static class AlbumRepository
 {
     private const string ALBUMS_TXT_URL = "https://github.com/giannistek1/rpd-albums/blob/main/albums.txt?raw=true";
 
-    public readonly static ObservableCollection<Album> Albums = new ObservableCollection<Album>();
+    public readonly static ObservableCollection<Album> Albums = [];
 
     public static bool GetAlbums() => InitAlbums(GetStringFromURL());
     public static bool InitAlbums(string albumsText)
@@ -69,7 +69,7 @@ internal static class AlbumRepository
 
         string albumsAsText = string.Empty;
 
-        using (HttpClient client = new HttpClient())
+        using (HttpClient client = new())
         {
             albumsAsText = client.GetStringAsync(ALBUMS_TXT_URL).Result;
         }
