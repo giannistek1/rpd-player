@@ -18,11 +18,11 @@ public partial class ThemeViewModel : ObservableObject
         // Don't forget to add in App.xaml.cs!
         var defaultThemes = new List<Theme>()
         {
-            new Theme("Same as system", "System"),
-            new Theme("Dark", "Dark"),
-            new Theme("Light", "Light"),
-            new Theme("Halloween", "Halloween"),
-            new Theme("Christmas", "Christmas")
+            new("Same as system", "System"),
+            new("Dark", "Dark"),
+            new("Light", "Light"),
+            new("Halloween", "Halloween"),
+            new("Christmas", "Christmas")
             //new Theme("Blue","Blue"),
             //new Theme("Red", "Red")
         };
@@ -60,7 +60,7 @@ public partial class ThemeViewModel : ObservableObject
         });
     }
 
-    partial void OnSelectedThemeChanged(Theme value)
+    partial void OnSelectedThemeChanged(Theme? value)
     {
         if (value == null) { return; }
 

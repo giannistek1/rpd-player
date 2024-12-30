@@ -30,7 +30,7 @@ namespace RpdPlayerApp
 
             builder.UseMauiApp<App>()
 
-            // This fixes the shell title view in iOS not being displayed if shell toolbar is used
+            // This fixes the shell title view in iOS not being displayed IF shell toolbar is used
             //                .ConfigureMauiHandlers(handlers =>
             //                {
             //#if IOS

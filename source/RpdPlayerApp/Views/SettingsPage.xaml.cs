@@ -6,7 +6,8 @@ public partial class SettingsPage : ContentPage
 {
     private const string USE_SENTRY = "USE_SENTRY";
     // TODO: Settings class
-    private const string MAIN_VOLUME = "MAIN_VOLUME"; 
+    private const string MAIN_VOLUME = "MAIN_VOLUME";
+
 	public SettingsPage()
 	{
 		InitializeComponent();
@@ -25,7 +26,6 @@ public partial class SettingsPage : ContentPage
         {
             AnalyticsCheckBox.IsChecked = true;
         }
-
         AnalyticsCheckBox.CheckedChanged += AnalyticsCheckBox_CheckedChanged;
     }
 

@@ -14,16 +14,16 @@
           RowDefinitions="20, auto, *"
           ColumnDefinitions="*">
 
-        <Label Grid.Row="0" Padding="5,0,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="12" Text="Version xx" />
+        <Label Grid.Row="0" Padding="8,2,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="12" Text="Version xx" TextColor="{DynamicResource SecondaryTextColor}"/>
 
         <!-- Stats -->
-        <syncfusionExpander:SfExpander Grid.Row="1" x:Name="StatsExpander" AnimationDuration="200" IsExpanded="False" >
+        <syncfusionExpander:SfExpander Grid.Row="1" x:Name="StatsExpander" Margin="0,-4,0,0" AnimationDuration="200" IsExpanded="False" >
 
             <syncfusionExpander:SfExpander.Header>
                 
-                <Grid>
+                <Grid Padding="8,0,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="38"/>
                     </Grid.RowDefinitions>
                     
                     <Grid.ColumnDefinitions>
@@ -31,32 +31,32 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Image Grid.Row="0" HorizontalOptions="Start" Margin="0,0,10,0">
+                    <Image Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" Margin="0,0,10,0">
                         <Image.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Database}" Color="{DynamicResource IconColor}" />
                         </Image.Source>
                     </Image>
 
-                    <Label Grid.Row="1" CharacterSpacing="0.25" FontFamily="Roboto-Regular"  Text="Stats" FontSize="14" Grid.Column="1" VerticalOptions="CenterAndExpand"/>
+                    <Label Grid.Row="0" Grid.Column="1" CharacterSpacing="0.25" FontFamily="Roboto-Regular" Text="Stats" FontSize="13"  VerticalOptions="CenterAndExpand"/>
 
                 </Grid>
                 
             </syncfusionExpander:SfExpander.Header>
 
             <syncfusionExpander:SfExpander.Content>
-                <VerticalStackLayout>
+                <VerticalStackLayout Padding="8,0,0,0">
                     <HorizontalStackLayout Grid.Row="1">
 
-                        <Label Grid.Column="0" x:Name="SongPartCountLabel" Text="{Binding SongPartCount}" />
+                        <Label Grid.Column="0" x:Name="SongPartCountLabel" Text="{Binding SongPartCount}" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" />
 
-                        <Label Grid.Column="1" x:Name="UniqueSongCountLabel" HorizontalTextAlignment="End" Text="{Binding UniqueSongCount}" />
+                        <Label Grid.Column="1" x:Name="UniqueSongCountLabel" HorizontalTextAlignment="End" Text="{Binding UniqueSongCount}" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" />
 
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Grid.Row="2">
 
-                        <Label Grid.Column="0" x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" />
+                        <Label Grid.Column="0" x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" />
 
-                        <Label Grid.Column="1" x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" />
+                        <Label Grid.Column="1" x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" />
 
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
@@ -104,7 +104,7 @@
                 <Label Grid.Row="0"
                         HeightRequest="40" 
                         LineBreakMode="NoWrap"
-                        Padding="4" Text="Categories" FontAttributes="Bold"
+                        Padding="8,0,0,0" Text="Categories" FontAttributes="Bold"
                         FontSize="18" HorizontalOptions="Start"
                         VerticalOptions="Center"/>
 
@@ -187,7 +187,7 @@
                 </HorizontalStackLayout>
                 
                 <!-- Generations -->
-                <syncfusionExpander:SfExpander Grid.Row="4" AnimationDuration="200" IsExpanded="False" Margin="4, 0">
+                <syncfusionExpander:SfExpander Grid.Row="4" AnimationDuration="200" IsExpanded="False" Margin="4,4,0,0">
 
                     <syncfusionExpander:SfExpander.Header>
 
@@ -270,7 +270,7 @@
                 </syncfusionExpander:SfExpander>
 
                 <!-- Companies -->
-                <syncfusionExpander:SfExpander Grid.Row="5" AnimationDuration="200" IsExpanded="False" Margin="4, 0">
+                <syncfusionExpander:SfExpander Grid.Row="5" AnimationDuration="200" IsExpanded="False" Margin="4,0,0,0">
 
                     <syncfusionExpander:SfExpander.Header>
                         
@@ -357,7 +357,7 @@
                 </syncfusionExpander:SfExpander>
 
                 <!-- Genres (used to be languages) -->
-                <syncfusionExpander:SfExpander Grid.Row="6" AnimationDuration="200" IsExpanded="False" Margin="4, 0">
+                <syncfusionExpander:SfExpander Grid.Row="6" AnimationDuration="200" IsExpanded="False" Margin="4,0,0,0">
 
                     <syncfusionExpander:SfExpander.Header>
                         <Label
@@ -438,7 +438,7 @@
                 </syncfusionExpander:SfExpander>
 
                 <!-- K-pop per year -->
-                <syncfusionExpander:SfExpander Grid.Row="7" AnimationDuration="200" IsExpanded="False" Margin="4, 0">
+                <syncfusionExpander:SfExpander Grid.Row="7" AnimationDuration="200" IsExpanded="False" Margin="4,0,0,0">
 
                     <syncfusionExpander:SfExpander.Header>
                         <Label

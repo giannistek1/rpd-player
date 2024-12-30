@@ -17,12 +17,10 @@ public partial class SongPartDetailBottomSheet
     internal EventHandler? UpdateFavorites;
     internal EventHandler? Close;
 
-    private readonly PlaylistsManager _playlistsManager;
-
     // TODO: Settings class
     private const string MAIN_VOLUME = "MAIN_VOLUME";
-
     private const string FAVORITES = "Favorites";
+    private readonly PlaylistsManager _playlistsManager;
 
     public SongPartDetailBottomSheet()
 	{

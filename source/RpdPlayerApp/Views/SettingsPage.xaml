@@ -70,7 +70,7 @@
                 
                 <Label Text="Analytics: " VerticalOptions="Center" HorizontalOptions="Start" />
 
-                <CheckBox x:Name="AnalyticsCheckBox " />
+                <CheckBox x:Name="AnalyticsCheckBox" />
 
             </HorizontalStackLayout>
 
