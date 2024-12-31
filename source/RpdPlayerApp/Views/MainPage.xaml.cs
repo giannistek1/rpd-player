@@ -152,16 +152,16 @@ public partial class MainPage
             SearchFilterMode.Kakao_Entertainment => "Kakao Entertainment",
 
             SearchFilterMode.Firstgen => "1st gen (< 2002)",
-            SearchFilterMode.Secondgen => "2nd gen (2003-12)",
+            SearchFilterMode.Secondgen => "2nd gen (2003-2012)",
             SearchFilterMode.Thirdgen => "3rd gen (2012-2017)",
             SearchFilterMode.Fourthgen => "4th gen (2018-2022)",
             SearchFilterMode.Fifthgen => "5th gen (2023 >)",
 
-            SearchFilterMode.KR => "K-pop",
-            SearchFilterMode.JP => "J-pop",
+            SearchFilterMode.KR => "Korean pop",
+            SearchFilterMode.JP => "Japanese pop",
             SearchFilterMode.EN => "English pop",
-            SearchFilterMode.CH => "C-pop",
-            SearchFilterMode.TH => "T-pop",
+            SearchFilterMode.CH => "Chinese pop",
+            SearchFilterMode.TH => "Thai pop",
 
             SearchFilterMode.Solo => "Solo artists",
             SearchFilterMode.Duo => "Duos",

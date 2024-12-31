@@ -8,6 +8,8 @@ using Syncfusion.Maui.Core.Hosting;
 using The49.Maui.BottomSheet;
 using UraniumUI;
 
+
+// I think this works compiletime? I don't know why else preferences condition does not work.
 namespace RpdPlayerApp
 {
     public static class MauiProgram
