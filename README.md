@@ -67,14 +67,14 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 ## Home 
 <p float="left">
    <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/home-1.jpg?raw=true" width="280">
-   ---- (need to update)
+   ----
    <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/home-2.jpg?raw=true" width="280">
 </p>
 
 ## Search library
 <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/search-grouped.jpg?raw=true" width="280">
 
-## Sorting (need to update)
+## Sorting
 <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/order-by.jpg?raw=true" width="280">
 
 ## Playlists (need to update)
