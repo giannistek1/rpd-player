@@ -68,9 +68,9 @@
 
             <HorizontalStackLayout Grid.Row="5">
                 
-                <Label Text="Analytics: " VerticalOptions="Center" HorizontalOptions="Start" />
+                <Label Text="Send analytics and crash reports " VerticalOptions="Center" HorizontalOptions="Start" />
 
-                <CheckBox x:Name="AnalyticsCheckBox" />
+                <Switch x:Name="AnalyticsSwitch" />
 
             </HorizontalStackLayout>
 

@@ -18,7 +18,7 @@
             <Style TargetType="Shell" ApplyToDerivedTypes="True">
                 <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={DynamicResource White}, Dark={DynamicResource OffBlack}}" />
                 <Setter Property="Shell.ForegroundColor" Value="{OnPlatform WinUI={DynamicResource Primary}, Default={DynamicResource White}}" />
-                <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={DynamicResource Black}, Dark={DynamicResource SecondaryDarkText}}" />
+                <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={DynamicResource PrimaryTextColor}, Dark={DynamicResource PrimaryTextColor}}" />
                 <Setter Property="Shell.DisabledColor" Value="{AppThemeBinding Light={DynamicResource Gray200}, Dark={DynamicResource Gray950}}" />
                 <Setter Property="Shell.UnselectedColor" Value="{AppThemeBinding Light={DynamicResource Gray200}, Dark={DynamicResource Gray200}}" />
                 <Setter Property="Shell.NavBarHasShadow" Value="False" />
@@ -405,7 +405,7 @@
             </Style>
 
             <Style TargetType="Switch">
-                <Setter Property="OnColor" Value="{AppThemeBinding Light={DynamicResource Primary}, Dark={DynamicResource White}}" />
+                <Setter Property="OnColor" Value="{DynamicResource Primary}" />
                 <Setter Property="ThumbColor" Value="{DynamicResource White}" />
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
@@ -419,13 +419,13 @@
                             </VisualState>
                             <VisualState x:Name="On">
                                 <VisualState.Setters>
-                                    <Setter Property="OnColor" Value="{AppThemeBinding Light={DynamicResource Secondary}, Dark={DynamicResource Gray200}}" />
-                                    <Setter Property="ThumbColor" Value="{AppThemeBinding Light={DynamicResource Primary}, Dark={DynamicResource White}}" />
+                                    <Setter Property="OnColor" Value="{DynamicResource Primary}" />
+                                    <Setter Property="ThumbColor" Value="{DynamicResource SwitchOnThumbColor}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Off">
                                 <VisualState.Setters>
-                                    <Setter Property="ThumbColor" Value="{AppThemeBinding Light={DynamicResource Gray400}, Dark={DynamicResource Gray500}}" />
+                                    <Setter Property="ThumbColor" Value="{DynamicResource SwitchOffThumbColor}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>

@@ -20,13 +20,13 @@ public partial class SettingsPage : ContentPage
         // Load settings.
         if (Preferences.ContainsKey(USE_SENTRY))
         {
-            AnalyticsCheckBox.IsChecked = Preferences.Get(key: USE_SENTRY, defaultValue: true);
+            AnalyticsSwitch.IsToggled = Preferences.Get(key: USE_SENTRY, defaultValue: true);
         }
         else
         {
-            AnalyticsCheckBox.IsChecked = true;
+            AnalyticsSwitch.IsToggled = true;
         }
-        AnalyticsCheckBox.CheckedChanged += AnalyticsCheckBox_CheckedChanged;
+        AnalyticsSwitch.Toggled += AnalyticsSwitch_Toggled;
     }
 
     private void OnPageAppearing(object? sender, EventArgs e)
@@ -39,9 +39,9 @@ public partial class SettingsPage : ContentPage
         await Navigation.PopAsync();
     }
 
-    private async void AnalyticsCheckBox_CheckedChanged(object? sender, CheckedChangedEventArgs e)
+    private async void AnalyticsSwitch_Toggled(object? sender, ToggledEventArgs e)
     {
-        Preferences.Set(USE_SENTRY, AnalyticsCheckBox.IsChecked);
+        Preferences.Set(USE_SENTRY, AnalyticsSwitch.IsToggled);
         await DisplayAlert("NOTE", "Please restart the app for the change to take affect.", "OK");
     }
 

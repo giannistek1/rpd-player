@@ -19,7 +19,11 @@ public partial class CurrentPlaylistView : ContentView
         InitializeComponent();
 
         CurrentPlaylistListView.DragDropController!.UpdateSource = true;
+    }
 
+    internal void InitializeView()
+    {
+        BackButton.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
         BackButtonImage.Source = IconManager.BackIcon;
     }
 
@@ -95,7 +99,7 @@ public partial class CurrentPlaylistView : ContentView
         string toastText = MainViewModel.UsingCloudMode ? $"Playlist will save online" : $"Playlist will save locally";
         Toast.Make(toastText, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
 
-        ParentPage?.SetupLibraryToolbar();
+        ParentPage?.SetupLibraryOrCurrentPlaylistToolbar();
     }
     public void RefreshCurrentPlaylist()
     {

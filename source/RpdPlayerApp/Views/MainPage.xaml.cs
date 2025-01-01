@@ -92,7 +92,7 @@ public partial class MainPage
         // Can't make a switch out of this. A constant value of type SfTabItem is needed.
         if      (HomeTabItem == e.TabItem)      { SetupHomeToolbar(); }
         else if (SearchTabItem == e.TabItem)    { SetupSearchToolbar(); }
-        else if (LibraryTabItem == e.TabItem)   { SetupLibraryToolbar(); }
+        else if (LibraryTabItem == e.TabItem)   { SetupLibraryOrCurrentPlaylistToolbar(); }
     }
 
     internal void SetupHomeToolbar()
@@ -271,7 +271,7 @@ public partial class MainPage
         ToolbarItems.Add(sortToolbarItem);
     }
 
-    internal void SetupLibraryToolbar()
+    internal void SetupLibraryOrCurrentPlaylistToolbar()
     {
         ToolbarItems.Clear();
 
@@ -288,7 +288,7 @@ public partial class MainPage
             newPlaylistToolbarItem.Clicked += LibraryView.NewPlaylistButtonClicked;
             ToolbarItems.Add(newPlaylistToolbarItem);
         }
-        else
+        else // CurrentPlaylist is visible.
         {
             Title = PlaylistManager.Instance.CurrentPlaylist.Name;
             ToolbarItem playPlaylistToolbarItem = new()
@@ -330,6 +330,9 @@ public partial class MainPage
             };
             cloudToolbarItem.Clicked += _currentPlaylistView.ToggleCloudModePressed;
             ToolbarItems.Add(cloudToolbarItem);
+            
+            // Lazy way to setup correct theme.
+            _currentPlaylistView.InitializeView();
         }
     }
 
@@ -397,7 +400,7 @@ public partial class MainPage
         _currentPlaylistView.IsVisible = false;
         LibraryView.IsVisible = true;
 
-        SetupLibraryToolbar();
+        SetupLibraryOrCurrentPlaylistToolbar();
     }
 
     private void OnShowPlaylist(object? sender, EventArgs e)
@@ -405,8 +408,9 @@ public partial class MainPage
         LibraryView = (LibraryView)LibraryContainer.Children[0];
         LibraryView.IsVisible = false;
         _currentPlaylistView.IsVisible = true;
+        _currentPlaylistView.InitializeView();
 
-        SetupLibraryToolbar();
+        SetupLibraryOrCurrentPlaylistToolbar();
         _currentPlaylistView.RefreshCurrentPlaylist();
     }
 

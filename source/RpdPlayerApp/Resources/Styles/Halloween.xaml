@@ -3,20 +3,23 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RpdPlayerApp.Resources.Styles.Halloween">
+    
+    <Color x:Key="BackgroundColor">#212121</Color>
 
     <!-- (Reusable) main colors -->
     <Color x:Key="Primary">#FFA500</Color>
     <Color x:Key="Good">#64b06c</Color>
     <Color x:Key="Bad">#F00</Color>
 
+    <!-- Navigation/toolbar -->
     <Color x:Key="NavigationBackgroundColor">#FFA500</Color>
     <Color x:Key="ToolbarBackgroundColor">#FFA500</Color>
-    <Color x:Key="BackgroundColor">#212121</Color>
+    <Color x:Key="TitleTextColor">#FFF</Color>
     <Color x:Key="ToolbarIconColor">#FFF</Color>
+    
     <Color x:Key="IconColor">#FFF</Color>
     <Color x:Key="InputBackgroundColor">#212121</Color>
 
-    <Color x:Key="TitleTextColor">#FFF</Color>
     <Color x:Key="PrimaryTextColor">#FFF</Color>
     <Color x:Key="SecondaryTextColor">#ACACAC</Color>
     <Color x:Key="PlaceholderColor">#ACACAC</Color>
@@ -32,7 +35,9 @@
     <Color x:Key="ExpanderColor">#212121</Color>
     <Color x:Key="ExpanderExpandedColor">#212121</Color>
     <Color x:Key="TabViewBackgroundColor">#212121</Color>
-    
+    <Color x:Key="SwitchOnThumbColor">#C8C8C8</Color>
+    <Color x:Key="SwitchOffThumbColor">#6E6E6E</Color>
+
     <Color x:Key="AudioPlayerBackgroundColor">#212121</Color>
     <Color x:Key="AudioProgressColor">#FFF</Color>
     <Color x:Key="DetailAudioProgressColor">#FFA500</Color>
@@ -41,10 +46,7 @@
 
     <!-- Defaults (should be gone)-->
     <Color x:Key="PrimaryDark">#64b06c</Color>
-    <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#64b06c</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>

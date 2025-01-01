@@ -35,7 +35,7 @@ public partial class LibraryView : ContentView
         {
             foreach (var file in files)
             {
-                int lines = File.ReadAllLines(file).Count();
+                int lines = File.ReadAllLines(file).Length;
 
                 Playlist playlist = new(name: Path.GetFileNameWithoutExtension(file), path: file, count: lines)
                 {
