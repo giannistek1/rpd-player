@@ -1,4 +1,7 @@
-<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/overview.png?raw=true" width="1120">
+<img src="https://github.com/user-attachments/assets/48cbe87d-76e7-432b-8391-92054100d510" width="240">
+<img src="https://github.com/user-attachments/assets/9311c7b9-dbf0-4167-a1ee-25e260732d12" width="240">
+<img src="https://github.com/user-attachments/assets/bb066721-d1e1-40ee-9079-27be663bfbe4" width="240">
+<img src="https://github.com/user-attachments/assets/48cbe87d-76e7-432b-8391-92054100d510" width="240">
 
 # Disclaimer
 I do not own any rights to any of these songs. 
@@ -66,22 +69,22 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 
 ## Home 
 <p float="left">
-   <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/home-1.jpg?raw=true" width="280">
+   <img src="https://github.com/user-attachments/assets/48cbe87d-76e7-432b-8391-92054100d510" width="280">
    ----
-   <img src="https://github.com/giannistek1/rpd-images/blob/main/examples/home-2.jpg?raw=true" width="280">
+   <img src="https://github.com/user-attachments/assets/1036d522-289a-4e0f-a445-c4b903b5f531" width="280">
 </p>
 
 ## Search library
-<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/search-grouped.jpg?raw=true" width="280">
+<img src="https://github.com/user-attachments/assets/0809046d-cb0b-4b87-8cc0-c99c7c064904" width="280">
 
 ## Sorting
-<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/order-by.jpg?raw=true" width="280">
+<img src="https://github.com/user-attachments/assets/90b22846-f75e-4efa-a80f-81b98307ae69" width="280">
 
-## Playlists (need to update)
-<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/playlists.jpg?raw=true" width="280">
+## Playlists
+<img src="https://github.com/user-attachments/assets/2dc8cf4c-37a3-4701-a3dd-892da8b6a1cc" width="280">
 
 ## Current playlist
-<img src="https://github.com/giannistek1/rpd-images/blob/main/examples/current-playlist.jpg?raw=true" width="280">
+<img src="https://github.com/user-attachments/assets/22d41c1f-2a3f-4a48-8507-712ac0b17d1f" width="280">
 
 ## Libraries
 - CommunityToolkit by Microsoft -> Toasts
