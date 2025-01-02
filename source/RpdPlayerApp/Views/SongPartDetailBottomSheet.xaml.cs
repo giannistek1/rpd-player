@@ -12,9 +12,9 @@ public partial class SongPartDetailBottomSheet
     internal bool isShown = false;
 
     internal EventHandler? PlayToggleSongPart;
-    internal EventHandler? PreviousSong;
-    internal EventHandler? NextSong;
-    internal EventHandler? UpdateFavorites;
+    internal EventHandler? PreviousSongPart;
+    internal EventHandler? NextSongPart;
+    internal EventHandler? FavoriteSongPart;
     internal EventHandler? Close;
 
     // TODO: Settings class
@@ -99,12 +99,12 @@ public partial class SongPartDetailBottomSheet
 
     private void PreviousButton_Pressed(object sender, EventArgs e)
     {
-        PreviousSong?.Invoke(sender, e);
+        PreviousSongPart?.Invoke(sender, e);
     }
 
     private void NextButton_Pressed(object sender, EventArgs e)
     {
-        NextSong?.Invoke(sender, e);
+        NextSongPart?.Invoke(sender, e);
     }
 
     private void TimerButton_Pressed(object sender, EventArgs e)
@@ -174,7 +174,7 @@ public partial class SongPartDetailBottomSheet
         FavoriteImage.Source = IconManager.FavoritedIcon;
 
         // Update libraryview
-        //UpdateFavorites?.Invoke(sender, e);
+        FavoriteSongPart?.Invoke(sender, e);
 
         Toast.Make($"Favorited: {songPart?.Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }

@@ -75,14 +75,24 @@ public partial class MainPage
         _sortByBottomSheet.Close += OnCloseSortBySheet;
 
         _detailBottomSheet.PlayToggleSongPart += OnPlayToggleSongPart;
-        _detailBottomSheet.PreviousSong += OnPreviousSong;
-        _detailBottomSheet.NextSong += OnNextSong;
+        _detailBottomSheet.PreviousSongPart += OnPreviousSong;
+        _detailBottomSheet.NextSongPart += OnNextSong;
         _detailBottomSheet.Close += OnCloseDetailSheet;
+        _detailBottomSheet.FavoriteSongPart += OnFavoriteSongPart;
 
         AudioPlayerControl.Pause += OnPause;
         AudioPlayerControl.ShowDetails += OnShowDetails;
         AudioPlayerControl.UpdateProgress += OnUpdateProgress;
         AudioPlayerControl.AudioEnded += OnAudioEnded;
+    }
+
+    private void OnFavoriteSongPart(object? sender, EventArgs e)
+    {
+        if (_currentPlaylistView.IsVisible)
+        {
+            _currentPlaylistView.RefreshCurrentPlaylist();
+            _currentPlaylistView.SavePlaylistButtonClicked(sender, e);
+        }
     }
 
     #region Toolbar

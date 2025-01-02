@@ -78,7 +78,7 @@ public partial class CurrentPlaylistView : ContentView
             Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
 
-
+        // TODO: Is dit logisch hier?
         if (MainViewModel.UsingCloudMode && HelperClass.HasInternetConnection())
         {
             try
