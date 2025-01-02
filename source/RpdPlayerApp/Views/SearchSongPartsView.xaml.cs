@@ -399,13 +399,19 @@ public partial class SearchSongPartsView : ContentView
                     songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.GG).ToObservableCollection(); break;
 
                 case SearchFilterMode.Hybe:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "HYBE Labels" || s.Artist?.Company == "Big Hit Entertainment" || s.Artist?.Company == "Source Music" || s.Artist?.Company == "Pledis Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Artist?.Company == "HYBE Labels" || 
+                                                        s.Artist?.Company == "Big Hit Entertainment" || 
+                                                        s.Artist?.Company == "Source Music" || 
+                                                        s.Artist?.Company == "Pledis Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.YG:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "YG Entertainment" || s.Artist?.Company == "The Black Label").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Artist?.Company == "YG Entertainment" || 
+                                                        s.Artist?.Company == "The Black Label").ToObservableCollection(); break;
                 case SearchFilterMode.JYP:
                     songParts = allSongParts.Where(s => s.Artist?.Company == "JYP Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.SM:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "SM Entertainment" || s.Artist?.Company == "Label V").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => s.Artist?.Company == "SM Entertainment" || 
+                                                        s.Artist?.Company == "Label V" || 
+                                                        s.Artist?.Company == "Mystic Story").ToObservableCollection(); break;
                 case SearchFilterMode.Cube:
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Cube Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.FNC:

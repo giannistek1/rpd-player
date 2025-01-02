@@ -12,10 +12,8 @@ public partial class LibraryView : ContentView
 {
     internal MainPage? ParentPage { get; set; }
 
-
     public event EventHandler? PlayPlaylist;
     public event EventHandler? ShowPlaylist;
-
 
     public LibraryView()
     {

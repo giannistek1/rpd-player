@@ -21,6 +21,12 @@ public partial class SortByBottomSheet
     {
         SortTable.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
         SortByLabel.TextColor = (Color)Application.Current!.Resources["Good"];
+        ScrollToTop();
+    }
+
+    private async void ScrollToTop()
+    {
+        await SortByBottomSheetScrollView.ScrollToAsync(x: 0, y: 0, animated: false); // TODO: Needed?
     }
 
     #region Sorting

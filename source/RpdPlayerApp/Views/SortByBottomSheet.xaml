@@ -9,8 +9,10 @@
         <the49:RatioDetent Ratio="0.95"  />
     </the49:BottomSheet.Detents>
     
-    <ScrollView>
+    <ScrollView x:Name="SortByBottomSheetScrollView">
+        
         <VerticalStackLayout>
+            
             <Grid ColumnDefinitions="9*, 1*">
 
                 <Label Grid.Column="0" x:Name="SortByLabel" Text="Sort by..." FontAttributes="Bold" Padding="16,8,0,0" VerticalOptions="Center" FontSize="16" TextColor="{DynamicResource Good}"/>

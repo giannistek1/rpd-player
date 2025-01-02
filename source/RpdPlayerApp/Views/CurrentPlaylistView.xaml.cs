@@ -29,7 +29,7 @@ public partial class CurrentPlaylistView : ContentView
 
     private void BackButtonClicked(object sender, EventArgs e)
     {
-        // To hide soft keyboard programmatically
+        // To hide soft keyboard programmatically.
         PlaylistNameEntry.IsEnabled = false;
         PlaylistNameEntry.IsEnabled = true;
         BackToPlaylists!.Invoke(sender, e);

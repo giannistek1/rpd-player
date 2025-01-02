@@ -134,7 +134,9 @@ public partial class HomeView : ContentView
                                 description: "SM Entertainment.",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true",
                                 searchFilterMode: SearchFilterMode.SM,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "SM Entertainment")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "SM Entertainment" || 
+                                                                                   s.Artist?.Company == "Label V" || 
+                                                                                   s.Artist?.Company == "Mystic Story")
                                 ),
 
             new(title: "HYBE Labels",
@@ -151,7 +153,7 @@ public partial class HomeView : ContentView
                                 description: "JYP Entertainment.",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-jyp.jpg?raw=true", 
                                 searchFilterMode: SearchFilterMode.JYP,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "YG Entertainment")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "JYP Entertainment")
                                 ),
 
             new(title: "YG Entertainment", 

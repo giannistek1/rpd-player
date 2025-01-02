@@ -14,7 +14,7 @@
 
     <ScrollView>
 
-        <Grid RowDefinitions="30, 60, 60, 44, 40, 40" Padding="8,0,8,0">
+        <Grid RowDefinitions="30, 60, 44, 40, 40" Padding="8,0,8,0">
 
             <!-- Master volume -->
             <Label 
@@ -47,21 +47,22 @@
             </Grid>
 
             <!-- Theme -->
-            <Label 
-                Grid.Row="2"
-                Text="Theme:"
-                VerticalOptions="Center" 
-                HorizontalOptions="Start" />
+            <Grid Grid.Row="2" ColumnDefinitions="2*, 6*">
+                
+                <Label Grid.Column="0" Text="Theme " VerticalOptions="Center" HorizontalOptions="Start" />
 
-            <Picker Grid.Row="3" x:Name="ThemePicker" 
+                <Picker Grid.Column="1" x:Name="ThemePicker" 
+                        Margin="0,0,8,0"
                         ItemsSource="{Binding Themes}"
                         SelectedItem="{Binding SelectedTheme}"
                         ItemDisplayBinding="{Binding Name}"
                         SelectedIndexChanged="ThemePickerSelectedIndexChanged"/>
+                
+            </Grid>
 
             <!-- Options -->
             <Label
-                Grid.Row="4"
+                Grid.Row="3"
                 Text="Non-choreography songs:"
                 VerticalOptions="Center" 
                 HorizontalOptions="Start" />
