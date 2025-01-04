@@ -4,8 +4,10 @@
 <img src="https://github.com/user-attachments/assets/48cbe87d-76e7-432b-8391-92054100d510" width="240">
 
 # Disclaimer
-I do not own any rights to any of these songs. 
-They were written and produced by their respective artists. 
+I do not own any rights to any of these songs, album images or dance videos. 
+The songs were written and produced by their respective artists. 
+The album images also belong to their respective artists.
+The dance videos belong to their respective channel owners on YouTube.
 I am simply cutting parts out of the songs to use in this free-to-use app.
 
 # Rpd-player
