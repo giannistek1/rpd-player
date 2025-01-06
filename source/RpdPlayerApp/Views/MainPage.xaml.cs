@@ -5,13 +5,13 @@ using RpdPlayerApp.ViewModels;
 namespace RpdPlayerApp.Views;
 
 public partial class MainPage
-{
+{   
+    // TODO: Settings class
+    private const string MAIN_VOLUME = "MAIN_VOLUME";
+
     private readonly CurrentPlaylistView _currentPlaylistView = new();
     private readonly SortByBottomSheet _sortByBottomSheet = new();
     private readonly SongPartDetailBottomSheet _detailBottomSheet = new();
-
-    // TODO: Settings class
-    private const string MAIN_VOLUME = "MAIN_VOLUME";
 
     public MainPage()
     {
@@ -58,6 +58,8 @@ public partial class MainPage
     private void SetContentViewEvents()
     {
         HomeView.FilterPressed += OnFilterPressed;
+        HomeView.PlaySongPart += OnPlaySongPart;
+        HomeView.CreatePlaylistButtonPressed += OnCreatePlaylistButtonPressed;
 
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
         SearchSongPartsView.StopSongPart += OnStopSongPart;
@@ -81,7 +83,7 @@ public partial class MainPage
         _detailBottomSheet.FavoriteSongPart += OnFavoriteSongPart;
 
         AudioPlayerControl.Pause += OnPause;
-        AudioPlayerControl.ShowDetails += OnShowDetails;
+        AudioPlayerControl.ShowDetails += OnOpenSongPartDetailBottomSheet;
         AudioPlayerControl.UpdateProgress += OnUpdateProgress;
         AudioPlayerControl.AudioEnded += OnAudioEnded;
     }
@@ -358,7 +360,7 @@ public partial class MainPage
         AudioPlayerControl.PlayPreviousSongPart(sender!, e);
 
         _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        _detailBottomSheet.UpdateUI();
+        _detailBottomSheet.UpdateSongDetails();
     }
 
     private void OnNextSong(object? sender, EventArgs e)
@@ -366,7 +368,19 @@ public partial class MainPage
         AudioPlayerControl.NextButton_Pressed(sender!, e);
 
         _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        _detailBottomSheet.UpdateUI();
+        _detailBottomSheet.UpdateSongDetails();
+    }
+    private void OnOpenSongPartDetailBottomSheet(object? sender, EventArgs e)
+    {
+        _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        _detailBottomSheet.UpdateSongDetails();
+        _detailBottomSheet.UpdateIcons();
+
+        _detailBottomSheet.HasHandle = true;
+        _detailBottomSheet.IsCancelable = true;
+        _detailBottomSheet.HasBackdrop = true;
+        _detailBottomSheet.isShown = true;
+        _detailBottomSheet.ShowAsync();
     }
 
     private void OnCloseDetailSheet(object? sender, EventArgs e)
@@ -390,6 +404,13 @@ public partial class MainPage
         SearchSongPartsView.SetFilterMode();
         SearchSongPartsView.RefreshSort();
         MainContainer.SelectedIndex = 1;
+    }
+    private void OnCreatePlaylistButtonPressed(object? sender, EventArgs e)
+    {
+        MainContainer.SelectedIndex = 2;
+        SetupLibraryOrCurrentPlaylistToolbar();
+        LibraryView.FocusNewPlaylistEntry();
+
     }
 
     private void OnAddSongPart(object? sender, EventArgs e)
@@ -472,17 +493,7 @@ public partial class MainPage
     }
 
     #region AudioPlayerControl Events
-    private void OnShowDetails(object? sender, EventArgs e)
-    {
-        _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        _detailBottomSheet.UpdateUI();
 
-        _detailBottomSheet.HasHandle = true;
-        _detailBottomSheet.IsCancelable = true;
-        _detailBottomSheet.HasBackdrop = true;
-        _detailBottomSheet.isShown = true;
-        _detailBottomSheet.ShowAsync();
-    }
     private void OnPause(object? sender, EventArgs e)
     {
         SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
@@ -490,7 +501,7 @@ public partial class MainPage
     private void OnAudioEnded(object? sender, EventArgs e)
     {
         _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        _detailBottomSheet.UpdateUI();
+        _detailBottomSheet.UpdateSongDetails();
     }
 
     private void OnUpdateProgress(object? sender, EventArgs e)

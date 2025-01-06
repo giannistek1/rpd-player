@@ -5,13 +5,12 @@
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:syncfusionExpander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
              xmlns:effectsView="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.HomeView"
              BackgroundColor="{DynamicResource BackgroundColor}">
 
     <Grid Padding="0"
-          RowDefinitions="20, auto, *"
+          RowDefinitions="20, auto, auto, auto, *"
           ColumnDefinitions="*">
 
         <Label Grid.Row="0" Padding="8,2,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="12" Text="Version xx" TextColor="{DynamicResource SecondaryTextColor}"/>
@@ -95,8 +94,40 @@
 
         </syncfusionExpander:SfExpander>
 
+        <Grid Grid.Row="2" ColumnDefinitions="2*, 2*" ColumnSpacing="6" Margin="8,4,8,4">
+
+            <Button Grid.Column="0" x:Name="CreatePlaylistButton" Clicked="CreatePlaylistButtonClicked" Text="Create playlist" FontSize="14" LineBreakMode="CharacterWrap" ContentLayout="Left, 10">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Playlist_add}" Color="{DynamicResource IconColor}" />
+                </Button.ImageSource>
+            </Button>
+
+            <Button Grid.Column="1" x:Name="GeneratePlaylistButton" Clicked="GeneratePlaylistButtonClicked" Text="Generate playlist" FontSize="14" LineBreakMode="CharacterWrap" ContentLayout="Left, 10">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Construction}" Color="{DynamicResource IconColor}" />
+                </Button.ImageSource>
+            </Button>
+            
+        </Grid>
+
+        <Grid Grid.Row="3" ColumnDefinitions="2*, 2*" ColumnSpacing="6" Margin="8,4,8,4">
+
+            <Button Grid.Column="0" x:Name="StartRpdButton" Clicked="StartRpdButtonClicked" Text="Start RPD" FontSize="14" LineBreakMode="CharacterWrap" ContentLayout="Left, 10">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{DynamicResource IconColor}" />
+                </Button.ImageSource>
+            </Button>
+
+            <Button Grid.Column="1" x:Name="SearchByCategoryButton" Clicked="SearchByCategoryButtonClicked" Text="Search by category" FontSize="14" LineBreakMode="CharacterWrap" ContentLayout="Left, 10">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Manage_search}" Color="{DynamicResource IconColor}" />
+                </Button.ImageSource>
+            </Button>
+            
+        </Grid>
+            
         <!-- Categories -->
-        <ScrollView Grid.Row="2" VerticalScrollBarVisibility="Never">
+        <ScrollView Grid.Row="4" x:Name="CategoriesScrollView" VerticalScrollBarVisibility="Never">
 
             <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
 
@@ -104,7 +135,7 @@
                 <Label Grid.Row="0"
                         HeightRequest="40" 
                         LineBreakMode="NoWrap"
-                        Padding="8,0,0,0" Text="Categories" FontAttributes="Bold"
+                        Padding="8,0,0,0" Text="General" FontAttributes="Bold"
                         FontSize="18" HorizontalOptions="Start"
                         VerticalOptions="Center"/>
 
@@ -195,7 +226,7 @@
                         HeightRequest="40" 
                         TextColor="{DynamicResource PrimaryTextColor}"
                         LineBreakMode="NoWrap"
-                        Padding="4" Text="Generations" FontAttributes="Bold"
+                        Padding="4" Text="By generation" FontAttributes="Bold"
                         FontSize="18" HorizontalOptions="Start"
                         VerticalOptions="Center"/>
 
@@ -278,7 +309,7 @@
                         HeightRequest="40" 
                         TextColor="{DynamicResource PrimaryTextColor}"
                         LineBreakMode="NoWrap"
-                        Padding="4" Text="Companies" FontAttributes="Bold"
+                        Padding="4" Text="By company" FontAttributes="Bold"
                         FontSize="18" HorizontalOptions="Start"
                         VerticalOptions="Center"/>
                         
@@ -364,7 +395,7 @@
                         HeightRequest="40" 
                         TextColor="{DynamicResource PrimaryTextColor}"
                         LineBreakMode="NoWrap"
-                        Padding="4" Text="Genres" FontAttributes="Bold"
+                        Padding="4" Text="By genre" FontAttributes="Bold"
                         FontSize="18" HorizontalOptions="Start"
                         VerticalOptions="Center"/>
                     </syncfusionExpander:SfExpander.Header>
@@ -445,7 +476,7 @@
                             HeightRequest="40" 
                             TextColor="{DynamicResource PrimaryTextColor}"
                             LineBreakMode="NoWrap"
-                            Padding="4" Text="K-pop per year" FontAttributes="Bold"
+                            Padding="4" Text="By K-pop per year" FontAttributes="Bold"
                             FontSize="18" HorizontalOptions="Start"
                             VerticalOptions="Center"/>
                     </syncfusionExpander:SfExpander.Header>

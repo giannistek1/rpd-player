@@ -17,26 +17,23 @@
 
         <Grid Grid.Row="0" BackgroundColor="{DynamicResource BackgroundColor}" ColumnDefinitions="1*,3*, 1*, 1*">
 
-            <material:ButtonView Grid.Column="0" x:Name="BackButton" BackgroundColor="{DynamicResource BackgroundColor}" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButtonClicked" >
-                <Image x:Name="BackButtonImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Arrow_back}" Color="{DynamicResource IconColor}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
+            <ImageButton Grid.Column="0" x:Name="BackButtonImageButton" BackgroundColor="{DynamicResource BackgroundColor}" HeightRequest="26" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButtonClicked" >
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Arrow_back}" Color="{DynamicResource IconColor}" />
+                </ImageButton.Source>
+            </ImageButton>
 
             <Entry Grid.Column="1" x:Name="PlaylistNameEntry" ReturnType="Done" MinimumWidthRequest="160" VerticalOptions="CenterAndExpand"  HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" MaxLength="20" TextColor="{DynamicResource PrimaryTextColor}" Text="test" FontSize="16" FontAttributes="Bold" />
 
-            <material:ButtonView Grid.Column="2" x:Name="ShufflePlaylistButton" BackgroundColor="{DynamicResource BackgroundColor}" HeightRequest="50" HorizontalOptions="End" Pressed="ShufflePlaylistButton_Clicked">
-                <Image x:Name="ShufflePlaylistButtonImage">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
+            <ImageButton Grid.Column="2" x:Name="ShufflePlaylistButton" BackgroundColor="{DynamicResource BackgroundColor}" HeightRequest="26" HorizontalOptions="End" Pressed="ShufflePlaylistButton_Clicked">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
+                </ImageButton.Source>
+            </ImageButton>
 
             <material:ButtonView Grid.Column="3" x:Name="MixedShufflePlaylistButton" BackgroundColor="{DynamicResource BackgroundColor}" HeightRequest="50" HorizontalOptions="End" Pressed="MixedShufflePlaylistButton_Clicked">
-                <HorizontalStackLayout>
+                
+                    <HorizontalStackLayout>
 
                     <Image x:Name="MixedShufflePlaylistButtonImage">
                         <Image.Source>

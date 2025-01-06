@@ -68,13 +68,11 @@
 
             <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,0,8,0" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="10" TextColor="{DynamicResource SecondaryTextColor}" Text="00:00"/>
 
-            <material:ButtonView Grid.Column="3" HeightRequest="46" x:Name="NextButton" Background="{DynamicResource AudioPlayerBackgroundColor}" Pressed="NextButton_Pressed" VerticalOptions="CenterAndExpand">
-                <Image x:Name="NextImage">
-                    <Image.Source>
+            <ImageButton Grid.Column="3" HeightRequest="24" x:Name="NextImageButton" Background="{DynamicResource AudioPlayerBackgroundColor}" Pressed="NextButton_Pressed" VerticalOptions="CenterAndExpand">
+                    <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_next}" Color="{DynamicResource IconColor}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
+                    </ImageButton.Source>
+            </ImageButton>
 
             <Border Grid.Column="4"
                       Padding="0"

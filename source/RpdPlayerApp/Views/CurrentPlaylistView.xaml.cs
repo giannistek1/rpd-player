@@ -23,8 +23,8 @@ public partial class CurrentPlaylistView : ContentView
 
     internal void InitializeView()
     {
-        BackButton.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
-        BackButtonImage.Source = IconManager.BackIcon;
+        BackButtonImageButton.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
+        BackButtonImageButton.Source = IconManager.BackIcon;
     }
 
     private void BackButtonClicked(object sender, EventArgs e)

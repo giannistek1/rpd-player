@@ -56,8 +56,6 @@
             AutoFitMode="Height"
             SelectionMode="None"
             AllowSwiping="True"
-            IsStickyGroupHeader="True"
-            IsStickyHeader="False"
             AllowGroupExpandCollapse="True"
             Loaded="SonglibraryListView_Loaded"
             ItemTapped="SonglibraryListViewItemTapped"

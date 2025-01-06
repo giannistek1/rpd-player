@@ -1,5 +1,8 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Items;
+using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.ViewModels;
 using System.Collections.Specialized;
@@ -8,11 +11,13 @@ namespace RpdPlayerApp.Views;
 
 public partial class HomeView : ContentView
 {
+    internal event EventHandler? PlaySongPart;
+    internal event EventHandler? FilterPressed;
+    internal event EventHandler? CreatePlaylistButtonPressed;
+
     private readonly SettingsPage _settingsPage = new();
-
-    internal EventHandler? FilterPressed;
-
     internal MainPage? ParentPage { get; set; }
+
 
     public HomeView()
     {
@@ -37,12 +42,12 @@ public partial class HomeView : ContentView
         string firstGenArtist = firstGens[new Random().Next(0, firstGens.Length)];
 
         string[] secondGens = [
-            "[BIGBANG][][2006-08-19][BG][5][YG Entertainment].jpg",
-            "[Girls Generation (SNSD)][SNSD][2007-08-05][GG][8][SM Entertainment].webp",
-            "[2PM][][2008-09-04][BG][6][JYP Entertainment].jpg",
-            "[SHINee][][2008-05-25][BG][5][SM Entertainment].webp",
-            "[Super Junior][SUJU][2005-11-06][BG][10][SM Entertainment].webp",
-            "[2NE1][][2009-05-06][GG][4][YG Entertainment].jpg"
+            "%5BBIGBANG%5D%5B%5D%5B2006-08-19%5D%5BBG%5D%5B5%5D%5BYG%20Entertainment%5D.jpg",
+            "%5BGirls%20Generation%20(SNSD)%5D%5BSNSD%5D%5B2007-08-05%5D%5BGG%5D%5B8%5D%5BSM%20Entertainment%5D.webp",
+            "%5B2PM%5D%5BHottest%20time%20of%20the%20day%5D%5B2008-09-04%5D%5BBG%5D%5B6%5D%5BJYP%20Entertainment%5D.jpg",
+            "%5BSHINee%5D%5B%5D%5B2008-05-25%5D%5BBG%5D%5B5%5D%5BSM%20Entertainment%5D.webp",
+            "%5BSuper%20Junior%5D%5BSUJU%5D%5B2005-11-06%5D%5BBG%5D%5B10%5D%5BSM%20Entertainment%5D.webp",
+            "%5B2NE1%5D%5B21%5D%5B2009-05-06%5D%5BGG%5D%5B4%5D%5BYG%20Entertainment%5D.jpg"
         ];
 
         string secondGenArtist = secondGens[new Random().Next(0, secondGens.Length)];
@@ -72,12 +77,12 @@ public partial class HomeView : ContentView
             "[RIIZE][][2023-09-04][BG][7][SM Entertainment].jpg",
             "[ZEROBASEONE][ZB1][2023-07-10][BG][9][Wake One].jpg",
             "[BABYMONSTER][][2024-04-01][GG][7][YG Entertainment].jpg",
-            "[KISS OF LIFE][][2023-07-05][GG][4][S2 Entertainment].jpg"
+            "%5BKISS%20OF%20LIFE%5D%5BKIOF%5D%5B2023-07-05%5D%5BGG%5D%5B4%5D%5BS2%20Entertainment%5D.jpg"
         ];
 
         string fifthGenArtist = fifthGens[new Random().Next(0, fifthGens.Length)];
 
-        // Get
+        // Get data
         ArtistRepository.GetArtists(); 
         AlbumRepository.GetAlbums();
         VideoRepository.GetVideos();
@@ -338,22 +343,14 @@ public partial class HomeView : ContentView
                             select new { Title = g.Key, Titles = g.ToList() };
 
         UniqueSongCountLabel.Text = $", Unique songs: {groupedTitles.Count()}";
+        CategoriesScrollView.IsVisible = false;
     }
 
-    private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        SongPartCountLabel.Text = $"SongParts: {SongPartRepository.SongParts.Count}";
-    }
+    private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => SongPartCountLabel.Text = $"SongParts: {SongPartRepository.SongParts.Count}";
 
-    private void ArtistsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        ArtistCountLabel.Text = $"Artists: {ArtistRepository.Artists.Count}";
-    }
+    private void ArtistsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => ArtistCountLabel.Text = $"Artists: {ArtistRepository.Artists.Count}";
 
-    private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        AlbumCountLabel.Text = $",  Albums: {AlbumRepository.Albums.Count}";
-    }
+    private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => AlbumCountLabel.Text = $",  Albums: {AlbumRepository.Albums.Count}";
 
     #region Filters
     private void SetFilter(object sender, TappedEventArgs e)
@@ -383,7 +380,7 @@ public partial class HomeView : ContentView
             case "nonet": MainViewModel.SearchFilterMode = SearchFilterMode.Nonet; break;
         }
 
-        //CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        //Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", ToastDuration.Short, 14).Show();
 
         FilterPressed?.Invoke(this, e);
     }
@@ -400,7 +397,7 @@ public partial class HomeView : ContentView
             MainViewModel.SearchFilterMode = item.SearchFilterMode;
         }
 
-        //CommunityToolkit.Maui.Alerts.Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        //Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", ToastDuration.Short, 14).Show();
         FilterPressed?.Invoke(this, e);
     }
     #endregion
@@ -418,4 +415,24 @@ public partial class HomeView : ContentView
             await Navigation.PushAsync(_settingsPage, true);
         }
     }
+    private void CreatePlaylistButtonClicked(object sender, EventArgs e) => CreatePlaylistButtonPressed?.Invoke(sender, e);
+    private void GeneratePlaylistButtonClicked(object sender, EventArgs e) => Toast.Make($"Not implemented yet!", ToastDuration.Short, 14).Show();
+
+    private void StartRpdButtonClicked(object sender, EventArgs e)
+    {
+        if (!HelperClass.HasInternetConnection())
+            return;
+
+        var songParts = SongPartRepository.SongParts;
+
+        var random = new Random();
+        int index = random.Next(SongPartRepository.SongParts.Count);
+        SongPart songPart = songParts[index];
+
+        MainViewModel.AutoplayMode = 2; // Shuffle
+        MainViewModel.CurrentSongPart = songPart;
+        PlaySongPart?.Invoke(sender, e);
+    }
+
+    private void SearchByCategoryButtonClicked(object sender, EventArgs e) => CategoriesScrollView.IsVisible = !CategoriesScrollView.IsVisible;
 }

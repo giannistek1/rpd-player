@@ -99,32 +99,25 @@
             
             </Grid>
 
-            <Grid Grid.Row="7" ColumnDefinitions="2*, 2*, 2*, 2*, 2*, 2*, 2*">
+            <Grid Grid.Row="7" ColumnDefinitions="2*, 2*, 3*, 3*, 3*, 2*, 2*">
 
+                <ImageButton Grid.Column="0" HeightRequest="34" x:Name="VoiceImageButton" Pressed="VoiceButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Voice_selection_off}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <material:ButtonView Grid.Column="0" HeightRequest="34"  x:Name="VoiceButton" Background="Transparent" Pressed="VoiceButton_Pressed">
-                    <Image x:Name="VoiceImage" HeightRequest="34" HorizontalOptions="Center">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Voice_selection_off}" Color="{DynamicResource IconColor}" />
-                        </Image.Source>
-                    </Image>
-                </material:ButtonView>
+                <ImageButton Grid.Column="1" HeightRequest="34" x:Name="TimerImageButton" Pressed="TimerButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Timer_off}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <material:ButtonView Grid.Column="1" HeightRequest="34"  x:Name="TimerButton" Background="Transparent" Pressed="TimerButton_Pressed">
-                    <Image x:Name="TimerImage" HeightRequest="34" HorizontalOptions="Center">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Timer_off}" Color="{DynamicResource IconColor}" />
-                        </Image.Source>
-                    </Image>
-                </material:ButtonView>
-
-                <material:ButtonView Grid.Column="2" HeightRequest="40"  x:Name="PreviousButton" Background="Transparent" Pressed="PreviousButton_Pressed">
-                    <Image x:Name="PreviousImage" HeightRequest="40" HorizontalOptions="Center">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_previous}" Color="{DynamicResource IconColor}" />
-                        </Image.Source>
-                    </Image>
-                </material:ButtonView>
+                <ImageButton Grid.Column="2" HeightRequest="44" x:Name="PreviousImageButton" Pressed="PreviousButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_previous}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
 
                 <Border Grid.Column="3"
                           Padding="0"
@@ -143,29 +136,23 @@
 
                 </Border>
 
-                <material:ButtonView Grid.Column="4" HeightRequest="40" x:Name="NextButton" Background="Transparent" Pressed="NextButton_Pressed">
-                    <Image x:Name="NextImage" HeightRequest="40" HorizontalOptions="Center">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_next}" Color="{DynamicResource IconColor}" />
-                        </Image.Source>
-                    </Image>
-                </material:ButtonView>
+                <ImageButton Grid.Column="4" HeightRequest="44" x:Name="NextImageButton" Pressed="NextButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_next}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <material:ButtonView Grid.Column="5" HeightRequest="36" x:Name="AutoplayButton" Background="Transparent" Pressed="AutoplayButton_Pressed">
-                    <Image x:Name="AutoplayImage" HeightRequest="36" HorizontalOptions="Center">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Block}" Color="{DynamicResource IconColor}" />
-                        </Image.Source>
-                    </Image>
-                </material:ButtonView>
+                <ImageButton Grid.Column="5" HeightRequest="36" x:Name="AutoplayImageButton" Pressed="AutoplayButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Block}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <material:ButtonView Grid.Column="6" HeightRequest="36" x:Name="FavoriteButton" Background="Transparent" Pressed="FavoriteButton_Pressed">
-                    <Image x:Name="FavoriteImage" HeightRequest="36" HorizontalOptions="Center">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Favorite}" Color="{DynamicResource IconColor}" />
-                        </Image.Source>
-                    </Image>
-                </material:ButtonView>
+                <ImageButton Grid.Column="6" HeightRequest="36" x:Name="FavoriteImageButton" Pressed="FavoriteButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Favorite}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
 
             </Grid>
 

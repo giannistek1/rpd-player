@@ -8,6 +8,7 @@ using RpdPlayerApp.Architecture;
 using Syncfusion.Maui.DataSource;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using Syncfusion.Maui.ListView.Helpers;
 
 namespace RpdPlayerApp.Views;
 
@@ -56,7 +57,7 @@ public partial class SearchSongPartsView : ContentView
     internal void ToggleAudioModeButtonClicked(object? sender, EventArgs e)
     {
         MainViewModel.UsingVideoMode = !MainViewModel.UsingVideoMode;
-        if (ParentPage.Title.Equals(string.Empty))
+        if (ParentPage!.Title.Equals(string.Empty))
         {
             ParentPage.ShowSecondaryToolbarItems();
         }
@@ -87,6 +88,7 @@ public partial class SearchSongPartsView : ContentView
     private void SonglibraryListView_Loaded(object sender, Syncfusion.Maui.ListView.ListViewLoadedEventArgs e)
     {
         SonglibraryListView.DataSource?.GroupDescriptors.Clear();
+        SonglibraryListView.IsStickyGroupHeader = true; 
 
         songParts = songParts.OrderBy(s => s.ArtistName)
                              .ThenBy(s => s.Title)

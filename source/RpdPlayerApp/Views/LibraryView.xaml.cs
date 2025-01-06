@@ -24,6 +24,8 @@ public partial class LibraryView : ContentView
         LoadPlaylists();
     }
 
+    internal void FocusNewPlaylistEntry() => PlaylistNameEntry.Focus();
+
     internal void LoadPlaylists()
     {
         List<Playlist> playlists = [];
