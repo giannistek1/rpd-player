@@ -26,11 +26,11 @@
 
             <Grid Grid.Row="1" ColumnDefinitions="2*, 4*, 2*" Margin="0,0,0,0">
                 
-                <Label Grid.Column="0" x:Name="GenreLabel" Text="K-pop" FontSize="12" TextColor="{DynamicResource PrimaryTextColor}" VerticalOptions="Center" HorizontalOptions="Start" />
+                <Label Grid.Column="0" x:Name="GenreLabel" Text="K-pop" FontSize="12" VerticalOptions="Center" HorizontalOptions="Start" />
 
-                <Label Grid.Column="1" x:Name="AlbumLabel" Text="Album" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}" FontAttributes="Italic" VerticalOptions="Center" HorizontalOptions="Center" LineBreakMode="TailTruncation" />
+                <Label Grid.Column="1" x:Name="AlbumLabel" Text="Album" FontSize="14" FontAttributes="Italic" VerticalOptions="Center" HorizontalOptions="Center" LineBreakMode="TailTruncation" />
 
-                <Label Grid.Column="2" x:Name="ReleaseDateLabel" Text="01-01-2000" FontSize="12" TextColor="{DynamicResource PrimaryTextColor}" VerticalOptions="Center" HorizontalOptions="End" />
+                <Label Grid.Column="2" x:Name="ReleaseDateLabel" Text="01-01-2000" FontSize="12" VerticalOptions="Center" HorizontalOptions="End" />
 
             </Grid>
         
@@ -75,13 +75,14 @@
                 VerticalOptions="Center" 
                 HorizontalOptions="CenterAndExpand" />
 
-            <Grid Grid.Row="6" ColumnDefinitions="2*, 6*, 2*">
+            <!-- Audio Progress -->
+            <Grid Grid.Row="6" ColumnDefinitions="2*, 6*, 2*" Padding="8,0,8,0">
 
                 <Label 
                     Grid.Column="0"
                     x:Name="ProgressLabel"
                     Text="00:00"
-                    FontSize="14"
+                    FontSize="13"
                     TextColor="{DynamicResource SecondaryTextColor}"
                     VerticalOptions="Center"
                     HorizontalOptions="Start" />
@@ -92,7 +93,7 @@
                     Grid.Column="2"
                     x:Name="DurationLabel"
                     Text="99:99"
-                    FontSize="14"
+                    FontSize="12"
                     TextColor="{DynamicResource SecondaryTextColor}"
                     VerticalOptions="Center" 
                     HorizontalOptions="End" />
@@ -157,7 +158,7 @@
             </Grid>
 
             <!-- Volume -->
-            <Grid Grid.Row="8" ColumnDefinitions="1*, 7*">
+            <Grid Grid.Row="8" ColumnDefinitions="1*, 7*" Padding="16,0,16,0">
 
                 <Image Grid.Column="0" x:Name="VolumeImage" HeightRequest="30" HorizontalOptions="Center">
                     <Image.Source>

@@ -17,6 +17,8 @@ public partial class SongPartDetailBottomSheet
     internal EventHandler? FavoriteSongPart;
     internal EventHandler? Close;
 
+    internal AudioPlayerControl? AudioPlayerControl { get; set; }
+
     // TODO: Settings class
     private const string MAIN_VOLUME = "MAIN_VOLUME";
     private const string FAVORITES = "Favorites";
@@ -29,9 +31,15 @@ public partial class SongPartDetailBottomSheet
         this.Dismissed += OnDismissed;
 
         _playlistsManager = new();
-        FavoriteImageButton.Source = IconManager.FavoriteIcon;
+        FavoriteImageButton.Source = _playlistsManager.IsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
+
+        AudioProgressSlider.DragStarted += AudioProgressSlider_DragStarted;
+        AudioProgressSlider.DragCompleted += AudioProgressSlider_DragCompleted;
     }
 
+    private void AudioProgressSlider_DragStarted(object? sender, EventArgs e) => AudioPlayerControl!.AudioProgressSliderDragStarted(sender, e);
+
+    private void AudioProgressSlider_DragCompleted(object? sender, EventArgs e) => AudioPlayerControl?.SeekToProgress(sender, e);
 
     private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
 
@@ -77,9 +85,9 @@ public partial class SongPartDetailBottomSheet
         AlbumLabel.Text = $"{songPart.AlbumTitle} ";
         AlbumLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
         ReleaseDateLabel.Text = $"{songPart.Album.ReleaseDate:d}";
-        ReleaseDateLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
+        ReleaseDateLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
         GenreLabel.Text = $"{songPart.Album.GenreFull}";
-        GenreLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
+        GenreLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
 
         SongTitleLabel.Text = $"{songPart.Title}";
         SongTitleLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];

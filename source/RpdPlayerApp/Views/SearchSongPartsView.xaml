@@ -16,7 +16,7 @@
           RowDefinitions="24, 50, *"
           ColumnDefinitions="*">
 
-        <Grid Grid.Row="0" Padding="0,2,0,0" ColumnDefinitions="7*, 3*">
+        <Grid Grid.Row="0" Padding="0,4,0,0" ColumnDefinitions="7*, 3*">
 
             <Label 
                Grid.Column="0" 

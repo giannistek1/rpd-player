@@ -21,6 +21,7 @@ public partial class MainPage
         SearchSongPartsView.ParentPage = this;
         LibraryView.ParentPage = this;
         _currentPlaylistView.ParentPage = this;
+        _detailBottomSheet.AudioPlayerControl = AudioPlayerControl;
 
         // Load settings.
         if (Preferences.ContainsKey(MAIN_VOLUME))

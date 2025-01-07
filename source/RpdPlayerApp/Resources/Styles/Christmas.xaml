@@ -16,7 +16,8 @@
     <Color x:Key="ToolbarBackgroundColor">#64b06c</Color>
     <Color x:Key="TitleTextColor">#FFF</Color>
     <Color x:Key="ToolbarIconColor">#FFF</Color>
-    
+    <Color x:Key="ToolbarIconOffColor">#DDD</Color>
+
     <Color x:Key="IconColor">#64b06c</Color>
     <Color x:Key="InputBackgroundColor">#EEE</Color>
 
@@ -41,7 +42,7 @@
     <Color x:Key="AudioPlayerBackgroundColor">#FFF</Color>
     <Color x:Key="AudioProgressColor">#64b06c</Color>
     <Color x:Key="DetailAudioProgressColor">#B11E31</Color>
-    <Color x:Key="FavoriteIconColor">#F77</Color>
+    <Color x:Key="FavoritedIconColor">#F77</Color>
 
 
     <!-- Defaults (should be gone)-->

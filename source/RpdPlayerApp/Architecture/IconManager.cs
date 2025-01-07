@@ -86,6 +86,20 @@ internal static class IconManager
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
 
+    internal static FontImageSource FavoriteIcon = new()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.Favorite,
+        Color = (Color)Application.Current!.Resources["IconColor"]
+    };
+
+    internal static FontImageSource FavoritedIcon = new()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.Favorite,
+        Color = (Color)Application.Current!.Resources["FavoritedIconColor"]
+    };
+
     internal static FontImageSource ToolbarAddIcon = new()
     {
         FontFamily = "MaterialRounded",
@@ -184,26 +198,12 @@ internal static class IconManager
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Videocam_off,
-        Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
-    };
-
-    internal static FontImageSource FavoriteIcon = new()
-    {
-        FontFamily = "MaterialRounded",
-        Glyph = MaterialRounded.Favorite,
-        Color = (Color)Application.Current!.Resources["IconColor"]
-    };
-
-    internal static FontImageSource FavoritedIcon = new()
-    {
-        FontFamily = "MaterialRounded",
-        Glyph = MaterialRounded.Favorite,
-        Color = (Color)Application.Current!.Resources["FavoriteIconColor"]
+        Color = (Color)Application.Current!.Resources["ToolbarIconOffColor"]
     };
 #pragma warning restore S2223 // Non-constant static fields should not be visible
 
     /// <summary>
-    /// When theme updates
+    /// When theme updates, update icon colors. 
     /// </summary>
     internal static void RefreshIcons()
     {
@@ -282,6 +282,18 @@ internal static class IconManager
             FontFamily = "MaterialRounded",
             Glyph = MaterialRounded.Voice_selection_off,
             Color = (Color)Application.Current!.Resources["IconColor"]
+        };
+        FavoriteIcon = new()
+        {
+            FontFamily = "MaterialRounded",
+            Glyph = MaterialRounded.Favorite,
+            Color = (Color)Application.Current!.Resources["IconColor"]
+        };
+        FavoritedIcon = new()
+        {
+            FontFamily = "MaterialRounded",
+            Glyph = MaterialRounded.Favorite,
+            Color = (Color)Application.Current!.Resources["FavoritedIconColor"]
         };
 
         ToolbarAddIcon = new()

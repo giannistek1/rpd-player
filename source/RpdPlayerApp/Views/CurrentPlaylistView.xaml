@@ -135,6 +135,16 @@
                     </ViewCell>
                 </DataTemplate>
             </syncfusion:SfListView.ItemTemplate>
+
+            <syncfusion:SfListView.EmptyView>
+
+                <StackLayout VerticalOptions="CenterAndExpand" Spacing="16">
+
+                    <Label Text="Add some songs!" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" FontSize="18" FontFamily="Roboto-Regular"/>
+
+                </StackLayout>
+
+            </syncfusion:SfListView.EmptyView>
         </syncfusion:SfListView>
     </Grid>
 </ContentView>

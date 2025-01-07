@@ -40,17 +40,19 @@ public partial class AudioPlayerControl : ContentView
     }
 
     #region AudioProgressSlider
-    private void AudioProgressSliderDragCompleted(object? sender, EventArgs e)
+    internal void AudioProgressSliderDragStarted(object? sender, EventArgs e) => AudioMediaElement.PositionChanged -= AudioMediaElementPositionChanged;
+    private void AudioProgressSliderDragCompleted(object? sender, EventArgs e) => SeekToProgress(sender, e);
+    
+    internal void SeekToProgress(object? sender, EventArgs e)
     {
-        AudioMediaElement.SeekTo(TimeSpan.FromSeconds(AudioProgressSlider.Value/100*AudioMediaElement.Duration.TotalSeconds));
+        if (sender is Slider audioSlider)
+        {
+            AudioMediaElement.SeekTo(TimeSpan.FromSeconds(audioSlider.Value / 100 * AudioMediaElement.Duration.TotalSeconds));
 
-        AudioMediaElement.PositionChanged += AudioMediaElementPositionChanged;
+            AudioMediaElement.PositionChanged += AudioMediaElementPositionChanged;
+        }
     }
 
-    private void AudioProgressSliderDragStarted(object? sender, EventArgs e)
-    {
-        AudioMediaElement.PositionChanged -= AudioMediaElementPositionChanged;
-    }
     #endregion
 
     private void AudioMediaElementPositionChanged(object? sender, MediaPositionChangedEventArgs e)
