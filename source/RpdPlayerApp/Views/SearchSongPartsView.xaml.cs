@@ -435,7 +435,8 @@ public partial class SearchSongPartsView : ContentView
                                                         s.Artist?.Company == "B2M Entertainment" ||
                                                         s.Artist?.Company == "Jellyfish Entertainment" ||
                                                         s.Artist?.Company == "Wake One" || // Formerly known as MMO Entertainment
-                                                        s.Artist?.Company == "Stone Music Entertainment").ToObservableCollection(); break;
+                                                        s.Artist?.Company == "Stone Music Entertainment" ||
+                                                        s.Artist?.Company == "Swing Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.Kakao_Entertainment:
                     songParts = allSongParts.Where(s => s.Artist?.Company == "IST Entertainment" || // Went through a lot of renaming: A Cube -> Play A -> PLay M
                                                         s.Artist?.Company == "Starship Entertainment" ||

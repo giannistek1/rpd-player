@@ -225,7 +225,8 @@ public partial class HomeView : ContentView
                                                                                     s.Artist?.Company == "B2M Entertainment" ||
                                                                                     s.Artist?.Company == "Jellyfish Entertainment" ||
                                                                                     s.Artist?.Company == "Wake One" || // Formerly known as MMO Entertainment
-                                                                                    s.Artist?.Company == "Stone Music Entertainment")
+                                                                                    s.Artist?.Company == "Stone Music Entertainment" ||
+                                                                                    s.Artist?.Company == "Swing Entertainment")
                                  ),
 
             new(title: "FNC Entertainment",

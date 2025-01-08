@@ -19,6 +19,7 @@
     <Color x:Key="ToolbarIconOffColor">#DDD</Color>
     
     <Color x:Key="IconColor">#FFF</Color>
+    <Color x:Key="IconOffColor">#DDD</Color>
     <Color x:Key="InputBackgroundColor">#212121</Color>
 
     <Color x:Key="PrimaryTextColor">#FFF</Color>

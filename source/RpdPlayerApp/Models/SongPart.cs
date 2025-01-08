@@ -168,13 +168,14 @@ internal class SongPart : INotifyPropertyChanged
             "B" => $"Bridge {partNumber}",
             "C" => $"Chorus {partNumber}",
             "CDB" => $"Chorus {partNumber} & Dance Break",
+            "CDBE" => $"Chorus {partNumber} & Dance Break & Ending",
             "CE" => $"Chorus {partNumber} & Ending",
             "DB" => $"Dance break {partNumber}",
 
             "DBC" => $"Dance Break {partNumber} & Chorus", 
             "DBE" => $"Dance Break {partNumber} & Ending",
 
-            // No songpart yet
+            // No songpart yet.
             "DBO" => $"Dance Break {partNumber} & Outro", 
 
             "E" => $"Ending {partNumber}",
@@ -194,7 +195,7 @@ internal class SongPart : INotifyPropertyChanged
         return partNameShort switch
         {
             "P" or "PDB" => SongPartOrder.Prechorus,
-            "C" or "CDB" or "CE" => SongPartOrder.Chorus,
+            "C" or "CDB" or "CDBE" or "CE" => SongPartOrder.Chorus,
             "B" or "DB" or "O" or "DBO" or "DBC" or "DBE" => SongPartOrder.Dancebreak,
             "T" => SongPartOrder.Tiktok,
             "E" or "O" => SongPartOrder.Ending,

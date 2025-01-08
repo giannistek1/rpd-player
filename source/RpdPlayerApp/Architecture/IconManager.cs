@@ -29,7 +29,7 @@ internal static class IconManager
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Block,
-        Color = (Color)Application.Current!.Resources["IconColor"]
+        Color = (Color)Application.Current!.Resources["IconOffColor"]
     };
     internal static FontImageSource PauseIcon = new()
     {
@@ -59,7 +59,7 @@ internal static class IconManager
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Timer_off,
-        Color = (Color)Application.Current!.Resources["IconColor"]
+        Color = (Color)Application.Current!.Resources["IconOffColor"]
     };
     internal static FontImageSource Timer3Icon = new()
     {
@@ -83,7 +83,7 @@ internal static class IconManager
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Voice_selection_off,
-        Color = (Color)Application.Current!.Resources["IconColor"]
+        Color = (Color)Application.Current!.Resources["IconOffColor"]
     };
 
     internal static FontImageSource FavoriteIcon = new()
@@ -144,7 +144,7 @@ internal static class IconManager
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Cloud_off,
-        Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
+        Color = (Color)Application.Current!.Resources["ToolbarIconOffColor"]
     };
     internal static FontImageSource ToolbarExpandAllIcon = new()
     {
@@ -227,7 +227,7 @@ internal static class IconManager
         {
             FontFamily = "MaterialRounded",
             Glyph = MaterialRounded.Block,
-            Color = (Color)Application.Current!.Resources["IconColor"]
+            Color = (Color)Application.Current!.Resources["IconOffColor"]
         };
         PauseIcon = new()
         {
@@ -257,7 +257,7 @@ internal static class IconManager
         {
             FontFamily = "MaterialRounded",
             Glyph = MaterialRounded.Timer_off,
-            Color = (Color)Application.Current!.Resources["IconColor"]
+            Color = (Color)Application.Current!.Resources["IconOffColor"]
         };
         Timer3Icon = new()
         {
@@ -281,7 +281,7 @@ internal static class IconManager
         {
             FontFamily = "MaterialRounded",
             Glyph = MaterialRounded.Voice_selection_off,
-            Color = (Color)Application.Current!.Resources["IconColor"]
+            Color = (Color)Application.Current!.Resources["IconOffColor"]
         };
         FavoriteIcon = new()
         {
@@ -340,7 +340,7 @@ internal static class IconManager
         {
             FontFamily = "MaterialRounded",
             Glyph = MaterialRounded.Cloud_off,
-            Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
+            Color = (Color)Application.Current!.Resources["ToolbarIconOffColor"]
         };
         ToolbarExpandAllIcon = new()
         {
@@ -394,7 +394,7 @@ internal static class IconManager
         {
             FontFamily = "MaterialRounded",
             Glyph = MaterialRounded.Videocam_off,
-            Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
+            Color = (Color)Application.Current!.Resources["ToolbarIconOffColor"]
         };
     }
 }
