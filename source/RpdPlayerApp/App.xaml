@@ -2,7 +2,6 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:local="clr-namespace:RpdPlayerApp"
              x:Class="RpdPlayerApp.App">
     
@@ -59,29 +58,6 @@
 
             <Style TargetType="BoxView">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={DynamicResource Gray950}, Dark={DynamicResource Gray200}}" />
-            </Style>
-
-            <Style TargetType="material:ButtonView" ApplyToDerivedTypes="True" CanCascade="True" BaseResourceKey="UraniumUI.Material.Controls.ButtonView.Base">
-                <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryButton}" />
-                <Setter Property="Padding" Value="10" />
-                <Setter Property="StrokeShape" Value="{RoundRectangle CornerRadius=20}"/>
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="PointerOver">
-                                <VisualState.Setters>
-                                    <Setter Property="uranium:DynamicTint.BackgroundColorOpacity" Value="0.9" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Normal"/>
-                            <VisualState x:Name="Pressed">
-                                <VisualState.Setters>
-                                    <Setter Property="uranium:DynamicTint.BackgroundColorOpacity" Value="0.8" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </Setter>
             </Style>
 
             <Style TargetType="Button">

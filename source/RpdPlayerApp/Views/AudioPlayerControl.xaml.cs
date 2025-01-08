@@ -30,13 +30,13 @@ public partial class AudioPlayerControl : ContentView
         AudioProgressSlider.DragStarted += AudioProgressSliderDragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
 
-        PlayToggleImage.Source = IconManager.PlayIcon;
+        PlayToggleImageButton.Source = IconManager.PlayIcon;
     }
 
     internal void UpdateUI()
     {
-        PlayToggleImage.Source = MainViewModel.CurrentlyPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
-        PlayToggleButton.BackgroundColor = (Color)Application.Current!.Resources["PrimaryButton"];
+        PlayToggleImageButton.Source = MainViewModel.CurrentlyPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleBorder.Background = (Color)Application.Current!.Resources["PrimaryButton"];
     }
 
     #region AudioProgressSlider
@@ -148,7 +148,7 @@ public partial class AudioPlayerControl : ContentView
         if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
         {
             AudioMediaElement.Play();
-            PlayToggleImage.Source = IconManager.PauseIcon;
+            PlayToggleImageButton.Source = IconManager.PauseIcon;
             MainViewModel.CurrentSongPart.IsPlaying = true;
             TimerManager.StartInfiniteScaleYAnimationWithTimer();
         }
@@ -156,7 +156,7 @@ public partial class AudioPlayerControl : ContentView
         else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
         {
             AudioMediaElement.Play();
-            PlayToggleImage.Source = IconManager.PauseIcon;
+            PlayToggleImageButton.Source = IconManager.PauseIcon;
             MainViewModel.CurrentSongPart.IsPlaying = true;
             TimerManager.StartInfiniteScaleYAnimationWithTimer();
         }
@@ -165,7 +165,7 @@ public partial class AudioPlayerControl : ContentView
         {
             AudioMediaElement.Pause();
             Pause?.Invoke(sender, e);
-            PlayToggleImage.Source = IconManager.PlayIcon;
+            PlayToggleImageButton.Source = IconManager.PlayIcon;
             MainViewModel.CurrentSongPart.IsPlaying = false;
         }
     }
@@ -211,7 +211,7 @@ public partial class AudioPlayerControl : ContentView
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         NowPlayingLabel.Text = $"{songPart.Title}";
         NowPlayingPartLabel.Text = $"{songPart.PartNameFull}";
-        PlayToggleImage.Source = IconManager.PauseIcon;
+        PlayToggleImageButton.Source = IconManager.PauseIcon;
 
         TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
         DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
@@ -224,7 +224,7 @@ public partial class AudioPlayerControl : ContentView
         AudioMediaElement.Stop();
         AudioMediaElement.SeekTo(new TimeSpan(0));
 
-        PlayToggleImage.Source = IconManager.PlayIcon;
+        PlayToggleImageButton.Source = IconManager.PlayIcon;
 
         MainViewModel.CurrentSongPart.IsPlaying = false;
         MainViewModel.CurrentlyPlaying = false;

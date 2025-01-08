@@ -96,13 +96,13 @@
 
         <Grid Grid.Row="2" ColumnDefinitions="2*, 2*" ColumnSpacing="6" Margin="8,4,8,4">
 
-            <Button Grid.Column="0" x:Name="CreatePlaylistButton" Clicked="CreatePlaylistButtonClicked" Text="Create playlist" FontSize="14" LineBreakMode="CharacterWrap" ContentLayout="Left, 10">
+            <Button Grid.Column="0" x:Name="CreatePlaylistButton" Clicked="CreatePlaylistButtonClicked" Text="Create playlist" FontSize="14" LineBreakMode="WordWrap" ContentLayout="Left, 10">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Playlist_add}" Color="{DynamicResource IconColor}" />
                 </Button.ImageSource>
             </Button>
 
-            <Button Grid.Column="1" x:Name="GeneratePlaylistButton" Clicked="GeneratePlaylistButtonClicked" Text="Generate playlist" FontSize="14" LineBreakMode="CharacterWrap" ContentLayout="Left, 10">
+            <Button Grid.Column="1" x:Name="GeneratePlaylistButton" Clicked="GeneratePlaylistButtonClicked" Text="Generate playlist" FontSize="14" LineBreakMode="WordWrap" ContentLayout="Left, 10">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Construction}" Color="{DynamicResource IconColor}" />
                 </Button.ImageSource>
@@ -112,13 +112,13 @@
 
         <Grid Grid.Row="3" ColumnDefinitions="2*, 2*" ColumnSpacing="6" Margin="8,4,8,4">
 
-            <Button Grid.Column="0" x:Name="StartRpdButton" Clicked="StartRpdButtonClicked" Text="Start RPD" FontSize="14" LineBreakMode="CharacterWrap" ContentLayout="Left, 10">
+            <Button Grid.Column="0" x:Name="StartRpdButton" Clicked="StartRpdButtonClicked" Text="Start RPD" FontSize="14" LineBreakMode="WordWrap" ContentLayout="Left, 10">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{DynamicResource IconColor}" />
                 </Button.ImageSource>
             </Button>
 
-            <Button Grid.Column="1" x:Name="SearchByCategoryButton" Clicked="SearchByCategoryButtonClicked" Text="Search by category" FontSize="14" LineBreakMode="CharacterWrap" ContentLayout="Left, 10">
+            <Button Grid.Column="1" x:Name="SearchByCategoryButton" Clicked="SearchByCategoryButtonClicked" Text="Search by category" FontSize="14" LineBreakMode="WordWrap" ContentLayout="Left, 10">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Manage_search}" Color="{DynamicResource IconColor}" />
                 </Button.ImageSource>

@@ -49,7 +49,7 @@ public partial class SongPartDetailBottomSheet
     internal void UpdateIcons()
     {
         // TODO: Set image to play once song ends.
-        PlayToggleImage.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
         VoiceImageButton.Source = MainViewModel.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
         // TODO: Enums
         TimerImageButton.Source = MainViewModel.TimerMode switch
@@ -74,7 +74,7 @@ public partial class SongPartDetailBottomSheet
     }
 
     /// <summary>
-    /// Song dependent
+    /// Song dependent or theme chage
     /// </summary>
     internal void UpdateSongDetails()
     {
@@ -128,7 +128,7 @@ public partial class SongPartDetailBottomSheet
     private void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
         PlayToggleSongPart?.Invoke(sender, e);
-        PlayToggleImage.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
     }
 
     private void PreviousButton_Pressed(object sender, EventArgs e)
@@ -219,5 +219,5 @@ public partial class SongPartDetailBottomSheet
         Preferences.Set(MAIN_VOLUME, MainViewModel.MainVolume);
     }
 
-    private void CloseButton_Pressed(object sender, EventArgs e) => Close?.Invoke(sender, e);
+    private void CloseImageButton_Pressed(object sender, EventArgs e) => Close?.Invoke(sender, e);
 }

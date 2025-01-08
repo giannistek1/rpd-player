@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sliders="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
              xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
-             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.SongPartDetailBottomSheet"
              Background="{DynamicResource BackgroundColor}">
@@ -14,15 +13,13 @@
     
     <ScrollView Orientation="Vertical">
        
-        <Grid RowDefinitions="22, 40, auto, 30, 30, 30, 50, 70, 50" Padding="12,0,12,0">
+        <Grid RowDefinitions="22, 40, auto, 30, 30, 30, 50, auto, 50" Padding="12,0,12,0">
 
-            <material:ButtonView Grid.Row="0" HeightRequest="40" x:Name="CloseButton" HorizontalOptions="CenterAndExpand" Background="Transparent" Pressed="CloseButton_Pressed">
-                <Image x:Name="CloseImage" HeightRequest="40" HorizontalOptions="Center">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Minimize}" Color="{DynamicResource IconColor}" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
+            <ImageButton Grid.Row="0" HeightRequest="40" x:Name="CloseImageButton" HorizontalOptions="CenterAndExpand" Pressed="CloseImageButton_Pressed">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Minimize}" Color="{DynamicResource IconColor}" />
+                </ImageButton.Source>
+            </ImageButton>
 
             <Grid Grid.Row="1" ColumnDefinitions="2*, 4*, 2*" Margin="0,0,0,0">
                 
@@ -121,19 +118,19 @@
                 </ImageButton>
 
                 <Border Grid.Column="3"
+                          x:Name="PlayToggleBorder"
                           Padding="0"
                           HeightRequest="60"
                           WidthRequest="60"
                           StrokeShape="RoundRectangle 30"
+                          Background="{DynamicResource PrimaryButton}"
                           VerticalOptions="Center">
-                    
-                    <material:ButtonView  HeightRequest="60" x:Name="PlayToggleButton" Pressed="PlayToggleButton_Pressed" Background="{DynamicResource PrimaryButton}">
-                        <Image x:Name="PlayToggleImage" HeightRequest="60" HorizontalOptions="Center">
-                            <Image.Source>
-                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Play_pause}" Color="{DynamicResource IconColor}" />
-                            </Image.Source>
-                        </Image>
-                    </material:ButtonView>
+
+                    <ImageButton HeightRequest="60" Padding="4" x:Name="PlayToggleImageButton" Pressed="PlayToggleButton_Pressed">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Play_pause}" Color="{DynamicResource IconColor}" />
+                        </ImageButton.Source>
+                    </ImageButton>
 
                 </Border>
 

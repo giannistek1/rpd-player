@@ -5,8 +5,6 @@
              xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
-             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.AudioPlayerControl">
     
@@ -75,19 +73,19 @@
             </ImageButton>
 
             <Border Grid.Column="4"
+                    x:Name="PlayToggleBorder"
                       Padding="0"
                       HeightRequest="42"
                       WidthRequest="42"
                       StrokeShape="RoundRectangle 21"
+                      Background="{DynamicResource PrimaryButton}"
                       VerticalOptions="Center">
-                
-                <material:ButtonView Grid.Column="4" HeightRequest="42" x:Name="PlayToggleButton" BackgroundColor="{DynamicResource PrimaryButton}" Pressed="PlayToggleButton_Pressed">
-                    <Image x:Name="PlayToggleImage" HeightRequest="42">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Play_arrow}" Color="{DynamicResource IconColor}" />
-                        </Image.Source>
-                    </Image>
-                </material:ButtonView>
+
+                <ImageButton Grid.Column="4" HeightRequest="36" x:Name="PlayToggleImageButton" Pressed="PlayToggleButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Play_arrow}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
                 
             </Border>
 
