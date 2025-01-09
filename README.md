@@ -1,7 +1,7 @@
-<img src="https://github.com/user-attachments/assets/48cbe87d-76e7-432b-8391-92054100d510" width="220">
-<img src="https://github.com/user-attachments/assets/9311c7b9-dbf0-4167-a1ee-25e260732d12" width="220">
-<img src="https://github.com/user-attachments/assets/bb066721-d1e1-40ee-9079-27be663bfbe4" width="220">
-<img src="https://github.com/user-attachments/assets/48cbe87d-76e7-432b-8391-92054100d510" width="220">
+<img src="https://github.com/user-attachments/assets/48cbe87d-76e7-432b-8391-92054100d510" width="210"/>
+<img src="https://github.com/user-attachments/assets/9311c7b9-dbf0-4167-a1ee-25e260732d12" width="210"/>
+<img src="https://github.com/user-attachments/assets/bb066721-d1e1-40ee-9079-27be663bfbe4" width="210"/>
+<img src="https://github.com/user-attachments/assets/4f8a94fc-e485-40bf-9e22-a397ba5574c0" width="210"/>
 
 # Disclaimer
 I do not own any rights to any of these songs, album images or dance videos. 
