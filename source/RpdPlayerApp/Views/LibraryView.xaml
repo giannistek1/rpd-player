@@ -16,6 +16,7 @@
 
             <Button x:Name="CopyPlaylistButton" Margin="2" Clicked="CopyPlaylistButton_Clicked" Text="Copy" />-->
 
+        <!-- TODO: Get rid of this textfield so Uranium UI material can go -->
         <material:TextField Grid.Row="0" x:Name="PlaylistNameEntry" ReturnType="Done" Margin="8,0,8,0" TitleColor="{DynamicResource PrimaryTextColor}" Title="Playlist name" MaxLength="20"
                                  Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Pencil}}" AccentColor="{DynamicResource Primary}">
         </material:TextField>

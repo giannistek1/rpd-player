@@ -39,6 +39,8 @@
     <Color x:Key="TabViewBackgroundColor">#FFF</Color>
     <Color x:Key="SwitchOnThumbColor">#C8C8C8</Color>
     <Color x:Key="SwitchOffThumbColor">#6E6E6E</Color>
+    <Color x:Key="SwitchStartRpdTrackColor">#ACACAC</Color>
+    <Color x:Key="SwitchGeneratePlaylistTrackColor">#ACACAC</Color>
 
     <Color x:Key="AudioPlayerBackgroundColor">#FFF</Color>
     <Color x:Key="AudioProgressColor">#000</Color>

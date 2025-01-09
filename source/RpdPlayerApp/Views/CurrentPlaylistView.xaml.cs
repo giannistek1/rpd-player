@@ -134,13 +134,13 @@ public partial class CurrentPlaylistView : ContentView
     }
 
 
-    private void ShufflePlaylistButtonImage_Clicked(object sender, EventArgs e)
+    private void ShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
     {
         PlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizePlaylist([.. PlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
         CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
     }
 
-    private void MixedShufflePlaylistButtonImage_Clicked(object sender, EventArgs e)
+    private void MixedShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
     {
         PlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizeAndAlternatePlaylist([.. PlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
         CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;

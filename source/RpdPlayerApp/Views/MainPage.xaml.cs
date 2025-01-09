@@ -9,7 +9,8 @@ public partial class MainPage
     // TODO: Settings class
     private const string MAIN_VOLUME = "MAIN_VOLUME";
 
-    private readonly CurrentPlaylistView _currentPlaylistView = new();
+    private readonly CategoriesView _categoriesView = new(); // Home
+    private readonly CurrentPlaylistView _currentPlaylistView = new(); // Playlists
     private readonly SortByBottomSheet _sortByBottomSheet = new();
     private readonly SongPartDetailBottomSheet _detailBottomSheet = new();
 
@@ -18,6 +19,7 @@ public partial class MainPage
         InitializeComponent();
 
         HomeView.ParentPage = this;
+        HomeView.RpdSettings = new();
         SearchSongPartsView.ParentPage = this;
         LibraryView.ParentPage = this;
         _currentPlaylistView.ParentPage = this;
@@ -42,6 +44,15 @@ public partial class MainPage
             LibraryContainer.Children.Add(LibraryView);
         }
 
+        if (!HomeContainer.Children.Contains(HomeView))
+        {
+            HomeContainer.Children.Add(HomeView);
+        }
+        if (!HomeContainer.Children.Contains(_categoriesView))
+        {
+            HomeContainer.Children.Add(_categoriesView);
+        }
+
         // Has to be run on MainThread (UI thread) for iOS.
         MainThread.BeginInvokeOnMainThread(() =>
         {
@@ -61,6 +72,10 @@ public partial class MainPage
         HomeView.FilterPressed += OnFilterPressed;
         HomeView.PlaySongPart += OnPlaySongPart;
         HomeView.CreatePlaylistButtonPressed += OnCreatePlaylistButtonPressed;
+        HomeView.ShowCategories += OnShowCategories;
+
+        _categoriesView.IsVisible = false;
+        _categoriesView.FilterPressed += OnFilterPressed;
 
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
         SearchSongPartsView.StopSongPart += OnStopSongPart;
@@ -110,7 +125,8 @@ public partial class MainPage
 
     internal void SetupHomeToolbar()
     {
-        Title = "Home";
+        if (HomeView.IsVisible) { Title = "Home"; }
+        else if (_categoriesView.IsVisible) { Title = "Categories"; }
 
         ToolbarItems.Clear();
 
@@ -351,10 +367,7 @@ public partial class MainPage
 
     #endregion
 
-    private void OnPlayToggleSongPart(object? sender, EventArgs e)
-    {
-        AudioPlayerControl.PlayToggleButton_Pressed(sender!, e);
-    }
+    private void OnPlayToggleSongPart(object? sender, EventArgs e) => AudioPlayerControl.PlayToggleButton_Pressed(sender!, e);
 
     private void OnPreviousSong(object? sender, EventArgs e)
     {
@@ -384,10 +397,7 @@ public partial class MainPage
         _detailBottomSheet.ShowAsync();
     }
 
-    private void OnCloseDetailSheet(object? sender, EventArgs e)
-    {
-        _detailBottomSheet.DismissAsync();
-    }
+    private void OnCloseDetailSheet(object? sender, EventArgs e) => _detailBottomSheet.DismissAsync();
 
     private void OnCloseSortBySheet(object? sender, EventArgs e)
     {
@@ -395,10 +405,7 @@ public partial class MainPage
         SearchSongPartsView.RefreshSort();
     }
 
-    private void OnEnqueueSongPart(object? sender, EventArgs e)
-    {
-        AudioPlayerControl.UpdateNextSwipeItem();
-    }
+    private void OnEnqueueSongPart(object? sender, EventArgs e) => AudioPlayerControl.UpdateNextSwipeItem();
 
     private void OnFilterPressed(object? sender, EventArgs e)
     {
@@ -414,16 +421,27 @@ public partial class MainPage
 
     }
 
-    private void OnAddSongPart(object? sender, EventArgs e)
+    private void OnAddSongPart(object? sender, EventArgs e) => _currentPlaylistView.RefreshCurrentPlaylist();
+
+    private void OnShowCategories(object? sender, EventArgs e)
     {
-        _currentPlaylistView.RefreshCurrentPlaylist();
+        HomeView = (HomeView)HomeContainer.Children[0];
+        HomeView.IsVisible = false;
+        _categoriesView.IsVisible = true;
+        Title = "Categories";
+        //_categoriesView.InitializeView();
     }
 
-    private void OnBackToPlaylists(object? sender, EventArgs e)
+    private void OnBackToHomeView(object? sender, EventArgs e) => BackToHomeView();
+
+    private void BackToHomeView()
     {
-        BackToPlaylists();
+        _categoriesView.IsVisible = false;
+        HomeView.IsVisible = true;
+        Title = "Home";
     }
 
+    private void OnBackToPlaylists(object? sender, EventArgs e) => BackToPlaylists();
     private void BackToPlaylists()
     {
         _currentPlaylistView.ResetCurrentPlaylist();
@@ -513,7 +531,12 @@ public partial class MainPage
 
     protected override bool OnBackButtonPressed()
     {
-        if (_currentPlaylistView.IsVisible)
+        if (_categoriesView.IsVisible && (byte)MainContainer.SelectedIndex == 0)
+        {
+            BackToHomeView();
+            return true;
+        }
+        if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 1)
         {
             BackToPlaylists();
             return true;

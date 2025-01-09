@@ -34,7 +34,7 @@
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
-                    <ImageButton x:Name="ShufflePlaylistButtonImage" HeightRequest="26" HorizontalOptions="End" Pressed="ShufflePlaylistButtonImage_Clicked">
+                    <ImageButton x:Name="ShufflePlaylistButtonImageButton" HeightRequest="26" HorizontalOptions="End" Pressed="ShufflePlaylistButtonImageButton_Clicked">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
@@ -59,7 +59,7 @@
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
-                    <ImageButton x:Name="MixedShufflePlaylistButtonImage" HeightRequest="26" Pressed="MixedShufflePlaylistButtonImage_Clicked">
+                    <ImageButton x:Name="MixedShufflePlaylistButtonImageButton" HeightRequest="26" Pressed="MixedShufflePlaylistButtonImageButton_Clicked">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>

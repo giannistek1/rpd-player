@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:syncfusionExpander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:effectsView="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+             x:Class="RpdPlayerApp.Views.CategoriesView">
+
+    <ContentView.Resources>
+        <buttons:SfRadioGroupKey x:Key="categories"/>
+    </ContentView.Resources>
+
+    <!-- Categories -->
+    <ScrollView x:Name="CategoriesScrollView" VerticalScrollBarVisibility="Never">
+
+        <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
+
+            <Grid Grid.Row="1" ColumnDefinitions="1*,1*,1*, 1*,1*,1*" Margin="0,8,0,8">
+
+                <Border Grid.Column="0"
+                    x:Name="AllBorder"
+                      Padding="0"
+                      HeightRequest="44"
+                      WidthRequest="44"
+                      StrokeShape="RoundRectangle 8"
+                      Background="{DynamicResource SecondaryButton}"
+                      VerticalOptions="Center">
+
+                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+
+                        <ImageButton x:Name="AllImageButton" HeightRequest="26">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Library_music}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                        <Label Text="All" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <Border Grid.Column="1"
+                    x:Name="DanceBorder"
+                      Padding="0"
+                      HeightRequest="44"
+                      WidthRequest="44"
+                      StrokeShape="RoundRectangle 8"
+                      Background="{DynamicResource SecondaryButton}"
+                      VerticalOptions="Center">
+
+                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+
+                        <ImageButton x:Name="DanceImageButton" HeightRequest="26">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Videocam}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                        <Label Text="Dance vid" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <Border Grid.Column="2"
+                    x:Name="MaleBorder"
+                      Padding="0"
+                      HeightRequest="44"
+                      WidthRequest="44"
+                      StrokeShape="RoundRectangle 8"
+                      Background="{DynamicResource SecondaryButton}"
+                      VerticalOptions="Center">
+
+                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+
+                        <ImageButton x:Name="MaleImageButton" HeightRequest="26">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Male}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                        <Label Text="Male" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <Border Grid.Column="3"
+                    x:Name="FemaleBorder"
+                      Padding="0"
+                      HeightRequest="44"
+                      WidthRequest="44"
+                      StrokeShape="RoundRectangle 8"
+                      Background="{DynamicResource SecondaryButton}"
+                      VerticalOptions="Center">
+
+                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+
+                        <ImageButton x:Name="FemaleImageButton" HeightRequest="26">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Female}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                        <Label Text="Female" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <Border Grid.Column="4"
+                    x:Name="SoloBorder"
+                      Padding="0"
+                      HeightRequest="44"
+                      WidthRequest="44"
+                      StrokeShape="RoundRectangle 8"
+                      Background="{DynamicResource SecondaryButton}"
+                      VerticalOptions="Center">
+
+                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+
+                        <ImageButton x:Name="SoloImageButton" HeightRequest="26">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Accessibility_new}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                        <Label Text="Solo" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <Border Grid.Column="5"
+                        x:Name="GroupBorder"
+                          Padding="0"
+                          HeightRequest="44"
+                          WidthRequest="44"
+                          StrokeShape="RoundRectangle 8"
+                          Background="{DynamicResource SecondaryButton}"
+                          VerticalOptions="Center">
+
+                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+
+                        <ImageButton x:Name="GroupImageButton" HeightRequest="26">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Group}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                        <Label Text="Group" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+            </Grid>
+
+            <!-- Radiobuttons -->
+            <VerticalStackLayout Grid.Row="2">
+       
+                <Grid ColumnDefinitions="1*, 1*">
+
+                    <buttons:SfRadioButton Grid.Column="0" x:Name="GenerationRadioButton" Text="Generations" FontSize="14" GroupKey="{StaticResource categories}">
+                        <!-- TODO: in App.xaml -->
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+                                        <Setter Property="CheckedColor" Value="{DynamicResource Primary}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+                                        <Setter Property="UncheckedColor" Value="{DynamicResource SecondaryTextColor}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </buttons:SfRadioButton>
+
+                    <buttons:SfRadioButton Grid.Column="1" x:Name="CompanyRadioButton" Text="Companies" FontSize="14" GroupKey="{StaticResource categories}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+                                        <Setter Property="CheckedColor" Value="{DynamicResource Primary}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+                                        <Setter Property="UncheckedColor" Value="{DynamicResource SecondaryTextColor}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </buttons:SfRadioButton>
+                    
+                </Grid>
+
+                <Grid ColumnDefinitions="1*, 1*">
+
+                    <buttons:SfRadioButton Grid.Column="0" x:Name="GenreRadioButton" Text="Genres" FontSize="14" GroupKey="{StaticResource categories}">
+                        <!-- TODO: in App.xaml -->
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+                                        <Setter Property="CheckedColor" Value="{DynamicResource Primary}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+                                        <Setter Property="UncheckedColor" Value="{DynamicResource SecondaryTextColor}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </buttons:SfRadioButton>
+
+                    <buttons:SfRadioButton Grid.Column="1" x:Name="KpopYearsRadioButton" Text="K-Pop years" FontSize="14" GroupKey="{StaticResource categories}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+                                        <Setter Property="CheckedColor" Value="{DynamicResource Primary}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+                                        <Setter Property="UncheckedColor" Value="{DynamicResource SecondaryTextColor}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </buttons:SfRadioButton>
+
+                </Grid>
+
+            </VerticalStackLayout>
+
+            <!-- Generations -->
+            <syncfusion:SfListView
+                    x:Name="GenerationListView"
+                    Grid.Row="3"
+                    Orientation="Vertical"
+                    AutoFitMode="Height" 
+                    SelectionMode="None"
+                    ItemSpacing="12"
+                    ItemTapped="CategoryListViewItemTapped">
+
+                <syncfusion:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <VerticalStackLayout Padding="0">
+
+                                <Image HeightRequest="160" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
+                                    </Image.Source>
+                                </Image>
+
+                                <HorizontalStackLayout HeightRequest="26" VerticalOptions="End" HorizontalOptions="CenterAndExpand">
+                                    <Label Padding="8,8,0,0" VerticalOptions="Start" HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                                    <Label Padding="8,8,0,0" VerticalOptions="Start" HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </syncfusion:SfListView.ItemTemplate>
+                
+            </syncfusion:SfListView>
+
+            <!-- Companies -->
+            <syncfusion:SfListView
+                    x:Name="CompanyListView"
+                    Grid.Row="4"
+                    Orientation="Vertical"
+                    AutoFitMode="Height" 
+                    SelectionMode="None"
+                    ItemSpacing="4"
+                    ItemTapped="CategoryListViewItemTapped">
+
+                <syncfusion:SfListView.ItemsLayout>
+                    <syncfusion:GridLayout SpanCount="1" />
+                </syncfusion:SfListView.ItemsLayout>
+
+                <syncfusion:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <HorizontalStackLayout Padding="0">
+
+                                <Image WidthRequest="80" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
+                                    </Image.Source>
+                                </Image>
+
+                                <HorizontalStackLayout HeightRequest="32" VerticalOptions="CenterAndExpand">
+                                    <Label Padding="8,8,0,0" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" LineBreakMode="WordWrap" />
+                                    <Label Padding="8,8,0,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" LineBreakMode="WordWrap" />
+                                </HorizontalStackLayout>
+
+                            </HorizontalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </syncfusion:SfListView.ItemTemplate>
+                
+            </syncfusion:SfListView>
+
+            <!-- Genres (used to be languages) -->
+            <syncfusion:SfListView
+                x:Name="GenreListView"
+                Grid.Row="5"
+                Orientation="Vertical"
+                AutoFitMode="Height" 
+                SelectionMode="None"
+                ItemSpacing="8"
+                ItemTapped="CategoryListViewItemTapped">
+
+                <syncfusion:SfListView.ItemsLayout>
+                    <syncfusion:GridLayout SpanCount="2" />
+                </syncfusion:SfListView.ItemsLayout>
+
+                <syncfusion:SfListView.ItemTemplate>
+                    <DataTemplate>
+
+                        <VerticalStackLayout Padding="0">
+
+                            <Image HeightRequest="60" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
+                                </Image.Source>
+                            </Image>
+
+                            <HorizontalStackLayout HeightRequest="32" VerticalOptions="End" HorizontalOptions="CenterAndExpand">
+                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+
+                    </DataTemplate>
+                </syncfusion:SfListView.ItemTemplate>
+            </syncfusion:SfListView>
+
+            <!-- K-pop per year -->
+            <syncfusion:SfListView
+                    x:Name="KpopYearsListView"
+                    Grid.Row="6"
+                    Orientation="Vertical"
+                    AutoFitMode="Height" 
+                    SelectionMode="None"
+                    ItemSpacing="4"
+                    ItemTapped="CategoryListViewItemTapped">
+
+                <syncfusion:SfListView.ItemsLayout>
+                    <syncfusion:GridLayout SpanCount="3" />
+                </syncfusion:SfListView.ItemsLayout>
+
+                <syncfusion:SfListView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Border Padding="0"
+                              HeightRequest="32"
+                              StrokeShape="RoundRectangle 8"
+                              VerticalOptions="Center"
+                              Background="{DynamicResource SecondaryButton}">
+
+                            <HorizontalStackLayout HeightRequest="32" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Padding="4">
+                                <Label VerticalOptions="Center" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                                <Label VerticalOptions="Center" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                            </HorizontalStackLayout>
+
+                        </Border>
+
+                    </DataTemplate>
+                </syncfusion:SfListView.ItemTemplate>
+                
+            </syncfusion:SfListView>
+
+        </Grid>
+    </ScrollView>
+
+</ContentView>
