@@ -23,14 +23,8 @@
 
             <Entry Grid.Column="1" x:Name="PlaylistNameEntry" ReturnType="Done" MinimumWidthRequest="160" VerticalOptions="CenterAndExpand"  HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" MaxLength="20" TextColor="{DynamicResource PrimaryTextColor}" Text="test" FontSize="16" FontAttributes="Bold" />
 
-            <Border Grid.Column="2" 
-                    x:Name="ShufflePlaylistBorder"
-                      Padding="0"
-                      HeightRequest="44"
-                      WidthRequest="44"
-                      StrokeShape="RoundRectangle 8"
-                      Background="{DynamicResource SecondaryButton}"
-                      VerticalOptions="Center">
+            <Border Grid.Column="2" x:Name="ShufflePlaylistBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
+                      Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
@@ -48,14 +42,8 @@
             </Border>
 
 
-            <Border Grid.Column="3"
-                    x:Name="MixedShufflePlaylistBorder"
-                      Padding="0"
-                      HeightRequest="44"
-                      WidthRequest="44"
-                      StrokeShape="RoundRectangle 8"
-                      Background="{DynamicResource SecondaryButton}"
-                      VerticalOptions="Center">
+            <Border Grid.Column="3" x:Name="MixedShufflePlaylistBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
+                      Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 

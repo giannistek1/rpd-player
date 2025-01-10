@@ -154,11 +154,15 @@
                             <Grid ColumnDefinitions="auto, *, auto, auto, auto, auto">
 
                                 <!-- Album -->
-                                <Image Grid.Column="0" WidthRequest="50" MinimumWidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                    <Image.Source>
-                                        <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
-                                    </Image.Source>
-                                </Image>
+                                <Border Grid.Column="0" x:Name="AllBorder" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+                                    
+                                    <Image Grid.Column="0" WidthRequest="50" MinimumWidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                        <Image.Source>
+                                            <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
+                                        </Image.Source>
+                                    </Image>
+                                    
+                                </Border>
 
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Padding="10">
 

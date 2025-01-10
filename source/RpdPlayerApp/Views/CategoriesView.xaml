@@ -18,15 +18,9 @@
         <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
 
             <Grid Grid.Row="1" ColumnDefinitions="1*,1*,1*, 1*,1*,1*" Margin="0,8,0,8">
-
-                <Border Grid.Column="0"
-                    x:Name="AllBorder"
-                      Padding="0"
-                      HeightRequest="44"
-                      WidthRequest="44"
-                      StrokeShape="RoundRectangle 8"
-                      Background="{DynamicResource SecondaryButton}"
-                      VerticalOptions="Center">
+                
+                <Border Grid.Column="1" x:Name="AllBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
+                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
                     <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
@@ -42,14 +36,8 @@
 
                 </Border>
 
-                <Border Grid.Column="1"
-                    x:Name="DanceBorder"
-                      Padding="0"
-                      HeightRequest="44"
-                      WidthRequest="44"
-                      StrokeShape="RoundRectangle 8"
-                      Background="{DynamicResource SecondaryButton}"
-                      VerticalOptions="Center">
+                <Border Grid.Column="1" x:Name="DanceBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
+                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
                     <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
@@ -65,14 +53,8 @@
 
                 </Border>
 
-                <Border Grid.Column="2"
-                    x:Name="MaleBorder"
-                      Padding="0"
-                      HeightRequest="44"
-                      WidthRequest="44"
-                      StrokeShape="RoundRectangle 8"
-                      Background="{DynamicResource SecondaryButton}"
-                      VerticalOptions="Center">
+                <Border Grid.Column="2" x:Name="MaleBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
+                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
                     <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
@@ -88,14 +70,8 @@
 
                 </Border>
 
-                <Border Grid.Column="3"
-                    x:Name="FemaleBorder"
-                      Padding="0"
-                      HeightRequest="44"
-                      WidthRequest="44"
-                      StrokeShape="RoundRectangle 8"
-                      Background="{DynamicResource SecondaryButton}"
-                      VerticalOptions="Center">
+                <Border Grid.Column="3" x:Name="FemaleBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
+                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
                     <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
@@ -111,14 +87,8 @@
 
                 </Border>
 
-                <Border Grid.Column="4"
-                    x:Name="SoloBorder"
-                      Padding="0"
-                      HeightRequest="44"
-                      WidthRequest="44"
-                      StrokeShape="RoundRectangle 8"
-                      Background="{DynamicResource SecondaryButton}"
-                      VerticalOptions="Center">
+                <Border Grid.Column="4" x:Name="SoloBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
+                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
                     <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
@@ -134,14 +104,8 @@
 
                 </Border>
 
-                <Border Grid.Column="5"
-                        x:Name="GroupBorder"
-                          Padding="0"
-                          HeightRequest="44"
-                          WidthRequest="44"
-                          StrokeShape="RoundRectangle 8"
-                          Background="{DynamicResource SecondaryButton}"
-                          VerticalOptions="Center">
+                <Border Grid.Column="5" x:Name="GroupBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
+                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
                     <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
@@ -373,11 +337,8 @@
                 <syncfusion:SfListView.ItemTemplate>
                     <DataTemplate>
 
-                        <Border Padding="0"
-                              HeightRequest="32"
-                              StrokeShape="RoundRectangle 8"
-                              VerticalOptions="Center"
-                              Background="{DynamicResource SecondaryButton}">
+                        <Border Padding="0" HeightRequest="32" StrokeShape="RoundRectangle 8"
+                              VerticalOptions="Center" Background="{DynamicResource SecondaryButton}">
 
                             <HorizontalStackLayout HeightRequest="32" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Padding="4">
                                 <Label VerticalOptions="Center" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
