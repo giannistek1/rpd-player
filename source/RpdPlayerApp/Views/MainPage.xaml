@@ -8,6 +8,7 @@
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
              Shell.BackgroundColor="{DynamicResource NavigationBackgroundColor}"
              Shell.TitleColor="{DynamicResource TitleTextColor}"
+             Shell.NavBarHasShadow="True"
              x:Class="RpdPlayerApp.Views.MainPage">
 
     <Grid RowDefinitions="*, Auto">

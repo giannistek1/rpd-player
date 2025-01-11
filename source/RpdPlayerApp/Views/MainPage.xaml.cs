@@ -76,6 +76,7 @@ public partial class MainPage
 
         _categoriesView.IsVisible = false;
         _categoriesView.FilterPressed += OnFilterPressed;
+        _categoriesView.BackPressed += OnBackPressed;
 
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
         SearchSongPartsView.StopSongPart += OnStopSongPart;
@@ -103,6 +104,8 @@ public partial class MainPage
         AudioPlayerControl.UpdateProgress += OnUpdateProgress;
         AudioPlayerControl.AudioEnded += OnAudioEnded;
     }
+
+    private void OnBackPressed(object? sender, EventArgs e) => BackToHomeView();
 
     private void OnFavoriteSongPart(object? sender, EventArgs e)
     {
@@ -536,7 +539,7 @@ public partial class MainPage
             BackToHomeView();
             return true;
         }
-        if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 1)
+        else if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 1)
         {
             BackToPlaylists();
             return true;

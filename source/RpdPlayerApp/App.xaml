@@ -15,7 +15,7 @@
             </Style>
 
             <Style TargetType="Shell" ApplyToDerivedTypes="True">
-                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={DynamicResource White}, Dark={DynamicResource OffBlack}}" />
+                <Setter Property="Shell.BackgroundColor" Value="{DynamicResource BackgroundColor}" />
                 <Setter Property="Shell.ForegroundColor" Value="{OnPlatform WinUI={DynamicResource Primary}, Default={DynamicResource White}}" />
                 <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={DynamicResource PrimaryTextColor}, Dark={DynamicResource PrimaryTextColor}}" />
                 <Setter Property="Shell.DisabledColor" Value="{AppThemeBinding Light={DynamicResource Gray200}, Dark={DynamicResource Gray950}}" />

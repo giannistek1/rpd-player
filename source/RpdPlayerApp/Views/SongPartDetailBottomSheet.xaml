@@ -32,12 +32,12 @@
             </Grid>
         
             <!-- Album image -->
-            <!--<Border Grid.Row="1" HeightRequest="250" WidthRequest="250" StrokeShape="RoundRectangle 16"
-                        Padding="0" VerticalOptions="Start" Margin="0,24,0,24">-->
+            <Border Grid.Row="2" HeightRequest="200" WidthRequest="200" StrokeShape="RoundRectangle 16"
+                        Padding="0" VerticalOptions="Start"  Margin="0,8,0,16">
 
-                <Image Grid.Row="2" HeightRequest="200" x:Name="AlbumImage" Margin="0,8,0,16" />
+                <Image Grid.Row="2" HeightRequest="200" x:Name="AlbumImage"/>
             
-            <!--</Border>-->
+            </Border>
 
             <Label Grid.Row="3" x:Name="SongTitleLabel" Text="Song title" FontSize="20" TextColor="{DynamicResource PrimaryTextColor}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
 
@@ -51,8 +51,8 @@
                 <Label Grid.Column="0" x:Name="ProgressLabel" Text="00:00" FontSize="13" TextColor="{DynamicResource SecondaryTextColor}" 
                        VerticalOptions="Center" HorizontalOptions="Start" />
 
-                <Slider Grid.Column="1" x:Name="AudioProgressSlider" BackgroundColor="{DynamicResource BackgroundColor}" 
-                        MinimumTrackColor="{DynamicResource DetailAudioProgressColor}" Margin="-30,-10,-30,-10" Maximum="100" Minimum="0" ThumbColor="Transparent" HeightRequest="50" />
+                <Slider Grid.Column="1" x:Name="AudioProgressSlider" 
+                        MinimumTrackColor="{DynamicResource DetailAudioProgressColor}" Margin="-30,-10,-30,-10" Maximum="100" Minimum="0" ThumbColor="{DynamicResource DetailAudioProgressColor}" HeightRequest="50" />
 
                 <Label Grid.Column="2" x:Name="DurationLabel" Text="99:99" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"
                        VerticalOptions="Center" HorizontalOptions="End" />

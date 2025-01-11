@@ -9,6 +9,7 @@ namespace RpdPlayerApp.Views;
 public partial class CategoriesView : ContentView
 {
     internal event EventHandler? FilterPressed;
+    internal event EventHandler? BackPressed;
 
     private const string ARTISTS_URL = "https://github.com/giannistek1/rpd-artists/blob/main/";
 
@@ -17,17 +18,18 @@ public partial class CategoriesView : ContentView
 		InitializeComponent();
 
         this.Loaded += OnLoad;
+    }
 
+    private void OnLoad(object? sender, EventArgs e)
+    {
+        BackImageButton.Pressed += BackImageButton_Pressed;
         AllImageButton.Pressed += SetFilter;
         DanceImageButton.Pressed += SetFilter;
         MaleImageButton.Pressed += SetFilter;
         FemaleImageButton.Pressed += SetFilter;
         SoloImageButton.Pressed += SetFilter;
         GroupImageButton.Pressed += SetFilter;
-    }
 
-    private void OnLoad(object? sender, EventArgs e)
-    {
         // TODO:
         string[] firstGens = [
             "[SHINHWA][][1998-03-24][BG][6][SM Entertainment].jpg",
@@ -328,15 +330,22 @@ public partial class CategoriesView : ContentView
         GenreListView.IsVisible = false;
         KpopYearsListView.IsVisible = false;
 
-        GenerationRadioButton.IsChecked = false;
-        CompanyRadioButton.IsChecked = false;
-        GenreRadioButton.IsChecked = false;
-        KpopYearsRadioButton.IsChecked = false;
+        OtherCategoriesSegmentedControl.ItemsSource = new string[] { "Gen", "Companies", "Genres", "K-pop years" };
+        //OtherCategoriesSegmentedControl.SelectedIndex = 0;
+        OtherCategoriesSegmentedControl.SelectionChanged += OtherCategoriesSegmentedControl_SelectionChanged;
+    }
 
-        GenerationRadioButton.StateChanged += RadioButton_StateChanged;
-        CompanyRadioButton.StateChanged += RadioButton_StateChanged;
-        GenreRadioButton.StateChanged += RadioButton_StateChanged;
-        KpopYearsRadioButton.StateChanged += RadioButton_StateChanged;
+    private void BackImageButton_Pressed(object? sender, EventArgs e)
+    {
+        BackPressed?.Invoke(sender, e);
+    }
+
+    private void OtherCategoriesSegmentedControl_SelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
+    {
+        GenerationListView.IsVisible = (OtherCategoriesSegmentedControl.SelectedIndex == 0);
+        CompanyListView.IsVisible = (OtherCategoriesSegmentedControl.SelectedIndex == 1);
+        GenreListView.IsVisible = (OtherCategoriesSegmentedControl.SelectedIndex == 2);
+        KpopYearsListView.IsVisible = (OtherCategoriesSegmentedControl.SelectedIndex == 3);
     }
 
 
@@ -378,14 +387,6 @@ public partial class CategoriesView : ContentView
 
         //Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", ToastDuration.Short, 14).Show();
         FilterPressed?.Invoke(this, e);
-    }
-
-    private void RadioButton_StateChanged(object? sender, StateChangedEventArgs e)
-    {
-        GenerationListView.IsVisible = GenerationRadioButton.IsChecked;
-        CompanyListView.IsVisible = CompanyRadioButton.IsChecked;
-        GenreListView.IsVisible = GenreRadioButton.IsChecked;
-        KpopYearsListView.IsVisible = KpopYearsRadioButton.IsChecked;
     }
     #endregion
 }

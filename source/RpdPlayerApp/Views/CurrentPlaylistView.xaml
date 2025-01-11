@@ -75,16 +75,8 @@
         </HorizontalStackLayout>
 
         <!-- Song parts -->
-        <syncfusion:SfListView 
-            Grid.Row="2" 
-            x:Name="CurrentPlaylistListView" 
-            BackgroundColor="{DynamicResource BackgroundColor}" 
-            SelectionMode="None"
-            AutoFitMode="Height"
-            AllowSwiping="True"
-            ItemTapped="CurrentPlaylistListView_ItemTapped"
-            DragStartMode="OnHold,OnDragIndicator"
-            SwipeEnded="CurrentPlaylistListViewSwipeEnded" >
+        <syncfusion:SfListView Grid.Row="2" x:Name="CurrentPlaylistListView" BackgroundColor="{DynamicResource BackgroundColor}" 
+                               SelectionMode="None" AutoFitMode="Height" AllowSwiping="True" ItemTapped="CurrentPlaylistListView_ItemTapped" DragStartMode="OnHold,OnDragIndicator" SwipeEnded="CurrentPlaylistListViewSwipeEnded" >
             
             <syncfusion:SfListView.StartSwipeTemplate>
                 <DataTemplate>

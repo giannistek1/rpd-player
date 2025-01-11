@@ -6,6 +6,7 @@ using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.ViewModels;
 using Syncfusion.Maui.Buttons;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace RpdPlayerApp.Views;
@@ -45,20 +46,29 @@ public partial class HomeView : ContentView
         var groupedTitles = from s in SongPartRepository.SongParts
                             group s.Title by s.Title into g
                             select new { Title = g.Key, Titles = g.ToList() };
-        
+
         // Todo: Needs to go into the load method
-        UniqueSongCountLabel.Text = $", Unique songs: {groupedTitles.Count()}";
-        GeneratePlaylistSwitch.StateChanged += GeneratePlaylistSwitch_StateChanged;
-        GeneratePlaylistSwitch.IsOn = false;
+#if DEBUG
+        UniqueSongCountLabel.Text = $"{groupedTitles.Count()}";
+#endif
+#if RELEASE
+        UniqueSongCountLabel.IsVisible = false;
+        UniqueSongCountImage.IsVisible = false;
+#endif
+
+        HomeModeSegmentedControl.ItemsSource = new string[] { "Start RPD", "Generate playlist"};
+        HomeModeSegmentedControl.SelectedIndex = 0;
+        HomeModeSegmentedControl.SelectionChanged += HomeModeSegmentedControl_SelectionChanged;
+
+        StartModeButton.Text = "Start RPD";
+        StartModeButton.Clicked += StartModeButtonClicked;
     }
 
-    private void GeneratePlaylistSwitch_StateChanged(object? sender, SwitchStateChangedEventArgs e) => RpdSettings!.UsingGeneratePlaylist = (bool)GeneratePlaylistSwitch.IsOn!;
+    private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => SongPartCountLabel.Text = $"{SongPartRepository.SongParts.Count}";
 
-    private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => SongPartCountLabel.Text = $"SongParts: {SongPartRepository.SongParts.Count}";
+    private void ArtistsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => ArtistCountLabel.Text = $"{ArtistRepository.Artists.Count}";
 
-    private void ArtistsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => ArtistCountLabel.Text = $"Artists: {ArtistRepository.Artists.Count}";
-
-    private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => AlbumCountLabel.Text = $",  Albums: {AlbumRepository.Albums.Count}";
+    private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => AlbumCountLabel.Text = $"{AlbumRepository.Albums.Count}";
 
     internal void FeedbackButtonPressed(object? sender, EventArgs e)
     {
@@ -73,9 +83,20 @@ public partial class HomeView : ContentView
         }
     }
     private void CreatePlaylistButtonClicked(object sender, EventArgs e) => CreatePlaylistButtonPressed?.Invoke(sender, e);
-    private void GeneratePlaylistButtonClicked(object sender, EventArgs e) => Toast.Make($"Not implemented yet!", ToastDuration.Short, 14).Show();
+    private void SearchByCategoryButtonClicked(object sender, EventArgs e) => ShowCategories?.Invoke(sender, e);
+    private void HomeModeSegmentedControl_SelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
+    {
+        RpdSettings!.UsingGeneratePlaylist = (HomeModeSegmentedControl.SelectedIndex == 1);
+        StartModeButton.Text = (RpdSettings!.UsingGeneratePlaylist) ? "Generate playlist" : "Start RPD";
+    }
+    private void StartModeButtonClicked(object? sender, EventArgs e)
+    {
+        if (RpdSettings!.UsingGeneratePlaylist) { GeneratePlaylistButtonClicked();  }
+        else { StartRpdButtonClicked(sender, e); }
+    }
+    private void GeneratePlaylistButtonClicked() => Toast.Make($"Not implemented yet!", ToastDuration.Short, 14).Show();
 
-    private void StartRpdButtonClicked(object sender, EventArgs e)
+    private void StartRpdButtonClicked(object? sender, EventArgs e)
     {
         if (!HelperClass.HasInternetConnection())
             return;
@@ -88,7 +109,6 @@ public partial class HomeView : ContentView
 
         MainViewModel.AutoplayMode = 2; // Shuffle
         MainViewModel.CurrentSongPart = songPart;
-        PlaySongPart?.Invoke(sender, e);
+        PlaySongPart?.Invoke(sender, EventArgs.Empty);
     }
-    private void SearchByCategoryButtonClicked(object sender, EventArgs e) => ShowCategories?.Invoke(sender, e);
 }

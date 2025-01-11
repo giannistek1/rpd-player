@@ -17,24 +17,11 @@
 
         <Grid Grid.Row="0" Padding="0,4,0,0" ColumnDefinitions="7*, 3*">
 
-            <Label 
-               Grid.Column="0" 
-               x:Name="ResultsLabel"
-               Padding="8,0,0,0"
-               TextColor="{DynamicResource PrimaryTextColor}"
-               FontSize="12"
-               Text="Results" />
+            <Label Grid.Column="0" x:Name="ResultsLabel" Text="Results" Padding="8,0,0,0" TextColor="{DynamicResource PrimaryTextColor}" FontSize="12"/>
 
 
-            <Label 
-               Grid.Column="1" 
-               x:Name="SortModeLabel"
-               Padding="0,0,8,0"
-               HorizontalOptions="EndAndExpand"
-               HorizontalTextAlignment="End"
-               TextColor="{DynamicResource SecondaryTextColor}"
-               FontSize="12"
-               Text="" />
+            <Label Grid.Column="1" x:Name="SortModeLabel" Padding="0,0,8,0" 
+                   HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" TextColor="{DynamicResource SecondaryTextColor}" FontSize="12" Text="" />
 
         </Grid>
 
@@ -47,18 +34,9 @@
         </Grid>
 
         
-        <syncfusion:SfListView
-            Grid.Row="2"
-            Grid.Column="0"
-            x:Name="SonglibraryListView" 
-            BackgroundColor="{DynamicResource BackgroundColor}" 
-            AutoFitMode="Height"
-            SelectionMode="None"
-            AllowSwiping="True"
-            AllowGroupExpandCollapse="True"
-            Loaded="SonglibraryListView_Loaded"
-            ItemTapped="SonglibraryListViewItemTapped"
-            SwipeEnded="SonglibraryListViewSwipeEnded">
+        <syncfusion:SfListView Grid.Row="2" Grid.Column="0" x:Name="SonglibraryListView" 
+            BackgroundColor="{DynamicResource BackgroundColor}" AutoFitMode="Height" SelectionMode="None" AllowSwiping="True" AllowGroupExpandCollapse="True"
+            Loaded="SonglibraryListView_Loaded" ItemTapped="SonglibraryListViewItemTapped" SwipeEnded="SonglibraryListViewSwipeEnded">
 
             <!-- Header & Footer -->
             <syncfusion:SfListView.HeaderTemplate>
@@ -151,7 +129,7 @@
                             <Label IsVisible="{Binding Artist.ShowMemberCount}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.MemberCount}" />
                             <Label IsVisible="{Binding ShowClipLength}" VerticalOptions="CenterAndExpand" Text="{Binding ClipLengthAsTimeSpan, StringFormat='{0:mm\\:ss}'}" />
 
-                            <Grid ColumnDefinitions="auto, *, auto, auto, auto, auto">
+                            <Grid ColumnDefinitions="1*, 6*, auto, auto, auto, 1*">
 
                                 <!-- Album -->
                                 <Border Grid.Column="0" x:Name="AllBorder" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
@@ -164,18 +142,19 @@
                                     
                                 </Border>
 
-                                <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Padding="10">
+                                <!-- Title, part, artist -->
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Padding="10">
 
                                     <HorizontalStackLayout>
 
-                                        <Label VerticalOptions="CenterAndExpand" FontSize="14" LineBreakMode="TailTruncation" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
-                                        <Label VerticalOptions="CenterAndExpand" FontSize="13" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding PartNameFull, StringFormat=' - {0}'}" />
+                                        <Label Text="{Binding Title}" VerticalOptions="Center" FontSize="14" LineBreakMode="TailTruncation" TextColor="{DynamicResource PrimaryTextColor}"  />
+                                        <Label Text="{Binding PartNameFull, StringFormat=' - {0}'}" VerticalOptions="Center" FontSize="13" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" />
                                         
                                     </HorizontalStackLayout>
 
                                     <HorizontalStackLayout>
-                                        
-                                        <Label VerticalOptions="StartAndExpand" FontSize="11" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding ArtistName}" />
+
+                                        <Label Text="{Binding ArtistName}" VerticalOptions="Start" FontSize="11" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" />
                                         
                                     </HorizontalStackLayout>
 

@@ -23,11 +23,11 @@
     <Color x:Key="InputBackgroundColor">#EEE</Color>
 
     <Color x:Key="PrimaryTextColor">#111</Color>
-    <Color x:Key="SecondaryTextColor">#555</Color>
+    <Color x:Key="SecondaryTextColor">#777</Color>
     <Color x:Key="PlaceholderColor">#111</Color>
 
     <Color x:Key="PrimaryButton">#64b06c</Color>
-    <Color x:Key="SecondaryButton">#ACACAC</Color>
+    <Color x:Key="SecondaryButton">#EEE</Color>
 
     <!-- Specifics -->
     <!-- Controls colors -->

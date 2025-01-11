@@ -22,16 +22,8 @@
         </material:TextField>
 
         <!-- Playlists -->
-        <syncfusion:SfListView 
-            Grid.Row="1" 
-            x:Name="PlaylistsListView"
-            SelectionMode="None"
-            BackgroundColor="{DynamicResource BackgroundColor}" 
-            EmptyView="No playlists yet. Create a playlist!"
-            AutoFitMode="Height"
-            AllowSwiping="True"
-            ItemTapped="PlaylistsListViewItemTapped"
-            SwipeEnded="PlaylistsListView_SwipeEnded" >
+        <syncfusion:SfListView Grid.Row="1" x:Name="PlaylistsListView" SelectionMode="None" BackgroundColor="{DynamicResource BackgroundColor}" EmptyView="No playlists yet. Create a playlist!" AutoFitMode="Height"
+                               AllowSwiping="True" ItemTapped="PlaylistsListViewItemTapped" SwipeEnded="PlaylistsListView_SwipeEnded" >
             
             <syncfusion:SfListView.StartSwipeTemplate>
                 <DataTemplate>

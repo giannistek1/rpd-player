@@ -10,93 +10,58 @@
              BackgroundColor="{DynamicResource BackgroundColor}">
 
     <Grid Padding="0"
-          RowDefinitions="20, auto, auto, auto"
+          RowDefinitions="20, auto, auto, auto, auto, auto"
           ColumnDefinitions="*">
+        
+        <!-- New stats -->
+        <Grid Grid.Row="0" ColumnDefinitions="2*, 4*">
 
-        <Label Grid.Row="0" Padding="8,2,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="10" Text="Version xx" TextColor="{DynamicResource SecondaryTextColor}"/>
+            <Label Grid.Column="0" Padding="8,2,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="10" Text="Version xx" TextColor="{DynamicResource SecondaryTextColor}"/>
 
-        <!-- Stats -->
-        <syncfusionExpander:SfExpander Grid.Row="1" x:Name="StatsExpander" Margin="0,-4,0,0" AnimationDuration="200" IsExpanded="False" >
+            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="EndAndExpand">
 
-            <syncfusionExpander:SfExpander.Header>
-                
-                <Grid Padding="8,0,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="38"/>
-                    </Grid.RowDefinitions>
-                    
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="35"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <!-- SongParts -->
+                <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource IconColor}" />
+                    </Image.Source>
+                </Image>
 
-                    <Image Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" Margin="0,0,10,0">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Database}" Color="{DynamicResource IconColor}" />
-                        </Image.Source>
-                    </Image>
+                <Label x:Name="SongPartCountLabel" FontSize="8" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
 
-                    <Label Grid.Row="0" Grid.Column="1" CharacterSpacing="0.25" FontFamily="Roboto-Regular" Text="Stats" FontSize="13"  VerticalOptions="CenterAndExpand"/>
+                <!-- Artists -->
+                <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource IconColor}" />
+                    </Image.Source>
+                </Image>
 
-                </Grid>
-                
-            </syncfusionExpander:SfExpander.Header>
+                <Label x:Name="ArtistCountLabel" FontSize="8" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
 
-            <syncfusionExpander:SfExpander.Content>
-                <VerticalStackLayout Padding="8,0,0,0">
-                    <HorizontalStackLayout Grid.Row="1">
+                <!-- Albums -->
+                <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Album}" Color="{DynamicResource IconColor}" />
+                    </Image.Source>
+                </Image>
 
-                        <Label Grid.Column="0" x:Name="SongPartCountLabel" Text="{Binding SongPartCount}" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" />
+                <Label x:Name="AlbumCountLabel" FontSize="8" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
 
-                        <Label Grid.Column="1" x:Name="UniqueSongCountLabel" HorizontalTextAlignment="End" Text="{Binding UniqueSongCount}" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" />
+                <!-- Unique song parts (for debug mode) -->
+                <Image x:Name="UniqueSongCountImage"  HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Stars}" Color="{DynamicResource IconColor}" />
+                    </Image.Source>
+                </Image>
 
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout Grid.Row="2">
+                <Label x:Name="UniqueSongCountLabel" FontSize="8" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
 
-                        <Label Grid.Column="0" x:Name="ArtistCountLabel" Text="{Binding ArtistCount}" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" />
+            </HorizontalStackLayout>
 
-                        <Label Grid.Column="1" x:Name="AlbumCountLabel" Text="{Binding AlbumCount}" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" />
-
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
-            </syncfusionExpander:SfExpander.Content>
-
-            <!-- TODO: In App.xaml -->
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroupList>
-                    <VisualStateGroup>
-                        <VisualState Name="Expanded">
-                            <VisualState.Setters>
-                                <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderExpandedColor}"/>
-                                <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState Name="Collapsed">
-                            <VisualState.Setters>
-                                <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
-                                <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState Name="PointerOver">
-                            <VisualState.Setters>
-                                <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
-                                <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState Name="Normal">
-                            <VisualState.Setters>
-                                <Setter Property="HeaderBackground" Value="{DynamicResource ExpanderColor}"/>
-                                <Setter Property="HeaderIconColor" Value="{DynamicResource IconColor}"/>
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateGroupList>
-            </VisualStateManager.VisualStateGroups>
-
-        </syncfusionExpander:SfExpander>
+        </Grid>
 
         <!-- Buttons -->
-        <Grid Grid.Row="2" ColumnDefinitions="2*, 2*" ColumnSpacing="6" Margin="8,4,8,4">
+        <Grid Grid.Row="2" ColumnDefinitions="2*, 2*" ColumnSpacing="6" Margin="8,4,8,16">
 
             <Button Grid.Column="0" x:Name="CreatePlaylistButton" Clicked="CreatePlaylistButtonClicked" Text="Create playlist" FontSize="14" LineBreakMode="WordWrap" ContentLayout="Left, 10">
                 <Button.ImageSource>
@@ -112,59 +77,29 @@
 
         </Grid>
 
-        <!-- Switch -->
-        <Grid Grid.Row="3" ColumnDefinitions="2*,1*,2*" ColumnSpacing="6" Margin="8,4,8,4">
+        <!-- Home mode -->
+        <buttons:SfSegmentedControl Grid.Row="3" x:Name="HomeModeSegmentedControl" SegmentWidth="150" Margin="0,0,0,8">
 
-            <Button Grid.Column="0" x:Name="StartRpdButton" Clicked="StartRpdButtonClicked" Text="Start RPD" FontSize="14" LineBreakMode="WordWrap" ContentLayout="Left, 10">
-                <Button.ImageSource>
-                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Play_arrow}" Color="{DynamicResource IconColor}" />
-                </Button.ImageSource>
-            </Button>
+            <!-- Non-selection -->
+            <buttons:SfSegmentedControl.TextStyle>
+                <buttons:SegmentTextStyle TextColor="{DynamicResource PrimaryTextColor}" FontSize="16"/>
+            </buttons:SfSegmentedControl.TextStyle>
 
-            <buttons:SfSwitch x:Name="GeneratePlaylistSwitch" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="On">
-                            <VisualState.Setters>
-                                <Setter Property="SwitchSettings">
-                                    <Setter.Value>
-                                        <buttons:SwitchSettings
-                                    TrackHeightRequest="36"
-                                    TrackWidthRequest="72"
-                                    ThumbHeightRequest="26"
-                                    ThumbWidthRequest="26"
-                                    TrackBackground="{DynamicResource SwitchStartRpdTrackColor}"
-                                    TrackStroke="{DynamicResource Primary}"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState x:Name="Off">
-                            <VisualState.Setters>
-                                <Setter Property="SwitchSettings">
-                                    <Setter.Value>
-                                        <buttons:SwitchSettings
-                                    TrackHeightRequest="36"
-                                    TrackWidthRequest="72"
-                                    ThumbHeightRequest="26"
-                                    ThumbWidthRequest="26"
-                                    TrackBackground="{DynamicResource SwitchGeneratePlaylistTrackColor}"
-                                    TrackStroke="{DynamicResource Primary}"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-            </buttons:SfSwitch>
+            <!-- Selection -->
+            <buttons:SfSegmentedControl.SelectionIndicatorSettings>
+                <buttons:SelectionIndicatorSettings  SelectionIndicatorPlacement="Fill" Background="{DynamicResource SecondaryButton}" TextColor="{DynamicResource PrimaryTextColor}"/>
+            </buttons:SfSegmentedControl.SelectionIndicatorSettings>
 
-            <Button Grid.Column="2" x:Name="GeneratePlaylistButton" Clicked="GeneratePlaylistButtonClicked" Text="Generate playlist" FontSize="14" LineBreakMode="WordWrap" ContentLayout="Left, 10">
-                <Button.ImageSource>
-                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Construction}" Color="{DynamicResource IconColor}" />
-                </Button.ImageSource>
-            </Button>
-            
+        </buttons:SfSegmentedControl>
+
+        <!-- Grouptypes, genres, duration (for playlist) -->
+
+        <Grid Grid.Row="4" Margin="0,0,0,8" Padding="16,0,16,0">
+            <Label Text="Grouptypes, genres, duration"/>
         </Grid>
+        
+        <Button Grid.Row="5" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource SecondaryButton}" CornerRadius="8" Margin="16,0,16,0"/>
 
     </Grid>
+
 </ContentView>
