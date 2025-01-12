@@ -12,7 +12,7 @@ internal class Album
     /// </summary>
     public string GenreShort { get; set; }
     /// <summary>
-    /// K-Pop, J-Pop, Pop, etc...
+    /// K-pop, J-pop, C-pop, T-pop, Pop, etc...
     /// </summary>
     public string GenreFull { get; set; }
     public string ImageURL { get; set; }
@@ -36,14 +36,14 @@ internal class Album
     {
         return GenreShort switch
         {
-            "KR" => "K-Pop",
-            "JP" => "J-Pop",
+            "KR" => "K-pop",
+            "JP" => "J-pop",
             "EN" => "Pop",
             "CH" => "C-pop",
             "TH" => "T-pop",
             "NL" => "NL-pop",
 
-            _ => "Unknown"
+            _ => "Unknown genre"
         };
     }
 }

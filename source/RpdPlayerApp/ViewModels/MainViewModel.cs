@@ -81,10 +81,18 @@ internal static class MainViewModel
 
     public static Queue<SongPart> SongPartsQueue { get; set; } = new();
 
-
     public static bool CurrentlyPlaying { get; set; } = false;
 
     public static ObservableCollection<Playlist> Playlists { get; set; } = [];
+
+    public static List<string> Companies { get; set; } = [];
+    public static List<string> HybeCompanies { get; set; } = ["HYBE Labels", "Big Hit Entertainment", "Source Music", "Pledis Entertainment"];
+    public static List<string> SMCompanies { get; set; } = ["SM Entertainment", "Label V", "Mystic Story"];
+    public static List<string> YGCompanies { get; set; } = ["YG Entertainment", "The Black Label"];
+    // IST -> Went through a lot of renaming: A Cube -> Play A -> PLay M
+    public static List<string> KakaoCompanies { get; set; } = ["IST Entertainment", "Starship Entertainment", "EDAM Entertainment", "Bluedot Entertainment", "High Up Entertainment", "Antenna", "FLEX M"];
+    // Wake One -> was MMO Entertainment
+    public static List<string> CjenmCompanies { get; set; } = ["AOMG", "B2M Entertainment", "Jellyfish Entertainment", "Wake One", "Stone Music Entertainment", "Swing Entertainment"]; 
 
     #region Settings
     /// <summary>

@@ -401,19 +401,13 @@ public partial class SearchSongPartsView : ContentView
                     songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.GG).ToObservableCollection(); break;
 
                 case SearchFilterMode.Hybe:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "HYBE Labels" || 
-                                                        s.Artist?.Company == "Big Hit Entertainment" || 
-                                                        s.Artist?.Company == "Source Music" || 
-                                                        s.Artist?.Company == "Pledis Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => MainViewModel.HybeCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
                 case SearchFilterMode.YG:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "YG Entertainment" || 
-                                                        s.Artist?.Company == "The Black Label").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => MainViewModel.YGCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
                 case SearchFilterMode.JYP:
                     songParts = allSongParts.Where(s => s.Artist?.Company == "JYP Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.SM:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "SM Entertainment" || 
-                                                        s.Artist?.Company == "Label V" || 
-                                                        s.Artist?.Company == "Mystic Story").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => MainViewModel.SMCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
                 case SearchFilterMode.Cube:
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Cube Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.FNC:
@@ -431,21 +425,9 @@ public partial class SearchSongPartsView : ContentView
                     songParts = allSongParts.Where(s => s.Artist?.Company == "IST Entertainment").ToObservableCollection(); break;
 
                 case SearchFilterMode.CJ_ENM_Music:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "AOMG" ||
-                                                        s.Artist?.Company == "B2M Entertainment" ||
-                                                        s.Artist?.Company == "Jellyfish Entertainment" ||
-                                                        s.Artist?.Company == "Wake One" || // Formerly known as MMO Entertainment
-                                                        s.Artist?.Company == "Stone Music Entertainment" ||
-                                                        s.Artist?.Company == "Swing Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => MainViewModel.CjenmCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
                 case SearchFilterMode.Kakao_Entertainment:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "IST Entertainment" || // Went through a lot of renaming: A Cube -> Play A -> PLay M
-                                                        s.Artist?.Company == "Starship Entertainment" ||
-                                                        s.Artist?.Company == "EDAM Entertainment" ||
-                                                        s.Artist?.Company == "Bluedot Entertainment" ||
-                                                        s.Artist?.Company == "High Up Entertainment" ||
-                                                        s.Artist?.Company == "Bluedot Entertainment" ||
-                                                        s.Artist?.Company == "Antenna" ||
-                                                        s.Artist?.Company == "FLEX M").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => MainViewModel.KakaoCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
 
                 case SearchFilterMode.Firstgen:
                     songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.GenreShort == "KR").ToObservableCollection(); break;

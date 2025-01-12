@@ -19,7 +19,6 @@ public partial class MainPage
         InitializeComponent();
 
         HomeView.ParentPage = this;
-        HomeView.RpdSettings = new();
         SearchSongPartsView.ParentPage = this;
         LibraryView.ParentPage = this;
         _currentPlaylistView.ParentPage = this;

@@ -121,19 +121,14 @@ public partial class CategoriesView : ContentView
                                 description: "SM Entertainment.",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true",
                                 searchFilterMode: SearchFilterMode.SM,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "SM Entertainment" ||
-                                                                                   s.Artist?.Company == "Label V" ||
-                                                                                   s.Artist?.Company == "Mystic Story")
+                                songCount: SongPartRepository.SongParts.Count(s => MainViewModel.SMCompanies.Contains(s.Artist.Company))
                                 ),
 
             new(title: "HYBE Labels",
-                                 description: "HYBE Labels, formerly known as Big Hit Entertainment with child company: Source Music",
+                                 description: "HYBE Labels, formerly known as Big Hit Entertainment with child companies: Source Music and Pledis Entertainment",
                                  imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-hybe-labels.webp?raw=true",
                                  searchFilterMode: SearchFilterMode.Hybe,
-                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "HYBE Labels" ||
-                                                                                    s.Artist?.Company == "Big Hit Entertainment" ||
-                                                                                    s.Artist?.Company == "Source Music" ||
-                                                                                    s.Artist?.Company == "Pledis Entertainment")
+                                 songCount: SongPartRepository.SongParts.Count(s => MainViewModel.HybeCompanies.Contains(s.Artist.Company))
                                  ),
 
             new(title: "JYP Entertainment",
@@ -147,21 +142,14 @@ public partial class CategoriesView : ContentView
                                 description: "YG Entertainment.",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-yg.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.YG,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "YG Entertainment" ||
-                                                                                   s.Artist?.Company == "The Black Label")
+                                songCount: SongPartRepository.SongParts.Count(s => MainViewModel.YGCompanies.Contains(s.Artist.Company))
                                 ),
 
             new(title: "Kakao Entertainment",
                                  description: "Kakao Entertainment. Has many child companies: IST Entertainment, Starship Entertainment, EDAM Entertainment, Bluedot Entertainment, High Up Entertainment, Antenna and FLEX M.",
                                  imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-kakao.webp?raw=true",
                                  searchFilterMode: SearchFilterMode.Kakao_Entertainment,
-                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "IST Entertainment" || // Went through a lot of renaming: A Cube -> Play A -> PLay M
-                                                                                    s.Artist?.Company == "Starship Entertainment" ||
-                                                                                    s.Artist?.Company == "EDAM Entertainment" ||
-                                                                                    s.Artist?.Company == "Bluedot Entertainment" ||
-                                                                                    s.Artist?.Company == "High Up Entertainment" ||
-                                                                                    s.Artist?.Company == "Antenna" ||
-                                                                                    s.Artist?.Company == "FLEX M")
+                                 songCount: SongPartRepository.SongParts.Count(s => MainViewModel.KakaoCompanies.Contains(s.Artist.Company))
                                  ),
 
             new(title: "Starship Entertainment",
@@ -203,12 +191,7 @@ public partial class CategoriesView : ContentView
                                  description: "CJ ENM Music.",
                                  imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-cjenm.webp?raw=true",
                                  searchFilterMode: SearchFilterMode.CJ_ENM_Music,
-                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "AOMG" ||
-                                                                                    s.Artist?.Company == "B2M Entertainment" ||
-                                                                                    s.Artist?.Company == "Jellyfish Entertainment" ||
-                                                                                    s.Artist?.Company == "Wake One" || // Formerly known as MMO Entertainment
-                                                                                    s.Artist?.Company == "Stone Music Entertainment" ||
-                                                                                    s.Artist?.Company == "Swing Entertainment")
+                                 songCount: SongPartRepository.SongParts.Count(s => MainViewModel.CjenmCompanies.Contains(s.Artist.Company))
                                  ),
 
             new(title: "FNC Entertainment",
