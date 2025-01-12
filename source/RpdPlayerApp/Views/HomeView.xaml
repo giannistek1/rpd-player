@@ -3,15 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:RpdPlayerApp.Views"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
-             xmlns:syncfusionExpander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
+             xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.HomeView"
              BackgroundColor="{DynamicResource BackgroundColor}">
 
-    <Grid Padding="0"
-          RowDefinitions="20, auto, auto, auto, auto, auto"
-          ColumnDefinitions="*">
+    <Grid Padding="0" RowDefinitions="20, auto, auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
         
         <!-- New stats -->
         <Grid Grid.Row="0" ColumnDefinitions="2*, 4*">
@@ -92,13 +90,71 @@
 
         </buttons:SfSegmentedControl>
 
-        <!-- Grouptypes, genres, duration (for playlist) -->
+        <!-- Settings -->
+        <!-- Duration -->
+        <Grid Grid.Row="4" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-        <Grid Grid.Row="4" Margin="0,0,0,8" Padding="16,0,16,0">
-            <Label Text="Grouptypes, genres, duration"/>
+            <!-- TODO: Label Key: H1 -->
+            <Label Grid.Row="0" Text="Duration" FontSize="18" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+
+            <chip:SfChipGroup Grid.Row="1" x:Name="DurationChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Choice"
+                              SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
+                              ChipBackground="{DynamicResource SecondaryButtonColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                              HorizontalOptions="Start" VerticalOptions="Center">
+
+            </chip:SfChipGroup>
+            
+            <Entry Grid.Row="2" x:Name="OtherEntry" IsVisible="False" Placeholder="Other"/> 
+
         </Grid>
-        
-        <Button Grid.Row="5" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource SecondaryButton}" CornerRadius="8" Margin="16,0,16,0"/>
+
+        <!-- Grouptypes -->
+        <Grid Grid.Row="5" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
+
+            <!-- TODO: Label Key: H1 -->
+            <Label Grid.Row="0" Text="Grouptypes" FontSize="18" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+
+            <chip:SfChipGroup Grid.Row="1" x:Name="GrouptypesChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                              SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
+                              ChipBackground="{DynamicResource SecondaryButtonColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+			                  HorizontalOptions="Start" VerticalOptions="Center"> 
+                
+            </chip:SfChipGroup>
+            
+        </Grid>
+
+        <!-- Genres -->
+        <Grid Grid.Row="6" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
+
+            <!-- TODO: Label Key: H1 -->
+            <Label Grid.Row="0" Text="Genres" FontSize="18" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+
+            <chip:SfChipGroup Grid.Row="1" x:Name="GenresChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                              SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
+                              ChipBackground="{DynamicResource SecondaryButtonColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+			                  HorizontalOptions="Start" VerticalOptions="Center">
+
+            </chip:SfChipGroup>
+            
+        </Grid>
+
+        <!-- Generations (only for k-pop) -->
+        <Grid Grid.Row="7" RowDefinitions="auto, auto, auto" Margin="0,0,0,16" Padding="16,0,16,0">
+
+            <!-- TODO: Label Key: H1 -->
+            <Label Grid.Row="0" Text="Gens" FontSize="18" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+
+            <chip:SfChipGroup Grid.Row="1" x:Name="GenerationChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                              SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
+                              ChipBackground="{DynamicResource SecondaryButtonColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                              HorizontalOptions="Start" VerticalOptions="Center">
+
+            </chip:SfChipGroup>
+
+        </Grid>
+
+        <!-- TODO: Years -->
+        <Button Grid.Row="8" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource SecondaryButton}" CornerRadius="8" Margin="16,0,16,0"/>
 
     </Grid>
 

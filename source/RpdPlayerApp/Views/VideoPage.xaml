@@ -20,25 +20,19 @@
 
             <toolkit:MediaElement Grid.Row="3" HeightRequest="290" x:Name="VideoMediaElement" Margin="0,0,0,16"/>
 
-            <sliders:SfSlider Grid.Row="4" x:Name="SpeedSlider" VerticalOptions="CenterAndExpand"  ValueChanged="SpeedSlider_ValueChanged" Minimum="0.5" Maximum="1.5" StepSize="0.05" 
-              ShowLabels="True" ShowTicks="True" NumberFormat="0.##x" Interval="0.5">
+            <sliders:SfSlider Grid.Row="4" x:Name="SpeedSlider" VerticalOptions="CenterAndExpand"  ValueChanged="SpeedSlider_ValueChanged" 
+                              Minimum="0.5" Maximum="1.5" StepSize="0.05" Interval="0.5"
+                              ShowLabels="True" ShowTicks="True" NumberFormat="0.##x">
 
                 <sliders:SfSlider.Tooltip>
-                    <sliders:SliderTooltip 
-                    ShowAlways="True"
-                    Fill="{DynamicResource Primary}"
-                    Stroke="{DynamicResource PrimaryTextColor}"
-                    StrokeThickness="2"
-                    TextColor="{DynamicResource PrimaryTextColor}"
-                    FontSize="14"
-                    FontAttributes="Bold"
-                    Padding="12,12"
-                    NumberFormat="0.##x speed" />
+                    <sliders:SliderTooltip ShowAlways="True" 
+                                           Fill="{DynamicResource Primary}" Stroke="{DynamicResource PrimaryTextColor}" StrokeThickness="2"
+                                           TextColor="{DynamicResource PrimaryTextColor}" FontSize="14" FontAttributes="Bold" NumberFormat="0.##x speed"
+                                           Padding="12,12" />
                 </sliders:SfSlider.Tooltip>
 
                 <sliders:SfSlider.TrackStyle>
-                    <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"
-                      InactiveFill="{DynamicResource SecondaryTextColor}" />
+                    <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}" InactiveFill="{DynamicResource SecondaryTextColor}" />
                 </sliders:SfSlider.TrackStyle>
 
                 <sliders:SfSlider.ThumbStyle>
@@ -46,12 +40,8 @@
                 </sliders:SfSlider.ThumbStyle>
 
                 <sliders:SfSlider.LabelStyle>
-                    <sliders:SliderLabelStyle ActiveTextColor="{DynamicResource PrimaryTextColor}"
-                      InactiveTextColor="{DynamicResource SecondaryTextColor}"
-                      ActiveFontAttributes="Italic"
-                      InactiveFontAttributes="Italic"
-                      ActiveFontSize="16"
-                      InactiveFontSize="16" />
+                    <sliders:SliderLabelStyle ActiveTextColor="{DynamicResource PrimaryTextColor}" InactiveTextColor="{DynamicResource SecondaryTextColor}"
+                                              ActiveFontAttributes="Italic" InactiveFontAttributes="Italic" ActiveFontSize="16" InactiveFontSize="16" />
                 </sliders:SfSlider.LabelStyle>
             </sliders:SfSlider>
 

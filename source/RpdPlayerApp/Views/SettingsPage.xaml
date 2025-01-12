@@ -33,8 +33,7 @@
                 <sliders:SfSlider Grid.Column="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSlider_ValueChanged" Minimum="0" Interval="50" Maximum="100">
 
                     <sliders:SfSlider.TrackStyle>
-                        <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"
-                              InactiveFill="LightGray" />
+                        <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}" InactiveFill="LightGray" />
                     </sliders:SfSlider.TrackStyle>
 
                     <sliders:SfSlider.ThumbStyle>

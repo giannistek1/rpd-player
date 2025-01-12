@@ -432,7 +432,6 @@ public partial class MainPage
         HomeView.IsVisible = false;
         _categoriesView.IsVisible = true;
         Title = "Categories";
-        //_categoriesView.InitializeView();
     }
 
     private void OnBackToHomeView(object? sender, EventArgs e) => BackToHomeView();

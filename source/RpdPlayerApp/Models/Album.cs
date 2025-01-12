@@ -8,7 +8,7 @@ internal class Album
     public DateTime ReleaseDate { get; set; }
     // TODO: Change KR, CH, TH, EN etc to Genre
     /// <summary>
-    /// KR, CH, TH, EN, etc...
+    /// KR, CH, TH, EN, etc... No enum because there is short name and long name.
     /// </summary>
     public string GenreShort { get; set; }
     /// <summary>

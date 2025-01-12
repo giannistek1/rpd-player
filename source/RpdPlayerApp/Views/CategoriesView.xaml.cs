@@ -321,18 +321,14 @@ public partial class CategoriesView : ContentView
                                 )
         };
 
-        var groupedTitles = from s in SongPartRepository.SongParts
-                            group s.Title by s.Title into g
-                            select new { Title = g.Key, Titles = g.ToList() };
-
         GenerationListView.IsVisible = false;
         CompanyListView.IsVisible = false;
         GenreListView.IsVisible = false;
         KpopYearsListView.IsVisible = false;
 
-        OtherCategoriesSegmentedControl.ItemsSource = new string[] { "Gen", "Companies", "Genres", "K-pop years" };
-        //OtherCategoriesSegmentedControl.SelectedIndex = 0;
+        OtherCategoriesSegmentedControl.ItemsSource = new string[] { "Gens", "Companies", "Genres", "K-pop years" };
         OtherCategoriesSegmentedControl.SelectionChanged += OtherCategoriesSegmentedControl_SelectionChanged;
+        OtherCategoriesSegmentedControl.SelectedIndex = 0;
     }
 
     private void BackImageButton_Pressed(object? sender, EventArgs e)
