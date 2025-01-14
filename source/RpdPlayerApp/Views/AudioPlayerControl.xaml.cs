@@ -33,6 +33,7 @@ public partial class AudioPlayerControl : ContentView
         PlayToggleImageButton.Source = IconManager.PlayIcon;
     }
 
+    // For updating theme.
     internal void UpdateUI()
     {
         PlayToggleImageButton.Source = MainViewModel.CurrentlyPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;

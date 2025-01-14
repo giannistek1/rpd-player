@@ -57,8 +57,9 @@
                 <!-- SongPart playing -->
                 <VerticalStackLayout Padding="16,0,0,0" VerticalOptions="CenterAndExpand">
 
-                    <Label x:Name="NowPlayingLabel" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" FontSize="12"  TextColor="{DynamicResource PrimaryTextColor}" Text="Nothing playing"/>
-                    <Label x:Name="NowPlayingPartLabel" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="10"  TextColor="{DynamicResource SecondaryTextColor}" Text=""/>
+                    <Label x:Name="NowPlayingLabel" Text="Nothing playing" LineBreakMode="NoWrap" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Start" FontSize="12"  TextColor="{DynamicResource PrimaryTextColor}" />
+
+                    <Label x:Name="NowPlayingPartLabel"  Text="" LineBreakMode="TailTruncation" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="10"  TextColor="{DynamicResource SecondaryTextColor}"/>
                 
                 </VerticalStackLayout>
                 
