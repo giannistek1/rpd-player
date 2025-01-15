@@ -9,7 +9,7 @@
     <!-- (Reusable) main colors -->
     <Color x:Key="Primary">#B11E31</Color>
     <Color x:Key="Good">#64b06c</Color>
-    <Color x:Key="Bad">#B11E31</Color>
+    <Color x:Key="Error">#B11E31</Color>
 
     <!-- Navigation/toolbar -->
     <Color x:Key="NavigationBackgroundColor">#64b06c</Color>

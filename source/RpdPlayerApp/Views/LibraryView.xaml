@@ -2,7 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
-             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
              x:Class="RpdPlayerApp.Views.LibraryView"
@@ -16,10 +16,16 @@
 
             <Button x:Name="CopyPlaylistButton" Margin="2" Clicked="CopyPlaylistButton_Clicked" Text="Copy" />-->
 
-        <!-- TODO: Get rid of this textfield so Uranium UI material can go -->
-        <material:TextField Grid.Row="0" x:Name="PlaylistNameEntry" ReturnType="Done" Margin="8,0,8,0" TitleColor="{DynamicResource PrimaryTextColor}" Title="Playlist name" MaxLength="20"
-                                 Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Pencil}}" AccentColor="{DynamicResource Primary}">
-        </material:TextField>
+        <Border Grid.Row="0" x:Name="PlaylistNameEntryBorder" HeightRequest="64" Margin="10,0,10,0"  StrokeShape="RoundRectangle 8" 
+                        Padding="0" VerticalOptions="Center">
+
+            <Grid VerticalOptions="Center">
+
+                <Entry x:Name="PlaylistNameEntry" Placeholder="Playlist name" PlaceholderColor="{DynamicResource PlaceholderTextColor}" ReturnType="Done" MaxLength="20" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
+
+            </Grid>
+            
+        </Border>
 
         <!-- Playlists -->
         <syncfusion:SfListView Grid.Row="1" x:Name="PlaylistsListView" SelectionMode="None" BackgroundColor="{DynamicResource BackgroundColor}" EmptyView="No playlists yet. Create a playlist!" AutoFitMode="Height"

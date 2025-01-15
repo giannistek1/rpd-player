@@ -69,7 +69,7 @@
                             
                         </local:CustomSwipeView.RightItems>
 
-                        <Grid BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}">
+                        <Grid BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}" HeightRequest="40">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
