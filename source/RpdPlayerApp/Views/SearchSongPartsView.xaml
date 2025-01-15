@@ -69,13 +69,7 @@
                             
                         </local:CustomSwipeView.RightItems>
 
-                        <Grid BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}" HeightRequest="40">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
+                        <Grid ColumnDefinitions="*, auto, auto, auto" BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}" HeightRequest="40">
 
                             <Label Grid.Column="0" ZIndex="0" LineBreakMode="TailTruncation" BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}" Text="{Binding Key}" FontSize="18" TextColor="{DynamicResource PrimaryTextColor}" VerticalTextAlignment="Center" Padding="5,0,0,0"/>
                             <Label Grid.Column="1" Text="{Binding Count}" FontSize="18" TextColor="{DynamicResource SecondaryTextColor}" HorizontalOptions="End" VerticalTextAlignment="Center" Padding="0,0,8,0" />
