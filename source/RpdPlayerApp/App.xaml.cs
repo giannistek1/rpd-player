@@ -9,7 +9,7 @@ namespace RpdPlayerApp
         public App()
         {
             // Register Syncfusion license
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NCaF5cXmZCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXhfdXVXRGleVEd0WUc=");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzY3MzU5NUAzMjM2MmUzMDJlMzBvRXNMTmU5SEVBbXl1blZ2ZFNJQ1hXR1lzNFEzL0c0a0tucEhMVG1nWW93PQ==");
 
             InitializeComponent();
 
