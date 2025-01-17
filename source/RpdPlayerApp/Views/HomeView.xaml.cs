@@ -37,7 +37,7 @@ public partial class HomeView : ContentView
         SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
 
         // Get data. Why here and not in MainPage? hmm...
-        ArtistRepository.GetArtists(); 
+        ArtistRepository.GetArtists();
         AlbumRepository.GetAlbums();
         VideoRepository.GetVideos();
         SongPartRepository.GetSongParts();
@@ -62,13 +62,13 @@ public partial class HomeView : ContentView
         UniqueSongCountImage.IsVisible = false;
 #endif
 
-        HomeModeSegmentedControl.ItemsSource = new string[] { "Start RPD", "Generate playlist"};
+        HomeModeSegmentedControl.ItemsSource = new string[] { "Start RPD", "Generate playlist" };
         HomeModeSegmentedControl.SelectedIndex = 0;
         HomeModeSegmentedControl.SelectionChanged += HomeModeSegmentedControl_SelectionChanged;
 
         StartModeButton.Text = "Start RPD";
         StartModeButton.Clicked += StartModeButtonClicked;
-         
+
         DurationChipGroup?.Items?.Add(new SfChip() { Text = "∞", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         //DurationChipGroup?.Items?.Add(new SfChip() { Text = "2H", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         //DurationChipGroup?.Items?.Add(new SfChip() { Text = "1H", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -104,6 +104,33 @@ public partial class HomeView : ContentView
         CompaniesChipGroup?.Items?.Add(new SfChip() { Text = "YG", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         CompaniesChipGroup?.Items?.Add(new SfChip() { Text = "Others", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         CompaniesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(CompaniesChipGroup.Items!);
+
+        // TODO: string list of options
+        var customChips = new ObservableCollection<CustomChipModel>
+        {
+            new() { Name = "Last chorus" },
+            new() { Name = "Dance breaks" },
+            new() { Name = "Tiktoks" }
+        };
+        OtherOptionsChipGroup.ItemsSource = customChips;
+        // Only if playlist option:
+        //OtherOptionsChipGroup?.Items?.Add(new SfChip() { Text = "Ending with chorus 3", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+        //OtherOptionsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(OtherOptionsChipGroup.Items!);
+
+    }
+
+
+    private void OnSelectionChanged(object sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
+    {
+        if (e.AddedItem is not null)
+        {
+            (e.AddedItem as CustomChipModel).IsSelected = true;
+        }
+
+        if (e.RemovedItem is not null)
+        {
+            (e.RemovedItem as CustomChipModel).IsSelected = false;
+        }
     }
 
     private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => SongPartCountLabel.Text = $"{SongPartRepository.SongParts.Count}";
@@ -114,7 +141,7 @@ public partial class HomeView : ContentView
 
     internal void FeedbackButtonPressed(object? sender, EventArgs e)
     {
-        
+
     }
 
     internal async void SettingsButtonPressed(object? sender, EventArgs e)
@@ -133,7 +160,7 @@ public partial class HomeView : ContentView
     }
     private void StartModeButtonClicked(object? sender, EventArgs e)
     {
-        if (RpdSettings!.UsingGeneratePlaylist) { GeneratePlaylistButtonClicked();  }
+        if (RpdSettings!.UsingGeneratePlaylist) { GeneratePlaylistButtonClicked(); }
         else { StartRpdButtonClicked(sender, e); }
     }
     private void GeneratePlaylistButtonClicked() => Toast.Make($"Not implemented yet!", ToastDuration.Short, 14).Show();
@@ -146,7 +173,7 @@ public partial class HomeView : ContentView
         RpdSettings?.GroupTypes.Clear();
         for (var i = 0; i < GrouptypesChipGroup?.Items?.Count; i++)
         {
-            if (GrouptypesChipGroup.Items[i].IsSelected) 
+            if (GrouptypesChipGroup.Items[i].IsSelected)
             {
                 GroupType groupType = GrouptypesChipGroup.Items[i].Text switch
                 {
@@ -199,17 +226,36 @@ public partial class HomeView : ContentView
                     case "JYP": RpdSettings?.Companies.Add("JYP Entertainment"); break;
                     case "YG": RpdSettings?.Companies.AddRange(MainViewModel.HybeCompanies); break;
                     case "Others": RpdSettings?.Companies.AddRange(RpdSettings.OtherCompanies); break;
-                };
+                }
+            }
+        }
+
+        RpdSettings?.NumberedPartsBlacklist.Clear();
+        RpdSettings?.PartsBlacklist.Clear();
+
+        ObservableCollection<CustomChipModel> antiOptionsItems = OtherOptionsChipGroup.ItemsSource as ObservableCollection<CustomChipModel>;
+        for (var i = 0; i < antiOptionsItems?.Count; i++)
+        {
+            if (antiOptionsItems[i].IsSelected)
+            {
+                switch (antiOptionsItems[i].Name)
+                {
+                    case "Last chorus": RpdSettings?.NumberedPartsBlacklist.AddRange(["CE2", "C3", "CDB3", "CE3", "CE2", "P3", "PDB3"]); break;
+                    case "Dance breaks": RpdSettings?.PartsBlacklist.AddRange(["CDB", "CDBE", "DB", "DBC", "DBE", "DBO", "PDB", "B", "O"]); break;
+                    case "Tiktoks": RpdSettings?.PartsBlacklist.Add("T"); break;
+                }
             }
         }
 
         var songParts = SongPartRepository.SongParts.ToList();
 
         // Apply filters.
-        songParts = songParts.Where(s => RpdSettings!.GroupTypes.Contains(s.Artist.GroupType)).ToList();
-        songParts = songParts.Where(s => RpdSettings!.Genres.Contains(s.Album.GenreFull)).ToList();
-        songParts = songParts.Where(s => RpdSettings!.Gens.Contains(s.Artist.Gen)).ToList();
-        songParts = songParts.Where(s => RpdSettings!.Companies.Contains(s.Artist.Company)).ToList();
+        songParts = songParts.Where(s => RpdSettings!.GroupTypes.Contains(s.Artist.GroupType))
+                             .Where(s => RpdSettings!.Genres.Contains(s.Album.GenreFull))
+                             .Where(s => RpdSettings!.Gens.Contains(s.Artist.Gen))
+                             .Where(s => RpdSettings!.Companies.Contains(s.Artist.Company))
+                             .Where(s => !RpdSettings!.NumberedPartsBlacklist.Contains(s.PartNameShortWithNumber))
+                             .Where(s => !RpdSettings!.PartsBlacklist.Contains(s.PartNameShort)).ToList();
 
         // Guard
         if (songParts.Count <= 0) { Toast.Make($"No songs found! Please change settings.", ToastDuration.Short, 14).Show(); return; }

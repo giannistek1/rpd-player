@@ -20,4 +20,6 @@ class RpdSettings
     internal List<string> Companies { get; set; } = [];
 
     internal List<string> OtherCompanies { get; set; } = [];
+    internal List<string> NumberedPartsBlacklist { get; set; } = []; 
+    internal List<string> PartsBlacklist { get; set; } = [];
 }

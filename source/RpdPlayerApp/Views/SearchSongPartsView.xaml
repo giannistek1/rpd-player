@@ -69,19 +69,20 @@
                             
                         </local:CustomSwipeView.RightItems>
 
-                        <Grid ColumnDefinitions="*, auto, auto, auto" BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}" HeightRequest="40">
+                        <Grid ColumnDefinitions="auto, *, auto, auto" BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}" HeightRequest="34">
 
-                            <Label Grid.Column="0" ZIndex="0" LineBreakMode="TailTruncation" BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}" Text="{Binding Key}" FontSize="18" TextColor="{DynamicResource PrimaryTextColor}" VerticalTextAlignment="Center" Padding="5,0,0,0"/>
-                            <Label Grid.Column="1" Text="{Binding Count}" FontSize="18" TextColor="{DynamicResource SecondaryTextColor}" HorizontalOptions="End" VerticalTextAlignment="Center" Padding="0,0,8,0" />
+                            <BoxView Grid.Column="0" WidthRequest="4" IsVisible="{Binding Key.ShowGroupTypeColor}"
+                                     BackgroundColor="{Binding Key.GroupTypeColor}" Color="{Binding Key.GroupTypeColor}" />
 
-                            <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,10,0">
+                            <Label Grid.Column="1" ZIndex="0" LineBreakMode="TailTruncation" BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}" Text="{Binding Key}" FontSize="18" 
+                                   TextColor="{DynamicResource PrimaryTextColor}" VerticalTextAlignment="Center" Padding="8,0,0,0"/>
+                            <Label Grid.Column="2" Text="{Binding Count}" FontSize="18" TextColor="{DynamicResource SecondaryTextColor}" HorizontalOptions="End" VerticalTextAlignment="Center" Padding="0,0,8,0" />
+
+                            <Image Grid.Column="3" HorizontalOptions="End" Margin="0,0,10,0">
                                 <Image.Source>
                                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Keyboard_arrow_down}" Color="{DynamicResource IconColor}" />
                                 </Image.Source>
                             </Image>
-
-                            <BoxView Grid.Column="3" WidthRequest="4" IsVisible="{Binding Key.ShowGroupTypeColor}"
-                                     BackgroundColor="{Binding Key.GroupTypeColor}" Color="{Binding Key.GroupTypeColor}" />
 
                         </Grid>
                         
@@ -142,8 +143,8 @@
                                     <Label Grid.Row="0" Text="{Binding Title}" VerticalOptions="Center" FontSize="14" LineBreakMode="TailTruncation" TextColor="{DynamicResource PrimaryTextColor}"  />
 
                                     <Grid Grid.Row="1" ColumnDefinitions="auto,*">
-                                        <Label Grid.Column="0"  Text="{Binding ArtistName}" VerticalOptions="Start" FontSize="11" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" />
-                                        <Label Grid.Column="1" Text="{Binding PartNameFull, StringFormat=' | {0}'}" VerticalOptions="Center" FontSize="13" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" />
+                                        <Label Grid.Column="0"  Text="{Binding ArtistName}" VerticalOptions="Start" FontSize="12" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" />
+                                        <Label Grid.Column="1" Text="{Binding PartNameFull, StringFormat=' • {0}'}" VerticalOptions="Start" FontSize="12" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" />
                                     </Grid>
                                 </Grid>
 

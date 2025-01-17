@@ -9,8 +9,8 @@
              x:Class="RpdPlayerApp.Views.HomeView"
              BackgroundColor="{DynamicResource BackgroundColor}">
 
-    <ScrollView>
-        <Grid Padding="0" RowDefinitions="20, auto, auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
+    <ScrollView Orientation="Vertical">
+        <Grid Padding="0" RowDefinitions="20, auto, auto, auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
 
             <!-- New stats -->
             <Grid Grid.Row="0" ColumnDefinitions="2*, 4*">
@@ -62,13 +62,13 @@
             <!-- Buttons -->
             <Grid Grid.Row="1" ColumnDefinitions="2*, 2*" ColumnSpacing="6" Margin="8,4,8,16">
 
-                <Button Grid.Column="0" x:Name="CreatePlaylistButton" Clicked="CreatePlaylistButtonClicked" Text="Create playlist" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
+                <Button Grid.Column="0" x:Name="CreatePlaylistButton" Padding="0,0,0,0" HeightRequest="34" Clicked="CreatePlaylistButtonClicked" Text="Create playlist" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
                     <Button.ImageSource>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Playlist_add}" Color="{DynamicResource IconColor}" />
                     </Button.ImageSource>
                 </Button>
 
-                <Button Grid.Column="1" x:Name="SearchByCategoryButton" Clicked="SearchByCategoryButtonClicked" Text="Categories" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
+                <Button Grid.Column="1" x:Name="SearchByCategoryButton" Padding="0,0,0,0" HeightRequest="34" Clicked="SearchByCategoryButtonClicked" Text="Categories" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
                     <Button.ImageSource>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Manage_search}" Color="{DynamicResource IconColor}" />
                     </Button.ImageSource>
@@ -100,7 +100,7 @@
 
                 <chip:SfChipGroup Grid.Row="1" x:Name="DurationChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Choice"
                           SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
-                          ChipBackground="{DynamicResource SecondaryButtonColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                          ChipBackground="{DynamicResource SecondaryButton}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
                           HorizontalOptions="Start" VerticalOptions="Center">
 
                 </chip:SfChipGroup>
@@ -116,8 +116,7 @@
                 <Label Grid.Row="0" Text="Grouptypes" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
 
                 <chip:SfChipGroup Grid.Row="1" x:Name="GrouptypesChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                          SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
-                          ChipBackground="{DynamicResource SecondaryButtonColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                          SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
 		                  HorizontalOptions="Start" VerticalOptions="Center">
 
                 </chip:SfChipGroup>
@@ -130,12 +129,15 @@
                 <!-- TODO: Label Key: H1 -->
                 <Label Grid.Row="0" Text="Genres" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
 
-                <chip:SfChipGroup Grid.Row="1" x:Name="GenresChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                          SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
-                          ChipBackground="{DynamicResource SecondaryButtonColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
-		                  HorizontalOptions="Start" VerticalOptions="Center">
+                <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
 
-                </chip:SfChipGroup>
+                    <chip:SfChipGroup x:Name="GenresChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                                      SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+		                              HorizontalOptions="Start" VerticalOptions="Center">
+
+                    </chip:SfChipGroup>
+
+                </ScrollView>
 
             </Grid>
 
@@ -146,31 +148,90 @@
                 <Label Grid.Row="0" Text="Gens" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
 
                 <chip:SfChipGroup Grid.Row="1" x:Name="GenerationsChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                          SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
-                          ChipBackground="{DynamicResource SecondaryButtonColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
-                          HorizontalOptions="Start" VerticalOptions="Center">
+                                  SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                                  HorizontalOptions="Start" VerticalOptions="Center">
 
                 </chip:SfChipGroup>
 
             </Grid>
 
             <!-- Companies (TODO: Only for k-pop) -->
-            <Grid Grid.Row="7" RowDefinitions="auto, auto, auto" Margin="0,0,0,16" Padding="16,0,16,0">
+            <Grid Grid.Row="7" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
                 <Label Grid.Row="0" Text="Companies" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+                
+                <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    
+                    <chip:SfChipGroup x:Name="CompaniesChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                                      SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                                      HorizontalOptions="Start" VerticalOptions="Center">
 
-                <chip:SfChipGroup Grid.Row="1" x:Name="CompaniesChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                          SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
-                          ChipBackground="{DynamicResource SecondaryButtonColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
-                          HorizontalOptions="Start" VerticalOptions="Center">
+                    </chip:SfChipGroup>
+                    
+                </ScrollView>
 
-                </chip:SfChipGroup>
+            </Grid>
+
+            <!-- Anti-options -->
+            <Grid Grid.Row="8" RowDefinitions="auto, auto, auto" Margin="0,0,0,16" Padding="16,0,16,0">
+
+                <!-- TODO: Label Key: H1 -->
+                <Label Grid.Row="0" Text="Anti-options" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+
+                <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    
+                    <chip:SfChipGroup x:Name="OtherOptionsChipGroup" ChipPadding="0,0,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                                      SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource Error}" 
+                                      SelectionIndicatorColor="{DynamicResource IconColor}"
+                                      HorizontalOptions="Start" VerticalOptions="Center" SelectionChanged="OnSelectionChanged">
+                        
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="ChipBackground" Value="{DynamicResource BackgroundColor}"/> <!-- Transparent does not work and is a buggy color. -->
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="ChipBackground" Value="{DynamicResource SecondaryButton}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        
+                        <chip:SfChipGroup.ItemTemplate>
+                            <DataTemplate>
+                                
+                                <chip:SfChip HorizontalOptions="Start" HorizontalTextAlignment="Start" Padding="0,0,-4,0" Text="{Binding Name}" ShowIcon="{Binding IsSelected}" InputTransparent="True" MaximumHeightRequest="30">
+
+                                    <chip:SfChip.ImageSource>
+                                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Block}" Color="{DynamicResource Error}" />
+                                    </chip:SfChip.ImageSource>
+                                    
+                                    <chip:SfChip.Triggers>
+                                        <DataTrigger TargetType="chip:SfChip" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="chip:SfChip" Binding="{Binding IsSelected}" Value="False">
+                                            <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundColor}"/>
+                                            <Setter Property="Background" Value="{DynamicResource BackgroundColor}"/>
+                                        </DataTrigger>
+                                    </chip:SfChip.Triggers>
+                                </chip:SfChip>
+                            </DataTemplate>
+                        </chip:SfChipGroup.ItemTemplate>
+
+                    </chip:SfChipGroup>
+                
+                  </ScrollView>
 
             </Grid>
 
             <!-- TODO: Years -->
-            <Button Grid.Row="8" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource SecondaryButton}" CornerRadius="8" Margin="16,0,16,0"/>
+            <Button Grid.Row="9" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource SecondaryButton}" CornerRadius="8" Margin="16,0,16,0" FontAttributes="Bold"/>
 
         </Grid>
     </ScrollView>

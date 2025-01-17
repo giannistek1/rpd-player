@@ -1,5 +1,9 @@
 ﻿namespace RpdPlayerApp.Architecture;
 
+/// <summary>
+/// Usually ordered by what it starts with.
+/// Examples: Prechorus, Chorus, Dancebreak, Tiktok
+/// </summary>
 internal enum SongPartOrder
 {
     Unspecified = 0,

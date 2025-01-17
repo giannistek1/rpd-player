@@ -93,36 +93,31 @@
                     <ViewCell>
                         <Grid ColumnDefinitions="4, 2*, 7*, *" Padding="0">
 
-                            <BoxView Grid.Column="0"
-                                     Color="{Binding Artist.GroupTypeColor}"
-                                     WidthRequest="4"
-                                     HeightRequest="80"
-                                     VerticalOptions="Center"
-                                     HorizontalOptions="Center" />
+                            <BoxView Grid.Column="0" Color="{Binding Artist.GroupTypeColor}" WidthRequest="4" HeightRequest="80" VerticalOptions="Center" HorizontalOptions="Center" />
 
-                            <Image Grid.Column="1" Margin="4,0,0,0" HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
-                                <Image.Source>
-                                    <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
-                                </Image.Source>
-                            </Image>
+                            <!-- Album -->
+                            <Border Grid.Column="1" x:Name="AllBorder" Margin="4,0,0,0" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+                                <Image HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                    <Image.Source>
+                                        <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
+                                    </Image.Source>
+                                </Image>
+                            </Border>
 
-                            <VerticalStackLayout Grid.Column="2" Padding="10">
+                            <!-- Title, part, artist -->
+                            <Grid Grid.Column="2" RowDefinitions="*,*" VerticalOptions="Center" Padding="10">
 
-                                <HorizontalStackLayout>
-                                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" VerticalOptions="Start" LineBreakMode="TailTruncation" />
-                                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding PartNameFull, StringFormat=' - {0}'}" VerticalOptions="Start" LineBreakMode="TailTruncation"  />
-                                </HorizontalStackLayout>
+                                <Label Grid.Row="0" Text="{Binding Title}" VerticalOptions="Center" FontSize="14" LineBreakMode="TailTruncation" TextColor="{DynamicResource PrimaryTextColor}"  />
 
-                                <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding ArtistName}" VerticalOptions="CenterAndExpand" />
+                                <Grid Grid.Row="1" ColumnDefinitions="auto,*">
+                                    <Label Grid.Column="0"  Text="{Binding ArtistName}" VerticalOptions="Start" FontSize="12" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" />
+                                    <Label Grid.Column="1" Text="{Binding PartNameFull, StringFormat=' • {0}'}" VerticalOptions="Start" FontSize="12" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" />
+                                </Grid>
+                            </Grid>
 
-                            </VerticalStackLayout>
-
-                            <syncfusion:DragIndicatorView Grid.Column="3" 
-                                                          HeightRequest="15" 
-                                                          ListView="{x:Reference CurrentPlaylistListView}" 
-                                                          HorizontalOptions="EndAndExpand" 
-                                                          VerticalOptions="Center"
-                                                          Margin="0,0,16,0">
+                            <!-- -->
+                            <syncfusion:DragIndicatorView Grid.Column="3" HeightRequest="15" ListView="{x:Reference CurrentPlaylistListView}"  HorizontalOptions="EndAndExpand" 
+                                                          VerticalOptions="Center" Margin="0,0,16,0">
                                 
                                 <Image HorizontalOptions="EndAndExpand">
                                     <Image.Source>

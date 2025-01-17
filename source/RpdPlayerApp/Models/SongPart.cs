@@ -19,6 +19,7 @@ internal class SongPart : INotifyPropertyChanged
     /// PartNameShort (P, C, D, DB, O, T, etc)
     /// </summary>
     public string PartNameShort { get; set; }
+    public string PartNameShortWithNumber {  get; set; }
     public string PartNameNumber { get; set; }
     public string PartNameFull { get; set; }
     public SongPartOrder PartClassification { get; set; }
@@ -147,6 +148,7 @@ internal class SongPart : INotifyPropertyChanged
 
         PartNameShort = partNameShort; // C
         PartNameNumber = partNameNumber; // 1
+        PartNameShortWithNumber = $"{partNameShort}{partNameNumber}";
         PartNameFull = GetPartNameLong(partNameShort, partNameNumber);
         PartClassification = GetSongPartOrder(partNameShort);
 
@@ -165,13 +167,17 @@ internal class SongPart : INotifyPropertyChanged
     {
         return partNameShort switch
         {
-            "B" => $"Bridge {partNumber}",
+
+            "P" => $"Pre-chorus {partNumber}",
+            "PDB" => $"Pre-chorus {partNumber} & Dance Break",
+
             "C" => $"Chorus {partNumber}",
             "CDB" => $"Chorus {partNumber} & Dance Break",
-            "CDBE" => $"Chorus {partNumber} & Dance Break & Ending",
+            "CDBE" => $"Chorus {partNumber}, Dance Break & Ending",
             "CE" => $"Chorus {partNumber} & Ending",
-            "DB" => $"Dance break {partNumber}",
 
+            "B" => $"Bridge {partNumber}",
+            "DB" => $"Dance break {partNumber}",
             "DBC" => $"Dance Break {partNumber} & Chorus", 
             "DBE" => $"Dance Break {partNumber} & Ending",
 
@@ -181,8 +187,6 @@ internal class SongPart : INotifyPropertyChanged
             "E" => $"Ending {partNumber}",
             "I" => $"Intro {partNumber}",
             "O" => $"Outro {partNumber}",
-            "P" => $"Pre-chorus {partNumber}",
-            "PDB" => $"Pre-chorus {partNumber} & Dance Break",
             "T" => $"Tiktok {partNumber}",
             "V" => $"Verse {partNumber}",
 
