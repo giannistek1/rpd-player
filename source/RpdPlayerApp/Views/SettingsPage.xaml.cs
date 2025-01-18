@@ -8,6 +8,8 @@ public partial class SettingsPage : ContentPage
     // TODO: Settings class
     private const string MAIN_VOLUME = "MAIN_VOLUME";
 
+    internal HomeView? HomeView { get; set; }
+
 	public SettingsPage()
 	{
 		InitializeComponent();
@@ -16,7 +18,8 @@ public partial class SettingsPage : ContentPage
         BindingContext = _viewModel;
 
         this.Appearing += OnPageAppearing;
-
+        this.Disappearing += OnDisappearing;
+    
         // Load settings.
         if (Preferences.ContainsKey(USE_SENTRY))
         {
@@ -28,11 +31,16 @@ public partial class SettingsPage : ContentPage
         }
         AnalyticsSwitch.Toggled += AnalyticsSwitch_Toggled;
     }
-
     private void OnPageAppearing(object? sender, EventArgs e)
     {
         MasterVolumeSlider.Value = MainViewModel.MainVolume * 100;
     }
+
+    private void OnDisappearing(object? sender, EventArgs e)
+    {
+        HomeView?.RefreshThemeColors();
+    }
+
 
     private async void BackButton_Pressed(object sender, EventArgs e)
     {

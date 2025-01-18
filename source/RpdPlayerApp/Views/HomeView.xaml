@@ -96,11 +96,11 @@
             <Grid Grid.Row="3" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Duration" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Duration" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
 
                 <chip:SfChipGroup Grid.Row="1" x:Name="DurationChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Choice"
                           SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
-                          ChipBackground="{DynamicResource SecondaryButton}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                          ChipTextColor="{DynamicResource PrimaryTextColor}" 
                           HorizontalOptions="Start" VerticalOptions="Center">
 
                 </chip:SfChipGroup>
@@ -113,7 +113,7 @@
             <Grid Grid.Row="4" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Grouptypes" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Grouptypes" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
 
                 <chip:SfChipGroup Grid.Row="1" x:Name="GrouptypesChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
                           SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
@@ -127,7 +127,7 @@
             <Grid Grid.Row="5" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Genres" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Genres" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
 
                 <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
 
@@ -145,13 +145,18 @@
             <Grid Grid.Row="6" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Gens" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Gens" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
 
-                <chip:SfChipGroup Grid.Row="1" x:Name="GenerationsChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                                  SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
-                                  HorizontalOptions="Start" VerticalOptions="Center">
+                <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
 
-                </chip:SfChipGroup>
+                    <chip:SfChipGroup x:Name="GenerationsChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                                      SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                                      HorizontalOptions="Start" VerticalOptions="Center">
+
+                    </chip:SfChipGroup>
+
+
+                </ScrollView>
 
             </Grid>
 
@@ -159,7 +164,7 @@
             <Grid Grid.Row="7" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Companies" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Companies" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
                 
                 <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                     
@@ -177,7 +182,7 @@
             <Grid Grid.Row="8" RowDefinitions="auto, auto, auto" Margin="0,0,0,16" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Anti-options" FontSize="16" TextColor="{DynamicResource PrimaryColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Anti-options" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
 
                 <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                     

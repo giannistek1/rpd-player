@@ -54,10 +54,7 @@ internal static class ArtistRepository
         return Artists.Count > 0;
     }
 
-    internal static Artist MatchArtist(string artistName)
-    {
-        return Artists.FirstOrDefault(a => a.Name.Equals(artistName, StringComparison.OrdinalIgnoreCase), new());
-    }
+    internal static Artist MatchArtist(string artistName) => Artists.FirstOrDefault(a => a.Name.Equals(artistName, StringComparison.OrdinalIgnoreCase))!;
 
     private static string GetStringFromURL()
     {

@@ -4,11 +4,11 @@ namespace RpdPlayerApp.Models
 {
     class CustomChipModel : INotifyPropertyChanged
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         private bool isSelected = false;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public bool IsSelected
         {

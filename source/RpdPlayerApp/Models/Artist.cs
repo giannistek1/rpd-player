@@ -24,6 +24,8 @@ internal class Artist
     public string Company { get; set; }
     public string Generation { get; set; } = MainViewModel.NOT_KPOP;
     public Gen Gen { get; set; }
+
+    public bool IsKpopArtist { get; set; } = false; // Gets set in SongPart.cs once an album is Korean.
     public string ImageURL { get; set; }
 
     public bool ShowGroupType { get; set; } = false;
@@ -34,7 +36,7 @@ internal class Artist
     public int TotalCount { get; set; } = 0;
     public int FilteredTotalCount { get; set; } = 0;
 
-    public Artist(int id = -1, string name = "", string altName = "", DateTime debutDate = new(), GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
+    public Artist(DateTime debutDate, int id = -1, string name = "", string altName = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
     {
         Id = id;
         Name = name;
@@ -45,6 +47,19 @@ internal class Artist
         Company = company;
         ImageURL = imageURL;
 
+        GroupTypeColor = groupType switch
+        {
+            GroupType.BG => Colors.DeepSkyBlue.ToHex(),
+            GroupType.GG => Colors.Magenta.ToHex(),
+            GroupType.MIX => Colors.Gray.ToHex(),
+            GroupType.NOT_SET => Colors.White.ToHex(),
+
+            _ => Colors.White.ToHex(),
+        };
+    }
+    
+    public void DecideGeneration()
+    {
         // Kpop only
         if (DebutDate < MainViewModel.secondGenStartDate)
         {
@@ -71,16 +86,6 @@ internal class Artist
             Generation = MainViewModel.FIFTH_GENERATION;
             Gen = Gen.Fifth;
         }
-
-        GroupTypeColor = groupType switch
-        {
-            GroupType.BG => Colors.DeepSkyBlue.ToHex(),
-            GroupType.GG => Colors.Magenta.ToHex(),
-            GroupType.MIX => Colors.Gray.ToHex(),
-            GroupType.NOT_SET => Colors.White.ToHex(),
-
-            _ => Colors.White.ToHex(),
-        };
     }
 
     public override string ToString()

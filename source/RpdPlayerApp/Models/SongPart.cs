@@ -1,10 +1,11 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Repositories;
+using RpdPlayerApp.ViewModels;
 using System.ComponentModel;
 
 namespace RpdPlayerApp.Models;
 
-internal class SongPart : INotifyPropertyChanged
+internal partial class SongPart : INotifyPropertyChanged
 {
     /// <summary>
     /// This is an index based on a playlist. For a unique identifier, use the audioURL.
@@ -161,6 +162,12 @@ internal class SongPart : INotifyPropertyChanged
 
         Album = AlbumRepository.MatchAlbum(artistName: artistName, albumTitle: albumTitle);
         Artist = ArtistRepository.MatchArtist(artistName: artistName);
+
+        if (Album.GenreShort == "KR") 
+        { 
+            Artist.IsKpopArtist = true;
+            Artist.DecideGeneration();
+        } 
     }
 
     private static string GetPartNameLong(string partNameShort, string partNumber)

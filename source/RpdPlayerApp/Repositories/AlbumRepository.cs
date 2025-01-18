@@ -57,10 +57,7 @@ internal static class AlbumRepository
         return Albums.Count > 0;
     }
 
-    internal static Album MatchAlbum(string artistName, string albumTitle)
-    {
-        return Albums.FirstOrDefault(a => a.ArtistName.Equals(artistName, StringComparison.OrdinalIgnoreCase) && a.Title.Equals(albumTitle, StringComparison.OrdinalIgnoreCase), new());
-    }
+    internal static Album MatchAlbum(string artistName, string albumTitle) => Albums.FirstOrDefault(a => a.ArtistName.Equals(artistName, StringComparison.OrdinalIgnoreCase) && a.Title.Equals(albumTitle, StringComparison.OrdinalIgnoreCase), new());
 
     private static string GetStringFromURL()
     {

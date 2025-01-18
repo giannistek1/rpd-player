@@ -219,138 +219,38 @@ internal static class IconManager
     /// </summary>
     internal static void RefreshIcons()
     {
-        AutoplayIcon.FontFamily = "MaterialRounded";
-        AutoplayIcon.Glyph = MaterialRounded.Autoplay;
         AutoplayIcon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        CrossIcon.FontFamily = "MaterialRounded";
-        CrossIcon.Glyph = MaterialRounded.Close;
         CrossIcon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        BackIcon.FontFamily = "MaterialRounded";
-#if IOS
-        BackIcon.Glyph = MaterialRounded.Arrow_back_ios;
-#else
-        BackIcon.Glyph = MaterialRounded.Arrow_back;
-#endif
         BackIcon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        OffIcon.FontFamily = "MaterialRounded";
-        OffIcon.Glyph = MaterialRounded.Block;
         OffIcon.Color = (Color)Application.Current!.Resources["IconOffColor"];
-
-        PauseIcon.FontFamily = "MaterialRounded";
-        PauseIcon.Glyph = MaterialRounded.Pause;
         PauseIcon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        PlayIcon.FontFamily = "MaterialRounded";
-        PlayIcon.Glyph = MaterialRounded.Play_arrow;
         PlayIcon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        RepeatOneIcon.FontFamily = "MaterialRounded";
-        RepeatOneIcon.Glyph = MaterialRounded.Repeat_one;
         RepeatOneIcon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        ShuffleIcon.FontFamily = "MaterialRounded";
-        ShuffleIcon.Glyph = MaterialRounded.Shuffle;
         ShuffleIcon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        TimerOffIcon.FontFamily = "MaterialRounded";
-        TimerOffIcon.Glyph = MaterialRounded.Timer_off;
         TimerOffIcon.Color = (Color)Application.Current!.Resources["IconOffColor"];
-
-        Timer3Icon.FontFamily = "MaterialRounded";
-        Timer3Icon.Glyph = MaterialRounded.Timer_3_alt_1;
         Timer3Icon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        Timer5Icon.FontFamily = "MaterialRounded";
-        Timer5Icon.Glyph = MaterialRounded.Timer_5;
         Timer5Icon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        VoiceIcon.FontFamily = "MaterialRounded";
-        VoiceIcon.Glyph = MaterialRounded.Voice_selection;
         VoiceIcon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        VoiceOffIcon.FontFamily = "MaterialRounded";
-        VoiceOffIcon.Glyph = MaterialRounded.Voice_selection_off;
         VoiceOffIcon.Color = (Color)Application.Current!.Resources["IconOffColor"];
-
-        FavoriteIcon.FontFamily = "MaterialRounded";
-        FavoriteIcon.Glyph = MaterialRounded.Favorite;
         FavoriteIcon.Color = (Color)Application.Current!.Resources["IconColor"];
-
-        FavoritedIcon.FontFamily = "MaterialRounded";
-        FavoritedIcon.Glyph = MaterialRounded.Favorite;
         FavoritedIcon.Color = (Color)Application.Current!.Resources["FavoritedIconColor"];
 
         // Toolbar icons
-        ToolbarAddIcon.FontFamily = "MaterialRounded";
-        ToolbarAddIcon.Glyph = MaterialRounded.Add;
         ToolbarAddIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarBackIcon.FontFamily = "MaterialRounded";
-#if IOS
-            ToolbarBackIcon.Glyph = MaterialRounded.Arrow_back_ios;
-#else
-        ToolbarBackIcon.Glyph = MaterialRounded.Arrow_back;
-#endif
         ToolbarBackIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarCasinoIcon.FontFamily = "MaterialRounded";
-        ToolbarCasinoIcon.Glyph = MaterialRounded.Casino;
         ToolbarCasinoIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarCollapseAllIcon.FontFamily = "MaterialRounded";
-        ToolbarCollapseAllIcon.Glyph = MaterialRounded.Collapse_all;
         ToolbarCollapseAllIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarClearIcon.FontFamily = "MaterialRounded";
-        ToolbarClearIcon.Glyph = MaterialRounded.Delete;
         ToolbarClearIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarCloudIcon.FontFamily = "MaterialRounded";
-        ToolbarCloudIcon.Glyph = MaterialRounded.Cloud;
         ToolbarCloudIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarCloudOffIcon.FontFamily = "MaterialRounded";
-        ToolbarCloudOffIcon.Glyph = MaterialRounded.Cloud_off;
         ToolbarCloudOffIcon.Color = (Color)Application.Current!.Resources["ToolbarIconOffColor"];
-
-        ToolbarExpandAllIcon.FontFamily = "MaterialRounded";
-        ToolbarExpandAllIcon.Glyph = MaterialRounded.Expand_all;
         ToolbarExpandAllIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarMoreItemsIcon.FontFamily = "MaterialRounded";
-        ToolbarMoreItemsIcon.Glyph = MaterialRounded.More_vert;
         ToolbarMoreItemsIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarPlayIcon.FontFamily = "MaterialRounded";
-        ToolbarPlayIcon.Glyph = MaterialRounded.Play_arrow;
         ToolbarPlayIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarRateReviewIcon.FontFamily = "MaterialRounded";
-        ToolbarRateReviewIcon.Glyph = MaterialRounded.Rate_review;
         ToolbarRateReviewIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarSaveIcon.FontFamily = "MaterialRounded";
-        ToolbarSaveIcon.Glyph = MaterialRounded.Save;
         ToolbarSaveIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarSettingsIcon.FontFamily = "MaterialRounded";
-        ToolbarSettingsIcon.Glyph = MaterialRounded.Settings;
         ToolbarSettingsIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarSortIcon.FontFamily = "MaterialRounded";
-        ToolbarSortIcon.Glyph = MaterialRounded.Sort;
         ToolbarSortIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-        ToolbarVideoIcon.FontFamily = "MaterialRounded";
-        ToolbarVideoIcon.Glyph = MaterialRounded.Videocam;
         ToolbarVideoIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
-
-
-        ToolbarVideoOffIcon.FontFamily = "MaterialRounded";
-        ToolbarVideoOffIcon.Glyph = MaterialRounded.Videocam_off;
         ToolbarVideoOffIcon.Color = (Color)Application.Current!.Resources["ToolbarIconOffColor"];
     }
 }

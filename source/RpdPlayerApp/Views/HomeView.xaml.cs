@@ -73,7 +73,7 @@ public partial class HomeView : ContentView
         //DurationChipGroup?.Items?.Add(new SfChip() { Text = "2H", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         //DurationChipGroup?.Items?.Add(new SfChip() { Text = "1H", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         //DurationChipGroup?.Items?.Add(new SfChip() { Text = "Other", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
-        DurationChipGroup!.SelectedItem = DurationChipGroup.Items[0];
+        DurationChipGroup!.SelectedItem = DurationChipGroup?.Items?[0];
 
         // TODO: string list of grouptypes
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Male", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -95,6 +95,7 @@ public partial class HomeView : ContentView
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "3", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "4", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "5", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+        GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "Non-kpop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenerationsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenerationsChipGroup.Items!);
 
         // TODO: string list of companies
@@ -115,21 +116,68 @@ public partial class HomeView : ContentView
         OtherOptionsChipGroup.ItemsSource = customChips;
         // Only if playlist option:
         //OtherOptionsChipGroup?.Items?.Add(new SfChip() { Text = "Ending with chorus 3", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
-        //OtherOptionsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(OtherOptionsChipGroup.Items!);
-
     }
 
+    internal void RefreshThemeColors()
+    {
+        DurationChipGroup.SelectedChipBackground = (Color)Application.Current!.Resources["SecondaryButton"];
+        DurationChipGroup.Items![0].TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
+        DurationChipGroup.SelectedItem = null;
+        DurationChipGroup!.SelectedItem = DurationChipGroup.Items[0];
+
+        // TODO: ObservableCollection should be optimized.
+        GrouptypesChipGroup.SelectedChipBackground = (Color)Application.Current!.Resources["SecondaryButton"];
+        foreach (var grouptype in GrouptypesChipGroup.Items!)
+        {
+            grouptype.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
+        }
+        GrouptypesChipGroup.SelectedItem = null;
+        GrouptypesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GrouptypesChipGroup?.Items!);
+
+        GenresChipGroup.SelectedChipBackground = (Color)Application.Current!.Resources["SecondaryButton"];
+        foreach (var genre in GenresChipGroup.Items!)
+        {
+            genre.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
+        }
+        GenresChipGroup.SelectedItem = null;
+        GenresChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenresChipGroup?.Items!);
+
+        GenerationsChipGroup.SelectedChipBackground = (Color)Application.Current!.Resources["SecondaryButton"];
+        foreach (var generation in GenerationsChipGroup.Items!)
+        {
+            generation.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
+        }
+        GenerationsChipGroup.SelectedItem = null;
+        GenerationsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenerationsChipGroup?.Items!);
+
+        CompaniesChipGroup.SelectedChipBackground = (Color)Application.Current!.Resources["SecondaryButton"];
+        foreach (var company in CompaniesChipGroup.Items!)
+        {
+            company.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
+        }
+        CompaniesChipGroup.SelectedItem = null;
+        CompaniesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(CompaniesChipGroup?.Items!);
+
+        OtherOptionsChipGroup.ItemsSource = null!;
+        var customChips = new ObservableCollection<CustomChipModel>
+        {
+            new() { Name = "Last chorus" },
+            new() { Name = "Dance breaks" },
+            new() { Name = "Tiktoks" }
+        };
+        OtherOptionsChipGroup.ItemsSource = customChips;
+    }
 
     private void OnSelectionChanged(object sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
     {
         if (e.AddedItem is not null)
         {
-            (e.AddedItem as CustomChipModel).IsSelected = true;
+            (e.AddedItem as CustomChipModel)!.IsSelected = true;
         }
 
         if (e.RemovedItem is not null)
         {
-            (e.RemovedItem as CustomChipModel).IsSelected = false;
+            (e.RemovedItem as CustomChipModel)!.IsSelected = false;
         }
     }
 
@@ -149,6 +197,7 @@ public partial class HomeView : ContentView
         if (Navigation.NavigationStack.Count < 2)
         {
             await Navigation.PushAsync(_settingsPage, true);
+            _settingsPage.HomeView = this;
         }
     }
     private void CreatePlaylistButtonClicked(object sender, EventArgs e) => CreatePlaylistButtonPressed?.Invoke(sender, e);
@@ -233,7 +282,7 @@ public partial class HomeView : ContentView
         RpdSettings?.NumberedPartsBlacklist.Clear();
         RpdSettings?.PartsBlacklist.Clear();
 
-        ObservableCollection<CustomChipModel> antiOptionsItems = OtherOptionsChipGroup.ItemsSource as ObservableCollection<CustomChipModel>;
+        ObservableCollection<CustomChipModel>? antiOptionsItems = OtherOptionsChipGroup.ItemsSource as ObservableCollection<CustomChipModel>;
         for (var i = 0; i < antiOptionsItems?.Count; i++)
         {
             if (antiOptionsItems[i].IsSelected)
