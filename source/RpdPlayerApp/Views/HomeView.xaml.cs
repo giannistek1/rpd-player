@@ -83,6 +83,7 @@ public partial class HomeView : ContentView
 
         // TODO: string list of genres
         GenresChipGroup?.Items?.Add(new SfChip() { Text = "K-pop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+        GenresChipGroup?.Items?.Add(new SfChip() { Text = "K-RnB", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenresChipGroup?.Items?.Add(new SfChip() { Text = "J-pop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenresChipGroup?.Items?.Add(new SfChip() { Text = "C-pop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenresChipGroup?.Items?.Add(new SfChip() { Text = "T-pop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });

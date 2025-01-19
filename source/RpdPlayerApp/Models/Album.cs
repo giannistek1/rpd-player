@@ -8,11 +8,11 @@ internal class Album
     public DateTime ReleaseDate { get; set; }
     // TODO: Change KR, CH, TH, EN etc to Genre
     /// <summary>
-    /// KR, CH, TH, EN, etc... No enum because there is short name and long name.
+    /// KR, CH, TH, EN, krnb etc... No enum because there is short name and long name.
     /// </summary>
     public string GenreShort { get; set; }
     /// <summary>
-    /// K-pop, J-pop, C-pop, T-pop, Pop, etc...
+    /// K-pop, J-pop, C-pop, T-pop, Pop, K-RnB etc...
     /// </summary>
     public string GenreFull { get; set; }
     public string ImageURL { get; set; }
@@ -42,6 +42,7 @@ internal class Album
             "CH" => "C-pop",
             "TH" => "T-pop",
             "NL" => "NL-pop",
+            "krnb" => "K-RnB",
 
             _ => "Unknown genre"
         };
