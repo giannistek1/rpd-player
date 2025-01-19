@@ -1,4 +1,6 @@
-﻿namespace RpdPlayerApp.Models;
+﻿using RpdPlayerApp.ViewModels;
+
+namespace RpdPlayerApp.Models;
 
 internal class Album
 {
@@ -36,7 +38,7 @@ internal class Album
     {
         return GenreShort switch
         {
-            "KR" => "K-pop",
+            MainViewModel.GenreKpop => "K-pop",
             "JP" => "J-pop",
             "EN" => "Pop",
             "CH" => "C-pop",

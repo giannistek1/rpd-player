@@ -14,8 +14,8 @@ public partial class CategoriesView : ContentView
     private const string ARTISTS_URL = "https://github.com/giannistek1/rpd-artists/blob/main/";
 
     public CategoriesView()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
         this.Loaded += OnLoad;
     }
@@ -30,7 +30,7 @@ public partial class CategoriesView : ContentView
         SoloImageButton.Pressed += SetFilter;
         GroupImageButton.Pressed += SetFilter;
 
-        // TODO:
+        // TODO: firstgens
         string[] firstGens = [
             "[SHINHWA][][1998-03-24][BG][6][SM Entertainment].jpg",
         ];
@@ -84,35 +84,35 @@ public partial class CategoriesView : ContentView
                                 description: "First generation.",
                                 imageUrl: $"{ARTISTS_URL}{firstGenArtist}?raw=true",
                                 searchFilterMode: SearchFilterMode.Firstgen,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.GenreShort == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop)
                                 ),
 
             new(title: "2nd Generation",
                                 description: "Second generation.",
                                 imageUrl: $"{ARTISTS_URL}{secondGenArtist}?raw=true",
                                 searchFilterMode: SearchFilterMode.Secondgen,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.SECOND_GENERATION && s.Album?.GenreShort == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.SECOND_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop)
                                 ),
 
             new(title: "3rd Generation",
                                 description: "Third generation.",
                                 imageUrl: $"{ARTISTS_URL}{thirdGenArtist}?raw=true",
                                 searchFilterMode: SearchFilterMode.Thirdgen,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.THIRD_GENERATION && s.Album?.GenreShort == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.THIRD_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop)
                                 ),
 
             new(title: "4th Generation",
                                 description: "Fourth generation.",
                                 imageUrl: $"{ARTISTS_URL}{fourthGenArtist}?raw=true",
                                 searchFilterMode: SearchFilterMode.Fourthgen,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FOURTH_GENERATION && s.Album?.GenreShort == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FOURTH_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop)
                                 ),
 
             new(title: "5th Generation",
                                 description: "Fifth generation.",
                                 imageUrl: $"{ARTISTS_URL}{fifthGenArtist}?raw=true",
                                 searchFilterMode: SearchFilterMode.Fifthgen,
-                                songCount : SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.GenreShort == "KR")
+                                songCount : SongPartRepository.SongParts.Count(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop)
                                 )
         };
 
@@ -214,7 +214,7 @@ public partial class CategoriesView : ContentView
                                 description: "Korean pop music.",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.KR,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "KR")
+                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == MainViewModel.GenreKpop)
                                 ),
 
             new(title: "J-pop",
@@ -247,61 +247,20 @@ public partial class CategoriesView : ContentView
         };
 
         KpopYearsListView.ItemsSource = new List<HomeListViewItem>() {
-            new(title: "2017",
-                                description: "K-pop 2017",
-                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                                searchFilterMode: SearchFilterMode.kpop2017,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2017 && s.Album?.GenreShort == "KR")
-                                ),
-
-            new(title: "2018",
-                                description: "K-pop 2018",
-                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                                searchFilterMode: SearchFilterMode.kpop2018,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2018 && s.Album?.GenreShort == "KR")
-                                ),
-
-            new(title: "2019",
-                                description: "K-pop 2019",
-                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                                searchFilterMode: SearchFilterMode.kpop2019,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == 2019 && s.Album?.GenreShort == "KR")
-                                ),
-
-            new(title: "2020",
-                                description: "K-pop 2020",
-                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                                searchFilterMode: SearchFilterMode.kpop2020,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album ?.ReleaseDate.Year == 2020 && s.Album ?.GenreShort == "KR")
-                                ),
-
-            new(title: "2021",
-                                description: "K-pop 2021",
-                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                                searchFilterMode: SearchFilterMode.kpop2021,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album ?.ReleaseDate.Year == 2021 && s.Album ?.GenreShort == "KR")
-                                ),
-
-            new(title: "2022",
-                                description: "K-pop 2022",
-                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                                searchFilterMode: SearchFilterMode.kpop2022,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album ?.ReleaseDate.Year == 2022 && s.Album ?.GenreShort == "KR")
-                                ),
-
-            new(title: "2023",
-                                description: "K-pop 2023",
-                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                                searchFilterMode: SearchFilterMode.kpop2023,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album ?.ReleaseDate.Year == 2023 && s.Album ?.GenreShort == "KR")
-                                ),
-
-            new(title: "2024",
-                                description: "K-pop 2024",
-                                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                                searchFilterMode: SearchFilterMode.kpop2024,
-                                songCount: SongPartRepository.SongParts.Count(s => s.Album ?.ReleaseDate.Year == 2024 && s.Album ?.GenreShort == "KR")
-                                )
+            HomeListViewItem.Create(2012, SearchFilterMode.kpop2012),
+            HomeListViewItem.Create(2013, SearchFilterMode.kpop2013),
+            HomeListViewItem.Create(2014, SearchFilterMode.kpop2014),
+            HomeListViewItem.Create(2015, SearchFilterMode.kpop2015),
+            HomeListViewItem.Create(2016, SearchFilterMode.kpop2016),
+            HomeListViewItem.Create(2017, SearchFilterMode.kpop2017),
+            HomeListViewItem.Create(2018, SearchFilterMode.kpop2018),
+            HomeListViewItem.Create(2019, SearchFilterMode.kpop2019),
+            HomeListViewItem.Create(2020, SearchFilterMode.kpop2020),
+            HomeListViewItem.Create(2021, SearchFilterMode.kpop2021),
+            HomeListViewItem.Create(2022, SearchFilterMode.kpop2022),
+            HomeListViewItem.Create(2023, SearchFilterMode.kpop2023),
+            HomeListViewItem.Create(2024, SearchFilterMode.kpop2024),
+            HomeListViewItem.Create(2025, SearchFilterMode.kpop2025)
         };
 
         GenerationListView.IsVisible = false;

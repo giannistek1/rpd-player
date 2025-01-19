@@ -41,13 +41,17 @@
             <!-- Header & Footer -->
             <syncfusion:SfListView.HeaderTemplate>
                 <DataTemplate>
-                    <Button x:Name="GoToBottomButton" BackgroundColor="{DynamicResource SecondaryButton}" Margin="8,0,0,8" HorizontalOptions="StartAndExpand" Clicked="GoToBottomButtonClicked" WidthRequest="160"  Text="Go to bottom"/>
+                    <Button x:Name="GoToBottomButton" Text="To bottom" HeightRequest="30" WidthRequest="140"
+                            BackgroundColor="{DynamicResource SecondaryButton}" Margin="8,0,0,8" Padding="0,0,0,0" 
+                            HorizontalOptions="StartAndExpand" Clicked="GoToBottomButtonClicked"/>
                 </DataTemplate>
             </syncfusion:SfListView.HeaderTemplate>
 
             <syncfusion:SfListView.FooterTemplate>
                 <DataTemplate>
-                    <Button x:Name="GoToTopButton" BackgroundColor="{DynamicResource SecondaryButton}" Margin="8,8,0,0" HorizontalOptions="StartAndExpand" Clicked="GoToTopButtonClicked" WidthRequest="160"  Text="Go to top"/>
+                    <Button x:Name="GoToTopButton" Text="To top" WidthRequest="100" HeightRequest="30"
+                            BackgroundColor="{DynamicResource SecondaryButton}" Padding="0,0,0,0" Margin="8,8,0,0" 
+                            HorizontalOptions="StartAndExpand" Clicked="GoToTopButtonClicked"/>
                 </DataTemplate>
             </syncfusion:SfListView.FooterTemplate>
 

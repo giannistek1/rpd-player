@@ -163,7 +163,7 @@ internal partial class SongPart : INotifyPropertyChanged
         Album = AlbumRepository.MatchAlbum(artistName: artistName, albumTitle: albumTitle);
         Artist = ArtistRepository.MatchArtist(artistName: artistName);
 
-        if (Album.GenreShort == "KR") 
+        if (Album.GenreShort == MainViewModel.GenreKpop) 
         { 
             Artist.IsKpopArtist = true;
             Artist.DecideGeneration();

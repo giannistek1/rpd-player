@@ -25,6 +25,23 @@ public partial class HomeView : ContentView
     {
         InitializeComponent();
 
+
+        ArtistRepository.Artists.CollectionChanged += ArtistsCollectionChanged;
+        AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;
+        SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
+
+        // Get data here because of collectionChanged.
+        ArtistRepository.GetArtists();
+        AlbumRepository.GetAlbums();
+        VideoRepository.GetVideos();
+        SongPartRepository.GetSongParts();
+
+        this.Loaded += OnLoad;
+    }
+
+    private void OnLoad(object? sender, EventArgs e)
+    {
+
 #if DEBUG
         string releaseMode = "D"; // Debug
 #else
@@ -32,25 +49,15 @@ public partial class HomeView : ContentView
 #endif
         VersionLabel.Text = $"v{AppInfo.Current.VersionString}.{AppInfo.Current.BuildString}.{releaseMode}";
 
-        ArtistRepository.Artists.CollectionChanged += ArtistsCollectionChanged;
-        AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;
-        SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
-
-        // Get data. Why here and not in MainPage? hmm...
-        ArtistRepository.GetArtists();
-        AlbumRepository.GetAlbums();
-        VideoRepository.GetVideos();
-        SongPartRepository.GetSongParts();
-
         // Fill other companies.
-        MainViewModel.Companies = ArtistRepository.Artists.Select(artist => artist.Company).Distinct().ToList();
-        List<string> companies = [];
-        companies.AddRange(MainViewModel.YGCompanies);
-        companies.AddRange(MainViewModel.HybeCompanies);
-        companies.AddRange(MainViewModel.SMCompanies);
-        RpdSettings!.OtherCompanies = MainViewModel.Companies.Except(companies).ToList();
+        MainViewModel.AllCompanies = ArtistRepository.Artists.Select(artist => artist.Company).Distinct().ToList();
+        List<string> mainCompanies = [];
+        mainCompanies.AddRange(MainViewModel.YGCompanies);
+        mainCompanies.AddRange(MainViewModel.HybeCompanies);
+        mainCompanies.AddRange(MainViewModel.SMCompanies);
+        mainCompanies.Add("JYP Entertainment");
+        RpdSettings!.OtherCompanies = MainViewModel.AllCompanies.Except(mainCompanies).ToList();
 
-        // Todo: Needs to go into the load method
         var groupedTitles = from s in SongPartRepository.SongParts
                             group s.Title by s.Title into g
                             select new { Title = g.Key, Titles = g.ToList() };
@@ -89,8 +96,9 @@ public partial class HomeView : ContentView
         GenresChipGroup?.Items?.Add(new SfChip() { Text = "T-pop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenresChipGroup?.Items?.Add(new SfChip() { Text = "Pop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenresChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenresChipGroup.Items!);
+        GenresChipGroup.SelectionChanged += GenresChipGroup_SelectionChanged;
 
-        // TODO: string list of gens
+        // TODO: string list of gens (only with kpop)
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "1", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "2", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "3", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -99,7 +107,7 @@ public partial class HomeView : ContentView
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "Non-kpop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenerationsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenerationsChipGroup.Items!);
 
-        // TODO: string list of companies
+        // TODO: string list of companies (only with kpop)
         CompaniesChipGroup?.Items?.Add(new SfChip() { Text = "SM", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         CompaniesChipGroup?.Items?.Add(new SfChip() { Text = "HYBE", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         CompaniesChipGroup?.Items?.Add(new SfChip() { Text = "JYP", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -117,6 +125,13 @@ public partial class HomeView : ContentView
         OtherOptionsChipGroup.ItemsSource = customChips;
         // Only if playlist option:
         //OtherOptionsChipGroup?.Items?.Add(new SfChip() { Text = "Ending with chorus 3", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+    }
+
+    private void GenresChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
+    {
+        // K-pop only.
+        GenerationsGrid.IsVisible = GenresChipGroup.Items![0].IsSelected;
+        CompaniesGrid.IsVisible = GenresChipGroup.Items![0].IsSelected;
     }
 
     internal void RefreshThemeColors()
@@ -296,16 +311,19 @@ public partial class HomeView : ContentView
                 }
             }
         }
-
-        var songParts = SongPartRepository.SongParts.ToList();
-
-        // Apply filters.
-        songParts = songParts.Where(s => RpdSettings!.GroupTypes.Contains(s.Artist.GroupType))
-                             .Where(s => RpdSettings!.Genres.Contains(s.Album.GenreFull))
-                             .Where(s => RpdSettings!.Gens.Contains(s.Artist.Gen))
-                             .Where(s => RpdSettings!.Companies.Contains(s.Artist.Company))
-                             .Where(s => !RpdSettings!.NumberedPartsBlacklist.Contains(s.PartNameShortWithNumber))
-                             .Where(s => !RpdSettings!.PartsBlacklist.Contains(s.PartNameShort)).ToList();
+        // Apply RPD settings.
+        var songParts = SongPartRepository.SongParts.Where(s => RpdSettings!.GroupTypes.Contains(s.Artist.GroupType))
+                                                    .Where(s => RpdSettings!.Genres.Contains(s.Album.GenreFull))
+                                                    .Where(s => !RpdSettings!.NumberedPartsBlacklist.Contains(s.PartNameShortWithNumber))
+                                                    .Where(s => !RpdSettings!.PartsBlacklist.Contains(s.PartNameShort)).ToList();
+        // K-pop only.
+        if (GenresChipGroup!.Items![0].IsSelected)
+        {
+            songParts = songParts.Where(s => RpdSettings!.Gens.Contains(s.Artist.Gen))
+                                 .Where(s => RpdSettings!.Companies.Contains(s.Artist.Company)).ToList();
+        }
+                             
+                             
 
         // Guard
         if (songParts.Count <= 0) { Toast.Make($"No songs found! Please change settings.", ToastDuration.Short, 14).Show(); return; }
