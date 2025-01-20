@@ -3,9 +3,10 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RpdPlayerApp.Resources.Styles.Christmas">
-
-    <Color x:Key="BackgroundColor">#FFF</Color>
     
+    <!-- NOTE: Transparent does not work and is a buggy color. -->
+    <Color x:Key="BackgroundColor">#FFF</Color>
+
     <!-- (Reusable) main colors -->
     <Color x:Key="Primary">#B11E31</Color>
     <Color x:Key="Good">#64b06c</Color>

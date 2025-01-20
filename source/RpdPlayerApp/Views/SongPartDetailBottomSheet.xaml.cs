@@ -134,11 +134,13 @@ public partial class SongPartDetailBottomSheet
     private void PreviousButton_Pressed(object sender, EventArgs e)
     {
         PreviousSongPart?.Invoke(sender, e);
+        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
     }
 
     private void NextButton_Pressed(object sender, EventArgs e)
     {
         NextSongPart?.Invoke(sender, e);
+        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
     }
 
     private void TimerButton_Pressed(object sender, EventArgs e)

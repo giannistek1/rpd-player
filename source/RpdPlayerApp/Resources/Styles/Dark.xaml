@@ -5,8 +5,8 @@
              x:Class="RpdPlayerApp.Resources.Styles.Dark">
 
     <!-- NOTE: Transparent does not work and is a buggy color. -->
-    <Color x:Key="BackgroundColor">#121212</Color> <!-- Golden standard for dark mode -->
-    
+    <Color x:Key="BackgroundColor">#121212</Color> <!-- Golden standard for dark mode based on Apple UI -->
+
     <!-- (Reusable) main colors -->
     <Color x:Key="Primary">#64b06c</Color>
     <Color x:Key="Good">#64b06c</Color>

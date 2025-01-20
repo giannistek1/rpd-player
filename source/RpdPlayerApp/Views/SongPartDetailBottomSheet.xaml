@@ -33,17 +33,18 @@
         
             <!-- Album image -->
             <Border Grid.Row="2" HeightRequest="200" WidthRequest="200" StrokeShape="RoundRectangle 16"
-                        Padding="0" VerticalOptions="Start"  Margin="0,8,0,16">
+                        Padding="0" VerticalOptions="Start"  Margin="0,8,0,12">
 
                 <Image Grid.Row="2" HeightRequest="200" x:Name="AlbumImage"/>
             
             </Border>
+            
+            <Label Grid.Row="3" x:Name="ArtistLabel" Text="Artist" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"  VerticalOptions="Center"  HorizontalOptions="CenterAndExpand" />
 
-            <Label Grid.Row="3" x:Name="SongTitleLabel" Text="Song title" FontSize="20" TextColor="{DynamicResource PrimaryTextColor}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
+            <Label Grid.Row="4" x:Name="SongTitleLabel" Text="Song title" FontSize="20" TextColor="{DynamicResource PrimaryTextColor}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
 
-            <Label Grid.Row="4" x:Name="SongPartLabel" Text="Song part" FontSize="14" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
+            <Label Grid.Row="5" x:Name="SongPartLabel" Text="Song part" FontSize="14" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
 
-            <Label Grid.Row="5" x:Name="ArtistLabel" Text="Artist" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"  VerticalOptions="Center"  HorizontalOptions="CenterAndExpand" />
 
             <!-- Audio Progress -->
             <Grid Grid.Row="6" ColumnDefinitions="2*, 6*, 2*" Padding="8,0,8,0">
