@@ -498,6 +498,8 @@ public partial class SearchSongPartsView : ContentView
                     songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2023 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2024:
                     songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2024 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                case SearchFilterMode.kpop2025:
+                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2025 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
             }
 
             ParentPage?.SetupSearchToolbar();

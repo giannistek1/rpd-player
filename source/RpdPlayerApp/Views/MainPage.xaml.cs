@@ -218,6 +218,7 @@ public partial class MainPage
             SearchFilterMode.kpop2022 => "K-pop 2022",
             SearchFilterMode.kpop2023 => "K-pop 2023",
             SearchFilterMode.kpop2024 => "K-pop 2024",
+            SearchFilterMode.kpop2025 => "K-pop 2025",
             _ => "Unknown"
         };
 
