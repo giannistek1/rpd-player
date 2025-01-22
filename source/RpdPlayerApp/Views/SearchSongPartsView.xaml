@@ -80,6 +80,7 @@
 
                             <Label Grid.Column="1" ZIndex="0" LineBreakMode="TailTruncation" BackgroundColor="{DynamicResource ListViewGroupBackgroundColor}" Text="{Binding Key}" FontSize="18" 
                                    TextColor="{DynamicResource PrimaryTextColor}" VerticalTextAlignment="Center" Padding="8,0,0,0"/>
+                            
                             <Label Grid.Column="2" Text="{Binding Count}" FontSize="18" TextColor="{DynamicResource SecondaryTextColor}" HorizontalOptions="End" VerticalTextAlignment="Center" Padding="0,0,8,0" />
 
                             <Image Grid.Column="3" HorizontalOptions="End" Margin="0,0,10,0">

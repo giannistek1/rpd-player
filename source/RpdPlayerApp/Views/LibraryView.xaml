@@ -8,16 +8,13 @@
              x:Class="RpdPlayerApp.Views.LibraryView"
              BackgroundColor="{DynamicResource BackgroundColor}">
 
-    <Grid Padding="0"
-          RowDefinitions="64, *"
-          ColumnDefinitions="*">
+    <Grid Padding="0" RowDefinitions="auto, *" ColumnDefinitions="*">
 
         <!--<Button x:Name="PlayPlaylistButton" Margin="2" Clicked="PlayPlaylistButton_Clicked" Text="Play" />
 
             <Button x:Name="CopyPlaylistButton" Margin="2" Clicked="CopyPlaylistButton_Clicked" Text="Copy" />-->
 
-        <Border Grid.Row="0" x:Name="PlaylistNameEntryBorder" HeightRequest="64" Margin="10,0,10,0"  StrokeShape="RoundRectangle 8" 
-                        Padding="0" VerticalOptions="Center">
+        <Border Grid.Row="0" x:Name="PlaylistNameEntryBorder" HeightRequest="64" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
 
             <Grid VerticalOptions="Center">
 
@@ -48,8 +45,8 @@
 
                             <HorizontalStackLayout>
                                 <Label VerticalOptions="Start" Text="{Binding Name}" />
-                                <Label VerticalOptions="Start" Text="{Binding Count, StringFormat=' - {0}'}" />
-                                <Label VerticalOptions="Start" Text="{Binding Length, StringFormat=' - {0:hh\\:mm\\:ss}'}" />
+                                <Label VerticalOptions="Start" Text="{Binding Count, StringFormat=' • {0}'}" />
+                                <Label VerticalOptions="Start" Text="{Binding Length, StringFormat=' • {0:hh\\:mm\\:ss}'}" />
                             </HorizontalStackLayout>
 
                         </Grid>

@@ -38,7 +38,7 @@ public partial class CategoriesView : ContentView
         string firstGenArtist = firstGens[new Random().Next(0, firstGens.Length)];
 
         string[] secondGens = [
-            "%5BBIGBANG%5D%5B%5D%5B2006-08-19%5D%5BBG%5D%5B5%5D%5BYG%20Entertainment%5D.jpg",
+            "%5BBIGBANG%5D%5B%5D%5B2006-08-19%5D%5BBG%5D%5B4%5D%5BYG%20Entertainment%5D.jpg",
             "%5BGirls%20Generation%20(SNSD)%5D%5BSNSD%2C%20GG%5D%5B2007-08-05%5D%5BGG%5D%5B8%5D%5BSM%20Entertainment%5D.webp",
             "%5B2PM%5D%5BHottest%20time%20of%20the%20day%5D%5B2008-09-04%5D%5BBG%5D%5B6%5D%5BJYP%20Entertainment%5D.jpg",
             "%5BSHINee%5D%5B%5D%5B2008-05-25%5D%5BBG%5D%5B5%5D%5BSM%20Entertainment%5D.webp",
@@ -160,10 +160,12 @@ public partial class CategoriesView : ContentView
                                 ),
 
             new(title: "RBW Entertainment",
-                                description: "Rainbow Bridge World Entertainment, includes WM entertainment.",
+                                description: "Rainbow Bridge World Entertainment, includes WM entertainment and DSP Media (Daesung enterprise).",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-rbw.png?raw=true",
                                 searchFilterMode: SearchFilterMode.RBW,
-                                songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "RBW Entertainment")
+                                songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "RBW Entertainment" || 
+                                                                                    s.Artist ?.Company == "WM Entertainment" || 
+                                                                                    s.Artist ?.Company == "DSP Media")
                                 ),
 
             new(title: "Cube Entertainment",

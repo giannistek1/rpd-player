@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace RpdPlayerApp.Repositories;
 
+// Title illegal characters: ?, long dash, :, #, ', `, *,
 internal static class SongPartRepository
 {
     private const string SONG_PARTS_TXT_URL = "https://github.com/giannistek1/rpd-audio/blob/main/songparts.txt?raw=true";
