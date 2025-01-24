@@ -12,7 +12,7 @@
              BackgroundColor="{DynamicResource BackgroundColor}">
 
     <Grid Padding="0"
-          RowDefinitions="24, 50, *"
+          RowDefinitions="24, 50, auto, *, auto"
           ColumnDefinitions="*">
 
         <Grid Grid.Row="0" Padding="0,4,0,0" ColumnDefinitions="7*, 3*">
@@ -32,28 +32,14 @@
             <Button Grid.Column="1" x:Name="AddResultsButton" Margin="2,0,8,0" Clicked="AddResultsButton_Clicked" Text="Add results" />
 
         </Grid>
-
         
-        <syncfusion:SfListView Grid.Row="2" Grid.Column="0" x:Name="SonglibraryListView" 
+        <Button Grid.Row="2" x:Name="GoToBottomButton" Text="To bottom" HeightRequest="30" WidthRequest="140"
+        BackgroundColor="{DynamicResource SecondaryButton}" Margin="8,0,0,8" Padding="0,0,0,0" 
+        HorizontalOptions="StartAndExpand" Clicked="GoToBottomButtonClicked"/>
+
+        <syncfusion:SfListView Grid.Row="3" Grid.Column="0" x:Name="SonglibraryListView" 
             BackgroundColor="{DynamicResource BackgroundColor}" AutoFitMode="Height" SelectionMode="None" AllowSwiping="True" AllowGroupExpandCollapse="True"
             Loaded="SonglibraryListView_Loaded" ItemTapped="SonglibraryListViewItemTapped" SwipeEnded="SonglibraryListViewSwipeEnded">
-
-            <!-- Header & Footer -->
-            <syncfusion:SfListView.HeaderTemplate>
-                <DataTemplate>
-                    <Button x:Name="GoToBottomButton" Text="To bottom" HeightRequest="30" WidthRequest="140"
-                            BackgroundColor="{DynamicResource SecondaryButton}" Margin="8,0,0,8" Padding="0,0,0,0" 
-                            HorizontalOptions="StartAndExpand" Clicked="GoToBottomButtonClicked"/>
-                </DataTemplate>
-            </syncfusion:SfListView.HeaderTemplate>
-
-            <syncfusion:SfListView.FooterTemplate>
-                <DataTemplate>
-                    <Button x:Name="GoToTopButton" Text="To top" WidthRequest="100" HeightRequest="30"
-                            BackgroundColor="{DynamicResource SecondaryButton}" Padding="0,0,0,0" Margin="8,8,0,0" 
-                            HorizontalOptions="StartAndExpand" Clicked="GoToTopButtonClicked"/>
-                </DataTemplate>
-            </syncfusion:SfListView.FooterTemplate>
 
             <!-- Groupheader -->
             <syncfusion:SfListView.GroupHeaderTemplate>
@@ -198,6 +184,10 @@
             </syncfusion:SfListView.EmptyView>
         
         </syncfusion:SfListView>
+
+        <Button Grid.Row="4" x:Name="GoToTopButton" Text="To top" WidthRequest="100" HeightRequest="30"
+        BackgroundColor="{DynamicResource SecondaryButton}" Padding="0,0,0,0" Margin="8,8,0,0" 
+        HorizontalOptions="StartAndExpand" Clicked="GoToTopButtonClicked"/>
     </Grid>
 
 </ContentView>

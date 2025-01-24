@@ -9,6 +9,8 @@ using Syncfusion.Maui.DataSource;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using Syncfusion.Maui.ListView.Helpers;
+using Syncfusion.Maui.ListView;
+using Syncfusion.Maui.GridCommon.ScrollAxis;
 
 namespace RpdPlayerApp.Views;
 
@@ -28,6 +30,9 @@ public partial class SearchSongPartsView : ContentView
     internal List<SongPart> searchFilteredSongParts = [];
     internal int SongCount { get; set; } = 0;
     internal MainPage? ParentPage { get; set; }
+
+    private VisualContainer? visualContainer;
+    private int _lastUpperItem = 17;
 
     public SearchSongPartsView()
     {
@@ -119,6 +124,46 @@ public partial class SearchSongPartsView : ContentView
         songParts.ToList().ForEach(s => s.ShowClipLength = false);
 
         SonglibraryListView.CollapseAll();
+
+        visualContainer = SonglibraryListView.GetVisualContainer();
+        visualContainer.ScrollRows!.Changed += ScrollRows_Changed;
+    }
+
+    private void ScrollRows_Changed(object sender, ScrollChangedEventArgs e)
+    {
+        var lastIndex = visualContainer!.ScrollRows!.LastBodyVisibleLineIndex;
+
+        // To include header if used
+        var header = (SonglibraryListView.HeaderTemplate != null && !SonglibraryListView.IsStickyHeader) ? 1 : 0;
+
+        var lastVisibleIndex = visualContainer.ScrollRows!.LastBodyVisibleLineIndex;
+
+        // To include footer if used
+        var footer = (SonglibraryListView.FooterTemplate != null && !SonglibraryListView.IsStickyFooter) ? 1 : 0;
+        var totalItems = SonglibraryListView.DataSource!.DisplayItems.Count + header + footer;
+
+        if (lastIndex == totalItems - 1)
+        {
+            if (GoToBottomButton.IsVisible)
+            {
+                GoToBottomButton.IsVisible = false;
+            }
+        }
+        else
+        {
+            GoToBottomButton.IsVisible = true;
+        }
+
+        if (lastVisibleIndex > _lastUpperItem)
+        {
+            GoToTopButton.IsVisible = true;
+            _lastUpperItem = 17;
+        }
+        else
+        {
+            GoToTopButton.IsVisible = false;
+            _lastUpperItem = 20;
+        }
     }
 
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
