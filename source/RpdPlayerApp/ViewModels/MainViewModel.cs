@@ -76,8 +76,6 @@ internal static class MainViewModel
 
     #endregion
 
-    // TODO: Make non-nullable and check for default values
-
     internal static List<SongPart> SongParts { get; set; } = [];
     internal static SongPart CurrentSongPart { get; set; } = new(); 
     internal static Queue<SongPart> PlaylistQueue { get; set; } = new();
@@ -99,6 +97,9 @@ internal static class MainViewModel
     internal static List<string> CjenmCompanies { get; set; } = ["AOMG", "B2M Entertainment", "Jellyfish Entertainment", "Wake One", "Stone Music Entertainment", "Swing Entertainment"]; 
 
     // YMC Entertainment is owned by Dream T Entertainment
+
+    internal static List<NewsItem> SongPartsDifference { get; set; } = new();
+
     #region Settings
     /// <summary>
     /// 0.0 - 1.0 as Double

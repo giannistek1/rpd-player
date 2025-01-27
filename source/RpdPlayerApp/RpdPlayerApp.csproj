@@ -197,6 +197,9 @@
 	  <MauiXaml Update="Views\AudioPlayerControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\NewsPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\SearchSongPartsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

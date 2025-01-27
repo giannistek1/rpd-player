@@ -1,0 +1,38 @@
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:views="clr-namespace:RpdPlayerApp.Views"
+               x:Class="RpdPlayerApp.Views.NewsPopup">
+
+    <ScrollView>
+        
+
+        <Grid RowDefinitions="50, auto" BackgroundColor="{DynamicResource BackgroundColor}">
+
+            <Label Grid.Row="0" Text="New songs below!" Padding="16,16,0,0" FontSize="16" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="1.5"/>
+        
+            <ListView Grid.Row="1" x:Name="NewsListView" BackgroundColor="{DynamicResource BackgroundColor}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            
+                            <Grid RowDefinitions="auto, auto" Padding="16,0,0,0">
+                                
+                                <Label Grid.Row="0" Text="{Binding Title}" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}"/>
+                                <Grid Grid.Row="1" ColumnDefinitions="1*, 1*">
+                                    <Label Grid.Column="0" Text="{Binding Artist}" LineBreakMode="TailTruncation" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"/>
+                                    <Label Grid.Column="1" Text="{Binding Part}" LineBreakMode="TailTruncation" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"/>
+                                </Grid>
+                                
+                            </Grid>
+                            
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        
+        </Grid>
+
+    </ScrollView>
+
+</toolkit:Popup>

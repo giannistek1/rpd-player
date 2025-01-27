@@ -60,27 +60,17 @@
             </Grid>
 
             <!-- Buttons -->
-            <Grid Grid.Row="1" ColumnDefinitions="2*, 2*, auto" ColumnSpacing="6" Margin="8,4,8,16">
+            <Grid Grid.Row="1" ColumnDefinitions="*, auto" ColumnSpacing="6" Margin="8,4,8,6">
 
-                <Button Grid.Column="0" x:Name="CreatePlaylistButton" Padding="0,0,0,0" HeightRequest="40" Clicked="CreatePlaylistButtonClicked" Text="Create playlist" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
-                    <Button.ImageSource>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Playlist_add}" Color="{DynamicResource IconColor}" />
-                    </Button.ImageSource>
-                </Button>
+                <Label Grid.Column="0"/>
 
-                <Button Grid.Column="1" x:Name="SearchByCategoryButton" Padding="0,0,0,0" HeightRequest="40" Clicked="SearchByCategoryButtonClicked" Text="Categories" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
-                    <Button.ImageSource>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Manage_search}" Color="{DynamicResource IconColor}" />
-                    </Button.ImageSource>
-                </Button>
+                <sfcore:SfBadgeView Grid.Column="1" x:Name="NewsBadgeView" WidthRequest="70">
 
-                <sfcore:SfBadgeView Grid.Column="2" x:Name="NewsBadgeView" BadgeText="2" WidthRequest="110">
-
-                    <Button x:Name="NewsButton" Padding="0,0,0,0" HeightRequest="40" Clicked="NewsImageButton_Pressed" Text="News" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
-                        <Button.ImageSource>
+                    <ImageButton x:Name="NewsButton" Padding="0,0,0,0" HeightRequest="30" Clicked="NewsImageButton_Pressed">
+                        <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Newspaper}" Color="{DynamicResource IconColor}" />
-                        </Button.ImageSource>
-                    </Button>
+                        </ImageButton.Source>
+                    </ImageButton>
 
                 </sfcore:SfBadgeView>
 
@@ -246,7 +236,19 @@
             </Grid>
 
             <!-- TODO: Years -->
-            <Button Grid.Row="9" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource SecondaryButton}" CornerRadius="8" Margin="16,0,16,0" FontAttributes="Bold"/>
+
+            <Grid Grid.Row="9" ColumnDefinitions="*,*" ColumnSpacing="8">
+                
+                <Button Grid.Column="0" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold"/>
+
+                <Button Grid.Column="1" x:Name="SearchByCategoryButton" Padding="0,0,0,0" Margin="0,0,16,0" HeightRequest="40" CornerRadius="8" 
+                        Clicked="SearchByCategoryButtonClicked" Text="Categories" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Manage_search}" Color="{DynamicResource IconColor}" />
+                    </Button.ImageSource>
+                </Button>
+                
+            </Grid>
 
         </Grid>
     </ScrollView>

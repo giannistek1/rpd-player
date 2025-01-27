@@ -19,6 +19,7 @@ public partial class HomeView : ContentView
     internal event EventHandler? FilterPressed;
     internal event EventHandler? CreatePlaylistButtonPressed;
     internal event EventHandler? ShowCategories;
+    internal event EventHandler? ShowNewsPopup;
 
     private readonly SettingsPage _settingsPage = new();
     internal MainPage? ParentPage { get; set; }
@@ -58,16 +59,21 @@ public partial class HomeView : ContentView
                     {
                         Title = s.Title,
                         Artist = s.ArtistName,
-                        Part = s.PartNameShortWithNumber,
+                        Part = s.PartNameFull,
                         AudioUrl = s.AudioURL,
                         HasVideo = s.HasVideo
                     }).ToList();
 
+#if RELEASE
                     var differences = newNewsItems.Where(item1 => !oldSongList.Any(item2 => item1.AudioUrl == item2.AudioUrl)).ToList();
+#else
+                    var differences = newNewsItems.Where(s => s.Artist.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
+#endif
 
                     if (differences.Count > 0)
                     {
                         NewsBadgeView.BadgeText = differences.Count.ToString();
+                        MainViewModel.SongPartsDifference = differences;
                     }
                     else
                     {
@@ -122,13 +128,13 @@ public partial class HomeView : ContentView
         //DurationChipGroup?.Items?.Add(new SfChip() { Text = "Other", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         DurationChipGroup!.SelectedItem = DurationChipGroup?.Items?[0];
 
-        // TODO: string list of grouptypes
+        // TODO: string list of grouptypes and loop
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Male", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Female", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Mixed", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GrouptypesChipGroup.Items!);
 
-        // TODO: string list of genres
+        // TODO: string list of genres and loop
         GenresChipGroup?.Items?.Add(new SfChip() { Text = "K-pop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenresChipGroup?.Items?.Add(new SfChip() { Text = "K-RnB", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenresChipGroup?.Items?.Add(new SfChip() { Text = "J-pop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -138,7 +144,7 @@ public partial class HomeView : ContentView
         GenresChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenresChipGroup.Items!);
         GenresChipGroup.SelectionChanged += GenresChipGroup_SelectionChanged;
 
-        // TODO: string list of gens (only with kpop)
+        // TODO: string list of gens and loop (only with kpop)
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "1", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "2", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "3", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -147,7 +153,7 @@ public partial class HomeView : ContentView
         GenerationsChipGroup?.Items?.Add(new SfChip() { Text = "Non-kpop", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GenerationsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenerationsChipGroup.Items!);
 
-        // TODO: string list of companies (only with kpop)
+        // TODO: string list of companies and loop (only with kpop)
         CompaniesChipGroup?.Items?.Add(new SfChip() { Text = "SM", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         CompaniesChipGroup?.Items?.Add(new SfChip() { Text = "HYBE", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         CompaniesChipGroup?.Items?.Add(new SfChip() { Text = "JYP", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -170,7 +176,7 @@ public partial class HomeView : ContentView
         {
             Title = s.Title,
             Artist = s.ArtistName,
-            Part = s.PartNameShortWithNumber,
+            Part = s.PartNameFull,
             AudioUrl = s.AudioURL,
             HasVideo = s.HasVideo
         }).ToList();
@@ -274,6 +280,22 @@ public partial class HomeView : ContentView
     {
         RpdSettings!.UsingGeneratePlaylist = (HomeModeSegmentedControl.SelectedIndex == 1);
         StartModeButton.Text = (RpdSettings!.UsingGeneratePlaylist) ? "Generate playlist" : "Start RPD";
+
+        DurationChipGroup!.Items!.Clear();
+        if (RpdSettings.UsingGeneratePlaylist)
+        {
+            //DurationChipGroup?.Items?.Add(new SfChip() { Text = "∞", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+            DurationChipGroup?.Items?.Add(new SfChip() { Text = "2H", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+            DurationChipGroup?.Items?.Add(new SfChip() { Text = "1H", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+            DurationChipGroup?.Items?.Add(new SfChip() { Text = "Other", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+            //DurationChipGroup!.SelectedItem = DurationChipGroup?.Items?[0];
+        }
+        else
+        {
+            DurationChipGroup?.Items?.Add(new SfChip() { Text = "∞", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+            DurationChipGroup!.SelectedItem = DurationChipGroup?.Items?[0];
+        }
+
     }
     private void StartModeButtonClicked(object? sender, EventArgs e)
     {
@@ -395,6 +417,6 @@ public partial class HomeView : ContentView
 
     private void NewsImageButton_Pressed(object sender, EventArgs e)
     {
-
+        ShowNewsPopup?.Invoke(sender, e);
     }
 }

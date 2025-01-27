@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
@@ -73,6 +74,7 @@ public partial class MainPage
         HomeView.PlaySongPart += OnPlaySongPart;
         HomeView.CreatePlaylistButtonPressed += OnCreatePlaylistButtonPressed;
         HomeView.ShowCategories += OnShowCategories;
+        HomeView.ShowNewsPopup += OnShowNewsPopup;
 
         _categoriesView.IsVisible = false;
         _categoriesView.FilterPressed += OnFilterPressed;
@@ -512,6 +514,13 @@ public partial class MainPage
         _sortByBottomSheet.HasBackdrop = true;
         _sortByBottomSheet.isShown = true;
         _sortByBottomSheet.ShowAsync();
+    }
+
+    private void OnShowNewsPopup(object? sender, EventArgs e)
+    {
+        var popup = new NewsPopup(); // Gets disposed on close.
+        popup.NewsItems.AddRange(MainViewModel.SongPartsDifference);
+        this.ShowPopup(popup);
     }
 
     #region AudioPlayerControl Events
