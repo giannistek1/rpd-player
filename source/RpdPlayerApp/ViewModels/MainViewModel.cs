@@ -1,4 +1,4 @@
-﻿using RpdPlayerApp.Architecture;
+﻿using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
 using System.Collections.ObjectModel;
 
@@ -32,7 +32,7 @@ internal static class MainViewModel
     internal static readonly int VideoPropertyAmount = 5;
 
     internal static readonly DateTime secondGenStartDate = new(2002, 12, 31, 0, 0,0, DateTimeKind.Utc);
-    internal static readonly DateTime thirdGenStartDate = new(year: 2012, month: 5, day: 25, 0,0,0, DateTimeKind.Utc);
+    internal static readonly DateTime thirdGenStartDate = new(year: 2012, month: 2, day: 11, 0,0,0, DateTimeKind.Utc);
     internal static readonly DateTime fourthGenStartDate = new(2018, 1, 1,0,0,0, DateTimeKind.Utc);
     internal static readonly DateTime fifthGenStartDate = new(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
@@ -98,6 +98,7 @@ internal static class MainViewModel
     // Wake One -> was MMO Entertainment
     internal static List<string> CjenmCompanies { get; set; } = ["AOMG", "B2M Entertainment", "Jellyfish Entertainment", "Wake One", "Stone Music Entertainment", "Swing Entertainment"]; 
 
+    // YMC Entertainment is owned by Dream T Entertainment
     #region Settings
     /// <summary>
     /// 0.0 - 1.0 as Double

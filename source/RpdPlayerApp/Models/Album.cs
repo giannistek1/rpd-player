@@ -1,4 +1,5 @@
-﻿using RpdPlayerApp.ViewModels;
+﻿using Newtonsoft.Json;
+using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Models;
 
@@ -18,9 +19,12 @@ internal class Album
     /// </summary>
     public string GenreFull { get; set; }
     public string ImageURL { get; set; }
+    [JsonIgnore]
 
     public bool ShowAlbumTitle { get; set; } = false;
+    [JsonIgnore]
     public bool ShowAlbumReleaseDate { get; set; } = false;
+    [JsonIgnore]
     public bool ShowGenreShort { get; set; } = false;
 
     public Album(int id = -1, string artistName = "", DateTime releaseDate = new(), string title = "", string genreShort = "", string imageURL = "")
@@ -39,12 +43,12 @@ internal class Album
         return GenreShort switch
         {
             MainViewModel.GenreKpop => "K-pop",
+            "krnb" => "K-RnB",
             "JP" => "J-pop",
-            "EN" => "Pop",
             "CH" => "C-pop",
+            "EN" => "Pop",
             "TH" => "T-pop",
             "NL" => "NL-pop",
-            "krnb" => "K-RnB",
 
             _ => "Unknown genre"
         };

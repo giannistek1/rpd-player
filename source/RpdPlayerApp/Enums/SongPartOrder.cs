@@ -1,4 +1,4 @@
-﻿namespace RpdPlayerApp.Architecture;
+﻿namespace RpdPlayerApp.Enums;
 
 /// <summary>
 /// Usually ordered by what it starts with.

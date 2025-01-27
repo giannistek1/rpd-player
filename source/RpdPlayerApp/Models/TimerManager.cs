@@ -3,7 +3,9 @@
 internal static class TimerManager
 {
     private static System.Timers.Timer? timer;
-    internal static SongPart songPart;
+#pragma warning disable S2223 // Non-constant static fields should not be visible
+    internal static SongPart? songPart;
+#pragma warning restore S2223 // Non-constant static fields should not be visible
     internal static void StartInfiniteScaleYAnimationWithTimer()
     {
         if (timer is not null) { timer.Close(); timer.Dispose(); }
@@ -23,7 +25,7 @@ internal static class TimerManager
         timer = new System.Timers.Timer(interval);
         timer.Elapsed += (s, e) =>
         {
-            if (!songPart.IsPlaying) { timer.Close(); }
+            if (!songPart!.IsPlaying) { timer.Close(); }
 
             if (scalingUp1)
             {

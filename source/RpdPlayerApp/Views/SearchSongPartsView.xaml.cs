@@ -11,6 +11,7 @@ using CommunityToolkit.Maui.Core;
 using Syncfusion.Maui.ListView.Helpers;
 using Syncfusion.Maui.ListView;
 using Syncfusion.Maui.GridCommon.ScrollAxis;
+using RpdPlayerApp.Enums;
 
 namespace RpdPlayerApp.Views;
 

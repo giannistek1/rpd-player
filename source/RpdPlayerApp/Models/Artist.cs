@@ -1,4 +1,5 @@
-﻿using RpdPlayerApp.Architecture;
+﻿using Newtonsoft.Json;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Models;
@@ -18,6 +19,7 @@ internal class Artist
     public string AltName { get; set; }
     public DateTime DebutDate { get; set; }
     public GroupType GroupType { get; set; }
+    [JsonIgnore]
     public bool ShowGroupTypeColor { get; set; } = false;
     public string GroupTypeColor { get; set; } 
     public int MemberCount { get; set; }
@@ -27,9 +29,11 @@ internal class Artist
 
     public bool IsKpopArtist { get; set; } = false; // Gets set in SongPart.cs once an album is Korean.
     public string ImageURL { get; set; }
-
+    [JsonIgnore]
     public bool ShowGroupType { get; set; } = false;
+    [JsonIgnore]
     public bool ShowMemberCount { get; set; } = false;
+    [JsonIgnore]
     public bool ShowCompany { get; set; } = false;
 
 

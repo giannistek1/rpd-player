@@ -1,5 +1,6 @@
 using RpdPlayerApp.ViewModels;
 using The49.Maui.BottomSheet;
+using RpdPlayerApp.Enums;
 
 namespace RpdPlayerApp.Views;
 
@@ -38,85 +39,85 @@ public partial class SortByBottomSheet
 
     private void SortByReleaseDate(object sender, EventArgs e)
     {
-        MainViewModel.SortMode = Architecture.SortMode.ReleaseDate;
+        MainViewModel.SortMode = SortMode.ReleaseDate;
         Close?.Invoke(sender, e);
     }
 
     private void SortByArtistName(object sender, EventArgs e)
     {
-        MainViewModel.SortMode = Architecture.SortMode.Artist;
+        MainViewModel.SortMode = SortMode.Artist;
         Close?.Invoke(sender, e);
     }
 
     private void SortBySongTitle(object sender, EventArgs e)
     {    
-        MainViewModel.SortMode = Architecture.SortMode.Title;
+        MainViewModel.SortMode = SortMode.Title;
         Close?.Invoke(sender, e);
     }
 
     private void SortByGroupType(object sender, EventArgs e)
     {
-        MainViewModel.SortMode = Architecture.SortMode.GroupType;
+        MainViewModel.SortMode = SortMode.GroupType;
         Close?.Invoke(sender, e);
     }
 
     private void SortBySongPart(object sender, EventArgs e)
     {   
-        MainViewModel.SortMode = Architecture.SortMode.SongPart;
+        MainViewModel.SortMode = SortMode.SongPart;
         Close?.Invoke(sender, e);
     }
 
     private void SortByClipLength(object sender, EventArgs e)
-    {       
-        MainViewModel.SortMode = Architecture.SortMode.ClipLength;
+    {
+        MainViewModel.SortMode = SortMode.ClipLength;
         Close?.Invoke(sender, e);
     }
 
     private void SortBySongCountPerArtist(object sender, EventArgs e)
     {   
-        MainViewModel.SortMode = Architecture.SortMode.ArtistSongCount;
+        MainViewModel.SortMode = SortMode.ArtistSongCount;
         Close?.Invoke(sender, e);
     }
 
     private void SortByGenre(object sender, EventArgs e)
     {      
-        MainViewModel.SortMode = Architecture.SortMode.Genre;
+        MainViewModel.SortMode = SortMode.Genre;
         Close?.Invoke(sender, e);
     }
 
     private void SortByMemberCount(object sender, EventArgs e)
     {     
-        MainViewModel.SortMode = Architecture.SortMode.MemberCount;
+        MainViewModel.SortMode = SortMode.MemberCount;
         Close?.Invoke(sender, e);
     }
 
     private void SortByAlbumName(object sender, EventArgs e)
     {    
-        MainViewModel.SortMode = Architecture.SortMode.AlbumName;
+        MainViewModel.SortMode = SortMode.AlbumName;
         Close?.Invoke(sender, e);
     }
 
     private void SortByCompany(object sender, EventArgs e)
     {  
-        MainViewModel.SortMode = Architecture.SortMode.Company;
+        MainViewModel.SortMode = SortMode.Company;
         Close?.Invoke(sender, e);
     }
 
     private void SortByGeneration(object sender, EventArgs e)
     {      
-        MainViewModel.SortMode = Architecture.SortMode.Generation;
+        MainViewModel.SortMode = SortMode.Generation;
         Close?.Invoke(sender, e);
     }
 
     private void SortByReleaseWeekDay(object sender, EventArgs e)
     {  
-        MainViewModel.SortMode = Architecture.SortMode.ReleaseWeekDay;
+        MainViewModel.SortMode = SortMode.ReleaseWeekDay;
         Close?.Invoke(sender, e);
     }
 
     private void SortByYearlyDate(object sender, EventArgs e)
     {
-        MainViewModel.SortMode = Architecture.SortMode.YearlyDate;
+        MainViewModel.SortMode = SortMode.YearlyDate;
         Close?.Invoke(sender, e);
     }
 

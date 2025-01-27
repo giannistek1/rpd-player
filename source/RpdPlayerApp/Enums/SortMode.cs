@@ -1,4 +1,4 @@
-﻿namespace RpdPlayerApp.Architecture;
+﻿namespace RpdPlayerApp.Enums;
 
 internal enum SortMode
 {

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
@@ -7,6 +8,8 @@ using RpdPlayerApp.ViewModels;
 using Syncfusion.Maui.Core;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Text.Json;
+using static Dropbox.Api.Sharing.ListFileMembersIndividualResult;
 
 namespace RpdPlayerApp.Views;
 
@@ -20,6 +23,8 @@ public partial class HomeView : ContentView
     private readonly SettingsPage _settingsPage = new();
     internal MainPage? ParentPage { get; set; }
     internal RpdSettings? RpdSettings { get; set; } = new();
+
+    private const string SONGPARTS = "SONGPARTS";
 
     public HomeView()
     {
@@ -41,7 +46,42 @@ public partial class HomeView : ContentView
 
     private void OnLoad(object? sender, EventArgs e)
     {
+        try
+        {
+            if (Preferences.ContainsKey(SONGPARTS))
+            {
+                string songs = Preferences.Get(SONGPARTS, string.Empty);
+                var oldSongList = JsonConvert.DeserializeObject<List<NewsItem>>(songs);
+                if (oldSongList is not null)
+                {
+                    List<NewsItem> newNewsItems = SongPartRepository.SongParts.Select(s => new NewsItem()
+                    {
+                        Title = s.Title,
+                        Artist = s.ArtistName,
+                        Part = s.PartNameShortWithNumber,
+                        AudioUrl = s.AudioURL,
+                        HasVideo = s.HasVideo
+                    }).ToList();
 
+                    var differences = newNewsItems.Where(item1 => !oldSongList.Any(item2 => item1.AudioUrl == item2.AudioUrl)).ToList();
+
+                    if (differences.Count > 0)
+                    {
+                        NewsBadgeView.BadgeText = differences.Count.ToString();
+                    }
+                    else
+                    {
+                        NewsBadgeView.IsVisible = false;
+                    }
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            Toast.Make(ex.Message).Show();
+        }
+
+        // Version
 #if DEBUG
         string releaseMode = "D"; // Debug
 #else
@@ -125,6 +165,18 @@ public partial class HomeView : ContentView
         OtherOptionsChipGroup.ItemsSource = customChips;
         // Only if playlist option:
         //OtherOptionsChipGroup?.Items?.Add(new SfChip() { Text = "Ending with chorus 3", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+
+        List<NewsItem> newsItems = SongPartRepository.SongParts.Select(s => new NewsItem()
+        {
+            Title = s.Title,
+            Artist = s.ArtistName,
+            Part = s.PartNameShortWithNumber,
+            AudioUrl = s.AudioURL,
+            HasVideo = s.HasVideo
+        }).ToList();
+
+        var jsonSongParts = JsonConvert.SerializeObject(newsItems);
+        Preferences.Set(SONGPARTS, jsonSongParts);
     }
 
     private void GenresChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
@@ -322,8 +374,8 @@ public partial class HomeView : ContentView
             songParts = songParts.Where(s => RpdSettings!.Gens.Contains(s.Artist.Gen))
                                  .Where(s => RpdSettings!.Companies.Contains(s.Artist.Company)).ToList();
         }
-                             
-                             
+
+
 
         // Guard
         if (songParts.Count <= 0) { Toast.Make($"No songs found! Please change settings.", ToastDuration.Short, 14).Show(); return; }
@@ -339,5 +391,10 @@ public partial class HomeView : ContentView
         MainViewModel.AutoplayMode = 2; // Shuffle
         MainViewModel.CurrentSongPart = songPart;
         PlaySongPart?.Invoke(sender, EventArgs.Empty);
+    }
+
+    private void NewsImageButton_Pressed(object sender, EventArgs e)
+    {
+
     }
 }

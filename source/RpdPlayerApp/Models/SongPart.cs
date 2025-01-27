@@ -1,4 +1,5 @@
-﻿using RpdPlayerApp.Architecture;
+﻿using Newtonsoft.Json;
+using RpdPlayerApp.Enums;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.ViewModels;
 using System.ComponentModel;
@@ -33,11 +34,13 @@ internal partial class SongPart : INotifyPropertyChanged
     public string AudioURL { get; set; }
     public string VideoURL { get; set; }
     public bool HasVideo { get; set; }
+    [JsonIgnore]
     public bool ShowClipLength { get; set; } = false;
     public double ClipLength { get; set; }
     public TimeSpan ClipLengthAsTimeSpan { get; set; }
 
     private bool isPlaying = false;
+    [JsonIgnore]
     public bool IsPlaying
     {
         get
@@ -53,6 +56,7 @@ internal partial class SongPart : INotifyPropertyChanged
     }
 
     private double playingIconScaleY1 = 1.0;
+    [JsonIgnore]
     public double PlayingIconScaleY1
     {
         get
@@ -67,6 +71,7 @@ internal partial class SongPart : INotifyPropertyChanged
         }
     }
     private double playingIconTranslationY1 = 1.0;
+    [JsonIgnore]
     public double PlayingIconTranslationY1
     {
         get
@@ -82,6 +87,7 @@ internal partial class SongPart : INotifyPropertyChanged
     }
 
     private double playingIconScaleY2 = 0.2;
+    [JsonIgnore]
     public double PlayingIconScaleY2
     {
         get
@@ -96,6 +102,7 @@ internal partial class SongPart : INotifyPropertyChanged
         }
     }
     private double playingIconTranslationY2 = 1.0;
+    [JsonIgnore]
     public double PlayingIconTranslationY2
     {
         get
@@ -111,6 +118,7 @@ internal partial class SongPart : INotifyPropertyChanged
     }
 
     private double playingIconScaleY3 = 0.6;
+    [JsonIgnore]
     public double PlayingIconScaleY3
     {
         get
@@ -125,6 +133,7 @@ internal partial class SongPart : INotifyPropertyChanged
         }
     }
     private double playingIconTranslationY3 = 1.0;
+    [JsonIgnore]
     public double PlayingIconTranslationY3
     {
         get

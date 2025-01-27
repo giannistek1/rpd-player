@@ -59,7 +59,8 @@
                        VerticalOptions="Center" HorizontalOptions="End" />
             
             </Grid>
-
+            
+            <!-- Action buttons -->
             <Grid Grid.Row="7" ColumnDefinitions="2*, 2*, 3*, 3*, 3*, 2*, 2*">
 
                 <ImageButton Grid.Column="0" HeightRequest="34" x:Name="VoiceImageButton" Pressed="VoiceButton_Pressed">

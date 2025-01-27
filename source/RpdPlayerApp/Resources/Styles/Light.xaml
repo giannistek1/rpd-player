@@ -20,6 +20,7 @@
     <Color x:Key="ToolbarIconOffColor">#DDD</Color>
 
     <Color x:Key="IconColor">#222</Color>
+    <Color x:Key="SecondaryIconColor">#777</Color>
     <Color x:Key="IconOffColor">#444</Color>
     <Color x:Key="InputBackgroundColor">#EEE</Color>
 

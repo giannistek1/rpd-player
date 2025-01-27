@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace RpdPlayerApp.Models
+namespace RpdPlayerApp.Architecture
 {
     class CustomChipModel : INotifyPropertyChanged
     {
