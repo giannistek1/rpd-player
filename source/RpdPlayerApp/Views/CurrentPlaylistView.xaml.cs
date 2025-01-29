@@ -152,8 +152,7 @@ public partial class CurrentPlaylistView : ContentView
     #region Songparts
     private void CurrentPlaylistListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
-        if (!HelperClass.HasInternetConnection())
-            return;
+        if (!HelperClass.HasInternetConnection()) { return; }
 
         SongPart songPart = (SongPart)e.DataItem;
 
@@ -182,8 +181,7 @@ public partial class CurrentPlaylistView : ContentView
 
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
     {
-        if (!HelperClass.HasInternetConnection())
-            return;
+        if (!HelperClass.HasInternetConnection()) { return; }
 
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         if (!string.IsNullOrWhiteSpace(songPart.AudioURL))

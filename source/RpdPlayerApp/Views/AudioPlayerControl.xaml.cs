@@ -22,11 +22,16 @@ public partial class AudioPlayerControl : ContentView
     public AudioPlayerControl()
     {
         InitializeComponent();
+        Loaded += OnLoad;
+    }
 
+    private void OnLoad(object? sender, EventArgs e)
+    {
         audioProgressSlider = AudioProgressSlider;
 
         AudioMediaElement.MediaEnded += AudioMediaElementMediaEnded;
         AudioMediaElement.PositionChanged += AudioMediaElementPositionChanged;
+        LocalAudioMediaElement.MediaEnded += LocalAudioMediaElement_MediaEnded;
 
         AudioProgressSlider.DragStarted += AudioProgressSliderDragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
@@ -37,7 +42,7 @@ public partial class AudioPlayerControl : ContentView
     // For updating theme.
     internal void UpdateUI()
     {
-        PlayToggleImageButton.Source = MainViewModel.CurrentlyPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = MainViewModel.IsCurrentlyPlayingSongPart ? IconManager.PauseIcon : IconManager.PlayIcon;
         PlayToggleBorder.Background = (Color)Application.Current!.Resources["PrimaryButton"];
     }
 
@@ -107,7 +112,14 @@ public partial class AudioPlayerControl : ContentView
 
                 // Next song
                 MainViewModel.CurrentSongPart = MainViewModel.SongPartsQueue.Dequeue();
-                PlayAudio(MainViewModel.CurrentSongPart);
+                if (MainViewModel.TimerMode > 0)
+                {
+                    PlayCountdownAndUpdateCurrentSong();
+                }
+                else
+                {
+                    PlayAudio(MainViewModel.CurrentSongPart, updateCurrentSong: true);
+                }
 
                 SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]); //^1 means count minus 1
 
@@ -128,7 +140,15 @@ public partial class AudioPlayerControl : ContentView
                 if (MainViewModel.PlaylistQueue.Count == 0) { return; }
  
                 MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
-                PlayAudio(MainViewModel.CurrentSongPart);
+                MainViewModel.CurrentSongPart = MainViewModel.SongPartsQueue.Dequeue();
+                if (MainViewModel.TimerMode == 1)
+                {
+                    PlayCountdownAndUpdateCurrentSong();
+                }
+                else
+                {
+                    PlayAudio(MainViewModel.CurrentSongPart, updateCurrentSong: true);
+                }
 
                 SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]);
 
@@ -176,49 +196,87 @@ public partial class AudioPlayerControl : ContentView
     {
         if (MainViewModel.SongPartHistory.Count > 0)
         {
-            MainViewModel.CurrentSongPart = MainViewModel.SongPartHistory[^1];
+            MainViewModel.CurrentSongPart = MainViewModel.SongPartHistory[^1]; // Set current song with 2nd last song. ^ Means from end.
 
-            PlayAudio(MainViewModel.SongPartHistory[^1]);
+            if (MainViewModel.TimerMode == 1)
+            {
+                PlayCountdownAndUpdateCurrentSong();
+            }
+            else
+            {
+                PlayAudio(MainViewModel.SongPartHistory[^1], updateCurrentSong: true);
+            }
             MainViewModel.SongPartHistory.RemoveAt(MainViewModel.SongPartHistory.Count - 1);
 
             UpdatePreviousSwipeItem();
         }
     }
 
-    internal void NextButton_Pressed(object sender, EventArgs e)
+    internal void NextButton_Pressed(object sender, EventArgs e) => AudioMediaElementMediaEnded(sender, e);
+
+    internal void PlayCountdownAndUpdateCurrentSong()
     {
-        AudioMediaElementMediaEnded(sender, e);
+        if (MainViewModel.TimerMode == 1)
+        {
+            LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-short.mp3");
+        }
+        else if (MainViewModel.TimerMode == 2)
+        {
+            LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-long.mp3");
+        }
+        // TODO: add Mario Kart
+        LocalAudioMediaElement.Play();
+        UpdateCurrentSong(MainViewModel.CurrentSongPart);
+
+        MainViewModel.IsCurrentlyPlayingTimer = true;
+    }
+
+    private void LocalAudioMediaElement_MediaEnded(object? sender, EventArgs e)
+    {
+        MainViewModel.IsCurrentlyPlayingTimer = false;
+        PlayAudio(MainViewModel.SongToPlay);
     }
 
     /// <summary>
     /// Plays audio from audioURL, updates AudioPlayerControl controls
     /// </summary>
     /// <param name="songPart"></param>
-    internal void PlayAudio(SongPart songPart)
+    internal void PlayAudio(SongPart songPart, bool updateCurrentSong = false)
     {
         if (!HelperClass.HasInternetConnection()) { return; }
 
         // Update vars.
         songPart.IsPlaying = true;
-        MainViewModel.CurrentlyPlaying = true;
+        MainViewModel.IsCurrentlyPlayingSongPart = true;
+        PlayToggleImageButton.Source = IconManager.PauseIcon;
 
-        AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
+        if (updateCurrentSong)
+        {
+            UpdateCurrentSong(MainViewModel.CurrentSongPart);
+        }
 
         // This is very slow :(
         //CheckValidUrl(songPart);
 
         AudioMediaElement.Play();
 
+        UpdateNextSwipeItem();
+    }
+
+    /// <summary>
+    /// Sets media source and updates UI
+    /// </summary>
+    internal void UpdateCurrentSong(SongPart songPart)
+    {
+        AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
+
         // Update UI.
         AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
         NowPlayingLabel.Text = $"{songPart.Title}";
         NowPlayingPartLabel.Text = $"{songPart.PartNameFull}";
-        PlayToggleImageButton.Source = IconManager.PauseIcon;
 
         TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
         DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
-
-        UpdateNextSwipeItem();
     }
 
     internal void StopAudio()
@@ -229,7 +287,7 @@ public partial class AudioPlayerControl : ContentView
         PlayToggleImageButton.Source = IconManager.PlayIcon;
 
         MainViewModel.CurrentSongPart.IsPlaying = false;
-        MainViewModel.CurrentlyPlaying = false;
+        MainViewModel.IsCurrentlyPlayingSongPart = false;
     }
 
     private void CheckValidUrl(SongPart songPart)
@@ -276,7 +334,6 @@ public partial class AudioPlayerControl : ContentView
         if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.SongPartHistory.Count > 0)
         {
             SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]);
-
         }
         else if (MainViewModel.PlayMode == PlayMode.Queue && MainViewModel.SongPartHistory.Count > 0)
         {

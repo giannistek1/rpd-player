@@ -13,13 +13,17 @@ public partial class SettingsPage : ContentPage
 	public SettingsPage()
 	{
 		InitializeComponent();
+        Loaded += OnLoad;
+    }
 
+    private void OnLoad(object? sender, EventArgs e)
+    {
         ThemeViewModel _viewModel = new();
         BindingContext = _viewModel;
 
         this.Appearing += OnPageAppearing;
         this.Disappearing += OnDisappearing;
-    
+
         // Load settings.
         if (Preferences.ContainsKey(USE_SENTRY))
         {
@@ -31,6 +35,7 @@ public partial class SettingsPage : ContentPage
         }
         AnalyticsSwitch.Toggled += AnalyticsSwitch_Toggled;
     }
+
     private void OnPageAppearing(object? sender, EventArgs e)
     {
         MasterVolumeSlider.Value = MainViewModel.MainVolume * 100;

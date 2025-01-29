@@ -38,7 +38,11 @@ public partial class SearchSongPartsView : ContentView
     public SearchSongPartsView()
     {
         InitializeComponent();
+        Loaded += OnLoad;
+    }
 
+    private void OnLoad(object? sender, EventArgs e)
+    {
         songParts.CollectionChanged += SongPartsCollectionChanged;
 
         allSongParts = SongPartRepository.SongParts;
@@ -169,8 +173,7 @@ public partial class SearchSongPartsView : ContentView
 
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
     {
-        if (!HelperClass.HasInternetConnection())
-            return;
+        if (!HelperClass.HasInternetConnection()) { return; }
 
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
@@ -183,11 +186,8 @@ public partial class SearchSongPartsView : ContentView
     // Sender is a Syncfusion.Maui.ListView.SfListView
     private async void SonglibraryListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
-        if (!HelperClass.HasInternetConnection())
-            return;
-
-        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record)
-            return;
+        if (!HelperClass.HasInternetConnection()) { return; }
+        if (e.ItemType != Syncfusion.Maui.ListView.ItemType.Record) { return; }
 
         SongPart songPart = (SongPart)e.DataItem;
 
@@ -301,16 +301,8 @@ public partial class SearchSongPartsView : ContentView
         Toast.Make($"{addedSongParts} songs added!", ToastDuration.Short, 14).Show();
     }
 
-    private void GoToBottomButtonClicked(object sender, EventArgs e)
-    {
-        // TODO: Impossible to go to bottom when all groups are expanded... 
-        // Maybe save group states, collapse groups, go to bottom and expand groups again.
-        SonglibraryListView.ScrollTo(double.MaxValue);
-    }
-    private void GoToTopButtonClicked(object sender, EventArgs e)
-    {
-        SonglibraryListView.ScrollTo(0);
-    }
+    private void GoToBottomButtonClicked(object sender, EventArgs e) => SonglibraryListView!.ItemsLayout!.ScrollToRowIndex(SonglibraryListView!.DataSource!.DisplayItems.Count - 1, animated: true);
+    private void GoToTopButtonClicked(object sender, EventArgs e) => SonglibraryListView.ScrollTo(0); // This one animates slower
 
     /// <summary>
     /// Plays or adds random songpart.
@@ -319,14 +311,13 @@ public partial class SearchSongPartsView : ContentView
     /// <param name="e"></param>
     internal void PlayRandomButtonClicked(object? sender, EventArgs e)
     {
-        if (!HelperClass.HasInternetConnection())
-            return;
+        if (!HelperClass.HasInternetConnection()) { return; }
 
         var random = new Random();
         int index = random.Next(songParts.Count);
         SongPart songPart = songParts[index];
 
-        if (MainViewModel.CurrentlyPlaying)
+        if (MainViewModel.IsCurrentlyPlayingSongPart)
         {
             if (!MainViewModel.SongPartsQueue.Contains(songPart))
             {
@@ -370,15 +361,9 @@ public partial class SearchSongPartsView : ContentView
         }
     }
 
-    internal void CollapseAllButtonClicked(object? sender, EventArgs e)
-    {
-        SonglibraryListView.CollapseAll();
-    }
+    internal void CollapseAllButtonClicked(object? sender, EventArgs e) => SonglibraryListView.CollapseAll();
 
-    internal void ExpandAllButtonClicked(object? sender, EventArgs e)
-    {
-        SonglibraryListView.ExpandAll();
-    }
+    internal void ExpandAllButtonClicked(object? sender, EventArgs e) => SonglibraryListView.ExpandAll();
 
     private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -402,10 +387,7 @@ public partial class SearchSongPartsView : ContentView
         ResultsLabel.Text = $"Currently showing {searchFilteredSongParts.Count} results";
     }
 
-    internal void SortButtonClicked(object? sender, EventArgs e)
-    {
-        ShowSortBy?.Invoke(sender, e);
-    }
+    internal void SortButtonClicked(object? sender, EventArgs e) => ShowSortBy?.Invoke(sender, e);
 
     #region Filter
     private void ClearCategoryFilterButtonClicked(object sender, EventArgs e)
@@ -416,10 +398,7 @@ public partial class SearchSongPartsView : ContentView
         SetSearchFilteredDataSource();
     }
 
-    private void ClearSearchFilterButtonClicked(object sender, EventArgs e)
-    {
-        SearchBarInput.Text = string.Empty;
-    }
+    private void ClearSearchFilterButtonClicked(object sender, EventArgs e) => SearchBarInput.Text = string.Empty;
 
     /// <summary>
     /// Sets filter mode and updates filterLabel

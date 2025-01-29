@@ -222,4 +222,13 @@
 	<ItemGroup>
 	  <Folder Include="Animations\" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Update="Resources\Raw\countdown-long.mp3">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\countdown-short.mp3">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </MauiAsset>
+	</ItemGroup>
 </Project>

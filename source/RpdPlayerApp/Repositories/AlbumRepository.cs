@@ -61,8 +61,7 @@ internal static class AlbumRepository
 
     private static string GetStringFromURL()
     {
-        if (!HelperClass.HasInternetConnection())
-            return string.Empty;
+        if (!HelperClass.HasInternetConnection()) { return string.Empty; }
 
         string albumsAsText = string.Empty;
 

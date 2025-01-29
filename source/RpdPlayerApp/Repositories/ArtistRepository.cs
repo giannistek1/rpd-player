@@ -58,8 +58,7 @@ internal static class ArtistRepository
 
     private static string GetStringFromURL()
     {
-        if (!HelperClass.HasInternetConnection())
-            return string.Empty;
+        if (!HelperClass.HasInternetConnection()) { return string.Empty; }
 
         string artistsAsText = string.Empty;
 

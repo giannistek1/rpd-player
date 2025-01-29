@@ -67,8 +67,9 @@ internal static class MainViewModel
     internal static byte AutoplayMode { get; set; } = 0;
     /// <summary>
     /// 0 = off,
-    /// 1 = 3s,
-    /// 2 = 5s
+    /// 1 = 3s SHORT,
+    /// 2 = 5s LONG,
+    /// TODO: 3 = Mario kart
     /// </summary>
     internal static byte TimerMode { get; set; } = 0;
 
@@ -77,13 +78,18 @@ internal static class MainViewModel
     #endregion
 
     internal static List<SongPart> SongParts { get; set; } = [];
+    /// <summary>
+    /// Song to play after countdown.
+    /// </summary>
+    internal static SongPart SongToPlay { get; set; } = new(); 
     internal static SongPart CurrentSongPart { get; set; } = new(); 
     internal static Queue<SongPart> PlaylistQueue { get; set; } = new();
     internal static List<SongPart> SongPartHistory { get; set; } = [];
 
     internal static Queue<SongPart> SongPartsQueue { get; set; } = new();
 
-    internal static bool CurrentlyPlaying { get; set; } = false;
+    internal static bool IsCurrentlyPlayingSongPart { get; set; } = false;
+    internal static bool IsCurrentlyPlayingTimer { get; set; } = false;
 
     internal static ObservableCollection<Playlist> Playlists { get; set; } = [];
 
@@ -94,11 +100,11 @@ internal static class MainViewModel
     // IST -> Went through a lot of renaming: A Cube -> Play A -> PLay M
     internal static List<string> KakaoCompanies { get; set; } = ["IST Entertainment", "Starship Entertainment", "EDAM Entertainment", "Bluedot Entertainment", "High Up Entertainment", "Antenna", "FLEX M"];
     // Wake One -> was MMO Entertainment
-    internal static List<string> CjenmCompanies { get; set; } = ["AOMG", "B2M Entertainment", "Jellyfish Entertainment", "Wake One", "Stone Music Entertainment", "Swing Entertainment"]; 
+    internal static List<string> CjenmCompanies { get; set; } = ["AOMG", "B2M Entertainment", "Jellyfish Entertainment", "Wake One", "Stone Music Entertainment", "Swing Entertainment"];
 
     // YMC Entertainment is owned by Dream T Entertainment
 
-    internal static List<NewsItem> SongPartsDifference { get; set; } = new();
+    internal static List<NewsItem> SongPartsDifference { get; set; } = [];
 
     #region Settings
     /// <summary>

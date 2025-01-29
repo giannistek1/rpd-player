@@ -2,6 +2,7 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                xmlns:views="clr-namespace:RpdPlayerApp.Views"
+               xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
                x:Class="RpdPlayerApp.Views.NewsPopup">
 
     <ScrollView>
@@ -11,25 +12,27 @@
 
             <Label Grid.Row="0" Text="New songs below!" Padding="16,16,0,0" FontSize="16" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="1.5"/>
         
-            <ListView Grid.Row="1" x:Name="NewsListView" BackgroundColor="{DynamicResource BackgroundColor}">
-                <ListView.ItemTemplate>
+            <syncfusion:SfListView Grid.Row="1" x:Name="NewsListView" BackgroundColor="{DynamicResource BackgroundColor}" ItemSpacing="6">
+                <syncfusion:SfListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            
-                            <Grid RowDefinitions="auto, auto" Padding="16,0,0,0">
+                            <VerticalStackLayout Padding="16,0,16,0">
+                                    
+                                <Label IsVisible="{Binding HasNewVideo}" Text="New video" FontSize="10" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"
+                                       VerticalTextAlignment="End" VerticalOptions="Fill" TextColor="{DynamicResource SecondaryTextColor}"/>
                                 
-                                <Label Grid.Row="0" Text="{Binding Title}" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}"/>
-                                <Grid Grid.Row="1" ColumnDefinitions="1*, 1*">
-                                    <Label Grid.Column="0" Text="{Binding Artist}" LineBreakMode="TailTruncation" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"/>
-                                    <Label Grid.Column="1" Text="{Binding Part}" LineBreakMode="TailTruncation" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"/>
+                                <Label Text="{Binding Title}" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}" VerticalTextAlignment="Start"/>
+                                
+                                <Grid ColumnDefinitions="1*, 1*">
+                                    <Label Grid.Column="0" Text="{Binding Artist}" LineBreakMode="TailTruncation" FontSize="11" TextColor="{DynamicResource SecondaryTextColor}"/>
+                                    <Label Grid.Column="1" Text="{Binding Part}" LineBreakMode="TailTruncation" FontSize="11" TextColor="{DynamicResource SecondaryTextColor}"/>
                                 </Grid>
-                                
-                            </Grid>
-                            
+
+                            </VerticalStackLayout>
                         </ViewCell>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </syncfusion:SfListView.ItemTemplate>
+            </syncfusion:SfListView>
         
         </Grid>
 

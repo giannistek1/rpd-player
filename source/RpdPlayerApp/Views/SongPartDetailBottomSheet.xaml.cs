@@ -27,21 +27,24 @@ public partial class SongPartDetailBottomSheet
     public SongPartDetailBottomSheet()
 	{
 		InitializeComponent();
-
-        this.Dismissed += OnDismissed;
-
         _playlistsManager = new();
+        Loaded += OnLoad;
+        Dismissed += OnDismissed;
+    }
+
+    private void OnLoad(object? sender, EventArgs e)
+    {
         FavoriteImageButton.Source = _playlistsManager.IsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
 
         AudioProgressSlider.DragStarted += AudioProgressSlider_DragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSlider_DragCompleted;
     }
+    private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
 
     private void AudioProgressSlider_DragStarted(object? sender, EventArgs e) => AudioPlayerControl!.AudioProgressSliderDragStarted(sender, e);
 
     private void AudioProgressSlider_DragCompleted(object? sender, EventArgs e) => AudioPlayerControl?.SeekToProgress(sender, e);
 
-    private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
 
     /// <summary>
     /// Whenever mode changes dependent.
@@ -49,7 +52,7 @@ public partial class SongPartDetailBottomSheet
     internal void UpdateIcons()
     {
         // TODO: Set image to play once song ends.
-        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = MainViewModel.IsCurrentlyPlayingSongPart || MainViewModel.IsCurrentlyPlayingTimer ? IconManager.PauseIcon : IconManager.PlayIcon;
         VoiceImageButton.Source = MainViewModel.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
         // TODO: Enums
         TimerImageButton.Source = MainViewModel.TimerMode switch
@@ -134,18 +137,18 @@ public partial class SongPartDetailBottomSheet
     private void PreviousButton_Pressed(object sender, EventArgs e)
     {
         PreviousSongPart?.Invoke(sender, e);
-        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = IconManager.PauseIcon; //MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
     }
 
     private void NextButton_Pressed(object sender, EventArgs e)
     {
         NextSongPart?.Invoke(sender, e);
-        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = IconManager.PauseIcon; //MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
     }
 
     private void TimerButton_Pressed(object sender, EventArgs e)
     {
-        if (MainViewModel.TimerMode < 2)
+        if (MainViewModel.TimerMode < 2) // TODO: Add Mario Kart sounds
         {
             MainViewModel.TimerMode++;
         }
@@ -161,9 +164,13 @@ public partial class SongPartDetailBottomSheet
             case 2: TimerImageButton.Source = IconManager.Timer5Icon; break;
         }
 
-        if (MainViewModel.TimerMode != 0)
+        if (MainViewModel.TimerMode == 1)
         {
-            Toast.Make($"Using timer between song parts.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            Toast.Make($"Using short timer between songs.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        }
+        else if (MainViewModel.TimerMode == 2)
+        {
+            Toast.Make($"Using long timer between songs.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
         }
     }
 

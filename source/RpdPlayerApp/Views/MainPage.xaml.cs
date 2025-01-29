@@ -20,22 +20,31 @@ public partial class MainPage
     {
         InitializeComponent();
 
-        HomeView.ParentPage = this;
-        SearchSongPartsView.ParentPage = this;
-        LibraryView.ParentPage = this;
-        _currentPlaylistView.ParentPage = this;
-        _detailBottomSheet.AudioPlayerControl = AudioPlayerControl;
+        // Creating variables in constructor. Assigning in OnLoad.
+        SetupHomeToolbar();
 
+        Loaded += OnLoad;
+        this.Appearing += OnAppearing;
+    }
+
+    private void OnLoad(object? sender, EventArgs e)
+    {
         // Load settings.
         if (Preferences.ContainsKey(MAIN_VOLUME))
         {
             MainViewModel.MainVolume = Preferences.Get(key: MAIN_VOLUME, 1.0);
         }
 
-        this.Appearing += OnAppearing;
+        // Set parent pages.
+        HomeView.ParentPage = this;
+        SearchSongPartsView.ParentPage = this;
+        LibraryView.ParentPage = this;
+        _currentPlaylistView.ParentPage = this;
+        _detailBottomSheet.AudioPlayerControl = AudioPlayerControl;
 
         SetContentViewEvents();
 
+        // Set page containrs.
         if (!LibraryContainer.Children.Contains(_currentPlaylistView))
         {
             LibraryContainer.Children.Add(_currentPlaylistView);
@@ -59,8 +68,6 @@ public partial class MainPage
         {
             DeviceDisplay.Current.KeepScreenOn = true;
         });
-
-        SetupHomeToolbar();
     }
 
     private void OnAppearing(object? sender, EventArgs e)
@@ -496,7 +503,14 @@ public partial class MainPage
                 break;
         }
 
-        AudioPlayerControl.PlayAudio(MainViewModel.CurrentSongPart);
+        if (MainViewModel.TimerMode > 0)
+        {
+            AudioPlayerControl.PlayCountdownAndUpdateCurrentSong();
+        }
+        else
+        {
+            AudioPlayerControl.PlayAudio(MainViewModel.CurrentSongPart, updateCurrentSong: true);
+        }
     }
 
     private void OnStopSongPart(object? sender, EventArgs e)

@@ -19,7 +19,11 @@ public partial class LibraryView : ContentView
     public LibraryView()
     {
         InitializeComponent();
+        Loaded += OnLoad;
+    }
 
+    private void OnLoad(object? sender, EventArgs e)
+    {
         CheckValidPlaylists();
 
         LoadPlaylists();

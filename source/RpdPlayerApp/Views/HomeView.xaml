@@ -64,14 +64,20 @@
 
                 <Label Grid.Column="0"/>
 
-                <sfcore:SfBadgeView Grid.Column="1" x:Name="NewsBadgeView" WidthRequest="70">
+                <sfcore:SfBadgeView Grid.Column="1" x:Name="NewsBadgeView" WidthRequest="44" HeightRequest="44">
+                    <sfcore:SfBadgeView.Content>
 
-                    <ImageButton x:Name="NewsButton" Padding="0,0,0,0" HeightRequest="30" Clicked="NewsImageButton_Pressed">
-                        <ImageButton.Source>
-                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Newspaper}" Color="{DynamicResource IconColor}" />
-                        </ImageButton.Source>
-                    </ImageButton>
+                        <ImageButton x:Name="NewsButton" WidthRequest="44" HeightRequest="44" Padding="0,0,0,0" Clicked="NewsImageButton_Pressed">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Newspaper}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+                        
+                    </sfcore:SfBadgeView.Content>
 
+                    <sfcore:SfBadgeView.BadgeSettings>
+                        <sfcore:BadgeSettings Type="None" Background="{DynamicResource Primary}" />
+                    </sfcore:SfBadgeView.BadgeSettings>
                 </sfcore:SfBadgeView>
 
             </Grid>
@@ -96,7 +102,7 @@
             <Grid Grid.Row="3" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Duration" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Duration (hours)" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
 
                 <sfcore:SfChipGroup Grid.Row="1" x:Name="DurationChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Choice"
                           SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
