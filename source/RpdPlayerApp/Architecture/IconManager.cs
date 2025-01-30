@@ -77,6 +77,13 @@ internal static class IconManager
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
 
+    internal static FontImageSource AwardIcon = new()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.Award_star,
+        Color = (Color)Application.Current!.Resources["IconColor"]
+    };
+
     internal static FontImageSource VoiceIcon = new()
     {
         FontFamily = "MaterialRounded",

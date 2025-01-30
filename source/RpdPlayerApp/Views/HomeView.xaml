@@ -10,7 +10,8 @@
              BackgroundColor="{DynamicResource BackgroundColor}">
 
     <ScrollView Orientation="Vertical">
-        <Grid Padding="0" RowDefinitions="20, auto, auto, auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
+        <Grid Padding="0" RowDefinitions="20, auto, auto, 
+                                          auto, auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
 
             <!-- New stats -->
             <Grid Grid.Row="0" ColumnDefinitions="2*, 4*">
@@ -115,8 +116,23 @@
 
             </Grid>
 
+            <!-- Timer -->
+            <Grid Grid.Row="4" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+
+                <!-- TODO: Label Key: H1 -->
+                <Label Grid.Row="0" Text="Timer" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
+
+                <sfcore:SfChipGroup Grid.Row="1" x:Name="TimerChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Choice"
+                          SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
+                          ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                          HorizontalOptions="Start" VerticalOptions="Center">
+
+                </sfcore:SfChipGroup>
+
+            </Grid>
+
             <!-- Grouptypes -->
-            <Grid Grid.Row="4" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
+            <Grid Grid.Row="5" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
                 <Label Grid.Row="0" Text="Grouptypes" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
@@ -130,7 +146,7 @@
             </Grid>
 
             <!-- Genres -->
-            <Grid Grid.Row="5" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
+            <Grid Grid.Row="6" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
                 <Label Grid.Row="0" Text="Genres" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
@@ -147,8 +163,8 @@
 
             </Grid>
 
-            <!-- Generations (TODO: only for k-pop) -->
-            <Grid Grid.Row="6" x:Name="GenerationsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+            <!-- Generations (only for k-pop) -->
+            <Grid Grid.Row="7" x:Name="GenerationsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
                 <Label Grid.Row="0" Text="Gens" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
@@ -166,8 +182,8 @@
 
             </Grid>
 
-            <!-- Companies (TODO: Only for k-pop) -->
-            <Grid Grid.Row="7" x:Name="CompaniesGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+            <!-- Companies (only for k-pop) -->
+            <Grid Grid.Row="8" x:Name="CompaniesGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
                 <Label Grid.Row="0" Text="Companies" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
@@ -185,7 +201,7 @@
             </Grid>
 
             <!-- Anti-options -->
-            <Grid Grid.Row="8" RowDefinitions="auto, auto, auto" Margin="0,0,0,16" Padding="16,0,16,0">
+            <Grid Grid.Row="9" RowDefinitions="auto, auto, auto" Margin="0,0,0,16" Padding="16,0,16,0">
 
                 <!-- TODO: Label Key: H1 -->
                 <Label Grid.Row="0" Text="Anti-options" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
@@ -243,7 +259,7 @@
 
             <!-- TODO: Years -->
 
-            <Grid Grid.Row="9" ColumnDefinitions="*,*" ColumnSpacing="8">
+            <Grid Grid.Row="10" ColumnDefinitions="*,*" ColumnSpacing="8">
                 
                 <Button Grid.Column="0" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold"/>
 

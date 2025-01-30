@@ -130,8 +130,16 @@ public partial class SongPartDetailBottomSheet
     }
     private void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
-        PlayToggleSongPart?.Invoke(sender, e);
-        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        
+        if (MainViewModel.IsCurrentlyPlayingTimer)
+        {
+            PlayToggleImageButton.Source = IconManager.PlayIcon;
+        }
+        else
+        {
+            PlayToggleSongPart?.Invoke(sender, e);
+            PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        }
     }
 
     private void PreviousButton_Pressed(object sender, EventArgs e)
@@ -148,7 +156,7 @@ public partial class SongPartDetailBottomSheet
 
     private void TimerButton_Pressed(object sender, EventArgs e)
     {
-        if (MainViewModel.TimerMode < 2) // TODO: Add Mario Kart sounds
+        if (MainViewModel.TimerMode < 3)
         {
             MainViewModel.TimerMode++;
         }
@@ -162,15 +170,7 @@ public partial class SongPartDetailBottomSheet
             case 0: TimerImageButton.Source = IconManager.TimerOffIcon; break;
             case 1: TimerImageButton.Source = IconManager.Timer3Icon; break;
             case 2: TimerImageButton.Source = IconManager.Timer5Icon; break;
-        }
-
-        if (MainViewModel.TimerMode == 1)
-        {
-            Toast.Make($"Using short timer between songs.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-        }
-        else if (MainViewModel.TimerMode == 2)
-        {
-            Toast.Make($"Using long timer between songs.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            case 3: TimerImageButton.Source = IconManager.AwardIcon; break;
         }
     }
 

@@ -14,6 +14,9 @@ public partial class SettingsPage : ContentPage
 	{
 		InitializeComponent();
         Loaded += OnLoad;
+
+        Appearing += OnPageAppearing;
+        Disappearing += OnDisappearing;
     }
 
     private void OnLoad(object? sender, EventArgs e)
@@ -21,8 +24,6 @@ public partial class SettingsPage : ContentPage
         ThemeViewModel _viewModel = new();
         BindingContext = _viewModel;
 
-        this.Appearing += OnPageAppearing;
-        this.Disappearing += OnDisappearing;
 
         // Load settings.
         if (Preferences.ContainsKey(USE_SENTRY))
@@ -45,7 +46,6 @@ public partial class SettingsPage : ContentPage
     {
         HomeView?.RefreshThemeColors();
     }
-
 
     private async void BackButton_Pressed(object sender, EventArgs e)
     {

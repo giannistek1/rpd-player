@@ -216,15 +216,13 @@ public partial class AudioPlayerControl : ContentView
 
     internal void PlayCountdownAndUpdateCurrentSong()
     {
-        if (MainViewModel.TimerMode == 1)
+        switch(MainViewModel.TimerMode)
         {
-            LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-short.mp3");
+            case 1: LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-short.mp3"); break;
+            case 2: LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-long.mp3"); break;
+            case 3: LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-kart.mp3"); break;
         }
-        else if (MainViewModel.TimerMode == 2)
-        {
-            LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-long.mp3");
-        }
-        // TODO: add Mario Kart
+
         LocalAudioMediaElement.Play();
         UpdateCurrentSong(MainViewModel.CurrentSongPart);
 

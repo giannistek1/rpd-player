@@ -137,12 +137,20 @@ public partial class HomeView : ContentView
         DurationChipGroup?.Items?.Add(new SfChip() { Text = "∞", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         DurationChipGroup!.SelectedItem = DurationChipGroup?.Items?[0];
 
+        string[] options = ["Off", "3s", "5s", "Custom (Pro)"];
+        foreach (var option in options)
+        {
+            TimerChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+        }
+        TimerChipGroup!.SelectedItem = TimerChipGroup?.Items?[0];
+        TimerChipGroup!.SelectionChanged += TimerChipGroup_SelectionChanged;
+
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Male", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Female", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Mixed", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GrouptypesChipGroup.Items!);
 
-        string[] options = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "pop"];
+        options = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "pop"];
         foreach (var option in options)
         {
             GenresChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -186,6 +194,15 @@ public partial class HomeView : ContentView
 
         var jsonSongParts = JsonConvert.SerializeObject(newsItems);
         Preferences.Set(SONGPARTS, jsonSongParts);
+    }
+
+    private void TimerChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
+    {
+        // K-pop only.
+        if (TimerChipGroup.Items![0].IsSelected) { MainViewModel.TimerMode = 0; }
+        if (TimerChipGroup.Items![1].IsSelected) { MainViewModel.TimerMode = 1; }
+        if (TimerChipGroup.Items![2].IsSelected) { MainViewModel.TimerMode = 2; }
+        if (TimerChipGroup.Items![3].IsSelected) { MainViewModel.TimerMode = 3; }
     }
 
     private void GenresChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)

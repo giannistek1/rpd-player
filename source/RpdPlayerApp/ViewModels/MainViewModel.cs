@@ -69,7 +69,7 @@ internal static class MainViewModel
     /// 0 = off,
     /// 1 = 3s SHORT,
     /// 2 = 5s LONG,
-    /// TODO: 3 = Mario kart
+    /// 3 = Mario kart
     /// </summary>
     internal static byte TimerMode { get; set; } = 0;
 
