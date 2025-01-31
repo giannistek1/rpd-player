@@ -37,20 +37,11 @@ public partial class SettingsPage : ContentPage
         AnalyticsSwitch.Toggled += AnalyticsSwitch_Toggled;
     }
 
-    private void OnPageAppearing(object? sender, EventArgs e)
-    {
-        MasterVolumeSlider.Value = MainViewModel.MainVolume * 100;
-    }
+    private void OnPageAppearing(object? sender, EventArgs e) => MasterVolumeSlider.Value = MainViewModel.MainVolume * 100;
 
-    private void OnDisappearing(object? sender, EventArgs e)
-    {
-        HomeView?.RefreshThemeColors();
-    }
+    private void OnDisappearing(object? sender, EventArgs e) => HomeView?.RefreshThemeColors();
 
-    private async void BackButton_Pressed(object sender, EventArgs e)
-    {
-        await Navigation.PopAsync();
-    }
+    private async void BackButton_Pressed(object sender, EventArgs e) => await Navigation.PopAsync();
 
     private async void AnalyticsSwitch_Toggled(object? sender, ToggledEventArgs e)
     {

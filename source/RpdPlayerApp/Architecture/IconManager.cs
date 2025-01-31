@@ -27,6 +27,13 @@ internal static class IconManager
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
 
+    internal static FontImageSource CrossIcon = new()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.Close,
+        Color = (Color)Application.Current!.Resources["IconColor"]
+    };
+
     internal static FontImageSource OffIcon = new()
     {
         FontFamily = "MaterialRounded",
@@ -109,13 +116,6 @@ internal static class IconManager
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Favorite,
         Color = (Color)Application.Current!.Resources["FavoritedIconColor"]
-    };
-
-    internal static FontImageSource CrossIcon = new()
-    {
-        FontFamily = "MaterialRounded",
-        Glyph = MaterialRounded.Close,
-        Color = (Color)Application.Current!.Resources["IconColor"]
     };
 
     // Toolbar icons
@@ -237,6 +237,7 @@ internal static class IconManager
         TimerOffIcon.Color = (Color)Application.Current!.Resources["IconOffColor"];
         Timer3Icon.Color = (Color)Application.Current!.Resources["IconColor"];
         Timer5Icon.Color = (Color)Application.Current!.Resources["IconColor"];
+        AwardIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         VoiceIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         VoiceOffIcon.Color = (Color)Application.Current!.Resources["IconOffColor"];
         FavoriteIcon.Color = (Color)Application.Current!.Resources["IconColor"];
