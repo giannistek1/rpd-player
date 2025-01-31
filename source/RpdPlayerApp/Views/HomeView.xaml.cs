@@ -143,7 +143,6 @@ public partial class HomeView : ContentView
             TimerChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
         TimerChipGroup!.SelectedItem = TimerChipGroup?.Items?[0];
-        TimerChipGroup!.SelectionChanged += TimerChipGroup_SelectionChanged;
 
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Male", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Female", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -194,15 +193,6 @@ public partial class HomeView : ContentView
 
         var jsonSongParts = JsonConvert.SerializeObject(newsItems);
         Preferences.Set(SONGPARTS, jsonSongParts);
-    }
-
-    private void TimerChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
-    {
-        // K-pop only.
-        if (TimerChipGroup.Items![0].IsSelected) { MainViewModel.TimerMode = 0; }
-        if (TimerChipGroup.Items![1].IsSelected) { MainViewModel.TimerMode = 1; }
-        if (TimerChipGroup.Items![2].IsSelected) { MainViewModel.TimerMode = 2; }
-        if (TimerChipGroup.Items![3].IsSelected) { MainViewModel.TimerMode = 3; }
     }
 
     private void GenresChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
@@ -361,6 +351,12 @@ public partial class HomeView : ContentView
     {
         if (!HelperClass.HasInternetConnection()) { return; }
 
+        if (TimerChipGroup.Items![0].IsSelected) { MainViewModel.TimerMode = 0; }
+        if (TimerChipGroup.Items![1].IsSelected) { MainViewModel.TimerMode = 1; }
+        if (TimerChipGroup.Items![2].IsSelected) { MainViewModel.TimerMode = 2; }
+        if (TimerChipGroup.Items![3].IsSelected) { MainViewModel.TimerMode = 3; }
+
+        // Grouptypes
         RpdSettings?.GroupTypes.Clear();
         for (var i = 0; i < GrouptypesChipGroup?.Items?.Count; i++)
         {
@@ -377,6 +373,7 @@ public partial class HomeView : ContentView
             }
         }
 
+        // Genres
         RpdSettings?.Genres.Clear();
         for (var i = 0; i < GenresChipGroup?.Items?.Count; i++)
         {
@@ -387,6 +384,7 @@ public partial class HomeView : ContentView
             }
         }
 
+        // Gens
         RpdSettings?.Gens.Clear();
         for (var i = 0; i < GenerationsChipGroup?.Items?.Count; i++)
         {
