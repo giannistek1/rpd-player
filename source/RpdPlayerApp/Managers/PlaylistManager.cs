@@ -1,6 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using RpdPlayerApp.Models;
+using System.Collections.ObjectModel;
 
-namespace RpdPlayerApp.Models;
+namespace RpdPlayerApp.Managers;
 
 internal class PlaylistManager : BindableObject
 {
@@ -21,15 +22,9 @@ internal class PlaylistManager : BindableObject
     {
     }
 
-    private PlaylistManager()
-    {
-        CurrentPlaylist = new Playlist();
-    }
+    private PlaylistManager() => CurrentPlaylist = new Playlist();
 
-    public static PlaylistManager Instance
-    {
-        get => instance;
-    }
+    public static PlaylistManager Instance => instance;
 
     internal bool AddSongPartToCurrentPlaylist(SongPart songPart)
     {

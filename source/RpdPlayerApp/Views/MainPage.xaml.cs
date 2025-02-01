@@ -1,15 +1,14 @@
 using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
-using RpdPlayerApp.Models;
+using RpdPlayerApp.Managers;
 using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
 public partial class MainPage
 {   
-    // TODO: Settings class
-    private const string MAIN_VOLUME = "MAIN_VOLUME";
+
 
     private readonly CategoriesView _categoriesView = new(); // Home
     private readonly CurrentPlaylistView _currentPlaylistView = new(); // Playlists
@@ -24,15 +23,15 @@ public partial class MainPage
         SetupHomeToolbar();
 
         Loaded += OnLoad;
-        this.Appearing += OnAppearing;
+        Appearing += OnAppearing;
     }
 
     private void OnLoad(object? sender, EventArgs e)
     {
         // Load settings.
-        if (Preferences.ContainsKey(MAIN_VOLUME))
+        if (Preferences.ContainsKey(CommonSettings.MAIN_VOLUME))
         {
-            MainViewModel.MainVolume = Preferences.Get(key: MAIN_VOLUME, 1.0);
+            CommonSettings.MainVolume = Preferences.Get(key: CommonSettings.MAIN_VOLUME, 1.0);
         }
 
         // Set parent pages.
@@ -45,23 +44,10 @@ public partial class MainPage
         SetContentViewEvents();
 
         // Set page containrs.
-        if (!LibraryContainer.Children.Contains(_currentPlaylistView))
-        {
-            LibraryContainer.Children.Add(_currentPlaylistView);
-        }
-        if (!LibraryContainer.Children.Contains(LibraryView))
-        {
-            LibraryContainer.Children.Add(LibraryView);
-        }
-
-        if (!HomeContainer.Children.Contains(HomeView))
-        {
-            HomeContainer.Children.Add(HomeView);
-        }
-        if (!HomeContainer.Children.Contains(_categoriesView))
-        {
-            HomeContainer.Children.Add(_categoriesView);
-        }
+        if (!LibraryContainer.Children.Contains(_currentPlaylistView)) { LibraryContainer.Children.Add(_currentPlaylistView); }
+        if (!LibraryContainer.Children.Contains(LibraryView))          { LibraryContainer.Children.Add(LibraryView); }
+        if (!HomeContainer.Children.Contains(HomeView))                { HomeContainer.Children.Add(HomeView); }
+        if (!HomeContainer.Children.Contains(_categoriesView))         { HomeContainer.Children.Add(_categoriesView); }
 
         // Has to be run on MainThread (UI thread) for iOS.
         MainThread.BeginInvokeOnMainThread(() =>
@@ -70,10 +56,7 @@ public partial class MainPage
         });
     }
 
-    private void OnAppearing(object? sender, EventArgs e)
-    {
-        AudioPlayerControl.UpdateUI();
-    }
+    private void OnAppearing(object? sender, EventArgs e) => AudioPlayerControl.UpdateUI();
 
     private void SetContentViewEvents()
     {

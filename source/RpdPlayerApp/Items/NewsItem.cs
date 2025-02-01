@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace RpdPlayerApp.Models;
+namespace RpdPlayerApp.Items;
 
 internal class NewsItem
 {

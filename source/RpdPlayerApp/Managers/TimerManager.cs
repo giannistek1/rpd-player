@@ -1,11 +1,13 @@
-﻿namespace RpdPlayerApp.Models;
+﻿using RpdPlayerApp.Models;
+
+namespace RpdPlayerApp.Managers;
 
 internal static class TimerManager
 {
     private static System.Timers.Timer? timer;
 #pragma warning disable S2223 // Non-constant static fields should not be visible
     internal static SongPart? songPart;
-#pragma warning restore S2223 // Non-constant static fields should not be visible
+#pragma warning restore S2223
     internal static void StartInfiniteScaleYAnimationWithTimer()
     {
         if (timer is not null) { timer.Close(); timer.Dispose(); }

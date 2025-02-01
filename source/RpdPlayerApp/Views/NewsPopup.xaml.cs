@@ -1,5 +1,5 @@
 using CommunityToolkit.Maui.Views;
-using RpdPlayerApp.Models;
+using RpdPlayerApp.Items;
 
 namespace RpdPlayerApp.Views;
 

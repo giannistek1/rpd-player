@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Core;
 using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Items;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.ViewModels;

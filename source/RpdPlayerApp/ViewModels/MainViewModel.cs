@@ -1,4 +1,5 @@
 ﻿using RpdPlayerApp.Enums;
+using RpdPlayerApp.Items;
 using RpdPlayerApp.Models;
 using System.Collections.ObjectModel;
 
@@ -105,12 +106,4 @@ internal static class MainViewModel
     // YMC Entertainment is owned by Dream T Entertainment
 
     internal static List<NewsItem> SongPartsDifference { get; set; } = [];
-
-    #region Settings
-    /// <summary>
-    /// 0.0 - 1.0 as Double
-    /// </summary>
-    internal static double MainVolume = 1.0;
-    internal static bool ShouldLoopVideo { get; set; } = true;
-    #endregion
 }

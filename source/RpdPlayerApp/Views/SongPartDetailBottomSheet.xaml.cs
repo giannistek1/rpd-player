@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Alerts;
 using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
 using The49.Maui.BottomSheet;
@@ -19,8 +20,6 @@ public partial class SongPartDetailBottomSheet
 
     internal AudioPlayerControl? AudioPlayerControl { get; set; }
 
-    // TODO: Settings class
-    private const string MAIN_VOLUME = "MAIN_VOLUME";
     private const string FAVORITES = "Favorites";
     private readonly PlaylistsManager _playlistsManager;
 
@@ -71,7 +70,7 @@ public partial class SongPartDetailBottomSheet
             _ => IconManager.OffIcon
         };
 
-        MasterVolumeSlider.Value = MainViewModel.MainVolume * 100;
+        MasterVolumeSlider.Value = CommonSettings.MainVolume * 100;
         // Theme change or change song should update favorite icon.
         FavoriteImageButton.Source = _playlistsManager.IsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
@@ -224,8 +223,8 @@ public partial class SongPartDetailBottomSheet
 
     private void MasterVolumeSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)
     {
-        MainViewModel.MainVolume = e.NewValue / 100;
-        Preferences.Set(MAIN_VOLUME, MainViewModel.MainVolume);
+        CommonSettings.MainVolume = e.NewValue / 100;
+        Preferences.Set(CommonSettings.MAIN_VOLUME, CommonSettings.MainVolume);
     }
 
     private void CloseImageButton_Pressed(object sender, EventArgs e) => Close?.Invoke(sender, e);

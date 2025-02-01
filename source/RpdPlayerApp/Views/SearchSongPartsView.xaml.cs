@@ -12,6 +12,7 @@ using Syncfusion.Maui.ListView.Helpers;
 using Syncfusion.Maui.ListView;
 using Syncfusion.Maui.GridCommon.ScrollAxis;
 using RpdPlayerApp.Enums;
+using RpdPlayerApp.Managers;
 
 namespace RpdPlayerApp.Views;
 
@@ -60,7 +61,6 @@ public partial class SearchSongPartsView : ContentView
 
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
 
-        ParentPage?.SetupSearchToolbar();
         ClearCategoryFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
     }
 

@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
+using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
 
@@ -68,9 +69,9 @@ public partial class AudioPlayerControl : ContentView
         AudioProgressSlider.Value = e.Position.TotalSeconds / AudioMediaElement.Duration.TotalSeconds * 100;
 
 
-        //if ((AudioMediaElement.Volume < MainViewModel.MainVolume - 0.02) && (AudioMediaElement.Volume > MainViewModel.MainVolume + 0.02))
+        //if ((AudioMediaElement.Volume < CommonSettings.MainVolume - 0.02) && (AudioMediaElement.Volume > CommonSettings.MainVolume + 0.02))
         //{
-            AudioMediaElement.Volume = MainViewModel.MainVolume;
+        AudioMediaElement.Volume = CommonSettings.MainVolume;
         //}
 
         UpdateProgress?.Invoke(sender, e);

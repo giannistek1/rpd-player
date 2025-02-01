@@ -1,18 +1,19 @@
-﻿using RpdPlayerApp.ViewModels;
+﻿using RpdPlayerApp.Models;
+using RpdPlayerApp.ViewModels;
 
-namespace RpdPlayerApp.Models;
+namespace RpdPlayerApp.Managers;
 
 internal class PlaylistsManager
 {
     internal PlaylistsManager()
     {
-            
+
     }
 
     internal bool TryAddToPlaylist(string playlistName, SongPart songPartToAdd)
     {
         var playlistExists = MainViewModel.Playlists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
-        if (playlistExists is null) 
+        if (playlistExists is null)
         {
             var playlist = new Playlist(playlistName);
             playlist.SongParts.Add(songPartToAdd);

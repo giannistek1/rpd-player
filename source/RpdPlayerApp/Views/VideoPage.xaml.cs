@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Views;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
 
@@ -27,14 +28,14 @@ public partial class VideoPage : ContentPage
         //DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
 
         VideoMediaElement.Source = MediaSource.FromUri(SongPart.VideoURL);
-        VideoMediaElement.Volume = MainViewModel.MainVolume;
+        VideoMediaElement.Volume = CommonSettings.MainVolume;
 
         SongTitleLabel.Text = $"{SongPart.Title}";
         ArtistLabel.Text = SongPart.ArtistName;
         SongPartLabel.Text = $"{SongPart.PartNameFull}";
 
         VideoMediaElement.ShouldAutoPlay = true;
-        VideoMediaElement.ShouldLoopPlayback = MainViewModel.ShouldLoopVideo;
+        VideoMediaElement.ShouldLoopPlayback = CommonSettings.ShouldLoopVideo;
 
         // Don't put the starting value in the XML because then you can't move the slider!
         SpeedSlider.Value = 1;
