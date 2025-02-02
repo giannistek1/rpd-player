@@ -17,7 +17,6 @@ namespace RpdPlayerApp.Views;
 public partial class HomeView : ContentView
 {
     internal event EventHandler? PlaySongPart;
-    internal event EventHandler? FilterPressed;
     internal event EventHandler? CreatePlaylistButtonPressed;
     internal event EventHandler? ShowCategories;
     internal event EventHandler? ShowNewsPopup;
@@ -31,7 +30,6 @@ public partial class HomeView : ContentView
     public HomeView()
     {
         InitializeComponent();
-
 
         ArtistRepository.Artists.CollectionChanged += ArtistsCollectionChanged;
         AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;
@@ -194,6 +192,12 @@ public partial class HomeView : ContentView
 
         var jsonSongParts = JsonConvert.SerializeObject(newsItems);
         Preferences.Set(SONGPARTS, jsonSongParts);
+
+        if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC)) 
+        { 
+            bool startRpd = Preferences.Get(key: CommonSettings.START_RPD_AUTOMATIC, defaultValue: false);
+            if (startRpd) { StartRpdButtonClicked(sender, e); }
+        }
     }
 
     private void GenresChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
@@ -314,7 +318,7 @@ public partial class HomeView : ContentView
     private void StartModeButtonClicked(object? sender, EventArgs e)
     {
         if (RpdSettings!.UsingGeneratePlaylist) { GeneratePlaylistButtonClicked(); }
-        else { StartRpdButtonClicked(sender, e); }
+        else                                    { StartRpdButtonClicked(sender, e); }
     }
     private void GeneratePlaylistButtonClicked()
     {

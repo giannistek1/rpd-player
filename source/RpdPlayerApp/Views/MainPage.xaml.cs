@@ -60,7 +60,6 @@ public partial class MainPage
 
     private void SetContentViewEvents()
     {
-        HomeView.FilterPressed += OnFilterPressed;
         HomeView.PlaySongPart += OnPlaySongPart;
         HomeView.CreatePlaylistButtonPressed += OnCreatePlaylistButtonPressed;
         HomeView.ShowCategories += OnShowCategories;

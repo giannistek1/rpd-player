@@ -39,7 +39,7 @@ public partial class SettingsPage : ContentPage
 
     private async void BackButton_Pressed(object sender, EventArgs e) => await Navigation.PopAsync();
 
-    private async void Switch_Toggled(object? sender, ToggledEventArgs e)
+    private void Switch_Toggled(object? sender, ToggledEventArgs e)
     {
         if (AnalyticsSwitch == sender) { Preferences.Set(CommonSettings.USE_ANALYTICS, AnalyticsSwitch.IsToggled); }
 
