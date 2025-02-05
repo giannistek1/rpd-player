@@ -19,7 +19,6 @@ namespace RpdPlayerApp.Views;
 public partial class SearchSongPartsView : ContentView
 {
     internal event EventHandler? PlaySongPart;
-    internal event EventHandler? StopSongPart;
     internal event EventHandler? AddSongPart;
     /// <summary>
     /// Updates swipe next item.
@@ -174,13 +173,13 @@ public partial class SearchSongPartsView : ContentView
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
     {
         if (!HelperClass.HasInternetConnection()) { return; }
-
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
-        if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
-        {
-            MainViewModel.CurrentSongPart = songPart;
-            PlaySongPart?.Invoke(sender, e);
-        }
+        if (string.IsNullOrWhiteSpace(songPart.AudioURL)) { Toast.Make("No valid audio URL.").Show(); return; }
+
+        MainViewModel.CurrentSongPart = songPart;
+
+        AudioManager.PlayAudio(songPart);
+        PlaySongPart?.Invoke(sender, e);
     }
 
     // Sender is a Syncfusion.Maui.ListView.SfListView
@@ -193,7 +192,7 @@ public partial class SearchSongPartsView : ContentView
 
         if (MainViewModel.UsingVideoMode && songPart.HasVideo)
         {
-            StopSongPart?.Invoke(sender, e);
+            AudioManager.StopAudio();
 
             if (Navigation.NavigationStack.Count < 2)
             {
@@ -206,9 +205,9 @@ public partial class SearchSongPartsView : ContentView
             MainViewModel.PlayMode = PlayMode.Queue;
 
             MainViewModel.CurrentSongPart = songPart;
+            AudioManager.PlayAudio(songPart);
+
             PlaySongPart?.Invoke(sender, e);
-            TimerManager.songPart = songPart;
-            TimerManager.StartInfiniteScaleYAnimationWithTimer();
         }
 
         SonglibraryListView.SelectedItems?.Clear();
@@ -329,6 +328,7 @@ public partial class SearchSongPartsView : ContentView
         else
         {
             MainViewModel.CurrentSongPart = songPart;
+            AudioManager.PlayAudio(songPart);
             PlaySongPart?.Invoke(sender, e);
         }
     }

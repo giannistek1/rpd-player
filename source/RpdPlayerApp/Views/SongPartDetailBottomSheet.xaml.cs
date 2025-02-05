@@ -27,8 +27,14 @@ public partial class SongPartDetailBottomSheet
 	{
 		InitializeComponent();
         _playlistsManager = new();
+
         Loaded += OnLoad;
         Dismissed += OnDismissed;
+
+        AudioManager.OnChange += OnChangeSongPart;
+        AudioManager.OnPlay += OnPlayAudio;
+        AudioManager.OnPause += OnPauseAudio;
+        AudioManager.OnStop += OnStopAudio;
     }
 
     private void OnLoad(object? sender, EventArgs e)
@@ -39,6 +45,12 @@ public partial class SongPartDetailBottomSheet
         AudioProgressSlider.DragCompleted += AudioProgressSlider_DragCompleted;
     }
     private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
+    private void OnChangeSongPart(object? sender, MyEventArgs e) => UpdateSongDetails();
+    private void OnPlayAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PauseIcon;
+
+    private void OnPauseAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PlayIcon;
+
+    private void OnStopAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PlayIcon;
 
     private void AudioProgressSlider_DragStarted(object? sender, EventArgs e) => AudioPlayerControl!.AudioProgressSliderDragStarted(sender, e);
 
@@ -51,7 +63,7 @@ public partial class SongPartDetailBottomSheet
     internal void UpdateIcons()
     {
         // TODO: Set image to play once song ends.
-        PlayToggleImageButton.Source = MainViewModel.IsCurrentlyPlayingSongPart || MainViewModel.IsCurrentlyPlayingTimer ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying || MainViewModel.IsCurrentlyPlayingTimer ? IconManager.PauseIcon : IconManager.PlayIcon;
         VoiceImageButton.Source = MainViewModel.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
         // TODO: Enums
         TimerImageButton.Source = MainViewModel.TimerMode switch
@@ -76,7 +88,7 @@ public partial class SongPartDetailBottomSheet
     }
 
     /// <summary>
-    /// Song dependent or theme chage
+    /// Song dependent or theme change
     /// </summary>
     internal void UpdateSongDetails()
     {
@@ -129,7 +141,6 @@ public partial class SongPartDetailBottomSheet
     }
     private void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
-        
         if (MainViewModel.IsCurrentlyPlayingTimer)
         {
             PlayToggleImageButton.Source = IconManager.PlayIcon;
@@ -150,7 +161,7 @@ public partial class SongPartDetailBottomSheet
     private void NextButton_Pressed(object sender, EventArgs e)
     {
         NextSongPart?.Invoke(sender, e);
-        PlayToggleImageButton.Source = IconManager.PauseIcon; //MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon; // Because if song ends, may need to show play icon.
     }
 
     private void TimerButton_Pressed(object sender, EventArgs e)

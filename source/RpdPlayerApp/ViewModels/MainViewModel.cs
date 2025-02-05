@@ -4,7 +4,9 @@ using RpdPlayerApp.Models;
 using System.Collections.ObjectModel;
 
 namespace RpdPlayerApp.ViewModels;
-
+/// <summary>
+/// The "main" manager.
+/// </summary>
 internal static class MainViewModel
 {
     #region Constants

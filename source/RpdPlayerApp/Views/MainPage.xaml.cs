@@ -19,6 +19,8 @@ public partial class MainPage
     {
         InitializeComponent();
 
+        AudioManager.DetailBottomSheet = _detailBottomSheet;
+
         // Creating variables in constructor. Assigning in OnLoad.
         SetupHomeToolbar();
 
@@ -70,7 +72,6 @@ public partial class MainPage
         _categoriesView.BackPressed += OnBackPressed;
 
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
-        SearchSongPartsView.StopSongPart += OnStopSongPart;
         SearchSongPartsView.AddSongPart += OnAddSongPart;
         SearchSongPartsView.EnqueueSongPart += OnEnqueueSongPart;
         SearchSongPartsView.ShowSortBy += OnShowSortBy;
@@ -368,16 +369,14 @@ public partial class MainPage
     {
         AudioPlayerControl.PlayPreviousSongPart(sender!, e);
 
-        _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        _detailBottomSheet.UpdateSongDetails();
+        AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
     }
 
     private void OnNextSong(object? sender, EventArgs e)
     {
         AudioPlayerControl.NextButton_Pressed(sender!, e);
 
-        _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        _detailBottomSheet.UpdateSongDetails();
+        AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
     }
     private void OnOpenSongPartDetailBottomSheet(object? sender, EventArgs e)
     {
@@ -495,14 +494,6 @@ public partial class MainPage
         }
     }
 
-    private void OnStopSongPart(object? sender, EventArgs e)
-    {
-        if (MainViewModel.CurrentSongPart.Id >= 0)
-        {
-            AudioPlayerControl.StopAudio();
-        }
-    }
-
     private void OnShowSortBy(object? sender, EventArgs e)
     {
         _sortByBottomSheet.HasHandle = true;
@@ -521,20 +512,10 @@ public partial class MainPage
 
     #region AudioPlayerControl Events
 
-    private void OnPause(object? sender, EventArgs e)
-    {
-        SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
-    }
-    private void OnAudioEnded(object? sender, EventArgs e)
-    {
-        _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
-        _detailBottomSheet.UpdateSongDetails();
-    }
+    private void OnPause(object? sender, EventArgs e) => SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
+    private void OnAudioEnded(object? sender, EventArgs e) => AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
 
-    private void OnUpdateProgress(object? sender, EventArgs e)
-    {
-        _detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider.Value);
-    }
+    private void OnUpdateProgress(object? sender, EventArgs e) => _detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider!.Value);
     #endregion
 
     protected override bool OnBackButtonPressed()

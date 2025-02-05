@@ -18,11 +18,12 @@ public partial class AudioPlayerControl : ContentView
     internal EventHandler? UpdateProgress;
     internal EventHandler? AudioEnded;
 
-    internal Slider audioProgressSlider;
+    internal Slider? audioProgressSlider;
 
     public AudioPlayerControl()
     {
         InitializeComponent();
+        AudioManager.SongPartMediaElement = AudioMediaElement;
         Loaded += OnLoad;
     }
 
@@ -38,7 +39,48 @@ public partial class AudioPlayerControl : ContentView
         AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
 
         PlayToggleImageButton.Source = IconManager.PlayIcon;
+        AudioManager.OnChange += OnChangeSongPart;
+        AudioManager.OnPlay += OnPlayAudio;
+        AudioManager.OnPause += OnPauseAudio;
+        AudioManager.OnStop += OnStopAudio;
     }
+
+    private void OnChangeSongPart(object? sender, MyEventArgs e)
+    {
+        // Update UI.
+        AlbumImage.Source = ImageSource.FromUri(new Uri(e.SongPart.AlbumURL));
+        NowPlayingLabel.Text = $"{e.SongPart.Title}";
+        NowPlayingPartLabel.Text = $"{e.SongPart.PartNameFull}";
+
+        TimeSpan duration = TimeSpan.FromSeconds(e.SongPart.ClipLength);
+        DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
+    }
+
+    private void OnPlayAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PauseIcon;
+
+    private void OnPauseAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PlayIcon;
+
+    private void OnStopAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PlayIcon;
+
+    /// <summary>
+    /// Plays audio from audioURL, updates AudioPlayerControl controls
+    /// </summary>
+    /// <param name="songPart"></param>
+    internal void PlayAudio(SongPart songPart, bool updateCurrentSong = false)
+    {
+        if (updateCurrentSong)
+        {
+            AudioManager.ChangeSongPart(songPart);
+        }
+
+        AudioManager.PlayAudio(songPart: songPart);
+
+        // This is very slow :(
+        //CheckValidUrl(songPart);
+
+        UpdateNextSwipeItem();
+    }
+
 
     // For updating theme.
     internal void UpdateUI()
@@ -68,11 +110,7 @@ public partial class AudioPlayerControl : ContentView
         // Can also use a timer and update value on main thread after time elapsed.
         AudioProgressSlider.Value = e.Position.TotalSeconds / AudioMediaElement.Duration.TotalSeconds * 100;
 
-
-        //if ((AudioMediaElement.Volume < CommonSettings.MainVolume - 0.02) && (AudioMediaElement.Volume > CommonSettings.MainVolume + 0.02))
-        //{
         AudioMediaElement.Volume = CommonSettings.MainVolume;
-        //}
 
         UpdateProgress?.Invoke(sender, e);
     }
@@ -107,7 +145,7 @@ public partial class AudioPlayerControl : ContentView
                 }
 
                 if (MainViewModel.SongPartsQueue.Count == 0) {
-                    if (AudioProgressSlider.Value >= AudioProgressSlider.Maximum - 2) { StopAudio(); }
+                    if (AudioProgressSlider.Value >= AudioProgressSlider.Maximum - 2) { AudioManager.StopAudio(); }
                     return; 
                 }
 
@@ -165,31 +203,28 @@ public partial class AudioPlayerControl : ContentView
         AudioEnded?.Invoke(sender, e);
     }
 
+
+    /// <summary>
+    /// Also(re)used with SongPartDetailBottomSheet.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     internal void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
         // If audio is done playing.
         if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
         {
-            AudioMediaElement.Play();
-            PlayToggleImageButton.Source = IconManager.PauseIcon;
-            MainViewModel.CurrentSongPart.IsPlaying = true;
-            TimerManager.StartInfiniteScaleYAnimationWithTimer();
+            AudioManager.PlayAudio(MainViewModel.CurrentSongPart);
         }
         // If audio is paused (in middle).
         else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
         {
-            AudioMediaElement.Play();
-            PlayToggleImageButton.Source = IconManager.PauseIcon;
-            MainViewModel.CurrentSongPart.IsPlaying = true;
-            TimerManager.StartInfiniteScaleYAnimationWithTimer();
+            AudioManager.PlayAudio(MainViewModel.CurrentSongPart);
         }
         // Else pause.
         else if (AudioMediaElement.CurrentState == MediaElementState.Playing)
         {
-            AudioMediaElement.Pause();
-            Pause?.Invoke(sender, e);
-            PlayToggleImageButton.Source = IconManager.PlayIcon;
-            MainViewModel.CurrentSongPart.IsPlaying = false;
+            AudioManager.PauseAudio();
         }
     }
 
@@ -225,7 +260,7 @@ public partial class AudioPlayerControl : ContentView
         }
 
         LocalAudioMediaElement.Play();
-        UpdateCurrentSong(MainViewModel.CurrentSongPart);
+        AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
 
         MainViewModel.IsCurrentlyPlayingTimer = true;
     }
@@ -236,54 +271,10 @@ public partial class AudioPlayerControl : ContentView
         PlayAudio(MainViewModel.SongToPlay);
     }
 
-    /// <summary>
-    /// Plays audio from audioURL, updates AudioPlayerControl controls
-    /// </summary>
-    /// <param name="songPart"></param>
-    internal void PlayAudio(SongPart songPart, bool updateCurrentSong = false)
-    {
-        if (!HelperClass.HasInternetConnection()) { return; }
-
-        // Update vars.
-        songPart.IsPlaying = true;
-        MainViewModel.IsCurrentlyPlayingSongPart = true;
-        PlayToggleImageButton.Source = IconManager.PauseIcon;
-
-        if (updateCurrentSong)
-        {
-            UpdateCurrentSong(MainViewModel.CurrentSongPart);
-        }
-
-        // This is very slow :(
-        //CheckValidUrl(songPart);
-
-        AudioMediaElement.Play();
-
-        UpdateNextSwipeItem();
-    }
-
-    /// <summary>
-    /// Sets media source and updates UI
-    /// </summary>
-    internal void UpdateCurrentSong(SongPart songPart)
-    {
-        AudioMediaElement.Source = MediaSource.FromUri(songPart.AudioURL);
-
-        // Update UI.
-        AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
-        NowPlayingLabel.Text = $"{songPart.Title}";
-        NowPlayingPartLabel.Text = $"{songPart.PartNameFull}";
-
-        TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
-        DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
-    }
-
     internal void StopAudio()
     {
         AudioMediaElement.Stop();
         AudioMediaElement.SeekTo(new TimeSpan(0));
-
-        PlayToggleImageButton.Source = IconManager.PlayIcon;
 
         MainViewModel.CurrentSongPart.IsPlaying = false;
         MainViewModel.IsCurrentlyPlayingSongPart = false;

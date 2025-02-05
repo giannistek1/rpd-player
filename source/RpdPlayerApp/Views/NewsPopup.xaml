@@ -12,7 +12,7 @@
 
             <Label Grid.Row="0" Text="New songs below!" Padding="16,16,0,0" FontSize="16" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="1.5"/>
         
-            <syncfusion:SfListView Grid.Row="1" x:Name="NewsListView" BackgroundColor="{DynamicResource BackgroundColor}" ItemSpacing="6">
+            <syncfusion:SfListView Grid.Row="1" x:Name="NewsListView" BackgroundColor="{DynamicResource BackgroundColor}" ItemSpacing="6" SelectionMode="None">
                 <syncfusion:SfListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
