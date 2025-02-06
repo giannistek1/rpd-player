@@ -16,7 +16,6 @@ public partial class AudioPlayerControl : ContentView
     internal EventHandler? Pause;
     internal EventHandler? ShowDetails;
     internal EventHandler? UpdateProgress;
-    internal EventHandler? AudioEnded;
 
     internal Slider? audioProgressSlider;
 
@@ -198,9 +197,6 @@ public partial class AudioPlayerControl : ContentView
 
                 break;
         }
-
-        // Updates song detail UI
-        AudioEnded?.Invoke(sender, e);
     }
 
 

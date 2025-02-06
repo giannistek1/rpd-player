@@ -94,7 +94,6 @@ public partial class MainPage
         AudioPlayerControl.Pause += OnPause;
         AudioPlayerControl.ShowDetails += OnOpenSongPartDetailBottomSheet;
         AudioPlayerControl.UpdateProgress += OnUpdateProgress;
-        AudioPlayerControl.AudioEnded += OnAudioEnded;
     }
 
     private void OnBackPressed(object? sender, EventArgs e) => BackToHomeView();
@@ -365,19 +364,9 @@ public partial class MainPage
 
     private void OnPlayToggleSongPart(object? sender, EventArgs e) => AudioPlayerControl.PlayToggleButton_Pressed(sender!, e);
 
-    private void OnPreviousSong(object? sender, EventArgs e)
-    {
-        AudioPlayerControl.PlayPreviousSongPart(sender!, e);
+    private void OnPreviousSong(object? sender, EventArgs e) => AudioPlayerControl.PlayPreviousSongPart(sender!, e);
 
-        AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
-    }
-
-    private void OnNextSong(object? sender, EventArgs e)
-    {
-        AudioPlayerControl.NextButton_Pressed(sender!, e);
-
-        AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
-    }
+    private void OnNextSong(object? sender, EventArgs e) => AudioPlayerControl.NextButton_Pressed(sender!, e);
     private void OnOpenSongPartDetailBottomSheet(object? sender, EventArgs e)
     {
         _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
@@ -513,7 +502,6 @@ public partial class MainPage
     #region AudioPlayerControl Events
 
     private void OnPause(object? sender, EventArgs e) => SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
-    private void OnAudioEnded(object? sender, EventArgs e) => AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
 
     private void OnUpdateProgress(object? sender, EventArgs e) => _detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider!.Value);
     #endregion
