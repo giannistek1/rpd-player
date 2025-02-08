@@ -93,7 +93,7 @@ public partial class HomeView : ContentView
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Toast.Make(ex.Message).Show();
         }
@@ -133,6 +133,7 @@ public partial class HomeView : ContentView
         StartModeButton.Text = "Start RPD";
         StartModeButton.Clicked += StartModeButtonClicked;
 
+        // Chips
         DurationChipGroup?.Items?.Add(new SfChip() { Text = "∞", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         DurationChipGroup!.SelectedItem = DurationChipGroup?.Items?[0];
 
@@ -181,6 +182,17 @@ public partial class HomeView : ContentView
         // Only if playlist option:
         //OtherOptionsChipGroup?.Items?.Add(new SfChip() { Text = "Ending with chorus 3", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
 
+        SaveNews();
+
+        if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC))
+        {
+            bool startRpd = Preferences.Get(key: CommonSettings.START_RPD_AUTOMATIC, defaultValue: false);
+            if (startRpd) { StartRpdButtonClicked(sender, e); }
+        }
+    }
+
+    private static void SaveNews()
+    {
         List<NewsItem> newsItems = SongPartRepository.SongParts.Select(s => new NewsItem()
         {
             Title = s.Title,
@@ -192,12 +204,6 @@ public partial class HomeView : ContentView
 
         var jsonSongParts = JsonConvert.SerializeObject(newsItems);
         Preferences.Set(SONGPARTS, jsonSongParts);
-
-        if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC)) 
-        { 
-            bool startRpd = Preferences.Get(key: CommonSettings.START_RPD_AUTOMATIC, defaultValue: false);
-            if (startRpd) { StartRpdButtonClicked(sender, e); }
-        }
     }
 
     private void GenresChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
@@ -211,6 +217,7 @@ public partial class HomeView : ContentView
     {
         DurationChipGroup.SelectedChipBackground = (Color)Application.Current!.Resources["SecondaryButton"];
         DurationChipGroup.Items![0].TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
+        // To redraw the colors, selected item needs to be set again.
         DurationChipGroup.SelectedItem = null;
         DurationChipGroup!.SelectedItem = DurationChipGroup.Items[0];
 
@@ -276,6 +283,7 @@ public partial class HomeView : ContentView
 
     private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => AlbumCountLabel.Text = $"{AlbumRepository.Albums.Count}";
 
+    // Toolbar actions.
     internal void FeedbackButtonPressed(object? sender, EventArgs e)
     {
 
@@ -322,7 +330,7 @@ public partial class HomeView : ContentView
     }
     private void GeneratePlaylistButtonClicked()
     {
-        // TODO: Test code
+        // TODO: Delete in final version, is for testing purposes
         List<NewsItem> newNewsItems = SongPartRepository.SongParts.Select(s => new NewsItem()
         {
             Title = s.Title,
@@ -333,10 +341,9 @@ public partial class HomeView : ContentView
         }).ToList();
 
         var differentNewSongs = newNewsItems.Where(s => s.Artist!.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
-        Random random = new();
         foreach (var item in differentNewSongs)
         {
-            item.HasNewVideo = Convert.ToBoolean(random.Next(2));
+            item.HasNewVideo = Convert.ToBoolean(HelperClass.Rng.Next(2));
         }
 
         if (differentNewSongs.Count > 0)
@@ -361,68 +368,10 @@ public partial class HomeView : ContentView
         if (TimerChipGroup.Items![2].IsSelected) { MainViewModel.TimerMode = 2; }
         if (TimerChipGroup.Items![3].IsSelected) { MainViewModel.TimerMode = 3; }
 
-        // Grouptypes
-        RpdSettings?.GroupTypes.Clear();
-        for (var i = 0; i < GrouptypesChipGroup?.Items?.Count; i++)
-        {
-            if (GrouptypesChipGroup.Items[i].IsSelected)
-            {
-                GroupType groupType = GrouptypesChipGroup.Items[i].Text switch
-                {
-                    "Male" => GroupType.BG,
-                    "Female" => GroupType.GG,
-                    "Mixed" => GroupType.MIX,
-                    _ => GroupType.NOT_SET
-                };
-                RpdSettings?.GroupTypes.Add(groupType);
-            }
-        }
-
-        // Genres
-        RpdSettings?.Genres.Clear();
-        for (var i = 0; i < GenresChipGroup?.Items?.Count; i++)
-        {
-            if (GenresChipGroup.Items[i].IsSelected)
-            {
-                string genre = GenresChipGroup.Items[i].Text;
-                RpdSettings?.Genres.Add(genre);
-            }
-        }
-
-        // Gens
-        RpdSettings?.Gens.Clear();
-        for (var i = 0; i < GenerationsChipGroup?.Items?.Count; i++)
-        {
-            if (GenerationsChipGroup.Items[i].IsSelected)
-            {
-                Gen gen = GenerationsChipGroup.Items[i].Text switch
-                {
-                    "1" => Gen.First,
-                    "2" => Gen.Second,
-                    "3" => Gen.Third,
-                    "4" => Gen.Fourth,
-                    "5" => Gen.Fifth,
-                    _ => Gen.NotKpop
-                };
-                RpdSettings?.Gens.Add(gen);
-            }
-        }
-
-        RpdSettings?.Companies.Clear();
-        for (var i = 0; i < CompaniesChipGroup?.Items?.Count; i++)
-        {
-            if (CompaniesChipGroup.Items[i].IsSelected)
-            {
-                switch (CompaniesChipGroup.Items[i].Text)
-                {
-                    case "SM": RpdSettings?.Companies.AddRange(MainViewModel.SMCompanies); break;
-                    case "HYBE": RpdSettings?.Companies.AddRange(MainViewModel.HybeCompanies); break;
-                    case "JYP": RpdSettings?.Companies.Add("JYP Entertainment"); break;
-                    case "YG": RpdSettings?.Companies.AddRange(MainViewModel.HybeCompanies); break;
-                    case "Others": RpdSettings?.Companies.AddRange(RpdSettings.OtherCompanies); break;
-                }
-            }
-        }
+        RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
+        RpdSettings?.DetermineGenres(GenresChipGroup);
+        RpdSettings?.DetermineGens(GenerationsChipGroup);
+        RpdSettings?.DetermineCompanies(CompaniesChipGroup);
 
         RpdSettings?.NumberedPartsBlacklist.Clear();
         RpdSettings?.PartsBlacklist.Clear();
@@ -435,6 +384,7 @@ public partial class HomeView : ContentView
                 switch (antiOptionsItems[i].Name)
                 {
                     case "Last chorus": RpdSettings?.NumberedPartsBlacklist.AddRange(["CE2", "C3", "CDB3", "CE3", "CE2", "P3", "PDB3"]); break;
+
                     case "Dance breaks": RpdSettings?.PartsBlacklist.AddRange(["CDB", "CDBE", "DB", "DBC", "DBE", "DBO", "PDB", "B", "O"]); break;
                     case "Tiktoks": RpdSettings?.PartsBlacklist.Add("T"); break;
                 }
@@ -453,16 +403,14 @@ public partial class HomeView : ContentView
         }
 
 
-
         // Guard
-        if (songParts.Count <= 0) { Toast.Make($"No songs found! Please change settings.", ToastDuration.Short, 14).Show(); return; }
+        if (songParts.Count <= 0) { Toast.Make($"No songs found! Please change your settings.", ToastDuration.Short, 14).Show(); return; }
 
         // Set current songs.
         MainViewModel.SongParts = songParts;
 
         // Choose random song.
-        var random = new Random();
-        int index = random.Next(songParts.Count);
+        int index = HelperClass.Rng.Next(songParts.Count);
         SongPart songPart = songParts[index];
 
         MainViewModel.AutoplayMode = 2; // Shuffle

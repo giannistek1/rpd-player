@@ -5,7 +5,7 @@ namespace RpdPlayerApp.Architecture;
 
 internal static class HelperClass
 {
-    private static Random rng = new Random();
+    internal readonly static Random Rng = new();
 
     /// <summary>
     /// Checks whether Network has internet access. If false, shows toast saying "No internet connection!"
@@ -52,7 +52,7 @@ internal static class HelperClass
         for (int i = 0; i < playlist.Count; i++)
         {
             SongPart temp = playlist[i];
-            int randomIndex = rng.Next(i, playlist.Count);
+            int randomIndex = Rng.Next(i, playlist.Count);
             playlist[i] = playlist[randomIndex];
             playlist[randomIndex] = temp;
         }
@@ -65,7 +65,7 @@ internal static class HelperClass
     // Extra functionality
     public static List<SongPart> RandomizeAndAlternatePlaylist(List<SongPart> playlist)
     {
-        SongPart previousSong = null;
+        SongPart? previousSong = null;
 
         var firstGroupType = GroupType.GG;
 
@@ -104,8 +104,8 @@ internal static class HelperClass
         {
             SongPart temp = playlist[i];  
 
-            // Select random song
-            int randomIndex = rng.Next(i, playlist.Count);
+            // Select random song.
+            int randomIndex = Rng.Next(i, playlist.Count);
 
             int depletedGrouptypes = 0;
             // Check for depleted groupTypes
@@ -122,7 +122,7 @@ internal static class HelperClass
             {
                 while (playlist[randomIndex].Artist?.GroupType == previousSong.Artist?.GroupType && depletedGrouptypes < 3)
                 {
-                    randomIndex = rng.Next(i, playlist.Count);
+                    randomIndex = Rng.Next(i, playlist.Count);
                 }
             }
             else
@@ -130,7 +130,7 @@ internal static class HelperClass
                 // Choose random index while grouptype is different than first grouptype.
                 while (playlist[randomIndex].Artist?.GroupType != firstGroupType && depletedGrouptypes < 3)
                 {
-                    randomIndex = rng.Next(i, playlist.Count);
+                    randomIndex = Rng.Next(i, playlist.Count);
                 }
             }
 

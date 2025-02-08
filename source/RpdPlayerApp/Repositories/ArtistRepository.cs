@@ -56,6 +56,8 @@ internal static class ArtistRepository
 
     internal static Artist MatchArtist(string artistName) => Artists.FirstOrDefault(a => a.Name.Equals(artistName, StringComparison.OrdinalIgnoreCase))!;
 
+    internal static Artist GetRandomArtist() => Artists[HelperClass.Rng.Next(Artists.Count)];
+
     private static string GetStringFromURL()
     {
         if (!HelperClass.HasInternetConnection()) { return string.Empty; }

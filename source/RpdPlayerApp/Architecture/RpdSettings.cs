@@ -1,4 +1,6 @@
 ﻿using RpdPlayerApp.Models;
+using RpdPlayerApp.ViewModels;
+using Syncfusion.Maui.Core;
 
 namespace RpdPlayerApp.Architecture;
 
@@ -22,4 +24,77 @@ class RpdSettings
     internal List<string> OtherCompanies { get; set; } = [];
     internal List<string> NumberedPartsBlacklist { get; set; } = []; 
     internal List<string> PartsBlacklist { get; set; } = [];
+
+    internal void DetermineGroupTypes(SfChipGroup grouptypesChipGroup)
+    {
+       GroupTypes.Clear();
+        for (var i = 0; i < grouptypesChipGroup?.Items?.Count; i++)
+        {
+            if (grouptypesChipGroup.Items[i].IsSelected)
+            {
+                GroupType groupType = grouptypesChipGroup.Items[i].Text switch
+                {
+                    "Male" => GroupType.BG,
+                    "Female" => GroupType.GG,
+                    "Mixed" => GroupType.MIX,
+                    _ => GroupType.NOT_SET
+                };
+                GroupTypes.Add(groupType);
+            }
+        }
+    }
+
+    internal void DetermineGenres(SfChipGroup genresChipGroup)
+    {
+        Genres.Clear();
+        for (var i = 0; i < genresChipGroup?.Items?.Count; i++)
+        {
+            if (genresChipGroup.Items[i].IsSelected)
+            {
+                string genre = genresChipGroup.Items[i].Text;
+                Genres.Add(genre);
+            }
+        }
+
+    }
+
+    internal void DetermineGens(SfChipGroup generationsChipGroup)
+    {
+        Gens.Clear();
+        for (var i = 0; i < generationsChipGroup?.Items?.Count; i++)
+        {
+            if (generationsChipGroup.Items[i].IsSelected)
+            {
+                Gen gen = generationsChipGroup.Items[i].Text switch
+                {
+                    "1" => Gen.First,
+                    "2" => Gen.Second,
+                    "3" => Gen.Third,
+                    "4" => Gen.Fourth,
+                    "5" => Gen.Fifth,
+                    _ => Gen.NotKpop
+                };
+                Gens.Add(gen);
+            }
+        }
+    }
+
+    internal void DetermineCompanies(SfChipGroup companiesChipGroup)
+    {
+        Companies.Clear();
+        for (var i = 0; i < companiesChipGroup?.Items?.Count; i++)
+        {
+            if (companiesChipGroup.Items[i].IsSelected)
+            {
+                switch (companiesChipGroup.Items[i].Text)
+                {
+                    case "SM": Companies.AddRange(MainViewModel.SMCompanies); break;
+                    case "HYBE": Companies.AddRange(MainViewModel.HybeCompanies); break;
+                    case "JYP": Companies.Add("JYP Entertainment"); break;
+                    case "YG": Companies.AddRange(MainViewModel.HybeCompanies); break;
+                    case "Others": Companies.AddRange(OtherCompanies); break;
+                }
+            }
+        }
+    }
 }

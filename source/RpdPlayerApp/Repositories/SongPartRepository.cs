@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core.Extensions;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
+using static Android.Provider.MediaStore.Audio;
 
 namespace RpdPlayerApp.Repositories;
 
@@ -74,6 +76,8 @@ internal static class SongPartRepository
 
         return SongParts.Count > 0;
     }
+
+    internal static SongPart GetRandomSongPart() => SongParts[HelperClass.Rng.Next(SongParts.Count)];
 
     private static string GetStringFromURL()
     {

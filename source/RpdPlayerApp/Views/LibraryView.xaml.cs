@@ -96,7 +96,7 @@ public partial class LibraryView : ContentView
 
     internal void NewPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        if (PlaylistNameEntry.Text.IsNullOrBlank())
+        if (PlaylistNameEntry.Text.IsNullOrEmpty())
         {
             Toast.Make($"Please fill in a name", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
             return;

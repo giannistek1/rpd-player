@@ -312,8 +312,7 @@ public partial class SearchSongPartsView : ContentView
     {
         if (!HelperClass.HasInternetConnection()) { return; }
 
-        var random = new Random();
-        int index = random.Next(songParts.Count);
+        int index = HelperClass.Rng.Next(songParts.Count);
         SongPart songPart = songParts[index];
 
         if (MainViewModel.IsCurrentlyPlayingSongPart)

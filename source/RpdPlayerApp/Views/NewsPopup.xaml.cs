@@ -13,4 +13,6 @@ public partial class NewsPopup : Popup
 
 		NewsListView.ItemsSource = NewsItems;
 	}
+
+    private void CloseImageButton_Pressed(object sender, EventArgs e) => Close();
 }

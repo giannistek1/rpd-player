@@ -59,6 +59,8 @@ internal static class AlbumRepository
 
     internal static Album MatchAlbum(string artistName, string albumTitle) => Albums.FirstOrDefault(a => a.ArtistName.Equals(artistName, StringComparison.OrdinalIgnoreCase) && a.Title.Equals(albumTitle, StringComparison.OrdinalIgnoreCase), new());
 
+    internal static Album GetRandomAlbum() => Albums[HelperClass.Rng.Next(Albums.Count)];
+
     private static string GetStringFromURL()
     {
         if (!HelperClass.HasInternetConnection()) { return string.Empty; }

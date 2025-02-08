@@ -11,8 +11,6 @@ namespace RpdPlayerApp.Views;
 
 public partial class AudioPlayerControl : ContentView
 {
-    private readonly Random random = new();
-
     internal EventHandler? Pause;
     internal EventHandler? ShowDetails;
     internal EventHandler? UpdateProgress;
@@ -134,7 +132,7 @@ public partial class AudioPlayerControl : ContentView
                 }
                 else if (MainViewModel.AutoplayMode == 2) // Shuffle
                 {
-                    int index = random.Next(MainViewModel.SongParts.Count);
+                    int index = HelperClass.Rng.Next(MainViewModel.SongParts.Count);
                     MainViewModel.SongPartsQueue.Enqueue(MainViewModel.SongParts[index]);
                 }
                 else if (MainViewModel.AutoplayMode == 3) // Repeat one

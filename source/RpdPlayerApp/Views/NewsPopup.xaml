@@ -1,6 +1,7 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
                xmlns:views="clr-namespace:RpdPlayerApp.Views"
                xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
                x:Class="RpdPlayerApp.Views.NewsPopup">
@@ -10,7 +11,16 @@
 
         <Grid RowDefinitions="50, auto" BackgroundColor="{DynamicResource BackgroundColor}">
 
-            <Label Grid.Row="0" Text="New songs below!" Padding="16,16,0,0" FontSize="16" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="1.5"/>
+            <Grid Grid.Row="0" ColumnDefinitions="8*, 1*">
+
+                <Label Grid.Column="0"  Text="New songs below!" Padding="16,16,0,0" FontSize="16" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="1.5"/>
+                
+                <ImageButton Grid.Column="1" HeightRequest="30" x:Name="CloseImageButton" Pressed="CloseImageButton_Pressed" VerticalOptions="CenterAndExpand">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Close}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
+            </Grid>
         
             <syncfusion:SfListView Grid.Row="1" x:Name="NewsListView" BackgroundColor="{DynamicResource BackgroundColor}" ItemSpacing="6" SelectionMode="None">
                 <syncfusion:SfListView.ItemTemplate>
