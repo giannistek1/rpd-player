@@ -139,30 +139,10 @@ public partial class SongPartDetailBottomSheet
             ProgressLabel.Text = "0:00";
         }
     }
-    private void PlayToggleButton_Pressed(object sender, EventArgs e)
-    {
-        if (MainViewModel.IsCurrentlyPlayingTimer)
-        {
-            PlayToggleImageButton.Source = IconManager.PlayIcon;
-        }
-        else
-        {
-            PlayToggleSongPart?.Invoke(sender, e);
-            PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
-        }
-    }
-
-    private void PreviousButton_Pressed(object sender, EventArgs e)
-    {
-        PreviousSongPart?.Invoke(sender, e);
-        PlayToggleImageButton.Source = IconManager.PauseIcon; //MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon;
-    }
-
-    private void NextButton_Pressed(object sender, EventArgs e)
-    {
-        NextSongPart?.Invoke(sender, e);
-        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying ? IconManager.PauseIcon : IconManager.PlayIcon; // Because if song ends, may need to show play icon.
-    }
+    // Let AudioPlayerControl handle the events.
+    private void PlayToggleButton_Pressed(object sender, EventArgs e) => PlayToggleSongPart?.Invoke(sender, e);
+    private void PreviousButton_Pressed(object sender, EventArgs e) => PreviousSongPart?.Invoke(sender, e);
+    private void NextButton_Pressed(object sender, EventArgs e) => NextSongPart?.Invoke(sender, e);
 
     private void TimerButton_Pressed(object sender, EventArgs e)
     {
