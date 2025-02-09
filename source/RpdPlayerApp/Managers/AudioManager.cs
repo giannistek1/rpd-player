@@ -3,13 +3,20 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
 using RpdPlayerApp.Views;
-using static RpdPlayerApp.Managers.AudioManager;
 
 namespace RpdPlayerApp.Managers;
 
 
 internal static class AudioManager
 {
+    /// <summary>
+    /// For countdowns and announcements.
+    /// </summary>
+    internal static MediaElement? PreSongPartMediaElement { get; set; }
+
+    /// <summary>
+    /// For the songparts.
+    /// </summary>
     internal static MediaElement? SongPartMediaElement { get; set; }
     internal static SongPartDetailBottomSheet? DetailBottomSheet { get; set; }
 
@@ -28,7 +35,11 @@ internal static class AudioManager
         SongPartMediaElement!.Source = MediaSource.FromUri(songPart.AudioURL);
         OnChange?.Invoke(null, new MyEventArgs(songPart));
     }
-
+    /// <summary>
+    /// Precondition: Internet connection. Use ChangeSongPart first or change the source. <br />
+    /// Plays current song and alerts subscribers.
+    /// </summary>
+    /// <param name="songPart"></param>
     internal static void PlayAudio(SongPart songPart)
     {
         if (!HelperClass.HasInternetConnection()) { return; }
@@ -46,6 +57,7 @@ internal static class AudioManager
 
     internal static void PauseAudio()
     {
+        PreSongPartMediaElement!.Pause();
         SongPartMediaElement!.Pause();
         MainViewModel.CurrentSongPart.IsPlaying = false;
 
@@ -64,5 +76,15 @@ internal static class AudioManager
 
             OnStop?.Invoke(null, EventArgs.Empty);
         } 
+    }
+
+    internal static void PlayTimer()
+    {
+        MainViewModel.IsCurrentlyPlayingSongPart = false;
+        MainViewModel.IsCurrentlyPlayingTimer = true;
+
+        OnPlay?.Invoke(null, EventArgs.Empty);
+
+        PreSongPartMediaElement!.Play();
     }
 }

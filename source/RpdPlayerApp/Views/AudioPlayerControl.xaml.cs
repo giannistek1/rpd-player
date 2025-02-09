@@ -21,6 +21,7 @@ public partial class AudioPlayerControl : ContentView
     {
         InitializeComponent();
         AudioManager.SongPartMediaElement = AudioMediaElement;
+        AudioManager.PreSongPartMediaElement = LocalAudioMediaElement;
         Loaded += OnLoad;
     }
 
@@ -40,6 +41,13 @@ public partial class AudioPlayerControl : ContentView
         AudioManager.OnPlay += OnPlayAudio;
         AudioManager.OnPause += OnPauseAudio;
         AudioManager.OnStop += OnStopAudio;
+    }
+
+    private void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
+    {
+        if (MainViewModel.CurrentSongPart is null || MainViewModel.CurrentSongPart.Id < 0) { return; }
+
+        ShowDetails?.Invoke(sender, e);
     }
 
     private void OnChangeSongPart(object? sender, MyEventArgs e)
@@ -119,12 +127,13 @@ public partial class AudioPlayerControl : ContentView
             case PlayMode.Queue:
 
                 MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
-
+                 
+                // Choose song
                 if (MainViewModel.AutoplayMode == 1) // Autoplay
                 {
                     int index = MainViewModel.SongParts.FindIndex(s => s.AudioURL == MainViewModel.CurrentSongPart.AudioURL);
 
-                    // Imagine index = 1220 count = 1221
+                    // Imagine index = 1220, count = 1221
                     if (index + 1 < MainViewModel.SongParts.Count)
                     {
                         MainViewModel.SongPartsQueue.Enqueue(MainViewModel.SongParts[index + 1]);
@@ -176,8 +185,7 @@ public partial class AudioPlayerControl : ContentView
                 if (MainViewModel.PlaylistQueue.Count == 0) { return; }
  
                 MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
-                MainViewModel.CurrentSongPart = MainViewModel.SongPartsQueue.Dequeue();
-                if (MainViewModel.TimerMode == 1)
+                if (MainViewModel.TimerMode >= 1)
                 {
                     PlayCountdownAndUpdateCurrentSong();
                 }
@@ -205,20 +213,41 @@ public partial class AudioPlayerControl : ContentView
     /// <param name="e"></param>
     internal void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
-        // If audio is done playing.
-        if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
+        if (MainViewModel.IsCurrentlyPlayingSongPart)
         {
-            AudioManager.PlayAudio(MainViewModel.CurrentSongPart);
+            // If audio is done playing.
+            if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
+            {
+                AudioManager.PlayAudio(MainViewModel.CurrentSongPart);
+            }
+            // If audio is paused (in middle).
+            else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
+            {
+                AudioManager.PlayAudio(MainViewModel.CurrentSongPart);
+            }
+            // Else pause.
+            else if (AudioMediaElement.CurrentState == MediaElementState.Playing)
+            {
+                AudioManager.PauseAudio();
+            }
         }
-        // If audio is paused (in middle).
-        else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
+        else
         {
-            AudioManager.PlayAudio(MainViewModel.CurrentSongPart);
-        }
-        // Else pause.
-        else if (AudioMediaElement.CurrentState == MediaElementState.Playing)
-        {
-            AudioManager.PauseAudio();
+            // If audio is done playing.
+            if (LocalAudioMediaElement.CurrentState == MediaElementState.Stopped && LocalAudioMediaElement.Position >= LocalAudioMediaElement.Duration)
+            {
+                AudioManager.PlayTimer();
+            }
+            // If audio is paused (in middle).
+            else if (LocalAudioMediaElement.CurrentState == MediaElementState.Paused || LocalAudioMediaElement.CurrentState == MediaElementState.Stopped)
+            {
+                AudioManager.PlayTimer();
+            }
+            // Else pause.
+            else if (LocalAudioMediaElement.CurrentState == MediaElementState.Playing)
+            {
+                AudioManager.PauseAudio();
+            }
         }
     }
 
@@ -228,7 +257,7 @@ public partial class AudioPlayerControl : ContentView
         {
             MainViewModel.CurrentSongPart = MainViewModel.SongPartHistory[^1]; // Set current song with 2nd last song. ^ Means from end.
 
-            if (MainViewModel.TimerMode == 1)
+            if (MainViewModel.TimerMode >= 1)
             {
                 PlayCountdownAndUpdateCurrentSong();
             }
@@ -253,10 +282,9 @@ public partial class AudioPlayerControl : ContentView
             case 3: LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-kart.mp3"); break;
         }
 
-        LocalAudioMediaElement.Play();
-        AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
+        AudioManager.PlayTimer();
 
-        MainViewModel.IsCurrentlyPlayingTimer = true;
+        AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
     }
 
     private void LocalAudioMediaElement_MediaEnded(object? sender, EventArgs e)
@@ -296,7 +324,7 @@ public partial class AudioPlayerControl : ContentView
         // Next song.
         if (e.SwipeDirection == SwipeDirection.Left && e.IsOpen)
         {
-            // TODO: UGLY, needs fadeout or a delay or text invisible, be creative (PROBABLY CHANGE TO CAROUSELVIEW?).
+            // TODO: Probably delete, UGLY, needs fadeout or a delay or text invisible, be creative (PROBABLY CHANGE TO CAROUSELVIEW?).
 
             NowPlayingSwipeView.Close();
             AudioMediaElementMediaEnded(sender, e);
@@ -304,7 +332,7 @@ public partial class AudioPlayerControl : ContentView
         // Previous song
         else if (e.SwipeDirection == SwipeDirection.Right && e.IsOpen)
         {
-            // TODO: UGLY, needs fadeout or a delay or text invisible, be creative (PROBABLY CHANGE TO CAROUSELVIEW?).
+            // TODO: Probably delete, UGLY, needs fadeout or a delay or text invisible, be creative (PROBABLY CHANGE TO CAROUSELVIEW?).
 
             NowPlayingSwipeView.Close();
 
@@ -357,12 +385,5 @@ public partial class AudioPlayerControl : ContentView
         NextSwipeItem.IsVisible = isVisible;
         NextSwipeItemTitle.Text = isVisible ? songPart!.Title : string.Empty;
         NextSwipeItemSongPart.Text = isVisible ? songPart!.PartNameFull : string.Empty;
-    }
-
-    private void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
-    {
-        if (MainViewModel.CurrentSongPart is null || MainViewModel.CurrentSongPart.Id < 0) { return; }
-
-        ShowDetails?.Invoke(sender, e);
     }
 }

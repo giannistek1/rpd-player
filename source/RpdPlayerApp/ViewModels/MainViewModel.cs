@@ -55,7 +55,9 @@ internal static class MainViewModel
     internal static SortMode SortMode { get; set; } = SortMode.Artist;
     internal static SearchFilterMode SearchFilterMode { get; set; }
     internal static string SearchFilterModeText { get; set; } = string.Empty;
-
+    /// <summary>
+    /// Queue or Playlist.
+    /// </summary>
     internal static PlayMode PlayMode { get; set; }
     internal static bool UsingVideoMode { get; set; } = false;
     internal static bool UsingCloudMode { get; set; } = false;
