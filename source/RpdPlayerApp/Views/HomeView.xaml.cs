@@ -144,6 +144,13 @@ public partial class HomeView : ContentView
         }
         TimerChipGroup!.SelectedItem = TimerChipGroup?.Items?[0];
 
+        options = ["Off", "Non-choruses only"];
+        foreach (var option in options)
+        {
+            VoiceAnnouncementsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+        }
+        VoiceAnnouncementsChipGroup!.SelectedItem = VoiceAnnouncementsChipGroup?.Items?[0];
+
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Male", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Female", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Mixed", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -266,15 +273,8 @@ public partial class HomeView : ContentView
 
     private void OnSelectionChanged(object sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
     {
-        if (e.AddedItem is not null)
-        {
-            (e.AddedItem as CustomChipModel)!.IsSelected = true;
-        }
-
-        if (e.RemovedItem is not null)
-        {
-            (e.RemovedItem as CustomChipModel)!.IsSelected = false;
-        }
+        if (e.AddedItem is not null) { (e.AddedItem as CustomChipModel)!.IsSelected = true; }
+        if (e.RemovedItem is not null) { (e.RemovedItem as CustomChipModel)!.IsSelected = false; }
     }
 
     private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => SongPartCountLabel.Text = $"{SongPartRepository.SongParts.Count}";
@@ -284,10 +284,8 @@ public partial class HomeView : ContentView
     private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => AlbumCountLabel.Text = $"{AlbumRepository.Albums.Count}";
 
     // Toolbar actions.
-    internal void FeedbackButtonPressed(object? sender, EventArgs e)
-    {
-
-    }
+    internal void FeedbackButtonPressed(object? sender, EventArgs e) { // TODO:
+                                                                     }
 
     internal async void SettingsButtonPressed(object? sender, EventArgs e)
     {
@@ -313,6 +311,7 @@ public partial class HomeView : ContentView
             DurationChipGroup?.Items?.Add(new SfChip() { Text = "2", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
             DurationChipGroup?.Items?.Add(new SfChip() { Text = "1.5", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
             DurationChipGroup?.Items?.Add(new SfChip() { Text = "1", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+            DurationChipGroup?.Items?.Add(new SfChip() { Text = "0.5", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
             DurationChipGroup?.Items?.Add(new SfChip() { Text = "Other", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
             //DurationChipGroup!.SelectedItem = DurationChipGroup?.Items?[0];
         }

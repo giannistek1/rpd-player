@@ -73,6 +73,7 @@ public partial class SongPartDetailBottomSheet
             2 => IconManager.Timer5Icon,
             _ => IconManager.TimerOffIcon
         };
+
         AutoplayImageButton.Source = MainViewModel.AutoplayMode switch
         {
             0 => IconManager.OffIcon,
