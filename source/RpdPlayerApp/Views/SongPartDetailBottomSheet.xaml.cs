@@ -195,7 +195,7 @@ public partial class SongPartDetailBottomSheet
 
         if (MainViewModel.UsingAnnouncements)
         {
-            Toast.Make($"Using voiced announcements.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast("Using voiced announcements.");
         }
     }
 
@@ -210,7 +210,7 @@ public partial class SongPartDetailBottomSheet
         // Update libraryview
         FavoriteSongPart?.Invoke(sender, e);
 
-        Toast.Make($"Favorited: {songPart?.Title}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        HelperClass.ShowToast($"Favorited: {songPart?.Title}");
     }
 
     private void MasterVolumeSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)

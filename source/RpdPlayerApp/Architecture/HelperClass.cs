@@ -11,19 +11,21 @@ internal static class HelperClass
     /// Checks whether Network has internet access. If false, shows toast saying "No internet connection!"
     /// </summary>
     /// <returns></returns>
-    public static bool HasInternetConnection()
+    internal static bool HasInternetConnection()
     {
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 
         if (accessType != NetworkAccess.Internet)
         {
-            Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            ShowToast("No internet connection!");
             return false;
         }
         return true;
     }
 
-    public static string ReadTextFile(string filePath)
+    internal static void ShowToast(string message) => Toast.Make(message, CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+
+    internal static string ReadTextFile(string filePath)
     {
         try
         {
@@ -47,7 +49,7 @@ internal static class HelperClass
     }
 
     // Playlist functionality
-    public static List<SongPart> RandomizePlaylist(List<SongPart> playlist)
+    internal static List<SongPart> RandomizePlaylist(List<SongPart> playlist)
     {
         for (int i = 0; i < playlist.Count; i++)
         {
@@ -63,7 +65,7 @@ internal static class HelperClass
     }
 
     // Extra functionality
-    public static List<SongPart> RandomizeAndAlternatePlaylist(List<SongPart> playlist)
+    internal static List<SongPart> RandomizeAndAlternatePlaylist(List<SongPart> playlist)
     {
         SongPart? previousSong = null;
 

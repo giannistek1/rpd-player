@@ -49,7 +49,7 @@ internal static class AlbumRepository
             catch (Exception ex)
             {
                 SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}, album {i + 1}, {ex.Message}");
-                Toast.Make($"ERROR: InitAlbums, album {i+1}. {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+                HelperClass.ShowToast($"ERROR: InitAlbums, album {i + 1}. {ex.Message}");
             }
         }
 

@@ -76,14 +76,14 @@ public partial class SearchSongPartsView : ContentView
         }
 
         if (MainViewModel.UsingVideoMode)
-        { 
+        {
             //CancellationToken cancellationToken = new CancellationToken();
-            Toast.Make($"Choreo video mode", ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast("Choreo video mode");
             //CommunityToolkit.Maui.Alerts.Snackbar.Make($"Choreo video mode").Show();
         }
         else
         {
-            Toast.Make($"Audio only mode", ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast($"Audio only mode");
             //CommunityToolkit.Maui.Alerts.Snackbar.Make($"Choreo video mode").Show();
         }
     }
@@ -174,7 +174,7 @@ public partial class SearchSongPartsView : ContentView
     {
         if (!HelperClass.HasInternetConnection()) { return; }
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
-        if (string.IsNullOrWhiteSpace(songPart.AudioURL)) { Toast.Make("No valid audio URL.").Show(); return; }
+        if (string.IsNullOrWhiteSpace(songPart.AudioURL)) { HelperClass.ShowToast("No valid audio URL."); return; }
 
         MainViewModel.CurrentSongPart = songPart;
 
@@ -224,7 +224,7 @@ public partial class SearchSongPartsView : ContentView
             if (!MainViewModel.SongPartsQueue.Contains(songPart))
             {
                 MainViewModel.SongPartsQueue.Enqueue(songPart);
-                Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
+                HelperClass.ShowToast($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}");
             }
 
             // Change mode to queue list
@@ -245,7 +245,7 @@ public partial class SearchSongPartsView : ContentView
             {
                 MainViewModel.PlaylistQueue.Enqueue(songPart);
                 AddSongPart?.Invoke(sender, e);
-                Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
+                HelperClass.ShowToast($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}");
             }
         }
 
@@ -262,7 +262,7 @@ public partial class SearchSongPartsView : ContentView
         if (added)
         {
             AddSongPart?.Invoke(sender, e);
-            Toast.Make($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}");
         }
     }
 
@@ -273,7 +273,7 @@ public partial class SearchSongPartsView : ContentView
         if (!MainViewModel.SongPartsQueue.Contains(songPart))
         {
             MainViewModel.SongPartsQueue.Enqueue(songPart);
-            Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}");
         }
 
         // Change mode to queue list
@@ -287,7 +287,7 @@ public partial class SearchSongPartsView : ContentView
         // TODO: BUGGY
         if (PlaylistManager.Instance.CurrentPlaylist is null)
         {
-            Toast.Make($"Select a playlist first!", ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast($"Select a playlist first!");
             return;
         }
 
@@ -297,7 +297,7 @@ public partial class SearchSongPartsView : ContentView
         int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songPartsFromGroup.ToList());
 
         AddSongPart?.Invoke(sender, e);
-        Toast.Make($"{addedSongParts} songs added!", ToastDuration.Short, 14).Show();
+        HelperClass.ShowToast($"{addedSongParts} songs added!");
     }
 
     private void GoToBottomButtonClicked(object sender, EventArgs e) => SonglibraryListView!.ItemsLayout!.ScrollToRowIndex(SonglibraryListView!.DataSource!.DisplayItems.Count - 1, animated: true);
@@ -320,7 +320,7 @@ public partial class SearchSongPartsView : ContentView
             if (!MainViewModel.SongPartsQueue.Contains(songPart))
             {
                 MainViewModel.SongPartsQueue.Enqueue(songPart);
-                Toast.Make($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}", ToastDuration.Short, 14).Show();
+                HelperClass.ShowToast($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}");
                 EnqueueSongPart?.Invoke(sender, e);
             }
         }
@@ -337,7 +337,7 @@ public partial class SearchSongPartsView : ContentView
         // TODO: BUGGY
         if (PlaylistManager.Instance.CurrentPlaylist is null)
         {
-            Toast.Make($"Select a playlist first!", ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast($"Select a playlist first!");
             return;
         }
 
@@ -356,7 +356,7 @@ public partial class SearchSongPartsView : ContentView
         if (addedSongParts > 0)
         {
             AddSongPart?.Invoke(sender, e);
-            Toast.Make($"{addedSongParts} songs added!", ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast($"{addedSongParts} songs added!");
         }
     }
 

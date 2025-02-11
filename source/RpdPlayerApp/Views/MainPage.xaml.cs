@@ -7,9 +7,7 @@ using RpdPlayerApp.ViewModels;
 namespace RpdPlayerApp.Views;
 
 public partial class MainPage
-{   
-
-
+{
     private readonly CategoriesView _categoriesView = new(); // Home
     private readonly CurrentPlaylistView _currentPlaylistView = new(); // Playlists
     private readonly SortByBottomSheet _sortByBottomSheet = new();
@@ -21,44 +19,38 @@ public partial class MainPage
 
         AudioManager.DetailBottomSheet = _detailBottomSheet;
 
-        // Creating variables in constructor. Assigning in OnLoad.
         SetupHomeToolbar();
-
         Loaded += OnLoad;
         Appearing += OnAppearing;
     }
 
     private void OnLoad(object? sender, EventArgs e)
     {
-        // Load settings.
+        LoadSettings();
+        SetParentPages();
+        SetContentViewEvents();
+        InitializePageContainers();
+        KeepScreenOn();
+    }
+
+    private void OnAppearing(object? sender, EventArgs e) => AudioPlayerControl.UpdateUI();
+
+    private void LoadSettings()
+    {
         if (Preferences.ContainsKey(CommonSettings.MAIN_VOLUME))
         {
-            CommonSettings.MainVolume = Preferences.Get(key: CommonSettings.MAIN_VOLUME, 1.0);
+            CommonSettings.MainVolume = Preferences.Get(CommonSettings.MAIN_VOLUME, 1.0);
         }
+    }
 
-        // Set parent pages.
+    private void SetParentPages()
+    {
         HomeView.ParentPage = this;
         SearchSongPartsView.ParentPage = this;
         LibraryView.ParentPage = this;
         _currentPlaylistView.ParentPage = this;
         _detailBottomSheet.AudioPlayerControl = AudioPlayerControl;
-
-        SetContentViewEvents();
-
-        // Set page containrs.
-        if (!LibraryContainer.Children.Contains(_currentPlaylistView)) { LibraryContainer.Children.Add(_currentPlaylistView); }
-        if (!LibraryContainer.Children.Contains(LibraryView))          { LibraryContainer.Children.Add(LibraryView); }
-        if (!HomeContainer.Children.Contains(HomeView))                { HomeContainer.Children.Add(HomeView); }
-        if (!HomeContainer.Children.Contains(_categoriesView))         { HomeContainer.Children.Add(_categoriesView); }
-
-        // Has to be run on MainThread (UI thread) for iOS.
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            DeviceDisplay.Current.KeepScreenOn = true;
-        });
     }
-
-    private void OnAppearing(object? sender, EventArgs e) => AudioPlayerControl.UpdateUI();
 
     private void SetContentViewEvents()
     {
@@ -96,6 +88,33 @@ public partial class MainPage
         AudioPlayerControl.UpdateProgress += OnUpdateProgress;
     }
 
+    private void InitializePageContainers()
+    {
+        AddViewToContainerIfNotExists(LibraryContainer, _currentPlaylistView);
+        AddViewToContainerIfNotExists(LibraryContainer, LibraryView);
+        AddViewToContainerIfNotExists(HomeContainer, HomeView);
+        AddViewToContainerIfNotExists(HomeContainer, _categoriesView);
+    }
+
+    private void AddViewToContainerIfNotExists(Layout container, View view)
+    {
+        if (!container.Children.Contains(view))
+        {
+            container.Children.Add(view);
+        }
+    }
+
+    /// <remarks>
+    /// iOS needs to run this on the main thread.
+    /// </remarks>
+    private void KeepScreenOn()
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            DeviceDisplay.Current.KeepScreenOn = true;
+        });
+    }
+
     private void OnBackPressed(object? sender, EventArgs e) => BackToHomeView();
 
     private void OnFavoriteSongPart(object? sender, EventArgs e)
@@ -111,55 +130,36 @@ public partial class MainPage
 
     private void MainContainerTabItemTapped(object sender, Syncfusion.Maui.TabView.TabItemTappedEventArgs e)
     {
-        // Can't make a switch out of this. A constant value of type SfTabItem is needed.
-        if      (HomeTabItem == e.TabItem)      { SetupHomeToolbar(); }
-        else if (SearchTabItem == e.TabItem)    { SetupSearchToolbar(); }
-        else if (LibraryTabItem == e.TabItem)   { SetupLibraryOrCurrentPlaylistToolbar(); }
+        if (HomeTabItem == e.TabItem) { SetupHomeToolbar(); }
+        else if (SearchTabItem == e.TabItem) { SetupSearchToolbar(); }
+        else if (LibraryTabItem == e.TabItem) { SetupLibraryOrCurrentPlaylistToolbar(); }
     }
 
     internal void SetupHomeToolbar()
     {
-        if (HomeView.IsVisible) { Title = "Home"; }
-        else if (_categoriesView.IsVisible) { Title = "Categories"; }
-
+        Title = HomeView.IsVisible ? "Home" : "Categories";
         ToolbarItems.Clear();
 
-        ToolbarItem feedbackToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarRateReviewIcon,
-            Order = ToolbarItemOrder.Default, // Primary or Secondary
-            Priority = 0
-        };
-        feedbackToolbarItem.Clicked += HomeView.FeedbackButtonPressed;
-        ToolbarItems.Add(feedbackToolbarItem);
-
-        ToolbarItem settingsToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarSettingsIcon,
-            Order = ToolbarItemOrder.Default, // Primary or Secondary
-            Priority = 1
-        };
-        settingsToolbarItem.Clicked += HomeView.SettingsButtonPressed;
-        ToolbarItems.Add(settingsToolbarItem);
+        AddToolbarItem(IconManager.ToolbarRateReviewIcon, HomeView.FeedbackButtonPressed, 0);
+        AddToolbarItem(IconManager.ToolbarSettingsIcon, HomeView.SettingsButtonPressed, 1);
     }
-    /// <summary>
-    /// Setups title and toolbar items or refreshes the toolbar.
-    /// </summary>
+
     internal void SetupSearchToolbar(object? sender = null, EventArgs? e = null)
     {
         ToolbarItems.Clear();
+        Title = GetSearchFilterModeText();
 
-        MainViewModel.SearchFilterModeText = (MainViewModel.SearchFilterMode) switch
+        AddToolbarItem(IconManager.ToolbarMoreItemsIcon, ShowSecondaryToolbarItems, 3);
+    }
+
+    private string GetSearchFilterModeText()
+    {
+        return MainViewModel.SearchFilterMode switch
         {
             SearchFilterMode.All => "All songs",
-
             SearchFilterMode.DanceVideos => "Dance videos",
-
             SearchFilterMode.Male => "Boy(groups)",
             SearchFilterMode.Female => "Girl(groups)",
-
             SearchFilterMode.Hybe => "Hybe Labels",
             SearchFilterMode.YG => "YG Entertainment",
             SearchFilterMode.JYP => "JYP Entertainment",
@@ -173,19 +173,16 @@ public partial class MainPage
             SearchFilterMode.IST => "IST Entertainment",
             SearchFilterMode.CJ_ENM_Music => "CJ ENM Music",
             SearchFilterMode.Kakao_Entertainment => "Kakao Entertainment",
-
             SearchFilterMode.Firstgen => "1st gen (< 2002)",
             SearchFilterMode.Secondgen => "2nd gen (2003-2012)",
             SearchFilterMode.Thirdgen => "3rd gen (2012-2017)",
             SearchFilterMode.Fourthgen => "4th gen (2018-2022)",
             SearchFilterMode.Fifthgen => "5th gen (2023 >)",
-
             SearchFilterMode.KR => "Korean pop",
             SearchFilterMode.JP => "Japanese pop",
             SearchFilterMode.EN => "English pop",
             SearchFilterMode.CH => "Chinese pop",
             SearchFilterMode.TH => "Thai pop",
-
             SearchFilterMode.Solo => "Solo artists",
             SearchFilterMode.Duo => "Duos",
             SearchFilterMode.Trio => "Trios",
@@ -196,7 +193,6 @@ public partial class MainPage
             SearchFilterMode.Octet => "Octets",
             SearchFilterMode.Nonet => "Nonets",
             SearchFilterMode.Group => "Groups (2+ members)",
-
             SearchFilterMode.kpop2012 => "K-pop 2012",
             SearchFilterMode.kpop2013 => "K-pop 2013",
             SearchFilterMode.kpop2014 => "K-pop 2014",
@@ -213,86 +209,23 @@ public partial class MainPage
             SearchFilterMode.kpop2025 => "K-pop 2025",
             _ => "Unknown"
         };
-
-        Title = MainViewModel.SearchFilterModeText;
-
-        ToolbarItem moreItemsToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarMoreItemsIcon,
-            Order = ToolbarItemOrder.Default, // Secondary does not create a vertical dots icon on iOS.
-            Priority = 3
-        };
-        moreItemsToolbarItem.Clicked += ShowSecondaryToolbarItems;
-        ToolbarItems.Add(moreItemsToolbarItem);
     }
-
-    // iOS secondary workaround until MAUI team fixes this
+    /// <remarks>
+    /// Workaround since secondary items are broken...
+    /// </remarks>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     internal void ShowSecondaryToolbarItems(object? sender = null, EventArgs? e = null)
     {
         Title = string.Empty;
-
         ToolbarItems.Clear();
 
-        ToolbarItem backToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarBackIcon,
-            Order = ToolbarItemOrder.Primary,
-            Priority = 10
-        };
-        backToolbarItem.Clicked += SetupSearchToolbar;
-        ToolbarItems.Add(backToolbarItem);
-
-        ToolbarItem playOrAddRandomToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarCasinoIcon,
-            Order = ToolbarItemOrder.Default, // Primary or Secondary
-            Priority = 11
-        };
-        playOrAddRandomToolbarItem.Clicked += SearchSongPartsView.PlayRandomButtonClicked;
-        ToolbarItems.Add(playOrAddRandomToolbarItem);
-
-        ToolbarItem videoModeToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = (MainViewModel.UsingVideoMode ? IconManager.ToolbarVideoIcon : IconManager.ToolbarVideoOffIcon),
-            Order = ToolbarItemOrder.Default,
-            Priority = 12
-        };
-        videoModeToolbarItem.Clicked += SearchSongPartsView.ToggleAudioModeButtonClicked;
-        ToolbarItems.Add(videoModeToolbarItem);
-
-        ToolbarItem collapseAllToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarCollapseAllIcon,
-            Order = ToolbarItemOrder.Primary,
-            Priority = 20
-        };
-        collapseAllToolbarItem.Clicked += SearchSongPartsView.CollapseAllButtonClicked;
-        ToolbarItems.Add(collapseAllToolbarItem);
-
-        ToolbarItem expandAllToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarExpandAllIcon,
-            Order = ToolbarItemOrder.Primary,
-            Priority = 21
-        };
-        expandAllToolbarItem.Clicked += SearchSongPartsView.ExpandAllButtonClicked;
-        ToolbarItems.Add(expandAllToolbarItem);
-
-        ToolbarItem sortToolbarItem = new()
-        {
-            Text = "",
-            IconImageSource = IconManager.ToolbarSortIcon,
-            Order = ToolbarItemOrder.Default,
-            Priority = 30
-        };
-        sortToolbarItem.Clicked += SearchSongPartsView.SortButtonClicked;
-        ToolbarItems.Add(sortToolbarItem);
+        AddToolbarItem(IconManager.ToolbarBackIcon, SetupSearchToolbar, 10, ToolbarItemOrder.Primary);
+        AddToolbarItem(IconManager.ToolbarCasinoIcon, SearchSongPartsView.PlayRandomButtonClicked, 11);
+        AddToolbarItem(MainViewModel.UsingVideoMode ? IconManager.ToolbarVideoIcon : IconManager.ToolbarVideoOffIcon, SearchSongPartsView.ToggleAudioModeButtonClicked, 12);
+        AddToolbarItem(IconManager.ToolbarCollapseAllIcon, SearchSongPartsView.CollapseAllButtonClicked, 20, ToolbarItemOrder.Primary);
+        AddToolbarItem(IconManager.ToolbarExpandAllIcon, SearchSongPartsView.ExpandAllButtonClicked, 21, ToolbarItemOrder.Primary);
+        AddToolbarItem(IconManager.ToolbarSortIcon, SearchSongPartsView.SortButtonClicked, 30);
     }
 
     internal void SetupLibraryOrCurrentPlaylistToolbar()
@@ -302,62 +235,31 @@ public partial class MainPage
         if (LibraryView.IsVisible)
         {
             Title = "Playlists";
-            ToolbarItem newPlaylistToolbarItem = new()
-            {
-                Text = "",
-                IconImageSource = IconManager.ToolbarAddIcon,
-                Order = ToolbarItemOrder.Default, // Primary or Secondary
-                Priority = 1
-            };
-            newPlaylistToolbarItem.Clicked += LibraryView.NewPlaylistButtonClicked;
-            ToolbarItems.Add(newPlaylistToolbarItem);
+            AddToolbarItem(IconManager.ToolbarAddIcon, LibraryView.NewPlaylistButtonClicked, 1);
         }
         else // CurrentPlaylist is visible.
         {
             Title = PlaylistManager.Instance.CurrentPlaylist.Name;
-            ToolbarItem playPlaylistToolbarItem = new()
-            {
-                Text = "",
-                IconImageSource = IconManager.ToolbarPlayIcon,
-                Order = ToolbarItemOrder.Default, // Primary or Secondary
-                Priority = 1
-            };
-            playPlaylistToolbarItem.Clicked += _currentPlaylistView.PlayPlaylistButtonClicked;
-            ToolbarItems.Add(playPlaylistToolbarItem);
+            AddToolbarItem(IconManager.ToolbarPlayIcon, _currentPlaylistView.PlayPlaylistButtonClicked, 1);
+            AddToolbarItem(IconManager.ToolbarSaveIcon, _currentPlaylistView.SavePlaylistButtonClicked, 2);
+            AddToolbarItem(IconManager.ToolbarClearIcon, _currentPlaylistView.ClearPlaylistButtonClicked, 3);
+            AddToolbarItem(MainViewModel.UsingCloudMode ? IconManager.ToolbarCloudIcon : IconManager.ToolbarCloudOffIcon, _currentPlaylistView.ToggleCloudModePressed, 4);
 
-            ToolbarItem savePlaylistToolbarItem = new()
-            {
-                Text = "",
-                IconImageSource = IconManager.ToolbarSaveIcon,
-                Order = ToolbarItemOrder.Default, // Primary or Secondary
-                Priority = 2
-            };
-            savePlaylistToolbarItem.Clicked += _currentPlaylistView.SavePlaylistButtonClicked;
-            ToolbarItems.Add(savePlaylistToolbarItem);
-
-            ToolbarItem clearToolbarItem = new()
-            {
-                Text = "",
-                IconImageSource = IconManager.ToolbarClearIcon,
-                Order = ToolbarItemOrder.Default, // Primary or Secondary
-                Priority = 3
-            };
-            clearToolbarItem.Clicked += _currentPlaylistView.ClearPlaylistButtonClicked;
-            ToolbarItems.Add(clearToolbarItem);
-
-            ToolbarItem cloudToolbarItem = new()
-            {
-                Text = "",
-                IconImageSource = MainViewModel.UsingCloudMode ? IconManager.ToolbarCloudIcon : IconManager.ToolbarCloudOffIcon,
-                Order = ToolbarItemOrder.Default, // Primary or Secondary
-                Priority = 4
-            };
-            cloudToolbarItem.Clicked += _currentPlaylistView.ToggleCloudModePressed;
-            ToolbarItems.Add(cloudToolbarItem);
-            
-            // Lazy way to setup correct theme.
             _currentPlaylistView.InitializeView();
         }
+    }
+
+    private void AddToolbarItem(ImageSource icon, EventHandler clicked, int priority, ToolbarItemOrder order = ToolbarItemOrder.Default)
+    {
+        var toolbarItem = new ToolbarItem
+        {
+            Text = "",
+            IconImageSource = icon,
+            Order = order,
+            Priority = priority
+        };
+        toolbarItem.Clicked += clicked;
+        ToolbarItems.Add(toolbarItem);
     }
 
     #endregion
@@ -367,6 +269,7 @@ public partial class MainPage
     private void OnPreviousSong(object? sender, EventArgs e) => AudioPlayerControl.PlayPreviousSongPart(sender!, e);
 
     private void OnNextSong(object? sender, EventArgs e) => AudioPlayerControl.NextButton_Pressed(sender!, e);
+
     private void OnOpenSongPartDetailBottomSheet(object? sender, EventArgs e)
     {
         _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
@@ -396,12 +299,12 @@ public partial class MainPage
         SearchSongPartsView.RefreshSort();
         MainContainer.SelectedIndex = 1;
     }
+
     private void OnCreatePlaylistButtonPressed(object? sender, EventArgs e)
     {
         MainContainer.SelectedIndex = 2;
         SetupLibraryOrCurrentPlaylistToolbar();
         LibraryView.FocusNewPlaylistEntry();
-
     }
 
     private void OnAddSongPart(object? sender, EventArgs e) => _currentPlaylistView.RefreshCurrentPlaylist();
@@ -424,6 +327,7 @@ public partial class MainPage
     }
 
     private void OnBackToPlaylists(object? sender, EventArgs e) => BackToPlaylists();
+
     private void BackToPlaylists()
     {
         _currentPlaylistView.ResetCurrentPlaylist();
@@ -446,10 +350,9 @@ public partial class MainPage
         _currentPlaylistView.RefreshCurrentPlaylist();
     }
 
-    // Used by searchsongpartsView, currentplaylistView
     private void OnPlaySongPart(object? sender, EventArgs e)
     {
-        if (MainViewModel.CurrentSongPart.Id < 0) { return; }
+        if (MainViewModel.CurrentSongPart.Id < 0) return;
 
         switch (MainViewModel.PlayMode)
         {
@@ -458,7 +361,6 @@ public partial class MainPage
                 {
                     // Nothing
                 }
-
                 break;
 
             case PlayMode.Queue:
@@ -504,6 +406,7 @@ public partial class MainPage
     private void OnPause(object? sender, EventArgs e) => SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
 
     private void OnUpdateProgress(object? sender, EventArgs e) => _detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider!.Value);
+
     #endregion
 
     protected override bool OnBackButtonPressed()

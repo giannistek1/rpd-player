@@ -73,11 +73,11 @@ public partial class CurrentPlaylistView : ContentView
 
             File.WriteAllText(fullPath, sb.ToString());
 
-            Toast.Make($"{PlaylistNameEntry.Text} saved locally!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast($"{PlaylistNameEntry.Text} saved locally!");
         }
         catch (Exception ex)
         {
-            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast(ex.Message);
         }
 
         // TODO: Is dit logisch hier?
@@ -86,11 +86,11 @@ public partial class CurrentPlaylistView : ContentView
             try
             {
                 DropboxRepository.SavePlaylist(PlaylistNameEntry.Text);
-                Toast.Make($"{PlaylistNameEntry.Text} saved locally and online!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                HelperClass.ShowToast($"{PlaylistNameEntry.Text} saved locally and online!");
             }
             catch (Exception ex)
             {
-                Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                HelperClass.ShowToast(ex.Message);
             }
         }
     }
@@ -98,8 +98,8 @@ public partial class CurrentPlaylistView : ContentView
     {
         MainViewModel.UsingCloudMode = !MainViewModel.UsingCloudMode;
 
-        string toastText = MainViewModel.UsingCloudMode ? $"Playlist will save online" : $"Playlist will save locally";
-        Toast.Make(toastText, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        string toastText = MainViewModel.UsingCloudMode ? "Playlist will save online" : "Playlist will save locally";
+        HelperClass.ShowToast(toastText);
 
         ParentPage?.SetupLibraryOrCurrentPlaylistToolbar();
     }

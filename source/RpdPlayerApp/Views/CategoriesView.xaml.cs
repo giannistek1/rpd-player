@@ -275,10 +275,7 @@ public partial class CategoriesView : ContentView
         OtherCategoriesSegmentedControl.SelectedIndex = 0;
     }
 
-    private void BackImageButton_Pressed(object? sender, EventArgs e)
-    {
-        BackPressed?.Invoke(sender, e);
-    }
+    private void BackImageButton_Pressed(object? sender, EventArgs e) => BackPressed?.Invoke(sender, e);
 
     private void OtherCategoriesSegmentedControl_SelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {

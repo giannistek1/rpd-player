@@ -14,8 +14,8 @@ public partial class SortByBottomSheet
 	{
 		InitializeComponent();
 
-        this.Shown += OnShown;
-        this.Dismissed += OnDismissed;
+        Shown += OnShown;
+        Dismissed += OnDismissed;
 	}
 
     private async void OnShown(object? sender, EventArgs e)
@@ -24,18 +24,12 @@ public partial class SortByBottomSheet
         SortByLabel.TextColor = (Color)Application.Current!.Resources["Good"];
         await ScrollToTop(); // TODO: Needed?
     }
+    private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
 
-    private async Task ScrollToTop()
-    {
-        await SortByBottomSheetScrollView.ScrollToAsync(x: 0, y: 0, animated: false); 
-    }
+    private async Task ScrollToTop() => await SortByBottomSheetScrollView.ScrollToAsync(x: 0, y: 0, animated: false);
 
     #region Sorting
 
-    private void OnDismissed(object? sender, DismissOrigin e)
-    {
-        isShown = false;
-    }
 
     private void SortByReleaseDate(object sender, EventArgs e)
     {

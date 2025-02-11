@@ -98,7 +98,7 @@ public partial class LibraryView : ContentView
     {
         if (PlaylistNameEntry.Text.IsNullOrEmpty())
         {
-            Toast.Make($"Please fill in a name", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast($"Please fill in a name");
             return;
         }
         
@@ -109,7 +109,7 @@ public partial class LibraryView : ContentView
 
             File.WriteAllText(fullPath, string.Empty);
 
-            Toast.Make($"{PlaylistNameEntry.Text} created!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast($"{PlaylistNameEntry.Text} created!");
 
             Playlist playlist = new(name: PlaylistNameEntry.Text, fullPath)
             {
@@ -120,7 +120,7 @@ public partial class LibraryView : ContentView
         }
         catch (Exception ex)
         {
-            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast(ex.Message);
         }
     }
 
@@ -139,11 +139,11 @@ public partial class LibraryView : ContentView
 
             File.WriteAllText(fullPath, string.Empty);
 
-            Toast.Make($"{PlaylistNameEntry.Text} - copy created!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast($"{PlaylistNameEntry.Text} - copy created!");
         }
         catch (Exception ex)
         {
-            Toast.Make(ex.Message, CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast(ex.Message);
         }
     }
 
@@ -188,7 +188,7 @@ public partial class LibraryView : ContentView
                 var matches = Regex.Matches(line, pattern);
                 if (matches.Count < MainViewModel.SongPartPropertyAmount)
                 {
-                    Toast.Make($"Found invalid or outdated playlists! They have been removed.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+                    HelperClass.ShowToast("Found invalid or outdated playlists! They have been removed.");
                     File.Delete(file);
                     break;
                 }

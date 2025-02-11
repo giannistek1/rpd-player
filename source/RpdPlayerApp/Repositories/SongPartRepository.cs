@@ -66,7 +66,7 @@ internal static class SongPartRepository
             catch(Exception ex)
             {
                 SentrySdk.CaptureMessage($"ERROR: {typeof(SongPartRepository).Name}, songpart {i + 1}, {ex.Message}");
-                Toast.Make($"ERROR: InitSongPart songpart {i + 1}. {ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+                HelperClass.ShowToast($"ERROR: InitSongPart songpart {i + 1}. {ex.Message}");
             }
 
         }
@@ -86,7 +86,7 @@ internal static class SongPartRepository
 
         if (accessType != NetworkAccess.Internet)
         {
-            Toast.Make($"No internet connection!", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+            HelperClass.ShowToast("No internet connection!");
             return songPartsAsText;
         }
 
