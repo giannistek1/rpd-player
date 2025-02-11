@@ -11,7 +11,7 @@
 
     <ScrollView Orientation="Vertical">
         <Grid Padding="0" RowDefinitions="20, auto, auto, 
-                                          auto, auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
+                                          auto, auto, auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
 
             <!-- New stats -->
             <Grid Grid.Row="0" ColumnDefinitions="2*, 4*">

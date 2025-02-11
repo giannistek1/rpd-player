@@ -144,7 +144,7 @@ public partial class HomeView : ContentView
         }
         TimerChipGroup!.SelectedItem = TimerChipGroup?.Items?[0];
 
-        options = ["Off", "Non-choruses only"];
+        options = ["Off", "Non-(pre)chorus", "Always"];
         foreach (var option in options)
         {
             VoiceAnnouncementsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
