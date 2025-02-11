@@ -5,7 +5,6 @@ using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
-using static Android.Provider.MediaStore.Audio;
 
 namespace RpdPlayerApp.Repositories;
 

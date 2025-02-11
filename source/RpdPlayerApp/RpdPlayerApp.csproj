@@ -88,9 +88,10 @@
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
   </PropertyGroup>
-  <PropertyGroup>
+  
+  <!--<PropertyGroup>
     <WindowsPackageType>None</WindowsPackageType>
-  </PropertyGroup>
+  </PropertyGroup>-->
   
   <!-- Supposedly makes debug version build faster but disables hot reload -->
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

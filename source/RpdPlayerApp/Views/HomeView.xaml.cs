@@ -189,7 +189,9 @@ public partial class HomeView : ContentView
         // Only if playlist option:
         //OtherOptionsChipGroup?.Items?.Add(new SfChip() { Text = "Ending with chorus 3", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
 
+#if IOS || ANDROID // Windows does not like saving preference values bigger than 4096 bytes.
         SaveNews();
+#endif
 
         if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC))
         {
