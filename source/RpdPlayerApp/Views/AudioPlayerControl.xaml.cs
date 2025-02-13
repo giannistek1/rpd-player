@@ -207,13 +207,13 @@ public partial class AudioPlayerControl : ContentView
 
 
     /// <summary>
-    /// Also(re)used with SongPartDetailBottomSheet.
+    /// Also (re-)used with SongPartDetailBottomSheet.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     internal void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
-        if (MainViewModel.IsCurrentlyPlayingSongPart)
+        if (MainViewModel.TimerMode == 0 || MainViewModel.IsCurrentlyPlayingSongPart)
         {
             // If audio is done playing.
             if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
@@ -231,7 +231,7 @@ public partial class AudioPlayerControl : ContentView
                 AudioManager.PauseAudio();
             }
         }
-        else
+        else if (MainViewModel.TimerMode > 0)
         {
             // If audio is done playing.
             if (LocalAudioMediaElement.CurrentState == MediaElementState.Stopped && LocalAudioMediaElement.Position >= LocalAudioMediaElement.Duration)
@@ -275,15 +275,8 @@ public partial class AudioPlayerControl : ContentView
 
     internal void PlayCountdownAndUpdateCurrentSong()
     {
-        switch(MainViewModel.TimerMode)
-        {
-            case 1: LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-short.mp3"); break;
-            case 2: LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-long.mp3"); break;
-            case 3: LocalAudioMediaElement.Source = MediaSource.FromResource("countdown-kart.mp3"); break;
-        }
-
+        AudioManager.SetTimer();
         AudioManager.PlayTimer();
-
         AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
     }
 

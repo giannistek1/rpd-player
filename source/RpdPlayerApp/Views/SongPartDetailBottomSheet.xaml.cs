@@ -163,6 +163,8 @@ public partial class SongPartDetailBottomSheet
             case 2: TimerImageButton.Source = IconManager.Timer5Icon; break;
             case 3: TimerImageButton.Source = IconManager.AwardIcon; break;
         }
+
+        AudioManager.SetTimer();
     }
 
     private void AutoplayButton_Pressed(object sender, EventArgs e)

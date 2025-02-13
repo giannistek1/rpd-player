@@ -78,6 +78,16 @@ internal static class AudioManager
         } 
     }
 
+    internal static void SetTimer()
+    {
+        switch (MainViewModel.TimerMode)
+        {
+            case 1: PreSongPartMediaElement!.Source = MediaSource.FromResource("countdown-short.mp3"); break;
+            case 2: PreSongPartMediaElement!.Source = MediaSource.FromResource("countdown-long.mp3"); break;
+            case 3: PreSongPartMediaElement!.Source = MediaSource.FromResource("countdown-kart.mp3"); break;
+        }
+    }
+
     internal static void PlayTimer()
     {
         MainViewModel.IsCurrentlyPlayingSongPart = false;
