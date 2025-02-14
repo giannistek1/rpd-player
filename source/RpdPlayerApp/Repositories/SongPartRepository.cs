@@ -56,7 +56,7 @@ internal static class SongPartRepository
                     videoURL: videoURL
                 );
                 
-                songPart.Artist!.TotalCount++;
+                songPart.Artist!.SongPartCount++;
                 // For filtered list.
                 songPart.Artist.FilteredTotalCount++; 
 
@@ -76,7 +76,6 @@ internal static class SongPartRepository
         return SongParts.Count > 0;
     }
 
-    internal static SongPart GetRandomSongPart() => SongParts[HelperClass.Rng.Next(SongParts.Count)];
 
     private static string GetStringFromURL()
     {
@@ -96,4 +95,6 @@ internal static class SongPartRepository
         }
         return songPartsAsText;
     }
+
+    internal static SongPart GetRandomSongPart() => SongParts[HelperClass.Rng.Next(SongParts.Count)];
 }

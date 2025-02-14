@@ -32,7 +32,8 @@ internal class Artist
     /// <summary> Gets set in SongPart.cs once an album is Korean. </summary>
     public bool IsKpopArtist { get; set; } = false;
 
-    public string ImageURL { get; set; }
+    /// <summary> Example: "https://github.com/giannistek1/rpd-artists/blob/main/%5BAOA%5D%5BAce of Angels%5D%5B2012-07-30%5D%5BGG%5D%5B8%5D%5BFNC Entertainment%5D.jpg?raw=true" </summary>
+    public string ImageUrl { get; set; }
 
     [JsonIgnore]
     public bool ShowGroupType { get; set; } = false;
@@ -43,7 +44,7 @@ internal class Artist
     [JsonIgnore]
     public bool ShowCompany { get; set; } = false;
 
-    public int TotalCount { get; set; } = 0;
+    public int SongPartCount { get; set; } = 0;
     public int FilteredTotalCount { get; set; } = 0;
 
     public Artist(DateTime debutDate, int id = -1, string name = "", string altName = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
@@ -55,7 +56,7 @@ internal class Artist
         GroupType = groupType;
         MemberCount = memberCount;
         Company = company;
-        ImageURL = imageURL;
+        ImageUrl = imageURL;
 
         GroupTypeColor = groupType switch
         {

@@ -53,11 +53,6 @@ internal static class ArtistRepository
 
         return Artists.Count > 0;
     }
-
-    internal static Artist MatchArtist(string artistName) => Artists.FirstOrDefault(a => a.Name.Equals(artistName, StringComparison.OrdinalIgnoreCase))!;
-
-    internal static Artist GetRandomArtist() => Artists[HelperClass.Rng.Next(Artists.Count)];
-
     private static string GetStringFromURL()
     {
         if (!HelperClass.HasInternetConnection()) { return string.Empty; }
@@ -70,4 +65,22 @@ internal static class ArtistRepository
         }
         return artistsAsText;
     }
+
+
+    internal static Artist MatchArtist(string artistName) => Artists.FirstOrDefault(a => a.Name.Equals(artistName, StringComparison.OrdinalIgnoreCase))!;
+    internal static List<Artist> GetTopArtistsByGen(Gen generation, int count = 5) 
+        => Artists.Where(a => a.IsKpopArtist && a.Gen == generation)
+                  .OrderByDescending(a => a.SongPartCount)
+                  .Take(count)
+                  .ToList();
+
+    internal static List<Artist> GetTopArtistsByCompanies(List<string> companies, int count = 5)
+        => Artists.Where(a => companies.Contains(a.Company))
+                  .OrderByDescending(a => a.SongPartCount)
+                  .Take(count)
+                  .ToList();
+
+    internal static Artist GetRandomArtist() => Artists[HelperClass.Rng.Next(Artists.Count)];
+    internal static Artist GetRandomArtist(List<Artist> artistList) => artistList[HelperClass.Rng.Next(artistList.Count)];
+
 }
