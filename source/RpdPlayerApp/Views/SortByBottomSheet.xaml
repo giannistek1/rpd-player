@@ -28,20 +28,20 @@
             <TableView x:Name="SortTable" Intent="Menu" Margin="0,0,0,0" Background="{DynamicResource BackgroundColor}">
                 <TableRoot>
                     <TableSection>
-                        <TextCell x:Name="AlbumNameOption" Tapped="SortByAlbumName" Text="Album name" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="ArtistNameOption" Tapped="SortByArtistName" Text="Artist name" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="SongCountPerArtisOption" Tapped="SortBySongCountPerArtist" Text="Artist song count" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="ClipLengthOption" Tapped="SortByClipLength"  Text="Clip length" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="CompanyOption" Tapped="SortByCompany"  Text="Company" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="GenerationOption" Tapped="SortByGeneration"  Text="Generation" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="GroupTypeOption" Tapped="SortByGroupType"  Text="Group type" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="GenreOption" Tapped="SortByGenre" Text="Genre" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="MemberCountOption" Tapped="SortByMemberCount" Text="Member count" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="ReleaseDateOption" Tapped="SortByReleaseDate" Text="Release date" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="ReleaseWeekDayOption" Tapped="SortByReleaseWeekDay"  Text="Release Weekday" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="SongPartOption" Tapped="SortBySongPart"  Text="Song part" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="SongTitleOption" Tapped="SortBySongTitle"  Text="Song title" TextColor="{DynamicResource PrimaryTextColor}" />
-                        <TextCell x:Name="YearlyDateOption" Tapped="SortByYearlyDate"  Text="Yearly date" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="AlbumNameOption" Tapped="SortByCategory" Text="Album name" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="ArtistNameOption" Tapped="SortByCategory" Text="Artist name" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="SongCountPerArtisOption" Tapped="SortByCategory" Text="Artist song count" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="ClipLengthOption" Tapped="SortByCategory"  Text="Clip length" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="CompanyOption" Tapped="SortByCategory"  Text="Company" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="GenerationOption" Tapped="SortByCategory"  Text="Generation" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="GroupTypeOption" Tapped="SortByCategory"  Text="Group type" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="GenreOption" Tapped="SortByCategory" Text="Genre" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="MemberCountOption" Tapped="SortByCategory" Text="Member count" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="ReleaseDateOption" Tapped="SortByCategory" Text="Release date" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="ReleaseWeekDayOption" Tapped="SortByCategory"  Text="Release Weekday" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="SongPartOption" Tapped="SortByCategory"  Text="Song part" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="SongTitleOption" Tapped="SortByCategory"  Text="Song title" TextColor="{DynamicResource PrimaryTextColor}" />
+                        <TextCell x:Name="YearlyDateOption" Tapped="SortByCategory"  Text="Yearly date" TextColor="{DynamicResource PrimaryTextColor}" />
                     </TableSection>
                 </TableRoot>
                 </TableView>
