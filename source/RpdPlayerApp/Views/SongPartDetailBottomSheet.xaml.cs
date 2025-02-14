@@ -24,8 +24,8 @@ public partial class SongPartDetailBottomSheet
     private readonly PlaylistsManager _playlistsManager;
 
     public SongPartDetailBottomSheet()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _playlistsManager = new();
 
         Loaded += OnLoad;
@@ -44,8 +44,11 @@ public partial class SongPartDetailBottomSheet
         AudioProgressSlider.DragStarted += AudioProgressSlider_DragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSlider_DragCompleted;
     }
+
     private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
+
     private void OnChangeSongPart(object? sender, MyEventArgs e) => UpdateSongDetails();
+
     private void OnPlayAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PauseIcon;
 
     private void OnPauseAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PlayIcon;
@@ -56,10 +59,7 @@ public partial class SongPartDetailBottomSheet
 
     private void AudioProgressSlider_DragCompleted(object? sender, EventArgs e) => AudioPlayerControl?.SeekToProgress(sender, e);
 
-
-    /// <summary>
-    /// Whenever mode changes dependent.
-    /// </summary>
+    /// <summary> Whenever mode changes dependent. </summary>
     internal void UpdateIcons()
     {
         // TODO: Set image to play once song ends.
@@ -88,9 +88,7 @@ public partial class SongPartDetailBottomSheet
         FavoriteImageButton.Source = _playlistsManager.IsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
 
-    /// <summary>
-    /// Song dependent or theme change
-    /// </summary>
+    /// <summary> Song dependent or theme change. </summary>
     internal void UpdateSongDetails()
     {
         if (songPart is null) { return; }
@@ -131,7 +129,7 @@ public partial class SongPartDetailBottomSheet
 
         if (songPart is not null)
         {
-            TimeSpan duration = TimeSpan.FromSeconds(value/100 * songPart.ClipLength);
+            TimeSpan duration = TimeSpan.FromSeconds(value / 100 * songPart.ClipLength);
 
             ProgressLabel.Text = string.Format("{0:mm\\:ss}", duration);
         }
@@ -140,9 +138,12 @@ public partial class SongPartDetailBottomSheet
             ProgressLabel.Text = "0:00";
         }
     }
+
     // Let AudioPlayerControl handle the events.
     private void PlayToggleButton_Pressed(object sender, EventArgs e) => PlayToggleSongPart?.Invoke(sender, e);
+
     private void PreviousButton_Pressed(object sender, EventArgs e) => PreviousSongPart?.Invoke(sender, e);
+
     private void NextButton_Pressed(object sender, EventArgs e) => NextSongPart?.Invoke(sender, e);
 
     private void TimerButton_Pressed(object sender, EventArgs e)
@@ -178,7 +179,7 @@ public partial class SongPartDetailBottomSheet
             MainViewModel.AutoplayMode = 0;
         }
 
-        switch(MainViewModel.AutoplayMode)
+        switch (MainViewModel.AutoplayMode)
         {
             case 0: AutoplayImageButton.Source = IconManager.OffIcon; break;
             case 1: AutoplayImageButton.Source = IconManager.AutoplayIcon; break;

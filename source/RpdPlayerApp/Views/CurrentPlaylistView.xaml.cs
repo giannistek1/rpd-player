@@ -13,9 +13,11 @@ namespace RpdPlayerApp.Views;
 public partial class CurrentPlaylistView : ContentView
 {
     public event EventHandler? PlaySongPart;
+
     public event EventHandler? BackToPlaylists;
 
     internal MainPage? ParentPage { get; set; }
+
     public CurrentPlaylistView()
     {
         InitializeComponent();
@@ -38,13 +40,14 @@ public partial class CurrentPlaylistView : ContentView
     }
 
     #region Playlist
+
     internal void PlayPlaylistButtonClicked(object? sender, EventArgs e)
     {
-       if (!PlaylistManager.Instance.CurrentPlaylist.SongParts.Any()) { return; }
-        
+        if (!PlaylistManager.Instance.CurrentPlaylist.SongParts.Any()) { return; }
+
         // Change mode to playlist
         MainViewModel.PlayMode = PlayMode.Playlist;
-        
+
         // Clear playlist queue and fill playlist queue
         MainViewModel.PlaylistQueue.Clear();
 
@@ -58,6 +61,7 @@ public partial class CurrentPlaylistView : ContentView
 
         PlaySongPart!.Invoke(sender, e);
     }
+
     internal void SavePlaylistButtonClicked(object? sender, EventArgs e)
     {
         try
@@ -94,6 +98,7 @@ public partial class CurrentPlaylistView : ContentView
             }
         }
     }
+
     internal void ToggleCloudModePressed(object? sender, EventArgs e)
     {
         MainViewModel.UsingCloudMode = !MainViewModel.UsingCloudMode;
@@ -103,6 +108,7 @@ public partial class CurrentPlaylistView : ContentView
 
         ParentPage?.SetupLibraryOrCurrentPlaylistToolbar();
     }
+
     public void RefreshCurrentPlaylist()
     {
         PlaylistNameEntry.Text = PlaylistManager.Instance.CurrentPlaylist.Name;
@@ -135,7 +141,6 @@ public partial class CurrentPlaylistView : ContentView
         }
     }
 
-
     private void ShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
     {
         PlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizePlaylist([.. PlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
@@ -148,9 +153,10 @@ public partial class CurrentPlaylistView : ContentView
         CurrentPlaylistListView.ItemsSource = PlaylistManager.Instance.CurrentPlaylist.SongParts;
     }
 
-    #endregion
+    #endregion Playlist
 
     #region Songparts
+
     private void CurrentPlaylistListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
         if (!HelperClass.HasInternetConnection()) { return; }
@@ -204,6 +210,5 @@ public partial class CurrentPlaylistView : ContentView
         }
     }
 
-    #endregion
-
+    #endregion Songparts
 }

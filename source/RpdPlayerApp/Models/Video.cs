@@ -7,10 +7,9 @@ internal class Video
     public string Title { get; set; }
     public string ArtistName { get; set; }
 
-    /// <summary>
-    /// PartNameShort (P, C, D, DB, O, T, etc)
-    /// </summary>
+    /// <summary> PartNameShort (P, C, D, DB, O, T, etc) </summary>
     public string PartNameShort { get; set; }
+
     public string PartNameNumber { get; set; }
     public string AlbumTitle { get; set; }
 

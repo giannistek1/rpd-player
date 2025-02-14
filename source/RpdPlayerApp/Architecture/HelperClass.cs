@@ -5,12 +5,12 @@ namespace RpdPlayerApp.Architecture;
 
 internal static class HelperClass
 {
-    internal readonly static Random Rng = new();
+    internal static readonly Random Rng = new();
 
     /// <summary>
     /// Checks whether Network has internet access. If false, shows toast saying "No internet connection!"
     /// </summary>
-    /// <returns></returns>
+    /// <returns> </returns>
     internal static bool HasInternetConnection()
     {
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
@@ -104,7 +104,7 @@ internal static class HelperClass
 
         for (int i = 0; i < playlist.Count; i++)
         {
-            SongPart temp = playlist[i];  
+            SongPart temp = playlist[i];
 
             // Select random song.
             int randomIndex = Rng.Next(i, playlist.Count);
@@ -119,7 +119,7 @@ internal static class HelperClass
                 }
             }
 
-            // If random song groupType is same as previous, get new randomIndex.	
+            // If random song groupType is same as previous, get new randomIndex.
             if (previousSong is not null)
             {
                 while (playlist[randomIndex].Artist?.GroupType == previousSong.Artist?.GroupType && depletedGrouptypes < 3)

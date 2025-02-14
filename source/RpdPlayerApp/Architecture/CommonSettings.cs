@@ -7,9 +7,7 @@ internal static class CommonSettings
     internal const string START_RPD_AUTOMATIC = "START_RPD_AUTOMATIC";
     internal const string USE_NONCHOREO_SONGS = "USE_NONCHOREO_SONGS";
 
-    /// <summary>
-    /// 0.0 - 1.0 as Double
-    /// </summary>
+    /// <summary> 0.0 - 1.0 as Double </summary>
 #pragma warning disable S2223 // Non-constant static fields should not be visible
     internal static double MainVolume = 1.0;
 #pragma warning restore S2223

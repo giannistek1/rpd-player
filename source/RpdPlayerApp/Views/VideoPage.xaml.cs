@@ -8,14 +8,15 @@ namespace RpdPlayerApp.Views;
 public partial class VideoPage : ContentPage
 {
     internal SongPart SongPart { get; set; }
+
     internal VideoPage(SongPart songPart)
     {
         InitializeComponent();
 
         SongPart = songPart;
 
-        this.Appearing += OnAppearing;
-        this.Disappearing += OnDisappearing;
+        Appearing += OnAppearing;
+        Disappearing += OnDisappearing;
     }
 
     private void OnAppearing(object? sender, EventArgs e)
@@ -41,13 +42,7 @@ public partial class VideoPage : ContentPage
         SpeedSlider.Value = 1;
     }
 
-    private void SpeedSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)
-    {
-        VideoMediaElement.Speed = e.NewValue;
-    }
+    private void SpeedSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e) => VideoMediaElement.Speed = e.NewValue;
 
-    private void OnDisappearing(object? sender, EventArgs e)
-    {
-        VideoMediaElement.Stop();
-    }
+    private void OnDisappearing(object? sender, EventArgs e) => VideoMediaElement.Stop();
 }

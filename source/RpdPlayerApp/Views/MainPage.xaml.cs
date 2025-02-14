@@ -104,9 +104,7 @@ public partial class MainPage
         }
     }
 
-    /// <remarks>
-    /// iOS needs to run this on the main thread.
-    /// </remarks>
+    /// <remarks> iOS needs to run this on the main thread. </remarks>
     private void KeepScreenOn()
     {
         MainThread.BeginInvokeOnMainThread(() =>
@@ -210,11 +208,10 @@ public partial class MainPage
             _ => "Unknown"
         };
     }
-    /// <remarks>
-    /// Workaround since secondary items are broken...
-    /// </remarks>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+
+    /// <remarks> Workaround since secondary items are broken... </remarks>
+    /// <param name="sender"> </param>
+    /// <param name="e"> </param>
     internal void ShowSecondaryToolbarItems(object? sender = null, EventArgs? e = null)
     {
         Title = string.Empty;
@@ -262,7 +259,7 @@ public partial class MainPage
         ToolbarItems.Add(toolbarItem);
     }
 
-    #endregion
+    #endregion Toolbar
 
     private void OnPlayToggleSongPart(object? sender, EventArgs e) => AudioPlayerControl.PlayToggleButton_Pressed(sender!, e);
 
@@ -407,7 +404,7 @@ public partial class MainPage
 
     private void OnUpdateProgress(object? sender, EventArgs e) => _detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider!.Value);
 
-    #endregion
+    #endregion AudioPlayerControl Events
 
     protected override bool OnBackButtonPressed()
     {

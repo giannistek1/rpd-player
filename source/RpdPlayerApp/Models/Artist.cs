@@ -19,23 +19,29 @@ internal class Artist
     public string AltName { get; set; }
     public DateTime DebutDate { get; set; }
     public GroupType GroupType { get; set; }
+
     [JsonIgnore]
     public bool ShowGroupTypeColor { get; set; } = false;
-    public string GroupTypeColor { get; set; } 
+
+    public string GroupTypeColor { get; set; }
     public int MemberCount { get; set; }
     public string Company { get; set; }
     public string Generation { get; set; } = MainViewModel.NOT_KPOP;
     public Gen Gen { get; set; }
 
-    public bool IsKpopArtist { get; set; } = false; // Gets set in SongPart.cs once an album is Korean.
+    /// <summary> Gets set in SongPart.cs once an album is Korean. </summary>
+    public bool IsKpopArtist { get; set; } = false;
+
     public string ImageURL { get; set; }
+
     [JsonIgnore]
     public bool ShowGroupType { get; set; } = false;
+
     [JsonIgnore]
     public bool ShowMemberCount { get; set; } = false;
+
     [JsonIgnore]
     public bool ShowCompany { get; set; } = false;
-
 
     public int TotalCount { get; set; } = 0;
     public int FilteredTotalCount { get; set; } = 0;
@@ -61,10 +67,10 @@ internal class Artist
             _ => Colors.White.ToHex(),
         };
     }
-    
+
+    /// <summary> Kpop only. </summary>
     public void DecideGeneration()
     {
-        // Kpop only
         if (DebutDate < MainViewModel.secondGenStartDate)
         {
             Generation = MainViewModel.FIRST_GENERATION;
@@ -92,8 +98,5 @@ internal class Artist
         }
     }
 
-    public override string ToString()
-    {
-        return Name;
-    }
+    public override string ToString() => Name;
 }

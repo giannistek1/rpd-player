@@ -6,18 +6,14 @@ using RpdPlayerApp.Views;
 
 namespace RpdPlayerApp.Managers;
 
-
 internal static class AudioManager
 {
-    /// <summary>
-    /// For countdowns and announcements.
-    /// </summary>
+    /// <summary> For countdowns and announcements. </summary>
     internal static MediaElement? PreSongPartMediaElement { get; set; }
 
-    /// <summary>
-    /// For the songparts.
-    /// </summary>
+    /// <summary> For the songparts. </summary>
     internal static MediaElement? SongPartMediaElement { get; set; }
+
     internal static SongPartDetailBottomSheet? DetailBottomSheet { get; set; }
 
     internal static EventHandler? OnPlay { get; set; }
@@ -26,25 +22,24 @@ internal static class AudioManager
 
     internal static event EventHandler<MyEventArgs>? OnChange;
 
-    /// <summary>
-    /// Sets media source and updates UI with invoke.
-    /// </summary>
+    /// <summary> Sets media source and updates UI with invoke. </summary>
     internal static void ChangeSongPart(SongPart songPart)
     {
         DetailBottomSheet!.songPart = songPart;
         SongPartMediaElement!.Source = MediaSource.FromUri(songPart.AudioURL);
         OnChange?.Invoke(null, new MyEventArgs(songPart));
     }
+
     /// <summary>
     /// Precondition: Internet connection. Use ChangeSongPart first or change the source. <br />
     /// Plays current song and alerts subscribers.
     /// </summary>
-    /// <param name="songPart"></param>
+    /// <param name="songPart"> </param>
     internal static void PlayAudio(SongPart songPart)
     {
         if (!HelperClass.HasInternetConnection()) { return; }
 
-        // Update variables
+        // Update variables.
         songPart.IsPlaying = true;
         MainViewModel.IsCurrentlyPlayingSongPart = true;
 
@@ -66,7 +61,7 @@ internal static class AudioManager
 
     internal static void StopAudio()
     {
-        if (MainViewModel.CurrentSongPart.Id >= 0) 
+        if (MainViewModel.CurrentSongPart.Id >= 0)
         {
             SongPartMediaElement!.Stop();
             SongPartMediaElement.SeekTo(new TimeSpan(0));
@@ -75,7 +70,7 @@ internal static class AudioManager
             MainViewModel.IsCurrentlyPlayingSongPart = false;
 
             OnStop?.Invoke(null, EventArgs.Empty);
-        } 
+        }
     }
 
     internal static void SetTimer()

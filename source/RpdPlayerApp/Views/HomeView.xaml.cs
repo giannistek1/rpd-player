@@ -17,8 +17,11 @@ namespace RpdPlayerApp.Views;
 public partial class HomeView : ContentView
 {
     internal event EventHandler? PlaySongPart;
+
     internal event EventHandler? CreatePlaylistButtonPressed;
+
     internal event EventHandler? ShowCategories;
+
     internal event EventHandler? ShowNewsPopup;
 
     private readonly SettingsPage _settingsPage = new();
@@ -310,10 +313,14 @@ public partial class HomeView : ContentView
     }
 
     private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => SongPartCountLabel.Text = $"{SongPartRepository.SongParts.Count}";
+
     private void ArtistsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => ArtistCountLabel.Text = $"{ArtistRepository.Artists.Count}";
+
     private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => AlbumCountLabel.Text = $"{AlbumRepository.Albums.Count}";
 
-    internal void FeedbackButtonPressed(object? sender, EventArgs e) { /* TODO: */ }
+    internal void FeedbackButtonPressed(object? sender, EventArgs e)
+    { /* TODO: */ }
+
     internal async void SettingsButtonPressed(object? sender, EventArgs e)
     {
         if (Navigation.NavigationStack.Count < 2)
@@ -324,7 +331,9 @@ public partial class HomeView : ContentView
     }
 
     private void NewsImageButton_Pressed(object sender, EventArgs e) => ShowNewsPopup?.Invoke(sender, e);
+
     private void CreatePlaylistButtonClicked(object sender, EventArgs e) => CreatePlaylistButtonPressed?.Invoke(sender, e);
+
     private void SearchByCategoryButtonClicked(object sender, EventArgs e) => ShowCategories?.Invoke(sender, e);
 
     private void HomeModeSegmentedControl_SelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
@@ -421,9 +430,11 @@ public partial class HomeView : ContentView
                     case "Last chorus":
                         RpdSettings?.NumberedPartsBlacklist.AddRange(["CE2", "C3", "CDB3", "CE3", "CE2", "P3", "PDB3"]);
                         break;
+
                     case "Dance breaks":
                         RpdSettings?.PartsBlacklist.AddRange(["CDB", "CDBE", "DB", "DBC", "DBE", "DBO", "PDB", "B", "O"]);
                         break;
+
                     case "Tiktoks":
                         RpdSettings?.PartsBlacklist.Add("T");
                         break;

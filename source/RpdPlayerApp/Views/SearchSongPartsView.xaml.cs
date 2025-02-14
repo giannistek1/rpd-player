@@ -19,11 +19,12 @@ namespace RpdPlayerApp.Views;
 public partial class SearchSongPartsView : ContentView
 {
     internal event EventHandler? PlaySongPart;
+
     internal event EventHandler? AddSongPart;
-    /// <summary>
-    /// Updates swipe next item.
-    /// </summary>
+
+    /// <summary> Updates swipe next item. </summary>
     internal event EventHandler? EnqueueSongPart;
+
     internal event EventHandler? ShowSortBy;
 
     internal ObservableCollection<SongPart> allSongParts;
@@ -88,16 +89,15 @@ public partial class SearchSongPartsView : ContentView
         }
     }
 
-
     internal void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
-    } 
+    }
 
     private void SonglibraryListView_Loaded(object sender, Syncfusion.Maui.ListView.ListViewLoadedEventArgs e)
     {
         SonglibraryListView.DataSource?.GroupDescriptors.Clear();
-        SonglibraryListView.IsStickyGroupHeader = true; 
+        SonglibraryListView.IsStickyGroupHeader = true;
 
         songParts = songParts.OrderBy(s => s.ArtistName)
                              .ThenBy(s => s.Title)
@@ -212,10 +212,11 @@ public partial class SearchSongPartsView : ContentView
 
         SonglibraryListView.SelectedItems?.Clear();
     }
+
     private void SonglibraryListViewSwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
     {
         if (e.DataItem is null) { return; }
-        
+
         // Swipe left to right (start), add to queue
         if (e.Direction == SwipeDirection.Right && e.Offset > 30)
         {
@@ -239,7 +240,6 @@ public partial class SearchSongPartsView : ContentView
             SongPart songPart = (SongPart)e.DataItem;
 
             bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
-            
 
             if (added)
             {
@@ -301,13 +301,12 @@ public partial class SearchSongPartsView : ContentView
     }
 
     private void GoToBottomButtonClicked(object sender, EventArgs e) => SonglibraryListView!.ItemsLayout!.ScrollToRowIndex(SonglibraryListView!.DataSource!.DisplayItems.Count - 1, animated: true);
+
     private void GoToTopButtonClicked(object sender, EventArgs e) => SonglibraryListView.ScrollTo(0); // This one animates slower
 
-    /// <summary>
-    /// Plays or adds random songpart.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <summary> Plays or adds random songpart. </summary>
+    /// <param name="sender"> </param>
+    /// <param name="e"> </param>
     internal void PlayRandomButtonClicked(object? sender, EventArgs e)
     {
         if (!HelperClass.HasInternetConnection()) { return; }
@@ -379,7 +378,6 @@ public partial class SearchSongPartsView : ContentView
                                     s.Title.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase))
                                     .ToList();
 
-
         SonglibraryListView.ItemsSource = searchFilteredSongParts;
         MainViewModel.SongParts = [.. songParts];
 
@@ -389,6 +387,7 @@ public partial class SearchSongPartsView : ContentView
     internal void SortButtonClicked(object? sender, EventArgs e) => ShowSortBy?.Invoke(sender, e);
 
     #region Filter
+
     private void ClearCategoryFilterButtonClicked(object sender, EventArgs e)
     {
         MainViewModel.SearchFilterMode = SearchFilterMode.All;
@@ -399,9 +398,7 @@ public partial class SearchSongPartsView : ContentView
 
     private void ClearSearchFilterButtonClicked(object sender, EventArgs e) => SearchBarInput.Text = string.Empty;
 
-    /// <summary>
-    /// Sets filter mode and updates filterLabel
-    /// </summary>
+    /// <summary> Sets filter mode and updates filterLabel </summary>
     internal void SetFilterMode()
     {
         songParts.CollectionChanged -= SongPartsCollectionChanged;
@@ -441,7 +438,7 @@ public partial class SearchSongPartsView : ContentView
                 case SearchFilterMode.Starship:
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Starship Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.RBW:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "RBW Entertainment" || 
+                    songParts = allSongParts.Where(s => s.Artist?.Company == "RBW Entertainment" ||
                                                         s.Artist?.Company == "WM Entertainment" ||
                                                         s.Artist?.Company == "DSP Media").ToObservableCollection(); break;
                 case SearchFilterMode.Woollim:
@@ -540,9 +537,11 @@ public partial class SearchSongPartsView : ContentView
             SentrySdk.CaptureException(ex);
         }
     }
-    #endregion
+
+    #endregion Filter
 
     #region Sort
+
     internal void RefreshSort()
     {
         if (SonglibraryListView is null || SonglibraryListView.DataSource is null) { return; }
@@ -561,7 +560,7 @@ public partial class SearchSongPartsView : ContentView
                     songParts.ToList().ForEach(s => s.Album!.ShowAlbumTitle = true);
 
                     songParts = songParts.OrderBy(s => s.AlbumTitle).ThenBy(s => s.Title).ThenBy(s => s.PartClassification).ToObservableCollection();
-                    
+
                     SonglibraryListView.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
                         PropertyName = "AlbumTitle",
@@ -679,7 +678,6 @@ public partial class SearchSongPartsView : ContentView
                     songParts.ToList().ForEach(s => s.ShowClipLength = false);
                     break;
 
-
                 case SortMode.ClipLength:
                     songParts = songParts.OrderBy(s => s.ClipLength).ToObservableCollection();
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
@@ -716,10 +714,11 @@ public partial class SearchSongPartsView : ContentView
                     break;
 
                 case SortMode.Generation:
-                    // Shows only korean songs, else you have to mess with the group non-kpop which gets in the way of grouping order.
+                    // Shows only korean songs, else you have to mess with the group non-kpop which
+                    // gets in the way of grouping order.
                     songParts = songParts.Where(s => s.Album.GenreShort == MainViewModel.GenreKpop).OrderByDescending(s => s.Artist.Gen)
                                                                                 .ThenBy(s => s.Title)
-                                                                                .ThenBy(s => s.PartClassification) .ToObservableCollection();
+                                                                                .ThenBy(s => s.PartClassification).ToObservableCollection();
 
                     songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
@@ -755,7 +754,7 @@ public partial class SearchSongPartsView : ContentView
                                          .ThenBy(s => s.PartClassification).ToObservableCollection();
 
                     // TODO: Does not work because you need to give Artist object and override ToString() needs to give grouptype somehow but now it gives artist name.
-                    //songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false); 
+                    //songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = false);
 
                     SonglibraryListView?.DataSource?.GroupDescriptors.Add(new GroupDescriptor()
                     {
@@ -800,7 +799,6 @@ public partial class SearchSongPartsView : ContentView
                             {
                                 return "Album not found";
                             }
-
                         }
                     });
 
@@ -979,5 +977,5 @@ public partial class SearchSongPartsView : ContentView
         SortModeLabel.Text = MainViewModel.SortMode.ToString();
     }
 
-    #endregion
+    #endregion Sort
 }

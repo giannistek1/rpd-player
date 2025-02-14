@@ -9,6 +9,7 @@ namespace RpdPlayerApp.Views;
 public partial class CategoriesView : ContentView
 {
     internal event EventHandler? FilterPressed;
+
     internal event EventHandler? BackPressed;
 
     private const string ARTISTS_URL = "https://github.com/giannistek1/rpd-artists/blob/main/";
@@ -77,7 +78,6 @@ public partial class CategoriesView : ContentView
         ];
 
         string fifthGenArtist = fifthGens[new Random().Next(0, fifthGens.Length)];
-
 
         GenerationListView.ItemsSource = new List<HomeListViewItem>() {
             new(title: "1st Generation",
@@ -163,8 +163,8 @@ public partial class CategoriesView : ContentView
                                 description: "Rainbow Bridge World Entertainment, includes WM entertainment and DSP Media (Daesung enterprise).",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-rbw.png?raw=true",
                                 searchFilterMode: SearchFilterMode.RBW,
-                                songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "RBW Entertainment" || 
-                                                                                    s.Artist ?.Company == "WM Entertainment" || 
+                                songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "RBW Entertainment" ||
+                                                                                    s.Artist ?.Company == "WM Entertainment" ||
                                                                                     s.Artist ?.Company == "DSP Media")
                                 ),
 
@@ -285,9 +285,8 @@ public partial class CategoriesView : ContentView
         KpopYearsListView.IsVisible = (OtherCategoriesSegmentedControl.SelectedIndex == 3);
     }
 
-
-
     #region Filters
+
     private void SetFilter(object? sender, EventArgs e)
     {
         if (AllImageButton == sender) { MainViewModel.SearchFilterMode = SearchFilterMode.All; }
@@ -297,13 +296,13 @@ public partial class CategoriesView : ContentView
         else if (SoloImageButton == sender) { MainViewModel.SearchFilterMode = SearchFilterMode.Solo; }
         else if (GroupImageButton == sender) { MainViewModel.SearchFilterMode = SearchFilterMode.Group; }
 
-        //    case "trio": MainViewModel.SearchFilterMode = SearchFilterMode.Trio; break;
-        //    case "quadruplet": MainViewModel.SearchFilterMode = SearchFilterMode.Quadruplet; break;
-        //    case "quintet": MainViewModel.SearchFilterMode = SearchFilterMode.Quintet; break;
-        //    case "sextet": MainViewModel.SearchFilterMode = SearchFilterMode.Sextet; break;
-        //    case "septet": MainViewModel.SearchFilterMode = SearchFilterMode.Septet; break;
-        //    case "octet": MainViewModel.SearchFilterMode = SearchFilterMode.Octet; break;
-        //    case "nonet": MainViewModel.SearchFilterMode = SearchFilterMode.Nonet; break;
+        // case "trio": MainViewModel.SearchFilterMode = SearchFilterMode.Trio; break; case
+        // "quadruplet": MainViewModel.SearchFilterMode = SearchFilterMode.Quadruplet; break; case
+        // "quintet": MainViewModel.SearchFilterMode = SearchFilterMode.Quintet; break; case
+        // "sextet": MainViewModel.SearchFilterMode = SearchFilterMode.Sextet; break; case "septet":
+        // MainViewModel.SearchFilterMode = SearchFilterMode.Septet; break; case "octet":
+        // MainViewModel.SearchFilterMode = SearchFilterMode.Octet; break; case "nonet":
+        // MainViewModel.SearchFilterMode = SearchFilterMode.Nonet; break;
 
         //Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", ToastDuration.Short, 14).Show();
 
@@ -325,5 +324,6 @@ public partial class CategoriesView : ContentView
         //Toast.Make($"Filter mode: {MainViewModel.SearchFilterMode}", ToastDuration.Short, 14).Show();
         FilterPressed?.Invoke(this, e);
     }
-    #endregion
+
+    #endregion Filters
 }

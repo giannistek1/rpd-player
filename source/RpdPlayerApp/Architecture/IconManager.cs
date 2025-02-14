@@ -1,14 +1,15 @@
-﻿
-using UraniumUI.Icons.MaterialSymbols;
+﻿using UraniumUI.Icons.MaterialSymbols;
 
 namespace RpdPlayerApp.Architecture;
+
 /// <summary>
-/// Fontfamilies: "MaterialRounded, MaterialOutline, MaterialSharp"
-/// MaterialRegular is outdated and from UranumUI.Icons.MaterialIcons
+/// Fontfamilies: "MaterialRounded, MaterialOutline, MaterialSharp" MaterialRegular is outdated and
+/// from UranumUI.Icons.MaterialIcons
 /// </summary>
 internal static class IconManager
 {
 #pragma warning disable S2223 // Non-constant static fields should not be visible
+
     internal static FontImageSource AutoplayIcon = new()
     {
         FontFamily = "MaterialRounded",
@@ -40,24 +41,28 @@ internal static class IconManager
         Glyph = MaterialRounded.Block,
         Color = (Color)Application.Current!.Resources["IconOffColor"]
     };
+
     internal static FontImageSource PauseIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Pause,
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
+
     internal static FontImageSource PlayIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Play_arrow,
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
+
     internal static FontImageSource RepeatOneIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Repeat_one,
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
+
     internal static FontImageSource ShuffleIcon = new()
     {
         FontFamily = "MaterialRounded",
@@ -71,12 +76,14 @@ internal static class IconManager
         Glyph = MaterialRounded.Timer_off,
         Color = (Color)Application.Current!.Resources["IconOffColor"]
     };
+
     internal static FontImageSource Timer3Icon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Timer_3_alt_1,
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
+
     internal static FontImageSource Timer5Icon = new()
     {
         FontFamily = "MaterialRounded",
@@ -97,6 +104,7 @@ internal static class IconManager
         Glyph = MaterialRounded.Voice_selection,
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
+
     internal static FontImageSource VoiceOffIcon = new()
     {
         FontFamily = "MaterialRounded",
@@ -125,6 +133,7 @@ internal static class IconManager
         Glyph = MaterialRounded.Add,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarBackIcon = new()
     {
         FontFamily = "MaterialRounded",
@@ -135,95 +144,108 @@ internal static class IconManager
 #endif
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarCasinoIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Casino,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarCollapseAllIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Collapse_all,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarClearIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Delete,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarCloudIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Cloud,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarCloudOffIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Cloud_off,
         Color = (Color)Application.Current!.Resources["ToolbarIconOffColor"]
     };
+
     internal static FontImageSource ToolbarExpandAllIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Expand_all,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarMoreItemsIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.More_vert,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarPlayIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Play_arrow,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarRateReviewIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Rate_review,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarSaveIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Save,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarSettingsIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Settings,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarSortIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Sort,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarVideoIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Videocam,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
+
     internal static FontImageSource ToolbarVideoOffIcon = new()
     {
         FontFamily = "MaterialRounded",
         Glyph = MaterialRounded.Videocam_off,
         Color = (Color)Application.Current!.Resources["ToolbarIconOffColor"]
     };
+
 #pragma warning restore S2223 // Non-constant static fields should not be visible
 
-    /// <summary>
-    /// When theme updates, update icon colors. 
-    /// </summary>
+    /// <summary> When theme updates, update icon colors. </summary>
     internal static void RefreshIcons()
     {
         AutoplayIcon.Color = (Color)Application.Current!.Resources["IconColor"];

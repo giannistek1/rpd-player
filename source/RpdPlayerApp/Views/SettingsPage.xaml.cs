@@ -7,9 +7,9 @@ public partial class SettingsPage : ContentPage
 {
     internal HomeView? HomeView { get; set; }
 
-	public SettingsPage()
-	{
-		InitializeComponent();
+    public SettingsPage()
+    {
+        InitializeComponent();
         Loaded += OnLoad;
 
         Appearing += OnPageAppearing;
@@ -43,17 +43,16 @@ public partial class SettingsPage : ContentPage
     {
         if (AnalyticsSwitch == sender) { Preferences.Set(CommonSettings.USE_ANALYTICS, AnalyticsSwitch.IsToggled); }
 
-        if (StartRpdAutomaticSwitch == sender) 
-        { 
-            Preferences.Set(CommonSettings.START_RPD_AUTOMATIC, StartRpdAutomaticSwitch.IsToggled); 
+        if (StartRpdAutomaticSwitch == sender)
+        {
+            Preferences.Set(CommonSettings.START_RPD_AUTOMATIC, StartRpdAutomaticSwitch.IsToggled);
         }
-        if (NonChoreographySwitch == sender) 
-        { 
-            Preferences.Set(CommonSettings.USE_NONCHOREO_SONGS, NonChoreographySwitch.IsToggled); 
+        if (NonChoreographySwitch == sender)
+        {
+            Preferences.Set(CommonSettings.USE_NONCHOREO_SONGS, NonChoreographySwitch.IsToggled);
         }
         //await DisplayAlert("NOTE", "Please restart the app for the change to take affect.", "OK");
     }
-
 
     private void MasterVolumeSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)
     {

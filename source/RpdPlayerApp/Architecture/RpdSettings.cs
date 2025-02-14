@@ -4,30 +4,28 @@ using Syncfusion.Maui.Core;
 
 namespace RpdPlayerApp.Architecture;
 
-class RpdSettings
+internal class RpdSettings
 {
     public RpdSettings()
     {
-        
     }
 
-    /// <summary>
-    /// When false, mode is StartRpd.
-    /// </summary>
+    /// <summary> When false, mode is StartRpd. </summary>
     internal bool UsingGeneratePlaylist { get; set; } = false;
-    internal TimeSpan Duration { get; set; } 
+
+    internal TimeSpan Duration { get; set; }
     internal List<GroupType> GroupTypes { get; set; } = [];
     internal List<string> Genres { get; set; } = [];
     internal List<Gen> Gens { get; set; } = [];
     internal List<string> Companies { get; set; } = [];
 
     internal List<string> OtherCompanies { get; set; } = [];
-    internal List<string> NumberedPartsBlacklist { get; set; } = []; 
+    internal List<string> NumberedPartsBlacklist { get; set; } = [];
     internal List<string> PartsBlacklist { get; set; } = [];
 
     internal void DetermineGroupTypes(SfChipGroup grouptypesChipGroup)
     {
-       GroupTypes.Clear();
+        GroupTypes.Clear();
         for (var i = 0; i < grouptypesChipGroup?.Items?.Count; i++)
         {
             if (grouptypesChipGroup.Items[i].IsSelected)
@@ -55,7 +53,6 @@ class RpdSettings
                 Genres.Add(genre);
             }
         }
-
     }
 
     internal void DetermineGens(SfChipGroup generationsChipGroup)

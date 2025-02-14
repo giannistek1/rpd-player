@@ -67,10 +67,8 @@ public partial class AudioPlayerControl : ContentView
 
     private void OnStopAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PlayIcon;
 
-    /// <summary>
-    /// Plays audio from audioURL, updates AudioPlayerControl controls
-    /// </summary>
-    /// <param name="songPart"></param>
+    /// <summary> Plays audio from audioURL, updates AudioPlayerControl controls </summary>
+    /// <param name="songPart"> </param>
     internal void PlayAudio(SongPart songPart, bool updateCurrentSong = false)
     {
         if (updateCurrentSong)
@@ -86,7 +84,6 @@ public partial class AudioPlayerControl : ContentView
         UpdateNextSwipeItem();
     }
 
-
     // For updating theme.
     internal void UpdateUI()
     {
@@ -95,9 +92,11 @@ public partial class AudioPlayerControl : ContentView
     }
 
     #region AudioProgressSlider
+
     internal void AudioProgressSliderDragStarted(object? sender, EventArgs e) => AudioMediaElement.PositionChanged -= AudioMediaElementPositionChanged;
+
     private void AudioProgressSliderDragCompleted(object? sender, EventArgs e) => SeekToProgress(sender, e);
-    
+
     internal void SeekToProgress(object? sender, EventArgs e)
     {
         if (sender is Slider audioSlider)
@@ -108,7 +107,7 @@ public partial class AudioPlayerControl : ContentView
         }
     }
 
-    #endregion
+    #endregion AudioProgressSlider
 
     private void AudioMediaElementPositionChanged(object? sender, MediaPositionChangedEventArgs e)
     {
@@ -127,7 +126,7 @@ public partial class AudioPlayerControl : ContentView
             case PlayMode.Queue:
 
                 MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
-                 
+
                 // Choose song
                 if (MainViewModel.AutoplayMode == 1) // Autoplay
                 {
@@ -150,9 +149,10 @@ public partial class AudioPlayerControl : ContentView
                     MainViewModel.SongPartsQueue.Enqueue(MainViewModel.CurrentSongPart);
                 }
 
-                if (MainViewModel.SongPartsQueue.Count == 0) {
+                if (MainViewModel.SongPartsQueue.Count == 0)
+                {
                     if (AudioProgressSlider.Value >= AudioProgressSlider.Maximum - 2) { AudioManager.StopAudio(); }
-                    return; 
+                    return;
                 }
 
                 // Next song
@@ -183,7 +183,7 @@ public partial class AudioPlayerControl : ContentView
 
                 // If queue empty, return
                 if (MainViewModel.PlaylistQueue.Count == 0) { return; }
- 
+
                 MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
                 if (MainViewModel.TimerMode >= 1)
                 {
@@ -205,12 +205,9 @@ public partial class AudioPlayerControl : ContentView
         }
     }
 
-
-    /// <summary>
-    /// Also (re-)used with SongPartDetailBottomSheet.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <summary> Also (re-)used with SongPartDetailBottomSheet. </summary>
+    /// <param name="sender"> </param>
+    /// <param name="e"> </param>
     internal void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
         if (MainViewModel.TimerMode == 0 || MainViewModel.IsCurrentlyPlayingSongPart)

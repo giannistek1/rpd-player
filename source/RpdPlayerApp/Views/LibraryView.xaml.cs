@@ -15,6 +15,7 @@ public partial class LibraryView : ContentView
     internal MainPage? ParentPage { get; set; }
 
     public event EventHandler? PlayPlaylist;
+
     public event EventHandler? ShowPlaylist;
 
     public LibraryView()
@@ -101,7 +102,7 @@ public partial class LibraryView : ContentView
             HelperClass.ShowToast($"Please fill in a name");
             return;
         }
-        
+
         try
         {
             // Create file on system
