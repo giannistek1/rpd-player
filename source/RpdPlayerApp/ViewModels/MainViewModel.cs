@@ -106,6 +106,7 @@ internal static class MainViewModel
     internal static List<string> KakaoCompanies { get; set; } = ["IST Entertainment", "Starship Entertainment", "EDAM Entertainment", "Bluedot Entertainment", "High Up Entertainment", "Antenna", "FLEX M"];
     // Wake One -> was MMO Entertainment
     internal static List<string> CjenmCompanies { get; set; } = ["AOMG", "B2M Entertainment", "Jellyfish Entertainment", "Wake One", "Stone Music Entertainment", "Swing Entertainment"];
+    internal static List<string> RbwCompanies { get; set; } = ["RBW Entertainment", "WM Entertainment", "DSP Media"];
 
     // YMC Entertainment is owned by Dream T Entertainment
 

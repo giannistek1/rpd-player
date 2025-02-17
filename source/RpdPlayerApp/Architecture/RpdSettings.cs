@@ -20,6 +20,7 @@ internal class RpdSettings
     internal List<string> Companies { get; set; } = [];
 
     internal List<string> OtherCompanies { get; set; } = [];
+    internal List<int> Years { get; set; } = [];
     internal List<string> NumberedPartsBlacklist { get; set; } = [];
     internal List<string> PartsBlacklist { get; set; } = [];
 
@@ -88,8 +89,30 @@ internal class RpdSettings
                     case "SM": Companies.AddRange(MainViewModel.SMCompanies); break;
                     case "HYBE": Companies.AddRange(MainViewModel.HybeCompanies); break;
                     case "JYP": Companies.Add("JYP Entertainment"); break;
-                    case "YG": Companies.AddRange(MainViewModel.HybeCompanies); break;
+                    case "YG": Companies.AddRange(MainViewModel.YGCompanies); break;
                     case "Others": Companies.AddRange(OtherCompanies); break;
+                }
+            }
+        }
+    }
+
+    internal void DetermineYears(SfChipGroup yearsChipGroup)
+    {
+        Years.Clear();
+        for (var i = 0; i < yearsChipGroup?.Items?.Count; i++)
+        {
+            if (yearsChipGroup.Items[i].IsSelected)
+            {
+                if (yearsChipGroup.Items[i].Text.Equals("< 2012", StringComparison.OrdinalIgnoreCase))
+                {
+                    for (int year = 1998; year <= 2011; year++)
+                    {
+                        Years.Add(year);
+                    }
+                }
+                else
+                {
+                    Years.Add(Convert.ToInt32(yearsChipGroup.Items[i].Text));
                 }
             }
         }

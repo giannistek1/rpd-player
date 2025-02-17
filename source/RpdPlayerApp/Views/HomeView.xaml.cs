@@ -7,6 +7,7 @@ using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.ViewModels;
 using Syncfusion.Maui.Core;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Text.Json;
@@ -17,11 +18,8 @@ namespace RpdPlayerApp.Views;
 public partial class HomeView : ContentView
 {
     internal event EventHandler? PlaySongPart;
-
     internal event EventHandler? CreatePlaylistButtonPressed;
-
     internal event EventHandler? ShowCategories;
-
     internal event EventHandler? ShowNewsPopup;
 
     private readonly SettingsPage _settingsPage = new();
@@ -39,7 +37,7 @@ public partial class HomeView : ContentView
         SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
 
         LoadInitialData();
-        this.Loaded += OnLoad;
+        Loaded += OnLoad;
     }
 
     private void LoadInitialData()
@@ -56,9 +54,15 @@ public partial class HomeView : ContentView
         {
             HandleSongParts();
             SetVersionLabel();
+#if RELEASE 
+            UniqueSongCountImage.IsVisible = false;
+            UniqueSongCountLabel.IsVisible = false;
+#endif
             InitializeCompanies();
             InitializeChipGroups();
             HandleAutoStartRpd();
+
+            ChipGroupSelectionChanged(null,null);
         }
         catch (Exception ex)
         {
@@ -82,17 +86,14 @@ public partial class HomeView : ContentView
         }
     }
 
-    private List<NewsItem> CreateNewsItemsFromSongParts()
+    private List<NewsItem> CreateNewsItemsFromSongParts() => SongPartRepository.SongParts.Select(s => new NewsItem
     {
-        return SongPartRepository.SongParts.Select(s => new NewsItem
-        {
-            Title = s.Title,
-            Artist = s.ArtistName,
-            Part = s.PartNameFull,
-            AudioUrl = s.AudioURL,
-            HasVideo = s.HasVideo
-        }).ToList();
-    }
+        Title = s.Title,
+        Artist = s.ArtistName,
+        Part = s.PartNameFull,
+        AudioUrl = s.AudioURL,
+        HasVideo = s.HasVideo
+    }).ToList();
 
     private List<NewsItem> FindDifferentNewSongs(List<NewsItem> newSongList, List<NewsItem> oldSongList)
     {
@@ -138,6 +139,7 @@ public partial class HomeView : ContentView
         VersionLabel.Text = $"v{AppInfo.Current.VersionString}.{AppInfo.Current.BuildString}.{releaseMode}";
     }
 
+    /// <summary> Fills in companies. </summary>
     private void InitializeCompanies()
     {
         MainViewModel.AllCompanies = ArtistRepository.Artists.Select(artist => artist.Company).Distinct().ToList();
@@ -158,6 +160,7 @@ public partial class HomeView : ContentView
         InitializeGenresChipGroup();
         InitializeGenerationsChipGroup();
         InitializeCompaniesChipGroup();
+        InitializeYearsChipGroup();
         InitializeOtherOptionsChipGroup();
     }
 
@@ -203,17 +206,19 @@ public partial class HomeView : ContentView
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Female", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Mixed", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         GrouptypesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GrouptypesChipGroup.Items!);
+        GrouptypesChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
     private void InitializeGenresChipGroup()
     {
-        string[] options = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "pop"];
+        string[] options = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "Pop"];
         foreach (var option in options)
         {
             GenresChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
         GenresChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenresChipGroup.Items!);
         GenresChipGroup.SelectionChanged += GenresChipGroup_SelectionChanged;
+        GenresChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
     private void InitializeGenerationsChipGroup()
@@ -224,6 +229,7 @@ public partial class HomeView : ContentView
             GenerationsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
         GenerationsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenerationsChipGroup.Items!);
+        GenerationsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
     private void InitializeCompaniesChipGroup()
@@ -234,6 +240,22 @@ public partial class HomeView : ContentView
             CompaniesChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
         CompaniesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(CompaniesChipGroup.Items!);
+        CompaniesChipGroup.SelectionChanged += ChipGroupSelectionChanged;
+    }
+
+    private void InitializeYearsChipGroup()
+    {
+        List<string> options = ["< 2012"];
+        for(int year = 2012; year <= 2025; year++)
+        {
+            options.Add(year.ToString());
+        }
+        foreach (var option in options)
+        {
+            YearsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+        }
+        YearsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(YearsChipGroup.Items!);
+        YearsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
     private void InitializeOtherOptionsChipGroup()
@@ -245,6 +267,7 @@ public partial class HomeView : ContentView
             new() { Name = "Tiktoks" }
         };
         OtherOptionsChipGroup.ItemsSource = customChips;
+        OtherOptionsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
     private void HandleAutoStartRpd()
@@ -255,7 +278,7 @@ public partial class HomeView : ContentView
             if (startRpd) StartRpdButtonClicked(this, EventArgs.Empty);
         }
     }
-
+    // TODO: Needs rework to be used for Windows using a txt file.
     private static void SaveNews()
     {
         var newsItems = SongPartRepository.SongParts.Select(s => new NewsItem
@@ -271,6 +294,23 @@ public partial class HomeView : ContentView
         Preferences.Set(SONGPARTS, jsonSongParts);
     }
 
+    private void ChipGroupSelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs? e)
+    {
+        RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
+        RpdSettings?.DetermineGenres(GenresChipGroup);
+        RpdSettings?.DetermineGens(GenerationsChipGroup);
+        RpdSettings?.DetermineCompanies(CompaniesChipGroup);
+        RpdSettings?.DetermineYears(YearsChipGroup);
+
+        RpdSettings?.NumberedPartsBlacklist.Clear();
+        RpdSettings?.PartsBlacklist.Clear();
+
+        ApplyAntiOptions();
+
+        var songParts = FilterSongParts();
+        RpdSizeLabel.Text = $"Songs: {songParts.Count.ToString()}";
+    }
+
     private void GenresChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
     {
         GenerationsGrid.IsVisible = GenresChipGroup.Items![0].IsSelected;
@@ -284,6 +324,7 @@ public partial class HomeView : ContentView
         RefreshChipGroupColors(GenresChipGroup);
         RefreshChipGroupColors(GenerationsChipGroup);
         RefreshChipGroupColors(CompaniesChipGroup);
+        RefreshChipGroupColors(YearsChipGroup);
 
         OtherOptionsChipGroup.ItemsSource = null!;
         var customChips = new ObservableCollection<CustomChipModel>
@@ -318,8 +359,7 @@ public partial class HomeView : ContentView
 
     private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => AlbumCountLabel.Text = $"{AlbumRepository.Albums.Count}";
 
-    internal void FeedbackButtonPressed(object? sender, EventArgs e)
-    { /* TODO: */ }
+    internal void FeedbackButtonPressed(object? sender, EventArgs e){ /* TODO: */ }
 
     internal async void SettingsButtonPressed(object? sender, EventArgs e)
     {
@@ -389,6 +429,7 @@ public partial class HomeView : ContentView
         RpdSettings?.DetermineGenres(GenresChipGroup);
         RpdSettings?.DetermineGens(GenerationsChipGroup);
         RpdSettings?.DetermineCompanies(CompaniesChipGroup);
+        RpdSettings?.DetermineYears(YearsChipGroup);
 
         RpdSettings?.NumberedPartsBlacklist.Clear();
         RpdSettings?.PartsBlacklist.Clear();
@@ -448,7 +489,9 @@ public partial class HomeView : ContentView
         var songParts = SongPartRepository.SongParts.Where(s => RpdSettings!.GroupTypes.Contains(s.Artist.GroupType))
                                                     .Where(s => RpdSettings!.Genres.Contains(s.Album.GenreFull))
                                                     .Where(s => !RpdSettings!.NumberedPartsBlacklist.Contains(s.PartNameShortWithNumber))
-                                                    .Where(s => !RpdSettings!.PartsBlacklist.Contains(s.PartNameShort)).ToList();
+                                                    .Where(s => !RpdSettings!.PartsBlacklist.Contains(s.PartNameShort))
+                                                    .Where(s => RpdSettings!.Years.Contains(s.Album.ReleaseDate.Year))
+                                                    .ToList();
 
         if (GenresChipGroup!.Items![0].IsSelected)
         {

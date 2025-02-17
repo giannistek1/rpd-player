@@ -438,9 +438,7 @@ public partial class SearchSongPartsView : ContentView
                 case SearchFilterMode.Starship:
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Starship Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.RBW:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "RBW Entertainment" ||
-                                                        s.Artist?.Company == "WM Entertainment" ||
-                                                        s.Artist?.Company == "DSP Media").ToObservableCollection(); break;
+                    songParts = allSongParts.Where(s => MainViewModel.RbwCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
                 case SearchFilterMode.Woollim:
                     songParts = allSongParts.Where(s => s.Artist?.Company == "Woollim Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.IST:

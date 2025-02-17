@@ -11,12 +11,12 @@
 
     <ScrollView Orientation="Vertical">
         <Grid Padding="0" RowDefinitions="20, auto, auto, 
-                                          auto, auto, auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
+                                          auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
 
             <!-- New stats -->
             <Grid Grid.Row="0" ColumnDefinitions="2*, 4*">
 
-                <Label Grid.Column="0" Padding="8,2,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" FontSize="10" Text="Version xx" TextColor="{DynamicResource SecondaryTextColor}"/>
+                <Label Grid.Column="0" Padding="8,2,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" Style="{StaticResource Sideinfo}" Text="Version xx"/>
 
                 <HorizontalStackLayout Grid.Column="1" HorizontalOptions="EndAndExpand">
 
@@ -27,7 +27,7 @@
                         </Image.Source>
                     </Image>
 
-                    <Label x:Name="SongPartCountLabel" FontSize="8" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
+                    <Label x:Name="SongPartCountLabel" Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
 
                     <!-- Artists -->
                     <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
@@ -36,7 +36,7 @@
                         </Image.Source>
                     </Image>
 
-                    <Label x:Name="ArtistCountLabel" FontSize="8" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
+                    <Label x:Name="ArtistCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
 
                     <!-- Albums -->
                     <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
@@ -45,7 +45,7 @@
                         </Image.Source>
                     </Image>
 
-                    <Label x:Name="AlbumCountLabel" FontSize="8" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
+                    <Label x:Name="AlbumCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
 
                     <!-- Unique song parts (for debug mode) -->
                     <Image x:Name="UniqueSongCountImage"  HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
@@ -54,7 +54,7 @@
                         </Image.Source>
                     </Image>
 
-                    <Label x:Name="UniqueSongCountLabel" FontSize="8" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
+                    <Label x:Name="UniqueSongCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
 
                 </HorizontalStackLayout>
 
@@ -102,8 +102,7 @@
             <!-- Duration -->
             <Grid Grid.Row="3" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Duration (hours)" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Duration (hours)" Style="{StaticResource H1}" Margin="0,0,0,8"/>
 
                 <sfcore:SfChipGroup Grid.Row="1" x:Name="DurationChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Choice"
                           SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
@@ -119,8 +118,7 @@
             <!-- Timer -->
             <Grid Grid.Row="4" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Timer" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Timer" Style="{StaticResource H1}" Margin="0,0,0,8"/>
 
                 <sfcore:SfChipGroup Grid.Row="1" x:Name="TimerChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Choice"
                           SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
@@ -134,8 +132,7 @@
             <!-- Voice announcements -->
             <Grid Grid.Row="5" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Voice announcements" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Voice announcements" Style="{StaticResource H1}" Margin="0,0,0,8"/>
 
                 <sfcore:SfChipGroup Grid.Row="1" x:Name="VoiceAnnouncementsChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Choice"
                           SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
@@ -149,8 +146,7 @@
             <!-- Grouptypes -->
             <Grid Grid.Row="6" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Grouptypes" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Grouptypes" Style="{StaticResource H1}" Margin="0,0,0,8"/>
 
                 <sfcore:SfChipGroup Grid.Row="1" x:Name="GrouptypesChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
                           SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
@@ -163,8 +159,7 @@
             <!-- Genres -->
             <Grid Grid.Row="7" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Genres" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Genres" Style="{StaticResource H1}" Margin="0,0,0,8"/>
 
                 <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
 
@@ -181,8 +176,7 @@
             <!-- Generations (only for k-pop) -->
             <Grid Grid.Row="8" x:Name="GenerationsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Gens" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Gens" Style="{StaticResource H1}" Margin="0,0,0,8"/>
 
                 <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
 
@@ -200,8 +194,7 @@
             <!-- Companies (only for k-pop) -->
             <Grid Grid.Row="9" x:Name="CompaniesGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Companies" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Companies"  Style="{StaticResource H1}" Margin="0,0,0,8"/>
                 
                 <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
 
@@ -215,11 +208,27 @@
 
             </Grid>
 
-            <!-- Anti-options -->
-            <Grid Grid.Row="10" RowDefinitions="auto, auto, auto" Margin="0,0,0,16" Padding="16,0,16,0">
+            <!-- Years -->
+            <Grid Grid.Row="10" x:Name="YearsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                <!-- TODO: Label Key: H1 -->
-                <Label Grid.Row="0" Text="Anti-options" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="2" Margin="0,0,0,8"/>
+                <Label Grid.Row="0" Text="Years" Style="{StaticResource H1}" Margin="0,0,0,8"/>
+
+                <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+
+                    <sfcore:SfChipGroup x:Name="YearsChipGroup" ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                                      SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                                      HorizontalOptions="Start" VerticalOptions="Center">
+
+                    </sfcore:SfChipGroup>
+
+                </ScrollView>
+
+            </Grid>
+
+            <!-- Anti-options -->
+            <Grid Grid.Row="11" RowDefinitions="auto, auto, auto" Margin="0,0,0,16" Padding="16,0,16,0">
+
+                <Label Grid.Row="0" Text="Anti-options" Style="{StaticResource H1}" Margin="0,0,0,8"/>
 
                 <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
 
@@ -272,9 +281,13 @@
 
             </Grid>
 
-            <!-- TODO: Years -->
+            <Grid Grid.Row="12" ColumnDefinitions="*,*" ColumnSpacing="8">
 
-            <Grid Grid.Row="11" ColumnDefinitions="*,*" ColumnSpacing="8">
+                <Label x:Name="RpdSizeLabel" Text=""  Style="{StaticResource Sideinfo}" />
+
+            </Grid>
+
+            <Grid Grid.Row="13" ColumnDefinitions="*,*" ColumnSpacing="8">
                 
                 <Button Grid.Column="0" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold"/>
 

@@ -175,6 +175,8 @@
                                     
                                 </Border>
 
+                                <Label Text="{Binding ArtistName}" FontSize="10" HorizontalTextAlignment="Center" TextColor="{DynamicResource SecondaryTextColor}" />
+
                                 <HorizontalStackLayout HeightRequest="26" VerticalOptions="End" HorizontalOptions="CenterAndExpand">
                                     
                                     <Label Padding="8,8,0,0" VerticalOptions="Start" HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />

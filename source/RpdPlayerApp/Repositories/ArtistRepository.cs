@@ -68,13 +68,13 @@ internal static class ArtistRepository
 
 
     internal static Artist MatchArtist(string artistName) => Artists.FirstOrDefault(a => a.Name.Equals(artistName, StringComparison.OrdinalIgnoreCase))!;
-    internal static List<Artist> GetTopArtistsByGen(Gen generation, int count = 5) 
+    internal static List<Artist> GetTopArtistsForGen(Gen generation, int count = 5) 
         => Artists.Where(a => a.IsKpopArtist && a.Gen == generation)
                   .OrderByDescending(a => a.SongPartCount)
                   .Take(count)
                   .ToList();
 
-    internal static List<Artist> GetTopArtistsByCompanies(List<string> companies, int count = 5)
+    internal static List<Artist> GetTopArtistsForCompanies(List<string> companies, int count = 5)
         => Artists.Where(a => companies.Contains(a.Company))
                   .OrderByDescending(a => a.SongPartCount)
                   .Take(count)
