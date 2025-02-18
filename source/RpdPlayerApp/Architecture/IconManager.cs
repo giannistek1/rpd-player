@@ -35,6 +35,20 @@ internal static class IconManager
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
 
+    internal static FontImageSource NoSoundIcon = new()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.No_sound,
+        Color = (Color)Application.Current!.Resources["IconOffColor"]
+    };
+
+    internal static FontImageSource SoundIcon = new()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.Volume_up,
+        Color = (Color)Application.Current!.Resources["IconOffColor"]
+    };
+
     internal static FontImageSource OffIcon = new()
     {
         FontFamily = "MaterialRounded",
@@ -251,6 +265,8 @@ internal static class IconManager
         AutoplayIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         CrossIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         BackIcon.Color = (Color)Application.Current!.Resources["IconColor"];
+        NoSoundIcon.Color = (Color)Application.Current!.Resources["IconColor"];
+        SoundIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         OffIcon.Color = (Color)Application.Current!.Resources["IconOffColor"];
         PauseIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         PlayIcon.Color = (Color)Application.Current!.Resources["IconColor"];

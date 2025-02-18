@@ -116,6 +116,7 @@ public partial class SongPartDetailBottomSheet
 
         ProgressLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
 
+        VolumeImageButton.Source = CommonSettings.IsVolumeMuted ? IconManager.NoSoundIcon : IconManager.SoundIcon;
         MasterVolumeSlider.TrackStyle.ActiveFill = (Color)Application.Current!.Resources["Primary"];
         MasterVolumeSlider.ThumbStyle.Fill = (Color)Application.Current!.Resources["Primary"];
 
@@ -223,4 +224,11 @@ public partial class SongPartDetailBottomSheet
     }
 
     private void CloseImageButton_Pressed(object sender, EventArgs e) => Close?.Invoke(sender, e);
+
+    private void VolumeImageButton_Pressed(object sender, EventArgs e)
+    {
+        CommonSettings.IsVolumeMuted = !CommonSettings.IsVolumeMuted;
+        VolumeImageButton.Source = CommonSettings.IsVolumeMuted ? IconManager.NoSoundIcon : IconManager.SoundIcon;
+        AudioManager.SetMute();
+    }
 }

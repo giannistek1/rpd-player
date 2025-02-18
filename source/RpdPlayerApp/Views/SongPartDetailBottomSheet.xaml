@@ -115,11 +115,12 @@
             <!-- Volume -->
             <Grid Grid.Row="8" ColumnDefinitions="1*, 7*" Padding="16,0,16,0">
 
-                <Image Grid.Column="0" x:Name="VolumeImage" HeightRequest="30" HorizontalOptions="Center">
-                    <Image.Source>
+                <ImageButton Grid.Column="0" x:Name="VolumeImageButton" HeightRequest="30" HorizontalOptions="Center" Pressed="VolumeImageButton_Pressed">
+                    <!-- TODO: Is source needed in XAML? -->
+                    <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Volume_up}" Color="{DynamicResource IconColor}" />
-                    </Image.Source>
-                </Image>
+                    </ImageButton.Source>
+                </ImageButton>
 
                 <sliders:SfSlider Grid.Column="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSlider_ValueChanged" Minimum="0" Interval="50" Maximum="100">
 

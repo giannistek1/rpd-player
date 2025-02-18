@@ -92,4 +92,6 @@ internal static class AudioManager
 
         PreSongPartMediaElement!.Play();
     }
+    // TODO: Invoke OnMute to update audio icons.
+    internal static void SetMute() => SongPartMediaElement!.ShouldMute = CommonSettings.IsVolumeMuted;
 }

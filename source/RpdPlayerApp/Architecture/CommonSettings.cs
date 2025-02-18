@@ -11,5 +11,6 @@ internal static class CommonSettings
 #pragma warning disable S2223 // Non-constant static fields should not be visible
     internal static double MainVolume = 1.0;
 #pragma warning restore S2223
+    internal static bool IsVolumeMuted = false;
     internal static bool ShouldLoopVideo { get; set; } = true;
 }
