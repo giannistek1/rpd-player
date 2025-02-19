@@ -308,7 +308,10 @@ public partial class HomeView : ContentView
         ApplyAntiOptions();
 
         var songParts = FilterSongParts();
-        RpdSizeLabel.Text = $"Songs: {songParts.Count.ToString()}";
+
+        RpdSizeLabel.Text = $"{songParts.Count}";
+        IEnumerable<SongPart> artistsBySongPart = songParts.DistinctBy(s => new { s.ArtistName });
+        RpdArtistSizeLabel.Text = $"{artistsBySongPart.Count()}";
     }
 
     private void GenresChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)

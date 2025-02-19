@@ -203,12 +203,12 @@
                     <DataTemplate>
                         <ViewCell>
                             
-                            <HorizontalStackLayout Padding="0">
+                            <Grid ColumnDefinitions="1*, 6*" Padding="0">
 
-                                <Border Grid.Column="0" WidthRequest="80" StrokeShape="RoundRectangle 8" 
+                                <Border Grid.Column="0" StrokeShape="RoundRectangle 8" 
                                         Padding="0" VerticalOptions="Center">
                                     
-                                    <Image WidthRequest="80" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit">
+                                    <Image HeightRequest="54" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit">
                                         <Image.Source>
                                             <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
                                         </Image.Source>
@@ -216,14 +216,20 @@
                                     
                                 </Border>
 
-                                <HorizontalStackLayout HeightRequest="32" VerticalOptions="CenterAndExpand">
-                                    
-                                    <Label Padding="8,8,0,0" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" LineBreakMode="WordWrap" />
-                                    <Label Padding="8,8,0,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" LineBreakMode="WordWrap" />
-                                
-                                </HorizontalStackLayout>
+                                <VerticalStackLayout Grid.Column="1">
 
-                            </HorizontalStackLayout>
+                                    <HorizontalStackLayout HeightRequest="32" VerticalOptions="CenterAndExpand">
+
+                                        <Label Padding="8,8,0,0" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" LineBreakMode="WordWrap" />
+                                        <Label Padding="8,8,0,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" LineBreakMode="WordWrap" />
+
+                                    </HorizontalStackLayout>
+
+                                    <Label Padding="8,0,0,0" Text="{Binding Description}" TextColor="{DynamicResource SecondaryTextColor}" FontSize="10" LineBreakMode="WordWrap"/>
+                                    
+                                </VerticalStackLayout>
+
+                            </Grid>
                             
                         </ViewCell>
                     </DataTemplate>

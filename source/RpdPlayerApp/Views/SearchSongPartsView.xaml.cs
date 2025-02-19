@@ -30,7 +30,6 @@ public partial class SearchSongPartsView : ContentView
     internal ObservableCollection<SongPart> allSongParts;
     internal ObservableCollection<SongPart> songParts = [];
     internal List<SongPart> searchFilteredSongParts = [];
-    internal int SongCount { get; set; } = 0;
     internal MainPage? ParentPage { get; set; }
 
     private VisualContainer? visualContainer;
@@ -48,6 +47,7 @@ public partial class SearchSongPartsView : ContentView
 
         allSongParts = SongPartRepository.SongParts;
 
+        // Fill in indices.
         int i = 0;
         foreach (var songPart in allSongParts)
         {
@@ -57,9 +57,8 @@ public partial class SearchSongPartsView : ContentView
         }
         SonglibraryListView.ItemsSource = songParts;
         MainViewModel.SongParts = [.. songParts];
-        SongCount = allSongParts.Count;
 
-        ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
+        UpdateResultsText();
 
         ClearCategoryFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
     }
@@ -78,7 +77,6 @@ public partial class SearchSongPartsView : ContentView
 
         if (MainViewModel.UsingVideoMode)
         {
-            //CancellationToken cancellationToken = new CancellationToken();
             HelperClass.ShowToast("Choreo video mode");
             //CommunityToolkit.Maui.Alerts.Snackbar.Make($"Choreo video mode").Show();
         }
@@ -89,12 +87,9 @@ public partial class SearchSongPartsView : ContentView
         }
     }
 
-    internal void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
-    }
+    internal void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => UpdateResultsText();
 
-    private void SonglibraryListView_Loaded(object sender, Syncfusion.Maui.ListView.ListViewLoadedEventArgs e)
+    private void SonglibraryListView_Loaded(object sender, ListViewLoadedEventArgs e)
     {
         SonglibraryListView.DataSource?.GroupDescriptors.Clear();
         SonglibraryListView.IsStickyGroupHeader = true;
@@ -381,7 +376,8 @@ public partial class SearchSongPartsView : ContentView
         SonglibraryListView.ItemsSource = searchFilteredSongParts;
         MainViewModel.SongParts = [.. songParts];
 
-        ResultsLabel.Text = $"Currently showing {searchFilteredSongParts.Count} results";
+        IEnumerable<SongPart> artistsBySongPart = searchFilteredSongParts.DistinctBy(s => new { s.ArtistName });
+        ResultsLabel.Text = $"{searchFilteredSongParts.Count} results from {artistsBySongPart.Count()} artists";
     }
 
     internal void SortButtonClicked(object? sender, EventArgs e) => ShowSortBy?.Invoke(sender, e);
@@ -528,12 +524,18 @@ public partial class SearchSongPartsView : ContentView
             SonglibraryListView.ItemsSource = songParts;
             MainViewModel.SongParts = [.. songParts];
 
-            ResultsLabel.Text = $"Currently showing: {songParts.Count} results";
+            UpdateResultsText();
         }
         catch (Exception ex)
         {
             SentrySdk.CaptureException(ex);
         }
+    }
+    // Update searchfilter as well.
+    private void UpdateResultsText()
+    {
+        IEnumerable<SongPart> artistsBySongPart = songParts.DistinctBy(s => new { s.ArtistName });
+        ResultsLabel.Text = $"{songParts.Count} results from {artistsBySongPart.Count()} artists";
     }
 
     #endregion Filter

@@ -113,91 +113,91 @@ public partial class CategoriesView : ContentView
 
         CompanyListView.ItemsSource = new List<HomeListViewItem>() {
             new(title: "SM Entertainment",
-                                description: $"SM Entertainment: {smDescription}",
+                                description: $"Famous for: {smDescription}",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true",
                                 searchFilterMode: SearchFilterMode.SM,
                                 songCount: SongPartRepository.SongParts.Count(s => MainViewModel.SMCompanies.Contains(s.Artist.Company))
                                 ),
 
             new(title: "HYBE Labels",
-                                 description: $"HYBE Labels, formerly known as Big Hit Entertainment with child companies: Source Music and Pledis Entertainment. {hybeDescription}",
+                                 description: $"Formerly known as Big Hit Entertainment with child companies: Source Music and Pledis Entertainment. Famous for: {hybeDescription}",
                                  imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-hybe-labels.webp?raw=true",
                                  searchFilterMode: SearchFilterMode.Hybe,
                                  songCount: SongPartRepository.SongParts.Count(s => MainViewModel.HybeCompanies.Contains(s.Artist.Company))
                                  ),
 
             new(title: "JYP Entertainment",
-                                description: $"JYP Entertainment: {jypDescription}",
+                                description: $"Famous for: {jypDescription}",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-jyp.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.JYP,
                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "JYP Entertainment")
                                 ),
 
             new(title: "YG Entertainment",
-                                description: $"YG Entertainment: {ygDescription}",
+                                description: $"Famous for: {ygDescription}",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-yg.jpg?raw=true",
                                 searchFilterMode: SearchFilterMode.YG,
                                 songCount: SongPartRepository.SongParts.Count(s => MainViewModel.YGCompanies.Contains(s.Artist.Company))
                                 ),
 
             new(title: "Kakao Entertainment",
-                                 description: $"Kakao Entertainment. Has many child companies: IST Entertainment, Starship Entertainment, EDAM Entertainment, Bluedot Entertainment, High Up Entertainment, Antenna and FLEX M. {kakaoDescription}",
+                                 description: $"Has many child companies: IST Entertainment, Starship Entertainment, EDAM Entertainment, Bluedot Entertainment, High Up Entertainment, Antenna and FLEX M. {kakaoDescription}",
                                  imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-kakao.webp?raw=true",
                                  searchFilterMode: SearchFilterMode.Kakao_Entertainment,
                                  songCount: SongPartRepository.SongParts.Count(s => MainViewModel.KakaoCompanies.Contains(s.Artist.Company))
                                  ),
 
             new(title: "Starship Entertainment",
-                                description: $"Starship Entertainment.",
+                                description: $"",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-starship.webp?raw=true",
                                 searchFilterMode: SearchFilterMode.Starship,
                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Starship Entertainment")
                                 ),
 
             new(title: "RBW Entertainment",
-                                description: $"Rainbow Bridge World Entertainment, includes WM entertainment and DSP Media (Daesung enterprise). {RbwDescription}",
+                                description: $"Includes WM entertainment and DSP Media (Daesung enterprise). {RbwDescription}",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-rbw.png?raw=true",
                                 searchFilterMode: SearchFilterMode.RBW,
                                 songCount : SongPartRepository.SongParts.Count(s => MainViewModel.RbwCompanies.Contains(s.Artist.Company))
                                 ),
 
             new(title: "Cube Entertainment",
-                                description: $"Cube Entertainment.",
+                                description: $"",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-cube.webp?raw=true",
                                 searchFilterMode: SearchFilterMode.Cube,
                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Cube Entertainment")
                                 ),
 
             new(title: "IST Entertainment",
-                                description: $"IST Entertainment. Formerly known as A Cube, Play A, Play M.",
+                                description: $"Formerly known as A Cube, Play A, Play M.",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-ist.webp?raw=true",
                                 searchFilterMode: SearchFilterMode.IST,
                                 songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "IST Entertainment")
                                 ),
 
             new(title: "Pledis Entertainment",
-                                description: $"Pledis Entertainment.",
+                                description: $"",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-pledis.webp?raw=true",
                                 searchFilterMode: SearchFilterMode.Pledis,
                                 songCount: SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Pledis Entertainment")
                                 ),
 
             new(title: "CJ ENM Music",
-                                 description: $"CJ ENM Music: {cjenmDescription}",
+                                 description: $"Famous for: {cjenmDescription}",
                                  imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-cjenm.webp?raw=true",
                                  searchFilterMode: SearchFilterMode.CJ_ENM_Music,
                                  songCount: SongPartRepository.SongParts.Count(s => MainViewModel.CjenmCompanies.Contains(s.Artist.Company))
                                  ),
 
             new(title: "FNC Entertainment",
-                                description: $"FNC Entertainment.",
+                                description: $"",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-fnc.png?raw=true",
                                 searchFilterMode: SearchFilterMode.FNC,
                                 songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "FNC Entertainment")
                                 ),
 
             new(title: "Woollim Entertainment",
-                                description: $"Woollim Entertainment.",
+                                description: $"",
                                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-woollim.webp?raw=true",
                                 searchFilterMode: SearchFilterMode.Woollim,
                                 songCount : SongPartRepository.SongParts.Count(s => s.Artist ?.Company == "Woollim Entertainment")

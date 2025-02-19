@@ -281,9 +281,23 @@
 
             </Grid>
 
-            <Grid Grid.Row="12" ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,0,0,2" Padding="16,0,0,0" >
+            <Grid Grid.Row="12" ColumnDefinitions="auto,auto, auto,auto" Margin="0,0,0,2" ColumnSpacing="4" Padding="16,0,0,0" >
 
-                <Label x:Name="RpdSizeLabel" Text=""  Style="{StaticResource Sideinfo}" />
+                <Image Grid.Column="0" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
+
+                <Label Grid.Column="1" x:Name="RpdSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" />
+
+                <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
+
+                <Label Grid.Column="3" x:Name="RpdArtistSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" />
 
             </Grid>
 
