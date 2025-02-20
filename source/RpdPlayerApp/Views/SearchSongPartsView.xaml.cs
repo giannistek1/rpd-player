@@ -936,11 +936,16 @@ public partial class SearchSongPartsView : ContentView
                         KeySelector = (object obj1) =>
                         {
                             var item = (obj1 as SongPart);
-                            int month = item!.Album.ReleaseDate.Month;
-                            int day = item!.Album.ReleaseDate.Day;
-
-                            DateTime date = new(DateTime.Now.Year, month, day, 0, 0, 0, DateTimeKind.Utc);
-                            return date.ToString("MM/dd");
+                            if (item is not null)
+                            {
+                                int month = item!.Album.ReleaseDate.Month;
+                                int day = item!.Album.ReleaseDate.Day;
+                                return $"{month}/{day}";
+                            }
+                            else 
+                            { 
+                                return "Invalid item."; 
+                            }
                         },
                     });
 
@@ -961,6 +966,7 @@ public partial class SearchSongPartsView : ContentView
             ex.AddSentryContext("data", dict);
 
             SentrySdk.CaptureException(ex);
+            HelperClass.ShowToast(ex.Message);
         }
 
         if (SearchBarInput is not null && SearchBarInput.Text is not null && SearchBarInput.Text.Trim().Length > 0)
