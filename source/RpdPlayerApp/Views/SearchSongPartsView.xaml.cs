@@ -27,7 +27,7 @@ public partial class SearchSongPartsView : ContentView
 
     internal event EventHandler? ShowSortBy;
 
-    internal ObservableCollection<SongPart> allSongParts;
+    internal ObservableCollection<SongPart>? allSongParts;
     internal ObservableCollection<SongPart> songParts = [];
     internal List<SongPart> searchFilteredSongParts = [];
     internal MainPage? ParentPage { get; set; }
@@ -456,15 +456,15 @@ public partial class SearchSongPartsView : ContentView
                 case SearchFilterMode.Fifthgen:
                     songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
 
-                case SearchFilterMode.KR:
+                case SearchFilterMode.Kpop:
                     songParts = allSongParts.Where(s => s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
-                case SearchFilterMode.JP:
+                case SearchFilterMode.Jpop:
                     songParts = allSongParts.Where(s => s.Album?.GenreShort == "JP").ToObservableCollection(); break;
                 case SearchFilterMode.EN:
                     songParts = allSongParts.Where(s => s.Album?.GenreShort == "EN").ToObservableCollection(); break;
-                case SearchFilterMode.CH:
+                case SearchFilterMode.Cpop:
                     songParts = allSongParts.Where(s => s.Album?.GenreShort == "CH").ToObservableCollection(); break;
-                case SearchFilterMode.TH:
+                case SearchFilterMode.Tpop:
                     songParts = allSongParts.Where(s => s.Album?.GenreShort == "TH").ToObservableCollection(); break;
 
                 case SearchFilterMode.Solo:
@@ -793,7 +793,7 @@ public partial class SearchSongPartsView : ContentView
                             var item = (obj1 as SongPart);
                             if (item is not null && item.Album is not null)
                             {
-                                return item.Album.GenreShort.ToString();
+                                return item.Album.GenreFull;
                             }
                             else
                             {

@@ -225,7 +225,9 @@
 
                                     </HorizontalStackLayout>
 
-                                    <Label Padding="8,0,0,0" Text="{Binding Description}" TextColor="{DynamicResource SecondaryTextColor}" FontSize="10" LineBreakMode="WordWrap"/>
+                                    <Label Padding="8,0,0,0" Text="{Binding OldNames}" Style="{StaticResource Sideinfo}" LineBreakMode="WordWrap"/>
+                                    <Label Padding="8,0,0,0" Text="{Binding TopArtists}" Style="{StaticResource Sideinfo}" LineBreakMode="WordWrap"/>
+                                    <Label Padding="8,0,0,0" Text="{Binding ChildCompanies}" Style="{StaticResource Sideinfo}" LineBreakMode="WordWrap"/>
                                     
                                 </VerticalStackLayout>
 
