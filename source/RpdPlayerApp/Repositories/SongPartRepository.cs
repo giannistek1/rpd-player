@@ -97,4 +97,6 @@ internal static class SongPartRepository
     }
 
     internal static SongPart GetRandomSongPart() => SongParts[HelperClass.Rng.Next(SongParts.Count)];
+
+    internal static List<SongPart> GetSongPartsByGeneration(string generation) => SongParts.Where(s => s.Artist?.Generation == generation && s.Album?.GenreShort == MainViewModel.GenreKpop).ToList();
 }

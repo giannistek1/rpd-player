@@ -178,9 +178,22 @@
                                 <Label Text="{Binding ArtistName}" FontSize="10" HorizontalTextAlignment="Center" TextColor="{DynamicResource SecondaryTextColor}" />
 
                                 <HorizontalStackLayout HeightRequest="26" VerticalOptions="End" HorizontalOptions="CenterAndExpand">
-                                    
-                                    <Label Padding="8,8,0,0" VerticalOptions="Start" HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
-                                    <Label Padding="2,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+
+                                    <Label Padding="0,0,8,0" VerticalOptions="CenterAndExpand" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+
+                                    <Image Grid.Column="0" HeightRequest="20" VerticalOptions="CenterAndExpand">
+                                        <Image.Source>
+                                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Label Padding="4,0,8,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" />
+
+                                    <Image Grid.Column="0" HeightRequest="20" VerticalOptions="CenterAndExpand">
+                                        <Image.Source>
+                                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Label Padding="4,0,0,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding ArtistCount}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" />
                                 
                                 </HorizontalStackLayout>
 
@@ -216,20 +229,33 @@
                                     
                                 </Border>
 
-                                <VerticalStackLayout Grid.Column="1">
+                                <Grid Grid.Column="1" RowDefinitions="auto, auto, auto, auto">
 
-                                    <HorizontalStackLayout HeightRequest="32" VerticalOptions="CenterAndExpand">
+                                    <HorizontalStackLayout Grid.Row="0" HeightRequest="32" VerticalOptions="CenterAndExpand">
 
-                                        <Label Padding="8,8,0,0" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" LineBreakMode="WordWrap" />
-                                        <Label Padding="8,8,0,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" LineBreakMode="WordWrap" />
+                                        <Label Padding="8,0,8,0" VerticalOptions="CenterAndExpand" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+
+                                        <Image Grid.Column="0" HeightRequest="20" VerticalOptions="CenterAndExpand">
+                                            <Image.Source>
+                                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label Padding="4,0,8,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" />
+
+                                        <Image Grid.Column="0" HeightRequest="20" VerticalOptions="CenterAndExpand">
+                                            <Image.Source>
+                                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Label Padding="4,0,0,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding ArtistCount}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" />
 
                                     </HorizontalStackLayout>
 
-                                    <Label Padding="8,0,0,0" Text="{Binding OldNames}" Style="{StaticResource Sideinfo}" LineBreakMode="WordWrap"/>
-                                    <Label Padding="8,0,0,0" Text="{Binding TopArtists}" Style="{StaticResource Sideinfo}" LineBreakMode="WordWrap"/>
-                                    <Label Padding="8,0,0,0" Text="{Binding ChildCompanies}" Style="{StaticResource Sideinfo}" LineBreakMode="WordWrap"/>
+                                    <Label Grid.Row="1" Padding="8,0,0,0" Text="{Binding TopArtists}" Style="{StaticResource Sideinfo}" LineBreakMode="WordWrap"/>
+                                    <Label Grid.Row="2" Padding="8,0,0,0" Text="{Binding ChildCompanies}" Style="{StaticResource Sideinfo}" LineBreakMode="WordWrap"/>
+                                    <Label Grid.Row="3" Padding="8,0,0,0" Text="{Binding OldNames}" Style="{StaticResource Sideinfo}" LineBreakMode="WordWrap"/>
                                     
-                                </VerticalStackLayout>
+                                </Grid>
 
                             </Grid>
                             

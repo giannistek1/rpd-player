@@ -46,7 +46,7 @@ internal static class ArtistRepository
             catch (Exception ex)
             {
                 SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}, artist {i + 1}, {ex.Message}");
-                HelperClass.ShowToast($"ERRROR: InitArtist, artist {i + 1}, {ex.Message}");
+                HelperClass.ShowToast($"ERROR: InitArtist, artist {i + 1}, {ex.Message}");
             }
 
         }
