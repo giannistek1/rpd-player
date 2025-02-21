@@ -13,7 +13,7 @@
     
     <ScrollView Orientation="Vertical">
        
-        <Grid RowDefinitions="22, 40, auto, 30, 30, 30, 50, auto, 50" Padding="12,0,12,0">
+        <Grid RowDefinitions="22, 40, auto, 30, 30, 30, 50, auto, auto, 50" Padding="12,0,12,0">
 
             <ImageButton Grid.Row="0" HeightRequest="40" x:Name="CloseImageButton" HorizontalOptions="CenterAndExpand" Pressed="CloseImageButton_Pressed">
                 <ImageButton.Source>
@@ -61,7 +61,48 @@
             </Grid>
             
             <!-- Action buttons -->
-            <Grid Grid.Row="7" ColumnDefinitions="2*, 2*, 3*, 3*, 3*, 2*, 2*">
+            <Grid Grid.Row="7" ColumnDefinitions="2*, 2*, 3*, 2*, 2*">
+
+                <ImageButton Grid.Column="0" HeightRequest="44" x:Name="PreviousImageButton" Pressed="PreviousButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_previous}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
+
+                <ImageButton Grid.Column="1" HeightRequest="34" x:Name="ReplayImageButton" Pressed="ReplayImageButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Replay_5}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
+
+                <Border Grid.Column="2" x:Name="PlayToggleBorder" HeightRequest="60" WidthRequest="60" StrokeShape="RoundRectangle 30"
+                          Padding="0" Background="{DynamicResource PrimaryButton}" VerticalOptions="Center">
+
+                    <ImageButton HeightRequest="60" Padding="4" x:Name="PlayToggleImageButton" Pressed="PlayToggleButton_Pressed">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Play_pause}" Color="{DynamicResource IconColor}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+
+                </Border>
+
+                <ImageButton Grid.Column="3" HeightRequest="36" x:Name="ForwardImageButton" Pressed="ForwardImageButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Forward_5}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
+
+                <ImageButton Grid.Column="4" HeightRequest="44" x:Name="NextImageButton" Pressed="NextButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_next}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
+
+
+            </Grid>
+
+            <!-- Action buttons -->
+            <Grid Grid.Row="8" ColumnDefinitions="2*, 2*, 2*, 2*">
 
                 <ImageButton Grid.Column="0" HeightRequest="34" x:Name="VoiceImageButton" Pressed="VoiceButton_Pressed">
                     <ImageButton.Source>
@@ -75,36 +116,13 @@
                     </ImageButton.Source>
                 </ImageButton>
 
-                <ImageButton Grid.Column="2" HeightRequest="44" x:Name="PreviousImageButton" Pressed="PreviousButton_Pressed">
-                    <ImageButton.Source>
-                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_previous}" Color="{DynamicResource IconColor}" />
-                    </ImageButton.Source>
-                </ImageButton>
-
-                <Border Grid.Column="3" x:Name="PlayToggleBorder" HeightRequest="60" WidthRequest="60" StrokeShape="RoundRectangle 30"
-                          Padding="0" Background="{DynamicResource PrimaryButton}" VerticalOptions="Center">
-
-                    <ImageButton HeightRequest="60" Padding="4" x:Name="PlayToggleImageButton" Pressed="PlayToggleButton_Pressed">
-                        <ImageButton.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Play_pause}" Color="{DynamicResource IconColor}" />
-                        </ImageButton.Source>
-                    </ImageButton>
-
-                </Border>
-
-                <ImageButton Grid.Column="4" HeightRequest="44" x:Name="NextImageButton" Pressed="NextButton_Pressed">
-                    <ImageButton.Source>
-                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_next}" Color="{DynamicResource IconColor}" />
-                    </ImageButton.Source>
-                </ImageButton>
-
-                <ImageButton Grid.Column="5" HeightRequest="36" x:Name="AutoplayImageButton" Pressed="AutoplayButton_Pressed">
+                <ImageButton Grid.Column="2" HeightRequest="36" x:Name="AutoplayImageButton" Pressed="AutoplayButton_Pressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Block}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
                 </ImageButton>
 
-                <ImageButton Grid.Column="6" HeightRequest="36" x:Name="FavoriteImageButton" Pressed="FavoriteButton_Pressed">
+                <ImageButton Grid.Column="3" HeightRequest="36" x:Name="FavoriteImageButton" Pressed="FavoriteButton_Pressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Favorite}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
@@ -113,7 +131,7 @@
             </Grid>
 
             <!-- Volume -->
-            <Grid Grid.Row="8" ColumnDefinitions="1*, 7*" Padding="16,0,16,0">
+            <Grid Grid.Row="9" ColumnDefinitions="1*, 7*" Padding="16,0,16,0">
 
                 <ImageButton Grid.Column="0" x:Name="VolumeImageButton" HeightRequest="30" HorizontalOptions="Center" Pressed="VolumeImageButton_Pressed">
                     <!-- TODO: Is source needed in XAML? -->

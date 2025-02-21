@@ -231,4 +231,14 @@ public partial class SongPartDetailBottomSheet
         VolumeImageButton.Source = CommonSettings.IsVolumeMuted ? IconManager.NoSoundIcon : IconManager.SoundIcon;
         AudioManager.SetMute();
     }
+
+    private void ForwardImageButton_Pressed(object sender, EventArgs e)
+    {
+
+    }
+
+    private void ReplayImageButton_Pressed(object sender, EventArgs e)
+    {
+
+    }
 }
