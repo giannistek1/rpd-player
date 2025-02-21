@@ -52,30 +52,30 @@
             </Grid>
 
             <!-- Options -->
-            <HorizontalStackLayout Grid.Row="3">
+            <Grid Grid.Row="3" ColumnDefinitions="*,*">
 
-                <Label Text="Non-choreography songs:" VerticalOptions="Center" HorizontalOptions="Start" />
+                <Label Grid.Column="0" Text="Non-choreography songs" VerticalOptions="Center" HorizontalOptions="Start" />
 
-                <Switch x:Name="NonChoreographySwitch" />
+                <Switch Grid.Column="1" x:Name="NonChoreographySwitch" HorizontalOptions="End" />
 
-            </HorizontalStackLayout>
+            </Grid>
 
 
-            <HorizontalStackLayout Grid.Row="4">
-                
-                <Label Text="Start RPD automatic " VerticalOptions="Center" HorizontalOptions="Start" />
+            <Grid Grid.Row="4" ColumnDefinitions="*,*">
 
-                <Switch x:Name="StartRpdAutomaticSwitch" />
+                <Label Grid.Column="0" Text="Start RPD automatic " VerticalOptions="Center" HorizontalOptions="Start" />
 
-            </HorizontalStackLayout>
+                <Switch Grid.Column="1" x:Name="StartRpdAutomaticSwitch" HorizontalOptions="End" />
 
-            <HorizontalStackLayout Grid.Row="5">
+            </Grid>
 
-                <Label Text="Send analytics and crash reports " VerticalOptions="Center" HorizontalOptions="Start" />
+            <Grid Grid.Row="5" ColumnDefinitions="*,*">
 
-                <Switch x:Name="AnalyticsSwitch" />
+                <Label Grid.Column="0" Text="Send analytics and crash reports " VerticalOptions="Center" HorizontalOptions="Start" />
 
-            </HorizontalStackLayout>
+                <Switch Grid.Column="1" x:Name="AnalyticsSwitch" HorizontalOptions="End" />
+
+            </Grid>
 
         </Grid>
 
