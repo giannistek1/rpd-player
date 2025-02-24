@@ -241,4 +241,6 @@ public partial class SongPartDetailBottomSheet
     {
 
     }
+
+    private void RestartAudioImageButton_Pressed(object sender, EventArgs e) => AudioManager.RestartAudio();
 }

@@ -27,7 +27,6 @@ public partial class LibraryView : ContentView
     private void OnLoad(object? sender, EventArgs e)
     {
         CheckValidPlaylists();
-
         LoadPlaylists();
     }
 
@@ -36,12 +35,15 @@ public partial class LibraryView : ContentView
     internal void LoadPlaylists()
     {
         List<Playlist> playlists = [];
-        string[] files = Directory.GetFiles(MainViewModel.Path, "*.txt");
+
+        string[] files = Directory.GetFiles(FileManager.GetPlaylistsPath(), "*.txt");
 
         if (files.Length > 0)
         {
             foreach (var file in files)
             {
+                if (file.Contains("SONGPARTS.txt")) { continue; }
+
                 int lines = File.ReadAllLines(file).Length;
 
                 Playlist playlist = new(name: Path.GetFileNameWithoutExtension(file), path: file, count: lines)
@@ -51,7 +53,7 @@ public partial class LibraryView : ContentView
 
                 string? result = HelperClass.ReadTextFile(file);
 
-                // Convert text to songParts
+                // Convert text to songParts.
                 var pattern = @"\{(.*?)\}";
                 var matches = Regex.Matches(result, pattern);
 
@@ -91,7 +93,7 @@ public partial class LibraryView : ContentView
     private void PlaylistsListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
         Playlist playlist = (Playlist)e.DataItem;
-        PlaylistManager.Instance.CurrentPlaylist = playlist;
+        CurrentPlaylistManager.Instance.CurrentPlaylist = playlist;
         ShowPlaylist?.Invoke(sender, e);
     }
 
@@ -105,14 +107,10 @@ public partial class LibraryView : ContentView
 
         try
         {
-            // Create file on system
-            var fullPath = Path.Combine(MainViewModel.Path, $"{PlaylistNameEntry.Text}.txt");
+            // Create file on system.
+            Task<string> result = FileManager.SavePlaylistJsonToFileAsync(PlaylistNameEntry.Text, string.Empty);
 
-            File.WriteAllText(fullPath, string.Empty);
-
-            HelperClass.ShowToast($"{PlaylistNameEntry.Text} created!");
-
-            Playlist playlist = new(name: PlaylistNameEntry.Text, fullPath)
+            Playlist playlist = new(name: PlaylistNameEntry.Text, path: result.Result)
             {
                 SongParts = []
             };
@@ -130,15 +128,13 @@ public partial class LibraryView : ContentView
         try
         {
             // Create file on system
-            var fullPath = Path.Combine(MainViewModel.Path, $"{PlaylistNameEntry.Text} - copy.txt");
-
             //StringBuilder sb = new StringBuilder();
             //foreach (SongPart songPart in PlaylistManager.Instance.CurrentPlaylist.SongParts)
             //{
             //    sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.AudioURL}}}");
             //}
 
-            File.WriteAllText(fullPath, string.Empty);
+            File.WriteAllText($"{PlaylistNameEntry.Text} - copy.txt", string.Empty);
 
             HelperClass.ShowToast($"{PlaylistNameEntry.Text} - copy created!");
         }
@@ -150,7 +146,7 @@ public partial class LibraryView : ContentView
 
     private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
     {
-        MainViewModel.CurrentSongPart = PlaylistManager.Instance.CurrentPlaylist.SongParts[0];
+        MainViewModel.CurrentSongPart = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts[0];
 
         // Change mode to playlist
         MainViewModel.PlayMode = PlayMode.Playlist;
@@ -160,7 +156,7 @@ public partial class LibraryView : ContentView
     private void SwipeItemRemoveSongPart(object sender, EventArgs e)
     {
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
-        PlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
+        CurrentPlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
     }
 
     // Remove/delete playlist
@@ -180,9 +176,11 @@ public partial class LibraryView : ContentView
 
     private static void CheckValidPlaylists()
     {
-        string[] files = Directory.GetFiles(MainViewModel.Path, "*.txt");
+        string[] files = Directory.GetFiles(FileManager.GetPlaylistsPath(), "*.txt");
         foreach (string file in files)
         {
+            if (file.Contains("SONGPARTS.txt")) { continue; }
+
             foreach (var line in File.ReadLines(file))
             {
                 var pattern = @"\{(.*?)\}";

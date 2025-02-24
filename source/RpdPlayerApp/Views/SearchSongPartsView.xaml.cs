@@ -234,7 +234,7 @@ public partial class SearchSongPartsView : ContentView
         {
             SongPart songPart = (SongPart)e.DataItem;
 
-            bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
+            bool added = CurrentPlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
 
             if (added)
             {
@@ -252,7 +252,7 @@ public partial class SearchSongPartsView : ContentView
     {
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
 
-        bool added = PlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
+        bool added = CurrentPlaylistManager.Instance.AddSongPartToCurrentPlaylist(songPart);
 
         if (added)
         {
@@ -280,7 +280,7 @@ public partial class SearchSongPartsView : ContentView
     private void SwipeGroupItemAddSongs(object sender, EventArgs e)
     {
         // TODO: BUGGY
-        if (PlaylistManager.Instance.CurrentPlaylist is null)
+        if (CurrentPlaylistManager.Instance.CurrentPlaylist is null)
         {
             HelperClass.ShowToast($"Select a playlist first!");
             return;
@@ -289,7 +289,7 @@ public partial class SearchSongPartsView : ContentView
         SwipeItemView mi = (SwipeItemView)sender;
         var songPartsFromGroup = (IEnumerable<SongPart>)mi.CommandParameter;
 
-        int addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songPartsFromGroup.ToList());
+        int addedSongParts = CurrentPlaylistManager.Instance.AddSongPartsToCurrentPlaylist(songPartsFromGroup.ToList());
 
         AddSongPart?.Invoke(sender, e);
         HelperClass.ShowToast($"{addedSongParts} songs added!");
@@ -329,7 +329,7 @@ public partial class SearchSongPartsView : ContentView
     private void AddResultsButton_Clicked(object sender, EventArgs e)
     {
         // TODO: BUGGY
-        if (PlaylistManager.Instance.CurrentPlaylist is null)
+        if (CurrentPlaylistManager.Instance.CurrentPlaylist is null)
         {
             HelperClass.ShowToast($"Select a playlist first!");
             return;
@@ -339,11 +339,11 @@ public partial class SearchSongPartsView : ContentView
         // If search filtered or not
         if (searchFilteredSongParts.Count > 0)
         {
-            addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist([.. searchFilteredSongParts]);
+            addedSongParts = CurrentPlaylistManager.Instance.AddSongPartsToCurrentPlaylist([.. searchFilteredSongParts]);
         }
         else
         {
-            addedSongParts = PlaylistManager.Instance.AddSongPartsToCurrentPlaylist([.. songParts]);
+            addedSongParts = CurrentPlaylistManager.Instance.AddSongPartsToCurrentPlaylist([.. songParts]);
         }
 
         // Show result

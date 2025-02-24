@@ -60,8 +60,8 @@
             
             </Grid>
             
-            <!-- Action buttons -->
-            <Grid Grid.Row="7" ColumnDefinitions="2*, 2*, 3*, 2*, 2*">
+            <!-- Audio buttons -->
+            <Grid Grid.Row="7" ColumnDefinitions="2*, 2*, 3*, 2*, 2*"  Margin="0,0,0,4">
 
                 <ImageButton Grid.Column="0" HeightRequest="44" x:Name="PreviousImageButton" Pressed="PreviousButton_Pressed">
                     <ImageButton.Source>
@@ -86,7 +86,7 @@
 
                 </Border>
 
-                <ImageButton Grid.Column="3" HeightRequest="36" x:Name="ForwardImageButton" Pressed="ForwardImageButton_Pressed">
+                <ImageButton Grid.Column="3" HeightRequest="34" x:Name="ForwardImageButton" Pressed="ForwardImageButton_Pressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Forward_5}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
@@ -102,27 +102,33 @@
             </Grid>
 
             <!-- Action buttons -->
-            <Grid Grid.Row="8" ColumnDefinitions="2*, 2*, 2*, 2*">
+            <Grid Grid.Row="8" ColumnDefinitions="2*, 2*, 2*, 2*, 2*" Margin="0,0,0,8">
 
-                <ImageButton Grid.Column="0" HeightRequest="34" x:Name="VoiceImageButton" Pressed="VoiceButton_Pressed">
+                <ImageButton Grid.Column="0" HeightRequest="34" x:Name="RestartAudioImageButton" Pressed="RestartAudioImageButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Restart_alt}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
+
+                <ImageButton Grid.Column="1" HeightRequest="34" x:Name="VoiceImageButton" Pressed="VoiceButton_Pressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Voice_selection_off}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
                 </ImageButton>
 
-                <ImageButton Grid.Column="1" HeightRequest="34" x:Name="TimerImageButton" Pressed="TimerButton_Pressed">
+                <ImageButton Grid.Column="2" HeightRequest="34" x:Name="TimerImageButton" Pressed="TimerButton_Pressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Timer_off}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
                 </ImageButton>
 
-                <ImageButton Grid.Column="2" HeightRequest="36" x:Name="AutoplayImageButton" Pressed="AutoplayButton_Pressed">
+                <ImageButton Grid.Column="3" HeightRequest="34" x:Name="AutoplayImageButton" Pressed="AutoplayButton_Pressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Block}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
                 </ImageButton>
 
-                <ImageButton Grid.Column="3" HeightRequest="36" x:Name="FavoriteImageButton" Pressed="FavoriteButton_Pressed">
+                <ImageButton Grid.Column="4" HeightRequest="34" x:Name="FavoriteImageButton" Pressed="FavoriteButton_Pressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Favorite}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>

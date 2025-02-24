@@ -43,7 +43,7 @@ namespace RpdPlayerApp
             .UseBottomSheet()
             .UseMauiCommunityToolkit();
 
-            if (false)
+            if (true)
             {
                 builder.UseSentry(options =>
                 {

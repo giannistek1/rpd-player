@@ -94,4 +94,14 @@ internal static class AudioManager
     }
     // TODO: Invoke OnMute to update audio icons.
     internal static void SetMute() => SongPartMediaElement!.ShouldMute = CommonSettings.IsVolumeMuted;
+
+    internal static void RestartAudio()
+    {
+        // TODO: RestartCountdown?
+        if (MainViewModel.IsCurrentlyPlayingSongPart && MainViewModel.CurrentSongPart is not null)
+        {
+            SongPartMediaElement?.SeekTo(new TimeSpan(0));
+            PlayAudio(MainViewModel.CurrentSongPart);
+        }
+    }
 }

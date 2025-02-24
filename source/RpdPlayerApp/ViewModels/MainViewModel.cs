@@ -47,8 +47,6 @@ internal static class MainViewModel
     internal const string FOURTH_GENERATION = "Fourth generation";
     internal const string FIFTH_GENERATION = "Fifth generation";
 
-    internal static readonly string Path = FileSystem.Current.AppDataDirectory;
-
     #endregion
 
     #region Modes

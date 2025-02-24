@@ -5,10 +5,7 @@ namespace RpdPlayerApp.Managers;
 
 internal class PlaylistsManager
 {
-    internal PlaylistsManager()
-    {
-
-    }
+    internal PlaylistsManager() { }
 
     internal bool TryAddToPlaylist(string playlistName, SongPart songPartToAdd)
     {
@@ -37,7 +34,7 @@ internal class PlaylistsManager
     {
         var playlist = MainViewModel.Playlists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
 
-        if (playlist is not null && playlist.SongParts.Any(s => s.AudioURL == songPart.AudioURL))
+        if (playlist is not null && playlist.SongParts.Any(s => s.AudioURL == songPart?.AudioURL))
         {
             return true;
         }

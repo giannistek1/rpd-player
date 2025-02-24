@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core;
 using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Items;
+using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.ViewModels;
@@ -52,7 +53,7 @@ public partial class HomeView : ContentView
     {
         try
         {
-            HandleSongParts();
+            _ = HandleSongParts();
             SetVersionLabel();
 #if RELEASE 
             UniqueSongCountImage.IsVisible = false;
@@ -60,6 +61,7 @@ public partial class HomeView : ContentView
 #endif
             InitializeCompanies();
             InitializeChipGroups();
+            SaveNews();
             HandleAutoStartRpd();
 
             ChipGroupSelectionChanged(null,null);
@@ -70,19 +72,16 @@ public partial class HomeView : ContentView
         }
     }
 
-    private void HandleSongParts()
+    private async Task HandleSongParts()
     {
-        if (Preferences.ContainsKey(SONGPARTS))
-        {
-            string songs = Preferences.Get(SONGPARTS, string.Empty);
-            var oldSongList = JsonConvert.DeserializeObject<List<NewsItem>>(songs);
-            if (oldSongList is not null)
-            {
-                var newSongList = CreateNewsItemsFromSongParts();
-                var differentNewSongs = FindDifferentNewSongs(newSongList, oldSongList);
+        var oldSongList = await FileManager.LoadNewsItemsFromFilePath($"{SONGPARTS}.txt");
 
-                UpdateNewsBadge(differentNewSongs);
-            }
+        if (oldSongList is not null)
+        {
+            var newSongList = CreateNewsItemsFromSongParts();
+            var differentNewSongs = FindDifferentNewSongs(newSongList, oldSongList);
+
+            UpdateNewsBadge(differentNewSongs);
         }
     }
 
@@ -291,7 +290,7 @@ public partial class HomeView : ContentView
         }).ToList();
 
         var jsonSongParts = JsonConvert.SerializeObject(newsItems);
-        Preferences.Set(SONGPARTS, jsonSongParts);
+        FileManager.SaveJsonToFileAsync($"{SONGPARTS}.txt", jsonSongParts);
     }
 
     private void ChipGroupSelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs? e)
