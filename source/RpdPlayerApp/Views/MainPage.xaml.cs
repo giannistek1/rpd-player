@@ -191,6 +191,7 @@ public partial class MainPage
             SearchFilterMode.Octet => "Octets",
             SearchFilterMode.Nonet => "Nonets",
             SearchFilterMode.Group => "Groups (2+ members)",
+            SearchFilterMode.KpopSoonerThan2012 => "K-pop < 2012",
             SearchFilterMode.kpop2012 => "K-pop 2012",
             SearchFilterMode.kpop2013 => "K-pop 2013",
             SearchFilterMode.kpop2014 => "K-pop 2014",

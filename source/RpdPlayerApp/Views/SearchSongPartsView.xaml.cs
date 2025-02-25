@@ -489,6 +489,8 @@ public partial class SearchSongPartsView : ContentView
                 case SearchFilterMode.Group:
                     songParts = allSongParts!.Where(s => s.Artist?.MemberCount > 2).ToObservableCollection(); break;
 
+                case SearchFilterMode.KpopSoonerThan2012:
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year < 2012 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2012:
                     songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2012 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2013:
