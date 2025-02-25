@@ -60,14 +60,25 @@ namespace RpdPlayerApp
 
                     // Set TracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
                     // We recommend adjusting this value in production.
-                    options.TracesSampleRate = 1.0;
+                    options.TracesSampleRate = 0.2;
 
                     // Sample rate for profiling, applied on top of othe TracesSampleRate, 
                     // e.g. 0.2 means we want to profile 20 % of the captured transactions.
                     // We recommend adjusting this value in production.
-                    options.ProfilesSampleRate = 1.0;
+                    options.ProfilesSampleRate = 0.2;
 
                     // Other Sentry options can be set here.
+                    options.SetBeforeSend((sentryEvent, hint) =>
+                    {
+                        // Very annoying log that gets sent every time MediaElement pauses/unpauses. Supposedly fixed in MediaElement v6.0.0 but is present in v4.0.1 - v5.x.x
+                        if (sentryEvent.Message is not null && sentryEvent.Message.Formatted.Contains("AndroidX.LocalBroadcastManager.Content.LocalBroadcastManager not supported on Android 13 and above."))
+                        {
+                            return null; // Don't send this event to Sentry
+                        }
+
+                        sentryEvent.ServerName = null; // Never send Server Name to Sentry
+                        return sentryEvent;
+                    });
                 });
             }
 
