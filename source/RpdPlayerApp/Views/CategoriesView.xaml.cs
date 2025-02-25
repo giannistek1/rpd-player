@@ -232,41 +232,50 @@ public partial class CategoriesView : ContentView
                 artistCount: SongPartRepository.SongParts.Where(s =>  s.Artist?.Company == "Woollim Entertainment").DistinctBy(s => new { s.ArtistName }).Count()),
         };
 
-        // TODO: Top kpop, jpop, cpop etc
+        // TODO: GenreShort Jpop, Pop, C-pop, T-pop instead of JP, EN, CH etc
         GenreListView.ItemsSource = new List<HomeListViewItem>() {
             new(title: "K-pop",
                 description: "Korean pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                 searchFilterMode: SearchFilterMode.Kpop,
-                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == MainViewModel.GenreKpop)),
+                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == MainViewModel.GenreKpop),
+                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == MainViewModel.GenreKpop).DistinctBy(s => new { s.ArtistName }).Count()),
 
 
             new(title: "J-pop",
                 description: "Japanese pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-jp.webp?raw=true",
                 searchFilterMode: SearchFilterMode.Jpop,
-                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "JP")),
+                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "JP"),
+                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "JP").DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "English pop",
                 description: "English pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-us.webp?raw=true",
                 searchFilterMode: SearchFilterMode.EN,
-                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "EN")),
+                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "EN"),
+                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "EN").DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "C-pop",
                 description: "Chinese pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-ch.png?raw=true",
                 searchFilterMode: SearchFilterMode.Cpop,
-                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "CH")),
+                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "CH"),
+                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "CH").DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "T-pop",
                 description: "Thai pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-th.webp?raw=true",
                 searchFilterMode: SearchFilterMode.Tpop,
-                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "TH"))
+                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "TH"),
+                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "TH").DistinctBy(s => new { s.ArtistName }).Count())
         };
 
         KpopYearsListView.ItemsSource = new List<HomeListViewItem>() {
+            new(title: "< 2012",
+                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
+                searchFilterMode: SearchFilterMode.KpopSoonerThan2012,
+                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year < 2012 && s.Album?.GenreShort == MainViewModel.GenreKpop)),
             HomeListViewItem.Create(2012, SearchFilterMode.kpop2012),
             HomeListViewItem.Create(2013, SearchFilterMode.kpop2013),
             HomeListViewItem.Create(2014, SearchFilterMode.kpop2014),

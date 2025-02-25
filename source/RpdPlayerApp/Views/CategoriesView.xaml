@@ -164,7 +164,7 @@
                             
                             <VerticalStackLayout Padding="0">
 
-                                <Border Grid.Column="0" WidthRequest="200" StrokeShape="RoundRectangle 8" 
+                                <Border WidthRequest="200" StrokeShape="RoundRectangle 8" 
                                         Padding="0" VerticalOptions="Center">
 
                                     <Image WidthRequest="200" Aspect="AspectFit">
@@ -183,14 +183,14 @@
 
                                     <Label Padding="0,0,8,0" VerticalOptions="CenterAndExpand" TextColor="{DynamicResource PrimaryTextColor}" Text="|" />
 
-                                    <Image Grid.Column="0" HeightRequest="20" VerticalOptions="CenterAndExpand">
+                                    <Image HeightRequest="20" VerticalOptions="CenterAndExpand">
                                         <Image.Source>
                                             <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
                                         </Image.Source>
                                     </Image>
                                     <Label Padding="4,0,8,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" />
 
-                                    <Image Grid.Column="0" HeightRequest="20" VerticalOptions="CenterAndExpand">
+                                    <Image HeightRequest="20" VerticalOptions="CenterAndExpand">
                                         <Image.Source>
                                             <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
                                         </Image.Source>
@@ -239,14 +239,14 @@
 
                                         <Label Padding="0,0,8,0" VerticalOptions="CenterAndExpand" TextColor="{DynamicResource PrimaryTextColor}" Text="|" />
 
-                                        <Image Grid.Column="0" HeightRequest="20" VerticalOptions="CenterAndExpand">
+                                        <Image HeightRequest="20" VerticalOptions="CenterAndExpand">
                                             <Image.Source>
                                                 <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
                                             </Image.Source>
                                         </Image>
                                         <Label Padding="4,0,8,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" />
 
-                                        <Image Grid.Column="0" HeightRequest="20" VerticalOptions="CenterAndExpand">
+                                        <Image HeightRequest="20" VerticalOptions="CenterAndExpand">
                                             <Image.Source>
                                                 <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
                                             </Image.Source>
@@ -286,10 +286,29 @@
                                     <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
                                 </Image.Source>
                             </Image>
+                            
+                            <HorizontalStackLayout HeightRequest="26" HorizontalOptions="CenterAndExpand">
+                                
+                                <Label VerticalOptions="CenterAndExpand" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                                
+                            </HorizontalStackLayout>
 
-                            <HorizontalStackLayout HeightRequest="32" VerticalOptions="End" HorizontalOptions="CenterAndExpand">
-                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
-                                <Label Padding="8,8,0,0" VerticalOptions="Start" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
+                            <HorizontalStackLayout HeightRequest="26" HorizontalOptions="CenterAndExpand">
+                                
+                                <Image HeightRequest="20" VerticalOptions="CenterAndExpand">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                                    </Image.Source>
+                                </Image>
+                                <Label Padding="4,0,8,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" />
+
+                                <Image HeightRequest="20" VerticalOptions="CenterAndExpand">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
+                                    </Image.Source>
+                                </Image>
+                                <Label Padding="4,0,0,0" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding ArtistCount}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" />
+
                             </HorizontalStackLayout>
 
                         </VerticalStackLayout>

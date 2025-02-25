@@ -311,21 +311,6 @@ public partial class AudioPlayerControl : ContentView
         }
     }
 
-    private void NowPlayingSwipeViewSwipeEnded(object sender, SwipeEndedEventArgs e)
-    {
-        // Next song.
-        if (e.SwipeDirection == SwipeDirection.Left && e.IsOpen)
-        {
-            AudioMediaElementMediaEnded(sender, e);
-        }
-        // Previous song
-        else if (e.SwipeDirection == SwipeDirection.Right && e.IsOpen)
-        {
-            // Or PlayNext/Previous bool
-            PlayPreviousSongPart(sender, e);
-        }
-    }
-
     internal void UpdatePreviousSwipeItem()
     {
         if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.SongPartHistory.Count > 0)
