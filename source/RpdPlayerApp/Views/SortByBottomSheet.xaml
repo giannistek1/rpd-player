@@ -8,23 +8,22 @@
     <the49:BottomSheet.Detents>
         <the49:RatioDetent Ratio="0.95"  />
     </the49:BottomSheet.Detents>
-    
-    <ScrollView x:Name="SortByBottomSheetScrollView">
+
+    <Grid RowDefinitions="1*, 9*">
+
+        <Grid Grid.Row="0" ColumnDefinitions="9*, 1*">
+
+            <Label Grid.Column="0" x:Name="SortByLabel" Text="Sort by..." FontAttributes="Bold" Padding="16,8,0,0" VerticalOptions="Center" FontSize="16" TextColor="{DynamicResource Good}"/>
+
+            <ImageButton Grid.Column="1" Clicked="CancelSort" Padding="6,6,6,6" VerticalOptions="Center" HorizontalOptions="End">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Close}" Color="{DynamicResource IconColor}" />
+                </ImageButton.Source>
+            </ImageButton>
+
+        </Grid>
         
-        <VerticalStackLayout>
-            
-            <Grid ColumnDefinitions="9*, 1*">
-
-                <Label Grid.Column="0" x:Name="SortByLabel" Text="Sort by..." FontAttributes="Bold" Padding="16,8,0,0" VerticalOptions="Center" FontSize="16" TextColor="{DynamicResource Good}"/>
-
-                <ImageButton Grid.Column="1" Clicked="CancelSort" Padding="6,6,6,6" VerticalOptions="Center" HorizontalOptions="End">
-                    <ImageButton.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Close}" Color="{DynamicResource IconColor}" />
-                    </ImageButton.Source>
-                </ImageButton>
-                
-            </Grid>
-            
+        <ScrollView Grid.Row="1" x:Name="SortByBottomSheetScrollView" Orientation="Vertical">
             <TableView x:Name="SortTable" Intent="Menu" Margin="0,0,0,0" Background="{DynamicResource BackgroundColor}">
                 <TableRoot>
                     <TableSection>
@@ -44,9 +43,9 @@
                         <TextCell x:Name="YearlyDateOption" Tapped="SortByCategory"  Text="Yearly date" TextColor="{DynamicResource PrimaryTextColor}" />
                     </TableSection>
                 </TableRoot>
-                </TableView>
-        </VerticalStackLayout>
-    </ScrollView>
+            </TableView>
+        </ScrollView>
+        
+    </Grid>
     
-
 </the49:BottomSheet>

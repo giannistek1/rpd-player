@@ -71,7 +71,8 @@ namespace RpdPlayerApp
                     options.SetBeforeSend((sentryEvent, hint) =>
                     {
                         // Very annoying log that gets sent every time MediaElement pauses/unpauses. Supposedly fixed in MediaElement v6.0.0 but is present in v4.0.1 - v5.x.x
-                        if (sentryEvent.Message is not null && sentryEvent.Message.Formatted.Contains("AndroidX.LocalBroadcastManager.Content.LocalBroadcastManager not supported on Android 13 and above."))
+                        if (sentryEvent.Message is not null && sentryEvent.Message.Formatted is not null && 
+                            sentryEvent.Message.Formatted.Contains("AndroidX.LocalBroadcastManager.Content.LocalBroadcastManager not supported on Android 13 and above."))
                         {
                             return null; // Don't send this event to Sentry
                         }

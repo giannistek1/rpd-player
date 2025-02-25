@@ -390,6 +390,7 @@ public partial class SearchSongPartsView : ContentView
         SetFilterMode();
 
         SetSearchFilteredDataSource();
+        // TODO: Resort after filter.
     }
 
     private void ClearSearchFilterButtonClicked(object sender, EventArgs e) => SearchBarInput.Text = string.Empty;
@@ -405,122 +406,122 @@ public partial class SearchSongPartsView : ContentView
         {
             switch (MainViewModel.SearchFilterMode)
             {
-                case SearchFilterMode.All: songParts = allSongParts; break;
+                case SearchFilterMode.All: songParts = allSongParts!; break;
 
                 case SearchFilterMode.DanceVideos:
-                    songParts = allSongParts.Where(s => s.HasVideo).ToObservableCollection();
+                    songParts = allSongParts!.Where(s => s.HasVideo).ToObservableCollection();
                     MainViewModel.UsingVideoMode = true;
                     break;
 
                 case SearchFilterMode.Male:
-                    songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.BG).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.GroupType == GroupType.BG).ToObservableCollection(); break;
                 case SearchFilterMode.Female:
-                    songParts = allSongParts.Where(s => s.Artist?.GroupType == GroupType.GG).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.GroupType == GroupType.GG).ToObservableCollection(); break;
 
                 case SearchFilterMode.Hybe:
-                    songParts = allSongParts.Where(s => MainViewModel.HybeCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => MainViewModel.HybeCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
                 case SearchFilterMode.YG:
-                    songParts = allSongParts.Where(s => MainViewModel.YGCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => MainViewModel.YGCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
                 case SearchFilterMode.JYP:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "JYP Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Company == "JYP Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.SM:
-                    songParts = allSongParts.Where(s => MainViewModel.SMCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => MainViewModel.SMCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
                 case SearchFilterMode.Cube:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "Cube Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Company == "Cube Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.FNC:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "FNC Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Company == "FNC Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.Pledis:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "Pledis Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Company == "Pledis Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.Starship:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "Starship Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Company == "Starship Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.RBW:
-                    songParts = allSongParts.Where(s => MainViewModel.RbwCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => MainViewModel.RbwCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
                 case SearchFilterMode.Woollim:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "Woollim Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Company == "Woollim Entertainment").ToObservableCollection(); break;
                 case SearchFilterMode.IST:
-                    songParts = allSongParts.Where(s => s.Artist?.Company == "IST Entertainment").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Company == "IST Entertainment").ToObservableCollection(); break;
 
                 case SearchFilterMode.CJ_ENM_Music:
-                    songParts = allSongParts.Where(s => MainViewModel.CjenmCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => MainViewModel.CjenmCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
                 case SearchFilterMode.Kakao_Entertainment:
-                    songParts = allSongParts.Where(s => MainViewModel.KakaoCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => MainViewModel.KakaoCompanies.Contains(s.Artist.Company)).ToObservableCollection(); break;
 
                 case SearchFilterMode.Firstgen:
-                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Generation == MainViewModel.FIRST_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.Secondgen:
-                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.SECOND_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Generation == MainViewModel.SECOND_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.Thirdgen:
-                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.THIRD_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Generation == MainViewModel.THIRD_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.Fourthgen:
-                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FOURTH_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Generation == MainViewModel.FOURTH_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.Fifthgen:
-                    songParts = allSongParts.Where(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.Generation == MainViewModel.FIFTH_GENERATION && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
 
                 case SearchFilterMode.Kpop:
-                    songParts = allSongParts.Where(s => s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.Jpop:
-                    songParts = allSongParts.Where(s => s.Album?.GenreShort == "JP").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == "JP").ToObservableCollection(); break;
                 case SearchFilterMode.EN:
-                    songParts = allSongParts.Where(s => s.Album?.GenreShort == "EN").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == "EN").ToObservableCollection(); break;
                 case SearchFilterMode.Cpop:
-                    songParts = allSongParts.Where(s => s.Album?.GenreShort == "CH").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == "CH").ToObservableCollection(); break;
                 case SearchFilterMode.Tpop:
-                    songParts = allSongParts.Where(s => s.Album?.GenreShort == "TH").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == "TH").ToObservableCollection(); break;
 
                 case SearchFilterMode.Solo:
-                    songParts = allSongParts.Where(s => s.Artist?.MemberCount == 1).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.MemberCount == 1).ToObservableCollection(); break;
                 case SearchFilterMode.Duo:
-                    songParts = allSongParts.Where(s => s.Artist?.MemberCount == 2).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.MemberCount == 2).ToObservableCollection(); break;
                 case SearchFilterMode.Trio:
-                    songParts = allSongParts.Where(s => s.Artist?.MemberCount == 3).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.MemberCount == 3).ToObservableCollection(); break;
                 case SearchFilterMode.Quadruplet:
-                    songParts = allSongParts.Where(s => s.Artist?.MemberCount == 4).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.MemberCount == 4).ToObservableCollection(); break;
                 case SearchFilterMode.Quintet:
-                    songParts = allSongParts.Where(s => s.Artist?.MemberCount == 5).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.MemberCount == 5).ToObservableCollection(); break;
                 case SearchFilterMode.Sextet:
-                    songParts = allSongParts.Where(s => s.Artist?.MemberCount == 6).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.MemberCount == 6).ToObservableCollection(); break;
                 case SearchFilterMode.Septet:
-                    songParts = allSongParts.Where(s => s.Artist?.MemberCount == 7).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.MemberCount == 7).ToObservableCollection(); break;
                 case SearchFilterMode.Octet:
-                    songParts = allSongParts.Where(s => s.Artist?.MemberCount == 8).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.MemberCount == 8).ToObservableCollection(); break;
                 case SearchFilterMode.Nonet:
-                    songParts = allSongParts.Where(s => s.Artist?.MemberCount == 9).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.MemberCount == 9).ToObservableCollection(); break;
                 case SearchFilterMode.Group:
-                    songParts = allSongParts.Where(s => s.Artist?.MemberCount > 2).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Artist?.MemberCount > 2).ToObservableCollection(); break;
 
                 case SearchFilterMode.kpop2012:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2012 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2012 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2013:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2013 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2013 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2014:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2014 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2014 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2015:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2015 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2015 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2016:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2016 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2016 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2017:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2017 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2017 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2018:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2018 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2018 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2019:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2019 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2019 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2020:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2020 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2020 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2021:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2021 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2021 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2022:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2022 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2022 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2023:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2023 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2023 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2024:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2024 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2024 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterMode.kpop2025:
-                    songParts = allSongParts.Where(s => s.Album?.ReleaseDate.Year == 2025 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.ReleaseDate.Year == 2025 && s.Album?.GenreShort == MainViewModel.GenreKpop).ToObservableCollection(); break;
             }
 
             ParentPage?.SetupSearchToolbar();
 
-            songParts.CollectionChanged += SongPartsCollectionChanged;
+            songParts!.CollectionChanged += SongPartsCollectionChanged;
             SonglibraryListView.ItemsSource = songParts;
             MainViewModel.SongParts = [.. songParts];
 
@@ -542,7 +543,7 @@ public partial class SearchSongPartsView : ContentView
 
     #region Sort
 
-    internal void RefreshSort()
+    internal void RefreshSort(bool fromSetSearchFilteredDataSource = false)
     {
         if (SonglibraryListView is null || SonglibraryListView.DataSource is null) { return; }
 
@@ -973,7 +974,7 @@ public partial class SearchSongPartsView : ContentView
         {
             SetSearchFilteredDataSource();
         }
-        else
+        else if (!fromSetSearchFilteredDataSource)
         {
             SonglibraryListView!.ItemsSource = songParts;
         }

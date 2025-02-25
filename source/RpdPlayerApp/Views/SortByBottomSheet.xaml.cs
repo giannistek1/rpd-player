@@ -18,16 +18,16 @@ public partial class SortByBottomSheet
         Dismissed += OnDismissed;
     }
 
-    private async void OnShown(object? sender, EventArgs e)
+    private void OnShown(object? sender, EventArgs e)
     {
         SortTable.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
         SortByLabel.TextColor = (Color)Application.Current!.Resources["Good"];
-        await ScrollToTop(); // TODO: Needed?
+        ScrollToTop();
     }
 
     private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
 
-    private async Task ScrollToTop() => await SortByBottomSheetScrollView.ScrollToAsync(x: 0, y: 0, animated: false);
+    private void ScrollToTop() => SortByBottomSheetScrollView.ScrollToAsync(x: 0, y: 0, animated: true);
 
     #region Sorting
 

@@ -41,6 +41,8 @@ public partial class AudioPlayerControl : ContentView
         AudioManager.OnPlay += OnPlayAudio;
         AudioManager.OnPause += OnPauseAudio;
         AudioManager.OnStop += OnStopAudio;
+
+        StartTitleAutoScroll();
     }
 
     private void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
@@ -314,18 +316,11 @@ public partial class AudioPlayerControl : ContentView
         // Next song.
         if (e.SwipeDirection == SwipeDirection.Left && e.IsOpen)
         {
-            // TODO: Probably delete, UGLY, needs fadeout or a delay or text invisible, be creative (PROBABLY CHANGE TO CAROUSELVIEW?).
-
-            NowPlayingSwipeView.Close();
             AudioMediaElementMediaEnded(sender, e);
         }
         // Previous song
         else if (e.SwipeDirection == SwipeDirection.Right && e.IsOpen)
         {
-            // TODO: Probably delete, UGLY, needs fadeout or a delay or text invisible, be creative (PROBABLY CHANGE TO CAROUSELVIEW?).
-
-            NowPlayingSwipeView.Close();
-
             // Or PlayNext/Previous bool
             PlayPreviousSongPart(sender, e);
         }
@@ -347,12 +342,7 @@ public partial class AudioPlayerControl : ContentView
         }
     }
 
-    private void SetPreviousSwipeItem(bool isVisible, SongPart? songPart)
-    {
-        PreviousSwipeItem.IsVisible = isVisible;
-        PreviousSwipeItemTitle.Text = isVisible ? songPart!.Title : string.Empty;
-        PreviousSwipeItemSongPart.Text = isVisible ? songPart!.PartNameFull : string.Empty;
-    }
+    private void SetPreviousSwipeItem(bool isVisible, SongPart? songPart) { }
 
     internal void UpdateNextSwipeItem()
     {
@@ -370,10 +360,24 @@ public partial class AudioPlayerControl : ContentView
         }
     }
 
-    private void SetNextSwipeItem(bool isVisible, SongPart? songPart)
+    private void SetNextSwipeItem(bool isVisible, SongPart? songPart) { }
+
+    private const int TimerInterval = 5000; // Scroll every 2 seconds
+    private void StartTitleAutoScroll()
     {
-        NextSwipeItem.IsVisible = isVisible;
-        NextSwipeItemTitle.Text = isVisible ? songPart!.Title : string.Empty;
-        NextSwipeItemSongPart.Text = isVisible ? songPart!.PartNameFull : string.Empty;
+        Dispatcher.StartTimer(TimeSpan.FromMilliseconds(TimerInterval), () =>
+        {
+            if (TitleScrollView.ScrollX > 0)
+            {
+                TitleScrollView.ScrollToAsync(0, 0, animated: true);
+            }
+            else
+            {
+                TitleScrollView.ScrollToAsync(TitleGrid.Width, 0, animated: true);
+            }
+
+            // Return true to keep the timer running
+            return true;
+        });
     }
 }
