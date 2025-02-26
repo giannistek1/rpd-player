@@ -17,6 +17,8 @@ public partial class MainPage
     {
         InitializeComponent();
 
+        CommonSettings.ActivityTimeStopWatch.Start();
+
         AudioManager.DetailBottomSheet = _detailBottomSheet;
 
         SetupHomeToolbar();
@@ -40,6 +42,14 @@ public partial class MainPage
         if (Preferences.ContainsKey(CommonSettings.MAIN_VOLUME))
         {
             CommonSettings.MainVolume = Preferences.Get(CommonSettings.MAIN_VOLUME, 1.0);
+        }
+        if (Preferences.ContainsKey(CommonSettings.TOTAL_ACTIVITY_TIME))
+        {
+            CommonSettings.TotalActivityTime = TimeSpan.Parse(Preferences.Get(key: CommonSettings.TOTAL_ACTIVITY_TIME, defaultValue: new TimeSpan(0).ToString()));
+        }
+        else
+        {
+            CommonSettings.TotalActivityTime = new TimeSpan(0);
         }
     }
 

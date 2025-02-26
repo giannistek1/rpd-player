@@ -33,7 +33,19 @@ public partial class SettingsPage : ContentPage
         NonChoreographySwitch.Toggled += Switch_Toggled;
     }
 
-    private void OnPageAppearing(object? sender, EventArgs e) => MasterVolumeSlider.Value = CommonSettings.MainVolume * 100;
+    private void OnPageAppearing(object? sender, EventArgs e)
+    {
+        MasterVolumeSlider.Value = CommonSettings.MainVolume * 100;
+
+        // Save total activity time
+        CommonSettings.RecalculateTotalActivityTime();
+        Preferences.Set(CommonSettings.TOTAL_ACTIVITY_TIME, CommonSettings.TotalActivityTime.ToString());
+
+        string timeSpan = Preferences.Get(key: CommonSettings.TOTAL_ACTIVITY_TIME, defaultValue: new TimeSpan(0).ToString());
+        TimeSpan parsedTimeSpan = TimeSpan.Parse(timeSpan);
+
+        TotalActivityTimeLabel.Text = $"{(int)parsedTimeSpan.TotalHours}h {parsedTimeSpan.Minutes:00}m {parsedTimeSpan.Seconds:00}s";
+    }
 
     private void OnDisappearing(object? sender, EventArgs e) => HomeView?.RefreshThemeColors();
 
@@ -41,16 +53,10 @@ public partial class SettingsPage : ContentPage
 
     private void Switch_Toggled(object? sender, ToggledEventArgs e)
     {
-        if (AnalyticsSwitch == sender) { Preferences.Set(CommonSettings.USE_ANALYTICS, AnalyticsSwitch.IsToggled); }
+        if (AnalyticsSwitch == sender) { Preferences.Set(CommonSettings.USE_ANALYTICS, AnalyticsSwitch.IsToggled); } // Not used
+        if (StartRpdAutomaticSwitch == sender) { Preferences.Set(CommonSettings.START_RPD_AUTOMATIC, StartRpdAutomaticSwitch.IsToggled); }
+        if (NonChoreographySwitch == sender) { Preferences.Set(CommonSettings.USE_NONCHOREO_SONGS, NonChoreographySwitch.IsToggled); } // Not used
 
-        if (StartRpdAutomaticSwitch == sender)
-        {
-            Preferences.Set(CommonSettings.START_RPD_AUTOMATIC, StartRpdAutomaticSwitch.IsToggled);
-        }
-        if (NonChoreographySwitch == sender)
-        {
-            Preferences.Set(CommonSettings.USE_NONCHOREO_SONGS, NonChoreographySwitch.IsToggled);
-        }
         //await DisplayAlert("NOTE", "Please restart the app for the change to take affect.", "OK");
     }
 

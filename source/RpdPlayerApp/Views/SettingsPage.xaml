@@ -13,12 +13,17 @@
 
     <ScrollView>
 
-        <Grid RowDefinitions="30, 60, 44, 40, 40, 40" Padding="8,0,8,0">
+        <Grid RowDefinitions="30,30, 60, 44, 40, 40, 40" Padding="8,0,8,0">
+
+            <Grid Grid.Row="0" ColumnDefinitions="*, *">
+                <Label Grid.Column="0" Text="Total activity time" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="Center" HorizontalOptions="Start" />
+                <Label Grid.Column="1" x:Name="TotalActivityTimeLabel" TextColor="{DynamicResource SecondaryTextColor}" Text="" VerticalOptions="Center" HorizontalOptions="Start" />
+            </Grid>
 
             <!-- Master volume -->
-            <Label Grid.Row="0" Text="Master volume" VerticalOptions="Center" HorizontalOptions="Start" />
+            <Label Grid.Row="1" Text="Master volume" VerticalOptions="Center" HorizontalOptions="Start" />
 
-            <Grid Grid.Row="1" ColumnDefinitions="1*, 7*">
+            <Grid Grid.Row="2" ColumnDefinitions="1*, 7*">
             
                 <Image Grid.Column="0" x:Name="VolumeImage" HeightRequest="40" HorizontalOptions="Center">
                     <Image.Source>
@@ -41,7 +46,7 @@
             </Grid>
 
             <!-- Theme -->
-            <Grid Grid.Row="2" ColumnDefinitions="2*, 6*">
+            <Grid Grid.Row="3" ColumnDefinitions="2*, 6*">
                 
                 <Label Grid.Column="0" Text="Theme " VerticalOptions="Center" HorizontalOptions="Start" />
 
@@ -52,7 +57,7 @@
             </Grid>
 
             <!-- Options -->
-            <Grid Grid.Row="3" ColumnDefinitions="*,*">
+            <Grid Grid.Row="4" ColumnDefinitions="*,*">
 
                 <Label Grid.Column="0" Text="Non-choreography songs" VerticalOptions="Center" HorizontalOptions="Start" />
 
@@ -61,7 +66,7 @@
             </Grid>
 
 
-            <Grid Grid.Row="4" ColumnDefinitions="*,*">
+            <Grid Grid.Row="5" ColumnDefinitions="*,*">
 
                 <Label Grid.Column="0" Text="Start RPD automatic " VerticalOptions="Center" HorizontalOptions="Start" />
 
@@ -69,7 +74,7 @@
 
             </Grid>
 
-            <Grid Grid.Row="5" ColumnDefinitions="*,*">
+            <Grid Grid.Row="6" ColumnDefinitions="*,*">
 
                 <Label Grid.Column="0" Text="Send analytics and crash reports " VerticalOptions="Center" HorizontalOptions="Start" />
 
