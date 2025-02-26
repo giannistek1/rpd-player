@@ -278,7 +278,7 @@ public partial class HomeView : ContentView
         }
     }
     // TODO: Needs rework to be used for Windows using a txt file.
-    private static void SaveNews()
+    private static async void SaveNews()
     {
         var newsItems = SongPartRepository.SongParts.Select(s => new NewsItem
         {
@@ -290,7 +290,7 @@ public partial class HomeView : ContentView
         }).ToList();
 
         var jsonSongParts = JsonConvert.SerializeObject(newsItems);
-        FileManager.SaveJsonToFileAsync($"{SONGPARTS}.txt", jsonSongParts);
+        await FileManager.SaveJsonToFileAsync($"{SONGPARTS}", jsonSongParts);
     }
 
     private void ChipGroupSelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs? e)

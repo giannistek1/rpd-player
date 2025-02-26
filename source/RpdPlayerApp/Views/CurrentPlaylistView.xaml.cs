@@ -72,7 +72,7 @@ public partial class CurrentPlaylistView : ContentView
                 sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.ClipLength}}}{{{songPart.AudioURL}}}");
             }
 
-            await FileManager.SavePlaylistJsonToFileAsync($"{PlaylistNameEntry.Text}.txt", sb.ToString());
+            await FileManager.SavePlaylistJsonToFileAsync($"{PlaylistNameEntry.Text}", sb.ToString());
 
             HelperClass.ShowToast($"{PlaylistNameEntry.Text} saved locally!");
         }
