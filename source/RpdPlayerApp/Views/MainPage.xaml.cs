@@ -41,7 +41,7 @@ public partial class MainPage
     {
         if (Preferences.ContainsKey(CommonSettings.MAIN_VOLUME))
         {
-            CommonSettings.MainVolume = Preferences.Get(CommonSettings.MAIN_VOLUME, 1.0);
+            CommonSettings.MainVolume = Preferences.Get(CommonSettings.MAIN_VOLUME, CommonSettings.DEFAULT_MAIN_VOLUME);
         }
         if (Preferences.ContainsKey(CommonSettings.TOTAL_ACTIVITY_TIME))
         {

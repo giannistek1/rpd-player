@@ -48,7 +48,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
     <ApplicationVersion>35</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.5</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>0.5.5.1</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
@@ -57,21 +57,21 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
     <ApplicationVersion>35</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.5</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>0.5.5.1</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
     <ApplicationVersion>35</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.5</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>0.5.5.1</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
     <ApplicationVersion>35</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.5</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>0.5.5.1</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
@@ -82,14 +82,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
     <ApplicationVersion>35</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.5</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>0.5.5.1</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
     <ApplicationVersion>35</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.5</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>0.5.5.1</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>

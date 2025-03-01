@@ -7,17 +7,11 @@
              xmlns:effectsView="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.CategoriesView">
+    
+        <Grid RowDefinitions="auto, auto, *" ColumnDefinitions="*">
 
-    <ContentView.Resources>
-        <buttons:SfRadioGroupKey x:Key="categories"/>
-    </ContentView.Resources>
-
-    <!-- Categories -->
-    <ScrollView x:Name="CategoriesScrollView" VerticalScrollBarVisibility="Never">
-
-        <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto" ColumnDefinitions="*">
-
-            <Grid Grid.Row="1" ColumnDefinitions="1*, 1*,1*,1* ,1*,1*,1*" Margin="0,8,0,8">
+            <!-- Header buttons -->
+            <Grid Grid.Row="0" ColumnDefinitions="1*, 1*,1*,1* ,1*,1*,1*" Margin="0,8,0,8">
 
                 <Border Grid.Column="0" x:Name="BackBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
                         Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
@@ -141,7 +135,7 @@
             </Grid>
 
             <!-- Other cats -->
-            <buttons:SfSegmentedControl Grid.Row="2" x:Name="OtherCategoriesSegmentedControl" SegmentWidth="80" Margin="0,0,0,8">
+            <buttons:SfSegmentedControl Grid.Row="1" x:Name="OtherCategoriesSegmentedControl" SegmentWidth="80" Margin="0,0,0,8">
 
                 <!-- Non-selection -->
                 <buttons:SfSegmentedControl.TextStyle>
@@ -156,7 +150,7 @@
             </buttons:SfSegmentedControl>
 
             <!-- Generations -->
-            <syncfusion:SfListView x:Name="GenerationListView" Grid.Row="3" Orientation="Vertical" AutoFitMode="Height" SelectionMode="None" ItemSpacing="12" ItemTapped="CategoryListViewItemTapped">
+            <syncfusion:SfListView x:Name="GenerationListView" Grid.Row="2" Orientation="Vertical" AutoFitMode="Height" SelectionMode="None" ItemSpacing="12" ItemTapped="CategoryListViewItemTapped">
 
                 <syncfusion:SfListView.ItemTemplate>
                     <DataTemplate>
@@ -208,7 +202,7 @@
             </syncfusion:SfListView>
 
             <!-- Companies -->
-            <syncfusion:SfListView x:Name="CompanyListView" Grid.Row="4" Orientation="Vertical" AutoFitMode="Height" SelectionMode="None" ItemSpacing="8" ItemTapped="CategoryListViewItemTapped">
+            <syncfusion:SfListView x:Name="CompanyListView" Grid.Row="2" Orientation="Vertical" AutoFitMode="Height" SelectionMode="None" ItemSpacing="8" ItemTapped="CategoryListViewItemTapped">
 
                 <syncfusion:SfListView.ItemsLayout>
                     <syncfusion:GridLayout SpanCount="1" />
@@ -270,7 +264,7 @@
             </syncfusion:SfListView>
 
             <!-- Genres (used to be languages) -->
-            <syncfusion:SfListView x:Name="GenreListView" Grid.Row="5" Orientation="Vertical" AutoFitMode="Height" SelectionMode="None" ItemSpacing="8" ItemTapped="CategoryListViewItemTapped">
+            <syncfusion:SfListView x:Name="GenreListView" Grid.Row="2" Orientation="Vertical" AutoFitMode="Height" SelectionMode="None" ItemSpacing="8" ItemTapped="CategoryListViewItemTapped">
 
                 <syncfusion:SfListView.ItemsLayout>
                     <syncfusion:GridLayout SpanCount="2" />
@@ -318,33 +312,32 @@
             </syncfusion:SfListView>
 
             <!-- K-pop per year -->
-            <syncfusion:SfListView x:Name="KpopYearsListView" Grid.Row="6" Orientation="Vertical" AutoFitMode="Height" SelectionMode="None" ItemSpacing="4" ItemTapped="CategoryListViewItemTapped">
+        <syncfusion:SfListView x:Name="KpopYearsListView" Grid.Row="2" Orientation="Vertical" AutoFitMode="Height" SelectionMode="None" ItemSpacing="6" ItemTapped="CategoryListViewItemTapped">
 
-                <syncfusion:SfListView.ItemsLayout>
-                    <syncfusion:GridLayout SpanCount="3" />
-                </syncfusion:SfListView.ItemsLayout>
+            <syncfusion:SfListView.ItemsLayout>
+                <syncfusion:GridLayout SpanCount="3" />
+            </syncfusion:SfListView.ItemsLayout>
 
-                <syncfusion:SfListView.ItemTemplate>
-                    <DataTemplate>
+            <syncfusion:SfListView.ItemTemplate>
+                <DataTemplate>
 
-                        <Border Padding="0" HeightRequest="32" StrokeShape="RoundRectangle 8"
+                    <Border Padding="0" HeightRequest="32" StrokeShape="RoundRectangle 8"
                               VerticalOptions="Center" Background="{DynamicResource SecondaryButton}">
 
-                            <HorizontalStackLayout HeightRequest="32" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Padding="4">
-                                
-                                <Label VerticalOptions="Center" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
-                                <Label VerticalOptions="Center" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
-                                
-                            </HorizontalStackLayout>
+                        <HorizontalStackLayout HeightRequest="32" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Padding="4">
 
-                        </Border>
+                            <Label VerticalOptions="Center" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Title}" />
+                            <Label VerticalOptions="Center" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding SongCount, StringFormat=' ({0})'}" />
 
-                    </DataTemplate>
-                </syncfusion:SfListView.ItemTemplate>
-                
-            </syncfusion:SfListView>
+                        </HorizontalStackLayout>
 
-        </Grid>
-    </ScrollView>
+                    </Border>
+
+                </DataTemplate>
+            </syncfusion:SfListView.ItemTemplate>
+
+        </syncfusion:SfListView>
+
+    </Grid>
 
 </ContentView>

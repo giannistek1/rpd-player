@@ -123,6 +123,10 @@ public partial class AudioPlayerControl : ContentView
 
     private void AudioMediaElementMediaEnded(object? sender, EventArgs e)
     {
+        // Save total activity time.
+        CommonSettings.RecalculateTotalActivityTime();
+        Preferences.Set(CommonSettings.TOTAL_ACTIVITY_TIME, CommonSettings.TotalActivityTime.ToString());
+
         switch (MainViewModel.PlayMode)
         {
             case PlayMode.Queue:

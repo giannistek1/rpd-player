@@ -18,7 +18,6 @@ public partial class CategoriesView : ContentView
     public CategoriesView()
     {
         InitializeComponent();
-
         Loaded += OnLoad;
     }
 
@@ -292,7 +291,7 @@ public partial class CategoriesView : ContentView
             HomeListViewItem.Create(2025, SearchFilterMode.kpop2025)
         };
 
-        GenerationListView.IsVisible = false;
+        GenerationListView.IsVisible = true;
         CompanyListView.IsVisible = false;
         GenreListView.IsVisible = false;
         KpopYearsListView.IsVisible = false;
