@@ -23,5 +23,10 @@ internal static class CommonSettings
     internal static Stopwatch ActivityTimeStopWatch { get; set; } = new();
     internal static TimeSpan TotalActivityTime { get; set; }
 
-    internal static void RecalculateTotalActivityTime() => TotalActivityTime = TotalActivityTime.Add(ActivityTimeStopWatch.Elapsed);
+    internal static void RecalculateTotalActivityTime()
+    {
+        TotalActivityTime = TotalActivityTime.Add(ActivityTimeStopWatch.Elapsed);
+        ActivityTimeStopWatch.Reset();
+        ActivityTimeStopWatch.Start();
+    }
 }
