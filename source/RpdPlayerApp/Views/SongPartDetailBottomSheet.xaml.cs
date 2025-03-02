@@ -35,6 +35,8 @@ public partial class SongPartDetailBottomSheet
         AudioManager.OnPlay += OnPlayAudio;
         AudioManager.OnPause += OnPauseAudio;
         AudioManager.OnStop += OnStopAudio;
+
+        StartAlbumAutoScroll();
     }
 
     private void OnLoad(object? sender, EventArgs e)
@@ -243,4 +245,23 @@ public partial class SongPartDetailBottomSheet
     }
 
     private void RestartAudioImageButton_Pressed(object sender, EventArgs e) => AudioManager.RestartAudio();
+
+    private const int TimerInterval = 5000; // Scroll every 5 seconds
+    private void StartAlbumAutoScroll()
+    {
+        Dispatcher.StartTimer(TimeSpan.FromMilliseconds(TimerInterval), () =>
+        {
+            if (AlbumScrollView.ScrollX > 0)
+            {
+                AlbumScrollView.ScrollToAsync(0, 0, animated: true);
+            }
+            else
+            {
+                AlbumScrollView.ScrollToAsync(AlbumGrid.Width, 0, animated: true);
+            }
+
+            // Return true to keep the timer running.
+            return true;
+        });
+    }
 }

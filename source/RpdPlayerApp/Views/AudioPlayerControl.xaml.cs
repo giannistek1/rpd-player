@@ -351,7 +351,7 @@ public partial class AudioPlayerControl : ContentView
 
     private void SetNextSwipeItem(bool isVisible, SongPart? songPart) { }
 
-    private const int TimerInterval = 5000; // Scroll every 2 seconds
+    private const int TimerInterval = 5000; // Scroll every 5 seconds
     private void StartTitleAutoScroll()
     {
         Dispatcher.StartTimer(TimeSpan.FromMilliseconds(TimerInterval), () =>

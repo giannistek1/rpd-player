@@ -25,8 +25,12 @@
                 
                 <Label Grid.Column="0" x:Name="GenreLabel" Text="K-pop" FontSize="12" VerticalOptions="Center" HorizontalOptions="Start" />
 
-                <Label Grid.Column="1" x:Name="AlbumLabel" Text="Album" FontSize="14" FontAttributes="Italic" VerticalOptions="Center" HorizontalOptions="Center" LineBreakMode="TailTruncation" />
-
+                <Grid Grid.Column="1" x:Name="AlbumGrid" ColumnDefinitions="*" VerticalOptions="Center">
+                    <ScrollView x:Name="AlbumScrollView" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <Label x:Name="AlbumLabel" Text="Album" FontSize="14" FontAttributes="Italic" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="Center" LineBreakMode="NoWrap" />
+                    </ScrollView>
+                </Grid>
+                
                 <Label Grid.Column="2" x:Name="ReleaseDateLabel" Text="01-01-2000" FontSize="12" VerticalOptions="Center" HorizontalOptions="End" />
 
             </Grid>
