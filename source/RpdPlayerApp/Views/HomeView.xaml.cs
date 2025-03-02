@@ -170,6 +170,7 @@ public partial class HomeView : ContentView
         HomeModeSegmentedControl.SelectionChanged += HomeModeSegmentedControl_SelectionChanged;
 
         StartModeButton.Text = "Start RPD";
+        StartModeButton.ImageSource = IconManager.PlayIcon;
         StartModeButton.Clicked += StartModeButtonClicked;
     }
 
@@ -278,7 +279,7 @@ public partial class HomeView : ContentView
         }
     }
     // TODO: Needs rework to be used for Windows using a txt file.
-    private static async void SaveNews()
+    private static async Task SaveNews()
     {
         var newsItems = SongPartRepository.SongParts.Select(s => new NewsItem
         {
@@ -381,7 +382,9 @@ public partial class HomeView : ContentView
     private void HomeModeSegmentedControl_SelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
         RpdSettings!.UsingGeneratePlaylist = (HomeModeSegmentedControl.SelectedIndex == 1);
+
         StartModeButton.Text = RpdSettings.UsingGeneratePlaylist ? "Generate playlist" : "Start RPD";
+        StartModeButton.ImageSource = RpdSettings.UsingGeneratePlaylist ? IconManager.SparkleIcon : IconManager.PlayIcon;
 
         DurationChipGroup!.Items!.Clear();
         if (RpdSettings.UsingGeneratePlaylist)

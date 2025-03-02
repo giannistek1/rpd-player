@@ -84,6 +84,14 @@ internal static class IconManager
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
 
+    /// <summary> TODO: Ideally sparkle icon. But now construction icon. </summary>
+    internal static FontImageSource SparkleIcon = new()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.Construction, 
+        Color = (Color)Application.Current!.Resources["IconColor"]
+    };
+
     internal static FontImageSource TimerOffIcon = new()
     {
         FontFamily = "MaterialRounded",
@@ -272,6 +280,7 @@ internal static class IconManager
         PlayIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         RepeatOneIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         ShuffleIcon.Color = (Color)Application.Current!.Resources["IconColor"];
+        SparkleIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         TimerOffIcon.Color = (Color)Application.Current!.Resources["IconOffColor"];
         Timer3Icon.Color = (Color)Application.Current!.Resources["IconColor"];
         Timer5Icon.Color = (Color)Application.Current!.Resources["IconColor"];

@@ -104,4 +104,12 @@ internal static class AudioManager
             PlayAudio(MainViewModel.CurrentSongPart);
         }
     }
+
+    internal static void MoveAudioProgress(TimeSpan differenceInSeconds)
+    {
+        if (SongPartMediaElement is null) { return; }
+
+        var newTimeSpan = SongPartMediaElement!.Position.Add(differenceInSeconds);
+        SongPartMediaElement?.SeekTo(newTimeSpan);
+    }
 }

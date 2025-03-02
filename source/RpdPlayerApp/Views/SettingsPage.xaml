@@ -74,7 +74,7 @@
 
             </Grid>
 
-            <Grid Grid.Row="6" ColumnDefinitions="*,*">
+            <Grid Grid.Row="6" ColumnDefinitions="*,*" IsVisible="False">
 
                 <Label Grid.Column="0" Text="Send analytics and crash reports " VerticalOptions="Center" HorizontalOptions="Start" />
 

@@ -17,7 +17,7 @@
 
         <Grid Grid.Row="0" Padding="0,4,0,0" ColumnDefinitions="7*, 3*">
 
-            <Label Grid.Column="0" x:Name="ResultsLabel" Text="Results" Padding="8,0,0,0" TextColor="{DynamicResource PrimaryTextColor}" FontSize="12"/>
+            <Label Grid.Column="0" x:Name="ResultsLabel" Text="Results" Padding="8,0,0,0" TextColor="{DynamicResource SecondaryTextColor}" FontSize="12"/>
 
 
             <Label Grid.Column="1" x:Name="SortModeLabel" Padding="0,0,8,0" 
@@ -25,11 +25,18 @@
 
         </Grid>
 
-        <Grid Grid.Row="1" ColumnDefinitions="6*, 4*" Margin="0,0,0,4">
+        <!-- Actions -->
+        <Grid Grid.Row="1" ColumnDefinitions="6*, 4*, 1*" Margin="0,0,0,4">
 
             <SearchBar Grid.Column="0" x:Name="SearchBarInput" Margin="-12,0,0,0" Background="{DynamicResource BackgroundColor}" TextColor="{DynamicResource PrimaryTextColor}" Placeholder="Artist or title" PlaceholderColor="{DynamicResource PlaceholderColor}" TextChanged="SearchBar_TextChanged"/>
 
             <Button Grid.Column="1" x:Name="AddResultsButton" Margin="2,0,8,0" Clicked="AddResultsButton_Clicked" Text="Add results" />
+
+            <ImageButton Grid.Column="2" x:Name="ClearCategoryFilterImageButton" Background="{DynamicResource SecondaryButton}" CornerRadius="8" Padding="4" Clicked="ClearCategoryFilterButtonClicked">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Filter_alt_off}" Color="{DynamicResource IconColor}" />
+                </ImageButton.Source>
+            </ImageButton>
 
         </Grid>
         
@@ -177,6 +184,7 @@
                     <Label Text="Found nothing." HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" FontSize="18" FontFamily="Roboto-Regular"/>
 
                     <Button x:Name="ClearCategoryFilterButton" Clicked="ClearCategoryFilterButtonClicked" WidthRequest="280" Text="Clear category filter"/>
+                    
                     <Button x:Name="ClearSearchFilterButton" Clicked="ClearSearchFilterButtonClicked" WidthRequest="220" Text="Clear search filter"/>
 
                 </StackLayout>

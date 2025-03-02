@@ -25,9 +25,9 @@
                 
                 <Label Grid.Column="0" x:Name="GenreLabel" Text="K-pop" FontSize="12" VerticalOptions="Center" HorizontalOptions="Start" />
 
-                <Grid Grid.Column="1" x:Name="AlbumGrid" ColumnDefinitions="*" VerticalOptions="Center">
-                    <ScrollView x:Name="AlbumScrollView" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
-                        <Label x:Name="AlbumLabel" Text="Album" FontSize="14" FontAttributes="Italic" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="Center" LineBreakMode="NoWrap" />
+                <Grid Grid.Column="1" x:Name="AlbumGrid" ColumnDefinitions="*" VerticalOptions="Center" HorizontalOptions="CenterAndExpand">
+                    <ScrollView x:Name="AlbumScrollView" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" HorizontalOptions="CenterAndExpand">
+                        <Label x:Name="AlbumLabel" Text="Album" FontSize="14" FontAttributes="Italic" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap" />
                     </ScrollView>
                 </Grid>
                 
@@ -73,7 +73,7 @@
                     </ImageButton.Source>
                 </ImageButton>
 
-                <ImageButton Grid.Column="1" HeightRequest="34" x:Name="ReplayImageButton" Pressed="ReplayImageButton_Pressed">
+                <ImageButton Grid.Column="1" HeightRequest="34" x:Name="BackwardsImageButton" Pressed="BackwardsImageButton_Pressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Replay_5}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>

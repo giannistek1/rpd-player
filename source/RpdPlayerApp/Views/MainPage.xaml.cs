@@ -324,7 +324,7 @@ public partial class MainPage
         _categoriesView.IsVisible = true;
         Title = "Categories";
     }
-
+    // Not used
     private void OnBackToHomeView(object? sender, EventArgs e) => BackToHomeView();
 
     private void BackToHomeView()
@@ -437,6 +437,17 @@ public partial class MainPage
         else if (_sortByBottomSheet.isShown)
         {
             _sortByBottomSheet.DismissAsync();
+            return true;
+        }
+        else if ((byte)MainContainer.SelectedIndex == 1 || (byte)MainContainer.SelectedIndex == 2)
+        {
+            MainContainer.SelectedIndex = 0;
+
+            if (_categoriesView.IsVisible) { OnShowCategories(null, EventArgs.Empty); }
+            else { BackToHomeView(); }
+
+            SetupHomeToolbar();
+
             return true;
         }
         else

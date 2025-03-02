@@ -234,15 +234,9 @@ public partial class SongPartDetailBottomSheet
         AudioManager.SetMute();
     }
 
-    private void ForwardImageButton_Pressed(object sender, EventArgs e)
-    {
+    private void BackwardsImageButton_Pressed(object sender, EventArgs e) => AudioManager.MoveAudioProgress(new TimeSpan(hours: 0, minutes: 0, seconds: -5));
 
-    }
-
-    private void ReplayImageButton_Pressed(object sender, EventArgs e)
-    {
-
-    }
+    private void ForwardImageButton_Pressed(object sender, EventArgs e) => AudioManager.MoveAudioProgress(new TimeSpan(hours: 0, minutes: 0, seconds: 5));
 
     private void RestartAudioImageButton_Pressed(object sender, EventArgs e) => AudioManager.RestartAudio();
 

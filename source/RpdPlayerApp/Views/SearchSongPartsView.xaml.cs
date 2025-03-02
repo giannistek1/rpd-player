@@ -61,6 +61,7 @@ public partial class SearchSongPartsView : ContentView
         UpdateResultsText();
 
         ClearCategoryFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
+        ClearCategoryFilterImageButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
     }
 
     internal void ToggleAudioModeButtonClicked(object? sender, EventArgs e)
@@ -360,7 +361,7 @@ public partial class SearchSongPartsView : ContentView
 
     private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
-        // Set filter if set
+        // Set filter if set.
         SetFilterMode();
 
         SetSearchFilteredDataSource();
@@ -368,10 +369,11 @@ public partial class SearchSongPartsView : ContentView
 
     private void SetSearchFilteredDataSource()
     {
-        searchFilteredSongParts = songParts.Where(s => s.ArtistName.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase) ||
-                                    s.Artist.AltName.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase) ||
-                                    s.Title.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase))
-                                    .ToList();
+        searchFilteredSongParts = (SearchBarInput.Text is not null) ? 
+                                                        searchFilteredSongParts = songParts.Where(s => s.ArtistName.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase) ||
+                                                        s.Artist.AltName.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase) ||
+                                                        s.Title.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase))
+                                                        .ToList() : [.. songParts];
 
         SonglibraryListView.ItemsSource = searchFilteredSongParts;
         MainViewModel.SongParts = [.. songParts];
@@ -383,14 +385,13 @@ public partial class SearchSongPartsView : ContentView
     internal void SortButtonClicked(object? sender, EventArgs e) => ShowSortBy?.Invoke(sender, e);
 
     #region Filter
-
     private void ClearCategoryFilterButtonClicked(object sender, EventArgs e)
     {
         MainViewModel.SearchFilterMode = SearchFilterMode.All;
         SetFilterMode();
 
         SetSearchFilteredDataSource();
-        // TODO: Resort after filter.
+        // TODO: Re-sort after filter.
     }
 
     private void ClearSearchFilterButtonClicked(object sender, EventArgs e) => SearchBarInput.Text = string.Empty;
@@ -401,6 +402,7 @@ public partial class SearchSongPartsView : ContentView
         songParts.CollectionChanged -= SongPartsCollectionChanged;
 
         ClearCategoryFilterButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
+        ClearCategoryFilterImageButton.IsVisible = (MainViewModel.SearchFilterMode != SearchFilterMode.All);
 
         try
         {

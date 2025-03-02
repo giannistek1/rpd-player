@@ -31,7 +31,7 @@
                 </Border>
 
                 <Border Grid.Column="1" x:Name="AllBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
-                        Padding="0" Background="{DynamicResource PrimaryButton}" VerticalOptions="Center">
+                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
                     <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
