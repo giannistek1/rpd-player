@@ -10,7 +10,7 @@
              BackgroundColor="{DynamicResource BackgroundColor}">
 
         <!-- NOTE: Scrollview needs a height, so only * works and not auto -->
-        <Grid Padding="0" RowDefinitions="20, auto, auto, *, auto" ColumnDefinitions="*">
+        <Grid Padding="0" RowDefinitions="20, auto, auto, *, auto, auto" ColumnDefinitions="*">
 
             <!-- New stats -->
             <Grid Grid.Row="0" ColumnDefinitions="2*, 4*">
@@ -289,39 +289,40 @@
             
         </ScrollView>
             
-            <Grid Grid.Row="4" ColumnDefinitions="auto,auto, auto,auto" Margin="0,0,0,2" ColumnSpacing="8" Padding="16,0,0,0" >
+        <Grid Grid.Row="4" ColumnDefinitions="auto,auto, auto,auto" Margin="0,0,0,2" ColumnSpacing="8" Padding="16,0,0,0" >
 
-                <Image Grid.Column="0" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
-                    </Image.Source>
-                </Image>
+            <Image Grid.Column="0" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+                <Image.Source>
+                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                </Image.Source>
+            </Image>
 
-                <Label Grid.Column="1" x:Name="RpdSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" />
+            <Label Grid.Column="1" x:Name="RpdSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" />
 
-                <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
-                    </Image.Source>
-                </Image>
+            <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+                <Image.Source>
+                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
+                </Image.Source>
+            </Image>
 
-                <Label Grid.Column="3" x:Name="RpdArtistSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" />
-
-            </Grid>
-
-            <Grid Grid.Row="5" ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,0,0,4">
-                
-                <Button Grid.Column="0" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold"/>
-
-                <Button Grid.Column="1" x:Name="SearchByCategoryButton" Padding="0,0,0,0" Margin="0,0,16,0" HeightRequest="40" CornerRadius="8" 
-                        Clicked="SearchByCategoryButtonClicked" Text="Categories" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
-                    <Button.ImageSource>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Manage_search}" Color="{DynamicResource IconColor}" />
-                    </Button.ImageSource>
-                </Button>
-                
-            </Grid>
+            <Label Grid.Column="3" x:Name="RpdArtistSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" />
 
         </Grid>
+
+        <!-- Action buttons -->
+        <Grid Grid.Row="5" ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,0,0,4">
+                
+            <Button Grid.Column="0" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold"/>
+
+            <Button Grid.Column="1" x:Name="SearchByCategoryButton" Padding="0,0,0,0" Margin="0,0,16,0" HeightRequest="40" CornerRadius="8" 
+                    Clicked="SearchByCategoryButtonClicked" Text="Categories" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Manage_search}" Color="{DynamicResource IconColor}" />
+                </Button.ImageSource>
+            </Button>
+                
+        </Grid>
+
+    </Grid>
 
 </ContentView>
