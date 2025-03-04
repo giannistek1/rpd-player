@@ -32,7 +32,7 @@ public partial class SearchSongPartsView : ContentView
     internal List<SongPart> searchFilteredSongParts = [];
     internal MainPage? ParentPage { get; set; }
 
-    private VisualContainer? visualContainer;
+    private VisualContainer? _visualContainer;
     private int _lastUpperItem = 17;
 
     public SearchSongPartsView()
@@ -125,18 +125,18 @@ public partial class SearchSongPartsView : ContentView
 
         SonglibraryListView.CollapseAll();
 
-        visualContainer = SonglibraryListView.GetVisualContainer();
-        visualContainer.ScrollRows!.Changed += ScrollRows_Changed;
+        _visualContainer = SonglibraryListView.GetVisualContainer();
+        _visualContainer.ScrollRows!.Changed += ScrollRows_Changed;
     }
 
     private void ScrollRows_Changed(object sender, ScrollChangedEventArgs e)
     {
-        var lastIndex = visualContainer!.ScrollRows!.LastBodyVisibleLineIndex;
+        var lastIndex = _visualContainer!.ScrollRows!.LastBodyVisibleLineIndex;
 
         // To include header if used
         var header = (SonglibraryListView.HeaderTemplate != null && !SonglibraryListView.IsStickyHeader) ? 1 : 0;
 
-        var lastVisibleIndex = visualContainer.ScrollRows!.LastBodyVisibleLineIndex;
+        var lastVisibleIndex = _visualContainer.ScrollRows!.LastBodyVisibleLineIndex;
 
         // To include footer if used
         var footer = (SonglibraryListView.FooterTemplate != null && !SonglibraryListView.IsStickyFooter) ? 1 : 0;

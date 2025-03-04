@@ -122,12 +122,17 @@ public partial class CurrentPlaylistView : ContentView
         }
     }
 
-    internal void ClearPlaylistButtonClicked(object? sender, EventArgs e)
+    internal async void ClearPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        CurrentPlaylistManager.Instance.ClearCurrentPlaylist();
-        RefreshCurrentPlaylist();
+        bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Clear {CurrentPlaylistManager.Instance.CurrentPlaylist.Name}?", "Yes", "No");
+        if (accept)
+        {
+            CurrentPlaylistManager.Instance.ClearCurrentPlaylist();
+            RefreshCurrentPlaylist();
+        }
     }
 
+    /// <summary> Sets CurrentPlaylist to null. </summary>
     public void ResetCurrentPlaylist()
     {
         if (CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts is not null)
@@ -196,14 +201,18 @@ public partial class CurrentPlaylistView : ContentView
     }
 
     // Remove songpart on swipe
-    private void CurrentPlaylistListViewSwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
+    private async void CurrentPlaylistListViewSwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
     {
         if (e.Direction == SwipeDirection.Right && e.Offset > 30)
         {
             SongPart songPart = (SongPart)e.DataItem!;
-            CurrentPlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
 
-            RefreshCurrentPlaylist();
+            bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Delete {songPart.Title}?", "Yes", "No");
+            if (accept)
+            {
+                CurrentPlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
+                RefreshCurrentPlaylist();
+            }
         }
     }
 

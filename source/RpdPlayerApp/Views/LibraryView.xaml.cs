@@ -160,7 +160,7 @@ public partial class LibraryView : ContentView
     }
 
     // Remove/delete playlist
-    private void PlaylistsListView_SwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
+    private async void PlaylistsListView_SwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
     {
         if (e.DataItem is null) { return; }
 
@@ -168,9 +168,12 @@ public partial class LibraryView : ContentView
         {
             Playlist playlist = (Playlist)e.DataItem;
 
-            File.Delete(playlist.LocalPath);
-
-            MainViewModel.Playlists.Remove(playlist);
+            bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Delete {playlist.Name}?", "Yes", "No");
+            if (accept)
+            {
+                File.Delete(playlist.LocalPath);
+                MainViewModel.Playlists.Remove(playlist);
+            }
         }
     }
 
