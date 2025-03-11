@@ -64,7 +64,7 @@ public partial class HomeView : ContentView
             SaveNews();
             HandleAutoStartRpd();
 
-            ChipGroupSelectionChanged(null,null);
+            ChipGroupSelectionChanged(null, null);
         }
         catch (Exception ex)
         {
@@ -160,7 +160,7 @@ public partial class HomeView : ContentView
         InitializeGenerationsChipGroup();
         InitializeCompaniesChipGroup();
         InitializeYearsChipGroup();
-        InitializeOtherOptionsChipGroup();
+        InitializeAntiOptionsChipGroup();
     }
 
     private void InitializeHomeModeSegmentedControl()
@@ -221,14 +221,17 @@ public partial class HomeView : ContentView
         GenresChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
+    string[] genOptions = ["1", "2", "3", "4", "5", "Non-kpop"];
+
     private void InitializeGenerationsChipGroup()
     {
-        string[] options = ["1", "2", "3", "4", "5", "Non-kpop"];
-        foreach (var option in options)
+        foreach (var option in genOptions)
         {
             GenerationsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
+
         GenerationsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenerationsChipGroup.Items!);
+        
         GenerationsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
@@ -258,16 +261,26 @@ public partial class HomeView : ContentView
         YearsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
-    private void InitializeOtherOptionsChipGroup()
+    private void InitializeAntiOptionsChipGroup()
     {
-        var customChips = new ObservableCollection<CustomChipModel>
+        ObservableCollection<CustomChipModel> customChips = new();
+        // TODO: Change color or invoke a selected/tap event?
+        if (Preferences.ContainsKey(CommonSettings.HOME_ANTI_OPTIONS))
         {
-            new() { Name = "Last chorus" },
-            new() { Name = "Dance breaks" },
-            new() { Name = "Tiktoks" }
-        };
-        OtherOptionsChipGroup.ItemsSource = customChips;
-        OtherOptionsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
+            Dictionary<string, bool> antiOptionsValues = LoadTags(CommonSettings.HOME_ANTI_OPTIONS);
+
+            customChips.Add(new() { Name = "Last chorus", IsSelected = antiOptionsValues["Last chorus"] });
+            customChips.Add(new() { Name = "Dance breaks", IsSelected = antiOptionsValues["Dance breaks"] });
+            customChips.Add(new() { Name = "Tiktoks", IsSelected = antiOptionsValues["Tiktoks"] });
+        }
+        else
+        {
+            customChips.Add(new() { Name = "Last chorus", IsSelected = false });
+            customChips.Add(new() { Name = "Dance breaks", IsSelected = false });
+            customChips.Add(new() { Name = "Tiktoks", IsSelected = false });
+        }
+        AntiOptionsChipGroup.ItemsSource = customChips;
+        AntiOptionsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
     private void HandleAutoStartRpd()
@@ -278,7 +291,6 @@ public partial class HomeView : ContentView
             if (startRpd) StartRpdButtonClicked(this, EventArgs.Empty);
         }
     }
-    // TODO: Needs rework to be used for Windows using a txt file.
     private static async Task SaveNews()
     {
         var newsItems = SongPartRepository.SongParts.Select(s => new NewsItem
@@ -329,14 +341,25 @@ public partial class HomeView : ContentView
         RefreshChipGroupColors(CompaniesChipGroup);
         RefreshChipGroupColors(YearsChipGroup);
 
-        OtherOptionsChipGroup.ItemsSource = null!;
-        var customChips = new ObservableCollection<CustomChipModel>
+        AntiOptionsChipGroup.ItemsSource = null!;
+        ObservableCollection<CustomChipModel> customChips = new();
+
+        if (Preferences.ContainsKey(CommonSettings.HOME_ANTI_OPTIONS))
         {
-            new() { Name = "Last chorus" },
-            new() { Name = "Dance breaks" },
-            new() { Name = "Tiktoks" }
-        };
-        OtherOptionsChipGroup.ItemsSource = customChips;
+            Dictionary<string, bool> antiOptionsValues = LoadTags(CommonSettings.HOME_ANTI_OPTIONS);
+
+            customChips.Add(new() { Name = "Last chorus", IsSelected = antiOptionsValues["Last chorus"] });
+            customChips.Add(new() { Name = "Dance breaks", IsSelected = antiOptionsValues["Dance breaks"] });
+            customChips.Add(new() { Name = "Tiktoks", IsSelected = antiOptionsValues["Tiktoks"] });
+        }
+        else
+        {
+            customChips.Add(new() { Name = "Last chorus", IsSelected = false });
+            customChips.Add(new() { Name = "Dance breaks", IsSelected = false });
+            customChips.Add(new() { Name = "Tiktoks", IsSelected = false });
+        }
+        AntiOptionsChipGroup.ItemsSource = customChips;
+        AntiOptionsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
     private void RefreshChipGroupColors(SfChipGroup chipGroup)
@@ -466,7 +489,7 @@ public partial class HomeView : ContentView
 
     private void ApplyAntiOptions()
     {
-        var antiOptionsItems = OtherOptionsChipGroup.ItemsSource as ObservableCollection<CustomChipModel>;
+        var antiOptionsItems = AntiOptionsChipGroup.ItemsSource as ObservableCollection<CustomChipModel>;
         foreach (var item in antiOptionsItems!)
         {
             if (item.IsSelected)
@@ -515,5 +538,42 @@ public partial class HomeView : ContentView
         MainViewModel.AutoplayMode = 2; // Shuffle
         MainViewModel.CurrentSongPart = songPart;
         PlaySongPart?.Invoke(this, EventArgs.Empty);
+    }
+
+    private readonly string[] antiOptionsList = ["Last chorus", "Dance breaks", "Tiktoks"];
+    private void SaveTemplateImageButton_Clicked(object sender, EventArgs e)
+    {
+        Dictionary<string, bool> gens = new();
+
+        for (int i = 0; i < gens!.Count; i++)
+        {
+            gens.Add(genOptions[i], GenerationsChipGroup.Items[i].IsSelected);
+        }
+
+        SaveTags(CommonSettings.HOME_GENS, gens);
+
+        // Anti options
+        Dictionary<string, bool> antiOptions = new();
+
+        var antiOptionsItems = AntiOptionsChipGroup.ItemsSource as ObservableCollection<CustomChipModel>;
+
+        for (int i = 0; i < antiOptionsItems!.Count; i++)
+        {
+            antiOptions.Add(antiOptionsList[i], antiOptionsItems[i].IsSelected);
+        }
+
+        SaveTags(CommonSettings.HOME_ANTI_OPTIONS, antiOptions);
+    }
+
+    void SaveTags(string key, Dictionary<string, bool> tags)
+    {
+        string json = JsonConvert.SerializeObject(tags, Formatting.Indented);
+        Preferences.Set(key, json);
+    }
+
+    Dictionary<string, bool> LoadTags(string key)
+    {
+        string json = Preferences.Get(key, "{}");
+        return JsonConvert.DeserializeObject<Dictionary<string, bool>>(json) ?? new();
     }
 }

@@ -240,7 +240,7 @@
 
                     <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
 
-                        <sfcore:SfChipGroup x:Name="OtherOptionsChipGroup" ChipPadding="0,0,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                        <sfcore:SfChipGroup x:Name="AntiOptionsChipGroup" ChipPadding="0,0,0,0" DisplayMemberPath="Name" ChipType="Filter"
                                             SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource Error}" 
                                             SelectionIndicatorColor="{DynamicResource IconColor}" HorizontalOptions="Start" VerticalOptions="Center" SelectionChanged="OnSelectionChanged">
 
@@ -326,7 +326,7 @@
                 </Button.ImageSource>
             </Button>
 
-            <ImageButton Grid.Column="2" x:Name="SaveTemplateImageButton" Background="{DynamicResource SecondaryButton}" CornerRadius="8" Padding="4">
+            <ImageButton Grid.Column="2" x:Name="SaveTemplateImageButton" Clicked="SaveTemplateImageButton_Clicked" Background="{DynamicResource SecondaryButton}" CornerRadius="8" Padding="4">
                 <ImageButton.Source>
                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Save}" Color="{DynamicResource IconColor}" />
                 </ImageButton.Source>

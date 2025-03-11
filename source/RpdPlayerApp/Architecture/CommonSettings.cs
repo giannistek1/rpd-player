@@ -11,6 +11,15 @@ internal static class CommonSettings
     internal const string USE_NONCHOREO_SONGS = "USE_NONCHOREO_SONGS";
     internal const string TOTAL_ACTIVITY_TIME = "TOTAL_ACTIVITY_TIME";
 
+    internal const string HOME_DURATION = "HOME_DURATION";
+    internal const string HOME_TIMER = "HOME_TIMER";
+    internal const string HOME_VOICES = "HOME_VOICES";
+    internal const string HOME_GROUPTYPES = "HOME_GROUPTYPES";
+    internal const string HOME_GENRE = "HOME_GENRE";
+    internal const string HOME_GENS = "HOME_GENS";
+    internal const string HOME_COMPANIES = "HOME_COMPANIES";
+    internal const string HOME_ANTI_OPTIONS = "HOME_ANTI_OPTIONS";
+
     /// <summary> 0.0 - 1.0 as Double. </summary>
     /// <remarks> Default: 0.8 </remarks>
 #pragma warning disable S2223 // Non-constant static fields should not be visible
