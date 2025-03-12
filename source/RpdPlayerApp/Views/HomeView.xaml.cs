@@ -187,7 +187,18 @@ public partial class HomeView : ContentView
         {
             TimerChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
-        TimerChipGroup!.SelectedItem = TimerChipGroup?.Items?[0];
+
+        // Load preference/setting.
+        if (Preferences.ContainsKey(CommonSettings.HOME_TIMER))
+        {
+            var selectedIndex = LoadTagAsInt(CommonSettings.HOME_TIMER);
+
+            TimerChipGroup!.SelectedItem = TimerChipGroup!.Items![selectedIndex];
+        }
+        else
+        {
+            TimerChipGroup!.SelectedItem = TimerChipGroup?.Items?[0];
+        }
     }
 
     private void InitializeVoiceAnnouncementsChipGroup()
@@ -197,52 +208,130 @@ public partial class HomeView : ContentView
         {
             VoiceAnnouncementsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
-        VoiceAnnouncementsChipGroup!.SelectedItem = VoiceAnnouncementsChipGroup?.Items?[0];
+
+        // Load preference/setting.
+        if (Preferences.ContainsKey(CommonSettings.HOME_VOICES))
+        {
+            var selectedIndex = LoadTagAsInt(CommonSettings.HOME_VOICES);
+
+            VoiceAnnouncementsChipGroup!.SelectedItem = VoiceAnnouncementsChipGroup!.Items![selectedIndex];
+        }
+        else
+        {
+            VoiceAnnouncementsChipGroup!.SelectedItem = VoiceAnnouncementsChipGroup?.Items?[0];
+        }
     }
 
+    string[] _groupTypeOptions = ["Male", "Female", "Mixed"];
     private void InitializeGroupTypesChipGroup()
     {
-        GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Male", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
-        GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Female", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
-        GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = "Mixed", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
-        GrouptypesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GrouptypesChipGroup.Items!);
+        // Fill options.
+        foreach (var option in _groupTypeOptions)
+        {
+            GrouptypesChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+        }
+
+        // Load preference/setting.
+        if (Preferences.ContainsKey(CommonSettings.HOME_GROUPTYPES))
+        {
+            var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_GROUPTYPES); // [2,3,4,5]
+
+            var selectedItems = new ObservableCollection<SfChip>();
+            for (var i = 0; i < selectedIndices!.Length; i++)
+            {
+                selectedItems.Add(GrouptypesChipGroup!.Items![selectedIndices[i]]);
+            }
+            GrouptypesChipGroup!.SelectedItem = selectedItems;
+        }
+        else
+        {
+            GrouptypesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GrouptypesChipGroup.Items!);
+        }
+
         GrouptypesChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
+    private string[] _genreOptions = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "Pop"]; 
     private void InitializeGenresChipGroup()
     {
-        string[] options = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "Pop"];
-        foreach (var option in options)
+        foreach (var option in _genreOptions)
         {
             GenresChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
-        GenresChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenresChipGroup.Items!);
-        GenresChipGroup.SelectionChanged += GenresChipGroup_SelectionChanged;
+
+        GenresChipGroup!.SelectionChanged += GenresChipGroup_SelectionChanged;
+
+        if (Preferences.ContainsKey(CommonSettings.HOME_GENRES))
+        {
+            var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_GENRES); // [2,3,4,5]
+
+            var selectedItems = new ObservableCollection<SfChip>();
+            for (var i = 0; i < selectedIndices!.Length; i++)
+            {
+                selectedItems.Add(GenresChipGroup!.Items![selectedIndices[i]]);
+            }
+            GenresChipGroup!.SelectedItem = selectedItems;
+        }
+        else
+        {
+            GenresChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenresChipGroup.Items!);
+        }
+
         GenresChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
-    string[] genOptions = ["1", "2", "3", "4", "5", "Non-kpop"];
+    string[] _genOptions = ["1", "2", "3", "4", "5", "Non-kpop"];
 
     private void InitializeGenerationsChipGroup()
     {
-        foreach (var option in genOptions)
+        foreach (var option in _genOptions)
         {
             GenerationsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
 
-        GenerationsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenerationsChipGroup.Items!);
-        
+        if (Preferences.ContainsKey(CommonSettings.HOME_GENS))
+        {
+            var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_GENS); // [2,3,4,5]
+
+            var selectedItems = new ObservableCollection<SfChip>();
+            for (var i = 0; i < selectedIndices!.Length; i++)
+            {
+                selectedItems.Add(GenerationsChipGroup!.Items![selectedIndices[i]]);
+            }
+            GenerationsChipGroup!.SelectedItem = selectedItems;
+        }
+        else
+        {
+            GenerationsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenerationsChipGroup.Items!);
+        }
+
         GenerationsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
+    private string[] _companiesOptions = ["SM", "HYBE", "JYP", "YG", "Others"];
     private void InitializeCompaniesChipGroup()
     {
-        string[] options = ["SM", "HYBE", "JYP", "YG", "Others"];
-        foreach (var option in options)
+        foreach (var option in _companiesOptions)
         {
             CompaniesChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
-        CompaniesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(CompaniesChipGroup.Items!);
+        
+        if (Preferences.ContainsKey(CommonSettings.HOME_COMPANIES))
+        {
+            var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_COMPANIES); // [2,3,4,5]
+
+            var selectedItems = new ObservableCollection<SfChip>();
+            for (var i = 0; i < selectedIndices!.Length; i++)
+            {
+                selectedItems.Add(CompaniesChipGroup.Items[selectedIndices[i]]);
+            }
+            CompaniesChipGroup!.SelectedItem = selectedItems;
+        }
+        else
+        {
+            CompaniesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(CompaniesChipGroup.Items!);
+        }
+
         CompaniesChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
@@ -257,7 +346,23 @@ public partial class HomeView : ContentView
         {
             YearsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
-        YearsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(YearsChipGroup.Items!);
+
+        if (Preferences.ContainsKey(CommonSettings.HOME_YEARS))
+        {
+            var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_YEARS); // [2,3,4,5]
+
+            var selectedItems = new ObservableCollection<SfChip>();
+            for (var i = 0; i < selectedIndices!.Length; i++)
+            {
+                selectedItems.Add(YearsChipGroup.Items[selectedIndices[i]]);
+            }
+            YearsChipGroup!.SelectedItem = selectedItems;
+        }
+        else
+        {
+            YearsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(YearsChipGroup.Items!);
+        }
+
         YearsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
@@ -267,7 +372,7 @@ public partial class HomeView : ContentView
         // TODO: Change color or invoke a selected/tap event?
         if (Preferences.ContainsKey(CommonSettings.HOME_ANTI_OPTIONS))
         {
-            Dictionary<string, bool> antiOptionsValues = LoadTags(CommonSettings.HOME_ANTI_OPTIONS);
+            Dictionary<string, bool> antiOptionsValues = LoadTagsAsDictionary(CommonSettings.HOME_ANTI_OPTIONS);
 
             customChips.Add(new() { Name = "Last chorus", IsSelected = antiOptionsValues["Last chorus"] });
             customChips.Add(new() { Name = "Dance breaks", IsSelected = antiOptionsValues["Dance breaks"] });
@@ -346,7 +451,7 @@ public partial class HomeView : ContentView
 
         if (Preferences.ContainsKey(CommonSettings.HOME_ANTI_OPTIONS))
         {
-            Dictionary<string, bool> antiOptionsValues = LoadTags(CommonSettings.HOME_ANTI_OPTIONS);
+            Dictionary<string, bool> antiOptionsValues = LoadTagsAsDictionary(CommonSettings.HOME_ANTI_OPTIONS);
 
             customChips.Add(new() { Name = "Last chorus", IsSelected = antiOptionsValues["Last chorus"] });
             customChips.Add(new() { Name = "Dance breaks", IsSelected = antiOptionsValues["Dance breaks"] });
@@ -543,14 +648,91 @@ public partial class HomeView : ContentView
     private readonly string[] antiOptionsList = ["Last chorus", "Dance breaks", "Tiktoks"];
     private void SaveTemplateImageButton_Clicked(object sender, EventArgs e)
     {
-        Dictionary<string, bool> gens = new();
-
-        for (int i = 0; i < gens!.Count; i++)
+        // Timer
+        for (int i = 0; i < TimerChipGroup.Items!.Count; i++)
         {
-            gens.Add(genOptions[i], GenerationsChipGroup.Items[i].IsSelected);
+            if (TimerChipGroup.Items[i].IsSelected)
+            {
+                SaveTag(CommonSettings.HOME_TIMER, i);
+                break;
+            }
         }
 
-        SaveTags(CommonSettings.HOME_GENS, gens);
+        // Voices
+        for (int i = 0; i < VoiceAnnouncementsChipGroup.Items!.Count; i++)
+        {
+            if (VoiceAnnouncementsChipGroup.Items[i].IsSelected)
+            {
+                SaveTag(CommonSettings.HOME_VOICES, i);
+                break;
+            }
+        }
+
+        // TODO: METHODS
+        // GroupTypes
+        List<int> groupTypes = new();
+
+        for (int i = 0; i < GrouptypesChipGroup.Items!.Count; i++)
+        {
+            if (GrouptypesChipGroup.Items[i].IsSelected)
+            {
+                groupTypes.Add(i);
+            }
+        }
+
+        SaveTags(CommonSettings.HOME_GROUPTYPES, groupTypes.ToArray());
+
+        // Genres
+        List<int> genres = new();
+
+        for (int i = 0; i < GenresChipGroup.Items!.Count; i++)
+        {
+            if (GenresChipGroup.Items[i].IsSelected)
+            {
+                genres.Add(i);
+            }
+        }
+
+        SaveTags(CommonSettings.HOME_GENRES, genres.ToArray());
+
+        // Companies
+        List<int> companies = new();
+
+        for (int i = 0; i < CompaniesChipGroup.Items!.Count; i++)
+        {
+            if (CompaniesChipGroup.Items[i].IsSelected)
+            {
+                companies.Add(i);
+            }
+        }
+
+        SaveTags(CommonSettings.HOME_COMPANIES, companies.ToArray());
+
+        // Years
+        List<int> years = new();
+
+        for (int i = 0; i < YearsChipGroup.Items!.Count; i++)
+        {
+            if (YearsChipGroup.Items[i].IsSelected)
+            {
+                years.Add(i);
+            }
+        }
+
+        SaveTags(CommonSettings.HOME_YEARS, years.ToArray());
+
+        // Gens
+        List<int> gens = new();
+
+        for (int i = 0; i < GenerationsChipGroup.Items!.Count; i++)
+        {
+            if (GenerationsChipGroup.Items[i].IsSelected)
+            {
+                gens.Add(i);
+            }
+        }
+
+        SaveTags(CommonSettings.HOME_GENS, gens.ToArray());
 
         // Anti options
         Dictionary<string, bool> antiOptions = new();
@@ -565,15 +747,39 @@ public partial class HomeView : ContentView
         SaveTags(CommonSettings.HOME_ANTI_OPTIONS, antiOptions);
     }
 
-    void SaveTags(string key, Dictionary<string, bool> tags)
+    private void SaveTags(string key, Dictionary<string, bool> tags)
     {
         string json = JsonConvert.SerializeObject(tags, Formatting.Indented);
         Preferences.Set(key, json);
     }
 
-    Dictionary<string, bool> LoadTags(string key)
+    private void SaveTags(string key, int[] tagIndices)
+    {
+        string json = JsonConvert.SerializeObject(tagIndices);
+        Preferences.Set(key, json);
+    }
+
+    private void SaveTag(string key, int tagIndex)
+    {
+        string json = JsonConvert.SerializeObject(tagIndex);
+        Preferences.Set(key, json);
+    }
+
+    private Dictionary<string, bool> LoadTagsAsDictionary(string key)
     {
         string json = Preferences.Get(key, "{}");
         return JsonConvert.DeserializeObject<Dictionary<string, bool>>(json) ?? new();
+    }
+
+    private int[]? LoadTagsAsIntArray(string key)
+    {
+        string json = Preferences.Get(key, "[]");
+        return JsonConvert.DeserializeObject<int[]>(json);
+    }
+
+    private int LoadTagAsInt(string key)
+    {
+        string json = Preferences.Get(key, "0");
+        return JsonConvert.DeserializeObject<int>(json);
     }
 }

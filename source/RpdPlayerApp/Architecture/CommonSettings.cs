@@ -15,9 +15,10 @@ internal static class CommonSettings
     internal const string HOME_TIMER = "HOME_TIMER";
     internal const string HOME_VOICES = "HOME_VOICES";
     internal const string HOME_GROUPTYPES = "HOME_GROUPTYPES";
-    internal const string HOME_GENRE = "HOME_GENRE";
+    internal const string HOME_GENRES = "HOME_GENRE";
     internal const string HOME_GENS = "HOME_GENS";
     internal const string HOME_COMPANIES = "HOME_COMPANIES";
+    internal const string HOME_YEARS = "HOME_YEARS";
     internal const string HOME_ANTI_OPTIONS = "HOME_ANTI_OPTIONS";
 
     /// <summary> 0.0 - 1.0 as Double. </summary>
