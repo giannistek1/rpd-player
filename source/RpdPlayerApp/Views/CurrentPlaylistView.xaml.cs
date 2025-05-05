@@ -74,24 +74,24 @@ public partial class CurrentPlaylistView : ContentView
 
             await FileManager.SavePlaylistJsonToFileAsync($"{PlaylistNameEntry.Text}", sb.ToString());
 
-            HelperClass.ShowToast($"{PlaylistNameEntry.Text} saved locally!");
+            General.ShowToast($"{PlaylistNameEntry.Text} saved locally!");
         }
         catch (Exception ex)
         {
-            HelperClass.ShowToast(ex.Message);
+            General.ShowToast(ex.Message);
         }
 
         // TODO: Is dit logisch hier?
-        if (MainViewModel.UsingCloudMode && HelperClass.HasInternetConnection())
+        if (MainViewModel.UsingCloudMode && General.HasInternetConnection())
         {
             try
             {
                 DropboxRepository.SavePlaylist(PlaylistNameEntry.Text);
-                HelperClass.ShowToast($"{PlaylistNameEntry.Text} saved locally and online!");
+                General.ShowToast($"{PlaylistNameEntry.Text} saved locally and online!");
             }
             catch (Exception ex)
             {
-                HelperClass.ShowToast(ex.Message);
+                General.ShowToast(ex.Message);
             }
         }
     }
@@ -101,7 +101,7 @@ public partial class CurrentPlaylistView : ContentView
         MainViewModel.UsingCloudMode = !MainViewModel.UsingCloudMode;
 
         string toastText = MainViewModel.UsingCloudMode ? "Playlist will save online" : "Playlist will save locally";
-        HelperClass.ShowToast(toastText);
+        General.ShowToast(toastText);
 
         ParentPage?.SetupLibraryOrCurrentPlaylistToolbar();
     }
@@ -145,13 +145,13 @@ public partial class CurrentPlaylistView : ContentView
 
     private void ShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
     {
-        CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizePlaylist([.. CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
+        CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts = General.RandomizePlaylist([.. CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
         CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts;
     }
 
     private void MixedShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
     {
-        CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts = HelperClass.RandomizeAndAlternatePlaylist([.. CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
+        CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts = General.RandomizeAndAlternatePlaylist([.. CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
         CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts;
     }
 
@@ -161,7 +161,7 @@ public partial class CurrentPlaylistView : ContentView
 
     private void CurrentPlaylistListView_ItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
-        if (!HelperClass.HasInternetConnection()) { return; }
+        if (!General.HasInternetConnection()) { return; }
 
         SongPart songPart = (SongPart)e.DataItem;
 
@@ -190,7 +190,7 @@ public partial class CurrentPlaylistView : ContentView
 
     private void SwipeItemPlaySongPart(object sender, EventArgs e)
     {
-        if (!HelperClass.HasInternetConnection()) { return; }
+        if (!General.HasInternetConnection()) { return; }
 
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         if (!string.IsNullOrWhiteSpace(songPart.AudioURL))

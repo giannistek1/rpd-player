@@ -146,7 +146,7 @@ public partial class AudioPlayerControl : ContentView
                 }
                 else if (MainViewModel.AutoplayMode == 2) // Shuffle
                 {
-                    int index = HelperClass.Rng.Next(MainViewModel.SongParts.Count);
+                    int index = General.Rng.Next(MainViewModel.SongParts.Count);
                     MainViewModel.SongPartsQueue.Enqueue(MainViewModel.SongParts[index]);
                 }
                 else if (MainViewModel.AutoplayMode == 3) // Repeat one

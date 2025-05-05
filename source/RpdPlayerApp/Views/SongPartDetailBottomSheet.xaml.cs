@@ -41,7 +41,7 @@ public partial class SongPartDetailBottomSheet
 
     private void OnLoad(object? sender, EventArgs e)
     {
-        FavoriteImageButton.Source = _playlistsManager.IsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
+        FavoriteImageButton.Source = _playlistsManager.SongPartIsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
 
         AudioProgressSlider.DragStarted += AudioProgressSlider_DragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSlider_DragCompleted;
@@ -87,7 +87,7 @@ public partial class SongPartDetailBottomSheet
 
         MasterVolumeSlider.Value = CommonSettings.MainVolume * 100;
         // Theme change or change song should update favorite icon.
-        FavoriteImageButton.Source = _playlistsManager.IsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
+        FavoriteImageButton.Source = _playlistsManager.SongPartIsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
 
     /// <summary> Song dependent or theme change. </summary>
@@ -123,7 +123,7 @@ public partial class SongPartDetailBottomSheet
         MasterVolumeSlider.ThumbStyle.Fill = (Color)Application.Current!.Resources["Primary"];
 
         // Theme change or change song should update favorite icon.
-        FavoriteImageButton.Source = _playlistsManager.IsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
+        FavoriteImageButton.Source = _playlistsManager.SongPartIsInPlaylist(FAVORITES, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
 
     internal void UpdateProgress(double value)
@@ -201,14 +201,14 @@ public partial class SongPartDetailBottomSheet
 
         if (MainViewModel.UsingAnnouncements)
         {
-            HelperClass.ShowToast("Using voiced announcements.");
+            General.ShowToast("Using voiced announcements.");
         }
     }
 
     private void FavoriteButton_Pressed(object sender, EventArgs e)
     {
         // TODO: Unfavorite?
-        bool success = _playlistsManager.TryAddToPlaylist(FAVORITES, songPart!);
+        bool success = _playlistsManager.TryAddSongPartToPlaylist(FAVORITES, songPart!);
         if (!success) { return; }
 
         FavoriteImageButton.Source = IconManager.FavoritedIcon;
@@ -216,7 +216,7 @@ public partial class SongPartDetailBottomSheet
         // Update libraryview
         FavoriteSongPart?.Invoke(sender, e);
 
-        HelperClass.ShowToast($"Favorited: {songPart?.Title}");
+        General.ShowToast($"Favorited: {songPart?.Title}");
     }
 
     private void MasterVolumeSlider_ValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)

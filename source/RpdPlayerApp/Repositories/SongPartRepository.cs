@@ -66,7 +66,7 @@ internal static class SongPartRepository
             catch(Exception ex)
             {
                 SentrySdk.CaptureMessage($"ERROR: {typeof(SongPartRepository).Name}, songpart {i + 1}, {ex.Message}");
-                HelperClass.ShowToast($"ERROR: InitSongPart songpart {i + 1}. {ex.Message}");
+                General.ShowToast($"ERROR: InitSongPart songpart {i + 1}. {ex.Message}");
             }
 
         }
@@ -85,7 +85,7 @@ internal static class SongPartRepository
 
         if (accessType != NetworkAccess.Internet)
         {
-            HelperClass.ShowToast("No internet connection!");
+            General.ShowToast("No internet connection!");
             return songPartsAsText;
         }
 
@@ -96,7 +96,7 @@ internal static class SongPartRepository
         return songPartsAsText;
     }
 
-    internal static SongPart GetRandomSongPart() => SongParts[HelperClass.Rng.Next(SongParts.Count)];
+    internal static SongPart GetRandomSongPart() => SongParts[General.Rng.Next(SongParts.Count)];
 
     internal static List<SongPart> GetSongPartsByGeneration(string generation) => SongParts.Where(s => s.Artist?.Generation == generation && s.Album?.GenreShort == MainViewModel.GenreKpop).ToList();
 }

@@ -46,7 +46,7 @@ internal class VideoRepository
             catch (Exception ex)
             {
                 SentrySdk.CaptureMessage($"ERROR: {typeof(Video).Name}, video number: {i + 1}, {ex.Message}");
-                HelperClass.ShowToast($"ERROR: InitVideo video {i + 1}. {ex.Message}");
+                General.ShowToast($"ERROR: InitVideo video {i + 1}. {ex.Message}");
             }
 
         }
@@ -63,7 +63,7 @@ internal class VideoRepository
 
     private static string GetStringFromURL()
     {
-        if (!HelperClass.HasInternetConnection()) { return string.Empty; }
+        if (!General.HasInternetConnection()) { return string.Empty; }
 
         string videosAsText = string.Empty;
 

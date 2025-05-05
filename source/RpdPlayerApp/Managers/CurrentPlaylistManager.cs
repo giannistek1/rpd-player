@@ -7,7 +7,7 @@ internal class CurrentPlaylistManager : BindableObject
 {
     private static readonly CurrentPlaylistManager instance = new();
 
-    private Playlist currentPlaylist = new();
+    private Playlist currentPlaylist = new(creationDate: DateTime.Now);
     public Playlist CurrentPlaylist
     {
         get => currentPlaylist;
@@ -22,7 +22,7 @@ internal class CurrentPlaylistManager : BindableObject
     {
     }
 
-    private CurrentPlaylistManager() => CurrentPlaylist = new Playlist();
+    private CurrentPlaylistManager() => CurrentPlaylist = new Playlist(creationDate: DateTime.Now);
 
     public static CurrentPlaylistManager Instance => instance;
 

@@ -27,10 +27,10 @@ internal static class FileManager
             // Write the JSON text to the file.
             await File.WriteAllTextAsync(fullPath, jsonText);
 
-            HelperClass.ShowToast($"{fileName} saved.");
+            General.ShowToast($"{fileName} saved.");
             return fullPath;
         }
-        catch (Exception ex) { HelperClass.ShowToast(ex.Message); }
+        catch (Exception ex) { General.ShowToast(ex.Message); }
 
         return string.Empty;
     }
@@ -51,7 +51,7 @@ internal static class FileManager
             //HelperClass.ShowToast($"{fileName} saved.");
             return fullPath;
         }
-        catch (Exception ex) { HelperClass.ShowToast(ex.Message); }
+        catch (Exception ex) { General.ShowToast(ex.Message); }
 
         return string.Empty;
     }

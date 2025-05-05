@@ -49,7 +49,7 @@ internal static class AlbumRepository
             catch (Exception ex)
             {
                 SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}, album {i + 1}, {ex.Message}");
-                HelperClass.ShowToast($"ERROR: InitAlbums, album {i + 1}. {ex.Message}");
+                General.ShowToast($"ERROR: InitAlbums, album {i + 1}. {ex.Message}");
             }
         }
 
@@ -59,11 +59,11 @@ internal static class AlbumRepository
 
     internal static Album MatchAlbum(string artistName, string albumTitle) => Albums.FirstOrDefault(a => a.ArtistName.Equals(artistName, StringComparison.OrdinalIgnoreCase) && a.Title.Equals(albumTitle, StringComparison.OrdinalIgnoreCase), new());
 
-    internal static Album GetRandomAlbum() => Albums[HelperClass.Rng.Next(Albums.Count)];
+    internal static Album GetRandomAlbum() => Albums[General.Rng.Next(Albums.Count)];
 
     private static string GetStringFromURL()
     {
-        if (!HelperClass.HasInternetConnection()) { return string.Empty; }
+        if (!General.HasInternetConnection()) { return string.Empty; }
 
         string albumsAsText = string.Empty;
 

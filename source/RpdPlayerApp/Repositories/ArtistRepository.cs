@@ -46,7 +46,7 @@ internal static class ArtistRepository
             catch (Exception ex)
             {
                 SentrySdk.CaptureMessage($"Error: {typeof(ArtistRepository).Name}, artist {i + 1}, {ex.Message}");
-                HelperClass.ShowToast($"ERROR: InitArtist, artist {i + 1}, {ex.Message}");
+                General.ShowToast($"ERROR: InitArtist, artist {i + 1}, {ex.Message}");
             }
 
         }
@@ -55,7 +55,7 @@ internal static class ArtistRepository
     }
     private static string GetStringFromURL()
     {
-        if (!HelperClass.HasInternetConnection()) { return string.Empty; }
+        if (!General.HasInternetConnection()) { return string.Empty; }
 
         string artistsAsText = string.Empty;
 
@@ -80,7 +80,7 @@ internal static class ArtistRepository
                   .Take(count)
                   .ToList();
 
-    internal static Artist GetRandomArtist() => Artists[HelperClass.Rng.Next(Artists.Count)];
-    internal static Artist GetRandomArtist(List<Artist> artistList) => artistList[HelperClass.Rng.Next(artistList.Count)];
+    internal static Artist GetRandomArtist() => Artists[General.Rng.Next(Artists.Count)];
+    internal static Artist GetRandomArtist(List<Artist> artistList) => artistList[General.Rng.Next(artistList.Count)];
 
 }

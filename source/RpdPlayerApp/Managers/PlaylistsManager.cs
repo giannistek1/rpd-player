@@ -7,12 +7,12 @@ internal class PlaylistsManager
 {
     internal PlaylistsManager() { }
 
-    internal bool TryAddToPlaylist(string playlistName, SongPart songPartToAdd)
+    internal bool TryAddSongPartToPlaylist(string playlistName, SongPart songPartToAdd)
     {
         var playlistExists = MainViewModel.Playlists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         if (playlistExists is null)
         {
-            var playlist = new Playlist(playlistName);
+            var playlist = new Playlist(creationDate: DateTime.Now, name: playlistName);
             playlist.SongParts.Add(songPartToAdd);
 
             MainViewModel.Playlists.Add(playlist);
@@ -20,7 +20,7 @@ internal class PlaylistsManager
         }
         else
         {
-            if (!IsInPlaylist(playlistName, songPartToAdd))
+            if (!SongPartIsInPlaylist(playlistName, songPartToAdd))
             {
                 playlistExists.SongParts.Add(songPartToAdd);
                 return true;
@@ -30,7 +30,7 @@ internal class PlaylistsManager
         }
     }
 
-    internal bool IsInPlaylist(string playlistName, SongPart? songPart)
+    internal bool SongPartIsInPlaylist(string playlistName, SongPart? songPart)
     {
         var playlist = MainViewModel.Playlists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
 

@@ -3,13 +3,12 @@ using RpdPlayerApp.Models;
 
 namespace RpdPlayerApp.Architecture;
 
-internal static class HelperClass
+/// <summary> Helper class for global things like internet connection, toasts, reading text files, etc. </summary>
+internal static class General
 {
     internal static readonly Random Rng = new();
 
-    /// <summary>
-    /// Checks whether Network has internet access. If false, shows toast saying "No internet connection!"
-    /// </summary>
+    /// <summary> Checks whether Network has internet access. If false, shows toast saying "No internet connection!" </summary>
     /// <returns> </returns>
     internal static bool HasInternetConnection()
     {

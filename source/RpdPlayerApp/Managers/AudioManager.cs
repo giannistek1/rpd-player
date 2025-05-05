@@ -37,7 +37,7 @@ internal static class AudioManager
     /// <param name="songPart"> </param>
     internal static void PlayAudio(SongPart songPart)
     {
-        if (!HelperClass.HasInternetConnection()) { return; }
+        if (!General.HasInternetConnection()) { return; }
 
         // Update variables.
         songPart.IsPlaying = true;

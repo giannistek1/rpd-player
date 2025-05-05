@@ -42,16 +42,16 @@ public partial class LibraryView : ContentView
         {
             foreach (var file in files)
             {
-                if (file.Contains("SONGPARTS.txt")) { continue; }
-
                 int lines = File.ReadAllLines(file).Length;
 
-                Playlist playlist = new(name: Path.GetFileNameWithoutExtension(file), path: file, count: lines)
+                string fileName = Path.GetFileNameWithoutExtension(file);
+
+                Playlist playlist = new(name: Path.GetFileNameWithoutExtension(fileName), path: file, count: lines)
                 {
                     SongParts = []
                 };
 
-                string? result = HelperClass.ReadTextFile(file);
+                string? result = General.ReadTextFile(file);
 
                 // Convert text to songParts.
                 var pattern = @"\{(.*?)\}";
@@ -101,7 +101,7 @@ public partial class LibraryView : ContentView
     {
         if (PlaylistNameEntry.Text.IsNullOrEmpty())
         {
-            HelperClass.ShowToast($"Please fill in a name");
+            General.ShowToast($"Please fill in a name");
             return;
         }
 
@@ -110,7 +110,7 @@ public partial class LibraryView : ContentView
             // Create file on system.
             Task<string> result = FileManager.SavePlaylistJsonToFileAsync(PlaylistNameEntry.Text, string.Empty);
 
-            Playlist playlist = new(name: PlaylistNameEntry.Text, path: result.Result)
+            Playlist playlist = new(creationDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result.Result)
             {
                 SongParts = []
             };
@@ -119,7 +119,7 @@ public partial class LibraryView : ContentView
         }
         catch (Exception ex)
         {
-            HelperClass.ShowToast(ex.Message);
+            General.ShowToast(ex.Message);
         }
     }
 
@@ -136,11 +136,11 @@ public partial class LibraryView : ContentView
 
             File.WriteAllText($"{PlaylistNameEntry.Text} - copy.txt", string.Empty);
 
-            HelperClass.ShowToast($"{PlaylistNameEntry.Text} - copy created!");
+            General.ShowToast($"{PlaylistNameEntry.Text} - copy created!");
         }
         catch (Exception ex)
         {
-            HelperClass.ShowToast(ex.Message);
+            General.ShowToast(ex.Message);
         }
     }
 
@@ -190,7 +190,7 @@ public partial class LibraryView : ContentView
                 var matches = Regex.Matches(line, pattern);
                 if (matches.Count < MainViewModel.SongPartPropertyAmount)
                 {
-                    HelperClass.ShowToast("Found invalid or outdated playlists! They have been removed.");
+                    General.ShowToast("Found invalid or outdated playlists! They have been removed.");
                     File.Delete(file);
                     break;
                 }

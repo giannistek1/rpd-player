@@ -68,7 +68,7 @@ public partial class HomeView : ContentView
         }
         catch (Exception ex)
         {
-            HelperClass.ShowToast(ex.Message);
+            General.ShowToast(ex.Message);
         }
     }
 
@@ -546,16 +546,16 @@ public partial class HomeView : ContentView
         var differentNewSongs = newNewsItems.Where(s => s.Artist!.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
         foreach (var item in differentNewSongs)
         {
-            item.HasNewVideo = Convert.ToBoolean(HelperClass.Rng.Next(2));
+            item.HasNewVideo = Convert.ToBoolean(General.Rng.Next(2));
         }
 
         UpdateNewsBadge(differentNewSongs);
-        HelperClass.ShowToast("Not implemented yet!");
+        General.ShowToast("Not implemented yet!");
     }
 
     private void StartRpdButtonClicked(object? sender, EventArgs e)
     {
-        if (!HelperClass.HasInternetConnection()) return;
+        if (!General.HasInternetConnection()) return;
 
         SetTimerMode();
         RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
@@ -572,7 +572,7 @@ public partial class HomeView : ContentView
         var songParts = FilterSongParts();
         if (songParts.Count <= 0)
         {
-            HelperClass.ShowToast("No songs found! Please change your settings.");
+            General.ShowToast("No songs found! Please change your settings.");
             return;
         }
 
@@ -637,7 +637,7 @@ public partial class HomeView : ContentView
 
     private void PlayRandomSong(List<SongPart> songParts)
     {
-        int index = HelperClass.Rng.Next(songParts.Count);
+        int index = General.Rng.Next(songParts.Count);
         SongPart songPart = songParts[index];
 
         MainViewModel.AutoplayMode = 2; // Shuffle
@@ -745,8 +745,11 @@ public partial class HomeView : ContentView
         }
 
         SaveTags(CommonSettings.HOME_ANTI_OPTIONS, antiOptions);
+
+        General.ShowToast("Preferences saved!");
     }
 
+    #region Saving/loading tags
     private void SaveTags(string key, Dictionary<string, bool> tags)
     {
         string json = JsonConvert.SerializeObject(tags, Formatting.Indented);
@@ -782,4 +785,5 @@ public partial class HomeView : ContentView
         string json = Preferences.Get(key, "0");
         return JsonConvert.DeserializeObject<int>(json);
     }
+    #endregion
 }
