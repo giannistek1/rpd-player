@@ -42,11 +42,13 @@ public partial class LibraryView : ContentView
         {
             foreach (var file in files)
             {
+                if (file.Contains("SONGPARTS.txt")) { continue; }
+
                 int lines = File.ReadAllLines(file).Length;
 
                 string fileName = Path.GetFileNameWithoutExtension(file);
 
-                Playlist playlist = new(name: Path.GetFileNameWithoutExtension(fileName), path: file, count: lines)
+                Playlist playlist = new(creationDate: DateTime.Today, name: Path.GetFileNameWithoutExtension(fileName), path: file, count: lines)
                 {
                     SongParts = []
                 };
@@ -59,25 +61,33 @@ public partial class LibraryView : ContentView
 
                 for (int i = 0; i < matches.Count / MainViewModel.SongPartPropertyAmount; i++)
                 {
-                    int n = MainViewModel.SongPartPropertyAmount * i; // songpart number
+                    try
+                    {
+                        int n = MainViewModel.SongPartPropertyAmount * i; // songpart number
 
-                    string artistName = matches[n + 0].Groups[1].Value;
-                    string albumTitle = matches[n + 1].Groups[1].Value;
-                    string videoURL = matches[n + 6].Groups[1].Value.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos");
+                        string artistName = matches[n + 0].Groups[1].Value;
+                        string albumTitle = matches[n + 1].Groups[1].Value;
+                        string videoURL = matches[n + 6].Groups[1].Value.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos");
 
-                    SongPart songPart = new(id: i,
-                        artistName: artistName,
-                        albumTitle: albumTitle,
-                        title: matches[n + 2].Groups[1].Value,
-                        partNameShort: $"{matches[n + 3].Groups[1].Value}",
-                        partNameNumber: matches[n + 4].Groups[1].Value,
-                        clipLength: Convert.ToDouble(matches[n + 5].Groups[1].Value),
-                        audioURL: matches[n + 6].Groups[1].Value,
-                        videoURL: videoURL
-                    );
+                        SongPart songPart = new(id: i,
+                            artistName: artistName,
+                            albumTitle: albumTitle,
+                            title: matches[n + 2].Groups[1].Value,
+                            partNameShort: $"{matches[n + 3].Groups[1].Value}",
+                            partNameNumber: matches[n + 4].Groups[1].Value,
+                            clipLength: Convert.ToDouble(matches[n + 5].Groups[1].Value),
+                            audioURL: matches[n + 6].Groups[1].Value,
+                            videoURL: videoURL
+                        );
 
-                    songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
-                    playlist.SongParts.Add(songPart);
+                        songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
+                        playlist.SongParts.Add(songPart);
+                    }
+                    catch(Exception ex)
+                    {
+                        //SentrySdk.CaptureMessage($"ERROR: {typeof(LibraryView).Name}, songpart {i + 1}, {ex.Message}");
+                        General.ShowToast($"ERROR: LoadPlaylists songpart {i + 1}. {ex.Message}");
+                    }
                 }
 
                 playlist.SetLength();
