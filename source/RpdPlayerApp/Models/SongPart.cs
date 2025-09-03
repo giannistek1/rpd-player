@@ -40,6 +40,7 @@ internal partial class SongPart : INotifyPropertyChanged
 
     private bool isPlaying = false;
 
+    /// <summary> Whether the song is currently playing or paused/stopped. </summary>
     [JsonIgnore]
     public bool IsPlaying
     {

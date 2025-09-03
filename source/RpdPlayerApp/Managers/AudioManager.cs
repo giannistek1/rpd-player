@@ -32,7 +32,7 @@ internal static class AudioManager
 
     /// <summary>
     /// Precondition: Internet connection. Use ChangeSongPart first or change the source. <br />
-    /// Plays current song and alerts subscribers.
+    /// Plays current songpart and alerts subscribers.
     /// </summary>
     /// <param name="songPart"> </param>
     internal static void PlayAudio(SongPart songPart)
@@ -42,6 +42,7 @@ internal static class AudioManager
         // Update variables.
         songPart.IsPlaying = true;
         MainViewModel.IsCurrentlyPlayingSongPart = true;
+        MainViewModel.CurrentSongPart.IsPlaying = true;
 
         OnPlay?.Invoke(null, EventArgs.Empty);
 
@@ -50,6 +51,7 @@ internal static class AudioManager
         TimerManager.StartInfiniteScaleYAnimationWithTimer();
     }
 
+    /// <summary> Pauses whatever audio clip is playing now. </summary>
     internal static void PauseAudio()
     {
         PreSongPartMediaElement!.Pause();
@@ -59,6 +61,7 @@ internal static class AudioManager
         OnPause?.Invoke(null, EventArgs.Empty);
     }
 
+    /// <summary> Stops whatever audio clip is playing now. </summary>
     internal static void StopAudio()
     {
         if (MainViewModel.CurrentSongPart.Id >= 0)

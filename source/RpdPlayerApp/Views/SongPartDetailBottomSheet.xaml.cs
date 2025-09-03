@@ -61,7 +61,7 @@ public partial class SongPartDetailBottomSheet
 
     private void AudioProgressSlider_DragCompleted(object? sender, EventArgs e) => AudioPlayerControl?.SeekToProgress(sender, e);
 
-    /// <summary> Whenever mode changes dependent. </summary>
+    /// <summary> Depends on whenever play mode changes. </summary>
     internal void UpdateIcons()
     {
         // TODO: Set image to play once song ends.

@@ -91,7 +91,9 @@ internal static class MainViewModel
 
     internal static Queue<SongPart> SongPartsQueue { get; set; } = new();
 
+    /// <summary> Whether a song part is currently playing. TODO: Maybe make this a state machine: States: Announcement, Countdown, SongPart. </summary>
     internal static bool IsCurrentlyPlayingSongPart { get; set; } = false;
+    /// <summary> Whether the countdown is currently playing.  TODO: Maybe make this a state machine: States: Announcement, Countdown, SongPart. </summary>
     internal static bool IsCurrentlyPlayingTimer { get; set; } = false;
 
     internal static ObservableCollection<Playlist> Playlists { get; set; } = [];
