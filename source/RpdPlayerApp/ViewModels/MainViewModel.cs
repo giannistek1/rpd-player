@@ -34,9 +34,9 @@ internal static class MainViewModel
     /// </summary>
     internal static readonly int VideoPropertyAmount = 5;
 
-    internal static readonly DateTime secondGenStartDate = new(2002, 12, 31, 0, 0,0, DateTimeKind.Utc);
-    internal static readonly DateTime thirdGenStartDate = new(year: 2012, month: 2, day: 11, 0,0,0, DateTimeKind.Utc);
-    internal static readonly DateTime fourthGenStartDate = new(2018, 1, 1,0,0,0, DateTimeKind.Utc);
+    internal static readonly DateTime secondGenStartDate = new(2002, 12, 31, 0, 0, 0, DateTimeKind.Utc);
+    internal static readonly DateTime thirdGenStartDate = new(year: 2012, month: 2, day: 11, 0, 0, 0, DateTimeKind.Utc);
+    internal static readonly DateTime fourthGenStartDate = new(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     internal static readonly DateTime fifthGenStartDate = new(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
     internal const string GenreKpop = "KR";
@@ -53,9 +53,7 @@ internal static class MainViewModel
     internal static SortMode SortMode { get; set; } = SortMode.Artist;
     internal static SearchFilterMode SearchFilterMode { get; set; }
     internal static string SearchFilterModeText { get; set; } = string.Empty;
-    /// <summary>
-    /// Queue or Playlist.
-    /// </summary>
+    /// <summary> Queue or Playlist. </summary>
     internal static PlayMode PlayMode { get; set; }
     internal static bool UsingVideoMode { get; set; } = false;
     internal static bool UsingCloudMode { get; set; } = false;
@@ -81,15 +79,12 @@ internal static class MainViewModel
     #endregion
 
     internal static List<SongPart> SongParts { get; set; } = [];
-    /// <summary>
-    /// Song to play after countdown.
-    /// </summary>
-    internal static SongPart SongToPlay { get; set; } = new(); 
-    internal static SongPart CurrentSongPart { get; set; } = new(); 
+    /// <summary> Song to play (after countdown). </summary>
+    internal static SongPart CurrentSongPart { get; set; } = new();
     internal static Queue<SongPart> PlaylistQueue { get; set; } = new();
+    internal static Queue<SongPart> SongPartsQueue { get; set; } = new();
     internal static List<SongPart> SongPartHistory { get; set; } = [];
 
-    internal static Queue<SongPart> SongPartsQueue { get; set; } = new();
 
     /// <summary> Whether a song part is currently playing. TODO: Maybe make this a state machine: States: Announcement, Countdown, SongPart. </summary>
     internal static bool IsCurrentlyPlayingSongPart { get; set; } = false;

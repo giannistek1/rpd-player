@@ -11,8 +11,13 @@ internal static class AudioManager
     /// <summary> For countdowns and announcements. </summary>
     internal static MediaElement? PreSongPartMediaElement { get; set; }
 
-    /// <summary> For the songparts. </summary>
+    /// <summary> MediaElement that is currently playing songpart. </summary>
+    internal static MediaElement? CurrentPlayer { get; set; }
+
+    /// <summary> First of two the MediaElements for the songparts. </summary>
     internal static MediaElement? SongPartMediaElement { get; set; }
+    /// <summary> Seocond of the two MediaElements. To ensure smooth transitioning, a hidden second mediaElement plays the next song. </summary>
+    internal static MediaElement? SongPartMediaElement2 { get; set; }
 
     internal static SongPartDetailBottomSheet? DetailBottomSheet { get; set; }
 
@@ -26,10 +31,14 @@ internal static class AudioManager
     internal static void ChangeSongPart(SongPart songPart)
     {
         DetailBottomSheet!.songPart = songPart;
-        SongPartMediaElement!.Source = MediaSource.FromUri(songPart.AudioURL);
+        //SongPartMediaElement!.Source = MediaSource.FromUri(songPart.AudioURL);
+        CurrentPlayer!.Source = MediaSource.FromUri(songPart.AudioURL);
+
         OnChange?.Invoke(null, new MyEventArgs(songPart));
     }
 
+
+    internal static bool SwitchPlayers { get; set; } = true;
     /// <summary>
     /// Precondition: Internet connection. Use ChangeSongPart first or change the source. <br />
     /// Plays current songpart and alerts subscribers.
@@ -46,16 +55,29 @@ internal static class AudioManager
 
         OnPlay?.Invoke(null, EventArgs.Empty);
 
-        SongPartMediaElement!.Play();
-        TimerManager.songPart = songPart;
-        TimerManager.StartInfiniteScaleYAnimationWithTimer();
+        // Switch players.
+        if (SwitchPlayers && CurrentPlayer == SongPartMediaElement)
+        {
+            CurrentPlayer = SongPartMediaElement2;
+        }
+        else if (SwitchPlayers)
+        {
+            CurrentPlayer = SongPartMediaElement;
+        }
+
+        //SongPartMediaElement!.Play();
+        CurrentPlayer!.Play();
+
+        AnimationManager.songPart = songPart;
+        AnimationManager.StartInfiniteScaleYAnimationWithTimer();
     }
 
     /// <summary> Pauses whatever audio clip is playing now. </summary>
     internal static void PauseAudio()
     {
         PreSongPartMediaElement!.Pause();
-        SongPartMediaElement!.Pause();
+        //SongPartMediaElement!.Pause();
+        CurrentPlayer!.Pause();
         MainViewModel.CurrentSongPart.IsPlaying = false;
 
         OnPause?.Invoke(null, EventArgs.Empty);
@@ -66,8 +88,11 @@ internal static class AudioManager
     {
         if (MainViewModel.CurrentSongPart.Id >= 0)
         {
-            SongPartMediaElement!.Stop();
-            SongPartMediaElement.SeekTo(new TimeSpan(0));
+            //SongPartMediaElement!.Stop();
+            //SongPartMediaElement.SeekTo(new TimeSpan(0));
+
+            CurrentPlayer!.Stop();
+            CurrentPlayer.SeekTo(new TimeSpan(0));
 
             MainViewModel.CurrentSongPart.IsPlaying = false;
             MainViewModel.IsCurrentlyPlayingSongPart = false;
@@ -76,14 +101,17 @@ internal static class AudioManager
         }
     }
 
-    internal static void SetTimer()
+    internal static void SetTimer() => PreSongPartMediaElement!.Source = GetTimerMediaSource();
+
+    private static MediaSource? GetTimerMediaSource()
     {
-        switch (MainViewModel.TimerMode)
+        return MainViewModel.TimerMode switch
         {
-            case 1: PreSongPartMediaElement!.Source = MediaSource.FromResource("countdown-short.mp3"); break;
-            case 2: PreSongPartMediaElement!.Source = MediaSource.FromResource("countdown-long.mp3"); break;
-            case 3: PreSongPartMediaElement!.Source = MediaSource.FromResource("countdown-kart.mp3"); break;
-        }
+            1 => MediaSource.FromResource("countdown-short.mp3"),
+            2 => MediaSource.FromResource("countdown-long.mp3"),
+            3 => MediaSource.FromResource("countdown-kart.mp3"), // Special
+            _ => null
+        };
     }
 
     internal static void PlayTimer()
@@ -96,23 +124,30 @@ internal static class AudioManager
         PreSongPartMediaElement!.Play();
     }
     // TODO: Invoke OnMute to update audio icons.
-    internal static void SetMute() => SongPartMediaElement!.ShouldMute = CommonSettings.IsVolumeMuted;
+    //internal static void SetMute() => SongPartMediaElement!.ShouldMute = CommonSettings.IsVolumeMuted;
+    internal static void SetMute() => CurrentPlayer!.ShouldMute = CommonSettings.IsVolumeMuted;
 
     internal static void RestartAudio()
     {
         // TODO: RestartCountdown?
         if (MainViewModel.IsCurrentlyPlayingSongPart && MainViewModel.CurrentSongPart is not null)
         {
-            SongPartMediaElement?.SeekTo(new TimeSpan(0));
+            //SongPartMediaElement?.SeekTo(new TimeSpan(0));
+            CurrentPlayer?.SeekTo(new TimeSpan(0));
+            SwitchPlayers = false;
             PlayAudio(MainViewModel.CurrentSongPart);
         }
     }
 
     internal static void MoveAudioProgress(TimeSpan differenceInSeconds)
     {
-        if (SongPartMediaElement is null) { return; }
+        //if (SongPartMediaElement is null) { return; }
+        if (CurrentPlayer is null) { return; }
 
-        var newTimeSpan = SongPartMediaElement!.Position.Add(differenceInSeconds);
-        SongPartMediaElement?.SeekTo(newTimeSpan);
+        //var newTimeSpan = SongPartMediaElement!.Position.Add(differenceInSeconds);
+        //SongPartMediaElement?.SeekTo(newTimeSpan);
+
+        var newTimeSpan = CurrentPlayer!.Position.Add(differenceInSeconds);
+        CurrentPlayer?.SeekTo(newTimeSpan);
     }
 }

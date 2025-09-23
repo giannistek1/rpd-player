@@ -151,6 +151,7 @@ public partial class SongPartDetailBottomSheet
 
     private void TimerButton_Pressed(object sender, EventArgs e)
     {
+        // Cycle through timermodes.
         if (MainViewModel.TimerMode < 3)
         {
             MainViewModel.TimerMode++;
@@ -173,6 +174,7 @@ public partial class SongPartDetailBottomSheet
 
     private void AutoplayButton_Pressed(object sender, EventArgs e)
     {
+        // Cycle through autoplay modes.
         if (MainViewModel.AutoplayMode < 3)
         {
             MainViewModel.AutoplayMode++;

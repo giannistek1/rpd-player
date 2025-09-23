@@ -2,7 +2,7 @@
 
 namespace RpdPlayerApp.Managers;
 
-internal static class TimerManager
+internal static class AnimationManager
 {
     private static System.Timers.Timer? timer;
 #pragma warning disable S2223 // Non-constant static fields should not be visible

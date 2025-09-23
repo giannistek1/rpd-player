@@ -57,7 +57,9 @@
 
             <toolkit:MediaElement x:Name="AudioMediaElement" IsVisible="False"/>
             
+            <toolkit:MediaElement x:Name="AudioMediaElement2" IsVisible="False"/>
             <toolkit:MediaElement x:Name="LocalAudioMediaElement" IsVisible="False"/>
+            
 
         </Grid>
         

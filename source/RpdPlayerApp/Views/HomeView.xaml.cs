@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Items;
 using RpdPlayerApp.Managers;
@@ -8,11 +6,8 @@ using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.ViewModels;
 using Syncfusion.Maui.Core;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Text.Json;
-using static Dropbox.Api.Sharing.ListFileMembersIndividualResult;
 
 namespace RpdPlayerApp.Views;
 
@@ -61,7 +56,7 @@ public partial class HomeView : ContentView
 #endif
             InitializeCompanies();
             InitializeChipGroups();
-            SaveNews();
+            SaveNews().ConfigureAwait(false);
             HandleAutoStartRpd();
 
             ChipGroupSelectionChanged(null, null);
@@ -85,14 +80,14 @@ public partial class HomeView : ContentView
         }
     }
 
-    private List<NewsItem> CreateNewsItemsFromSongParts() => SongPartRepository.SongParts.Select(s => new NewsItem
+    private List<NewsItem> CreateNewsItemsFromSongParts() => [.. SongPartRepository.SongParts.Select(s => new NewsItem
     {
         Title = s.Title,
         Artist = s.ArtistName,
         Part = s.PartNameFull,
         AudioUrl = s.AudioURL,
         HasVideo = s.HasVideo
-    }).ToList();
+    })];
 
     private List<NewsItem> FindDifferentNewSongs(List<NewsItem> newSongList, List<NewsItem> oldSongList)
     {
@@ -251,7 +246,7 @@ public partial class HomeView : ContentView
         GrouptypesChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
-    private string[] _genreOptions = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "Pop"]; 
+    private string[] _genreOptions = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "Pop"];
     private void InitializeGenresChipGroup()
     {
         foreach (var option in _genreOptions)
@@ -315,7 +310,7 @@ public partial class HomeView : ContentView
         {
             CompaniesChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
         }
-        
+
         if (Preferences.ContainsKey(CommonSettings.HOME_COMPANIES))
         {
             var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_COMPANIES); // [2,3,4,5]
@@ -338,7 +333,7 @@ public partial class HomeView : ContentView
     private void InitializeYearsChipGroup()
     {
         List<string> options = ["< 2012"];
-        for(int year = 2012; year <= 2025; year++)
+        for (int year = 2012; year <= 2025; year++)
         {
             options.Add(year.ToString());
         }
@@ -490,7 +485,7 @@ public partial class HomeView : ContentView
 
     private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => AlbumCountLabel.Text = $"{AlbumRepository.Albums.Count}";
 
-    internal void FeedbackButtonPressed(object? sender, EventArgs e){ /* TODO: */ }
+    internal void FeedbackButtonPressed(object? sender, EventArgs e) { /* TODO: */ }
 
     internal async void SettingsButtonPressed(object? sender, EventArgs e)
     {
@@ -558,6 +553,7 @@ public partial class HomeView : ContentView
         if (!General.HasInternetConnection()) return;
 
         SetTimerMode();
+
         RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
         RpdSettings?.DetermineGenres(GenresChipGroup);
         RpdSettings?.DetermineGens(GenerationsChipGroup);
@@ -642,6 +638,9 @@ public partial class HomeView : ContentView
 
         MainViewModel.AutoplayMode = 2; // Shuffle
         MainViewModel.CurrentSongPart = songPart;
+
+        AudioManager.SwitchPlayers = false;
+
         PlaySongPart?.Invoke(this, EventArgs.Empty);
     }
 

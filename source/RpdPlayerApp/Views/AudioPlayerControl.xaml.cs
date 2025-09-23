@@ -1,6 +1,5 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core.Primitives;
-using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
@@ -9,6 +8,7 @@ using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
+/// <summary> The contentview at the bottom that has a slider. </summary>
 public partial class AudioPlayerControl : ContentView
 {
     internal EventHandler? Pause;
@@ -20,8 +20,12 @@ public partial class AudioPlayerControl : ContentView
     public AudioPlayerControl()
     {
         InitializeComponent();
-        AudioManager.SongPartMediaElement = AudioMediaElement;
+
         AudioManager.PreSongPartMediaElement = LocalAudioMediaElement;
+        AudioManager.SongPartMediaElement = AudioMediaElement;
+        AudioManager.SongPartMediaElement2 = AudioMediaElement2;
+        AudioManager.CurrentPlayer = AudioManager.SongPartMediaElement;
+
         Loaded += OnLoad;
     }
 
@@ -29,9 +33,12 @@ public partial class AudioPlayerControl : ContentView
     {
         audioProgressSlider = AudioProgressSlider;
 
+        LocalAudioMediaElement.MediaEnded += LocalAudioMediaElement_MediaEnded;
+
         AudioMediaElement.MediaEnded += AudioMediaElementMediaEnded;
         AudioMediaElement.PositionChanged += AudioMediaElementPositionChanged;
-        LocalAudioMediaElement.MediaEnded += LocalAudioMediaElement_MediaEnded;
+
+        AudioMediaElement2.MediaEnded += AudioMediaElementMediaEnded;
 
         AudioProgressSlider.DragStarted += AudioProgressSliderDragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
@@ -83,7 +90,8 @@ public partial class AudioPlayerControl : ContentView
         // This is very slow :(
         //CheckValidUrl(songPart);
 
-        UpdateNextSwipeItem();
+        SetNextSongSource();
+        UpdateNextSwipeItem(); // Obsolete for now.
     }
 
     // For updating theme.
@@ -286,7 +294,8 @@ public partial class AudioPlayerControl : ContentView
     private void LocalAudioMediaElement_MediaEnded(object? sender, EventArgs e)
     {
         MainViewModel.IsCurrentlyPlayingTimer = false;
-        PlayAudio(MainViewModel.SongToPlay);
+
+        PlayAudio(MainViewModel.CurrentSongPart);
     }
 
     internal void StopAudio()
@@ -350,6 +359,36 @@ public partial class AudioPlayerControl : ContentView
     }
 
     private void SetNextSwipeItem(bool isVisible, SongPart? songPart) { }
+
+    internal void SetNextSongSource()
+    {
+        if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.PlaylistQueue.Count > 0)
+        {
+            if (AudioManager.CurrentPlayer == AudioManager.SongPartMediaElement)
+            {
+                AudioManager.SongPartMediaElement2!.Source = MainViewModel.PlaylistQueue.Peek().AudioURL;
+            }
+            else
+            {
+                AudioManager.SongPartMediaElement!.Source = MainViewModel.PlaylistQueue.Peek().AudioURL;
+            }
+        }
+        else if (MainViewModel.PlayMode == PlayMode.Queue && MainViewModel.SongPartsQueue.Count > 0)
+        {
+            if (AudioManager.CurrentPlayer == AudioManager.SongPartMediaElement)
+            {
+                AudioManager.SongPartMediaElement2!.Source = MainViewModel.SongPartsQueue.Peek().AudioURL;
+            }
+            else
+            {
+                AudioManager.SongPartMediaElement!.Source = MainViewModel.SongPartsQueue.Peek().AudioURL;
+            }
+        }
+        else
+        {
+            SetNextSwipeItem(isVisible: false, songPart: null);
+        }
+    }
 
     private const int TimerInterval = 5000; // Scroll every 5 seconds
     private void StartTitleAutoScroll()
