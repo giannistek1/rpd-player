@@ -1,8 +1,6 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core.Extensions;
+﻿using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
-using RpdPlayerApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
@@ -34,9 +32,9 @@ internal static class SongPartRepository
         substractedSongParts = 0;
 #endif
 
-        for (int i = 0; i < (matches.Count / MainViewModel.SongPartPropertyAmount) - substractedSongParts; i++)
+        for (int i = 0; i < (matches.Count / Constants.SongPartPropertyAmount) - substractedSongParts; i++)
         {
-            int n = MainViewModel.SongPartPropertyAmount * i; // i = Songpart number
+            int n = Constants.SongPartPropertyAmount * i; // i = Songpart number
 
             try
             {
@@ -55,15 +53,15 @@ internal static class SongPartRepository
                     audioURL: matches[n + 6].Groups[1].Value,
                     videoURL: videoURL
                 );
-                
+
                 songPart.Artist!.SongPartCount++;
                 // For filtered list.
-                songPart.Artist.FilteredTotalCount++; 
+                songPart.Artist.FilteredTotalCount++;
 
                 songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
                 SongParts.Add(songPart);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SentrySdk.CaptureMessage($"ERROR: {typeof(SongPartRepository).Name}, songpart {i + 1}, {ex.Message}");
                 General.ShowToast($"ERROR: InitSongPart songpart {i + 1}. {ex.Message}");
@@ -98,5 +96,5 @@ internal static class SongPartRepository
 
     internal static SongPart GetRandomSongPart() => SongParts[General.Rng.Next(SongParts.Count)];
 
-    internal static List<SongPart> GetSongPartsByGeneration(string generation) => SongParts.Where(s => s.Artist?.Generation == generation && s.Album?.GenreShort == MainViewModel.GenreKpop).ToList();
+    internal static List<SongPart> GetSongPartsByGeneration(string generation) => SongParts.Where(s => s.Artist?.Generation == generation && s.Album?.GenreShort == Constants.GenreKpop).ToList();
 }

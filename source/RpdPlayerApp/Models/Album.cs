@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using RpdPlayerApp.ViewModels;
+using RpdPlayerApp.Architecture;
 
 namespace RpdPlayerApp.Models;
 
@@ -43,7 +43,7 @@ internal class Album
     {
         return GenreShort switch
         {
-            MainViewModel.GenreKpop => "K-pop",
+            Constants.GenreKpop => "K-pop",
             "krnb" => "K-RnB",
             "JP" => "J-pop",
             "CH" => "C-pop",

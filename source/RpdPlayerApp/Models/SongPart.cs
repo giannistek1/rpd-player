@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Repositories;
-using RpdPlayerApp.ViewModels;
 using System.ComponentModel;
 
 namespace RpdPlayerApp.Models;
@@ -182,7 +182,7 @@ internal partial class SongPart : INotifyPropertyChanged
         Album = AlbumRepository.MatchAlbum(artistName: artistName, albumTitle: albumTitle);
         Artist = ArtistRepository.MatchArtist(artistName: artistName);
 
-        if (Album.GenreShort == MainViewModel.GenreKpop)
+        if (Album.GenreShort == Constants.GenreKpop)
         {
             Artist.IsKpopArtist = true;
             Artist.DecideGeneration();

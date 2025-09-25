@@ -13,7 +13,7 @@
 
     <ScrollView>
 
-        <Grid RowDefinitions="30,30, 60, 44, 40, 40, 40" Padding="8,0,8,0">
+        <Grid RowDefinitions="30, 30, 60, 44, 40, 40, 40" Padding="8,0,8,0">
 
             <Grid Grid.Row="0" ColumnDefinitions="*, *">
                 <Label Grid.Column="0" Text="Total activity time" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="Center" HorizontalOptions="Start" />
@@ -57,6 +57,7 @@
             </Grid>
 
             <!-- Options -->
+            <!-- Non-Choreo songs -->
             <Grid Grid.Row="4" ColumnDefinitions="*,*">
 
                 <Label Grid.Column="0" Text="Non-choreography songs" VerticalOptions="Center" HorizontalOptions="Start" />
@@ -65,20 +66,30 @@
 
             </Grid>
 
-
+            <!-- Start rpd automatic -->
             <Grid Grid.Row="5" ColumnDefinitions="*,*">
 
-                <Label Grid.Column="0" Text="Start RPD automatic " VerticalOptions="Center" HorizontalOptions="Start" />
+                <Label Grid.Column="0" Text="Start RPD automatic (experimental)" VerticalOptions="Center" HorizontalOptions="Start" />
 
                 <Switch Grid.Column="1" x:Name="StartRpdAutomaticSwitch" HorizontalOptions="End" />
 
             </Grid>
 
-            <Grid Grid.Row="6" ColumnDefinitions="*,*" IsVisible="False">
+            <!-- Analytics -->
+            <!--<Grid Grid.Row="6" ColumnDefinitions="*,*" IsVisible="False">
 
-                <Label Grid.Column="0" Text="Send analytics and crash reports " VerticalOptions="Center" HorizontalOptions="Start" />
+                <Label Grid.Column="0" Text="Send analytics and crash reports" VerticalOptions="Center" HorizontalOptions="Start" />
 
                 <Switch Grid.Column="1" x:Name="AnalyticsSwitch" HorizontalOptions="End" />
+
+            </Grid>-->
+
+            <!-- Debug stats -->
+            <Grid Grid.Row="6" ColumnDefinitions="*,*">
+
+                <Label Grid.Column="0" Text="Show debug info" VerticalOptions="Center" HorizontalOptions="Start" />
+
+                <Switch Grid.Column="1" x:Name="DebugSwitch" HorizontalOptions="End" />
 
             </Grid>
 

@@ -9,13 +9,13 @@ internal class PlaylistsManager
 
     internal bool TryAddSongPartToPlaylist(string playlistName, SongPart songPartToAdd)
     {
-        var playlistExists = MainViewModel.Playlists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
+        var playlistExists = AppState.Playlists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         if (playlistExists is null)
         {
             var playlist = new Playlist(creationDate: DateTime.Now, name: playlistName);
             playlist.SongParts.Add(songPartToAdd);
 
-            MainViewModel.Playlists.Add(playlist);
+            AppState.Playlists.Add(playlist);
             return true;
         }
         else
@@ -32,7 +32,7 @@ internal class PlaylistsManager
 
     internal bool SongPartIsInPlaylist(string playlistName, SongPart? songPart)
     {
-        var playlist = MainViewModel.Playlists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
+        var playlist = AppState.Playlists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
 
         if (playlist is not null && playlist.SongParts.Any(s => s.AudioURL == songPart?.AudioURL))
         {

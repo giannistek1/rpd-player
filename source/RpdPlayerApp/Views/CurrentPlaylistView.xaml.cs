@@ -45,18 +45,18 @@ public partial class CurrentPlaylistView : ContentView
         if (!CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts.Any()) { return; }
 
         // Change mode to playlist
-        MainViewModel.PlayMode = PlayMode.Playlist;
+        AppState.PlayMode = PlayMode.Playlist;
 
         // Clear playlist queue and fill playlist queue
-        MainViewModel.PlaylistQueue.Clear();
+        AppState.PlaylistQueue.Clear();
 
         List<SongPart> songParts = [.. CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts];
         foreach (var songPart in songParts)
         {
-            MainViewModel.PlaylistQueue.Enqueue(songPart);
+            AppState.PlaylistQueue.Enqueue(songPart);
         }
 
-        MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
+        AppState.CurrentSongPart = AppState.PlaylistQueue.Dequeue();
 
         PlaySongPart!.Invoke(sender, e);
     }
@@ -82,7 +82,7 @@ public partial class CurrentPlaylistView : ContentView
         }
 
         // TODO: Is dit logisch hier?
-        if (MainViewModel.UsingCloudMode && General.HasInternetConnection())
+        if (AppState.UsingCloudMode && General.HasInternetConnection())
         {
             try
             {
@@ -98,9 +98,9 @@ public partial class CurrentPlaylistView : ContentView
 
     internal void ToggleCloudModePressed(object? sender, EventArgs e)
     {
-        MainViewModel.UsingCloudMode = !MainViewModel.UsingCloudMode;
+        AppState.UsingCloudMode = !AppState.UsingCloudMode;
 
-        string toastText = MainViewModel.UsingCloudMode ? "Playlist will save online" : "Playlist will save locally";
+        string toastText = AppState.UsingCloudMode ? "Playlist will save online" : "Playlist will save locally";
         General.ShowToast(toastText);
 
         ParentPage?.SetupLibraryOrCurrentPlaylistToolbar();
@@ -167,20 +167,20 @@ public partial class CurrentPlaylistView : ContentView
 
         if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
         {
-            MainViewModel.PlayMode = PlayMode.Playlist;
+            AppState.PlayMode = PlayMode.Playlist;
 
-            MainViewModel.PlaylistQueue.Clear();
+            AppState.PlaylistQueue.Clear();
 
             List<SongPart> songParts = [.. CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts];
             int index = songParts.FindIndex(s => s.Id == songPart.Id);
 
             while (index < songParts.Count)
             {
-                MainViewModel.PlaylistQueue.Enqueue(songParts[index]);
+                AppState.PlaylistQueue.Enqueue(songParts[index]);
                 index++;
             }
 
-            MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
+            AppState.CurrentSongPart = AppState.PlaylistQueue.Dequeue();
 
             PlaySongPart?.Invoke(sender, e);
         }
@@ -195,7 +195,7 @@ public partial class CurrentPlaylistView : ContentView
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
         {
-            MainViewModel.CurrentSongPart = songPart;
+            AppState.CurrentSongPart = songPart;
             PlaySongPart!.Invoke(sender, e);
         }
     }

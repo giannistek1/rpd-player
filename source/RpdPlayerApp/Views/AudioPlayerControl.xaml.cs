@@ -54,7 +54,7 @@ public partial class AudioPlayerControl : ContentView
 
     private void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
     {
-        if (MainViewModel.CurrentSongPart is null || MainViewModel.CurrentSongPart.Id < 0) { return; }
+        if (AppState.CurrentSongPart is null || AppState.CurrentSongPart.Id < 0) { return; }
 
         ShowDetails?.Invoke(sender, e);
     }
@@ -97,7 +97,7 @@ public partial class AudioPlayerControl : ContentView
     // For updating theme.
     internal void UpdateUI()
     {
-        PlayToggleImageButton.Source = MainViewModel.IsCurrentlyPlayingSongPart ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = AppState.IsCurrentlyPlayingSongPart ? IconManager.PauseIcon : IconManager.PlayIcon;
         PlayToggleBorder.Background = (Color)Application.Current!.Resources["PrimaryButton"];
     }
 
@@ -135,56 +135,56 @@ public partial class AudioPlayerControl : ContentView
         CommonSettings.RecalculateTotalActivityTime();
         Preferences.Set(CommonSettings.TOTAL_ACTIVITY_TIME, CommonSettings.TotalActivityTime.ToString());
 
-        switch (MainViewModel.PlayMode)
+        switch (AppState.PlayMode)
         {
             case PlayMode.Queue:
 
-                MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
+                AppState.SongPartHistory.Add(AppState.CurrentSongPart);
 
                 // Choose song
-                if (MainViewModel.AutoplayMode == 1) // Autoplay
+                if (AppState.AutoplayMode == 1) // Autoplay
                 {
-                    int index = MainViewModel.SongParts.FindIndex(s => s.AudioURL == MainViewModel.CurrentSongPart.AudioURL);
+                    int index = AppState.SongParts.FindIndex(s => s.AudioURL == AppState.CurrentSongPart.AudioURL);
 
                     // Imagine index = 1220, count = 1221
-                    if (index + 1 < MainViewModel.SongParts.Count)
+                    if (index + 1 < AppState.SongParts.Count)
                     {
-                        MainViewModel.SongPartsQueue.Enqueue(MainViewModel.SongParts[index + 1]);
+                        AppState.SongPartsQueue.Enqueue(AppState.SongParts[index + 1]);
                     }
                 }
-                else if (MainViewModel.AutoplayMode == 2) // Shuffle
+                else if (AppState.AutoplayMode == 2) // Shuffle
                 {
-                    int index = General.Rng.Next(MainViewModel.SongParts.Count);
-                    MainViewModel.SongPartsQueue.Enqueue(MainViewModel.SongParts[index]);
+                    int index = General.Rng.Next(AppState.SongParts.Count);
+                    AppState.SongPartsQueue.Enqueue(AppState.SongParts[index]);
                 }
-                else if (MainViewModel.AutoplayMode == 3) // Repeat one
+                else if (AppState.AutoplayMode == 3) // Repeat one
                 {
                     // TOOD: Rewrite with audioplayer.LoopPlayback = true (saves data and performance?)
-                    MainViewModel.SongPartsQueue.Enqueue(MainViewModel.CurrentSongPart);
+                    AppState.SongPartsQueue.Enqueue(AppState.CurrentSongPart);
                 }
 
-                if (MainViewModel.SongPartsQueue.Count == 0)
+                if (AppState.SongPartsQueue.Count == 0)
                 {
                     if (AudioProgressSlider.Value >= AudioProgressSlider.Maximum - 2) { AudioManager.StopAudio(); }
                     return;
                 }
 
                 // Next song
-                MainViewModel.CurrentSongPart = MainViewModel.SongPartsQueue.Dequeue();
-                if (MainViewModel.TimerMode > 0)
+                AppState.CurrentSongPart = AppState.SongPartsQueue.Dequeue();
+                if (AppState.TimerMode > 0)
                 {
                     PlayCountdownAndUpdateCurrentSong();
                 }
                 else
                 {
-                    PlayAudio(MainViewModel.CurrentSongPart, updateCurrentSong: true);
+                    PlayAudio(AppState.CurrentSongPart, updateCurrentSong: true);
                 }
 
-                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]); //^1 means count minus 1
+                SetPreviousSwipeItem(isVisible: true, songPart: AppState.SongPartHistory[^1]); //^1 means count minus 1
 
-                if (MainViewModel.SongPartsQueue.Count > 0)
+                if (AppState.SongPartsQueue.Count > 0)
                 {
-                    SetNextSwipeItem(isVisible: true, songPart: MainViewModel.SongPartsQueue.Peek());
+                    SetNextSwipeItem(isVisible: true, songPart: AppState.SongPartsQueue.Peek());
                 }
 
                 break;
@@ -193,26 +193,26 @@ public partial class AudioPlayerControl : ContentView
 
                 // TODO: When play new song, clear queue, add queue?
 
-                MainViewModel.SongPartHistory.Add(MainViewModel.CurrentSongPart);
+                AppState.SongPartHistory.Add(AppState.CurrentSongPart);
 
                 // If queue empty, return
-                if (MainViewModel.PlaylistQueue.Count == 0) { return; }
+                if (AppState.PlaylistQueue.Count == 0) { return; }
 
-                MainViewModel.CurrentSongPart = MainViewModel.PlaylistQueue.Dequeue();
-                if (MainViewModel.TimerMode >= 1)
+                AppState.CurrentSongPart = AppState.PlaylistQueue.Dequeue();
+                if (AppState.TimerMode >= 1)
                 {
                     PlayCountdownAndUpdateCurrentSong();
                 }
                 else
                 {
-                    PlayAudio(MainViewModel.CurrentSongPart, updateCurrentSong: true);
+                    PlayAudio(AppState.CurrentSongPart, updateCurrentSong: true);
                 }
 
-                SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]);
+                SetPreviousSwipeItem(isVisible: true, songPart: AppState.SongPartHistory[^1]);
 
-                if (MainViewModel.PlaylistQueue.Count > 0)
+                if (AppState.PlaylistQueue.Count > 0)
                 {
-                    SetNextSwipeItem(isVisible: true, songPart: MainViewModel.PlaylistQueue.Peek());
+                    SetNextSwipeItem(isVisible: true, songPart: AppState.PlaylistQueue.Peek());
                 }
 
                 break;
@@ -224,17 +224,17 @@ public partial class AudioPlayerControl : ContentView
     /// <param name="e"> </param>
     internal void PlayToggleButton_Pressed(object sender, EventArgs e)
     {
-        if (MainViewModel.TimerMode == 0 || MainViewModel.IsCurrentlyPlayingSongPart)
+        if (AppState.TimerMode == 0 || AppState.IsCurrentlyPlayingSongPart)
         {
             // If audio is done playing.
             if (AudioMediaElement.CurrentState == MediaElementState.Stopped && AudioMediaElement.Position >= AudioMediaElement.Duration)
             {
-                AudioManager.PlayAudio(MainViewModel.CurrentSongPart);
+                AudioManager.PlayAudio(AppState.CurrentSongPart);
             }
             // If audio is paused (in middle).
             else if (AudioMediaElement.CurrentState == MediaElementState.Paused || AudioMediaElement.CurrentState == MediaElementState.Stopped)
             {
-                AudioManager.PlayAudio(MainViewModel.CurrentSongPart);
+                AudioManager.PlayAudio(AppState.CurrentSongPart);
             }
             // Else pause.
             else if (AudioMediaElement.CurrentState == MediaElementState.Playing)
@@ -242,7 +242,7 @@ public partial class AudioPlayerControl : ContentView
                 AudioManager.PauseAudio();
             }
         }
-        else if (MainViewModel.TimerMode > 0)
+        else if (AppState.TimerMode > 0)
         {
             // If audio is done playing.
             if (LocalAudioMediaElement.CurrentState == MediaElementState.Stopped && LocalAudioMediaElement.Position >= LocalAudioMediaElement.Duration)
@@ -264,19 +264,19 @@ public partial class AudioPlayerControl : ContentView
 
     internal void PlayPreviousSongPart(object sender, EventArgs e)
     {
-        if (MainViewModel.SongPartHistory.Count > 0)
+        if (AppState.SongPartHistory.Count > 0)
         {
-            MainViewModel.CurrentSongPart = MainViewModel.SongPartHistory[^1]; // Set current song with 2nd last song. ^ Means from end.
+            AppState.CurrentSongPart = AppState.SongPartHistory[^1]; // Set current song with 2nd last song. ^ Means from end.
 
-            if (MainViewModel.TimerMode >= 1)
+            if (AppState.TimerMode >= 1)
             {
                 PlayCountdownAndUpdateCurrentSong();
             }
             else
             {
-                PlayAudio(MainViewModel.SongPartHistory[^1], updateCurrentSong: true);
+                PlayAudio(AppState.SongPartHistory[^1], updateCurrentSong: true);
             }
-            MainViewModel.SongPartHistory.RemoveAt(MainViewModel.SongPartHistory.Count - 1);
+            AppState.SongPartHistory.RemoveAt(AppState.SongPartHistory.Count - 1);
 
             UpdatePreviousSwipeItem();
         }
@@ -288,14 +288,14 @@ public partial class AudioPlayerControl : ContentView
     {
         AudioManager.SetTimer();
         AudioManager.PlayTimer();
-        AudioManager.ChangeSongPart(MainViewModel.CurrentSongPart);
+        AudioManager.ChangeSongPart(AppState.CurrentSongPart);
     }
 
     private void LocalAudioMediaElement_MediaEnded(object? sender, EventArgs e)
     {
-        MainViewModel.IsCurrentlyPlayingTimer = false;
+        AppState.IsCurrentlyPlayingTimer = false;
 
-        PlayAudio(MainViewModel.CurrentSongPart);
+        PlayAudio(AppState.CurrentSongPart);
     }
 
     internal void StopAudio()
@@ -303,8 +303,8 @@ public partial class AudioPlayerControl : ContentView
         AudioMediaElement.Stop();
         AudioMediaElement.SeekTo(new TimeSpan(0));
 
-        MainViewModel.CurrentSongPart.IsPlaying = false;
-        MainViewModel.IsCurrentlyPlayingSongPart = false;
+        AppState.CurrentSongPart.IsPlaying = false;
+        AppState.IsCurrentlyPlayingSongPart = false;
     }
 
     private void CheckValidUrl(SongPart songPart)
@@ -326,13 +326,13 @@ public partial class AudioPlayerControl : ContentView
 
     internal void UpdatePreviousSwipeItem()
     {
-        if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.SongPartHistory.Count > 0)
+        if (AppState.PlayMode == PlayMode.Playlist && AppState.SongPartHistory.Count > 0)
         {
-            SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]);
+            SetPreviousSwipeItem(isVisible: true, songPart: AppState.SongPartHistory[^1]);
         }
-        else if (MainViewModel.PlayMode == PlayMode.Queue && MainViewModel.SongPartHistory.Count > 0)
+        else if (AppState.PlayMode == PlayMode.Queue && AppState.SongPartHistory.Count > 0)
         {
-            SetPreviousSwipeItem(isVisible: true, songPart: MainViewModel.SongPartHistory[^1]);
+            SetPreviousSwipeItem(isVisible: true, songPart: AppState.SongPartHistory[^1]);
         }
         else
         {
@@ -344,13 +344,13 @@ public partial class AudioPlayerControl : ContentView
 
     internal void UpdateNextSwipeItem()
     {
-        if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.PlaylistQueue.Count > 0)
+        if (AppState.PlayMode == PlayMode.Playlist && AppState.PlaylistQueue.Count > 0)
         {
-            SetNextSwipeItem(isVisible: true, songPart: MainViewModel.PlaylistQueue.Peek());
+            SetNextSwipeItem(isVisible: true, songPart: AppState.PlaylistQueue.Peek());
         }
-        else if (MainViewModel.PlayMode == PlayMode.Queue && MainViewModel.SongPartsQueue.Count > 0)
+        else if (AppState.PlayMode == PlayMode.Queue && AppState.SongPartsQueue.Count > 0)
         {
-            SetNextSwipeItem(isVisible: true, songPart: MainViewModel.SongPartsQueue.Peek());
+            SetNextSwipeItem(isVisible: true, songPart: AppState.SongPartsQueue.Peek());
         }
         else
         {
@@ -362,26 +362,26 @@ public partial class AudioPlayerControl : ContentView
 
     internal void SetNextSongSource()
     {
-        if (MainViewModel.PlayMode == PlayMode.Playlist && MainViewModel.PlaylistQueue.Count > 0)
+        if (AppState.PlayMode == PlayMode.Playlist && AppState.PlaylistQueue.Count > 0)
         {
             if (AudioManager.CurrentPlayer == AudioManager.SongPartMediaElement)
             {
-                AudioManager.SongPartMediaElement2!.Source = MainViewModel.PlaylistQueue.Peek().AudioURL;
+                AudioManager.SongPartMediaElement2!.Source = AppState.PlaylistQueue.Peek().AudioURL;
             }
             else
             {
-                AudioManager.SongPartMediaElement!.Source = MainViewModel.PlaylistQueue.Peek().AudioURL;
+                AudioManager.SongPartMediaElement!.Source = AppState.PlaylistQueue.Peek().AudioURL;
             }
         }
-        else if (MainViewModel.PlayMode == PlayMode.Queue && MainViewModel.SongPartsQueue.Count > 0)
+        else if (AppState.PlayMode == PlayMode.Queue && AppState.SongPartsQueue.Count > 0)
         {
             if (AudioManager.CurrentPlayer == AudioManager.SongPartMediaElement)
             {
-                AudioManager.SongPartMediaElement2!.Source = MainViewModel.SongPartsQueue.Peek().AudioURL;
+                AudioManager.SongPartMediaElement2!.Source = AppState.SongPartsQueue.Peek().AudioURL;
             }
             else
             {
-                AudioManager.SongPartMediaElement!.Source = MainViewModel.SongPartsQueue.Peek().AudioURL;
+                AudioManager.SongPartMediaElement!.Source = AppState.SongPartsQueue.Peek().AudioURL;
             }
         }
         else

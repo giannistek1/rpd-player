@@ -65,10 +65,10 @@ public partial class SongPartDetailBottomSheet
     internal void UpdateIcons()
     {
         // TODO: Set image to play once song ends.
-        PlayToggleImageButton.Source = MainViewModel.CurrentSongPart.IsPlaying || MainViewModel.IsCurrentlyPlayingTimer ? IconManager.PauseIcon : IconManager.PlayIcon;
-        VoiceImageButton.Source = MainViewModel.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
+        PlayToggleImageButton.Source = AppState.CurrentSongPart.IsPlaying || AppState.IsCurrentlyPlayingTimer ? IconManager.PauseIcon : IconManager.PlayIcon;
+        VoiceImageButton.Source = AppState.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
         // TODO: Enums
-        TimerImageButton.Source = MainViewModel.TimerMode switch
+        TimerImageButton.Source = AppState.TimerMode switch
         {
             0 => IconManager.TimerOffIcon,
             1 => IconManager.Timer3Icon,
@@ -76,7 +76,7 @@ public partial class SongPartDetailBottomSheet
             _ => IconManager.TimerOffIcon
         };
 
-        AutoplayImageButton.Source = MainViewModel.AutoplayMode switch
+        AutoplayImageButton.Source = AppState.AutoplayMode switch
         {
             0 => IconManager.OffIcon,
             1 => IconManager.AutoplayIcon,
@@ -152,16 +152,16 @@ public partial class SongPartDetailBottomSheet
     private void TimerButton_Pressed(object sender, EventArgs e)
     {
         // Cycle through timermodes.
-        if (MainViewModel.TimerMode < 3)
+        if (AppState.TimerMode < 3)
         {
-            MainViewModel.TimerMode++;
+            AppState.TimerMode++;
         }
         else
         {
-            MainViewModel.TimerMode = 0;
+            AppState.TimerMode = 0;
         }
 
-        switch (MainViewModel.TimerMode)
+        switch (AppState.TimerMode)
         {
             case 0: TimerImageButton.Source = IconManager.TimerOffIcon; break;
             case 1: TimerImageButton.Source = IconManager.Timer3Icon; break;
@@ -175,16 +175,16 @@ public partial class SongPartDetailBottomSheet
     private void AutoplayButton_Pressed(object sender, EventArgs e)
     {
         // Cycle through autoplay modes.
-        if (MainViewModel.AutoplayMode < 3)
+        if (AppState.AutoplayMode < 3)
         {
-            MainViewModel.AutoplayMode++;
+            AppState.AutoplayMode++;
         }
         else
         {
-            MainViewModel.AutoplayMode = 0;
+            AppState.AutoplayMode = 0;
         }
 
-        switch (MainViewModel.AutoplayMode)
+        switch (AppState.AutoplayMode)
         {
             case 0: AutoplayImageButton.Source = IconManager.OffIcon; break;
             case 1: AutoplayImageButton.Source = IconManager.AutoplayIcon; break;
@@ -192,16 +192,16 @@ public partial class SongPartDetailBottomSheet
             case 3: AutoplayImageButton.Source = IconManager.RepeatOneIcon; break;
         }
 
-        //Toast.Make($"Autoplay: {MainViewModel.AutoplayMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        //Toast.Make($"Autoplay: {AppState.AutoplayMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
     private void VoiceButton_Pressed(object sender, EventArgs e)
     {
-        MainViewModel.UsingAnnouncements = !MainViewModel.UsingAnnouncements;
+        AppState.UsingAnnouncements = !AppState.UsingAnnouncements;
 
-        VoiceImageButton.Source = MainViewModel.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
+        VoiceImageButton.Source = AppState.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
 
-        if (MainViewModel.UsingAnnouncements)
+        if (AppState.UsingAnnouncements)
         {
             General.ShowToast("Using voiced announcements.");
         }

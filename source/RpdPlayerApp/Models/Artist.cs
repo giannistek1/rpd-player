@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
-using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Models;
 
@@ -26,7 +25,7 @@ internal class Artist
     public string GroupTypeColor { get; set; }
     public int MemberCount { get; set; }
     public string Company { get; set; }
-    public string Generation { get; set; } = MainViewModel.NOT_KPOP;
+    public string Generation { get; set; } = Constants.NOT_KPOP;
     public Gen Gen { get; set; }
 
     /// <summary> Gets set in SongPart.cs once an album is Korean. </summary>
@@ -72,29 +71,29 @@ internal class Artist
     /// <summary> Kpop only. </summary>
     public void DecideGeneration()
     {
-        if (DebutDate < MainViewModel.secondGenStartDate)
+        if (DebutDate < Constants.secondGenStartDate)
         {
-            Generation = MainViewModel.FIRST_GENERATION;
+            Generation = Constants.FIRST_GENERATION;
             Gen = Gen.First;
         }
-        else if (DebutDate > MainViewModel.secondGenStartDate && DebutDate < MainViewModel.thirdGenStartDate)
+        else if (DebutDate > Constants.secondGenStartDate && DebutDate < Constants.thirdGenStartDate)
         {
-            Generation = MainViewModel.SECOND_GENERATION;
+            Generation = Constants.SECOND_GENERATION;
             Gen = Gen.Second;
         }
-        else if (DebutDate > MainViewModel.thirdGenStartDate && DebutDate < MainViewModel.fourthGenStartDate)
+        else if (DebutDate > Constants.thirdGenStartDate && DebutDate < Constants.fourthGenStartDate)
         {
-            Generation = MainViewModel.THIRD_GENERATION;
+            Generation = Constants.THIRD_GENERATION;
             Gen = Gen.Third;
         }
-        else if (DebutDate > MainViewModel.fourthGenStartDate && DebutDate < MainViewModel.fifthGenStartDate)
+        else if (DebutDate > Constants.fourthGenStartDate && DebutDate < Constants.fifthGenStartDate)
         {
-            Generation = MainViewModel.FOURTH_GENERATION;
+            Generation = Constants.FOURTH_GENERATION;
             Gen = Gen.Fourth;
         }
-        else if (DebutDate > MainViewModel.fifthGenStartDate)
+        else if (DebutDate > Constants.fifthGenStartDate)
         {
-            Generation = MainViewModel.FIFTH_GENERATION;
+            Generation = Constants.FIFTH_GENERATION;
             Gen = Gen.Fifth;
         }
     }

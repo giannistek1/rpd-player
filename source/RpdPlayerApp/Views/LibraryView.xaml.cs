@@ -1,11 +1,9 @@
-using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
-using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
 namespace RpdPlayerApp.Views;
@@ -59,11 +57,11 @@ public partial class LibraryView : ContentView
                 var pattern = @"\{(.*?)\}";
                 var matches = Regex.Matches(result, pattern);
 
-                for (int i = 0; i < matches.Count / MainViewModel.SongPartPropertyAmount; i++)
+                for (int i = 0; i < matches.Count / Constants.SongPartPropertyAmount; i++)
                 {
                     try
                     {
-                        int n = MainViewModel.SongPartPropertyAmount * i; // songpart number
+                        int n = Constants.SongPartPropertyAmount * i; // songpart number
 
                         string artistName = matches[n + 0].Groups[1].Value;
                         string albumTitle = matches[n + 1].Groups[1].Value;
@@ -83,7 +81,7 @@ public partial class LibraryView : ContentView
                         songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
                         playlist.SongParts.Add(songPart);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         //SentrySdk.CaptureMessage($"ERROR: {typeof(LibraryView).Name}, songpart {i + 1}, {ex.Message}");
                         General.ShowToast($"ERROR: LoadPlaylists songpart {i + 1}. {ex.Message}");
@@ -94,10 +92,10 @@ public partial class LibraryView : ContentView
                 playlists.Add(playlist);
             }
 
-            MainViewModel.Playlists = playlists.ToObservableCollection();
+            AppState.Playlists = playlists.ToObservableCollection();
         }
 
-        PlaylistsListView.ItemsSource = MainViewModel.Playlists;
+        PlaylistsListView.ItemsSource = AppState.Playlists;
     }
 
     private void PlaylistsListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
@@ -125,7 +123,7 @@ public partial class LibraryView : ContentView
                 SongParts = []
             };
 
-            MainViewModel.Playlists.Add(playlist);
+            AppState.Playlists.Add(playlist);
         }
         catch (Exception ex)
         {
@@ -156,10 +154,10 @@ public partial class LibraryView : ContentView
 
     private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
     {
-        MainViewModel.CurrentSongPart = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts[0];
+        AppState.CurrentSongPart = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts[0];
 
         // Change mode to playlist
-        MainViewModel.PlayMode = PlayMode.Playlist;
+        AppState.PlayMode = PlayMode.Playlist;
         PlayPlaylist?.Invoke(sender, e);
     }
 
@@ -182,7 +180,7 @@ public partial class LibraryView : ContentView
             if (accept)
             {
                 File.Delete(playlist.LocalPath);
-                MainViewModel.Playlists.Remove(playlist);
+                AppState.Playlists.Remove(playlist);
             }
         }
     }
@@ -198,7 +196,7 @@ public partial class LibraryView : ContentView
             {
                 var pattern = @"\{(.*?)\}";
                 var matches = Regex.Matches(line, pattern);
-                if (matches.Count < MainViewModel.SongPartPropertyAmount)
+                if (matches.Count < Constants.SongPartPropertyAmount)
                 {
                     General.ShowToast("Found invalid or outdated playlists! They have been removed.");
                     File.Delete(file);

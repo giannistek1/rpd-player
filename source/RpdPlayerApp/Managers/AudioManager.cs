@@ -31,14 +31,38 @@ internal static class AudioManager
     internal static void ChangeSongPart(SongPart songPart)
     {
         DetailBottomSheet!.songPart = songPart;
+        //if (CurrentPlayer == SongPartMediaElement && !IsFirstSong)
+        //{
+        //    SongPartMediaElement2!.Source = MediaSource.FromUri(songPart.AudioURL);
+        //}
+        //else
+        //{
+        //    SongPartMediaElement!.Source = MediaSource.FromUri(songPart.AudioURL);
+        //}
         //SongPartMediaElement!.Source = MediaSource.FromUri(songPart.AudioURL);
         CurrentPlayer!.Source = MediaSource.FromUri(songPart.AudioURL);
 
         OnChange?.Invoke(null, new MyEventArgs(songPart));
     }
 
+    //internal static bool IsFirstSong { get; set; } = true;
+    //internal static bool SwitchPlayers { get; set; } = true;
 
-    internal static bool SwitchPlayers { get; set; } = true;
+    //internal static void SwitchCurrentPlayer()
+    //{
+    //    // Switch players.
+    //    if (SwitchPlayers && CurrentPlayer == SongPartMediaElement)
+    //    {
+    //        CurrentPlayer!.Stop();
+    //        CurrentPlayer = SongPartMediaElement2;
+    //    }
+    //    else if (SwitchPlayers)
+    //    {
+    //        CurrentPlayer!.Stop();
+    //        CurrentPlayer = SongPartMediaElement;
+    //    }
+    //}
+
     /// <summary>
     /// Precondition: Internet connection. Use ChangeSongPart first or change the source. <br />
     /// Plays current songpart and alerts subscribers.
@@ -50,26 +74,25 @@ internal static class AudioManager
 
         // Update variables.
         songPart.IsPlaying = true;
-        MainViewModel.IsCurrentlyPlayingSongPart = true;
-        MainViewModel.CurrentSongPart.IsPlaying = true;
+        AppState.IsCurrentlyPlayingSongPart = true;
+        AppState.CurrentSongPart.IsPlaying = true;
 
         OnPlay?.Invoke(null, EventArgs.Empty);
-
-        // Switch players.
-        if (SwitchPlayers && CurrentPlayer == SongPartMediaElement)
-        {
-            CurrentPlayer = SongPartMediaElement2;
-        }
-        else if (SwitchPlayers)
-        {
-            CurrentPlayer = SongPartMediaElement;
-        }
 
         //SongPartMediaElement!.Play();
         CurrentPlayer!.Play();
 
+        //DebugService.Instance.AddDebug(msg: $"SwitchPlayers: {SwitchPlayers}");
+        DebugService.Instance.AddDebug(msg: $"Player: {(CurrentPlayer == SongPartMediaElement ? "SongPartMediaElement" : "SongPartMediaElement2")}");
+
         AnimationManager.songPart = songPart;
         AnimationManager.StartInfiniteScaleYAnimationWithTimer();
+
+        //if (IsFirstSong)
+        //{
+        //    IsFirstSong = false;
+        //    AudioManager.SwitchPlayers = true;
+        //}
     }
 
     /// <summary> Pauses whatever audio clip is playing now. </summary>
@@ -78,7 +101,7 @@ internal static class AudioManager
         PreSongPartMediaElement!.Pause();
         //SongPartMediaElement!.Pause();
         CurrentPlayer!.Pause();
-        MainViewModel.CurrentSongPart.IsPlaying = false;
+        AppState.CurrentSongPart.IsPlaying = false;
 
         OnPause?.Invoke(null, EventArgs.Empty);
     }
@@ -86,7 +109,7 @@ internal static class AudioManager
     /// <summary> Stops whatever audio clip is playing now. </summary>
     internal static void StopAudio()
     {
-        if (MainViewModel.CurrentSongPart.Id >= 0)
+        if (AppState.CurrentSongPart.Id >= 0)
         {
             //SongPartMediaElement!.Stop();
             //SongPartMediaElement.SeekTo(new TimeSpan(0));
@@ -94,8 +117,8 @@ internal static class AudioManager
             CurrentPlayer!.Stop();
             CurrentPlayer.SeekTo(new TimeSpan(0));
 
-            MainViewModel.CurrentSongPart.IsPlaying = false;
-            MainViewModel.IsCurrentlyPlayingSongPart = false;
+            AppState.CurrentSongPart.IsPlaying = false;
+            AppState.IsCurrentlyPlayingSongPart = false;
 
             OnStop?.Invoke(null, EventArgs.Empty);
         }
@@ -105,7 +128,7 @@ internal static class AudioManager
 
     private static MediaSource? GetTimerMediaSource()
     {
-        return MainViewModel.TimerMode switch
+        return AppState.TimerMode switch
         {
             1 => MediaSource.FromResource("countdown-short.mp3"),
             2 => MediaSource.FromResource("countdown-long.mp3"),
@@ -116,8 +139,8 @@ internal static class AudioManager
 
     internal static void PlayTimer()
     {
-        MainViewModel.IsCurrentlyPlayingSongPart = false;
-        MainViewModel.IsCurrentlyPlayingTimer = true;
+        AppState.IsCurrentlyPlayingSongPart = false;
+        AppState.IsCurrentlyPlayingTimer = true;
 
         OnPlay?.Invoke(null, EventArgs.Empty);
 
@@ -130,12 +153,12 @@ internal static class AudioManager
     internal static void RestartAudio()
     {
         // TODO: RestartCountdown?
-        if (MainViewModel.IsCurrentlyPlayingSongPart && MainViewModel.CurrentSongPart is not null)
+        if (AppState.IsCurrentlyPlayingSongPart && AppState.CurrentSongPart is not null)
         {
             //SongPartMediaElement?.SeekTo(new TimeSpan(0));
             CurrentPlayer?.SeekTo(new TimeSpan(0));
-            SwitchPlayers = false;
-            PlayAudio(MainViewModel.CurrentSongPart);
+            //SwitchPlayers = false;
+            PlayAudio(AppState.CurrentSongPart);
         }
     }
 

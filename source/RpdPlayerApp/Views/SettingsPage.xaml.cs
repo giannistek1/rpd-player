@@ -21,16 +21,18 @@ public partial class SettingsPage : ContentPage
         ThemeViewModel _viewModel = new();
         BindingContext = _viewModel;
 
-        AnalyticsSwitch.IsToggled = true;
+        //AnalyticsSwitch.IsToggled = true;
 
         // Load settings.
-        if (Preferences.ContainsKey(CommonSettings.USE_ANALYTICS)) { AnalyticsSwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_ANALYTICS, defaultValue: true); }
+        //if (Preferences.ContainsKey(CommonSettings.USE_ANALYTICS)) { AnalyticsSwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_ANALYTICS, defaultValue: true); }
         if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC)) { StartRpdAutomaticSwitch.IsToggled = Preferences.Get(key: CommonSettings.START_RPD_AUTOMATIC, defaultValue: true); }
         if (Preferences.ContainsKey(CommonSettings.USE_NONCHOREO_SONGS)) { NonChoreographySwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_NONCHOREO_SONGS, defaultValue: true); }
+        if (Preferences.ContainsKey(CommonSettings.DEBUG_MODE)) { DebugSwitch.IsToggled = Preferences.Get(key: CommonSettings.DEBUG_MODE, defaultValue: false); }
 
-        AnalyticsSwitch.Toggled += Switch_Toggled;
+        //AnalyticsSwitch.Toggled += Switch_Toggled;
         StartRpdAutomaticSwitch.Toggled += Switch_Toggled;
         NonChoreographySwitch.Toggled += Switch_Toggled;
+        DebugSwitch.Toggled += Switch_Toggled;
     }
 
     private void OnPageAppearing(object? sender, EventArgs e)
@@ -53,9 +55,10 @@ public partial class SettingsPage : ContentPage
 
     private void Switch_Toggled(object? sender, ToggledEventArgs e)
     {
-        if (AnalyticsSwitch == sender) { Preferences.Set(CommonSettings.USE_ANALYTICS, AnalyticsSwitch.IsToggled); } // Not used
+        //if (AnalyticsSwitch == sender) { Preferences.Set(CommonSettings.USE_ANALYTICS, AnalyticsSwitch.IsToggled); } // Not used
         if (StartRpdAutomaticSwitch == sender) { Preferences.Set(CommonSettings.START_RPD_AUTOMATIC, StartRpdAutomaticSwitch.IsToggled); }
         if (NonChoreographySwitch == sender) { Preferences.Set(CommonSettings.USE_NONCHOREO_SONGS, NonChoreographySwitch.IsToggled); } // Not used
+        if (DebugSwitch == sender) { DebugService.Instance.DebugInfoVisible = DebugSwitch.IsToggled; }
 
         //await DisplayAlert("NOTE", "Please restart the app for the change to take affect.", "OK");
     }

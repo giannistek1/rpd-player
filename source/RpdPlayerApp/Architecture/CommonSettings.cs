@@ -2,15 +2,19 @@
 
 namespace RpdPlayerApp.Architecture;
 
+/// <summary> Secretly constants static class. </summary>
 internal static class CommonSettings
 {
+    // General string constants.
     internal const string MAIN_VOLUME = "MAIN_VOLUME";
-    internal const double DEFAULT_MAIN_VOLUME = 0.8;
     internal const string USE_ANALYTICS = "USE_ANALYTICS"; // Not used
     internal const string START_RPD_AUTOMATIC = "START_RPD_AUTOMATIC";
     internal const string USE_NONCHOREO_SONGS = "USE_NONCHOREO_SONGS";
+    internal const string DEBUG_MODE = "DEBUG_MODE";
+
     internal const string TOTAL_ACTIVITY_TIME = "TOTAL_ACTIVITY_TIME";
 
+    // Home view rpd string constants.
     internal const string HOME_DURATION = "HOME_DURATION";
     internal const string HOME_TIMER = "HOME_TIMER";
     internal const string HOME_VOICES = "HOME_VOICES";
@@ -21,6 +25,8 @@ internal static class CommonSettings
     internal const string HOME_YEARS = "HOME_YEARS";
     internal const string HOME_ANTI_OPTIONS = "HOME_ANTI_OPTIONS";
 
+    internal const double DEFAULT_MAIN_VOLUME = 0.8;
+    // General settings.
     /// <summary> 0.0 - 1.0 as Double. </summary>
     /// <remarks> Default: 0.8 </remarks>
 #pragma warning disable S2223 // Non-constant static fields should not be visible

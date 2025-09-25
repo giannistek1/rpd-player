@@ -1,6 +1,6 @@
-﻿using RpdPlayerApp.Enums;
+﻿using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Enums;
 using RpdPlayerApp.Repositories;
-using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Items;
 
@@ -40,6 +40,6 @@ internal class HomeListViewItem
         return new(title: year.ToString(),
                    imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
                    searchFilterMode: searchFilterMode,
-                   songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == year && s.Album?.GenreShort == MainViewModel.GenreKpop));
+                   songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year == year && s.Album?.GenreShort == Constants.GenreKpop));
     }
 }

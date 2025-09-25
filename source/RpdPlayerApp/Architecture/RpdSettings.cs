@@ -1,5 +1,4 @@
 ﻿using RpdPlayerApp.Models;
-using RpdPlayerApp.ViewModels;
 using Syncfusion.Maui.Core;
 
 namespace RpdPlayerApp.Architecture;
@@ -86,10 +85,10 @@ internal class RpdSettings
             {
                 switch (companiesChipGroup.Items[i].Text)
                 {
-                    case "SM": Companies.AddRange(MainViewModel.SMCompanies); break;
-                    case "HYBE": Companies.AddRange(MainViewModel.HybeCompanies); break;
+                    case "SM": Companies.AddRange(Constants.SMCompanies); break;
+                    case "HYBE": Companies.AddRange(Constants.HybeCompanies); break;
                     case "JYP": Companies.Add("JYP Entertainment"); break;
-                    case "YG": Companies.AddRange(MainViewModel.YGCompanies); break;
+                    case "YG": Companies.AddRange(Constants.YGCompanies); break;
                     case "Others": Companies.AddRange(OtherCompanies); break;
                 }
             }

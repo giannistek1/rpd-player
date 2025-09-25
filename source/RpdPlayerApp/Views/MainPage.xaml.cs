@@ -17,6 +17,20 @@ public partial class MainPage
     {
         InitializeComponent();
 
+        BindingContext = DebugService.Instance;
+
+        DebugService.Instance.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(DebugService.DebugLog))
+            {
+                // Scroll after UI updates
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await DebugScrollView.ScrollToAsync(0, double.MaxValue, animated: true);
+                });
+            }
+        };
+
         CommonSettings.ActivityTimeStopWatch.Start();
 
         AudioManager.DetailBottomSheet = _detailBottomSheet;
@@ -162,7 +176,7 @@ public partial class MainPage
 
     private string GetSearchFilterModeText()
     {
-        return MainViewModel.SearchFilterMode switch
+        return AppState.SearchFilterMode switch
         {
             SearchFilterMode.All => "All songs",
             SearchFilterMode.DanceVideos => "Dance videos",
@@ -230,7 +244,7 @@ public partial class MainPage
 
         AddToolbarItem(IconManager.ToolbarBackIcon, SetupSearchToolbar, 10, ToolbarItemOrder.Primary);
         AddToolbarItem(IconManager.ToolbarCasinoIcon, SearchSongPartsView.PlayRandomButtonClicked, 11);
-        AddToolbarItem(MainViewModel.UsingVideoMode ? IconManager.ToolbarVideoIcon : IconManager.ToolbarVideoOffIcon, SearchSongPartsView.ToggleAudioModeButtonClicked, 12);
+        AddToolbarItem(AppState.UsingVideoMode ? IconManager.ToolbarVideoIcon : IconManager.ToolbarVideoOffIcon, SearchSongPartsView.ToggleAudioModeButtonClicked, 12);
         AddToolbarItem(IconManager.ToolbarCollapseAllIcon, SearchSongPartsView.CollapseAllButtonClicked, 20, ToolbarItemOrder.Primary);
         AddToolbarItem(IconManager.ToolbarExpandAllIcon, SearchSongPartsView.ExpandAllButtonClicked, 21, ToolbarItemOrder.Primary);
         AddToolbarItem(IconManager.ToolbarSortIcon, SearchSongPartsView.SortButtonClicked, 30);
@@ -251,7 +265,7 @@ public partial class MainPage
             AddToolbarItem(IconManager.ToolbarPlayIcon, _currentPlaylistView.PlayPlaylistButtonClicked, 1);
             AddToolbarItem(IconManager.ToolbarSaveIcon, _currentPlaylistView.SavePlaylistButtonClicked, 2);
             AddToolbarItem(IconManager.ToolbarClearIcon, _currentPlaylistView.ClearPlaylistButtonClicked, 3);
-            AddToolbarItem(MainViewModel.UsingCloudMode ? IconManager.ToolbarCloudIcon : IconManager.ToolbarCloudOffIcon, _currentPlaylistView.ToggleCloudModePressed, 4);
+            AddToolbarItem(AppState.UsingCloudMode ? IconManager.ToolbarCloudIcon : IconManager.ToolbarCloudOffIcon, _currentPlaylistView.ToggleCloudModePressed, 4);
 
             _currentPlaylistView.InitializeView();
         }
@@ -280,7 +294,7 @@ public partial class MainPage
 
     private void OnOpenSongPartDetailBottomSheet(object? sender, EventArgs e)
     {
-        _detailBottomSheet.songPart = MainViewModel.CurrentSongPart;
+        _detailBottomSheet.songPart = AppState.CurrentSongPart;
         _detailBottomSheet.UpdateSongDetails();
         _detailBottomSheet.UpdateIcons();
 
@@ -360,9 +374,9 @@ public partial class MainPage
 
     private void OnPlaySongPart(object? sender, EventArgs e)
     {
-        if (MainViewModel.CurrentSongPart.Id < 0) return;
+        if (AppState.CurrentSongPart.Id < 0) { return; }
 
-        switch (MainViewModel.PlayMode)
+        switch (AppState.PlayMode)
         {
             case PlayMode.Playlist:
                 if (CurrentPlaylistManager.Instance.CurrentPlaylist is not null && SearchSongPartsView.songParts.Count > 0)
@@ -383,13 +397,13 @@ public partial class MainPage
                 break;
         }
 
-        if (MainViewModel.TimerMode > 0)
+        if (AppState.TimerMode > 0)
         {
             AudioPlayerControl.PlayCountdownAndUpdateCurrentSong();
         }
         else
         {
-            AudioPlayerControl.PlayAudio(MainViewModel.CurrentSongPart, updateCurrentSong: true);
+            AudioPlayerControl.PlayAudio(AppState.CurrentSongPart, updateCurrentSong: true);
         }
     }
 
@@ -405,7 +419,7 @@ public partial class MainPage
     private void OnShowNewsPopup(object? sender, EventArgs e)
     {
         var popup = new NewsPopup(); // Gets disposed on close.
-        popup.NewsItems.AddRange(MainViewModel.SongPartsDifference);
+        popup.NewsItems.AddRange(AppState.SongPartsDifference);
         this.ShowPopup(popup);
     }
 

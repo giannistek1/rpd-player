@@ -1,7 +1,5 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using RpdPlayerApp.Architecture;
+﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
-using RpdPlayerApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -27,9 +25,9 @@ internal static class ArtistRepository
         // 0 1 2 3  4  5  6  Artist 1
         // 7 8 9 10 11 12 13  Artist 2
 
-        for (int i = 0; i < matches.Count / MainViewModel.ArtistPropertyAmount; i++)
+        for (int i = 0; i < matches.Count / Constants.ArtistPropertyAmount; i++)
         {
-            int n = MainViewModel.ArtistPropertyAmount * i; // i = Artist number
+            int n = Constants.ArtistPropertyAmount * i; // i = Artist number
 
             try
             {
@@ -68,7 +66,7 @@ internal static class ArtistRepository
 
 
     internal static Artist MatchArtist(string artistName) => Artists.FirstOrDefault(a => a.Name.Equals(artistName, StringComparison.OrdinalIgnoreCase))!;
-    internal static List<Artist> GetTopArtistsForGen(Gen generation, int count = 5) 
+    internal static List<Artist> GetTopArtistsForGen(Gen generation, int count = 5)
         => Artists.Where(a => a.IsKpopArtist && a.Gen == generation)
                   .OrderByDescending(a => a.SongPartCount)
                   .Take(count)

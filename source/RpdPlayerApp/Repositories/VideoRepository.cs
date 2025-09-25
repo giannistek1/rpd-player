@@ -1,7 +1,5 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using RpdPlayerApp.Architecture;
+﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
-using RpdPlayerApp.ViewModels;
 using System.Text.RegularExpressions;
 
 namespace RpdPlayerApp.Repositories;
@@ -24,9 +22,9 @@ internal class VideoRepository
         // 0 1 2 3 4 Video 1
         // 5 6 7 8 9 Video 2
 
-        for (int i = 0; i < matches.Count / MainViewModel.VideoPropertyAmount; i++)
+        for (int i = 0; i < matches.Count / Constants.VideoPropertyAmount; i++)
         {
-            int n = MainViewModel.VideoPropertyAmount * i; // i = Video number
+            int n = Constants.VideoPropertyAmount * i; // i = Video number
 
             try
             {

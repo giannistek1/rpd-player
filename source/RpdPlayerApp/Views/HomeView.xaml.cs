@@ -115,7 +115,7 @@ public partial class HomeView : ContentView
         if (differentNewSongs.Count > 0)
         {
             NewsBadgeView.BadgeText = differentNewSongs.Count.ToString();
-            MainViewModel.SongPartsDifference = differentNewSongs;
+            AppState.SongPartsDifference = differentNewSongs;
         }
         else
         {
@@ -136,12 +136,12 @@ public partial class HomeView : ContentView
     /// <summary> Fills in companies. </summary>
     private void InitializeCompanies()
     {
-        MainViewModel.AllCompanies = ArtistRepository.Artists.Select(artist => artist.Company).Distinct().ToList();
-        var mainCompanies = MainViewModel.YGCompanies.Concat(MainViewModel.HybeCompanies)
-                                                     .Concat(MainViewModel.SMCompanies)
+        Constants.AllCompanies = ArtistRepository.Artists.Select(artist => artist.Company).Distinct().ToList();
+        var mainCompanies = Constants.YGCompanies.Concat(Constants.HybeCompanies)
+                                                     .Concat(Constants.SMCompanies)
                                                      .Append("JYP Entertainment")
                                                      .ToList();
-        RpdSettings!.OtherCompanies = MainViewModel.AllCompanies.Except(mainCompanies).ToList();
+        RpdSettings!.OtherCompanies = Constants.AllCompanies.Except(mainCompanies).ToList();
     }
 
     private void InitializeChipGroups()
@@ -388,7 +388,7 @@ public partial class HomeView : ContentView
         if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC))
         {
             bool startRpd = Preferences.Get(CommonSettings.START_RPD_AUTOMATIC, false);
-            if (startRpd) StartRpdButtonClicked(this, EventArgs.Empty);
+            if (startRpd) { StartRpdButtonClicked(this, EventArgs.Empty); }
         }
     }
     private static async Task SaveNews()
@@ -572,7 +572,7 @@ public partial class HomeView : ContentView
             return;
         }
 
-        MainViewModel.SongParts = songParts;
+        AppState.SongParts = songParts;
         PlayRandomSong(songParts);
     }
 
@@ -582,7 +582,7 @@ public partial class HomeView : ContentView
         {
             if (TimerChipGroup.Items[i].IsSelected)
             {
-                MainViewModel.TimerMode = i;
+                AppState.TimerMode = i;
                 break;
             }
         }
@@ -636,10 +636,10 @@ public partial class HomeView : ContentView
         int index = General.Rng.Next(songParts.Count);
         SongPart songPart = songParts[index];
 
-        MainViewModel.AutoplayMode = 2; // Shuffle
-        MainViewModel.CurrentSongPart = songPart;
+        AppState.AutoplayMode = 2; // Shuffle
+        AppState.CurrentSongPart = songPart;
 
-        AudioManager.SwitchPlayers = false;
+        //AudioManager.SwitchPlayers = false;
 
         PlaySongPart?.Invoke(this, EventArgs.Empty);
     }
