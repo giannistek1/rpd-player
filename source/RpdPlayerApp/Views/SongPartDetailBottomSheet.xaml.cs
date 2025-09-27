@@ -1,5 +1,5 @@
-using CommunityToolkit.Maui.Alerts;
 using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.ViewModels;
@@ -65,10 +65,15 @@ public partial class SongPartDetailBottomSheet
     internal void UpdateIcons()
     {
         // TODO: Set image to play once song ends.
-        PlayToggleImageButton.Source = AppState.CurrentSongPart.IsPlaying || AppState.IsCurrentlyPlayingTimer ? IconManager.PauseIcon : IconManager.PlayIcon;
+        //PlayToggleImageButton.Source = AppState.CurrentSongPart.IsPlaying || AppState.IsCurrentlyPlayingTimer ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.SongPart
+                                    || AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Countdown
+                                    || AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Announcement)
+                                    ? IconManager.PauseIcon : IconManager.PlayIcon;
+
         VoiceImageButton.Source = AppState.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
         // TODO: Enums
-        TimerImageButton.Source = AppState.TimerMode switch
+        TimerImageButton.Source = AppState.CountdownMode switch
         {
             0 => IconManager.TimerOffIcon,
             1 => IconManager.Timer3Icon,
@@ -78,10 +83,10 @@ public partial class SongPartDetailBottomSheet
 
         AutoplayImageButton.Source = AppState.AutoplayMode switch
         {
-            0 => IconManager.OffIcon,
-            1 => IconManager.AutoplayIcon,
-            2 => IconManager.ShuffleIcon,
-            3 => IconManager.RepeatOneIcon,
+            AutoplayModeEnum.Off => IconManager.OffIcon,
+            AutoplayModeEnum.Autoplay => IconManager.AutoplayIcon,
+            AutoplayModeEnum.Shuffle => IconManager.ShuffleIcon,
+            AutoplayModeEnum.RepeatOne => IconManager.RepeatOneIcon,
             _ => IconManager.OffIcon
         };
 
@@ -143,25 +148,25 @@ public partial class SongPartDetailBottomSheet
     }
 
     // Let AudioPlayerControl handle the events.
-    private void PlayToggleButton_Pressed(object sender, EventArgs e) => PlayToggleSongPart?.Invoke(sender, e);
+    private void PlayToggleButtonPressed(object sender, EventArgs e) => PlayToggleSongPart?.Invoke(sender, e);
 
-    private void PreviousButton_Pressed(object sender, EventArgs e) => PreviousSongPart?.Invoke(sender, e);
+    private void PreviousButtonPressed(object sender, EventArgs e) => PreviousSongPart?.Invoke(sender, e);
 
-    private void NextButton_Pressed(object sender, EventArgs e) => NextSongPart?.Invoke(sender, e);
+    private void NextButtonPressed(object sender, EventArgs e) => NextSongPart?.Invoke(sender, e);
 
-    private void TimerButton_Pressed(object sender, EventArgs e)
+    private void TimerButtonPressed(object sender, EventArgs e)
     {
         // Cycle through timermodes.
-        if (AppState.TimerMode < 3)
+        if (AppState.CountdownMode < 3)
         {
-            AppState.TimerMode++;
+            AppState.CountdownMode++;
         }
         else
         {
-            AppState.TimerMode = 0;
+            AppState.CountdownMode = 0;
         }
 
-        switch (AppState.TimerMode)
+        switch (AppState.CountdownMode)
         {
             case 0: TimerImageButton.Source = IconManager.TimerOffIcon; break;
             case 1: TimerImageButton.Source = IconManager.Timer3Icon; break;
@@ -172,30 +177,32 @@ public partial class SongPartDetailBottomSheet
         AudioManager.SetTimer();
     }
 
-    private void AutoplayButton_Pressed(object sender, EventArgs e)
+    private void AutoplayButtonPressed(object sender, EventArgs e)
     {
         // Cycle through autoplay modes.
-        if (AppState.AutoplayMode < 3)
+        if (AppState.AutoplayMode < AutoplayModeEnum.RepeatOne)
         {
             AppState.AutoplayMode++;
         }
         else
         {
-            AppState.AutoplayMode = 0;
+            AppState.AutoplayMode = AutoplayModeEnum.Off;
         }
 
         switch (AppState.AutoplayMode)
         {
-            case 0: AutoplayImageButton.Source = IconManager.OffIcon; break;
-            case 1: AutoplayImageButton.Source = IconManager.AutoplayIcon; break;
-            case 2: AutoplayImageButton.Source = IconManager.ShuffleIcon; break;
-            case 3: AutoplayImageButton.Source = IconManager.RepeatOneIcon; break;
+            case AutoplayModeEnum.Off: AutoplayImageButton.Source = IconManager.OffIcon; break;
+            case AutoplayModeEnum.Autoplay: AutoplayImageButton.Source = IconManager.AutoplayIcon; break;
+            case AutoplayModeEnum.Shuffle: AutoplayImageButton.Source = IconManager.ShuffleIcon; break;
+            case AutoplayModeEnum.RepeatOne: AutoplayImageButton.Source = IconManager.RepeatOneIcon; break;
         }
 
-        //Toast.Make($"Autoplay: {AppState.AutoplayMode}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
+        AudioManager.ChangedAutoplayMode();
+
+        //Toast.Make($"Autoplay: {AppState.AutoplayModeEnum}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
-    private void VoiceButton_Pressed(object sender, EventArgs e)
+    private void VoiceButtonPressed(object sender, EventArgs e)
     {
         AppState.UsingAnnouncements = !AppState.UsingAnnouncements;
 
@@ -207,7 +214,7 @@ public partial class SongPartDetailBottomSheet
         }
     }
 
-    private void FavoriteButton_Pressed(object sender, EventArgs e)
+    private void FavoriteButtonPressed(object sender, EventArgs e)
     {
         // TODO: Unfavorite?
         bool success = _playlistsManager.TryAddSongPartToPlaylist(FAVORITES, songPart!);
@@ -227,20 +234,20 @@ public partial class SongPartDetailBottomSheet
         Preferences.Set(CommonSettings.MAIN_VOLUME, CommonSettings.MainVolume);
     }
 
-    private void CloseImageButton_Pressed(object sender, EventArgs e) => Close?.Invoke(sender, e);
+    private void CloseImageButtonPressed(object sender, EventArgs e) => Close?.Invoke(sender, e);
 
-    private void VolumeImageButton_Pressed(object sender, EventArgs e)
+    private void VolumeImageButtonPressed(object sender, EventArgs e)
     {
         CommonSettings.IsVolumeMuted = !CommonSettings.IsVolumeMuted;
         VolumeImageButton.Source = CommonSettings.IsVolumeMuted ? IconManager.NoSoundIcon : IconManager.SoundIcon;
         AudioManager.SetMute();
     }
 
-    private void BackwardsImageButton_Pressed(object sender, EventArgs e) => AudioManager.MoveAudioProgress(new TimeSpan(hours: 0, minutes: 0, seconds: -5));
+    private void BackwardsImageButtonPressed(object sender, EventArgs e) => AudioManager.MoveAudioProgress(new TimeSpan(hours: 0, minutes: 0, seconds: -5));
 
-    private void ForwardImageButton_Pressed(object sender, EventArgs e) => AudioManager.MoveAudioProgress(new TimeSpan(hours: 0, minutes: 0, seconds: 5));
+    private void ForwardImageButtonPressed(object sender, EventArgs e) => AudioManager.MoveAudioProgress(new TimeSpan(hours: 0, minutes: 0, seconds: 5));
 
-    private void RestartAudioImageButton_Pressed(object sender, EventArgs e) => AudioManager.RestartAudio();
+    private void RestartAudioImageButtonPressed(object sender, EventArgs e) => AudioManager.RestartAudio();
 
     private const int TimerInterval = 5000; // Scroll every 5 seconds
     private void StartAlbumAutoScroll()

@@ -37,7 +37,7 @@
             <Label Grid.Column="2" x:Name="DurationLabel" Padding="0,0,8,0" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="10" TextColor="{DynamicResource SecondaryTextColor}" Text="00:00"/>
 
             <!-- Next -->
-            <ImageButton Grid.Column="3" HeightRequest="28" x:Name="NextImageButton" Background="{DynamicResource AudioPlayerBackgroundColor}" Pressed="NextButton_Pressed" VerticalOptions="CenterAndExpand">
+            <ImageButton Grid.Column="3" HeightRequest="28" x:Name="NextImageButton" Background="{DynamicResource AudioPlayerBackgroundColor}" Pressed="NextButtonPressed" VerticalOptions="CenterAndExpand">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Skip_next}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
@@ -47,7 +47,7 @@
             <Border Grid.Column="4" x:Name="PlayToggleBorder" HeightRequest="42" WidthRequest="42" StrokeShape="RoundRectangle 21"
                     Padding="0" Background="{DynamicResource PrimaryButton}" VerticalOptions="Center">
 
-                <ImageButton Grid.Column="4" HeightRequest="34" x:Name="PlayToggleImageButton" Pressed="PlayToggleButton_Pressed">
+                <ImageButton Grid.Column="4" HeightRequest="34" x:Name="PlayToggleImageButton" Pressed="PlayToggleButtonPressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Play_arrow}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>

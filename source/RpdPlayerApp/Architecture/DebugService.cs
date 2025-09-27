@@ -33,7 +33,7 @@ internal class DebugService : ObservableObject
             .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
             .ToList();
 
-        if (lines.Count > 120 / 15) // Height of scrollview / approx line height
+        if (lines.Count > 240 / 15) // Height of scrollview / approx line height
         {
             lines = lines.Skip(lines.Count - 8).ToList();
             _logBuilder.Clear();

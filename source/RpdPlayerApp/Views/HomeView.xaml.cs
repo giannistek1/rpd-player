@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Enums;
 using RpdPlayerApp.Items;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
@@ -13,7 +14,7 @@ namespace RpdPlayerApp.Views;
 
 public partial class HomeView : ContentView
 {
-    internal event EventHandler? PlaySongPart;
+    //internal event EventHandler? PlaySongPart;
     internal event EventHandler? CreatePlaylistButtonPressed;
     internal event EventHandler? ShowCategories;
     internal event EventHandler? ShowNewsPopup;
@@ -582,7 +583,7 @@ public partial class HomeView : ContentView
         {
             if (TimerChipGroup.Items[i].IsSelected)
             {
-                AppState.TimerMode = i;
+                AppState.CountdownMode = i;
                 break;
             }
         }
@@ -636,12 +637,9 @@ public partial class HomeView : ContentView
         int index = General.Rng.Next(songParts.Count);
         SongPart songPart = songParts[index];
 
-        AppState.AutoplayMode = 2; // Shuffle
-        AppState.CurrentSongPart = songPart;
+        AppState.AutoplayMode = AutoplayModeEnum.Shuffle;
 
-        //AudioManager.SwitchPlayers = false;
-
-        PlaySongPart?.Invoke(this, EventArgs.Empty);
+        AudioManager.ChangeAndStartSongNew(songPart);
     }
 
     private readonly string[] antiOptionsList = ["Last chorus", "Dance breaks", "Tiktoks"];

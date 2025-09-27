@@ -19,18 +19,6 @@ public partial class MainPage
 
         BindingContext = DebugService.Instance;
 
-        DebugService.Instance.PropertyChanged += (s, e) =>
-        {
-            if (e.PropertyName == nameof(DebugService.DebugLog))
-            {
-                // Scroll after UI updates
-                MainThread.BeginInvokeOnMainThread(async () =>
-                {
-                    await DebugScrollView.ScrollToAsync(0, double.MaxValue, animated: true);
-                });
-            }
-        };
-
         CommonSettings.ActivityTimeStopWatch.Start();
 
         AudioManager.DetailBottomSheet = _detailBottomSheet;
@@ -78,7 +66,7 @@ public partial class MainPage
 
     private void SetContentViewEvents()
     {
-        HomeView.PlaySongPart += OnPlaySongPart;
+        //HomeView.PlaySongPart += OnPlaySongPart;
         HomeView.CreatePlaylistButtonPressed += OnCreatePlaylistButtonPressed;
         HomeView.ShowCategories += OnShowCategories;
         HomeView.ShowNewsPopup += OnShowNewsPopup;
@@ -286,11 +274,11 @@ public partial class MainPage
 
     #endregion Toolbar
 
-    private void OnPlayToggleSongPart(object? sender, EventArgs e) => AudioPlayerControl.PlayToggleButton_Pressed(sender!, e);
+    private void OnPlayToggleSongPart(object? sender, EventArgs e) => AudioPlayerControl.PlayToggleButtonPressed(sender!, e);
 
     private void OnPreviousSong(object? sender, EventArgs e) => AudioPlayerControl.PlayPreviousSongPart(sender!, e);
 
-    private void OnNextSong(object? sender, EventArgs e) => AudioPlayerControl.NextButton_Pressed(sender!, e);
+    private void OnNextSong(object? sender, EventArgs e) => AudioPlayerControl.NextButtonPressed(sender!, e);
 
     private void OnOpenSongPartDetailBottomSheet(object? sender, EventArgs e)
     {
@@ -395,15 +383,6 @@ public partial class MainPage
                     }
                 }
                 break;
-        }
-
-        if (AppState.TimerMode > 0)
-        {
-            AudioPlayerControl.PlayCountdownAndUpdateCurrentSong();
-        }
-        else
-        {
-            AudioPlayerControl.PlayAudio(AppState.CurrentSongPart, updateCurrentSong: true);
         }
     }
 

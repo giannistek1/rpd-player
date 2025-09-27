@@ -170,9 +170,7 @@ public partial class SearchSongPartsView : ContentView
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         if (string.IsNullOrWhiteSpace(songPart.AudioURL)) { General.ShowToast("No valid audio URL."); return; }
 
-        AppState.CurrentSongPart = songPart;
-
-        AudioManager.PlayAudio(songPart);
+        AudioManager.ChangeAndStartSongNew(songPart);
         PlaySongPart?.Invoke(sender, e);
     }
 
@@ -198,10 +196,9 @@ public partial class SearchSongPartsView : ContentView
             // Mode to queue/single song
             AppState.PlayMode = PlayMode.Queue;
 
-            AppState.CurrentSongPart = songPart;
-            AudioManager.PlayAudio(songPart);
+            AudioManager.ChangeAndStartSongNew(songPart);
 
-            PlaySongPart?.Invoke(sender, e);
+            //PlaySongPart?.Invoke(sender, e);
         }
 
         SonglibraryListView.SelectedItems?.Clear();
@@ -319,9 +316,8 @@ public partial class SearchSongPartsView : ContentView
         }
         else
         {
-            AppState.CurrentSongPart = songPart;
-            AudioManager.PlayAudio(songPart);
-            PlaySongPart?.Invoke(sender, e);
+            AudioManager.ChangeAndStartSongNew(songPart);
+            //PlaySongPart?.Invoke(sender, e);
         }
     }
 
