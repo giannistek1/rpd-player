@@ -11,7 +11,7 @@ The dance videos belong to their respective channel owners on YouTube.
 I am simply cutting parts out of the songs to use in this free-to-use app.
 
 # Rpd-player
-This is a hobby project I work on in my free time. 
+This is a hobby/educational project I work on in my free time. 
 
 ## Overview
 - Context
@@ -41,7 +41,7 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 - Future: May make an account system to save and load your own playlists online.
 - Future: May add bpm per song to add countings and make animation based on bpm.
 
-## Problems solved and benefits:
+## Benefits:
 - Todo: Hours of searching and editing music/videos -> Mere minutes of making a RPD playlist by importing your songlist or searching one by one.
 - Storage space saved on your phone by streaming the songs.
 - Save countless playlists, see how long they are and are easily editable.
@@ -100,6 +100,7 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 ## Inspiration 
 - Spotify
 - Nintendo Music
+- Kpop random play dance + video editors
 
 ## Rival apps?
 - STEPIN - KPOP DANCE (100k users)
