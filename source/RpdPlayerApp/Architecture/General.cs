@@ -150,4 +150,15 @@ internal static class General
 
         return playlist;
     }
+
+    /// <summary> Odd means playing. </summary>
+    /// <typeparam name="TEnum"></typeparam>
+    /// <param name="enumValue"></param>
+    /// <returns></returns>
+    internal static bool IsOddEnumValue<TEnum>(TEnum enumValue) where TEnum : Enum
+    {
+        // Cast enum to its underlying type (usually int)
+        int numericValue = Convert.ToByte(enumValue);
+        return numericValue % 2 != 0;
+    }
 }

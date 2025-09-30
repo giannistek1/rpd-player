@@ -65,19 +65,16 @@ public partial class SongPartDetailBottomSheet
     internal void UpdateIcons()
     {
         // TODO: Set image to play once song ends.
-        //PlayToggleImageButton.Source = AppState.CurrentSongPart.IsPlaying || AppState.IsCurrentlyPlayingTimer ? IconManager.PauseIcon : IconManager.PlayIcon;
-        PlayToggleImageButton.Source = (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.SongPart
-                                    || AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Countdown
-                                    || AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Announcement)
-                                    ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = General.IsOddEnumValue(AppState.CurrentlyPlayingState) ? IconManager.PauseIcon : IconManager.PlayIcon;
 
-        VoiceImageButton.Source = AppState.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
-        // TODO: Enums
+        // TODO: Expand functionality.
+        VoiceImageButton.Source = AppState.AnnouncementMode > AnnouncementModeEnum.Off ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
         TimerImageButton.Source = AppState.CountdownMode switch
         {
-            0 => IconManager.TimerOffIcon,
-            1 => IconManager.Timer3Icon,
-            2 => IconManager.Timer5Icon,
+            CountdownModeEnum.Off => IconManager.TimerOffIcon,
+            CountdownModeEnum.Short => IconManager.Timer3Icon,
+            CountdownModeEnum.Long => IconManager.Timer5Icon,
+            CountdownModeEnum.Custom => IconManager.AwardIcon,
             _ => IconManager.TimerOffIcon
         };
 
@@ -154,29 +151,6 @@ public partial class SongPartDetailBottomSheet
 
     private void NextButtonPressed(object sender, EventArgs e) => NextSongPart?.Invoke(sender, e);
 
-    private void TimerButtonPressed(object sender, EventArgs e)
-    {
-        // Cycle through timermodes.
-        if (AppState.CountdownMode < 3)
-        {
-            AppState.CountdownMode++;
-        }
-        else
-        {
-            AppState.CountdownMode = 0;
-        }
-
-        switch (AppState.CountdownMode)
-        {
-            case 0: TimerImageButton.Source = IconManager.TimerOffIcon; break;
-            case 1: TimerImageButton.Source = IconManager.Timer3Icon; break;
-            case 2: TimerImageButton.Source = IconManager.Timer5Icon; break;
-            case 3: TimerImageButton.Source = IconManager.AwardIcon; break;
-        }
-
-        AudioManager.SetTimer();
-    }
-
     private void AutoplayButtonPressed(object sender, EventArgs e)
     {
         // Cycle through autoplay modes.
@@ -186,7 +160,7 @@ public partial class SongPartDetailBottomSheet
         }
         else
         {
-            AppState.AutoplayMode = AutoplayModeEnum.Off;
+            AppState.AutoplayMode = AutoplayModeEnum.Off; // 0
         }
 
         switch (AppState.AutoplayMode)
@@ -202,16 +176,65 @@ public partial class SongPartDetailBottomSheet
         //Toast.Make($"Autoplay: {AppState.AutoplayModeEnum}", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
     }
 
+    private void TimerButtonPressed(object sender, EventArgs e)
+    {
+        if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Countdown)
+        {
+            General.ShowToast("Let countdown finish or pause first.");
+            return;
+        }
+
+        // Cycle through timermodes.
+        if (AppState.CountdownMode < CountdownModeEnum.Custom)
+        {
+            AppState.CountdownMode++;
+        }
+        else
+        {
+            AppState.CountdownMode = CountdownModeEnum.Off; // 0
+        }
+
+        switch (AppState.CountdownMode)
+        {
+            case CountdownModeEnum.Off: TimerImageButton.Source = IconManager.TimerOffIcon; break;
+            case CountdownModeEnum.Short: TimerImageButton.Source = IconManager.Timer3Icon; break;
+            case CountdownModeEnum.Long: TimerImageButton.Source = IconManager.Timer5Icon; break;
+            case CountdownModeEnum.Custom: TimerImageButton.Source = IconManager.AwardIcon; break;
+        }
+
+        // TODO: Maybe going to change once announcements are added.
+        AudioManager.SetTimer();
+    }
+
     private void VoiceButtonPressed(object sender, EventArgs e)
     {
-        AppState.UsingAnnouncements = !AppState.UsingAnnouncements;
+        // Cycle through announcement modes.
+        if (AppState.AnnouncementMode < AnnouncementModeEnum.AlwaysSongPart)
+        {
+            AppState.AnnouncementMode++;
+        }
+        else
+        {
+            AppState.AnnouncementMode = AnnouncementModeEnum.Off; // 0
+        }
 
-        VoiceImageButton.Source = AppState.UsingAnnouncements ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
+        switch (AppState.AnnouncementMode)
+        {
+            case AnnouncementModeEnum.Off: VoiceImageButton.Source = IconManager.OffIcon; break;
+            case AnnouncementModeEnum.DancebreakOnly: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+            case AnnouncementModeEnum.Specific: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+            case AnnouncementModeEnum.Artist: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+            case AnnouncementModeEnum.GroupType: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+            case AnnouncementModeEnum.AlwaysSongPart: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+        }
 
-        if (AppState.UsingAnnouncements)
+        if (AppState.AnnouncementMode > 0)
         {
             General.ShowToast("Using voiced announcements.");
         }
+
+        // TODO: 
+        //AudioManager.SetAnnouncement();
     }
 
     private void FavoriteButtonPressed(object sender, EventArgs e)

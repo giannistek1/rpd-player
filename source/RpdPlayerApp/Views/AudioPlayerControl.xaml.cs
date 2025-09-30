@@ -83,7 +83,7 @@ public partial class AudioPlayerControl : ContentView
     // For updating theme.
     internal void UpdateUI()
     {
-        PlayToggleImageButton.Source = AppState.IsCurrentlyPlayingSongPart ? IconManager.PauseIcon : IconManager.PlayIcon;
+        PlayToggleImageButton.Source = General.IsOddEnumValue(AppState.CurrentlyPlayingState) ? IconManager.PauseIcon : IconManager.PlayIcon;
         PlayToggleBorder.Background = (Color)Application.Current!.Resources["PrimaryButton"];
     }
 
@@ -129,7 +129,7 @@ public partial class AudioPlayerControl : ContentView
 
         AppState.SongPartHistory.Add(AppState.CurrentSongPart);
 
-        AudioManager.NextSongNew();
+        AudioManager.PlayNextSong();
     }
 
     /// <summary> Also (re-)used with SongPartDetailBottomSheet. </summary>
@@ -137,7 +137,7 @@ public partial class AudioPlayerControl : ContentView
     /// <param name="e"> </param>
     internal void PlayToggleButtonPressed(object sender, EventArgs e) => AudioManager.PlayPause();
 
-    internal void PlayPreviousSongPart(object sender, EventArgs e) => AudioManager.PreviousSongNew();
+    internal void PlayPreviousSongPart(object sender, EventArgs e) => AudioManager.PlayPreviousSong();
 
     internal void NextButtonPressed(object sender, EventArgs e) => AudioMediaElementMediaEnded(sender, e);
 
@@ -145,11 +145,11 @@ public partial class AudioPlayerControl : ContentView
     {
         if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Announcement)
         {
-            AudioManager.PlayCountdownNew();
+            AudioManager.PlayCountdown();
         }
         else
         {
-            AudioManager.PlayAudioNew();
+            AudioManager.PlayAudio();
         }
     }
 

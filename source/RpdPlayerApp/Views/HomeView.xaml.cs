@@ -199,7 +199,7 @@ public partial class HomeView : ContentView
 
     private void InitializeVoiceAnnouncementsChipGroup()
     {
-        string[] options = ["Off", "Non-(pre-)chorus", "Always"];
+        string[] options = ["Off", "Non-(pre-)chorus", "AlwaysSongPart"];
         foreach (var option in options)
         {
             VoiceAnnouncementsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
@@ -583,7 +583,7 @@ public partial class HomeView : ContentView
         {
             if (TimerChipGroup.Items[i].IsSelected)
             {
-                AppState.CountdownMode = i;
+                AppState.CountdownMode = (CountdownModeEnum)i;
                 break;
             }
         }
@@ -639,7 +639,7 @@ public partial class HomeView : ContentView
 
         AppState.AutoplayMode = AutoplayModeEnum.Shuffle;
 
-        AudioManager.ChangeAndStartSongNew(songPart);
+        AudioManager.ChangeAndStartSong(songPart);
     }
 
     private readonly string[] antiOptionsList = ["Last chorus", "Dance breaks", "Tiktoks"];

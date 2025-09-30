@@ -12,7 +12,6 @@ internal static class AppState
     #region Modes
     internal static SortMode SortMode { get; set; } = SortMode.Artist;
     internal static SearchFilterMode SearchFilterMode { get; set; }
-    internal static string SearchFilterModeText { get; set; } = string.Empty;
     /// <summary> Queue or Playlist. </summary>
     internal static PlayMode PlayMode { get; set; }
     internal static bool UsingVideoMode { get; set; } = false;
@@ -24,7 +23,7 @@ internal static class AppState
     /// 2 = shuffle,
     /// 3 = repeat
     /// </summary>
-    internal static AutoplayModeEnum AutoplayMode { get; set; } = 0;
+    internal static AutoplayModeEnum AutoplayMode { get; set; } = AutoplayModeEnum.Off;
 
     /// <summary>
     /// 0 = Off,
@@ -32,18 +31,17 @@ internal static class AppState
     /// 2 = 5s LONG,
     /// 3 = Mario kart
     /// </summary>
-    internal static byte CountdownMode { get; set; } = 0;
+    internal static CountdownModeEnum CountdownMode { get; set; } = CountdownModeEnum.Off;
 
-    /// <summary> TODO: Use Announcement mode </summary>
-    internal static bool UsingAnnouncements { get; set; } = false;
     /// <summary>
-    /// TODO: Make this an enum
-    /// 0 = Off,
-    /// 1 = Only dancebreaks,
-    /// 2 = Only non-chorus,
-    /// 3 = Every part
+    /// Off = 0,
+    /// DancebreakOnly = 1,
+    /// Specific = 2,
+    /// Artist = 3,
+    /// GroupType = 4,
+    /// AlwaysSongPart = 5
     /// </summary>
-    internal static byte AnnouncementMode { get; set; } = 0;
+    internal static AnnouncementModeEnum AnnouncementMode { get; set; } = 0;
 
     #endregion
 
@@ -57,11 +55,6 @@ internal static class AppState
     /// <summary> To keep track of amount of times going to previous songs </summary>
     internal static int SongPartHistoryIndex { get; set; } = -1;
 
-
-    /// <summary> Whether a song part is currently playing. TODO: Maybe make this a state machine: States: Announcement, Countdown, SongPart. </summary>
-    internal static bool IsCurrentlyPlayingSongPart { get; set; } = false;
-    /// <summary> Whether the countdown is currently playing.  TODO: Maybe make this a state machine: States: Announcement, Countdown, SongPart. </summary>
-    internal static bool IsCurrentlyPlayingTimer { get; set; } = false;
     internal static CurrentlyPlayingStateEnum CurrentlyPlayingState { get; set; } = 0;
 
     internal static ObservableCollection<Playlist> Playlists { get; set; } = [];

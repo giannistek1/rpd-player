@@ -77,12 +77,10 @@ public partial class SearchSongPartsView : ContentView
         if (AppState.UsingVideoMode)
         {
             General.ShowToast("Choreo video mode");
-            //CommunityToolkit.Maui.Alerts.Snackbar.Make($"Choreo video mode").Show();
         }
         else
         {
             General.ShowToast($"Audio only mode");
-            //CommunityToolkit.Maui.Alerts.Snackbar.Make($"Choreo video mode").Show();
         }
     }
 
@@ -170,7 +168,7 @@ public partial class SearchSongPartsView : ContentView
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
         if (string.IsNullOrWhiteSpace(songPart.AudioURL)) { General.ShowToast("No valid audio URL."); return; }
 
-        AudioManager.ChangeAndStartSongNew(songPart);
+        AudioManager.ChangeAndStartSong(songPart);
         PlaySongPart?.Invoke(sender, e);
     }
 
@@ -196,7 +194,7 @@ public partial class SearchSongPartsView : ContentView
             // Mode to queue/single song
             AppState.PlayMode = PlayMode.Queue;
 
-            AudioManager.ChangeAndStartSongNew(songPart);
+            AudioManager.ChangeAndStartSong(songPart);
 
             //PlaySongPart?.Invoke(sender, e);
         }
@@ -223,6 +221,7 @@ public partial class SearchSongPartsView : ContentView
             AppState.PlayMode = PlayMode.Queue;
 
             EnqueueSongPart?.Invoke(sender, e);
+            AudioManager.AddedToQueue();
         }
 
         // Swipe right to left (end), add to playlist
@@ -305,7 +304,7 @@ public partial class SearchSongPartsView : ContentView
         int index = General.Rng.Next(songParts.Count);
         SongPart songPart = songParts[index];
 
-        if (AppState.IsCurrentlyPlayingSongPart)
+        if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.SongPart)
         {
             if (!AppState.SongPartsQueue.Contains(songPart))
             {
@@ -316,7 +315,7 @@ public partial class SearchSongPartsView : ContentView
         }
         else
         {
-            AudioManager.ChangeAndStartSongNew(songPart);
+            AudioManager.ChangeAndStartSong(songPart);
             //PlaySongPart?.Invoke(sender, e);
         }
     }
