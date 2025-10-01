@@ -13,6 +13,11 @@ I am simply cutting parts out of the songs to use in this free-to-use app.
 # Rpd-player
 This is a hobby/educational project I work on in my free time. 
 
+# Preconditions development
+- Syncfusion version 28.1.33
+- .NET 8 + .NET Maui (XAML) workload
+- Enable longpaths if needed: reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
 ## Overview
 - Context
 - Scope
