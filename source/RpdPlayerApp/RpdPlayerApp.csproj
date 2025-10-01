@@ -1,44 +1,49 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;net8.0-ios;</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
-		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+  <PropertyGroup>
+    <TargetFrameworks>net8.0-android;net8.0-ios;</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+    <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+    <!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 
-		<!-- Note for MacCatalyst:
-		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
-		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
-		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
-		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
-		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+    <!-- Note for MacCatalyst:
+    The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+    When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+    The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+    either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+    <!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
-		<OutputType>Exe</OutputType>
-		<RootNamespace>RpdPlayerApp</RootNamespace>
-		<UseMaui>true</UseMaui>
-		<SingleProject>true</SingleProject>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RpdPlayerApp</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
 
-		<!-- Display name -->
-		<ApplicationTitle>RpdPlayerApp</ApplicationTitle>
+    <!-- Display name -->
+    <ApplicationTitle>RpdPlayerApp</ApplicationTitle>
 
-		<!-- App Identifier -->
-		<ApplicationId>com.companyname.rpdplayerapp</ApplicationId>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.rpdplayerapp</ApplicationId>
 
-		<!-- Versions (need to be the same) -->
-		<ApplicationDisplayVersion>0.5.4</ApplicationDisplayVersion>
-		<ApplicationVersion>0.5.4</ApplicationVersion>
-		<!-- Unable to read project information for 'RpdPlayerApp': The property PackageVersion was expected to have a single value across all target frameworks, but instead had the following values: 0.5.4, 1.0.0-->
-    <Version>0.5.4</Version>
+    <!-- Versions (need to be the same) -->
+    <ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
+    <ApplicationVersion>0.6.0</ApplicationVersion>
+    <!-- Unable to read project information for 'RpdPlayerApp': The property PackageVersion was expected to have a single value across all target frameworks, but instead had the following values: 0.5.4, 1.0.0-->
+    <Version>0.6.0</Version>
 
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">28.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.18362.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.18362.0</TargetPlatformMinVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-	</PropertyGroup>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">28.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.18362.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.18362.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+    <!-- Sometimes "Unsafe code may only appear if compiling with /unsafe" comes up 12 times, that prevents building succesfully. May be in one of the platforms or libraries. -->
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
 
   <!-- So the signed apk actually works... -->
   <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-android'">
@@ -47,8 +52,8 @@
     <PublishTrimmed>False</PublishTrimmed>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
-    <ApplicationVersion>36</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.6</ApplicationDisplayVersion>
+    <ApplicationVersion>37</ApplicationVersion>
+    <ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
@@ -56,22 +61,22 @@
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
-    <ApplicationVersion>36</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.6</ApplicationDisplayVersion>
+    <ApplicationVersion>37</ApplicationVersion>
+    <ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
-    <ApplicationVersion>36</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.6</ApplicationDisplayVersion>
+    <ApplicationVersion>37</ApplicationVersion>
+    <ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
-    <ApplicationVersion>36</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.6</ApplicationDisplayVersion>
+    <ApplicationVersion>37</ApplicationVersion>
+    <ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
@@ -81,15 +86,15 @@
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
-    <ApplicationVersion>36</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.6</ApplicationDisplayVersion>
+    <ApplicationVersion>37</ApplicationVersion>
+    <ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
-    <ApplicationVersion>36</ApplicationVersion>
-    <ApplicationDisplayVersion>0.5.6</ApplicationDisplayVersion>
+    <ApplicationVersion>37</ApplicationVersion>
+    <ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>
@@ -118,124 +123,124 @@
     <!-- App Icon -->
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFF" />
     
-		<!-- Splash Screen -->
+        <!-- Splash Screen -->
     <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#33806C" BaseSize="128,128" />
     
-		<!-- Images -->
-		<MauiImage Include="Resources\Images\*" />
+        <!-- Images -->
+        <MauiImage Include="Resources\Images\*" />
 
-		<!-- Custom Fonts -->
-		<MauiFont Include="Resources\Fonts\*" />
+        <!-- Custom Fonts -->
+        <MauiFont Include="Resources\Fonts\*" />
 
-		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-	</ItemGroup>
+        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
   
-	<ItemGroup>
-	  <AndroidResource Remove="Platforms\Android\Resources\values\styles.xml" />
-	</ItemGroup>
+    <ItemGroup>
+      <AndroidResource Remove="Platforms\Android\Resources\values\styles.xml" />
+    </ItemGroup>
   
-	<ItemGroup>
-	  <None Remove="Resources\Images\house.svg" />
-	  <None Remove="Resources\Images\magnifyingglasses.svg" />
-	  <None Remove="Resources\Images\musiclist.svg" />
-	  <None Remove="Resources\Images\songlibrary.svg" />
+    <ItemGroup>
+      <None Remove="Resources\Images\house.svg" />
+      <None Remove="Resources\Images\magnifyingglasses.svg" />
+      <None Remove="Resources\Images\musiclist.svg" />
+      <None Remove="Resources\Images\songlibrary.svg" />
     <None Remove="Resources\Splash\splash.svg" />
-	</ItemGroup>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
-		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="4.0.1" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
-		<PackageReference Include="Dropbox.Api" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.92" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.92" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
-		<PackageReference Include="Sentry.Maui" Version="4.11.0" />
-		<PackageReference Include="Syncfusion.Licensing" Version="28.1.33" />
-		<PackageReference Include="Syncfusion.Maui.Buttons" Version="28.1.33" />
-		<PackageReference Include="Syncfusion.Maui.Core" Version="28.1.33" />
-		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="28.1.33" />
-		<PackageReference Include="Syncfusion.Maui.Expander" Version="28.1.33" />
-		<PackageReference Include="Syncfusion.Maui.ListView" Version="28.1.33" />
-		<PackageReference Include="Syncfusion.Maui.Popup" Version="28.1.33" />
-		<PackageReference Include="Syncfusion.Maui.Sliders" Version="28.1.33" />
-		<PackageReference Include="Syncfusion.Maui.TabView" Version="28.1.33" />
-		<PackageReference Include="The49.Maui.BottomSheet" Version="8.0.3" />
-		<PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.10.0" />
-		<PackageReference Include="UraniumUI.Icons.MaterialSymbols" Version="2.10.0" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
+        <PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="4.0.1" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+        <PackageReference Include="Dropbox.Api" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.92" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.92" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+        <PackageReference Include="Sentry.Maui" Version="4.11.0" />
+        <PackageReference Include="Syncfusion.Licensing" Version="28.1.33" />
+        <PackageReference Include="Syncfusion.Maui.Buttons" Version="28.1.33" />
+        <PackageReference Include="Syncfusion.Maui.Core" Version="28.1.33" />
+        <PackageReference Include="Syncfusion.Maui.DataGrid" Version="28.1.33" />
+        <PackageReference Include="Syncfusion.Maui.Expander" Version="28.1.33" />
+        <PackageReference Include="Syncfusion.Maui.ListView" Version="28.1.33" />
+        <PackageReference Include="Syncfusion.Maui.Popup" Version="28.1.33" />
+        <PackageReference Include="Syncfusion.Maui.Sliders" Version="28.1.33" />
+        <PackageReference Include="Syncfusion.Maui.TabView" Version="28.1.33" />
+        <PackageReference Include="The49.Maui.BottomSheet" Version="8.0.3" />
+        <PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.10.0" />
+        <PackageReference Include="UraniumUI.Icons.MaterialSymbols" Version="2.10.0" />
+    </ItemGroup>
 
-	<ItemGroup>
-	  <Compile Update="Views\AudioPlayerControl.xaml.cs">
-	    <DependentUpon>AudioPlayerControl.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\CurrentPlaylistView.xaml.cs">
-	    <DependentUpon>CurrentPlaylistView.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
+    <ItemGroup>
+      <Compile Update="Views\AudioPlayerControl.xaml.cs">
+        <DependentUpon>AudioPlayerControl.xaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\CurrentPlaylistView.xaml.cs">
+        <DependentUpon>CurrentPlaylistView.xaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <MauiXaml Update="Resources\Styles\Christmas.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Resources\Styles\Dark.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Resources\Styles\Halloween.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Resources\Styles\Light.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\CategoriesView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\HomeView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\CurrentPlaylistView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\LibraryView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\MainPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\AudioPlayerControl.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\NewsPopup.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SearchSongPartsView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SongPartDetailBottomSheet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SortByBottomSheet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\VideoPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+    <ItemGroup>
+      <MauiXaml Update="Resources\Styles\Christmas.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Resources\Styles\Dark.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Resources\Styles\Halloween.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Resources\Styles\Light.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\CategoriesView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\HomeView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\CurrentPlaylistView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\LibraryView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\MainPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\AudioPlayerControl.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\NewsPopup.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\SearchSongPartsView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\SongPartDetailBottomSheet.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\SortByBottomSheet.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\VideoPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
     <MauiXaml Update="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-	</ItemGroup>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Animations\" />
-	</ItemGroup>
+    <ItemGroup>
+      <Folder Include="Animations\" />
+    </ItemGroup>
 
-	<ItemGroup>
-	  <MauiAsset Update="Resources\Raw\countdown-long.mp3">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\countdown-short.mp3">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </MauiAsset>
-	</ItemGroup>
+    <ItemGroup>
+      <MauiAsset Update="Resources\Raw\countdown-long.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </MauiAsset>
+      <MauiAsset Update="Resources\Raw\countdown-short.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </MauiAsset>
+    </ItemGroup>
 </Project>

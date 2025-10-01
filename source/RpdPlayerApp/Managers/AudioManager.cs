@@ -93,7 +93,7 @@ internal static class AudioManager
 
     private static MediaSource? GetAnnouncementMediaSource()
     {
-        return AppState.CountdownMode switch
+        return AppState.AnnouncementMode switch
         {
             //CountdownModeEnum.Short => MediaSource.FromResource("countdown-short.mp3"),
             //CountdownModeEnum.Long => MediaSource.FromResource("countdown-long.mp3"),
@@ -102,9 +102,9 @@ internal static class AudioManager
         };
     }
 
-    internal static void SetTimer() => PreSongPartMediaElement!.Source = GetTimerMediaSource();
+    internal static void SetCountdown() => PreSongPartMediaElement!.Source = GetCountdownMediaSource();
 
-    private static MediaSource? GetTimerMediaSource()
+    private static MediaSource? GetCountdownMediaSource()
     {
         return AppState.CountdownMode switch
         {
@@ -331,7 +331,8 @@ internal static class AudioManager
 
     private static void SetNextSongAndNextPlayer()
     {
-        // Choose song
+        // Choose next song
+        // Queue has priority
         if (AppState.SongPartsQueue.Count > 0)
         {
             NextPlayer!.Source = MediaSource.FromUri(AppState.SongPartsQueue.Peek().AudioURL);
@@ -347,8 +348,17 @@ internal static class AudioManager
             // Imagine index = 1220, count = 1221
             if (index + 1 < AppState.SongParts.Count)
             {
-                NextPlayer!.Source = MediaSource.FromUri(AppState.SongParts[index + 1].AudioURL);
-                AppState.NextSongPart = AppState.SongParts[index + 1];
+                SongPart nextSong = AppState.SongParts[index + 1];
+
+                NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
+                AppState.NextSongPart = nextSong;
+            }
+            else // End of list
+            {
+                SongPart nextSong = AppState.SongParts[0];
+
+                NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
+                AppState.NextSongPart = nextSong;
             }
         }
         else if (AppState.AutoplayMode == AutoplayModeEnum.Shuffle)
@@ -356,9 +366,10 @@ internal static class AudioManager
             if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
 
             int index = General.Rng.Next(AppState.SongParts.Count);
+            SongPart nextSong = AppState.SongParts[index];
 
-            NextPlayer!.Source = MediaSource.FromUri(AppState.SongParts[index + 1].AudioURL);
-            AppState.NextSongPart = AppState.SongParts[index + 1];
+            NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
+            AppState.NextSongPart = nextSong;
         }
 
         //if (AppState.SongPartsQueue.Count == 0)

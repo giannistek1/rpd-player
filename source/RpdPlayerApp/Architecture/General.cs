@@ -93,13 +93,14 @@ internal static class General
         ];
 
         // You can do the same with artists
-        /*List<int> artistsCount = new List<int>();
-		// GroupBy basically groups everything that's the same into a list
-		var g = playlistSongs.GroupBy( i => i.artist );
-		foreach (var grp in g)
-		{
-			artistsCount.Add(grp.Count());
-		}*/
+
+        //      List<int> artistsCount = new List<int>();
+        //// GroupBy basically groups everything that's the same into a list
+        //var g = playlistSongs.GroupBy( i => i.artist );
+        //foreach (var grp in g)
+        //{
+        //	artistsCount.Add(grp.Count());
+        //}
 
         for (int i = 0; i < playlist.Count; i++)
         {

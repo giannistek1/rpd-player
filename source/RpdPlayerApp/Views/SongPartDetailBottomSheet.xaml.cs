@@ -203,7 +203,7 @@ public partial class SongPartDetailBottomSheet
         }
 
         // TODO: Maybe going to change once announcements are added.
-        AudioManager.SetTimer();
+        AudioManager.SetCountdown();
     }
 
     private void VoiceButtonPressed(object sender, EventArgs e)
