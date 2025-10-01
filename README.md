@@ -13,6 +13,11 @@ I am simply cutting parts out of the songs to use in this free-to-use app.
 # Rpd-player
 This is a hobby/educational project I work on in my free time. 
 
+# Preconditions development
+- Syncfusion version 28.1.33
+- .NET 8 + .NET Maui (XAML) workload
+- When you have a longpath: path > 260 characters exception, change your path to be shorter.
+
 ## Overview
 - Context
 - Scope
