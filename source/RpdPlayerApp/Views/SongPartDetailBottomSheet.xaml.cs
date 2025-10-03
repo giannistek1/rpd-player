@@ -79,8 +79,8 @@ public partial class SongPartDetailBottomSheet
 
         AutoplayImageButton.Source = AppState.AutoplayMode switch
         {
-            AutoplayModeValue.Off => IconManager.OffIcon,
-            AutoplayModeValue.Autoplay => IconManager.AutoplayIcon,
+            AutoplayModeValue.Single => IconManager.OffIcon,
+            AutoplayModeValue.AutoplayLoop => IconManager.AutoplayIcon,
             AutoplayModeValue.Shuffle => IconManager.ShuffleIcon,
             AutoplayModeValue.RepeatOne => IconManager.RepeatOneIcon,
             _ => IconManager.OffIcon
@@ -159,13 +159,13 @@ public partial class SongPartDetailBottomSheet
         }
         else
         {
-            AppState.AutoplayMode = AutoplayModeValue.Off; // 0
+            AppState.AutoplayMode = AutoplayModeValue.Single; // 0
         }
 
         switch (AppState.AutoplayMode)
         {
-            case AutoplayModeValue.Off: AutoplayImageButton.Source = IconManager.OffIcon; break;
-            case AutoplayModeValue.Autoplay: AutoplayImageButton.Source = IconManager.AutoplayIcon; break;
+            case AutoplayModeValue.Single: AutoplayImageButton.Source = IconManager.OffIcon; break;
+            case AutoplayModeValue.AutoplayLoop: AutoplayImageButton.Source = IconManager.AutoplayIcon; break;
             case AutoplayModeValue.Shuffle: AutoplayImageButton.Source = IconManager.ShuffleIcon; break;
             case AutoplayModeValue.RepeatOne: AutoplayImageButton.Source = IconManager.RepeatOneIcon; break;
         }

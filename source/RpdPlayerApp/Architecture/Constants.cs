@@ -14,6 +14,8 @@ internal static class Constants
     /// <summary> 5 </summary>
     internal static readonly int VideoPropertyAmount = 5;
 
+    internal static int HISTORY_LIMIT = 100;
+
     internal static readonly DateTime secondGenStartDate = new(2002, 12, 31, 0, 0, 0, DateTimeKind.Utc);
     internal static readonly DateTime thirdGenStartDate = new(year: 2012, month: 2, day: 11, 0, 0, 0, DateTimeKind.Utc);
     internal static readonly DateTime fourthGenStartDate = new(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc);

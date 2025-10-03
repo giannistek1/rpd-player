@@ -229,7 +229,7 @@ internal static class AudioManager
         AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.None;
 
         // Check if next song is valid.
-        if (string.IsNullOrEmpty(AppState.NextSongPart.AudioURL))
+        if (AppState.AutoplayMode == AutoplayModeValue.Single || string.IsNullOrEmpty(AppState.NextSongPart.AudioURL))
         {
             OnStop?.Invoke(null, EventArgs.Empty);
             DebugService.Instance.AddDebug(msg: $"PlayNextSong: NextSongPart.AudioURL is empty");
@@ -338,7 +338,12 @@ internal static class AudioManager
             AppState.NextSongPart = AppState.SongPartsQueue.Dequeue();
             return;
         }
-        else if (AppState.AutoplayMode == AutoplayModeValue.Autoplay)
+        else if (AppState.AutoplayMode == AutoplayModeValue.Single)
+        {
+            NextPlayer!.Source = null;
+            AppState.NextSongPart = new();
+        }
+        else if (AppState.AutoplayMode == AutoplayModeValue.AutoplayLoop)
         {
             if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
 
@@ -364,11 +369,24 @@ internal static class AudioManager
         {
             if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
 
+            // Decide random unique song.
             int index = General.Rng.Next(AppState.SongParts.Count);
+            while (AppState.SongPartHistory.Contains(AppState.SongParts[index]) || // Same songpart check
+                AppState.SongPartHistory.Any(h => h.Title == AppState.SongParts[index].Title)) // Same title check
+            {
+                index = General.Rng.Next(AppState.SongParts.Count);
+            }
+
             SongPart nextSong = AppState.SongParts[index];
 
             NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
             AppState.NextSongPart = nextSong;
+
+            // Remove songs from history if too long.
+            if (AppState.SongPartHistory.Count >= Constants.HISTORY_LIMIT)
+            {
+                AppState.SongPartHistory.RemoveAt(0);
+            }
         }
 
         //if (AppState.SongPartsQueue.Count == 0)

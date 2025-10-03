@@ -22,7 +22,7 @@ internal static class AppState
     /// 2 = shuffle,
     /// 3 = repeat
     /// </summary>
-    internal static AutoplayModeValue AutoplayMode { get; set; } = AutoplayModeValue.Off;
+    internal static AutoplayModeValue AutoplayMode { get; set; } = AutoplayModeValue.AutoplayLoop;
 
     /// <summary>
     /// 0 = Off,
