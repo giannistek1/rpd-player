@@ -106,7 +106,7 @@
             </Grid>
 
             <!-- Action buttons -->
-            <Grid Grid.Row="8" ColumnDefinitions="2*, 2*, 2*, 2*, 2*" Margin="0,0,0,8">
+            <Grid Grid.Row="8" ColumnDefinitions="2*, 2*, 2*, 2*, 2*" Margin="0,8,0,8">
 
                 <ImageButton Grid.Column="0" HeightRequest="34" x:Name="RestartAudioImageButton" Pressed="RestartAudioImageButtonPressed">
                     <ImageButton.Source>

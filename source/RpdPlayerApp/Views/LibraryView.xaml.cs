@@ -19,12 +19,25 @@ public partial class LibraryView : ContentView
     {
         InitializeComponent();
         Loaded += OnLoad;
+        InitializeHomeModeSegmentedControl();
     }
 
     private void OnLoad(object? sender, EventArgs e)
     {
         CheckValidPlaylists();
         LoadPlaylists();
+    }
+
+    private void InitializeHomeModeSegmentedControl()
+    {
+        CloudModeSegmentedControl.ItemsSource = new[] { "Local", "Cloud" };
+        CloudModeSegmentedControl.SelectedIndex = 0;
+        CloudModeSegmentedControl.SelectionChanged += HomeModeSegmentedControlSelectionChanged;
+    }
+
+    private void HomeModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
+    {
+        // TODO: Do something.
     }
 
     internal void FocusNewPlaylistEntry() => PlaylistNameEntry.Focus();

@@ -153,7 +153,7 @@ public partial class HomeView : ContentView
     {
         HomeModeSegmentedControl.ItemsSource = new[] { "Start RPD", "Generate playlist" };
         HomeModeSegmentedControl.SelectedIndex = 0;
-        HomeModeSegmentedControl.SelectionChanged += HomeModeSegmentedControl_SelectionChanged;
+        HomeModeSegmentedControl.SelectionChanged += HomeModeSegmentedControlSelectionChanged;
 
         StartModeButton.Text = "Start RPD";
         StartModeButton.ImageSource = IconManager.PlayIcon;
@@ -479,7 +479,7 @@ public partial class HomeView : ContentView
 
     private void SearchByCategoryButtonClicked(object sender, EventArgs e) => ShowCategories?.Invoke(sender, e);
 
-    private void HomeModeSegmentedControl_SelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
+    private void HomeModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
         RpdSettings!.UsingGeneratePlaylist = (HomeModeSegmentedControl.SelectedIndex == 1);
 

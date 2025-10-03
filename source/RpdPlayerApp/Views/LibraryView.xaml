@@ -5,16 +5,33 @@
              xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="RpdPlayerApp.Views.LibraryView"
              BackgroundColor="{DynamicResource BackgroundColor}">
 
-    <Grid Padding="0" RowDefinitions="auto, *" ColumnDefinitions="*">
+    <Grid Padding="0" RowDefinitions="auto, auto, *" ColumnDefinitions="*">
 
         <!--<Button x:Name="PlayPlaylistButton" Margin="2" Clicked="PlayPlaylistButton_Clicked" Text="Play" />
 
             <Button x:Name="CopyPlaylistButton" Margin="2" Clicked="CopyPlaylistButton_Clicked" Text="Copy" />-->
 
-        <Border Grid.Row="0" x:Name="PlaylistNameEntryBorder" HeightRequest="64" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+
+        <!-- Cloud/local mode -->
+        <buttons:SfSegmentedControl Grid.Row="0" x:Name="CloudModeSegmentedControl" SegmentWidth="150" Margin="0,8,0,8">
+
+            <!-- Non-selection -->
+            <buttons:SfSegmentedControl.TextStyle>
+                <buttons:SegmentTextStyle TextColor="{DynamicResource PrimaryTextColor}" FontSize="16"/>
+            </buttons:SfSegmentedControl.TextStyle>
+
+            <!-- Selection -->
+            <buttons:SfSegmentedControl.SelectionIndicatorSettings>
+                <buttons:SelectionIndicatorSettings  SelectionIndicatorPlacement="Fill" Background="{DynamicResource SecondaryButton}" TextColor="{DynamicResource PrimaryTextColor}"/>
+            </buttons:SfSegmentedControl.SelectionIndicatorSettings>
+
+        </buttons:SfSegmentedControl>
+
+        <Border Grid.Row="1" x:Name="PlaylistNameEntryBorder" HeightRequest="64" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
 
             <Grid VerticalOptions="Center">
 
@@ -25,7 +42,7 @@
         </Border>
 
         <!-- Playlists -->
-        <syncfusion:SfListView Grid.Row="1" x:Name="PlaylistsListView" SelectionMode="None" BackgroundColor="{DynamicResource BackgroundColor}" EmptyView="No playlists yet. Create a playlist!" AutoFitMode="Height"
+        <syncfusion:SfListView Grid.Row="2" x:Name="PlaylistsListView" SelectionMode="None" BackgroundColor="{DynamicResource BackgroundColor}" EmptyView="No playlists yet. Create a playlist!" AutoFitMode="Height"
                                AllowSwiping="True" ItemTapped="PlaylistsListViewItemTapped" SwipeEnded="PlaylistsListView_SwipeEnded" >
             
             <syncfusion:SfListView.StartSwipeTemplate>
