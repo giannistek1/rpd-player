@@ -2,7 +2,6 @@
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
-using RpdPlayerApp.ViewModels;
 using RpdPlayerApp.Views;
 
 namespace RpdPlayerApp.Managers;
@@ -35,41 +34,41 @@ internal static class AudioManager
     {
         DebugService.Instance.AddDebug(msg: $"PlayPause: {(CurrentPlayer == SongPartMediaElement ? "SongPartMediaElement" : "SongPartMediaElement2")}");
 
-        if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Announcement)
+        if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.Announcement)
         {
-            AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.AnnouncementPaused;
+            AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.AnnouncementPaused;
             PreSongPartMediaElement!.Pause();
             OnPause?.Invoke(null, EventArgs.Empty);
         }
-        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.AnnouncementPaused)
+        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.AnnouncementPaused)
         {
-            AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.Announcement;
+            AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.Announcement;
             PreSongPartMediaElement!.Play();
             OnPlay?.Invoke(null, EventArgs.Empty);
         }
 
-        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Countdown)
+        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.Countdown)
         {
-            AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.CountdownPaused;
+            AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.CountdownPaused;
             PreSongPartMediaElement!.Pause();
             OnPause?.Invoke(null, EventArgs.Empty);
         }
-        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.CountdownPaused)
+        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.CountdownPaused)
         {
-            AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.Countdown;
+            AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.Countdown;
             PreSongPartMediaElement!.Play();
             OnPlay?.Invoke(null, EventArgs.Empty);
         }
 
-        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.SongPart)
+        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.SongPart)
         {
-            AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.SongPartPaused;
+            AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.SongPartPaused;
             CurrentPlayer!.Pause();
             OnPause?.Invoke(null, EventArgs.Empty);
         }
-        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.SongPartPaused || AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.None)
+        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.SongPartPaused || AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.None)
         {
-            AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.SongPart;
+            AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.SongPart;
             CurrentPlayer!.Play();
             OnPlay?.Invoke(null, EventArgs.Empty);
         }
@@ -83,7 +82,7 @@ internal static class AudioManager
             CurrentPlayer!.Stop();
             CurrentPlayer.SeekTo(new TimeSpan(0));
 
-            AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.SongPartPaused;
+            AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.SongPartPaused;
 
             OnStop?.Invoke(null, EventArgs.Empty);
         }
@@ -108,16 +107,16 @@ internal static class AudioManager
     {
         return AppState.CountdownMode switch
         {
-            CountdownModeEnum.Short => MediaSource.FromResource("countdown-short.mp3"),
-            CountdownModeEnum.Long => MediaSource.FromResource("countdown-long.mp3"),
-            CountdownModeEnum.Custom => MediaSource.FromResource("countdown-kart.mp3"),
+            CountdownModeValue.Short => MediaSource.FromResource("countdown-short.mp3"),
+            CountdownModeValue.Long => MediaSource.FromResource("countdown-long.mp3"),
+            CountdownModeValue.Custom => MediaSource.FromResource("countdown-kart.mp3"),
             _ => null
         };
     }
 
     internal static void PlayCountdown()
     {
-        AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.Countdown;
+        AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.Countdown;
 
         OnPlay?.Invoke(null, EventArgs.Empty);
 
@@ -128,7 +127,7 @@ internal static class AudioManager
 
     internal static void PlayAnnouncement()
     {
-        AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.Announcement;
+        AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.Announcement;
 
         OnPlay?.Invoke(null, EventArgs.Empty);
 
@@ -148,23 +147,23 @@ internal static class AudioManager
     {
         if (AppState.CurrentSongPart is null) { return; }
 
-        if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Announcement
-            || AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.AnnouncementPaused
-            || AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Countdown
-            || AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.CountdownPaused)
+        if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.Announcement
+            || AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.AnnouncementPaused
+            || AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.Countdown
+            || AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.CountdownPaused)
         {
             PreSongPartMediaElement!.SeekTo(new TimeSpan(0));
             PreSongPartMediaElement.Play();
-            AppState.CurrentlyPlayingState = (AppState.AnnouncementMode > 0) ? CurrentlyPlayingStateEnum.Announcement : CurrentlyPlayingStateEnum.Countdown;
+            AppState.CurrentlyPlayingState = (AppState.AnnouncementMode > 0) ? CurrentlyPlayingStateValue.Announcement : CurrentlyPlayingStateValue.Countdown;
             OnPlay?.Invoke(null, EventArgs.Empty);
             return;
         }
-        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.SongPart
-            || AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.SongPartPaused)
+        else if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.SongPart
+            || AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.SongPartPaused)
         {
             CurrentPlayer!.SeekTo(new TimeSpan(0));
             CurrentPlayer.Play();
-            AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.SongPart;
+            AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.SongPart;
             OnPlay?.Invoke(null, EventArgs.Empty);
             return;
         }
@@ -216,7 +215,7 @@ internal static class AudioManager
         DebugService.Instance.AddDebug(msg: $"PlayNextSong: {(CurrentPlayer == SongPartMediaElement ? "SongPartMediaElement" : "SongPartMediaElement2")}");
 
         // Check repeat one mode.
-        if (AppState.AutoplayMode == AutoplayModeEnum.RepeatOne)
+        if (AppState.AutoplayMode == AutoplayModeValue.RepeatOne)
         {
             CurrentPlayer!.SeekTo(new TimeSpan(0));
             PlayAnnouncementCountdownOrSongPart();
@@ -227,7 +226,7 @@ internal static class AudioManager
         // Stop current player.
         CurrentPlayer!.Stop();
         CurrentPlayer.SeekTo(new TimeSpan(0));
-        AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.None;
+        AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.None;
 
         // Check if next song is valid.
         if (string.IsNullOrEmpty(AppState.NextSongPart.AudioURL))
@@ -260,7 +259,7 @@ internal static class AudioManager
     {
         if (AppState.SongPartHistory.Count == 0)
         {
-            AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.None;
+            AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.None;
             DebugService.Instance.AddDebug(msg: $"PlayPreviousSong: History is 0");
             return;
         }
@@ -300,13 +299,13 @@ internal static class AudioManager
 
     private static void PlayAnnouncementCountdownOrSongPart()
     {
-        if (AppState.AnnouncementMode > AnnouncementModeEnum.Off)
+        if (AppState.AnnouncementMode > AnnouncementModeValue.Off)
         {
-            AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.Announcement;
+            AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.Announcement;
             PlayAnnouncement();
             DebugService.Instance.AddDebug(msg: $"Playing announcement.");
         }
-        else if (AppState.CountdownMode > CountdownModeEnum.Off)
+        else if (AppState.CountdownMode > CountdownModeValue.Off)
         {
             PlayCountdown();
             DebugService.Instance.AddDebug(msg: $"Playing countdown.");
@@ -321,7 +320,7 @@ internal static class AudioManager
     /// <summary> Plays the current audio and updates Play buttons </summary>
     internal static void PlayAudio()
     {
-        AppState.CurrentlyPlayingState = CurrentlyPlayingStateEnum.SongPart;
+        AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.SongPart;
         CurrentPlayer!.Play();
         OnPlay?.Invoke(null, EventArgs.Empty);
     }
@@ -339,7 +338,7 @@ internal static class AudioManager
             AppState.NextSongPart = AppState.SongPartsQueue.Dequeue();
             return;
         }
-        else if (AppState.AutoplayMode == AutoplayModeEnum.Autoplay)
+        else if (AppState.AutoplayMode == AutoplayModeValue.Autoplay)
         {
             if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
 
@@ -361,7 +360,7 @@ internal static class AudioManager
                 AppState.NextSongPart = nextSong;
             }
         }
-        else if (AppState.AutoplayMode == AutoplayModeEnum.Shuffle)
+        else if (AppState.AutoplayMode == AutoplayModeValue.Shuffle)
         {
             if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
 

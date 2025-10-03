@@ -1,6 +1,6 @@
 ﻿namespace RpdPlayerApp.Enums;
 
-public enum AnnouncementModeEnum
+public enum AnnouncementModeValue
 {
     Off = 0,
     DancebreakOnly = 1,

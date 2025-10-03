@@ -15,12 +15,12 @@ internal class HomeListViewItem
 
     /// <summary> Shows artist in gen. </summary>
     public string ArtistName { get; set; }
-    public SearchFilterMode SearchFilterMode { get; set; }
+    public SearchFilterModeValue SearchFilterMode { get; set; }
 
     public int SongCount { get; set; }
     public int ArtistCount { get; set; }
 
-    public HomeListViewItem(string title, string imageUrl, SearchFilterMode searchFilterMode, string description = "", string topArtists = "", string childCompanies = "", string oldNames = "", int songCount = 0, int artistCount = 0, string artistName = "")
+    public HomeListViewItem(string title, string imageUrl, SearchFilterModeValue searchFilterMode, string description = "", string topArtists = "", string childCompanies = "", string oldNames = "", int songCount = 0, int artistCount = 0, string artistName = "")
     {
         Title = title;
         ImageURL = imageUrl;
@@ -35,7 +35,7 @@ internal class HomeListViewItem
     }
 
     // TODO: Add extra custom description with famous songs from the year like "Growl, Whiplash, etc"
-    internal static HomeListViewItem Create(int year, SearchFilterMode searchFilterMode)
+    internal static HomeListViewItem Create(int year, SearchFilterModeValue searchFilterMode)
     {
         return new(title: year.ToString(),
                    imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",

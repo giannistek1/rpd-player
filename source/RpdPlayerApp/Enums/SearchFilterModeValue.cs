@@ -1,6 +1,6 @@
 ﻿namespace RpdPlayerApp.Enums;
 
-internal enum SearchFilterMode
+internal enum SearchFilterModeValue
 {
     All, DanceVideos,
     Male, Female, Mixed,

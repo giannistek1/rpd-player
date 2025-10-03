@@ -1,7 +1,7 @@
 ﻿namespace RpdPlayerApp.Enums;
 
 
-public enum AutoplayModeEnum
+public enum AutoplayModeValue
 {
     Off = 0,
     /// <summary> Loops through whatever songlist </summary>

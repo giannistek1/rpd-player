@@ -3,7 +3,6 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
-using RpdPlayerApp.ViewModels;
 using System.Text.RegularExpressions;
 
 namespace RpdPlayerApp.Views;
@@ -157,7 +156,7 @@ public partial class LibraryView : ContentView
         AppState.CurrentSongPart = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts[0];
 
         // Change mode to playlist
-        AppState.PlayMode = PlayMode.Playlist;
+        AppState.PlayMode = PlayModeValue.Playlist;
         PlayPlaylist?.Invoke(sender, e);
     }
 

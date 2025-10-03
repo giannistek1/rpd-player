@@ -1,7 +1,7 @@
 ﻿namespace RpdPlayerApp.Architecture;
 
 // For custom order.
-internal enum Gen
+internal enum GenType
 {
     NotKpop = 0,
     First = 1,

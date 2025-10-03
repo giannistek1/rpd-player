@@ -1,6 +1,6 @@
 ﻿namespace RpdPlayerApp.Enums;
 
-public enum CountdownModeEnum
+public enum CountdownModeValue
 {
     Off = 0,
     Short = 1,

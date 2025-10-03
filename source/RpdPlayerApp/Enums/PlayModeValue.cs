@@ -1,6 +1,6 @@
 ﻿namespace RpdPlayerApp.Enums;
 
-internal enum PlayMode
+internal enum PlayModeValue
 {
     /// <summary> Normal play mode. Queued songs have priority. </summary> 
     Queue = 0,

@@ -2,7 +2,6 @@ using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
-using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
@@ -166,58 +165,58 @@ public partial class MainPage
     {
         return AppState.SearchFilterMode switch
         {
-            SearchFilterMode.All => "All songs",
-            SearchFilterMode.DanceVideos => "Dance videos",
-            SearchFilterMode.Male => "Boy(groups)",
-            SearchFilterMode.Female => "Girl(groups)",
-            SearchFilterMode.Hybe => "Hybe Labels",
-            SearchFilterMode.YG => "YG Entertainment",
-            SearchFilterMode.JYP => "JYP Entertainment",
-            SearchFilterMode.SM => "SM Entertainment",
-            SearchFilterMode.Cube => "Cube Entertainment",
-            SearchFilterMode.FNC => "FNC Entertainment",
-            SearchFilterMode.Pledis => "Pledis Entertainment",
-            SearchFilterMode.Starship => "Starship Entertainment",
-            SearchFilterMode.RBW => "RBW Entertainment",
-            SearchFilterMode.Woollim => "Woollim Entertainment",
-            SearchFilterMode.IST => "IST Entertainment",
-            SearchFilterMode.CJ_ENM_Music => "CJ ENM Music",
-            SearchFilterMode.Kakao_Entertainment => "Kakao Entertainment",
-            SearchFilterMode.Firstgen => "1st gen (< 2002)",
-            SearchFilterMode.Secondgen => "2nd gen (2003-2012)",
-            SearchFilterMode.Thirdgen => "3rd gen (2012-2017)",
-            SearchFilterMode.Fourthgen => "4th gen (2018-2022)",
-            SearchFilterMode.Fifthgen => "5th gen (2023 >)",
-            SearchFilterMode.Kpop => "Korean pop",
-            SearchFilterMode.Jpop => "Japanese pop",
-            SearchFilterMode.EN => "English pop",
-            SearchFilterMode.Cpop => "Chinese pop",
-            SearchFilterMode.Tpop => "Thai pop",
-            SearchFilterMode.Solo => "Solo artists",
-            SearchFilterMode.Duo => "Duos",
-            SearchFilterMode.Trio => "Trios",
-            SearchFilterMode.Quadruplet => "Quadruplets",
-            SearchFilterMode.Quintet => "Quintets",
-            SearchFilterMode.Sextet => "Sextets",
-            SearchFilterMode.Septet => "Septets",
-            SearchFilterMode.Octet => "Octets",
-            SearchFilterMode.Nonet => "Nonets",
-            SearchFilterMode.Group => "Groups (2+ members)",
-            SearchFilterMode.KpopSoonerThan2012 => "K-pop < 2012",
-            SearchFilterMode.kpop2012 => "K-pop 2012",
-            SearchFilterMode.kpop2013 => "K-pop 2013",
-            SearchFilterMode.kpop2014 => "K-pop 2014",
-            SearchFilterMode.kpop2015 => "K-pop 2015",
-            SearchFilterMode.kpop2016 => "K-pop 2016",
-            SearchFilterMode.kpop2017 => "K-pop 2017",
-            SearchFilterMode.kpop2018 => "K-pop 2018",
-            SearchFilterMode.kpop2019 => "K-pop 2019",
-            SearchFilterMode.kpop2020 => "K-pop 2020",
-            SearchFilterMode.kpop2021 => "K-pop 2021",
-            SearchFilterMode.kpop2022 => "K-pop 2022",
-            SearchFilterMode.kpop2023 => "K-pop 2023",
-            SearchFilterMode.kpop2024 => "K-pop 2024",
-            SearchFilterMode.kpop2025 => "K-pop 2025",
+            SearchFilterModeValue.All => "All songs",
+            SearchFilterModeValue.DanceVideos => "Dance videos",
+            SearchFilterModeValue.Male => "Boy(groups)",
+            SearchFilterModeValue.Female => "Girl(groups)",
+            SearchFilterModeValue.Hybe => "Hybe Labels",
+            SearchFilterModeValue.YG => "YG Entertainment",
+            SearchFilterModeValue.JYP => "JYP Entertainment",
+            SearchFilterModeValue.SM => "SM Entertainment",
+            SearchFilterModeValue.Cube => "Cube Entertainment",
+            SearchFilterModeValue.FNC => "FNC Entertainment",
+            SearchFilterModeValue.Pledis => "Pledis Entertainment",
+            SearchFilterModeValue.Starship => "Starship Entertainment",
+            SearchFilterModeValue.RBW => "RBW Entertainment",
+            SearchFilterModeValue.Woollim => "Woollim Entertainment",
+            SearchFilterModeValue.IST => "IST Entertainment",
+            SearchFilterModeValue.CJ_ENM_Music => "CJ ENM Music",
+            SearchFilterModeValue.Kakao_Entertainment => "Kakao Entertainment",
+            SearchFilterModeValue.Firstgen => "1st gen (< 2002)",
+            SearchFilterModeValue.Secondgen => "2nd gen (2003-2012)",
+            SearchFilterModeValue.Thirdgen => "3rd gen (2012-2017)",
+            SearchFilterModeValue.Fourthgen => "4th gen (2018-2022)",
+            SearchFilterModeValue.Fifthgen => "5th gen (2023 >)",
+            SearchFilterModeValue.Kpop => "Korean pop",
+            SearchFilterModeValue.Jpop => "Japanese pop",
+            SearchFilterModeValue.EN => "English pop",
+            SearchFilterModeValue.Cpop => "Chinese pop",
+            SearchFilterModeValue.Tpop => "Thai pop",
+            SearchFilterModeValue.Solo => "Solo artists",
+            SearchFilterModeValue.Duo => "Duos",
+            SearchFilterModeValue.Trio => "Trios",
+            SearchFilterModeValue.Quadruplet => "Quadruplets",
+            SearchFilterModeValue.Quintet => "Quintets",
+            SearchFilterModeValue.Sextet => "Sextets",
+            SearchFilterModeValue.Septet => "Septets",
+            SearchFilterModeValue.Octet => "Octets",
+            SearchFilterModeValue.Nonet => "Nonets",
+            SearchFilterModeValue.Group => "Groups (2+ members)",
+            SearchFilterModeValue.KpopSoonerThan2012 => "K-pop < 2012",
+            SearchFilterModeValue.kpop2012 => "K-pop 2012",
+            SearchFilterModeValue.kpop2013 => "K-pop 2013",
+            SearchFilterModeValue.kpop2014 => "K-pop 2014",
+            SearchFilterModeValue.kpop2015 => "K-pop 2015",
+            SearchFilterModeValue.kpop2016 => "K-pop 2016",
+            SearchFilterModeValue.kpop2017 => "K-pop 2017",
+            SearchFilterModeValue.kpop2018 => "K-pop 2018",
+            SearchFilterModeValue.kpop2019 => "K-pop 2019",
+            SearchFilterModeValue.kpop2020 => "K-pop 2020",
+            SearchFilterModeValue.kpop2021 => "K-pop 2021",
+            SearchFilterModeValue.kpop2022 => "K-pop 2022",
+            SearchFilterModeValue.kpop2023 => "K-pop 2023",
+            SearchFilterModeValue.kpop2024 => "K-pop 2024",
+            SearchFilterModeValue.kpop2025 => "K-pop 2025",
             _ => "Unknown"
         };
     }
@@ -366,14 +365,14 @@ public partial class MainPage
 
         switch (AppState.PlayMode)
         {
-            case PlayMode.Playlist:
+            case PlayModeValue.Playlist:
                 if (CurrentPlaylistManager.Instance.CurrentPlaylist is not null && SearchSongPartsView.songParts.Count > 0)
                 {
                     // Nothing
                 }
                 break;
 
-            case PlayMode.Queue:
+            case PlayModeValue.Queue:
                 if (SearchSongPartsView.songParts is not null && SearchSongPartsView.songParts.Count > 0)
                 {
                     // TODO: Based on song history?

@@ -1,6 +1,6 @@
 ﻿namespace RpdPlayerApp.Enums;
 
-internal enum SortMode
+internal enum SortModeValue
 {
     ReleaseDate = 0,
     Artist = 1,

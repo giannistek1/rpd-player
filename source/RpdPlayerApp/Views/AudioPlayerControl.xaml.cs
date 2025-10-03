@@ -4,7 +4,6 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
-using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
@@ -143,7 +142,7 @@ public partial class AudioPlayerControl : ContentView
 
     private void LocalAudioMediaElementMediaEnded(object? sender, EventArgs e)
     {
-        if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateEnum.Announcement)
+        if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.Announcement)
         {
             AudioManager.PlayCountdown();
         }
@@ -172,11 +171,11 @@ public partial class AudioPlayerControl : ContentView
 
     internal void UpdatePreviousSwipeItem()
     {
-        if (AppState.PlayMode == PlayMode.Playlist && AppState.SongPartHistory.Count > 0)
+        if (AppState.PlayMode == PlayModeValue.Playlist && AppState.SongPartHistory.Count > 0)
         {
             SetPreviousSwipeItem(isVisible: true, songPart: AppState.SongPartHistory[^1]);
         }
-        else if (AppState.PlayMode == PlayMode.Queue && AppState.SongPartHistory.Count > 0)
+        else if (AppState.PlayMode == PlayModeValue.Queue && AppState.SongPartHistory.Count > 0)
         {
             SetPreviousSwipeItem(isVisible: true, songPart: AppState.SongPartHistory[^1]);
         }
@@ -190,11 +189,11 @@ public partial class AudioPlayerControl : ContentView
 
     internal void UpdateNextSwipeItem()
     {
-        if (AppState.PlayMode == PlayMode.Playlist && AppState.PlaylistQueue.Count > 0)
+        if (AppState.PlayMode == PlayModeValue.Playlist && AppState.PlaylistQueue.Count > 0)
         {
             SetNextSwipeItem(isVisible: true, songPart: AppState.PlaylistQueue.Peek());
         }
-        else if (AppState.PlayMode == PlayMode.Queue && AppState.SongPartsQueue.Count > 0)
+        else if (AppState.PlayMode == PlayModeValue.Queue && AppState.SongPartsQueue.Count > 0)
         {
             SetNextSwipeItem(isVisible: true, songPart: AppState.SongPartsQueue.Peek());
         }

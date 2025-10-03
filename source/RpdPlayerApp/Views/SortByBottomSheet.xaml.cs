@@ -1,6 +1,6 @@
-using RpdPlayerApp.ViewModels;
 using The49.Maui.BottomSheet;
 using RpdPlayerApp.Enums;
+using RpdPlayerApp.Managers;
 
 namespace RpdPlayerApp.Views;
 
@@ -33,20 +33,20 @@ public partial class SortByBottomSheet
 
     private void SortByCategory(object sender, EventArgs e)
     {
-        if (sender == ReleaseDateOption) { AppState.SortMode = SortMode.ReleaseDate; }
-        if (sender == ArtistNameOption) { AppState.SortMode = SortMode.Artist; }
-        if (sender == SongTitleOption) { AppState.SortMode = SortMode.Title; }
-        if (sender == GroupTypeOption) { AppState.SortMode = SortMode.GroupType; }
-        if (sender == SongPartOption) { AppState.SortMode = SortMode.SongPart; }
-        if (sender == ClipLengthOption) { AppState.SortMode = SortMode.ClipLength; }
-        if (sender == SongCountPerArtisOption) { AppState.SortMode = SortMode.ArtistSongCount; }
-        if (sender == GenreOption) { AppState.SortMode = SortMode.Genre; }
-        if (sender == MemberCountOption) { AppState.SortMode = SortMode.MemberCount; }
-        if (sender == AlbumNameOption) { AppState.SortMode = SortMode.AlbumName; }
-        if (sender == CompanyOption) { AppState.SortMode = SortMode.Company; }
-        if (sender == GenerationOption) { AppState.SortMode = SortMode.Generation; }
-        if (sender == ReleaseWeekDayOption) { AppState.SortMode = SortMode.ReleaseWeekDay; }
-        if (sender == YearlyDateOption) { AppState.SortMode = SortMode.YearlyDate; }
+        if (sender == ReleaseDateOption) { AppState.SortMode = SortModeValue.ReleaseDate; }
+        if (sender == ArtistNameOption) { AppState.SortMode = SortModeValue.Artist; }
+        if (sender == SongTitleOption) { AppState.SortMode = SortModeValue.Title; }
+        if (sender == GroupTypeOption) { AppState.SortMode = SortModeValue.GroupType; }
+        if (sender == SongPartOption) { AppState.SortMode = SortModeValue.SongPart; }
+        if (sender == ClipLengthOption) { AppState.SortMode = SortModeValue.ClipLength; }
+        if (sender == SongCountPerArtisOption) { AppState.SortMode = SortModeValue.ArtistSongCount; }
+        if (sender == GenreOption) { AppState.SortMode = SortModeValue.Genre; }
+        if (sender == MemberCountOption) { AppState.SortMode = SortModeValue.MemberCount; }
+        if (sender == AlbumNameOption) { AppState.SortMode = SortModeValue.AlbumName; }
+        if (sender == CompanyOption) { AppState.SortMode = SortModeValue.Company; }
+        if (sender == GenerationOption) { AppState.SortMode = SortModeValue.Generation; }
+        if (sender == ReleaseWeekDayOption) { AppState.SortMode = SortModeValue.ReleaseWeekDay; }
+        if (sender == YearlyDateOption) { AppState.SortMode = SortModeValue.YearlyDate; }
 
         Close?.Invoke(sender, e);
     }

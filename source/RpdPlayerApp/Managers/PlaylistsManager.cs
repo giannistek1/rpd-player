@@ -1,5 +1,4 @@
 ﻿using RpdPlayerApp.Models;
-using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Managers;
 

@@ -5,7 +5,6 @@ using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
-using RpdPlayerApp.ViewModels;
 using System.Text;
 
 namespace RpdPlayerApp.Views;
@@ -45,7 +44,7 @@ public partial class CurrentPlaylistView : ContentView
         if (!CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts.Any()) { return; }
 
         // Change mode to playlist
-        AppState.PlayMode = PlayMode.Playlist;
+        AppState.PlayMode = PlayModeValue.Playlist;
 
         // Clear playlist queue and fill playlist queue
         AppState.PlaylistQueue.Clear();
@@ -167,7 +166,7 @@ public partial class CurrentPlaylistView : ContentView
 
         if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
         {
-            AppState.PlayMode = PlayMode.Playlist;
+            AppState.PlayMode = PlayModeValue.Playlist;
 
             AppState.PlaylistQueue.Clear();
 

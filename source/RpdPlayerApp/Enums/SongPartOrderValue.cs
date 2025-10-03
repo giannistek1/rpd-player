@@ -4,7 +4,7 @@
 /// Usually ordered by what it starts with.
 /// Examples: Prechorus, Chorus, Dancebreak, Tiktok
 /// </summary>
-internal enum SongPartOrder
+internal enum SongPartOrderValue
 {
     Unspecified = 0,
     Prechorus = 1,

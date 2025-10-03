@@ -15,7 +15,7 @@ internal class RpdSettings
     internal TimeSpan Duration { get; set; }
     internal List<GroupType> GroupTypes { get; set; } = [];
     internal List<string> Genres { get; set; } = [];
-    internal List<Gen> Gens { get; set; } = [];
+    internal List<GenType> Gens { get; set; } = [];
     internal List<string> Companies { get; set; } = [];
 
     internal List<string> OtherCompanies { get; set; } = [];
@@ -62,14 +62,14 @@ internal class RpdSettings
         {
             if (generationsChipGroup.Items[i].IsSelected)
             {
-                Gen gen = generationsChipGroup.Items[i].Text switch
+                GenType gen = generationsChipGroup.Items[i].Text switch
                 {
-                    "1" => Gen.First,
-                    "2" => Gen.Second,
-                    "3" => Gen.Third,
-                    "4" => Gen.Fourth,
-                    "5" => Gen.Fifth,
-                    _ => Gen.NotKpop
+                    "1" => GenType.First,
+                    "2" => GenType.Second,
+                    "3" => GenType.Third,
+                    "4" => GenType.Fourth,
+                    "5" => GenType.Fifth,
+                    _ => GenType.NotKpop
                 };
                 Gens.Add(gen);
             }

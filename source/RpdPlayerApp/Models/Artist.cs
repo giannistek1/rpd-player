@@ -26,7 +26,7 @@ internal class Artist
     public int MemberCount { get; set; }
     public string Company { get; set; }
     public string Generation { get; set; } = Constants.NOT_KPOP;
-    public Gen Gen { get; set; }
+    public GenType Gen { get; set; }
 
     /// <summary> Gets set in SongPart.cs once an album is Korean. </summary>
     public bool IsKpopArtist { get; set; } = false;
@@ -74,27 +74,27 @@ internal class Artist
         if (DebutDate < Constants.secondGenStartDate)
         {
             Generation = Constants.FIRST_GENERATION;
-            Gen = Gen.First;
+            Gen = GenType.First;
         }
         else if (DebutDate > Constants.secondGenStartDate && DebutDate < Constants.thirdGenStartDate)
         {
             Generation = Constants.SECOND_GENERATION;
-            Gen = Gen.Second;
+            Gen = GenType.Second;
         }
         else if (DebutDate > Constants.thirdGenStartDate && DebutDate < Constants.fourthGenStartDate)
         {
             Generation = Constants.THIRD_GENERATION;
-            Gen = Gen.Third;
+            Gen = GenType.Third;
         }
         else if (DebutDate > Constants.fourthGenStartDate && DebutDate < Constants.fifthGenStartDate)
         {
             Generation = Constants.FOURTH_GENERATION;
-            Gen = Gen.Fourth;
+            Gen = GenType.Fourth;
         }
         else if (DebutDate > Constants.fifthGenStartDate)
         {
             Generation = Constants.FIFTH_GENERATION;
-            Gen = Gen.Fifth;
+            Gen = GenType.Fifth;
         }
     }
 

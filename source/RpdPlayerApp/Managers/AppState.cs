@@ -1,19 +1,18 @@
 ﻿using RpdPlayerApp.Enums;
-using RpdPlayerApp.Items;
 using RpdPlayerApp.Models;
 using System.Collections.ObjectModel;
 
-namespace RpdPlayerApp.ViewModels;
-/// <summary> The "main" state manager. TODO: Move to managers. </summary>
+namespace RpdPlayerApp.Managers;
+/// <summary> The "main" state manager. </summary>
 internal static class AppState
 {
     // Margin/padding order: Left, Top, Right, and Bottom. LTRB (Clockwise from 9)
 
     #region Modes
-    internal static SortMode SortMode { get; set; } = SortMode.Artist;
-    internal static SearchFilterMode SearchFilterMode { get; set; }
+    internal static SortModeValue SortMode { get; set; } = SortModeValue.Artist;
+    internal static SearchFilterModeValue SearchFilterMode { get; set; }
     /// <summary> Queue or Playlist. </summary>
-    internal static PlayMode PlayMode { get; set; }
+    internal static PlayModeValue PlayMode { get; set; }
     internal static bool UsingVideoMode { get; set; } = false;
     internal static bool UsingCloudMode { get; set; } = false;
 
@@ -23,7 +22,7 @@ internal static class AppState
     /// 2 = shuffle,
     /// 3 = repeat
     /// </summary>
-    internal static AutoplayModeEnum AutoplayMode { get; set; } = AutoplayModeEnum.Off;
+    internal static AutoplayModeValue AutoplayMode { get; set; } = AutoplayModeValue.Off;
 
     /// <summary>
     /// 0 = Off,
@@ -31,7 +30,7 @@ internal static class AppState
     /// 2 = 5s LONG,
     /// 3 = Mario kart
     /// </summary>
-    internal static CountdownModeEnum CountdownMode { get; set; } = CountdownModeEnum.Off;
+    internal static CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off;
 
     /// <summary>
     /// Off = 0,
@@ -41,7 +40,7 @@ internal static class AppState
     /// GroupType = 4,
     /// AlwaysSongPart = 5
     /// </summary>
-    internal static AnnouncementModeEnum AnnouncementMode { get; set; } = 0;
+    internal static AnnouncementModeValue AnnouncementMode { get; set; } = 0;
 
     #endregion
 
@@ -55,7 +54,7 @@ internal static class AppState
     /// <summary> To keep track of amount of times going to previous songs </summary>
     internal static int SongPartHistoryIndex { get; set; } = -1;
 
-    internal static CurrentlyPlayingStateEnum CurrentlyPlayingState { get; set; } = CurrentlyPlayingStateEnum.None;
+    internal static CurrentlyPlayingStateValue CurrentlyPlayingState { get; set; } = CurrentlyPlayingStateValue.None;
 
     internal static ObservableCollection<Playlist> Playlists { get; set; } = [];
 }

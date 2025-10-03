@@ -5,7 +5,6 @@ using RpdPlayerApp.Items;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
-using RpdPlayerApp.ViewModels;
 using Syncfusion.Maui.Core;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -549,7 +548,7 @@ public partial class HomeView : ContentView
         {
             if (TimerChipGroup.Items[i].IsSelected)
             {
-                AppState.CountdownMode = (CountdownModeEnum)i;
+                AppState.CountdownMode = (CountdownModeValue)i;
                 break;
             }
         }
@@ -603,7 +602,7 @@ public partial class HomeView : ContentView
         int index = General.Rng.Next(songParts.Count);
         SongPart songPart = songParts[index];
 
-        AppState.AutoplayMode = AutoplayModeEnum.Shuffle;
+        AppState.AutoplayMode = AutoplayModeValue.Shuffle;
 
         AudioManager.ChangeAndStartSong(songPart);
     }

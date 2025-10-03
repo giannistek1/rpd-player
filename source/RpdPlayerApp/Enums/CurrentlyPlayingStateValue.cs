@@ -1,6 +1,6 @@
 ﻿namespace RpdPlayerApp.Enums;
 
-public enum CurrentlyPlayingStateEnum
+public enum CurrentlyPlayingStateValue
 {
     /// <summary> AKA Stopped </summary>
     None = 0,

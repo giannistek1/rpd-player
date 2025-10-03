@@ -1,9 +1,9 @@
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Items;
+using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
-using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
@@ -56,11 +56,11 @@ public partial class CategoriesView : ContentView
         //    "%5BBABYMONSTER%5D%5BBM%5D%5B2024-04-01%5D%5BGG%5D%5B7%5D%5BYG%20Entertainment%5D.jpg",
         //    "%5BKISS%20OF%20LIFE%5D%5BKIOF%5D%5B2023-07-05%5D%5BGG%5D%5B4%5D%5BS2%20Entertainment%5D.jpg"
 
-        var topFirstGens = ArtistRepository.GetTopArtistsForGen(Architecture.Gen.First);
-        var topSecondGens = ArtistRepository.GetTopArtistsForGen(Architecture.Gen.Second);
-        var topThirdGens = ArtistRepository.GetTopArtistsForGen(Architecture.Gen.Third);
-        var topFourthGens = ArtistRepository.GetTopArtistsForGen(Architecture.Gen.Fourth);
-        var topFifthGens = ArtistRepository.GetTopArtistsForGen(Architecture.Gen.Fifth);
+        var topFirstGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.First);
+        var topSecondGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Second);
+        var topThirdGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Third);
+        var topFourthGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Fourth);
+        var topFifthGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Fifth);
 
         var firstGenDescription = MakeArtistsDescription(topFirstGens);
         var secondGenDescription = MakeArtistsDescription(topSecondGens);
@@ -76,27 +76,27 @@ public partial class CategoriesView : ContentView
 
         GenerationListView.ItemsSource = new List<HomeListViewItem>
         {
-            new("1st Generation", firstGenArtist.ImageUrl, SearchFilterMode.Firstgen, $"{firstGenDescription}",
+            new("1st Generation", firstGenArtist.ImageUrl, SearchFilterModeValue.Firstgen, $"{firstGenDescription}",
                 songCount: SongPartRepository.GetSongPartsByGeneration(Constants.FIRST_GENERATION).Count,
                 artistCount: SongPartRepository.GetSongPartsByGeneration(Constants.FIRST_GENERATION).DistinctBy(s => new { s.ArtistName }).Count(),
                 artistName: firstGenArtist.Name),
 
-            new("2nd Generation", secondGenArtist.ImageUrl, SearchFilterMode.Secondgen, $"{secondGenDescription}",
+            new("2nd Generation", secondGenArtist.ImageUrl, SearchFilterModeValue.Secondgen, $"{secondGenDescription}",
                 songCount: SongPartRepository.GetSongPartsByGeneration(Constants.SECOND_GENERATION).Count,
                 artistCount: SongPartRepository.GetSongPartsByGeneration(Constants.SECOND_GENERATION).DistinctBy(s => new { s.ArtistName }).Count(),
                 artistName: secondGenArtist.Name),
 
-            new("3rd Generation", thirdGenArtist.ImageUrl, SearchFilterMode.Thirdgen, $"{thirdGenDescription}",
+            new("3rd Generation", thirdGenArtist.ImageUrl, SearchFilterModeValue.Thirdgen, $"{thirdGenDescription}",
                 songCount: SongPartRepository.GetSongPartsByGeneration(Constants.THIRD_GENERATION).Count,
                 artistCount: SongPartRepository.GetSongPartsByGeneration(Constants.THIRD_GENERATION).DistinctBy(s => new { s.ArtistName }).Count(),
                 artistName: thirdGenArtist.Name),
 
-            new("4th Generation", fourthGenArtist.ImageUrl, SearchFilterMode.Fourthgen, $"{fourthGenDescription}",
+            new("4th Generation", fourthGenArtist.ImageUrl, SearchFilterModeValue.Fourthgen, $"{fourthGenDescription}",
                 songCount: SongPartRepository.GetSongPartsByGeneration(Constants.FOURTH_GENERATION).Count,
                 artistCount: SongPartRepository.GetSongPartsByGeneration(Constants.FOURTH_GENERATION).DistinctBy(s => new { s.ArtistName }).Count(),
                 artistName: fourthGenArtist.Name),
 
-            new("5th Generation", fifthGenArtist.ImageUrl, SearchFilterMode.Fifthgen, $"{fifthGenDescription}",
+            new("5th Generation", fifthGenArtist.ImageUrl, SearchFilterModeValue.Fifthgen, $"{fifthGenDescription}",
                 songCount: SongPartRepository.GetSongPartsByGeneration(Constants.FIFTH_GENERATION).Count,
                 artistCount: SongPartRepository.GetSongPartsByGeneration(Constants.FIFTH_GENERATION).DistinctBy(s => new { s.ArtistName }).Count(), artistName: fifthGenArtist.Name)
         };
@@ -133,7 +133,7 @@ public partial class CategoriesView : ContentView
             new(title: "SM Entertainment", imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true",
                 topArtists: $"{smDescription}",
                 childCompanies: "Label V, Mystic Story",
-                searchFilterMode: SearchFilterMode.SM,
+                searchFilterMode: SearchFilterModeValue.SM,
                 songCount: SongPartRepository.SongParts.Count(s => Constants.SMCompanies.Contains(s.Artist.Company)),
                 artistCount: SongPartRepository.SongParts.Where(s => Constants.SMCompanies.Contains(s.Artist.Company)).DistinctBy(s => new { s.ArtistName }).Count()),
 
@@ -142,14 +142,14 @@ public partial class CategoriesView : ContentView
                 oldNames: "Formerly: Big Hit Entertainment.",
                 childCompanies: "Owns: Source Music and Pledis Entertainment.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-hybe-labels.webp?raw=true",
-                searchFilterMode: SearchFilterMode.Hybe,
+                searchFilterMode: SearchFilterModeValue.Hybe,
                 songCount: SongPartRepository.SongParts.Count(s => Constants.HybeCompanies.Contains(s.Artist.Company)),
                 artistCount: SongPartRepository.SongParts.Where(s => Constants.HybeCompanies.Contains(s.Artist.Company)).DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "JYP Entertainment",
                 topArtists: $"{jypDescription}",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-jyp.jpg?raw=true",
-                searchFilterMode: SearchFilterMode.JYP,
+                searchFilterMode: SearchFilterModeValue.JYP,
                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "JYP Entertainment"),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Artist?.Company == "JYP Entertainment").DistinctBy(s => new { s.ArtistName }).Count()),
 
@@ -157,7 +157,7 @@ public partial class CategoriesView : ContentView
                 topArtists : $"{ygDescription}",
                 childCompanies : "Owns: The Black Label",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-yg.jpg?raw=true",
-                searchFilterMode: SearchFilterMode.YG,
+                searchFilterMode: SearchFilterModeValue.YG,
                 songCount: SongPartRepository.SongParts.Count(s => Constants.YGCompanies.Contains(s.Artist.Company)),
                 artistCount: SongPartRepository.SongParts.Where(s => Constants.YGCompanies.Contains(s.Artist.Company)).DistinctBy(s => new { s.ArtistName }).Count()),
 
@@ -165,14 +165,14 @@ public partial class CategoriesView : ContentView
                 topArtists: $"{kakaoDescription}",
                 childCompanies : "Owns: IST Entertainment, Starship Entertainment, EDAM Entertainment, Bluedot Entertainment, High Up Entertainment, Antenna and FLEX M.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-kakao.webp?raw=true",
-                searchFilterMode: SearchFilterMode.Kakao_Entertainment,
+                searchFilterMode: SearchFilterModeValue.Kakao_Entertainment,
                 songCount: SongPartRepository.SongParts.Count(s => Constants.KakaoCompanies.Contains(s.Artist.Company)),
                 artistCount: SongPartRepository.SongParts.Where(s => Constants.KakaoCompanies.Contains(s.Artist.Company)).DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "Starship Entertainment",
                 topArtists: $"{starshipArtists}",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-starship.webp?raw=true",
-                searchFilterMode: SearchFilterMode.Starship,
+                searchFilterMode: SearchFilterModeValue.Starship,
                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "Starship Entertainment"),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Artist?.Company == "Starship Entertainment").DistinctBy(s => new { s.ArtistName }).Count()),
 
@@ -180,14 +180,14 @@ public partial class CategoriesView : ContentView
                 topArtists: $"{rbwArtists}",
                 childCompanies: $"WM entertainment and DSP Media (Daesung enterprise).",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-rbw.png?raw=true",
-                searchFilterMode: SearchFilterMode.RBW,
+                searchFilterMode: SearchFilterModeValue.RBW,
                 songCount : SongPartRepository.SongParts.Count(s => Constants.RbwCompanies.Contains(s.Artist.Company)),
                  artistCount: SongPartRepository.SongParts.Where(s => Constants.RbwCompanies.Contains(s.Artist.Company)).DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "Cube Entertainment",
                 topArtists: $"{cubeArtists}",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-cube.webp?raw=true",
-                searchFilterMode: SearchFilterMode.Cube,
+                searchFilterMode: SearchFilterModeValue.Cube,
                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "Cube Entertainment"),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Artist?.Company == "Cube Entertainment").DistinctBy(s => new { s.ArtistName }).Count()),
 
@@ -195,14 +195,14 @@ public partial class CategoriesView : ContentView
                 topArtists: $"{istArtists}",
                 oldNames: $"Formerly: A Cube, Play A, Play M.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-ist.webp?raw=true",
-                searchFilterMode: SearchFilterMode.IST,
+                searchFilterMode: SearchFilterModeValue.IST,
                 songCount : SongPartRepository.SongParts.Count(s => s.Artist?.Company == "IST Entertainment"),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Artist?.Company == "IST Entertainment").DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "Pledis Entertainment",
                 topArtists: $"{pledisArtists}",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-pledis.webp?raw=true",
-                searchFilterMode: SearchFilterMode.Pledis,
+                searchFilterMode: SearchFilterModeValue.Pledis,
                 songCount: SongPartRepository.SongParts.Count(s => s.Artist?.Company == "Pledis Entertainment"),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Artist?.Company == "Pledis Entertainment").DistinctBy(s => new { s.ArtistName }).Count()),
 
@@ -210,21 +210,21 @@ public partial class CategoriesView : ContentView
                 topArtists: $"{cjenmDescription}",
                 childCompanies: "Owns: AOMG, B2M Entertainment, Jellyfish Entertainment, Wake One, Stone Music Entertainment, Swing Entertainment",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-cjenm.webp?raw=true",
-                searchFilterMode: SearchFilterMode.CJ_ENM_Music,
+                searchFilterMode: SearchFilterModeValue.CJ_ENM_Music,
                 songCount: SongPartRepository.SongParts.Count(s => Constants.CjenmCompanies.Contains(s.Artist.Company)),
                 artistCount: SongPartRepository.SongParts.Where(s => Constants.CjenmCompanies.Contains(s.Artist.Company)).DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "FNC Entertainment",
                 topArtists: $"{fncArtists}",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-fnc.png?raw=true",
-                searchFilterMode: SearchFilterMode.FNC,
+                searchFilterMode: SearchFilterModeValue.FNC,
                 songCount : SongPartRepository.SongParts.Count(s => s.Artist?.Company == "FNC Entertainment"),
                 artistCount: SongPartRepository.SongParts.Where(s =>  s.Artist?.Company == "FNC Entertainment").DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "Woollim Entertainment",
                 topArtists: $"{woollimArtists}",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-woollim.webp?raw=true",
-                searchFilterMode: SearchFilterMode.Woollim,
+                searchFilterMode: SearchFilterModeValue.Woollim,
                 songCount : SongPartRepository.SongParts.Count(s => s.Artist?.Company == "Woollim Entertainment"),
                 artistCount: SongPartRepository.SongParts.Where(s =>  s.Artist?.Company == "Woollim Entertainment").DistinctBy(s => new { s.ArtistName }).Count()),
         };
@@ -234,7 +234,7 @@ public partial class CategoriesView : ContentView
             new(title: "K-pop",
                 description: "Korean pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                searchFilterMode: SearchFilterMode.Kpop,
+                searchFilterMode: SearchFilterModeValue.Kpop,
                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == Constants.GenreKpop),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == Constants.GenreKpop).DistinctBy(s => new { s.ArtistName }).Count()),
 
@@ -242,28 +242,28 @@ public partial class CategoriesView : ContentView
             new(title: "J-pop",
                 description: "Japanese pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-jp.webp?raw=true",
-                searchFilterMode: SearchFilterMode.Jpop,
+                searchFilterMode: SearchFilterModeValue.Jpop,
                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "JP"),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "JP").DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "English pop",
                 description: "English pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-us.webp?raw=true",
-                searchFilterMode: SearchFilterMode.EN,
+                searchFilterMode: SearchFilterModeValue.EN,
                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "EN"),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "EN").DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "C-pop",
                 description: "Chinese pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-ch.png?raw=true",
-                searchFilterMode: SearchFilterMode.Cpop,
+                searchFilterMode: SearchFilterModeValue.Cpop,
                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "CH"),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "CH").DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "T-pop",
                 description: "Thai pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-th.webp?raw=true",
-                searchFilterMode: SearchFilterMode.Tpop,
+                searchFilterMode: SearchFilterModeValue.Tpop,
                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "TH"),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "TH").DistinctBy(s => new { s.ArtistName }).Count())
         };
@@ -271,22 +271,22 @@ public partial class CategoriesView : ContentView
         KpopYearsListView.ItemsSource = new List<HomeListViewItem>() {
             new(title: "< 2012",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                searchFilterMode: SearchFilterMode.KpopSoonerThan2012,
+                searchFilterMode: SearchFilterModeValue.KpopSoonerThan2012,
                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year < 2012 && s.Album?.GenreShort == Constants.GenreKpop)),
-            HomeListViewItem.Create(2012, SearchFilterMode.kpop2012),
-            HomeListViewItem.Create(2013, SearchFilterMode.kpop2013),
-            HomeListViewItem.Create(2014, SearchFilterMode.kpop2014),
-            HomeListViewItem.Create(2015, SearchFilterMode.kpop2015),
-            HomeListViewItem.Create(2016, SearchFilterMode.kpop2016),
-            HomeListViewItem.Create(2017, SearchFilterMode.kpop2017),
-            HomeListViewItem.Create(2018, SearchFilterMode.kpop2018),
-            HomeListViewItem.Create(2019, SearchFilterMode.kpop2019),
-            HomeListViewItem.Create(2020, SearchFilterMode.kpop2020),
-            HomeListViewItem.Create(2021, SearchFilterMode.kpop2021),
-            HomeListViewItem.Create(2022, SearchFilterMode.kpop2022),
-            HomeListViewItem.Create(2023, SearchFilterMode.kpop2023),
-            HomeListViewItem.Create(2024, SearchFilterMode.kpop2024),
-            HomeListViewItem.Create(2025, SearchFilterMode.kpop2025)
+            HomeListViewItem.Create(2012, SearchFilterModeValue.kpop2012),
+            HomeListViewItem.Create(2013, SearchFilterModeValue.kpop2013),
+            HomeListViewItem.Create(2014, SearchFilterModeValue.kpop2014),
+            HomeListViewItem.Create(2015, SearchFilterModeValue.kpop2015),
+            HomeListViewItem.Create(2016, SearchFilterModeValue.kpop2016),
+            HomeListViewItem.Create(2017, SearchFilterModeValue.kpop2017),
+            HomeListViewItem.Create(2018, SearchFilterModeValue.kpop2018),
+            HomeListViewItem.Create(2019, SearchFilterModeValue.kpop2019),
+            HomeListViewItem.Create(2020, SearchFilterModeValue.kpop2020),
+            HomeListViewItem.Create(2021, SearchFilterModeValue.kpop2021),
+            HomeListViewItem.Create(2022, SearchFilterModeValue.kpop2022),
+            HomeListViewItem.Create(2023, SearchFilterModeValue.kpop2023),
+            HomeListViewItem.Create(2024, SearchFilterModeValue.kpop2024),
+            HomeListViewItem.Create(2025, SearchFilterModeValue.kpop2025)
         };
 
         GenerationListView.IsVisible = true;
@@ -314,12 +314,12 @@ public partial class CategoriesView : ContentView
 
     private void SetFilter(object? sender, EventArgs e)
     {
-        if (AllImageButton == sender) { AppState.SearchFilterMode = SearchFilterMode.All; }
-        else if (DanceImageButton == sender) { AppState.SearchFilterMode = SearchFilterMode.DanceVideos; }
-        else if (MaleImageButton == sender) { AppState.SearchFilterMode = SearchFilterMode.Male; }
-        else if (FemaleImageButton == sender) { AppState.SearchFilterMode = SearchFilterMode.Female; }
-        else if (SoloImageButton == sender) { AppState.SearchFilterMode = SearchFilterMode.Solo; }
-        else if (GroupImageButton == sender) { AppState.SearchFilterMode = SearchFilterMode.Group; }
+        if (AllImageButton == sender) { AppState.SearchFilterMode = SearchFilterModeValue.All; }
+        else if (DanceImageButton == sender) { AppState.SearchFilterMode = SearchFilterModeValue.DanceVideos; }
+        else if (MaleImageButton == sender) { AppState.SearchFilterMode = SearchFilterModeValue.Male; }
+        else if (FemaleImageButton == sender) { AppState.SearchFilterMode = SearchFilterModeValue.Female; }
+        else if (SoloImageButton == sender) { AppState.SearchFilterMode = SearchFilterModeValue.Solo; }
+        else if (GroupImageButton == sender) { AppState.SearchFilterMode = SearchFilterModeValue.Group; }
 
         // case "trio": AppState.SearchFilterMode = SearchFilterMode.Trio; break; case
         // "quadruplet": AppState.SearchFilterMode = SearchFilterMode.Quadruplet; break; case
