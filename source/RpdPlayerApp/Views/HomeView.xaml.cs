@@ -23,8 +23,6 @@ public partial class HomeView : ContentView
     internal MainPage? ParentPage { get; set; }
     internal RpdSettings? RpdSettings { get; set; } = new();
 
-    private const string SONGPARTS = "SONGPARTS";
-
     public HomeView()
     {
         InitializeComponent();
@@ -49,7 +47,7 @@ public partial class HomeView : ContentView
     {
         try
         {
-            _ = HandleSongParts();
+            _ = HandleSongPartsDifference();
             SetVersionLabel();
 #if RELEASE 
             UniqueSongCountImage.IsVisible = false;
@@ -57,7 +55,7 @@ public partial class HomeView : ContentView
 #endif
             InitializeCompanies();
             InitializeChipGroups();
-            SaveNews().ConfigureAwait(false);
+            _ = NewsManager.SaveNews().ConfigureAwait(false);
             HandleAutoStartRpd();
 
             ChipGroupSelectionChanged(null, null);
@@ -68,27 +66,18 @@ public partial class HomeView : ContentView
         }
     }
 
-    private async Task HandleSongParts()
+    private async Task HandleSongPartsDifference()
     {
-        var oldSongList = await FileManager.LoadNewsItemsFromFilePath($"{SONGPARTS}.txt");
+        var oldSongList = await FileManager.LoadNewsItemsFromFilePath($"{NewsManager.SONGPARTS}.txt");
 
         if (oldSongList is not null)
         {
-            var newSongList = CreateNewsItemsFromSongParts();
+            var newSongList = NewsManager.CreateNewsItemsFromSongParts();
             var differentNewSongs = FindDifferentNewSongs(newSongList, oldSongList);
 
             UpdateNewsBadge(differentNewSongs);
         }
     }
-
-    private List<NewsItem> CreateNewsItemsFromSongParts() => [.. SongPartRepository.SongParts.Select(s => new NewsItem
-    {
-        Title = s.Title,
-        Artist = s.ArtistName,
-        Part = s.PartNameFull,
-        AudioUrl = s.AudioURL,
-        HasVideo = s.HasVideo
-    })];
 
     private List<NewsItem> FindDifferentNewSongs(List<NewsItem> newSongList, List<NewsItem> oldSongList)
     {
@@ -111,12 +100,14 @@ public partial class HomeView : ContentView
         return differentNewSongs;
     }
 
-    private void UpdateNewsBadge(List<NewsItem> differentNewSongs)
+    internal void UpdateNewsBadge(List<NewsItem> differentNewSongs)
     {
         if (differentNewSongs.Count > 0)
         {
+            NewsManager.SongPartsDifference = differentNewSongs;
+
             NewsBadgeView.BadgeText = differentNewSongs.Count.ToString();
-            AppState.SongPartsDifference = differentNewSongs;
+            NewsBadgeView.IsVisible = true; // Make clickable
         }
         else
         {
@@ -392,20 +383,6 @@ public partial class HomeView : ContentView
             if (startRpd) { StartRpdButtonClicked(this, EventArgs.Empty); }
         }
     }
-    private static async Task SaveNews()
-    {
-        var newsItems = SongPartRepository.SongParts.Select(s => new NewsItem
-        {
-            Title = s.Title,
-            Artist = s.ArtistName,
-            Part = s.PartNameFull,
-            AudioUrl = s.AudioURL,
-            HasVideo = s.HasVideo
-        }).ToList();
-
-        var jsonSongParts = JsonConvert.SerializeObject(newsItems);
-        await FileManager.SaveJsonToFileAsync($"{SONGPARTS}", jsonSongParts);
-    }
 
     private void ChipGroupSelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs? e)
     {
@@ -532,22 +509,11 @@ public partial class HomeView : ContentView
 
     private void StartModeButtonClicked(object? sender, EventArgs e)
     {
-        if (RpdSettings!.UsingGeneratePlaylist) GeneratePlaylistButtonClicked();
-        else StartRpdButtonClicked(sender, e);
+        if (RpdSettings!.UsingGeneratePlaylist) { GeneratePlaylistButtonClicked(); }
+        else { StartRpdButtonClicked(sender, e); }
     }
 
-    private void GeneratePlaylistButtonClicked()
-    {
-        var newNewsItems = CreateNewsItemsFromSongParts();
-        var differentNewSongs = newNewsItems.Where(s => s.Artist!.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
-        foreach (var item in differentNewSongs)
-        {
-            item.HasNewVideo = Convert.ToBoolean(General.Rng.Next(2));
-        }
-
-        UpdateNewsBadge(differentNewSongs);
-        General.ShowToast("Not implemented yet!");
-    }
+    private void GeneratePlaylistButtonClicked() => General.ShowToast("Not implemented yet!");
 
     private void StartRpdButtonClicked(object? sender, EventArgs e)
     {

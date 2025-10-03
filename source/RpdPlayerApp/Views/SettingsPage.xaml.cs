@@ -1,4 +1,5 @@
 using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Managers;
 using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
@@ -73,5 +74,20 @@ public partial class SettingsPage : ContentPage
     {
         MasterVolumeSlider.TrackStyle.ActiveFill = (Color)Application.Current!.Resources["Primary"];
         MasterVolumeSlider.ThumbStyle.Fill = (Color)Application.Current!.Resources["Primary"];
+    }
+
+    private void TestNewsButtonClicked(object sender, EventArgs e)
+    {
+        var newNewsItems = NewsManager.CreateNewsItemsFromSongParts(); // Create news items from all song parts.
+
+        // Simulate ATEEZ as new songs.
+        var differentNewSongs = newNewsItems.Where(s => s.Artist!.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
+        // Randomize HasNewVideo boolean.
+        foreach (var item in differentNewSongs)
+        {
+            item.HasNewVideo = Convert.ToBoolean(General.Rng.Next(2));
+        }
+
+        HomeView!.UpdateNewsBadge(differentNewSongs);
     }
 }

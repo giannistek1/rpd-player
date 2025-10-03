@@ -13,7 +13,7 @@
 
     <ScrollView>
 
-        <Grid RowDefinitions="30, 30, 60, 44, 40, 40, 40" Padding="8,0,8,0">
+        <Grid RowDefinitions="30, 30, 60, 44, 40, 40, 40, 40" Padding="8,0,8,0">
 
             <Grid Grid.Row="0" ColumnDefinitions="*, *">
                 <Label Grid.Column="0" Text="Total activity time" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="Center" HorizontalOptions="Start" />
@@ -92,6 +92,13 @@
                 <Switch Grid.Column="1" x:Name="DebugSwitch" HorizontalOptions="End" />
 
             </Grid>
+
+            <Button Grid.Row="7" x:Name="TestNewsButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
+                    Clicked="TestNewsButtonClicked" Text="Test news" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Newspaper}" Color="{DynamicResource IconColor}" />
+                </Button.ImageSource>
+            </Button>
 
         </Grid>
 

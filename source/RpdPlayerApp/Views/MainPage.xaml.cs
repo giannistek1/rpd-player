@@ -398,7 +398,7 @@ public partial class MainPage
     private void OnShowNewsPopup(object? sender, EventArgs e)
     {
         var popup = new NewsPopup(); // Gets disposed on close.
-        popup.NewsItems.AddRange(AppState.SongPartsDifference);
+        popup.NewsItems.AddRange(NewsManager.SongPartsDifference);
         this.ShowPopup(popup);
     }
 

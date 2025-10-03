@@ -55,9 +55,7 @@ internal static class AppState
     /// <summary> To keep track of amount of times going to previous songs </summary>
     internal static int SongPartHistoryIndex { get; set; } = -1;
 
-    internal static CurrentlyPlayingStateEnum CurrentlyPlayingState { get; set; } = 0;
+    internal static CurrentlyPlayingStateEnum CurrentlyPlayingState { get; set; } = CurrentlyPlayingStateEnum.None;
 
     internal static ObservableCollection<Playlist> Playlists { get; set; } = [];
-
-    internal static List<NewsItem> SongPartsDifference { get; set; } = [];
 }
