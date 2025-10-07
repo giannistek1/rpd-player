@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RpdPlayerApp.Views.SongPartRequestPage"
+             xmlns:sliders="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+             xmlns:local="clr-namespace:RpdPlayerApp.ViewModels"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             Shell.BackgroundColor="{DynamicResource NavigationBackgroundColor}"
+             Shell.TitleColor="{DynamicResource TitleTextColor}"
+             BackgroundColor="{DynamicResource BackgroundColor}"
+             Title="Song request">
+
+    <ScrollView>
+
+        <Grid RowDefinitions="auto,60,60,60,40,40" Padding="8,0,8,0">
+
+            <!-- Song request / feedback mode -->
+            <buttons:SfSegmentedControl Grid.Row="0" x:Name="SongRequestFeedbackSegmentedControl" SegmentWidth="150" Margin="0,8,0,8">
+
+                <!-- Non-selection -->
+                <buttons:SfSegmentedControl.TextStyle>
+                    <buttons:SegmentTextStyle TextColor="{DynamicResource PrimaryTextColor}" FontSize="16"/>
+                </buttons:SfSegmentedControl.TextStyle>
+
+                <!-- Selection -->
+                <buttons:SfSegmentedControl.SelectionIndicatorSettings>
+                    <buttons:SelectionIndicatorSettings  SelectionIndicatorPlacement="Fill" Background="{DynamicResource SecondaryButton}" TextColor="{DynamicResource PrimaryTextColor}"/>
+                </buttons:SfSegmentedControl.SelectionIndicatorSettings>
+
+            </buttons:SfSegmentedControl>
+
+            <!-- Artist -->
+            <Grid Grid.Row="1" ColumnDefinitions="*,2*">
+
+                <Label Grid.Column="0" Text="Artist" VerticalOptions="Center" HorizontalOptions="Start" />
+
+                <Border Grid.Column="1" x:Name="ArtistEntryBorder" HeightRequest="64" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+
+                    <Grid VerticalOptions="Center">
+
+                        <Entry x:Name="ArtistEntry" Placeholder="Artist" PlaceholderColor="{DynamicResource PlaceholderTextColor}" ReturnType="Done" MaxLength="20" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
+
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+
+            <!-- Song title -->
+            <Grid Grid.Row="2" ColumnDefinitions="*,2*">
+
+                <Label Grid.Column="0" Text="Song title" VerticalOptions="Center" HorizontalOptions="Start" />
+
+                <Border Grid.Column="1" x:Name="SongTitleEntryBorder" HeightRequest="64" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+
+                    <Grid VerticalOptions="Center">
+
+                        <Entry x:Name="SongTitleEntry" Placeholder="Song title" PlaceholderColor="{DynamicResource PlaceholderTextColor}" ReturnType="Done" MaxLength="20" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
+
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+
+            <!-- Part -->
+            <Grid Grid.Row="3" ColumnDefinitions="2*, 6*">
+
+                <Label Grid.Column="0" Text="Part " VerticalOptions="Center" HorizontalOptions="Start" />
+
+                <Picker Grid.Column="1" x:Name="PartPicker" Margin="0,0,8,0"
+                        ItemsSource="{Binding PartNames}" SelectedItem="{Binding SelectedPart}" ItemDisplayBinding="{Binding .}"
+                        SelectedIndexChanged="PartPickerIndexChanged"/>
+
+            </Grid>
+
+            <!-- Dance practice switch -->
+            <Grid Grid.Row="4" ColumnDefinitions="*,*">
+
+                <Label Grid.Column="0" Text="Include dance practice?" VerticalOptions="Center" HorizontalOptions="Start" />
+
+                <Switch Grid.Column="1" x:Name="DancePracticeSwitch" HorizontalOptions="End" />
+
+            </Grid>
+
+            <Button Grid.Row="5" x:Name="SubmitButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
+                    Clicked="SubmitButtonClicked" Text="Submit" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Right, 10">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_forward}" Color="{DynamicResource IconColor}" />
+                </Button.ImageSource>
+            </Button>
+
+        </Grid>
+
+    </ScrollView>
+
+</ContentPage>

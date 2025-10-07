@@ -19,6 +19,7 @@ public partial class HomeView : ContentView
     internal event EventHandler? ShowNewsPopup;
 
     private readonly SettingsPage _settingsPage = new();
+    private readonly SongPartRequestPage _feedbackPage = new();
     internal MainPage? ParentPage { get; set; }
     internal RpdSettings? RpdSettings { get; set; } = new();
 
@@ -462,7 +463,14 @@ public partial class HomeView : ContentView
 
     private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => AlbumCountLabel.Text = $"{AlbumRepository.Albums.Count}";
 
-    internal void FeedbackButtonPressed(object? sender, EventArgs e) { /* TODO: */ }
+    internal async void FeedbackButtonPressed(object? sender, EventArgs e)
+    {
+        if (Navigation.NavigationStack.Count < 2)
+        {
+            await Navigation.PushAsync(_feedbackPage, true);
+            _feedbackPage.HomeView = this;
+        }
+    }
 
     internal async void SettingsButtonPressed(object? sender, EventArgs e)
     {

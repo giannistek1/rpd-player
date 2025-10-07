@@ -19,30 +19,31 @@ public partial class LibraryView : ContentView
     {
         InitializeComponent();
         Loaded += OnLoad;
-        InitializeHomeModeSegmentedControl();
+        InitializeLocalCloudModeSegmentedControl();
     }
 
     private void OnLoad(object? sender, EventArgs e)
     {
-        CheckValidPlaylists();
-        LoadPlaylists();
+        DeleteInvalidPlaylists();
+        LoadLocalPlaylists();
     }
 
-    private void InitializeHomeModeSegmentedControl()
+    private void InitializeLocalCloudModeSegmentedControl()
     {
         CloudModeSegmentedControl.ItemsSource = new[] { "Local", "Cloud" };
         CloudModeSegmentedControl.SelectedIndex = 0;
-        CloudModeSegmentedControl.SelectionChanged += HomeModeSegmentedControlSelectionChanged;
+        CloudModeSegmentedControl.SelectionChanged += LocalCloudModeSegmentedControlSelectionChanged;
     }
 
-    private void HomeModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
+    private void LocalCloudModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
-        // TODO: Do something.
+        if (e.NewIndex == 0) { LoadLocalPlaylists(); }
+        else { LoadCloudPlaylists(); }
     }
 
     internal void FocusNewPlaylistEntry() => PlaylistNameEntry.Focus();
 
-    internal void LoadPlaylists()
+    internal void LoadLocalPlaylists()
     {
         List<Playlist> playlists = [];
 
@@ -96,7 +97,7 @@ public partial class LibraryView : ContentView
                     catch (Exception ex)
                     {
                         //SentrySdk.CaptureMessage($"ERROR: {typeof(LibraryView).Name}, songpart {i + 1}, {ex.Message}");
-                        General.ShowToast($"ERROR: LoadPlaylists songpart {i + 1}. {ex.Message}");
+                        General.ShowToast($"ERROR: LoadLocalPlaylists songpart {i + 1}. {ex.Message}");
                     }
                 }
 
@@ -106,6 +107,13 @@ public partial class LibraryView : ContentView
 
             AppState.Playlists = playlists.ToObservableCollection();
         }
+
+        PlaylistsListView.ItemsSource = AppState.Playlists;
+    }
+
+    internal void LoadCloudPlaylists()
+    {
+        List<Playlist> playlists = [];
 
         PlaylistsListView.ItemsSource = AppState.Playlists;
     }
@@ -197,7 +205,7 @@ public partial class LibraryView : ContentView
         }
     }
 
-    private static void CheckValidPlaylists()
+    private static void DeleteInvalidPlaylists()
     {
         string[] files = Directory.GetFiles(FileManager.GetPlaylistsPath(), "*.txt");
         foreach (string file in files)
@@ -210,8 +218,8 @@ public partial class LibraryView : ContentView
                 var matches = Regex.Matches(line, pattern);
                 if (matches.Count < Constants.SongPartPropertyAmount)
                 {
-                    General.ShowToast("Found invalid or outdated playlists! They have been removed.");
                     File.Delete(file);
+                    General.ShowToast("Found invalid or outdated playlists! They have been removed.");
                     break;
                 }
             }

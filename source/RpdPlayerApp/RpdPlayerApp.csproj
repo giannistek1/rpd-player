@@ -178,6 +178,9 @@
       <Compile Update="Views\CurrentPlaylistView.xaml.cs">
         <DependentUpon>CurrentPlaylistView.xaml</DependentUpon>
       </Compile>
+      <Compile Update="Views\SongPartRequestPage.xaml.cs">
+        <DependentUpon>SongPartRequestPage.xaml</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -218,6 +221,9 @@
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Views\SongPartDetailBottomSheet.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\SongPartRequestPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Views\SortByBottomSheet.xaml">

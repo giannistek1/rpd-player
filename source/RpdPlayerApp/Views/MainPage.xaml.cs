@@ -340,7 +340,7 @@ public partial class MainPage
     private void BackToPlaylists()
     {
         _currentPlaylistView.ResetCurrentPlaylist();
-        LibraryView!.LoadPlaylists();
+        LibraryView!.LoadLocalPlaylists();
 
         _currentPlaylistView.IsVisible = false;
         LibraryView.IsVisible = true;
