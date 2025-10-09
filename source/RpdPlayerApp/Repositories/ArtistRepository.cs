@@ -8,8 +8,6 @@ namespace RpdPlayerApp.Repositories;
 
 internal static class ArtistRepository
 {
-    private const string ARTISTS_TXT_URL = "https://github.com/giannistek1/rpd-artists/blob/main/artists.txt?raw=true";
-
     public readonly static ObservableCollection<Artist> Artists = [];
 
     public static bool GetArtists() => InitArtists(GetStringFromURL());
@@ -59,7 +57,7 @@ internal static class ArtistRepository
 
         using (HttpClient client = new())
         {
-            artistsAsText = client.GetStringAsync(ARTISTS_TXT_URL).Result;
+            artistsAsText = client.GetStringAsync(Constants.ARTISTS_SOURCE_URL).Result;
         }
         return artistsAsText;
     }

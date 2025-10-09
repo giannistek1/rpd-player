@@ -6,9 +6,7 @@ namespace RpdPlayerApp.Repositories;
 
 internal class VideoRepository
 {
-    private const string VIDEOS_TXT_URL = "https://github.com/giannistek1/rpd-videos/blob/main/videos.txt?raw=true";
-
-    public static List<Video> Videos = new();
+    public static List<Video> Videos = [];
 
     public static bool GetVideos() => InitVideos(GetStringFromURL());
     public static bool InitVideos(string videosText)
@@ -67,7 +65,7 @@ internal class VideoRepository
 
         using (HttpClient client = new())
         {
-            videosAsText = client.GetStringAsync(VIDEOS_TXT_URL).Result;
+            videosAsText = client.GetStringAsync(Constants.VIDEOS_SOURCE_URL).Result;
         }
         return videosAsText;
     }

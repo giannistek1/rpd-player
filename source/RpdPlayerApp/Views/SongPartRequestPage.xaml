@@ -13,7 +13,7 @@
 
     <ScrollView>
 
-        <Grid RowDefinitions="auto,60,60,60,40,40" Padding="8,0,8,0">
+        <Grid RowDefinitions="auto, *, 40" Padding="8,0,8,0">
 
             <!-- Song request / feedback mode -->
             <buttons:SfSegmentedControl Grid.Row="0" x:Name="SongRequestFeedbackSegmentedControl" SegmentWidth="150" Margin="0,8,0,8">
@@ -30,61 +30,97 @@
 
             </buttons:SfSegmentedControl>
 
-            <!-- Artist -->
-            <Grid Grid.Row="1" ColumnDefinitions="*,2*">
+            <!-- Content 1: Song request -->
+            <Grid Grid.Row="1" x:Name="SongRequestContainer" RowDefinitions="68, 68, 60, 40">
 
-                <Label Grid.Column="0" Text="Artist" VerticalOptions="Center" HorizontalOptions="Start" />
+                <!-- Artist -->
+                <Grid Grid.Row="0" ColumnDefinitions="*,2*">
 
-                <Border Grid.Column="1" x:Name="ArtistEntryBorder" HeightRequest="64" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+                    <Label Grid.Column="0" Text="Artist" VerticalOptions="Center" HorizontalOptions="Start" />
 
-                    <Grid VerticalOptions="Center">
+                    <Border Grid.Column="1" x:Name="ArtistEntryBorder" HeightRequest="60" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
 
-                        <Entry x:Name="ArtistEntry" Placeholder="Artist" PlaceholderColor="{DynamicResource PlaceholderTextColor}" ReturnType="Done" MaxLength="20" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
+                        <Grid VerticalOptions="Center">
 
-                    </Grid>
+                            <Entry x:Name="ArtistEntry" Placeholder="Artist" PlaceholderColor="{DynamicResource PlaceholderTextColor}" ReturnType="Done" MaxLength="20" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
 
-                </Border>
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+
+                <!-- Song title -->
+                <Grid Grid.Row="1" ColumnDefinitions="*,2*">
+
+                    <Label Grid.Column="0" Text="Song title" VerticalOptions="Center" HorizontalOptions="Start" />
+
+                    <Border Grid.Column="1" x:Name="SongTitleEntryBorder" HeightRequest="60" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+
+                        <Grid VerticalOptions="Center">
+
+                            <Entry x:Name="SongTitleEntry" Placeholder="Song title" PlaceholderColor="{DynamicResource PlaceholderTextColor}" ReturnType="Done" MaxLength="20" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+
+                <!-- Part -->
+                <Grid Grid.Row="2" ColumnDefinitions="2*, 4*">
+
+                    <Label Grid.Column="0" Text="Part " VerticalOptions="Center" HorizontalOptions="Start" />
+
+                    <Picker Grid.Column="1" x:Name="PartPicker" Margin="0,0,8,0"
+                        ItemsSource="{Binding PartNames}" SelectedItem="{Binding SelectedPart}" ItemDisplayBinding="{Binding .}"/>
+
+                </Grid>
+
+                <!-- Dance practice switch -->
+                <Grid Grid.Row="3" ColumnDefinitions="*,*">
+
+                    <Label Grid.Column="0" Text="Include dance practice?" VerticalOptions="Center" HorizontalOptions="Start" />
+
+                    <Switch Grid.Column="1" x:Name="DancePracticeSwitch" HorizontalOptions="End" />
+
+                </Grid>
 
             </Grid>
 
-            <!-- Song title -->
-            <Grid Grid.Row="2" ColumnDefinitions="*,2*">
+            
+            <!-- Content 2: Feedback -->
+            <Grid Grid.Row="1" x:Name="FeedbackContainer" RowDefinitions="240, 40">
 
-                <Label Grid.Column="0" Text="Song title" VerticalOptions="Center" HorizontalOptions="Start" />
+                <!-- Feedback -->
+                <Grid Grid.Row="0" ColumnDefinitions="*,2*">
 
-                <Border Grid.Column="1" x:Name="SongTitleEntryBorder" HeightRequest="64" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+                    <Label Grid.Column="0" Text="Feedback" VerticalOptions="Center" HorizontalOptions="Start" />
 
-                    <Grid VerticalOptions="Center">
+                    <Border Grid.Column="1" x:Name="FeedbackEntryBorder" HeightRequest="240" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
 
-                        <Entry x:Name="SongTitleEntry" Placeholder="Song title" PlaceholderColor="{DynamicResource PlaceholderTextColor}" ReturnType="Done" MaxLength="20" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
+                        <Grid VerticalOptions="Center">
 
-                    </Grid>
+                            <Editor x:Name="FeedbackEditor" Placeholder="This happened when I did this." PlaceholderColor="{DynamicResource PlaceholderTextColor}" MaxLength="200" FontSize="12" HeightRequest="240" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
 
-                </Border>
+                        </Grid>
 
-            </Grid>
+                    </Border>
 
-            <!-- Part -->
-            <Grid Grid.Row="3" ColumnDefinitions="2*, 6*">
+                </Grid>
 
-                <Label Grid.Column="0" Text="Part " VerticalOptions="Center" HorizontalOptions="Start" />
+                <!-- Is bug (or feature) switch -->
+                <Grid Grid.Row="1" ColumnDefinitions="*,*">
 
-                <Picker Grid.Column="1" x:Name="PartPicker" Margin="0,0,8,0"
-                        ItemsSource="{Binding PartNames}" SelectedItem="{Binding SelectedPart}" ItemDisplayBinding="{Binding .}"
-                        SelectedIndexChanged="PartPickerIndexChanged"/>
+                    <Label Grid.Column="0" Text="Is bug" VerticalOptions="Center" HorizontalOptions="End" />
 
-            </Grid>
+                    <Switch Grid.Column="1" x:Name="IsBugSwitch" HorizontalOptions="End" />
 
-            <!-- Dance practice switch -->
-            <Grid Grid.Row="4" ColumnDefinitions="*,*">
-
-                <Label Grid.Column="0" Text="Include dance practice?" VerticalOptions="Center" HorizontalOptions="Start" />
-
-                <Switch Grid.Column="1" x:Name="DancePracticeSwitch" HorizontalOptions="End" />
+                </Grid>
 
             </Grid>
 
-            <Button Grid.Row="5" x:Name="SubmitButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
+            <Button Grid.Row="2" x:Name="SubmitButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
                     Clicked="SubmitButtonClicked" Text="Submit" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Right, 10">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_forward}" Color="{DynamicResource IconColor}" />

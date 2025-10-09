@@ -8,7 +8,6 @@ namespace RpdPlayerApp.Repositories;
 
 internal static class AlbumRepository
 {
-    private const string ALBUMS_TXT_URL = "https://github.com/giannistek1/rpd-albums/blob/main/albums.txt?raw=true";
 
     public readonly static ObservableCollection<Album> Albums = [];
 
@@ -67,7 +66,7 @@ internal static class AlbumRepository
 
         using (HttpClient client = new())
         {
-            albumsAsText = client.GetStringAsync(ALBUMS_TXT_URL).Result;
+            albumsAsText = client.GetStringAsync(Constants.ALBUMS_SOURCE_URL).Result;
         }
         return albumsAsText;
     }

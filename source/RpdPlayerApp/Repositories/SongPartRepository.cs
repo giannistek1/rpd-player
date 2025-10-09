@@ -9,8 +9,6 @@ namespace RpdPlayerApp.Repositories;
 // Title illegal characters: ?, long dash, :, #, ', `, *,
 internal static class SongPartRepository
 {
-    private const string SONG_PARTS_TXT_URL = "https://github.com/giannistek1/rpd-audio/blob/main/songparts.txt?raw=true";
-
     public static ObservableCollection<SongPart> SongParts = [];
 
     public static bool GetSongParts() => InitSongParts(GetStringFromURL());
@@ -89,7 +87,7 @@ internal static class SongPartRepository
 
         using (HttpClient client = new())
         {
-            songPartsAsText = client.GetStringAsync(SONG_PARTS_TXT_URL).Result;
+            songPartsAsText = client.GetStringAsync(Constants.SONGPARTS_SOURCE_URL).Result;
         }
         return songPartsAsText;
     }
