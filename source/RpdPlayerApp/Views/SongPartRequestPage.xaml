@@ -90,18 +90,18 @@
 
             
             <!-- Content 2: Feedback -->
-            <Grid Grid.Row="1" x:Name="FeedbackContainer" RowDefinitions="240, 40">
+            <Grid Grid.Row="1" x:Name="FeedbackContainer" RowDefinitions="270, 40">
 
                 <!-- Feedback -->
-                <Grid Grid.Row="0" ColumnDefinitions="*,2*">
+                <Grid Grid.Row="0" RowDefinitions="30, 240" Margin="0,0,0,0">
 
-                    <Label Grid.Column="0" Text="Feedback" VerticalOptions="Center" HorizontalOptions="Start" />
+                    <Label Grid.Row="0" Text="Feedback" VerticalOptions="Start" HorizontalOptions="Start" Padding="8,0,0,0"/>
 
-                    <Border Grid.Column="1" x:Name="FeedbackEntryBorder" HeightRequest="240" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+                    <Border Grid.Row="1" x:Name="FeedbackEntryBorder" HeightRequest="230" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
 
                         <Grid VerticalOptions="Center">
 
-                            <Editor x:Name="FeedbackEditor" Placeholder="This happened when I did this." PlaceholderColor="{DynamicResource PlaceholderTextColor}" MaxLength="200" FontSize="12" HeightRequest="240" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
+                            <Editor x:Name="FeedbackEditor" Placeholder="Bug / Feature" PlaceholderColor="{DynamicResource PlaceholderTextColor}" MaxLength="400" FontSize="12" HeightRequest="230" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
 
                         </Grid>
 

@@ -1,3 +1,4 @@
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
@@ -38,15 +39,51 @@ public partial class SongPartRequestPage : ContentPage
         }
     }
 
-    private void SubmitButtonClicked(object sender, EventArgs e)
+    private async void SubmitButtonClicked(object sender, EventArgs e)
     {
         if (SongRequestContainer.IsVisible)
         {
-            _viewModel.SubmitSongRequest(title: SongTitleEntry.Text, artist: ArtistEntry.Text, songPart: PartPicker.SelectedItem.ToString()!, withDancePractice: DancePracticeSwitch.IsToggled);
+            if (SongTitleEntry.Text.IsNullOrWhiteSpace())
+            {
+                General.ShowToast("Title is empty.");
+                return;
+            }
+            else if (ArtistEntry.Text.IsNullOrWhiteSpace())
+            {
+                General.ShowToast("Artist is empty.");
+                return;
+            }
+
+            if (await _viewModel.SubmitSongRequest(title: SongTitleEntry.Text, artist: ArtistEntry.Text, songPart: PartPicker.SelectedItem.ToString()!, withDancePractice: DancePracticeSwitch.IsToggled))
+            {
+                General.ShowToast("Song request submitted. Thank you!");
+
+                SongTitleEntry.Text = string.Empty;
+                ArtistEntry.Text = string.Empty;
+            }
+            else
+            {
+                General.ShowToast("Something went wrong. Try again later.");
+            }
         }
-        else
+        else // Feedback
         {
-            _viewModel.SubmitFeedback(feedback: FeedbackEditor.Text, isBug: IsBugSwitch.IsToggled);
+            if (FeedbackEditor.Text.IsNullOrWhiteSpace())
+            {
+                General.ShowToast("Feedback is empty.");
+                return;
+            }
+
+            if (await _viewModel.SubmitFeedback(feedback: FeedbackEditor.Text, isBug: IsBugSwitch.IsToggled))
+            {
+                General.ShowToast("Feedback submitted. Thank you!");
+
+                FeedbackEditor.Text = string.Empty;
+            }
+            else
+            {
+                General.ShowToast("Something went wrong. Try again later.");
+            }
         }
     }
 }

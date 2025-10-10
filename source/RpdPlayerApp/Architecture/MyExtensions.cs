@@ -2,7 +2,10 @@
 
 internal static class MyExtensions
 {
-    public static bool IsNullOrEmpty(this String text)
+    /// <summary> Trims whitespace </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    public static bool IsNullOrWhiteSpace(this string text)
     {
         return text == null || text.Trim().Length == 0;
     }

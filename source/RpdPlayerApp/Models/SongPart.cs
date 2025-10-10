@@ -21,7 +21,7 @@ internal partial class SongPart : INotifyPropertyChanged
     public string PartNameShortWithNumber { get; set; }
     public string PartNameNumber { get; set; }
     public string PartNameFull { get; set; }
-    public SongPartOrderValue PartClassification { get; set; }
+    public SongSegmentOrderValue PartClassification { get; set; }
     public string AlbumTitle { get; set; }
     public Album Album { get; set; }
     public string AlbumURL { get; set; } = string.Empty;
@@ -219,19 +219,19 @@ internal partial class SongPart : INotifyPropertyChanged
         };
     }
 
-    private static SongPartOrderValue GetSongPartOrder(string partNameShort)
+    private static SongSegmentOrderValue GetSongPartOrder(string partNameShort)
     {
         return partNameShort switch
         {
-            "P" or "PDB" => SongPartOrderValue.Prechorus,
-            "C" or "CDB" or "CDBE" or "CE" => SongPartOrderValue.Chorus,
-            "B" or "DB" or "O" or "DBO" or "DBC" or "DBE" => SongPartOrderValue.Dancebreak,
-            "T" => SongPartOrderValue.Tiktok,
-            "E" or "O" => SongPartOrderValue.Ending,
-            "I" => SongPartOrderValue.Intro,
-            "V" => SongPartOrderValue.Verse,
+            "P" or "PDB" => SongSegmentOrderValue.Prechorus,
+            "C" or "CDB" or "CDBE" or "CE" => SongSegmentOrderValue.Chorus,
+            "B" or "DB" or "O" or "DBO" or "DBC" or "DBE" => SongSegmentOrderValue.Dancebreak,
+            "T" => SongSegmentOrderValue.Tiktok,
+            "E" or "O" => SongSegmentOrderValue.Ending,
+            "I" => SongSegmentOrderValue.Intro,
+            "V" => SongSegmentOrderValue.Verse,
 
-            "U" or _ => SongPartOrderValue.Unspecified
+            "U" or _ => SongSegmentOrderValue.Unspecified
         };
     }
 }

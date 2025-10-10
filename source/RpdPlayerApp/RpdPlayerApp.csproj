@@ -123,8 +123,8 @@
     <!-- App Icon -->
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFF" />
     
-        <!-- Splash Screen -->
-    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#33806C" BaseSize="128,128" />
+        <!-- Splash Screen Maui default color: #512BD4 Logo color: #33806C -->
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
     
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
@@ -134,6 +134,7 @@
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+      
     </ItemGroup>
   
     <ItemGroup>

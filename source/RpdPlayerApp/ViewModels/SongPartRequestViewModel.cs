@@ -1,5 +1,7 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
+using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Enums;
 using RpdPlayerApp.Repositories;
 
 namespace RpdPlayerApp.ViewModels;
@@ -13,27 +15,56 @@ internal partial class SongPartRequestViewModel : ObservableObject
     private string _title = string.Empty;
 
     [ObservableProperty]
-    private string _selectedPart = string.Empty;
+    private SongSegmentType _selectedPart = SongSegmentType.Chorus2;
 
     [ObservableProperty]
     private bool _wantsDancePractice = false;
 
     [ObservableProperty]
-    private List<string> _partNames = ["Chorus", "Verse", "Bridge", "Intro", "Outro", "Dance Break", "Instrumental", "Other"];
+    private List<SongSegmentType> _partNames = Enum.GetValues(typeof(SongSegmentType))
+                                               .Cast<SongSegmentType>()
+                                               .ToList();
 
     private FeedbackRepository _feedbackRepository = new();
+    private SongRequestRepository _songRequestRepository = new();
 
-    internal void SubmitSongRequest(string title, string artist, string songPart, bool withDancePractice)
+    internal async Task<bool> SubmitSongRequest(string title, string artist, string songPart, bool withDancePractice)
     {
-
+        bool success = false;
+        try
+        {
+            success = await _songRequestRepository.InsertSongRequestAsync(new()
+            {
+                Artist = artist,
+                Title = title,
+                Part = songPart,
+                WithDancePractice = withDancePractice,
+                RequestedBy = "anonymous" // TODO: username / device id
+            });
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.AddDebug(ex.Message);
+        }
+        return success;
     }
 
-    internal async void SubmitFeedback(string feedback, bool isBug)
+    internal async Task<bool> SubmitFeedback(string feedback, bool isBug)
     {
-        await _feedbackRepository.InsertFeedbackAsync(new()
+        bool success = false;
+        try
         {
-            Text = feedback,
-            IsBug = isBug
-        });
+            success = await _feedbackRepository.InsertFeedbackAsync(new()
+            {
+                Text = feedback,
+                IsBug = isBug,
+                RequestedBy = "anonymous" // TODO: username / device id
+            });
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.AddDebug(ex.Message);
+        }
+        return success;
     }
 }

@@ -4,14 +4,13 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
-
 namespace RpdPlayerApp.Repositories;
 
-class FeedbackRepository
+internal class SongRequestRepository
 {
     private readonly HttpClient _httpClient;
 
-    public FeedbackRepository()
+    public SongRequestRepository()
     {
         _httpClient = new HttpClient
         {
@@ -23,11 +22,11 @@ class FeedbackRepository
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    public async Task<bool> InsertFeedbackAsync(FeedbackDto feedback)
+    public async Task<bool> InsertSongRequestAsync(SongRequestDto request)
     {
         // The Supabase REST API expects JSON in the request body
-        string url = Constants.FEEDBACK_ROUTE;
-        var json = JsonSerializer.Serialize(feedback);
+        string url = Constants.SONGREQUEST_ROUTE;
+        var json = JsonSerializer.Serialize(request);
         using var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         var response = await _httpClient.PostAsync(url, content);

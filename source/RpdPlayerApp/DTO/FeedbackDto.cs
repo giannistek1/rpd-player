@@ -1,9 +1,17 @@
-﻿namespace RpdPlayerApp.DTO;
+﻿using System.Text.Json.Serialization;
+
+namespace RpdPlayerApp.DTO;
 
 
 public class FeedbackDto
 {
-    public string Text { get; set; }
+    // Json is case sensitive.
+    [JsonPropertyName("text")]
+    public string Text { get; set; } = string.Empty;
+
+    [JsonPropertyName("is_bug")]
     public bool IsBug { get; set; }
-    public string RequestedBy { get; set; }
+
+    [JsonPropertyName("requested_by")]
+    public string RequestedBy { get; set; } = string.Empty;
 }

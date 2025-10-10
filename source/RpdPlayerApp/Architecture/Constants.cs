@@ -9,8 +9,8 @@ internal static class Constants
 
     internal const string BASE_URL = "https://faodcajoizngcccweqsa.supabase.co";
     internal const string APIKEY = "";
-    internal const string SONGREQUEST_URL = "/rest/v1/song_request";
-    internal const string FEEDBACK_URL = "/rest/v1/feedback";
+    internal const string SONGREQUEST_ROUTE = "/rest/v1/song_request";
+    internal const string FEEDBACK_ROUTE = "/rest/v1/feedback";
     internal const string PLAYLIST_URL = "/rest/v1/playlist";
 
     /// <summary> 7 </summary>

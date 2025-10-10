@@ -22,8 +22,16 @@ namespace RpdPlayerApp
 #if ANDROID
             ImageHandler.Mapper.PrependToMapping(nameof(Microsoft.Maui.IImage.Source), (handler, view) => handler.PlatformView?.Clear());
 #endif
-            /* Code to remove underline of Android control Entry */
+            /* Removes underline of Android control Entry */
             Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(Entry), (handler, view) =>
+            {
+#if ANDROID
+                handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#endif
+            });
+
+            /* Removes underline of Android control Editor */
+            Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping(nameof(Editor), (handler, view) =>
             {
 #if ANDROID
                 handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
@@ -71,7 +79,7 @@ namespace RpdPlayerApp
                     options.SetBeforeSend((sentryEvent, hint) =>
                     {
                         // Very annoying log that gets sent every time MediaElement pauses/unpauses. Supposedly fixed in MediaElement v6.0.0 but is present in v4.0.1 - v5.x.x
-                        if (sentryEvent.Message is not null && sentryEvent.Message.Formatted is not null && 
+                        if (sentryEvent.Message is not null && sentryEvent.Message.Formatted is not null &&
                             sentryEvent.Message.Formatted.Contains("AndroidX.LocalBroadcastManager.Content.LocalBroadcastManager not supported on Android 13 and above."))
                         {
                             return null; // Don't send this event to Sentry

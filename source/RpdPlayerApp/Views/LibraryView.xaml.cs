@@ -127,7 +127,7 @@ public partial class LibraryView : ContentView
 
     internal void NewPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        if (PlaylistNameEntry.Text.IsNullOrEmpty())
+        if (PlaylistNameEntry.Text.IsNullOrWhiteSpace())
         {
             General.ShowToast($"Please fill in a name");
             return;

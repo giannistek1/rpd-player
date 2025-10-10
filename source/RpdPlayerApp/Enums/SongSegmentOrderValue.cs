@@ -1,10 +1,11 @@
 ﻿namespace RpdPlayerApp.Enums;
 
 /// <summary>
-/// Usually ordered by what it starts with.
+/// Used by grids.
+/// Usually ordered by song segments chronologically.
 /// Examples: Prechorus, Chorus, Dancebreak, Tiktok
 /// </summary>
-internal enum SongPartOrderValue
+internal enum SongSegmentOrderValue
 {
     Unspecified = 0,
     Prechorus = 1,
