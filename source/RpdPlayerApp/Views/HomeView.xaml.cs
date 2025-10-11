@@ -35,7 +35,7 @@ public partial class HomeView : ContentView
         Loaded += OnLoad;
     }
 
-    private void LoadInitialData()
+    private static void LoadInitialData()
     {
         ArtistRepository.GetArtists();
         AlbumRepository.GetAlbums();
@@ -62,6 +62,7 @@ public partial class HomeView : ContentView
         }
         catch (Exception ex)
         {
+            DebugService.Instance.AddDebug(ex.Message);
             General.ShowToast(ex.Message);
         }
     }
@@ -122,7 +123,7 @@ public partial class HomeView : ContentView
 #else
         string releaseMode = "P"; // Production
 #endif
-        VersionLabel.Text = $"v{AppInfo.Current.VersionString}.{AppInfo.Current.BuildString}.{releaseMode}";
+        VersionLabel.Text = $"v{AppInfo.Current.VersionString}-{AppInfo.Current.BuildString}{releaseMode}";
     }
 
     /// <summary> Fills in companies. </summary>
@@ -310,7 +311,7 @@ public partial class HomeView : ContentView
             var selectedItems = new ObservableCollection<SfChip>();
             for (var i = 0; i < selectedIndices!.Length; i++)
             {
-                selectedItems.Add(CompaniesChipGroup.Items[selectedIndices[i]]);
+                selectedItems.Add(CompaniesChipGroup!.Items![selectedIndices[i]]);
             }
             CompaniesChipGroup!.SelectedItem = selectedItems;
         }
@@ -413,6 +414,8 @@ public partial class HomeView : ContentView
     internal void RefreshThemeColors()
     {
         RefreshChipGroupColors(DurationChipGroup);
+        RefreshChipGroupColors(TimerChipGroup);
+        RefreshChipGroupColors(VoiceAnnouncementsChipGroup);
         RefreshChipGroupColors(GrouptypesChipGroup);
         RefreshChipGroupColors(GenresChipGroup);
         RefreshChipGroupColors(GenerationsChipGroup);
@@ -440,7 +443,7 @@ public partial class HomeView : ContentView
         AntiOptionsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
     }
 
-    private void RefreshChipGroupColors(SfChipGroup chipGroup)
+    private static void RefreshChipGroupColors(SfChipGroup chipGroup)
     {
         chipGroup.SelectedChipBackground = (Color)Application.Current!.Resources["SecondaryButton"];
         foreach (var chip in chipGroup.Items!)
@@ -605,7 +608,7 @@ public partial class HomeView : ContentView
         return songParts;
     }
 
-    private void PlayRandomSong(List<SongPart> songParts)
+    private static void PlayRandomSong(List<SongPart> songParts)
     {
         int index = General.Rng.Next(songParts.Count);
         SongPart songPart = songParts[index];

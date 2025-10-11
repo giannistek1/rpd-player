@@ -97,7 +97,7 @@
 
                     <Label Grid.Row="0" Text="Feedback" VerticalOptions="Start" HorizontalOptions="Start" Padding="8,0,0,0"/>
 
-                    <Border Grid.Row="1" x:Name="FeedbackEntryBorder" HeightRequest="230" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+                    <Border Grid.Row="1" x:Name="FeedbackEntryBorder" HeightRequest="230" Margin="10,4,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
 
                         <Grid VerticalOptions="Center">
 
@@ -112,9 +112,9 @@
                 <!-- Is bug (or feature) switch -->
                 <Grid Grid.Row="1" ColumnDefinitions="*,*">
 
-                    <Label Grid.Column="0" Text="Is bug" VerticalOptions="Center" HorizontalOptions="End" />
+                    <Label Grid.Column="0" Text="Is bug" VerticalOptions="Center" HorizontalOptions="Start" Padding="8,0,0,0" />
 
-                    <Switch Grid.Column="1" x:Name="IsBugSwitch" HorizontalOptions="End" />
+                    <Switch Grid.Column="1" x:Name="IsBugSwitch" HorizontalOptions="Start" />
 
                 </Grid>
 

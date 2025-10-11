@@ -57,8 +57,7 @@ public partial class SearchSongPartsView : ContentView
 
         UpdateResultsText();
 
-        ClearCategoryFilterButton.IsVisible = (AppState.SearchFilterMode != SearchFilterModeValue.All);
-        ClearCategoryFilterImageButton.IsVisible = (AppState.SearchFilterMode != SearchFilterModeValue.All);
+        ClearCategoryFilterButtonBorder.IsVisible = (AppState.SearchFilterMode != SearchFilterModeValue.All);
     }
 
     internal void ToggleAudioModeButtonClicked(object? sender, EventArgs e)
@@ -393,8 +392,7 @@ public partial class SearchSongPartsView : ContentView
     {
         songParts.CollectionChanged -= SongPartsCollectionChanged;
 
-        ClearCategoryFilterButton.IsVisible = (AppState.SearchFilterMode != SearchFilterModeValue.All);
-        ClearCategoryFilterImageButton.IsVisible = (AppState.SearchFilterMode != SearchFilterModeValue.All);
+        ClearCategoryFilterButtonBorder.IsVisible = (AppState.SearchFilterMode != SearchFilterModeValue.All);
 
         try
         {

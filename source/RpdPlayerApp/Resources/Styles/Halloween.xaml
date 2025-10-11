@@ -39,9 +39,10 @@
     <Color x:Key="ExpanderColor">#121212</Color>
     <Color x:Key="ExpanderExpandedColor">#121212</Color>
     <Color x:Key="TabViewBackgroundColor">#121212</Color>
-    
-    <Color x:Key="SwitchOnThumbColor">#C8C8C8</Color>
+
+    <Color x:Key="SwitchOffBackgroundColor">#6E6E6E</Color> <!-- To be used -->
     <Color x:Key="SwitchOffThumbColor">#6E6E6E</Color>
+    <Color x:Key="SwitchOnThumbColor">#C8C8C8</Color>
     <Color x:Key="SwitchStartRpdTrackColor">#B3B3B3</Color>
     <Color x:Key="SwitchGeneratePlaylistTrackColor">#B3B3B3</Color>
 

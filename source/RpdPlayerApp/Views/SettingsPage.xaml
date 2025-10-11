@@ -60,7 +60,7 @@
             <!-- Non-Choreo songs -->
             <Grid Grid.Row="4" ColumnDefinitions="*,*">
 
-                <Label Grid.Column="0" Text="Non-choreography songs" VerticalOptions="Center" HorizontalOptions="Start" />
+                <Label Grid.Column="0" Text="Non-choreo songs" VerticalOptions="Center" HorizontalOptions="Start" />
 
                 <Switch Grid.Column="1" x:Name="NonChoreographySwitch" HorizontalOptions="End" />
 

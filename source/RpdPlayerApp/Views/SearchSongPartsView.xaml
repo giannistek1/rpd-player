@@ -26,17 +26,22 @@
         </Grid>
 
         <!-- Actions -->
-        <Grid Grid.Row="1" ColumnDefinitions="6*, 4*, 1*" Margin="0,0,0,4">
+        <Grid Grid.Row="1" ColumnDefinitions="6*, 4*, 40" Margin="0,0,0,4">
 
             <SearchBar Grid.Column="0" x:Name="SearchBarInput" Margin="-12,0,0,0" Background="{DynamicResource BackgroundColor}" TextColor="{DynamicResource PrimaryTextColor}" Placeholder="Artist or title" PlaceholderColor="{DynamicResource PlaceholderColor}" TextChanged="SearchBar_TextChanged"/>
 
             <Button Grid.Column="1" x:Name="AddResultsButton" Margin="2,0,8,0" Clicked="AddResultsButton_Clicked" Text="Add results" />
 
-            <ImageButton Grid.Column="2" x:Name="ClearCategoryFilterImageButton" Background="{DynamicResource SecondaryButton}" CornerRadius="8" Padding="4" Clicked="ClearCategoryFilterButtonClicked">
-                <ImageButton.Source>
-                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Filter_alt_off}" Color="{DynamicResource IconColor}" />
-                </ImageButton.Source>
-            </ImageButton>
+            <Border Grid.Column="2" x:Name="ClearCategoryFilterButtonBorder" HeightRequest="40"  WidthRequest="40" StrokeShape="RoundRectangle 8" 
+                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+
+                <ImageButton x:Name="ClearCategoryFilterImageButton" HeightRequest="40" Clicked="ClearCategoryFilterButtonClicked" Padding="4">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Filter_alt_off}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
+
+            </Border>
 
         </Grid>
         
