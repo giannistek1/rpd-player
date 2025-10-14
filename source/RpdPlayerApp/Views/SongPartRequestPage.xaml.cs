@@ -3,9 +3,6 @@ using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
-/// <summary>
-/// TODO: Song part request page AND bug report page.
-/// </summary>
 public partial class SongPartRequestPage : ContentPage
 {
     readonly SongPartRequestViewModel _viewModel = new();
@@ -54,12 +51,18 @@ public partial class SongPartRequestPage : ContentPage
                 return;
             }
 
-            if (await _viewModel.SubmitSongRequest(title: SongTitleEntry.Text, artist: ArtistEntry.Text, songPart: PartPicker.SelectedItem.ToString()!, withDancePractice: DancePracticeSwitch.IsToggled))
+            if (await _viewModel.SubmitSongRequest(title: SongTitleEntry.Text,
+                                                   artist: ArtistEntry.Text,
+                                                   songPart: PartPicker.SelectedItem.ToString()!,
+                                                   withDancePractice: DancePracticeSwitch.IsToggled,
+                                                   requestedBy: "guest",
+                                                   note: NoteEditor.Text))
             {
                 General.ShowToast("Song request submitted. Thank you!");
 
                 SongTitleEntry.Text = string.Empty;
                 ArtistEntry.Text = string.Empty;
+                NoteEditor.Text = string.Empty;
             }
             else
             {
@@ -74,7 +77,7 @@ public partial class SongPartRequestPage : ContentPage
                 return;
             }
 
-            if (await _viewModel.SubmitFeedback(feedback: FeedbackEditor.Text, isBug: IsBugSwitch.IsToggled))
+            if (await _viewModel.SubmitFeedback(feedback: FeedbackEditor.Text, isBug: IsBugSwitch.IsToggled, requestedBy: "guest"))
             {
                 General.ShowToast("Feedback submitted. Thank you!");
 

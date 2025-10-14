@@ -31,12 +31,12 @@
             </buttons:SfSegmentedControl>
 
             <!-- Content 1: Song request -->
-            <Grid Grid.Row="1" x:Name="SongRequestContainer" RowDefinitions="68, 68, 60, 40">
+            <Grid Grid.Row="1" x:Name="SongRequestContainer" RowDefinitions="68, 68, 60, 40, 190">
 
                 <!-- Artist -->
-                <Grid Grid.Row="0" ColumnDefinitions="*,2*">
+                <Grid Grid.Row="0" ColumnDefinitions="*,2*" Padding="4,0,0,0">
 
-                    <Label Grid.Column="0" Text="Artist" VerticalOptions="Center" HorizontalOptions="Start" />
+                    <Label Grid.Column="0" Text="Artist*" VerticalOptions="Center" HorizontalOptions="Start" />
 
                     <Border Grid.Column="1" x:Name="ArtistEntryBorder" HeightRequest="60" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
 
@@ -51,9 +51,9 @@
                 </Grid>
 
                 <!-- Song title -->
-                <Grid Grid.Row="1" ColumnDefinitions="*,2*">
+                <Grid Grid.Row="1" ColumnDefinitions="*,2*" Padding="4,0,0,0">
 
-                    <Label Grid.Column="0" Text="Song title" VerticalOptions="Center" HorizontalOptions="Start" />
+                    <Label Grid.Column="0" Text="Song title*" VerticalOptions="Center" HorizontalOptions="Start" />
 
                     <Border Grid.Column="1" x:Name="SongTitleEntryBorder" HeightRequest="60" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
 
@@ -68,17 +68,17 @@
                 </Grid>
 
                 <!-- Part -->
-                <Grid Grid.Row="2" ColumnDefinitions="2*, 4*">
+                <Grid Grid.Row="2" ColumnDefinitions="2*, 4*" Padding="4,0,0,0">
 
-                    <Label Grid.Column="0" Text="Part " VerticalOptions="Center" HorizontalOptions="Start" />
+                    <Label Grid.Column="0" Text="Part*" VerticalTextAlignment="Center" HorizontalOptions="Start" />
 
-                    <Picker Grid.Column="1" x:Name="PartPicker" Margin="0,0,8,0"
+                    <Picker Grid.Column="1" x:Name="PartPicker" Margin="0,0,8,0" VerticalTextAlignment="Center"
                         ItemsSource="{Binding PartNames}" SelectedItem="{Binding SelectedPart}" ItemDisplayBinding="{Binding .}"/>
 
                 </Grid>
 
                 <!-- Dance practice switch -->
-                <Grid Grid.Row="3" ColumnDefinitions="*,*">
+                <Grid Grid.Row="3" ColumnDefinitions="*,*" Padding="8,0,0,0">
 
                     <Label Grid.Column="0" Text="Include dance practice?" VerticalOptions="Center" HorizontalOptions="Start" />
 
@@ -86,18 +86,36 @@
 
                 </Grid>
 
-            </Grid>
 
+                <!-- Note -->
+                <Grid Grid.Row="4" RowDefinitions="30, 160" Margin="0,0,0,0">
+
+                    <Label Grid.Row="0" Text="Note" VerticalOptions="Start" HorizontalOptions="Start" Padding="8,0,0,0"/>
+
+                    <Border Grid.Row="1" x:Name="NoteBorder" HeightRequest="160" Margin="10,4,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+
+                        <Grid VerticalOptions="Center">
+
+                            <Editor x:Name="NoteEditor" Placeholder="Extra notes..." PlaceholderColor="{DynamicResource PlaceholderTextColor}" MaxLength="200" FontSize="12" HeightRequest="160" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+
+            </Grid>
             
+
             <!-- Content 2: Feedback -->
-            <Grid Grid.Row="1" x:Name="FeedbackContainer" RowDefinitions="270, 40">
+            <Grid Grid.Row="1" x:Name="FeedbackContainer" RowDefinitions="270, 50">
 
                 <!-- Feedback -->
                 <Grid Grid.Row="0" RowDefinitions="30, 240" Margin="0,0,0,0">
 
-                    <Label Grid.Row="0" Text="Feedback" VerticalOptions="Start" HorizontalOptions="Start" Padding="8,0,0,0"/>
+                    <Label Grid.Row="0" Text="Feedback*" VerticalOptions="Start" HorizontalOptions="Start" Padding="8,0,0,0"/>
 
-                    <Border Grid.Row="1" x:Name="FeedbackEntryBorder" HeightRequest="230" Margin="10,4,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+                    <Border Grid.Row="1" x:Name="FeedbackBorder" HeightRequest="230" Margin="10,4,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
 
                         <Grid VerticalOptions="Center">
 
@@ -112,7 +130,7 @@
                 <!-- Is bug (or feature) switch -->
                 <Grid Grid.Row="1" ColumnDefinitions="*,*">
 
-                    <Label Grid.Column="0" Text="Is bug" VerticalOptions="Center" HorizontalOptions="Start" Padding="8,0,0,0" />
+                    <Label Grid.Column="0" Text="Is a bug?" VerticalOptions="Center" HorizontalOptions="Start" Padding="8,0,0,0" />
 
                     <Switch Grid.Column="1" x:Name="IsBugSwitch" HorizontalOptions="Start" />
 
@@ -120,8 +138,8 @@
 
             </Grid>
 
-            <Button Grid.Row="2" x:Name="SubmitButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
-                    Clicked="SubmitButtonClicked" Text="Submit" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Right, 10">
+            <Button Grid.Row="2" x:Name="SubmitButton" Padding="0,0,0,0" Margin="0,-16,4,0" HeightRequest="50" CornerRadius="8" Background="{DynamicResource PrimaryButton}"
+                    Clicked="SubmitButtonClicked" Text="Submit" FontSize="16" LineBreakMode="WordWrap" ContentLayout="Right, 10">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_forward}" Color="{DynamicResource IconColor}" />
                 </Button.ImageSource>

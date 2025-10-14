@@ -18,4 +18,7 @@ internal class SongRequestDto
 
     [JsonPropertyName("requested_by")]
     public string RequestedBy { get; set; } = string.Empty;
+
+    [JsonPropertyName("note")]
+    public string Note { get; set; } = string.Empty;
 }
