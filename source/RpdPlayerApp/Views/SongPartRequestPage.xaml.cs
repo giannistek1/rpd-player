@@ -1,4 +1,5 @@
 using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Managers;
 using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
@@ -38,6 +39,8 @@ public partial class SongPartRequestPage : ContentPage
 
     private async void SubmitButtonClicked(object sender, EventArgs e)
     {
+        string deviceId = await DeviceIdManager.GetDeviceIdAsync();
+
         if (SongRequestContainer.IsVisible)
         {
             if (SongTitleEntry.Text.IsNullOrWhiteSpace())
@@ -51,18 +54,25 @@ public partial class SongPartRequestPage : ContentPage
                 return;
             }
 
-            if (await _viewModel.SubmitSongRequest(title: SongTitleEntry.Text,
+            int success = await _viewModel.SubmitSongRequest(title: SongTitleEntry.Text,
                                                    artist: ArtistEntry.Text,
                                                    songPart: PartPicker.SelectedItem.ToString()!,
                                                    withDancePractice: DancePracticeSwitch.IsToggled,
                                                    requestedBy: "guest",
-                                                   note: NoteEditor.Text))
+                                                   deviceId: deviceId,
+                                                   note: NoteEditor.Text);
+
+            if (success == 1)
             {
                 General.ShowToast("Song request submitted. Thank you!");
 
                 SongTitleEntry.Text = string.Empty;
                 ArtistEntry.Text = string.Empty;
                 NoteEditor.Text = string.Empty;
+            }
+            else if (success == -2)
+            {
+                General.ShowToast("Please wait a few seconds before submitting again.");
             }
             else
             {
@@ -77,11 +87,16 @@ public partial class SongPartRequestPage : ContentPage
                 return;
             }
 
-            if (await _viewModel.SubmitFeedback(feedback: FeedbackEditor.Text, isBug: IsBugSwitch.IsToggled, requestedBy: "guest"))
+            int success = await _viewModel.SubmitFeedback(feedback: FeedbackEditor.Text, isBug: IsBugSwitch.IsToggled, requestedBy: "guest", deviceId: deviceId);
+            if (success == 1)
             {
                 General.ShowToast("Feedback submitted. Thank you!");
 
                 FeedbackEditor.Text = string.Empty;
+            }
+            else if (success == -2)
+            {
+                General.ShowToast("Please wait a few seconds before submitting again.");
             }
             else
             {

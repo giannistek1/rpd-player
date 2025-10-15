@@ -11,6 +11,10 @@ class FeedbackRepository
 {
     private readonly HttpClient _httpClient;
 
+    // TODO: Global
+    private static DateTime _lastRequestTime = DateTime.MinValue;
+    private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(10); // Cooldown period
+
     public FeedbackRepository()
     {
         _httpClient = new HttpClient
@@ -23,8 +27,17 @@ class FeedbackRepository
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    public async Task<bool> InsertFeedbackAsync(FeedbackDto feedback)
+    public async Task<int> InsertFeedbackAsync(FeedbackDto feedback)
     {
+        // Enforce cooldown
+        var timeSinceLast = DateTime.UtcNow - _lastRequestTime;
+        if (timeSinceLast < _cooldown)
+        {
+            return -2;
+        }
+
+        _lastRequestTime = DateTime.UtcNow;
+
         // The Supabase REST API expects JSON in the request body
         string url = Constants.FEEDBACK_ROUTE;
         var json = JsonSerializer.Serialize(feedback);
@@ -34,14 +47,14 @@ class FeedbackRepository
 
         if (response.IsSuccessStatusCode)
         {
-            return true;
+            return 1;
         }
         else
         {
             string respText = await response.Content.ReadAsStringAsync();
             // Log or handle error (status, body)
             DebugService.Instance.AddDebug($"Supabase insert failed: {response.StatusCode} / {respText}");
-            return false;
+            return -2;
         }
     }
 }

@@ -21,4 +21,7 @@ internal class SongRequestDto
 
     [JsonPropertyName("note")]
     public string Note { get; set; } = string.Empty;
+
+    [JsonPropertyName("device_id")]
+    public string DeviceId { get; set; } = string.Empty;
 }

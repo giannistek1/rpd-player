@@ -10,6 +10,10 @@ internal class SongRequestRepository
 {
     private readonly HttpClient _httpClient;
 
+    // TODO: Global
+    private static DateTime _lastRequestTime = DateTime.MinValue;
+    private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(10); // Cooldown period
+
     public SongRequestRepository()
     {
         _httpClient = new HttpClient
@@ -22,8 +26,18 @@ internal class SongRequestRepository
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    public async Task<bool> InsertSongRequestAsync(SongRequestDto request)
+    // TODO: Enums
+    public async Task<int> InsertSongRequestAsync(SongRequestDto request)
     {
+        // Enforce cooldown
+        var timeSinceLast = DateTime.UtcNow - _lastRequestTime;
+        if (timeSinceLast < _cooldown)
+        {
+            return -2;
+        }
+
+        _lastRequestTime = DateTime.UtcNow;
+
         // The Supabase REST API expects JSON in the request body
         string url = Constants.SONGREQUEST_ROUTE;
         var json = JsonSerializer.Serialize(request);
@@ -33,14 +47,14 @@ internal class SongRequestRepository
 
         if (response.IsSuccessStatusCode)
         {
-            return true;
+            return 1;
         }
         else
         {
             string respText = await response.Content.ReadAsStringAsync();
             // Log or handle error (status, body)
             DebugService.Instance.AddDebug($"Supabase insert failed: {response.StatusCode} / {respText}");
-            return false;
+            return -1;
         }
     }
 }

@@ -28,9 +28,9 @@ internal partial class SongPartRequestViewModel : ObservableObject
     private FeedbackRepository _feedbackRepository = new();
     private SongRequestRepository _songRequestRepository = new();
 
-    internal async Task<bool> SubmitSongRequest(string title, string artist, string songPart, bool withDancePractice, string requestedBy = "guest", string note = "")
+    internal async Task<int> SubmitSongRequest(string title, string artist, string songPart, bool withDancePractice, string deviceId, string requestedBy = "guest", string note = "")
     {
-        bool success = false;
+        int success = -1;
         try
         {
             success = await _songRequestRepository.InsertSongRequestAsync(new()
@@ -39,7 +39,8 @@ internal partial class SongPartRequestViewModel : ObservableObject
                 Title = title,
                 Part = songPart,
                 WithDancePractice = withDancePractice,
-                RequestedBy = requestedBy, // TODO: username / device id
+                RequestedBy = requestedBy,
+                DeviceId = deviceId,
                 Note = note
             });
         }
@@ -50,16 +51,17 @@ internal partial class SongPartRequestViewModel : ObservableObject
         return success;
     }
 
-    internal async Task<bool> SubmitFeedback(string feedback, bool isBug, string requestedBy = "guest")
+    internal async Task<int> SubmitFeedback(string feedback, bool isBug, string deviceId, string requestedBy = "guest")
     {
-        bool success = false;
+        int success = 1;
         try
         {
             success = await _feedbackRepository.InsertFeedbackAsync(new()
             {
                 Text = feedback,
                 IsBug = isBug,
-                RequestedBy = requestedBy // TODO: username / device id
+                RequestedBy = requestedBy,
+                DeviceId = deviceId
             });
         }
         catch (Exception ex)

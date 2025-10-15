@@ -979,4 +979,12 @@ public partial class SearchSongPartsView : ContentView
     }
 
     #endregion Sort
+
+    private void ActionsImageButton_Clicked(object sender, EventArgs e)
+    {
+        if (sender is ImageButton button && button.CommandParameter is SongPart item)
+        {
+            General.ShowToast(item.Title);
+        }
+    }
 }

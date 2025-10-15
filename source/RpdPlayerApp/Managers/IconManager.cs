@@ -88,7 +88,7 @@ internal static class IconManager
     internal static FontImageSource SparkleIcon = new()
     {
         FontFamily = "MaterialRounded",
-        Glyph = MaterialRounded.Construction, 
+        Glyph = MaterialRounded.Construction,
         Color = (Color)Application.Current!.Resources["IconColor"]
     };
 
@@ -160,9 +160,11 @@ internal static class IconManager
     {
         FontFamily = "MaterialRounded",
 #if IOS
-        Glyph = MaterialRounded.Arrow_back_ios,
+        //Glyph = MaterialRounded.Arrow_back_ios,
+        Glyph = MaterialRounded.Close,
 #else
-        Glyph = MaterialRounded.Arrow_back,
+        //Glyph = MaterialRounded.Arrow_back,
+        Glyph = MaterialRounded.Close,
 #endif
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
@@ -212,7 +214,7 @@ internal static class IconManager
     internal static FontImageSource ToolbarMoreItemsIcon = new()
     {
         FontFamily = "MaterialRounded",
-        Glyph = MaterialRounded.More_vert,
+        Glyph = MaterialRounded.More_horiz,
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
 

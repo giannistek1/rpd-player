@@ -127,7 +127,7 @@
                             <Label IsVisible="{Binding Artist.ShowMemberCount}" VerticalOptions="CenterAndExpand" Text="{Binding Artist.MemberCount}" />
                             <Label IsVisible="{Binding ShowClipLength}" VerticalOptions="CenterAndExpand" Text="{Binding ClipLengthAsTimeSpan, StringFormat='{0:mm\\:ss}'}" />
 
-                            <Grid ColumnDefinitions="1*, 6*, auto, auto, auto">
+                            <Grid ColumnDefinitions="1*, 6*, auto, auto, auto, auto">
 
                                 <!-- Album -->
                                 <Border Grid.Column="0" x:Name="AllBorder" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
@@ -146,28 +146,39 @@
                                     <Label Grid.Row="0" Text="{Binding Title}" VerticalOptions="Center" FontSize="14" LineBreakMode="TailTruncation" TextColor="{DynamicResource PrimaryTextColor}"  />
 
                                     <Grid Grid.Row="1" ColumnDefinitions="auto,auto,*">
+                                        
                                         <Image Grid.Column="0" IsVisible="{Binding HasVideo}" HeightRequest="20" WidthRequest="20" HorizontalOptions="End" VerticalOptions="Center" Aspect="AspectFit">
                                             <Image.Source>
                                                 <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Music_video}" Color="{DynamicResource SecondaryTextColor}" />
                                             </Image.Source>
                                         </Image>
+                                        
                                         <Label Grid.Column="1"  Text="{Binding ArtistName}" VerticalOptions="Start" FontSize="12" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" />
+                                        
                                         <Label Grid.Column="2" Text="{Binding PartNameFull, StringFormat=' • {0}'}" VerticalOptions="Start" FontSize="12" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryTextColor}" />
+                                        
                                     </Grid>
+                                    
                                 </Grid>
 
+                                <ImageButton Grid.Column="2" x:Name="ActionsImageButton" HeightRequest="34" WidthRequest="34" Clicked="ActionsImageButton_Clicked" CommandParameter="{Binding .}">
+                                    <ImageButton.Source>
+                                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.More_vert}" Color="{DynamicResource IconColor}" />
+                                    </ImageButton.Source>
+                                </ImageButton>
+
                                 <!-- Playing animation -->
-                                <Image Grid.Column="2" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY1}" TranslationY="{Binding PlayingIconTranslationY1}" IsVisible="{Binding IsPlaying}" BackgroundColor="{DynamicResource IconColor}" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                <Image Grid.Column="3" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY1}" TranslationY="{Binding PlayingIconTranslationY1}" IsVisible="{Binding IsPlaying}" BackgroundColor="{DynamicResource IconColor}" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
                                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Check_box_outline_blank }" Color="{DynamicResource IconColor}" />
                                     </Image.Source>
                                 </Image>
-                                <Image Grid.Column="3" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY2}" TranslationY="{Binding PlayingIconTranslationY2}" IsVisible="{Binding IsPlaying}" BackgroundColor="{DynamicResource IconColor}" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                <Image Grid.Column="4" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY2}" TranslationY="{Binding PlayingIconTranslationY2}" IsVisible="{Binding IsPlaying}" BackgroundColor="{DynamicResource IconColor}" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
                                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Check_box_outline_blank }" Color="{DynamicResource IconColor}" />
                                     </Image.Source>
                                 </Image>
-                                <Image Grid.Column="4" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY3}" TranslationY="{Binding PlayingIconTranslationY3}" IsVisible="{Binding IsPlaying}" BackgroundColor="{DynamicResource IconColor}" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
+                                <Image Grid.Column="5" Margin="2,0" HeightRequest="12" ScaleY="{Binding PlayingIconScaleY3}" TranslationY="{Binding PlayingIconTranslationY3}" IsVisible="{Binding IsPlaying}" BackgroundColor="{DynamicResource IconColor}" WidthRequest="6" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
                                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Check_box_outline_blank }" Color="{DynamicResource IconColor}" />
                                     </Image.Source>
