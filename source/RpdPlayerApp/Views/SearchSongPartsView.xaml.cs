@@ -231,7 +231,6 @@ public partial class SearchSongPartsView : ContentView
 
             if (added)
             {
-                AppState.PlaylistQueue.Enqueue(songPart);
                 AddSongPart?.Invoke(sender, e);
                 General.ShowToast($"Added: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}");
             }
@@ -272,7 +271,6 @@ public partial class SearchSongPartsView : ContentView
     // TODO: SwipeMode execute with a label that is EASY to see, right now you would need to swipe half the screen if swipemode execute...
     private void SwipeGroupItemAddSongs(object sender, EventArgs e)
     {
-        // TODO: BUGGY
         if (CurrentPlaylistManager.Instance.ChosenPlaylist is null)
         {
             General.ShowToast($"Select a playlist first!");

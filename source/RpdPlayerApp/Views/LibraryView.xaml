@@ -61,9 +61,10 @@
                         <Grid ColumnDefinitions="50, *, 50" Padding="10">
 
                             <HorizontalStackLayout>
-                                <Label VerticalOptions="Start" Text="{Binding Name}" />
-                                <Label VerticalOptions="Start" Text="{Binding Count, StringFormat=' • {0}'}" />
-                                <Label VerticalOptions="Start" Text="{Binding Length, StringFormat=' • {0:hh\\:mm\\:ss}'}" />
+                                <Label VerticalOptions="Start" Text="{Binding Name, StringFormat='{0}'}" />
+                                <Label VerticalOptions="Start" Text="{Binding Count, StringFormat=' • {0}'}" TextColor="{DynamicResource SecondaryTextColor}" />
+                                <Label VerticalOptions="Start" Text="{Binding Length, StringFormat=' • {0:hh\\:mm\\:ss}'}" TextColor="{DynamicResource SecondaryTextColor}" />
+                                <Label VerticalOptions="Start" Text="{Binding CreationDate, StringFormat=' • {0:dd\\-MM\\-yyyy}'}" TextColor="{DynamicResource SecondaryTextColor}"  />
                             </HorizontalStackLayout>
 
                         </Grid>

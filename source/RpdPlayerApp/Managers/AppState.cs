@@ -49,7 +49,6 @@ internal static class AppState
     /// <summary> Song to play (after countdown). </summary>
     internal static SongPart CurrentSongPart { get; set; } = new();
     internal static SongPart NextSongPart { get; set; } = new();
-    internal static Queue<SongPart> PlaylistQueue { get; set; } = new();
     internal static Queue<SongPart> SongPartsQueue { get; set; } = new();
 
     internal static List<SongPart> SongPartHistory { get; set; } = [];
@@ -57,8 +56,6 @@ internal static class AppState
     internal static int SongPartHistoryIndex { get; set; } = -1;
 
     internal static CurrentlyPlayingStateValue CurrentlyPlayingState { get; set; } = CurrentlyPlayingStateValue.None;
-
-    internal static ObservableCollection<Playlist> Playlists { get; set; } = [];
 
     internal static string Username { get; set; } = "Guest";
 }

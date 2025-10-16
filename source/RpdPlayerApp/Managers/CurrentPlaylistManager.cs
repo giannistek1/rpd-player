@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using System.Collections.ObjectModel;
 
@@ -10,15 +11,13 @@ internal partial class CurrentPlaylistManager : ObservableObject
 
     /// <summary> Playlist being edited in CurrentPlaylistView. </summary>
     [ObservableProperty]
-    private Playlist _chosenPlaylist = new(creationDate: DateTime.Now);
+    private Playlist? _chosenPlaylist = null;
 
     /// <summary> Playlist being played. </summary>
     [ObservableProperty]
     private Playlist _currentlyPlayingPlaylist = new(creationDate: DateTime.Now);
 
-    static CurrentPlaylistManager() { }
-
-    private CurrentPlaylistManager() => ChosenPlaylist = new Playlist(creationDate: DateTime.Now);
+    private CurrentPlaylistManager() { }
 
     public static CurrentPlaylistManager Instance => instance;
 
@@ -45,9 +44,9 @@ internal partial class CurrentPlaylistManager : ObservableObject
     {
         int songPartsAdded = 0;
 
-        if (ChosenPlaylist.SongParts is null)
+        if (ChosenPlaylist!.SongParts is null)
         {
-            ChosenPlaylist.SongParts = new ObservableCollection<SongPart>();
+            ChosenPlaylist.SongParts = [];
         }
 
         foreach (SongPart songPart in songParts)

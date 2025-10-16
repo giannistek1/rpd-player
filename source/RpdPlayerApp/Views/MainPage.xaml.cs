@@ -300,7 +300,10 @@ public partial class MainPage
         SearchSongPartsView.RefreshSort();
     }
 
-    private void OnEnqueueSongPart(object? sender, EventArgs e) => AudioPlayerControl.UpdateNextSwipeItem();
+    /// <summary> Updates whatever when there is a new song enqueued. </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnEnqueueSongPart(object? sender, EventArgs e) { }
 
     private void OnFilterPressed(object? sender, EventArgs e)
     {

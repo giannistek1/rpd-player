@@ -236,10 +236,10 @@ public partial class SongPartDetailBottomSheet
         //AudioManager.SetAnnouncement();
     }
 
-    private void FavoriteButtonPressed(object sender, EventArgs e)
+    private async void FavoriteButtonPressed(object sender, EventArgs e)
     {
         // TODO: Unfavorite?
-        bool success = _playlistsManager.TryAddSongPartToPlaylist(FAVORITES, songPart!);
+        bool success = await _playlistsManager.TryAddSongPartToPlaylist(FAVORITES, songPart!);
         if (!success) { return; }
 
         FavoriteImageButton.Source = IconManager.FavoritedIcon;

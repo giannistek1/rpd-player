@@ -29,11 +29,16 @@ public partial class CurrentPlaylistView : ContentView
         BackButtonImageButton.Source = IconManager.BackIcon;
     }
 
-    private void BackButtonClicked(object sender, EventArgs e)
+    private async void BackButtonClicked(object sender, EventArgs e)
     {
         // To hide soft keyboard programmatically.
         PlaylistNameEntry.IsEnabled = false;
         PlaylistNameEntry.IsEnabled = true;
+
+        // Reload cache.
+        CacheState.LocalPlaylists = null;
+        await PlaylistsManager.SavePlaylistLocally(CurrentPlaylistManager.Instance.ChosenPlaylist!, PlaylistNameEntry.Text);
+
         BackToPlaylists!.Invoke(sender, e);
     }
 
@@ -41,7 +46,7 @@ public partial class CurrentPlaylistView : ContentView
 
     internal void PlayPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        if (!CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts.Any()) { return; }
+        if (!CurrentPlaylistManager.Instance.ChosenPlaylist!.SongParts.Any()) { return; }
 
         // Change mode to playlist
         AppState.PlayMode = PlayModeValue.Playlist;
@@ -52,45 +57,8 @@ public partial class CurrentPlaylistView : ContentView
         //PlaySongPart!.Invoke(sender, e);
     }
 
-    internal async void SavePlaylistButtonClicked(object? sender, EventArgs e)
-    {
-        try
-        {
-            StringBuilder sb = new();
+    internal async void SavePlaylistButtonClicked(object? sender, EventArgs e) => await PlaylistsManager.SavePlaylistLocally(CurrentPlaylistManager.Instance.ChosenPlaylist!, PlaylistNameEntry.Text);
 
-            var playlist = CurrentPlaylistManager.Instance.ChosenPlaylist;
-
-            // Header should contain: Creation date, last modified date, user, count, length
-            sb.AppendLine($"HDR:[{playlist.CreationDate}][{playlist.LastModifiedDate}][{AppState.Username}][{playlist.Count}][{playlist.Length}][{playlist.CountdownMode}]");
-
-            foreach (SongPart songPart in playlist.SongParts)
-            {
-                sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.ClipLength}}}{{{songPart.AudioURL}}}");
-            }
-
-            await FileManager.SavePlaylistStringToTextFileAsync($"{PlaylistNameEntry.Text}", sb.ToString());
-
-            General.ShowToast($"{PlaylistNameEntry.Text} saved locally!");
-        }
-        catch (Exception ex)
-        {
-            General.ShowToast(ex.Message);
-        }
-
-        // TODO: Is dit logisch hier?
-        if (AppState.UsingCloudMode && General.HasInternetConnection())
-        {
-            try
-            {
-                DropboxRepository.SavePlaylist(PlaylistNameEntry.Text);
-                General.ShowToast($"{PlaylistNameEntry.Text} saved locally and online!");
-            }
-            catch (Exception ex)
-            {
-                General.ShowToast(ex.Message);
-            }
-        }
-    }
 
     internal void ToggleCloudModePressed(object? sender, EventArgs e)
     {

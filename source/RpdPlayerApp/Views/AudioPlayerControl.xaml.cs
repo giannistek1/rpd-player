@@ -167,42 +167,6 @@ public partial class AudioPlayerControl : ContentView
         }
     }
 
-    internal void UpdatePreviousSwipeItem()
-    {
-        if (AppState.PlayMode == PlayModeValue.Playlist && AppState.SongPartHistory.Count > 0)
-        {
-            SetPreviousSwipeItem(isVisible: true, songPart: AppState.SongPartHistory[^1]);
-        }
-        else if (AppState.PlayMode == PlayModeValue.Queue && AppState.SongPartHistory.Count > 0)
-        {
-            SetPreviousSwipeItem(isVisible: true, songPart: AppState.SongPartHistory[^1]);
-        }
-        else
-        {
-            SetPreviousSwipeItem(isVisible: false, songPart: null);
-        }
-    }
-
-    private void SetPreviousSwipeItem(bool isVisible, SongPart? songPart) { }
-
-    internal void UpdateNextSwipeItem()
-    {
-        if (AppState.PlayMode == PlayModeValue.Playlist && AppState.PlaylistQueue.Count > 0)
-        {
-            SetNextSwipeItem(isVisible: true, songPart: AppState.PlaylistQueue.Peek());
-        }
-        else if (AppState.PlayMode == PlayModeValue.Queue && AppState.SongPartsQueue.Count > 0)
-        {
-            SetNextSwipeItem(isVisible: true, songPart: AppState.SongPartsQueue.Peek());
-        }
-        else
-        {
-            SetNextSwipeItem(isVisible: false, songPart: null);
-        }
-    }
-
-    private void SetNextSwipeItem(bool isVisible, SongPart? songPart) { }
-
     private const int TimerInterval = 5000; // Scroll every 5 seconds
     private void StartTitleAutoScroll()
     {

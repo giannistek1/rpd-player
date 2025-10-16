@@ -132,6 +132,7 @@
                     </ImageButton.Source>
                 </ImageButton>
 
+                <!-- TODO: Pressed or clicked? -->
                 <ImageButton Grid.Column="4" HeightRequest="34" x:Name="FavoriteImageButton" Pressed="FavoriteButtonPressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Favorite}" Color="{DynamicResource IconColor}" />
