@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using RpdPlayerApp.Enums;
+using System.Collections.ObjectModel;
 
 namespace RpdPlayerApp.Models;
 
@@ -12,6 +13,7 @@ internal class Playlist
     public DateTime LastModifiedDate { get; set; } = DateTime.MinValue;
     public int LengthInSeconds { get; set; } = 0;
     public TimeSpan Length { get; private set; }
+    public CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off; // TODO: Implement
 
     public ObservableCollection<SongPart> SongParts = [];
 
@@ -23,14 +25,16 @@ internal class Playlist
         Count = count;
     }
 
-    public void SetCount() 
-    { 
-        if (SongParts is not null) 
-        { 
-            Count = SongParts.Count; 
-        } 
+    // TODO: In property
+    public void SetCount()
+    {
+        if (SongParts is not null)
+        {
+            Count = SongParts.Count;
+        }
     }
 
+    // TODO: In property
     public bool SetLength()
     {
         double lengthDouble = SongParts.Sum(t => t.ClipLength);

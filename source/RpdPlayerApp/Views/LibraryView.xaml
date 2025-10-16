@@ -17,7 +17,7 @@
 
 
         <!-- Cloud/local mode -->
-        <buttons:SfSegmentedControl Grid.Row="0" x:Name="CloudModeSegmentedControl" SegmentWidth="150" Margin="0,8,0,8">
+        <buttons:SfSegmentedControl Grid.Row="0" x:Name="CloudModeSegmentedControl" SegmentWidth="100" Margin="0,8,0,8">
 
             <!-- Non-selection -->
             <buttons:SfSegmentedControl.TextStyle>
@@ -26,7 +26,7 @@
 
             <!-- Selection -->
             <buttons:SfSegmentedControl.SelectionIndicatorSettings>
-                <buttons:SelectionIndicatorSettings  SelectionIndicatorPlacement="Fill" Background="{DynamicResource SecondaryButton}" TextColor="{DynamicResource PrimaryTextColor}"/>
+                <buttons:SelectionIndicatorSettings SelectionIndicatorPlacement="Fill" Background="{DynamicResource SecondaryButton}" TextColor="{DynamicResource PrimaryTextColor}"/>
             </buttons:SfSegmentedControl.SelectionIndicatorSettings>
 
         </buttons:SfSegmentedControl>

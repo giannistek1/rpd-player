@@ -2,7 +2,7 @@
 
 namespace RpdPlayerApp.Architecture;
 
-/// <summary> Secretly constants static class. </summary>
+/// <summary> Secretly shared constants static class. </summary>
 internal static class CommonSettings
 {
     // General string constants.

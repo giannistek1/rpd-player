@@ -18,9 +18,7 @@ internal class CurrentPlaylistManager : BindableObject
         }
     }
 
-    static CurrentPlaylistManager()
-    {
-    }
+    static CurrentPlaylistManager() { }
 
     private CurrentPlaylistManager() => CurrentPlaylist = new Playlist(creationDate: DateTime.Now);
 

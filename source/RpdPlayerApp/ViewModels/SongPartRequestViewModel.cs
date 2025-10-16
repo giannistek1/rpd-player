@@ -6,7 +6,7 @@ using RpdPlayerApp.Repositories;
 
 namespace RpdPlayerApp.ViewModels;
 
-internal partial class SongPartRequestViewModel : ObservableObject
+internal partial class SongSegmentRequestViewModel : ObservableObject
 {
     [ObservableProperty]
     private string _artist = string.Empty;
@@ -15,20 +15,20 @@ internal partial class SongPartRequestViewModel : ObservableObject
     private string _title = string.Empty;
 
     [ObservableProperty]
-    private SongSegmentType _selectedPart = SongSegmentType.Chorus2;
+    private SongSegmentType _selectedSegment = SongSegmentType.Chorus2;
 
     [ObservableProperty]
     private bool _wantsDancePractice = false;
 
     [ObservableProperty]
-    private List<SongSegmentType> _partNames = Enum.GetValues(typeof(SongSegmentType))
+    private List<SongSegmentType> _segmentNames = Enum.GetValues(typeof(SongSegmentType))
                                                .Cast<SongSegmentType>()
                                                .ToList();
 
     private FeedbackRepository _feedbackRepository = new();
     private SongRequestRepository _songRequestRepository = new();
 
-    internal async Task<int> SubmitSongRequest(string title, string artist, string songPart, bool withDancePractice, string deviceId, string requestedBy = "guest", string note = "")
+    internal async Task<int> SubmitSongRequest(string title, string artist, string songPart, bool withDancePractice, string deviceId, string requestedBy = "Guest", string note = "")
     {
         int success = -1;
         try
@@ -51,7 +51,7 @@ internal partial class SongPartRequestViewModel : ObservableObject
         return success;
     }
 
-    internal async Task<int> SubmitFeedback(string feedback, bool isBug, string deviceId, string requestedBy = "guest")
+    internal async Task<int> SubmitFeedback(string feedback, bool isBug, string deviceId, string requestedBy = "Guest")
     {
         int success = 1;
         try

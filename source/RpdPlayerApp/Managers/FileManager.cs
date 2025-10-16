@@ -15,17 +15,17 @@ internal static class FileManager
     }
     /// <summary> Without the .txt </summary>
     /// <param name="fileName"></param>
-    /// <param name="jsonText"></param>
+    /// <param name="text"></param>
     /// <returns></returns>
-    internal static async Task<string> SavePlaylistJsonToFileAsync(string fileName, string jsonText)
+    internal static async Task<string> SavePlaylistStringToTextFileAsync(string fileName, string text)
     {
         try
         {
             // Combine directory with filename.
             var fullPath = Path.Combine(AppDataDirectory, $"{fileName}.txt");
 
-            // Write the JSON text to the file.
-            await File.WriteAllTextAsync(fullPath, jsonText);
+            // Write the string to the file.
+            await File.WriteAllTextAsync(fullPath, text);
 
             General.ShowToast($"{fileName} saved.");
             return fullPath;
@@ -59,7 +59,7 @@ internal static class FileManager
     internal static async Task<List<NewsItem>?> LoadNewsItemsFromFilePath(string filePath)
     {
         var fullPath = Path.Combine(AppDataDirectory, filePath);
-        
+
         if (File.Exists(fullPath))
         {
             // Read the text file content

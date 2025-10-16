@@ -19,7 +19,7 @@ public partial class HomeView : ContentView
     internal event EventHandler? ShowNewsPopup;
 
     private readonly SettingsPage _settingsPage = new();
-    private readonly SongPartRequestPage _feedbackPage = new();
+    private readonly SongSegmentRequestPage _feedbackPage = new();
     internal MainPage? ParentPage { get; set; }
     internal RpdSettings? RpdSettings { get; set; } = new();
 

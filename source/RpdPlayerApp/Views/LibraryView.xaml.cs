@@ -1,8 +1,12 @@
 using CommunityToolkit.Maui.Core.Extensions;
+using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
+using RpdPlayerApp.DTO;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Repositories;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace RpdPlayerApp.Views;
@@ -15,6 +19,10 @@ public partial class LibraryView : ContentView
 
     public event EventHandler? ShowPlaylist;
 
+    PlaylistRepository _playlistRepository = new();
+
+    internal int PlaylistMode { get; set; } = 0;
+
     public LibraryView()
     {
         InitializeComponent();
@@ -25,31 +33,41 @@ public partial class LibraryView : ContentView
     private void OnLoad(object? sender, EventArgs e)
     {
         DeleteInvalidPlaylists();
-        LoadLocalPlaylists();
     }
 
     private void InitializeLocalCloudModeSegmentedControl()
     {
-        CloudModeSegmentedControl.ItemsSource = new[] { "Local", "Cloud" };
+        CloudModeSegmentedControl.ItemsSource = new[] { "Local", "Cloud", "Public" };
         CloudModeSegmentedControl.SelectedIndex = 0;
         CloudModeSegmentedControl.SelectionChanged += LocalCloudModeSegmentedControlSelectionChanged;
     }
 
     private void LocalCloudModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
-        if (e.NewIndex == 0) { LoadLocalPlaylists(); }
-        else { LoadCloudPlaylists(); }
+        if (e.NewIndex == 0) { PlaylistMode = 0; LoadLocalPlaylists(); }
+        else if (e.NewIndex == 1) { PlaylistMode = 1; LoadCloudPlaylists(); }
+        else { PlaylistMode = 2; LoadPublicPlaylists(); }
+    }
+
+    internal void LoadPlaylists()
+    {
+        if (PlaylistMode == 0) { LoadLocalPlaylists(); }
+        else if (PlaylistMode == 1) { LoadCloudPlaylists(); }
+        else { LoadPublicPlaylists(); }
     }
 
     internal void FocusNewPlaylistEntry() => PlaylistNameEntry.Focus();
 
+    // Code goes here at start because of SegmentedControlSelectionChanged
     internal void LoadLocalPlaylists()
     {
         List<Playlist> playlists = [];
 
         string[] files = Directory.GetFiles(FileManager.GetPlaylistsPath(), "*.txt");
 
-        if (files.Length > 0)
+        if (files.Length <= 0) { return; }
+
+        try
         {
             foreach (var file in files)
             {
@@ -59,12 +77,29 @@ public partial class LibraryView : ContentView
 
                 string fileName = Path.GetFileNameWithoutExtension(file);
 
-                Playlist playlist = new(creationDate: DateTime.Today, name: Path.GetFileNameWithoutExtension(fileName), path: file, count: lines)
+                string? result = General.ReadTextFile(file);
+
+                int containsHeader = result.Contains("HDR:") ? 1 : 0;
+
+                // Header should contain: Creation date, last modified date, user, count, length
+                var headerPattern = @"\[(.*?)\]";
+                string line1 = File.ReadLines(file).First();
+                var headerMatches = Regex.Matches(line1, headerPattern);
+
+                DateTime creationDate = DateTime.Today;
+                if (containsHeader == 1)
+                {
+                    creationDate = DateTime.ParseExact(headerMatches[0].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    DateTime modifiedDate = DateTime.ParseExact(headerMatches[1].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    string user = headerMatches[2].Groups[1].Value;
+                    int count = Convert.ToInt32(headerMatches[3].Groups[1].Value);
+                    TimeSpan length = TimeSpan.Parse(headerMatches[4].Groups[1].Value);
+                }
+
+                Playlist playlist = new(creationDate: creationDate, name: Path.GetFileNameWithoutExtension(fileName), path: file, count: lines - containsHeader)
                 {
                     SongParts = []
                 };
-
-                string? result = General.ReadTextFile(file);
 
                 // Convert text to songParts.
                 var pattern = @"\{(.*?)\}";
@@ -74,7 +109,7 @@ public partial class LibraryView : ContentView
                 {
                     try
                     {
-                        int n = Constants.SongPartPropertyAmount * i; // songpart number
+                        int n = Constants.SongPartPropertyAmount * i; // i = songpart number
 
                         string artistName = matches[n + 0].Groups[1].Value;
                         string albumTitle = matches[n + 1].Groups[1].Value;
@@ -96,18 +131,22 @@ public partial class LibraryView : ContentView
                     }
                     catch (Exception ex)
                     {
-                        //SentrySdk.CaptureMessage($"ERROR: {typeof(LibraryView).Name}, songpart {i + 1}, {ex.Message}");
+                        DebugService.Instance.AddDebug($"ERROR: {typeof(LibraryView).Name}, songpart {i + 1}, {ex.Message}");
                         General.ShowToast($"ERROR: LoadLocalPlaylists songpart {i + 1}. {ex.Message}");
                     }
                 }
 
                 playlist.SetLength();
+                playlist.SetCount();
                 playlists.Add(playlist);
             }
-
-            AppState.Playlists = playlists.ToObservableCollection();
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.AddDebug(ex.Message);
         }
 
+        AppState.Playlists = playlists.ToObservableCollection();
         PlaylistsListView.ItemsSource = AppState.Playlists;
     }
 
@@ -115,6 +154,54 @@ public partial class LibraryView : ContentView
     {
         List<Playlist> playlists = [];
 
+        AppState.Playlists = playlists.ToObservableCollection();
+        PlaylistsListView.ItemsSource = AppState.Playlists;
+    }
+
+    internal async void LoadPublicPlaylists()
+    {
+        List<Playlist> playlists = [];
+
+        var results = await _playlistRepository.GetAllPublicPlaylists();
+        foreach (var playlistDto in results)
+        {
+            Playlist playlist = new(creationDate: playlistDto.CreationDate, name: playlistDto.Title, count: playlistDto.Count)
+            {
+                SongParts = []
+            };
+
+            try
+            {
+                foreach (var segment in playlistDto.Segments)
+                {
+                    SongPart songPart = new(id: segment.Id,
+                                            artistName: segment.ArtistName,
+                                            albumTitle: segment.AlbumName,
+                                            title: segment.Title,
+                                            partNameShort: segment.SegmentShort,
+                                            partNameNumber: segment.SegmentNumber,
+                                            clipLength: segment.ClipLength,
+                                            audioURL: segment.AudioUrl,
+                                            videoURL: segment.AudioUrl.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos")
+                                        );
+
+                    songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
+                    playlist.SongParts.Add(songPart);
+
+                    DebugService.Instance.AddDebug($"{songPart.PartNameFull} - {songPart.PartNameShortWithNumber} added!");
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugService.Instance.AddDebug(ex.Message);
+            }
+
+            playlist.SetLength();
+            playlist.SetCount();
+            playlists.Add(playlist);
+        }
+
+        AppState.Playlists = playlists.ToObservableCollection();
         PlaylistsListView.ItemsSource = AppState.Playlists;
     }
 
@@ -125,7 +212,7 @@ public partial class LibraryView : ContentView
         ShowPlaylist?.Invoke(sender, e);
     }
 
-    internal void NewPlaylistButtonClicked(object? sender, EventArgs e)
+    internal async void NewPlaylistButtonClicked(object? sender, EventArgs e)
     {
         if (PlaylistNameEntry.Text.IsNullOrWhiteSpace())
         {
@@ -135,15 +222,17 @@ public partial class LibraryView : ContentView
 
         try
         {
-            // Create file on system.
-            Task<string> result = FileManager.SavePlaylistJsonToFileAsync(PlaylistNameEntry.Text, string.Empty);
+            // HDR: Creation date | Modified date | Owner | Count | Length | Countdown mode
+            string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
 
-            Playlist playlist = new(creationDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result.Result)
+            string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
+            Playlist playlist = new(creationDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result)
             {
                 SongParts = []
             };
 
             AppState.Playlists.Add(playlist);
+            PlaylistNameEntry.Text = string.Empty;
         }
         catch (Exception ex)
         {
@@ -210,9 +299,14 @@ public partial class LibraryView : ContentView
         string[] files = Directory.GetFiles(FileManager.GetPlaylistsPath(), "*.txt");
         foreach (string file in files)
         {
-            if (file.Contains("SONGPARTS.txt")) { continue; }
+            if (file.Contains("SONGPARTS.txt")) { continue; } // For offline mode?
 
-            foreach (var line in File.ReadLines(file))
+            var lines = File.ReadLines(file);
+
+            // Skip first line if it starts with "HDR:"
+            if (lines.FirstOrDefault()?.StartsWith("HDR:", StringComparison.OrdinalIgnoreCase) == true) { lines = lines.Skip(1); }
+
+            foreach (var line in lines)
             {
                 var pattern = @"\{(.*?)\}";
                 var matches = Regex.Matches(line, pattern);

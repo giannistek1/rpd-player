@@ -4,12 +4,12 @@ using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
-public partial class SongPartRequestPage : ContentPage
+public partial class SongSegmentRequestPage : ContentPage
 {
-    readonly SongPartRequestViewModel _viewModel = new();
+    readonly SongSegmentRequestViewModel _viewModel = new();
 
     internal HomeView? HomeView { get; set; }
-    public SongPartRequestPage()
+    public SongSegmentRequestPage()
     {
         InitializeComponent();
         BindingContext = _viewModel;
@@ -55,14 +55,14 @@ public partial class SongPartRequestPage : ContentPage
             }
 
             int success = await _viewModel.SubmitSongRequest(title: SongTitleEntry.Text,
-                                                   artist: ArtistEntry.Text,
-                                                   songPart: PartPicker.SelectedItem.ToString()!,
-                                                   withDancePractice: DancePracticeSwitch.IsToggled,
-                                                   requestedBy: "guest",
-                                                   deviceId: deviceId,
-                                                   note: NoteEditor.Text);
+                                                            artist: ArtistEntry.Text,
+                                                            songPart: SegmentPicker.SelectedItem.ToString()!,
+                                                            withDancePractice: DancePracticeSwitch.IsToggled,
+                                                            requestedBy: AppState.Username,
+                                                            deviceId: deviceId,
+                                                            note: NoteEditor.Text);
 
-            if (success == 1)
+            if (success == 1) // TODO: Enum
             {
                 General.ShowToast("Song request submitted. Thank you!");
 
@@ -70,7 +70,7 @@ public partial class SongPartRequestPage : ContentPage
                 ArtistEntry.Text = string.Empty;
                 NoteEditor.Text = string.Empty;
             }
-            else if (success == -2)
+            else if (success == -2) // TODO: Enum
             {
                 General.ShowToast("Please wait a few seconds before submitting again.");
             }
@@ -87,14 +87,14 @@ public partial class SongPartRequestPage : ContentPage
                 return;
             }
 
-            int success = await _viewModel.SubmitFeedback(feedback: FeedbackEditor.Text, isBug: IsBugSwitch.IsToggled, requestedBy: "guest", deviceId: deviceId);
-            if (success == 1)
+            int success = await _viewModel.SubmitFeedback(feedback: FeedbackEditor.Text, isBug: IsBugSwitch.IsToggled, requestedBy: AppState.Username, deviceId: deviceId);
+            if (success == 1) // TODO: Enum
             {
                 General.ShowToast("Feedback submitted. Thank you!");
 
                 FeedbackEditor.Text = string.Empty;
             }
-            else if (success == -2)
+            else if (success == -2)  // TODO: Enum
             {
                 General.ShowToast("Please wait a few seconds before submitting again.");
             }

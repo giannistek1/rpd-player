@@ -64,14 +64,19 @@ public partial class CurrentPlaylistView : ContentView
     {
         try
         {
-            // Create file on system
             StringBuilder sb = new();
-            foreach (SongPart songPart in CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts)
+
+            var playlist = CurrentPlaylistManager.Instance.CurrentPlaylist;
+
+            // Header should contain: Creation date, last modified date, user, count, length
+            sb.AppendLine($"HDR:[{playlist.CreationDate}][{playlist.LastModifiedDate}][{AppState.Username}][{playlist.Count}][{playlist.Length}][{playlist.CountdownMode}]");
+
+            foreach (SongPart songPart in playlist.SongParts)
             {
                 sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.ClipLength}}}{{{songPart.AudioURL}}}");
             }
 
-            await FileManager.SavePlaylistJsonToFileAsync($"{PlaylistNameEntry.Text}", sb.ToString());
+            await FileManager.SavePlaylistStringToTextFileAsync($"{PlaylistNameEntry.Text}", sb.ToString());
 
             General.ShowToast($"{PlaylistNameEntry.Text} saved locally!");
         }
@@ -179,9 +184,9 @@ public partial class CurrentPlaylistView : ContentView
                 index++;
             }
 
-            AppState.CurrentSongPart = AppState.PlaylistQueue.Dequeue();
+            AudioManager.ChangeAndStartSong(songPart);
 
-            PlaySongPart?.Invoke(sender, e);
+            //PlaySongPart?.Invoke(sender, e);
         }
 
         CurrentPlaylistListView.SelectedItems?.Clear();

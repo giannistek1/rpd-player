@@ -11,7 +11,7 @@ internal static class Constants
     internal const string APIKEY = "";
     internal const string SONGREQUEST_ROUTE = "/rest/v1/song_request";
     internal const string FEEDBACK_ROUTE = "/rest/v1/feedback";
-    internal const string PLAYLIST_URL = "/rest/v1/playlist";
+    internal const string PLAYLIST_ROUTE = "/rest/v1/playlist";
 
     /// <summary> 7 </summary>
     internal static readonly int SongPartPropertyAmount = 7;

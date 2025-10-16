@@ -11,6 +11,7 @@ internal static class AppState
     #region Modes
     internal static SortModeValue SortMode { get; set; } = SortModeValue.Artist;
     internal static SearchFilterModeValue SearchFilterMode { get; set; }
+
     /// <summary> Queue or Playlist. </summary>
     internal static PlayModeValue PlayMode { get; set; }
     internal static bool UsingVideoMode { get; set; } = false;
@@ -18,9 +19,9 @@ internal static class AppState
 
     /// <summary>
     /// 0 = off,
-    /// 1 = autoplay,
+    /// 1 = autoplayloop,
     /// 2 = shuffle,
-    /// 3 = repeat
+    /// 3 = repeatone
     /// </summary>
     internal static AutoplayModeValue AutoplayMode { get; set; } = AutoplayModeValue.AutoplayLoop;
 
@@ -28,7 +29,7 @@ internal static class AppState
     /// 0 = Off,
     /// 1 = 3s SHORT,
     /// 2 = 5s LONG,
-    /// 3 = Mario kart
+    /// 3 = Mario kart / Custom
     /// </summary>
     internal static CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off;
 
@@ -50,6 +51,7 @@ internal static class AppState
     internal static SongPart NextSongPart { get; set; } = new();
     internal static Queue<SongPart> PlaylistQueue { get; set; } = new();
     internal static Queue<SongPart> SongPartsQueue { get; set; } = new();
+
     internal static List<SongPart> SongPartHistory { get; set; } = [];
     /// <summary> To keep track of amount of times going to previous songs </summary>
     internal static int SongPartHistoryIndex { get; set; } = -1;
@@ -57,4 +59,6 @@ internal static class AppState
     internal static CurrentlyPlayingStateValue CurrentlyPlayingState { get; set; } = CurrentlyPlayingStateValue.None;
 
     internal static ObservableCollection<Playlist> Playlists { get; set; } = [];
+
+    internal static string Username { get; set; } = "Guest";
 }

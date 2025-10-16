@@ -29,6 +29,8 @@ internal class SongRequestRepository
     // TODO: Enums
     public async Task<int> InsertSongRequestAsync(SongRequestDto request)
     {
+        if (Constants.APIKEY.IsNullOrWhiteSpace()) { return -3; }
+
         // Enforce cooldown
         var timeSinceLast = DateTime.UtcNow - _lastRequestTime;
         if (timeSinceLast < _cooldown)

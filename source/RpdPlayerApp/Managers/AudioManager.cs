@@ -332,12 +332,85 @@ internal static class AudioManager
     {
         // Choose next song
         // Queue has priority
+        if (AppState.PlayMode == PlayModeValue.Queue)
+        {
+            NextSongAndNextPlayerQueueMode();
+        }
+        else if (AppState.PlayMode == PlayModeValue.Playlist)
+        {
+            NextSongAndNextPlayerPlaylistMode();
+        }
+    }
+
+    private static void NextSongAndNextPlayerPlaylistMode()
+    {
+        // Queue priority
         if (AppState.SongPartsQueue.Count > 0)
         {
             NextPlayer!.Source = MediaSource.FromUri(AppState.SongPartsQueue.Peek().AudioURL);
             AppState.NextSongPart = AppState.SongPartsQueue.Dequeue();
             return;
         }
+
+        if (AppState.AutoplayMode == AutoplayModeValue.AutoplayLoop)
+        {
+            if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
+
+            var songSegments = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts.ToList();
+
+            int index = songSegments.FindIndex(s => s.AudioURL == AppState.CurrentSongPart.AudioURL);
+
+            // Imagine index = 1220, count = 1221
+            if (index + 1 < songSegments.Count)
+            {
+                SongPart nextSong = songSegments[index + 1];
+
+                NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
+                AppState.NextSongPart = nextSong;
+            }
+            else // End of list
+            {
+                NextPlayer!.Source = null;
+                AppState.NextSongPart = new();
+            }
+        }
+        else if (AppState.AutoplayMode == AutoplayModeValue.Shuffle)
+        {
+            if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
+
+            var songSegments = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts.ToList();
+
+            // Decide random unique song.
+            int index = General.Rng.Next(songSegments.Count);
+            while (AppState.SongPartHistory.Contains(songSegments[index]) || // Same songpart check
+                AppState.SongPartHistory.Any(h => h.Title == songSegments[index].Title)) // Same title check
+            {
+                index = General.Rng.Next(songSegments.Count);
+            }
+
+            SongPart nextSong = songSegments[index];
+
+            NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
+            AppState.NextSongPart = nextSong;
+
+            // Remove songs from history if too long.
+            if (AppState.SongPartHistory.Count >= songSegments.Count - 1)
+            {
+                AppState.SongPartHistory.RemoveAt(0);
+            }
+        }
+    }
+
+    private static void NextSongAndNextPlayerQueueMode()
+    {
+        // Queue priority
+        if (AppState.SongPartsQueue.Count > 0)
+        {
+            NextPlayer!.Source = MediaSource.FromUri(AppState.SongPartsQueue.Peek().AudioURL);
+            AppState.NextSongPart = AppState.SongPartsQueue.Dequeue();
+            return;
+        }
+
         else if (AppState.AutoplayMode == AutoplayModeValue.Single)
         {
             NextPlayer!.Source = null;
@@ -388,14 +461,5 @@ internal static class AudioManager
                 AppState.SongPartHistory.RemoveAt(0);
             }
         }
-
-        //if (AppState.SongPartsQueue.Count == 0)
-        //{
-        //    if (AudioProgressSlider.Value >= AudioProgressSlider.Maximum - 2)
-        //    {
-        //        AudioManager.StopAudio();
-        //    }
-        //    return;
-        //}
     }
 }
