@@ -1,4 +1,5 @@
-﻿using RpdPlayerApp.Models;
+﻿using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Models;
 
 namespace RpdPlayerApp.Managers;
 
@@ -8,13 +9,13 @@ internal class PlaylistsManager
 
     internal bool TryAddSongPartToPlaylist(string playlistName, SongPart songPartToAdd)
     {
-        var playlistExists = AppState.Playlists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
+        var playlistExists = CacheState.LocalPlaylists?.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         if (playlistExists is null)
         {
             var playlist = new Playlist(creationDate: DateTime.Now, name: playlistName);
             playlist.SongParts.Add(songPartToAdd);
 
-            AppState.Playlists.Add(playlist);
+            CacheState.LocalPlaylists?.Add(playlist);
             return true;
         }
         else

@@ -257,6 +257,45 @@ internal static class AudioManager
     /// <summary> Change song / Previous song </summary>
     internal static void PlayPreviousSong()
     {
+        if (AppState.PlayMode == PlayModeValue.Playlist)
+        {
+            PlayPreviousSongPlaylistMode();
+        }
+        else
+        {
+            PlayPreviousSongQueueMode();
+        }
+
+        // Update UI
+        OnChange?.Invoke(null, new MyEventArgs(AppState.CurrentSongPart));
+
+        PlayAnnouncementCountdownOrSongPart();
+
+        //AnimationManager.songPart = songPart;
+        //AnimationManager.StartInfiniteScaleYAnimationWithTimer();
+    }
+
+    private static void PlayPreviousSongPlaylistMode()
+    {
+        var playlistSongSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.SongParts.ToList();
+
+        int index = playlistSongSegments.FindIndex(s => s.AudioURL == AppState.CurrentSongPart.AudioURL);
+
+        if (index - 1 >= 0) // Arrays 0 based.
+        {
+            // Set next player with current song.
+            NextPlayer!.Source = MediaSource.FromUri(AppState.CurrentSongPart.AudioURL);
+            AppState.NextSongPart = AppState.CurrentSongPart;
+
+            // Set Current player to previous song.
+            AppState.CurrentSongPart = playlistSongSegments[index - 1];
+            DetailBottomSheet!.songPart = AppState.CurrentSongPart;
+            CurrentPlayer!.Source = AppState.CurrentSongPart.AudioURL;
+        }
+    }
+
+    private static void PlayPreviousSongQueueMode()
+    {
         if (AppState.SongPartHistory.Count == 0)
         {
             AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.None;
@@ -278,24 +317,21 @@ internal static class AudioManager
         CurrentPlayer!.Stop();
         CurrentPlayer.SeekTo(new TimeSpan(0));
 
-        // Set next player with current song.
-        NextPlayer!.Source = MediaSource.FromUri(AppState.CurrentSongPart.AudioURL);
-        AppState.NextSongPart = AppState.CurrentSongPart;
+        SongPart previousSongPart = AppState.SongPartHistory[AppState.SongPartHistoryIndex];
 
-        // Set Current player to previous song.
-        AppState.CurrentSongPart = AppState.SongPartHistory[AppState.SongPartHistoryIndex];
-        DetailBottomSheet!.songPart = AppState.CurrentSongPart;
-        CurrentPlayer.Source = AppState.SongPartHistory[AppState.SongPartHistoryIndex].AudioURL;
+        // Prevents double song when going back to song 0.
+        if (!previousSongPart.AudioURL.Equals(AppState.CurrentSongPart.AudioURL))
+        {
+            // Set next player with current song.
+            NextPlayer!.Source = MediaSource.FromUri(AppState.CurrentSongPart.AudioURL);
+            AppState.NextSongPart = AppState.CurrentSongPart;
 
-        // Update UI
-        OnChange?.Invoke(null, new MyEventArgs(AppState.CurrentSongPart));
-
-        PlayAnnouncementCountdownOrSongPart();
-
-        //AnimationManager.songPart = songPart;
-        //AnimationManager.StartInfiniteScaleYAnimationWithTimer();
+            // Set Current player to previous song.
+            AppState.CurrentSongPart = previousSongPart;
+            DetailBottomSheet!.songPart = AppState.CurrentSongPart;
+            CurrentPlayer.Source = AppState.CurrentSongPart.AudioURL;
+        }
     }
-
 
     private static void PlayAnnouncementCountdownOrSongPart()
     {
@@ -356,7 +392,7 @@ internal static class AudioManager
         {
             if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
 
-            var songSegments = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts.ToList();
+            var songSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.SongParts.ToList();
 
             int index = songSegments.FindIndex(s => s.AudioURL == AppState.CurrentSongPart.AudioURL);
 
@@ -378,7 +414,7 @@ internal static class AudioManager
         {
             if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
 
-            var songSegments = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts.ToList();
+            var songSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.SongParts.ToList();
 
             // Decide random unique song.
             int index = General.Rng.Next(songSegments.Count);

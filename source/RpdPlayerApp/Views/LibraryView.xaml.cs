@@ -61,6 +61,12 @@ public partial class LibraryView : ContentView
     // Code goes here at start because of SegmentedControlSelectionChanged
     internal void LoadLocalPlaylists()
     {
+        if (CacheState.LocalPlaylists is not null && CacheState.LocalPlaylists.Any())
+        {
+            PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
+            return;
+        }
+
         List<Playlist> playlists = [];
 
         string[] files = Directory.GetFiles(FileManager.GetPlaylistsPath(), "*.txt");
@@ -146,20 +152,32 @@ public partial class LibraryView : ContentView
             DebugService.Instance.AddDebug(ex.Message);
         }
 
-        AppState.Playlists = playlists.ToObservableCollection();
-        PlaylistsListView.ItemsSource = AppState.Playlists;
+        CacheState.LocalPlaylists = playlists.ToObservableCollection();
+        PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
     }
 
     internal void LoadCloudPlaylists()
     {
+        if (CacheState.CloudPlaylists is not null && CacheState.CloudPlaylists.Any())
+        {
+            PlaylistsListView.ItemsSource = CacheState.CloudPlaylists;
+            return;
+        }
+
         List<Playlist> playlists = [];
 
-        AppState.Playlists = playlists.ToObservableCollection();
-        PlaylistsListView.ItemsSource = AppState.Playlists;
+        CacheState.CloudPlaylists = playlists.ToObservableCollection();
+        PlaylistsListView.ItemsSource = CacheState.CloudPlaylists;
     }
 
     internal async void LoadPublicPlaylists()
     {
+        if (CacheState.PublicPlaylists is not null && CacheState.PublicPlaylists.Any())
+        {
+            PlaylistsListView.ItemsSource = CacheState.PublicPlaylists;
+            return;
+        }
+
         List<Playlist> playlists = [];
 
         var results = await _playlistRepository.GetAllPublicPlaylists();
@@ -201,14 +219,14 @@ public partial class LibraryView : ContentView
             playlists.Add(playlist);
         }
 
-        AppState.Playlists = playlists.ToObservableCollection();
-        PlaylistsListView.ItemsSource = AppState.Playlists;
+        CacheState.PublicPlaylists = playlists.ToObservableCollection();
+        PlaylistsListView.ItemsSource = CacheState.PublicPlaylists;
     }
 
     private void PlaylistsListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
         Playlist playlist = (Playlist)e.DataItem;
-        CurrentPlaylistManager.Instance.CurrentPlaylist = playlist;
+        CurrentPlaylistManager.Instance.ChosenPlaylist = playlist;
         ShowPlaylist?.Invoke(sender, e);
     }
 
@@ -231,7 +249,10 @@ public partial class LibraryView : ContentView
                 SongParts = []
             };
 
-            AppState.Playlists.Add(playlist);
+            if (CacheState.LocalPlaylists is not null)
+            {
+                CacheState.LocalPlaylists.Add(playlist);
+            }
             PlaylistNameEntry.Text = string.Empty;
         }
         catch (Exception ex)
@@ -261,9 +282,10 @@ public partial class LibraryView : ContentView
         }
     }
 
+    // TODO: todo
     private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
     {
-        AppState.CurrentSongPart = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts[0];
+        //AppState.CurrentSongPart = CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts[0];
 
         // Change mode to playlist
         AppState.PlayMode = PlayModeValue.Playlist;
@@ -289,7 +311,18 @@ public partial class LibraryView : ContentView
             if (accept)
             {
                 File.Delete(playlist.LocalPath);
-                AppState.Playlists.Remove(playlist);
+                if (PlaylistMode == 0)
+                {
+                    CacheState.LocalPlaylists?.Remove(playlist);
+                }
+                else if (PlaylistMode == 1)
+                {
+                    CacheState.CloudPlaylists?.Remove(playlist);
+                }
+                else
+                {
+                    CacheState.PublicPlaylists?.Remove(playlist);
+                }
             }
         }
     }

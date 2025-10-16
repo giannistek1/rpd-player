@@ -30,6 +30,7 @@ internal partial class SongPart : INotifyPropertyChanged
     public string AudioURL { get; set; }
 
     public string VideoURL { get; set; }
+    /// <summary> Based on match with VideoRepo list. </summary>
     public bool HasVideo { get; set; }
 
     [JsonIgnore]

@@ -273,7 +273,7 @@ public partial class SearchSongPartsView : ContentView
     private void SwipeGroupItemAddSongs(object sender, EventArgs e)
     {
         // TODO: BUGGY
-        if (CurrentPlaylistManager.Instance.CurrentPlaylist is null)
+        if (CurrentPlaylistManager.Instance.ChosenPlaylist is null)
         {
             General.ShowToast($"Select a playlist first!");
             return;
@@ -321,7 +321,7 @@ public partial class SearchSongPartsView : ContentView
     private void AddResultsButton_Clicked(object sender, EventArgs e)
     {
         // TODO: BUGGY
-        if (CurrentPlaylistManager.Instance.CurrentPlaylist is null)
+        if (CurrentPlaylistManager.Instance.ChosenPlaylist is null)
         {
             General.ShowToast($"Select a playlist first!");
             return;

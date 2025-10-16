@@ -41,23 +41,15 @@ public partial class CurrentPlaylistView : ContentView
 
     internal void PlayPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        if (!CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts.Any()) { return; }
+        if (!CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts.Any()) { return; }
 
         // Change mode to playlist
         AppState.PlayMode = PlayModeValue.Playlist;
 
-        // Clear playlist queue and fill playlist queue
-        AppState.PlaylistQueue.Clear();
+        CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist = CurrentPlaylistManager.Instance.ChosenPlaylist;
+        AudioManager.ChangeAndStartSong(CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts[0]);
 
-        List<SongPart> songParts = [.. CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts];
-        foreach (var songPart in songParts)
-        {
-            AppState.PlaylistQueue.Enqueue(songPart);
-        }
-
-        AppState.CurrentSongPart = AppState.PlaylistQueue.Dequeue();
-
-        PlaySongPart!.Invoke(sender, e);
+        //PlaySongPart!.Invoke(sender, e);
     }
 
     internal async void SavePlaylistButtonClicked(object? sender, EventArgs e)
@@ -66,7 +58,7 @@ public partial class CurrentPlaylistView : ContentView
         {
             StringBuilder sb = new();
 
-            var playlist = CurrentPlaylistManager.Instance.CurrentPlaylist;
+            var playlist = CurrentPlaylistManager.Instance.ChosenPlaylist;
 
             // Header should contain: Creation date, last modified date, user, count, length
             sb.AppendLine($"HDR:[{playlist.CreationDate}][{playlist.LastModifiedDate}][{AppState.Username}][{playlist.Count}][{playlist.Length}][{playlist.CountdownMode}]");
@@ -112,23 +104,23 @@ public partial class CurrentPlaylistView : ContentView
 
     public void RefreshCurrentPlaylist()
     {
-        PlaylistNameEntry.Text = CurrentPlaylistManager.Instance.CurrentPlaylist.Name;
+        PlaylistNameEntry.Text = CurrentPlaylistManager.Instance.ChosenPlaylist.Name;
 
-        if (CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts is not null)
+        if (CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts is not null)
         {
-            CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts;
+            CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts;
 
-            CurrentPlaylistManager.Instance.CurrentPlaylist.SetLength();
-            LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", CurrentPlaylistManager.Instance.CurrentPlaylist.Length);
-            CountLabel.Text = $"Tot: {CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts.Count}";
-            BoygroupCountLabel.Text = $"BG: {CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
-            GirlgroupCountLabel.Text = $"GG: {CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
+            CurrentPlaylistManager.Instance.ChosenPlaylist.SetLength();
+            LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", CurrentPlaylistManager.Instance.ChosenPlaylist.Length);
+            CountLabel.Text = $"Tot: {CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts.Count}";
+            BoygroupCountLabel.Text = $"BG: {CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
+            GirlgroupCountLabel.Text = $"GG: {CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
         }
     }
 
     internal async void ClearPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Clear {CurrentPlaylistManager.Instance.CurrentPlaylist.Name}?", "Yes", "No");
+        bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Clear {CurrentPlaylistManager.Instance.ChosenPlaylist.Name}?", "Yes", "No");
         if (accept)
         {
             CurrentPlaylistManager.Instance.ClearCurrentPlaylist();
@@ -136,10 +128,10 @@ public partial class CurrentPlaylistView : ContentView
         }
     }
 
-    /// <summary> Sets CurrentPlaylist to null. </summary>
+    /// <summary> Sets ChosenPlaylist to null. </summary>
     public void ResetCurrentPlaylist()
     {
-        if (CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts is not null)
+        if (CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts is not null)
         {
             CurrentPlaylistListView.ItemsSource = null;
 
@@ -149,14 +141,14 @@ public partial class CurrentPlaylistView : ContentView
 
     private void ShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
     {
-        CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts = General.RandomizePlaylist([.. CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
-        CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts;
+        CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts = General.RandomizePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts]).ToObservableCollection();
+        CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts;
     }
 
     private void MixedShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
     {
-        CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts = General.RandomizeAndAlternatePlaylist([.. CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts]).ToObservableCollection();
-        CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts;
+        CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts = General.RandomizeAndAlternatePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts]).ToObservableCollection();
+        CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts;
     }
 
     #endregion Playlist
@@ -173,17 +165,7 @@ public partial class CurrentPlaylistView : ContentView
         {
             AppState.PlayMode = PlayModeValue.Playlist;
 
-            AppState.PlaylistQueue.Clear();
-
-            List<SongPart> songParts = [.. CurrentPlaylistManager.Instance.CurrentPlaylist.SongParts];
-            int index = songParts.FindIndex(s => s.Id == songPart.Id);
-
-            while (index < songParts.Count)
-            {
-                AppState.PlaylistQueue.Enqueue(songParts[index]);
-                index++;
-            }
-
+            CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist = CurrentPlaylistManager.Instance.ChosenPlaylist;
             AudioManager.ChangeAndStartSong(songPart);
 
             //PlaySongPart?.Invoke(sender, e);

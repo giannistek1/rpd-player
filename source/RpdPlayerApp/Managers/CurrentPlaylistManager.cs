@@ -1,26 +1,24 @@
-﻿using RpdPlayerApp.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using RpdPlayerApp.Models;
 using System.Collections.ObjectModel;
 
 namespace RpdPlayerApp.Managers;
 
-internal class CurrentPlaylistManager : BindableObject
+internal partial class CurrentPlaylistManager : ObservableObject
 {
     private static readonly CurrentPlaylistManager instance = new();
 
-    private Playlist currentPlaylist = new(creationDate: DateTime.Now);
-    public Playlist CurrentPlaylist
-    {
-        get => currentPlaylist;
-        set
-        {
-            currentPlaylist = value;
-            OnPropertyChanged(nameof(CurrentPlaylist));
-        }
-    }
+    /// <summary> Playlist being edited in CurrentPlaylistView. </summary>
+    [ObservableProperty]
+    private Playlist _chosenPlaylist = new(creationDate: DateTime.Now);
+
+    /// <summary> Playlist being played. </summary>
+    [ObservableProperty]
+    private Playlist _currentlyPlayingPlaylist = new(creationDate: DateTime.Now);
 
     static CurrentPlaylistManager() { }
 
-    private CurrentPlaylistManager() => CurrentPlaylist = new Playlist(creationDate: DateTime.Now);
+    private CurrentPlaylistManager() => ChosenPlaylist = new Playlist(creationDate: DateTime.Now);
 
     public static CurrentPlaylistManager Instance => instance;
 
@@ -28,15 +26,15 @@ internal class CurrentPlaylistManager : BindableObject
     {
         bool hasToAdd = false;
 
-        if (currentPlaylist.SongParts is not null)
+        if (ChosenPlaylist.SongParts is not null)
         {
-            hasToAdd = !currentPlaylist.SongParts.Contains(songPart);
+            hasToAdd = !ChosenPlaylist.SongParts.Contains(songPart);
 
             if (hasToAdd)
             {
-                currentPlaylist.SongParts.Add(songPart);
-                currentPlaylist.SetCount();
-                currentPlaylist.SetLength();
+                ChosenPlaylist.SongParts.Add(songPart);
+                ChosenPlaylist.SetCount();
+                ChosenPlaylist.SetLength();
             }
         }
 
@@ -47,16 +45,16 @@ internal class CurrentPlaylistManager : BindableObject
     {
         int songPartsAdded = 0;
 
-        if (currentPlaylist.SongParts is null)
+        if (ChosenPlaylist.SongParts is null)
         {
-            currentPlaylist.SongParts = new ObservableCollection<SongPart>();
+            ChosenPlaylist.SongParts = new ObservableCollection<SongPart>();
         }
 
         foreach (SongPart songPart in songParts)
         {
-            if (!currentPlaylist.SongParts.Contains(songPart))
+            if (!ChosenPlaylist.SongParts.Contains(songPart))
             {
-                currentPlaylist.SongParts.Add(songPart);
+                ChosenPlaylist.SongParts.Add(songPart);
                 songPartsAdded++;
             }
         }
@@ -65,12 +63,12 @@ internal class CurrentPlaylistManager : BindableObject
 
     internal void RemoveSongpartOfCurrentPlaylist(SongPart songpart)
     {
-        var songpartToRemove = currentPlaylist.SongParts.FirstOrDefault(x => x.AudioURL == songpart.AudioURL);
+        var songpartToRemove = ChosenPlaylist.SongParts.FirstOrDefault(x => x.AudioURL == songpart.AudioURL);
         if (songpartToRemove is not null)
         {
-            currentPlaylist.SongParts.Remove(songpartToRemove);
+            ChosenPlaylist.SongParts.Remove(songpartToRemove);
         }
     }
 
-    internal void ClearCurrentPlaylist() => currentPlaylist.SongParts.Clear();
+    internal void ClearCurrentPlaylist() => ChosenPlaylist.SongParts.Clear();
 }

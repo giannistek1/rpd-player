@@ -248,7 +248,7 @@ public partial class MainPage
         }
         else // CurrentPlaylist is visible.
         {
-            Title = CurrentPlaylistManager.Instance.CurrentPlaylist.Name;
+            Title = CurrentPlaylistManager.Instance.ChosenPlaylist.Name;
             AddToolbarItem(IconManager.ToolbarPlayIcon, _currentPlaylistView.PlayPlaylistButtonClicked, 1);
             AddToolbarItem(IconManager.ToolbarSaveIcon, _currentPlaylistView.SavePlaylistButtonClicked, 2);
             AddToolbarItem(IconManager.ToolbarClearIcon, _currentPlaylistView.ClearPlaylistButtonClicked, 3);
@@ -366,7 +366,7 @@ public partial class MainPage
         switch (AppState.PlayMode)
         {
             case PlayModeValue.Playlist:
-                if (CurrentPlaylistManager.Instance.CurrentPlaylist is not null && SearchSongPartsView.songParts.Count > 0)
+                if (CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist is not null && SearchSongPartsView.songParts.Count > 0)
                 {
                     // Nothing
                 }
