@@ -7,6 +7,7 @@ internal static class CommonSettings
 {
     // General string constants.
     internal const string MAIN_VOLUME = "MAIN_VOLUME";
+    internal const string USERNAME = "USERNAME";
     internal const string USE_ANALYTICS = "USE_ANALYTICS"; // Not used
     internal const string START_RPD_AUTOMATIC = "START_RPD_AUTOMATIC";
     internal const string USE_NONCHOREO_SONGS = "USE_NONCHOREO_SONGS";

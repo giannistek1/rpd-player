@@ -17,6 +17,8 @@ public partial class CurrentPlaylistView : ContentView
 
     internal MainPage? ParentPage { get; set; }
 
+    PlaylistRepository _playlistRepository = new();
+
     public CurrentPlaylistView()
     {
         InitializeComponent();
@@ -36,8 +38,22 @@ public partial class CurrentPlaylistView : ContentView
         PlaylistNameEntry.IsEnabled = true;
 
         // Reload cache.
+        Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist;
+
+        if (playlist!.IsCloudPlaylist && playlist.Owner.Equals(AppState.Username))
+        {
+            CacheState.CloudPlaylists = null;
+            await _playlistRepository.SaveCloudPlaylist(id: playlist.Id,
+                                                        creationDate: playlist.CreationDate,
+                                                        name: playlist.Name,
+                                                        playlist.LengthInSeconds,
+                                                        playlist.Count,
+                                                        playlist.SongParts.ToList(),
+                                                        isPublic: playlist.IsPublic);
+        }
+
         CacheState.LocalPlaylists = null;
-        await PlaylistsManager.SavePlaylistLocally(CurrentPlaylistManager.Instance.ChosenPlaylist!, PlaylistNameEntry.Text);
+        await PlaylistsManager.SavePlaylistLocally(playlist, PlaylistNameEntry.Text);
 
         BackToPlaylists!.Invoke(sender, e);
     }
@@ -72,17 +88,19 @@ public partial class CurrentPlaylistView : ContentView
 
     public void RefreshCurrentPlaylist()
     {
-        PlaylistNameEntry.Text = CurrentPlaylistManager.Instance.ChosenPlaylist.Name;
+        var playlist = CurrentPlaylistManager.Instance.ChosenPlaylist;
 
-        if (CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts is not null)
+        PlaylistNameEntry.Text = playlist!.Name;
+
+        if (playlist.SongParts is not null)
         {
-            CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts;
+            CurrentPlaylistListView.ItemsSource = playlist.SongParts;
 
-            CurrentPlaylistManager.Instance.ChosenPlaylist.SetLength();
-            LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", CurrentPlaylistManager.Instance.ChosenPlaylist.Length);
-            CountLabel.Text = $"Tot: {CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts.Count}";
-            BoygroupCountLabel.Text = $"BG: {CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
-            GirlgroupCountLabel.Text = $"GG: {CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
+            playlist.SetLength();
+            LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", playlist.Length);
+            CountLabel.Text = $"Tot: {playlist.SongParts.Count}";
+            BoygroupCountLabel.Text = $"BG: {playlist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
+            GirlgroupCountLabel.Text = $"GG: {playlist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
         }
     }
 

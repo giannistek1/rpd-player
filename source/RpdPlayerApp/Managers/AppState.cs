@@ -1,6 +1,6 @@
 ﻿using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
-using System.Collections.ObjectModel;
+using RpdPlayerApp.Architecture;
 
 namespace RpdPlayerApp.Managers;
 /// <summary> The "main" state manager. </summary>
@@ -57,5 +57,6 @@ internal static class AppState
 
     internal static CurrentlyPlayingStateValue CurrentlyPlayingState { get; set; } = CurrentlyPlayingStateValue.None;
 
-    internal static string Username { get; set; } = "Guest";
+    internal static string Username { get; set; } = Constants.DEFAULT_USERNAME;
+    internal static string DeviceId { get; set; } = string.Empty;
 }

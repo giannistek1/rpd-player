@@ -1,25 +1,33 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace RpdPlayerApp.DTO;
 
 public class SongSegmentDto
 {
-    [Column("id")]
+    [JsonPropertyName("id")]
     public int Id { get; set; }
+
     // No _ underscores in Json.
-    [Column("albumName")]
+    [JsonPropertyName("albumName")] // TODO: Consistency title
     public string AlbumName { get; set; }
-    [Column("title")]
-    // No _ underscores in Json.
+
+    [JsonPropertyName("title")]
     public string Title { get; set; }
-    [Column("artistName")]
+
+    // No _ underscores in Json.
+    [JsonPropertyName("artistName")]
     public string ArtistName { get; set; }
-    [Column("audiourl")]
+
+    [JsonPropertyName("audiourl")] // TODO: fx consistency AudioUrl
     public string AudioUrl { get; set; }
-    [Column("cliplength")]
+
+    [JsonPropertyName("cliplength")]
     public double ClipLength { get; set; }
-    [Column("segmentShort")]
+
+    [JsonPropertyName("segmentShort")]
     public string SegmentShort { get; set; }
-    [Column("segmentNumber")]
+
+    [JsonPropertyName("segmentNumber")]
     public string SegmentNumber { get; set; }
 }

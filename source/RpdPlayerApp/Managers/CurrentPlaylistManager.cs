@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
-using System.Collections.ObjectModel;
 
 namespace RpdPlayerApp.Managers;
 
@@ -15,7 +13,7 @@ internal partial class CurrentPlaylistManager : ObservableObject
 
     /// <summary> Playlist being played. </summary>
     [ObservableProperty]
-    private Playlist _currentlyPlayingPlaylist = new(creationDate: DateTime.Now);
+    private Playlist _currentlyPlayingPlaylist = new(creationDate: DateTime.Now, lastModifiedDate: DateTime.Now);
 
     private CurrentPlaylistManager() { }
 

@@ -21,7 +21,7 @@ internal static class IconManager
     {
         FontFamily = "MaterialRounded",
 #if IOS
-            Glyph = MaterialRounded.Arrow_back_ios,
+        Glyph = MaterialRounded.Arrow_back_ios,
 #else
         Glyph = MaterialRounded.Arrow_back,
 #endif
@@ -232,6 +232,13 @@ internal static class IconManager
         Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
     };
 
+    internal static FontImageSource ToolbarRefreshIcon = new()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.Cached,
+        Color = (Color)Application.Current!.Resources["ToolbarIconColor"]
+    };
+
     internal static FontImageSource ToolbarSaveIcon = new()
     {
         FontFamily = "MaterialRounded",
@@ -304,6 +311,7 @@ internal static class IconManager
         ToolbarMoreItemsIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
         ToolbarPlayIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
         ToolbarRateReviewIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
+        ToolbarRefreshIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
         ToolbarSaveIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
         ToolbarSettingsIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];
         ToolbarSortIcon.Color = (Color)Application.Current!.Resources["ToolbarIconColor"];

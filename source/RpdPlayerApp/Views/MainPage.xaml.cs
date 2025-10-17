@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
+using RpdPlayerApp.Services;
 
 namespace RpdPlayerApp.Views;
 
@@ -38,8 +39,11 @@ public partial class MainPage
 
     private void OnAppearing(object? sender, EventArgs e) => AudioPlayerControl.UpdateUI();
 
-    private void LoadSettings()
+    private async void LoadSettings()
     {
+        AppState.DeviceId = await DeviceIdManager.GetDeviceIdAsync();
+        AppState.Username = Preferences.Get(CommonSettings.USERNAME, Constants.DEFAULT_USERNAME);
+
         if (Preferences.ContainsKey(CommonSettings.MAIN_VOLUME))
         {
             CommonSettings.MainVolume = Preferences.Get(CommonSettings.MAIN_VOLUME, CommonSettings.DEFAULT_MAIN_VOLUME);
@@ -245,6 +249,7 @@ public partial class MainPage
         {
             Title = "Playlists";
             AddToolbarItem(IconManager.ToolbarAddIcon, LibraryView.NewPlaylistButtonClicked, 1);
+            AddToolbarItem(IconManager.ToolbarRefreshIcon, LibraryView.RefreshPlaylistsButtonClicked, 1);
         }
         else // CurrentPlaylist is visible.
         {

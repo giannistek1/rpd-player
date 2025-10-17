@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using RpdPlayerApp.Models.Themes;
+using RpdPlayerApp.Services;
 using System.Text.Json;
 
 namespace RpdPlayerApp
@@ -18,8 +19,10 @@ namespace RpdPlayerApp
             MainPage = new AppShell();
 
             InitTheme();
+
+            _ = SupabaseService.InitializeAsync();
         }
-        
+
         private void InitTheme()
         {
             // Subscribe on ThemeChangedMessage to loadtheme
@@ -43,11 +46,11 @@ namespace RpdPlayerApp
 
             if (theme == "System")
             {
-                theme = Current.PlatformAppTheme.ToString();
+                theme = Current!.PlatformAppTheme.ToString();
             }
 
             // Don't forget to add in ThemeViewModel.cs!
-            ResourceDictionary dictionary = theme switch
+            ResourceDictionary? dictionary = theme switch
             {
                 "Dark" => new Resources.Styles.Dark(),
                 "Light" => new Resources.Styles.Light(),

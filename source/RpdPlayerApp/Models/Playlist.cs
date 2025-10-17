@@ -5,6 +5,7 @@ namespace RpdPlayerApp.Models;
 
 internal class Playlist
 {
+    public long Id { get; set; } = -1L;
     public string Name { get; set; }
     // Handy local variable,
     public string LocalPath { get; set; }
@@ -14,12 +15,16 @@ internal class Playlist
     public int LengthInSeconds { get; set; } = 0;
     public TimeSpan Length { get; private set; }
     public CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off; // TODO: Implement
+    public bool IsCloudPlaylist { get; set; } = false;
+    public bool IsPublic { get; set; } = false;
+    public string Owner { get; set; } = string.Empty;
 
     public ObservableCollection<SongPart> SongParts = [];
 
-    public Playlist(DateTime creationDate, string name = "", string path = "", int count = 0)
+    public Playlist(DateTime creationDate, DateTime lastModifiedDate, string name = "", string path = "", int count = 0)
     {
         CreationDate = creationDate;
+        LastModifiedDate = lastModifiedDate;
         Name = name;
         LocalPath = path;
         Count = count;
@@ -39,6 +44,7 @@ internal class Playlist
     {
         double lengthDouble = SongParts.Sum(t => t.ClipLength);
         Length = TimeSpan.FromSeconds(lengthDouble);
+        LengthInSeconds = (int)Length.TotalSeconds;
 
         return lengthDouble > 0;
     }

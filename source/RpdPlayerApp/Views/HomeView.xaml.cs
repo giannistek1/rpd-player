@@ -5,6 +5,7 @@ using RpdPlayerApp.Items;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
+using RpdPlayerApp.Services;
 using Syncfusion.Maui.Core;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;

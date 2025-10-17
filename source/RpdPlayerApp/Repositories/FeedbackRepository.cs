@@ -1,5 +1,6 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.DTO;
+using RpdPlayerApp.Services;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -11,7 +12,7 @@ class FeedbackRepository
 {
     private readonly HttpClient _httpClient;
 
-    // TODO: Global
+    // TODO: Integrate supabase client.
     private static DateTime _lastRequestTime = DateTime.MinValue;
     private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(10); // Cooldown period
 

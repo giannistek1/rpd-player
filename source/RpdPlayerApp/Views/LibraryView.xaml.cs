@@ -6,6 +6,7 @@ using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
+using RpdPlayerApp.Services;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -44,6 +45,8 @@ public partial class LibraryView : ContentView
 
     private void LocalCloudModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
+        PlaylistsListView.ItemsSource = null;
+
         if (e.NewIndex == 0) { PlaylistMode = 0; LoadLocalPlaylists(); }
         else if (e.NewIndex == 1) { PlaylistMode = 1; LoadCloudPlaylists(); }
         else { PlaylistMode = 2; LoadPublicPlaylists(); }
@@ -51,6 +54,8 @@ public partial class LibraryView : ContentView
 
     internal void LoadPlaylists()
     {
+        PlaylistsListView.ItemsSource = null;
+
         if (PlaylistMode == 0) { LoadLocalPlaylists(); }
         else if (PlaylistMode == 1) { LoadCloudPlaylists(); }
         else { LoadPublicPlaylists(); }
@@ -93,16 +98,17 @@ public partial class LibraryView : ContentView
                 var headerMatches = Regex.Matches(line1, headerPattern);
 
                 DateTime creationDate = DateTime.Today;
+                DateTime modifiedDate = DateTime.Today;
                 if (containsHeader == 1)
                 {
                     creationDate = DateTime.ParseExact(headerMatches[0].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                    DateTime modifiedDate = DateTime.ParseExact(headerMatches[1].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    modifiedDate = DateTime.ParseExact(headerMatches[1].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                     string user = headerMatches[2].Groups[1].Value;
                     int count = Convert.ToInt32(headerMatches[3].Groups[1].Value);
                     TimeSpan length = TimeSpan.Parse(headerMatches[4].Groups[1].Value);
                 }
 
-                Playlist playlist = new(creationDate: creationDate, name: Path.GetFileNameWithoutExtension(fileName), path: file, count: lines - containsHeader)
+                Playlist playlist = new(creationDate: creationDate, lastModifiedDate: modifiedDate, name: Path.GetFileNameWithoutExtension(fileName), path: file, count: lines - containsHeader)
                 {
                     SongParts = []
                 };
@@ -156,7 +162,7 @@ public partial class LibraryView : ContentView
         PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
     }
 
-    internal void LoadCloudPlaylists()
+    internal async void LoadCloudPlaylists()
     {
         if (CacheState.CloudPlaylists is not null && CacheState.CloudPlaylists.Any())
         {
@@ -166,25 +172,15 @@ public partial class LibraryView : ContentView
 
         List<Playlist> playlists = [];
 
-        CacheState.CloudPlaylists = playlists.ToObservableCollection();
-        PlaylistsListView.ItemsSource = CacheState.CloudPlaylists;
-    }
-
-    internal async void LoadPublicPlaylists()
-    {
-        if (CacheState.PublicPlaylists is not null && CacheState.PublicPlaylists.Any())
-        {
-            PlaylistsListView.ItemsSource = CacheState.PublicPlaylists;
-            return;
-        }
-
-        List<Playlist> playlists = [];
-
-        var results = await _playlistRepository.GetAllPublicPlaylists();
+        var results = await _playlistRepository.GetCloudPlaylists();
         foreach (var playlistDto in results)
         {
-            Playlist playlist = new(creationDate: playlistDto.CreationDate, name: playlistDto.Title, count: playlistDto.Count)
+            Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name, count: playlistDto.Count)
             {
+                Id = playlistDto.Id,
+                IsCloudPlaylist = true,
+                IsPublic = playlistDto.IsPublic,
+                Owner = AppState.Username,
                 SongParts = []
             };
 
@@ -206,7 +202,63 @@ public partial class LibraryView : ContentView
                     songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
                     playlist.SongParts.Add(songPart);
 
-                    DebugService.Instance.AddDebug($"{songPart.PartNameFull} - {songPart.PartNameShortWithNumber} added!");
+                    DebugService.Instance.AddDebug($"{songPart.AudioURL} - {songPart.AlbumTitle} added!");
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugService.Instance.AddDebug(ex.Message);
+            }
+
+            playlist.SetLength();
+            playlist.SetCount();
+            playlists.Add(playlist);
+        }
+
+        CacheState.CloudPlaylists = playlists.ToObservableCollection();
+        PlaylistsListView.ItemsSource = CacheState.CloudPlaylists;
+    }
+
+    internal async void LoadPublicPlaylists()
+    {
+        if (CacheState.PublicPlaylists is not null && CacheState.PublicPlaylists.Any())
+        {
+            PlaylistsListView.ItemsSource = CacheState.PublicPlaylists;
+            return;
+        }
+
+        List<Playlist> playlists = [];
+
+        var results = await _playlistRepository.GetAllPublicPlaylists();
+        foreach (var playlistDto in results)
+        {
+            DebugService.Instance.AddDebug($"{playlistDto.CreationDate} | {playlistDto.LastModifiedDate}");
+
+            Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name, count: playlistDto.Count)
+            {
+                Id = playlistDto.Id,
+                IsCloudPlaylist = true,
+                IsPublic = true,
+                SongParts = []
+            };
+
+            try
+            {
+                foreach (var segment in playlistDto.Segments)
+                {
+                    SongPart songPart = new(id: segment.Id,
+                                            artistName: segment.ArtistName,
+                                            albumTitle: segment.AlbumName,
+                                            title: segment.Title,
+                                            partNameShort: segment.SegmentShort,
+                                            partNameNumber: segment.SegmentNumber,
+                                            clipLength: segment.ClipLength,
+                                            audioURL: segment.AudioUrl,
+                                            videoURL: segment.AudioUrl.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos")
+                                        );
+
+                    songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
+                    playlist.SongParts.Add(songPart);
                 }
             }
             catch (Exception ex)
@@ -232,6 +284,7 @@ public partial class LibraryView : ContentView
 
     internal async void NewPlaylistButtonClicked(object? sender, EventArgs e)
     {
+        // TODO: In viewmodel or manager.
         if (PlaylistNameEntry.Text.IsNullOrWhiteSpace())
         {
             General.ShowToast($"Please fill in a name");
@@ -244,7 +297,7 @@ public partial class LibraryView : ContentView
             string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
 
             string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
-            Playlist playlist = new(creationDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result)
+            Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result)
             {
                 SongParts = []
             };
@@ -259,6 +312,15 @@ public partial class LibraryView : ContentView
         {
             General.ShowToast(ex.Message);
         }
+    }
+
+    internal void RefreshPlaylistsButtonClicked(object? sender, EventArgs e)
+    {
+        CacheState.LocalPlaylists = null;
+        CacheState.CloudPlaylists = null;
+        CacheState.PublicPlaylists = null;
+
+        LoadPlaylists();
     }
 
     private void CopyPlaylistButton_Clicked(object sender, EventArgs e)

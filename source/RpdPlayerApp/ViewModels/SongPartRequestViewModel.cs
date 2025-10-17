@@ -1,8 +1,8 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
-using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Repositories;
+using RpdPlayerApp.Services;
 
 namespace RpdPlayerApp.ViewModels;
 

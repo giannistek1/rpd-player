@@ -2,16 +2,21 @@
 
 internal static class Constants
 {
+    internal const string SONGPARTS_BASE_URL = "https://github.com/giannistek1/rpd-audio/blob/main/";
+    internal const string RAW_PARAMETER = "?raw=true";
+
     internal const string SONGPARTS_SOURCE_URL = "https://github.com/giannistek1/rpd-audio/blob/main/songparts.txt?raw=true";
     internal const string VIDEOS_SOURCE_URL = "https://github.com/giannistek1/rpd-videos/blob/main/videos.txt?raw=true";
     internal const string ARTISTS_SOURCE_URL = "https://github.com/giannistek1/rpd-artists/blob/main/artists.txt?raw=true";
     internal const string ALBUMS_SOURCE_URL = "https://github.com/giannistek1/rpd-albums/blob/main/albums.txt?raw=true";
 
-    internal const string BASE_URL = "https://faodcajoizngcccweqsa.supabase.co";
+    internal const string BASE_URL = "";
     internal const string APIKEY = "";
     internal const string SONGREQUEST_ROUTE = "/rest/v1/song_request";
     internal const string FEEDBACK_ROUTE = "/rest/v1/feedback";
     internal const string PLAYLIST_ROUTE = "/rest/v1/playlist";
+
+    internal const string DEFAULT_USERNAME = "Guest";
 
     /// <summary> 7 </summary>
     internal static readonly int SongPartPropertyAmount = 7;

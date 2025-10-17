@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using RpdPlayerApp.Architecture;
 using System.Text;
 
-namespace RpdPlayerApp.Architecture;
+namespace RpdPlayerApp.Services;
 
 internal class DebugService : ObservableObject
 {

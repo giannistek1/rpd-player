@@ -40,7 +40,7 @@ internal class PlaylistsManager
         var playlistExists = CacheState.LocalPlaylists?.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         if (playlistExists is null)
         {
-            var playlist = new Playlist(creationDate: DateTime.Now, name: playlistName);
+            var playlist = new Playlist(creationDate: DateTime.Now, lastModifiedDate: DateTime.Now, name: playlistName);
             playlist.SongParts.Add(songPartToAdd);
 
             CacheState.LocalPlaylists?.Add(playlist);

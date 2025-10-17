@@ -2,6 +2,7 @@
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Services;
 using RpdPlayerApp.Views;
 
 namespace RpdPlayerApp.Managers;

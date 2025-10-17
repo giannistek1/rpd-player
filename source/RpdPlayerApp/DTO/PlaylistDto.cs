@@ -1,15 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json;
+﻿using Supabase.Postgrest.Attributes;
+using Supabase.Postgrest.Models;
 
 namespace RpdPlayerApp.DTO;
 
-public class PlaylistDto
+[Table("playlist")]
+public class PlaylistDto : BaseModel
 {
-    [Column("id")]
-    public int Id { get; set; }
+    [PrimaryKey("id")]
+    public long Id { get; set; }
 
-    [Column("title")]
-    public string Title { get; set; } = string.Empty;
+    [Column("title")] // TODO: change to name.
+    public string Name { get; set; } = string.Empty;
 
     [Column("creation_date")]
     public DateTime CreationDate { get; set; }
@@ -23,8 +24,14 @@ public class PlaylistDto
     [Column("is_premade")]
     public bool IsPremade { get; set; }
 
+    [Column("is_public")]
+    public bool IsPublic { get; set; }
+
     [Column("owner")]
     public string Owner { get; set; } = string.Empty;
+
+    [Column("device_id")]
+    public string DeviceId { get; set; } = string.Empty;
 
     // Columns may not contain the string "json".
     [Column("segments")]
