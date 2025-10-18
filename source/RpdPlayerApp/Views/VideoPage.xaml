@@ -3,24 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RpdPlayerApp.Views.VideoPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              xmlns:sliders="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
              Shell.BackgroundColor="{DynamicResource NavigationBackgroundColor}"
-             Shell.TitleColor="{DynamicResource TitleTextColor}"
-             Title="Mirrored Dance">
+             Shell.TitleColor="{DynamicResource TitleTextColor}">
     
     <ScrollView>
         
-        <Grid RowDefinitions="34, 30, 30, auto, 120" ColumnDefinitions="*">
+        <Grid RowDefinitions="30, auto, 120, auto" ColumnDefinitions="*">
 
-            <Label Grid.Row="0" x:Name="SongTitleLabel" FontSize="18" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" HorizontalOptions="CenterAndExpand" />
+            <!-- Header -->
+            <Grid ColumnDefinitions="auto, auto" Margin="8,8,0,0" HorizontalOptions="Center">
 
-            <Label Grid.Row="1" x:Name="ArtistLabel" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" HorizontalOptions="CenterAndExpand" />
+                <Label Grid.Column="0" x:Name="ArtistLabel" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" HorizontalOptions="CenterAndExpand" />
 
-            <Label Grid.Row="2" x:Name="SongPartLabel" FontSize="10" TextColor="{DynamicResource SecondaryTextColor}" HorizontalOptions="CenterAndExpand" />
+                <Label Grid.Column="1" x:Name="SongPartLabel" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}" HorizontalOptions="CenterAndExpand" />
 
-            <toolkit:MediaElement Grid.Row="3" HeightRequest="290" x:Name="VideoMediaElement" Margin="0,0,0,16"/>
+            </Grid>
 
-            <sliders:SfSlider Grid.Row="4" x:Name="SpeedSlider" VerticalOptions="CenterAndExpand"  ValueChanged="SpeedSlider_ValueChanged" 
+            <!-- Video / content -->
+            <toolkit:MediaElement Grid.Row="1" HeightRequest="290" x:Name="VideoMediaElement" Margin="0,0,0,16"/>
+
+            <!-- Speed Slider -->
+            <sliders:SfSlider Grid.Row="2" x:Name="SpeedSlider" VerticalOptions="CenterAndExpand"  ValueChanged="SpeedSlider_ValueChanged" 
                               Minimum="0.5" Maximum="1.5" StepSize="0.05" Interval="0.5"
                               ShowLabels="True" ShowTicks="True" NumberFormat="0.##x">
 
@@ -45,6 +50,18 @@
                 </sliders:SfSlider.LabelStyle>
             </sliders:SfSlider>
 
+
+            <!-- Play/pause -->
+            <Border Grid.Row="3" x:Name="PlayToggleBorder" HeightRequest="60" WidthRequest="60" StrokeShape="RoundRectangle 30"
+                    Padding="0" Background="{DynamicResource PrimaryButton}" VerticalOptions="Center" HorizontalOptions="Center">
+
+                <ImageButton HeightRequest="48" x:Name="PlayToggleImageButton" Pressed="PlayToggleButtonPressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Play_arrow}" Color="{DynamicResource IconColor}" />
+                    </ImageButton.Source>
+                </ImageButton>
+
+            </Border>
         </Grid>
         
     </ScrollView>

@@ -9,19 +9,22 @@ namespace RpdPlayerApp.Repositories;
 
 internal class SongRequestRepository
 {
-    private readonly HttpClient _httpClient;
+    private HttpClient _httpClient;
 
     // TODO: Integrate supabase client.
     private static DateTime _lastRequestTime = DateTime.MinValue;
     private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(10); // Cooldown period
 
-    public SongRequestRepository()
+    public SongRequestRepository() => Init();
+
+    internal void Init()
     {
+        if (Constants.BASE_URL.IsNullOrWhiteSpace()) { return; }
+
         _httpClient = new HttpClient
         {
             BaseAddress = new Uri(Constants.BASE_URL)
         };
-        // Always send API key and required headers
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Constants.APIKEY);
         _httpClient.DefaultRequestHeaders.Add("apikey", Constants.APIKEY);
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

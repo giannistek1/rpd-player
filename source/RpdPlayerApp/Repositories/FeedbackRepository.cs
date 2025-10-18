@@ -10,14 +10,18 @@ namespace RpdPlayerApp.Repositories;
 
 class FeedbackRepository
 {
-    private readonly HttpClient _httpClient;
+    private HttpClient _httpClient;
 
     // TODO: Integrate supabase client.
     private static DateTime _lastRequestTime = DateTime.MinValue;
     private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(10); // Cooldown period
 
-    public FeedbackRepository()
+    public FeedbackRepository() => Init();
+
+    internal void Init()
     {
+        if (Constants.BASE_URL.IsNullOrWhiteSpace()) { return; }
+
         _httpClient = new HttpClient
         {
             BaseAddress = new Uri(Constants.BASE_URL)

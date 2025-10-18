@@ -54,7 +54,7 @@
 
                         <ImageButton x:Name="DanceImageButton" HeightRequest="26">
                             <ImageButton.Source>
-                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Videocam}" Color="{DynamicResource IconColor}" />
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Music_video}" Color="{DynamicResource IconColor}" />
                             </ImageButton.Source>
                         </ImageButton>
 
