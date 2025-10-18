@@ -130,7 +130,7 @@
                             <Grid ColumnDefinitions="1*, 6*, auto, auto, auto, auto">
 
                                 <!-- Album -->
-                                <Border Grid.Column="0" x:Name="AllBorder" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+                                <Border Grid.Column="0" x:Name="AlbumBorder" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
                                     
                                     <Image Grid.Column="0" WidthRequest="50" MinimumWidthRequest="50" Aspect="AspectFit">
                                         <Image.Source>

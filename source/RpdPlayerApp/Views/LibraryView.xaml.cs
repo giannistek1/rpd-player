@@ -1,7 +1,5 @@
 using CommunityToolkit.Maui.Core.Extensions;
-using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
-using RpdPlayerApp.DTO;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
@@ -22,13 +20,11 @@ public partial class LibraryView : ContentView
 
     PlaylistRepository _playlistRepository = new();
 
-    internal int PlaylistMode { get; set; } = 0;
-
     public LibraryView()
     {
         InitializeComponent();
         Loaded += OnLoad;
-        InitializeLocalCloudModeSegmentedControl();
+        InitializePlaylistModeSegmentedControl();
     }
 
     private void OnLoad(object? sender, EventArgs e)
@@ -36,29 +32,109 @@ public partial class LibraryView : ContentView
         DeleteInvalidPlaylists();
     }
 
-    private void InitializeLocalCloudModeSegmentedControl()
+    private void InitializePlaylistModeSegmentedControl()
     {
-        CloudModeSegmentedControl.ItemsSource = new[] { "Local", "Cloud", "Public" };
-        CloudModeSegmentedControl.SelectedIndex = 0;
-        CloudModeSegmentedControl.SelectionChanged += LocalCloudModeSegmentedControlSelectionChanged;
+        PlaylistModeSegmentedControl.ItemsSource = new[] { "Local", "Cloud", "Public" };
+        PlaylistModeSegmentedControl.SelectedIndex = 0;
+        PlaylistModeSegmentedControl.SelectionChanged += PlaylistModeSegmentedControlSelectionChanged;
     }
 
-    private void LocalCloudModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
+    private void PlaylistModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
         PlaylistsListView.ItemsSource = null;
 
-        if (e.NewIndex == 0) { PlaylistMode = 0; LoadLocalPlaylists(); }
-        else if (e.NewIndex == 1) { PlaylistMode = 1; LoadCloudPlaylists(); }
-        else { PlaylistMode = 2; LoadPublicPlaylists(); }
+        if (e.NewIndex == 0) { PlaylistsManager.PlaylistMode = PlaylistModeValue.Local; LoadLocalPlaylists(); }
+        else if (e.NewIndex == 1) { PlaylistsManager.PlaylistMode = PlaylistModeValue.Cloud; LoadCloudPlaylists(); }
+        else { PlaylistsManager.PlaylistMode = PlaylistModeValue.Public; LoadPublicPlaylists(); }
+    }
+
+    internal void RefreshPlaylistsButtonClicked(object? sender, EventArgs e)
+    {
+        CacheState.LocalPlaylists = null;
+        CacheState.CloudPlaylists = null;
+        CacheState.PublicPlaylists = null;
+
+        LoadPlaylists();
+    }
+
+    internal async void NewPlaylistButtonClicked(object? sender, EventArgs e)
+    {
+        // TODO: In viewmodel or manager.
+        if (PlaylistNameEntry.Text.IsNullOrWhiteSpace())
+        {
+            General.ShowToast($"Please fill in a name");
+            return;
+        }
+
+        try
+        {
+            if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local)
+            {
+                await CreateLocalPlaylist();
+            }
+            else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud)
+            {
+                await CreateCloudPlaylist();
+            }
+        }
+        catch (Exception ex)
+        {
+            General.ShowToast(ex.Message);
+        }
+    }
+
+    private async Task CreateLocalPlaylist()
+    {
+        // HDR: Creation date | Modified date | Owner | Count | Length | Countdown mode
+        string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
+
+        string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
+        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result)
+        {
+            SongParts = []
+        };
+
+        if (CacheState.LocalPlaylists is not null)
+        {
+            CacheState.LocalPlaylists.Add(playlist);
+        }
+        PlaylistNameEntry.Text = string.Empty;
+    }
+
+    private async Task CreateCloudPlaylist()
+    {
+        // HDR: Creation date | Modified date | Owner | Count | Length | Countdown mode
+        string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
+
+        string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
+        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result)
+        {
+            SongParts = []
+        };
+
+        if (CacheState.CloudPlaylists is not null)
+        {
+            CacheState.CloudPlaylists.Add(playlist);
+        }
+
+        await _playlistRepository.SaveCloudPlaylist(id: playlist.Id,
+                                            creationDate: playlist.CreationDate,
+                                            name: playlist.Name,
+                                            playlist.LengthInSeconds,
+                                            playlist.Count,
+                                            playlist.SongParts.ToList(),
+                                            isPublic: playlist.IsPublic);
+
+        PlaylistNameEntry.Text = string.Empty;
     }
 
     internal void LoadPlaylists()
     {
         PlaylistsListView.ItemsSource = null;
 
-        if (PlaylistMode == 0) { LoadLocalPlaylists(); }
-        else if (PlaylistMode == 1) { LoadCloudPlaylists(); }
-        else { LoadPublicPlaylists(); }
+        if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local) { LoadLocalPlaylists(); }
+        else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud) { LoadCloudPlaylists(); }
+        else { LoadPublicPlaylists(); } // Public
     }
 
     internal void FocusNewPlaylistEntry() => PlaylistNameEntry.Focus();
@@ -282,47 +358,6 @@ public partial class LibraryView : ContentView
         ShowPlaylist?.Invoke(sender, e);
     }
 
-    internal async void NewPlaylistButtonClicked(object? sender, EventArgs e)
-    {
-        // TODO: In viewmodel or manager.
-        if (PlaylistNameEntry.Text.IsNullOrWhiteSpace())
-        {
-            General.ShowToast($"Please fill in a name");
-            return;
-        }
-
-        try
-        {
-            // HDR: Creation date | Modified date | Owner | Count | Length | Countdown mode
-            string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
-
-            string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
-            Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result)
-            {
-                SongParts = []
-            };
-
-            if (CacheState.LocalPlaylists is not null)
-            {
-                CacheState.LocalPlaylists.Add(playlist);
-            }
-            PlaylistNameEntry.Text = string.Empty;
-        }
-        catch (Exception ex)
-        {
-            General.ShowToast(ex.Message);
-        }
-    }
-
-    internal void RefreshPlaylistsButtonClicked(object? sender, EventArgs e)
-    {
-        CacheState.LocalPlaylists = null;
-        CacheState.CloudPlaylists = null;
-        CacheState.PublicPlaylists = null;
-
-        LoadPlaylists();
-    }
-
     private void CopyPlaylistButton_Clicked(object sender, EventArgs e)
     {
         try
@@ -345,10 +380,8 @@ public partial class LibraryView : ContentView
     }
 
     // TODO: todo
-    private void PlayPlaylistButton_Clicked(object sender, EventArgs e)
+    private void PlayPlaylistButtonClicked(object sender, EventArgs e)
     {
-        //AppState.CurrentSongPart = CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts[0];
-
         // Change mode to playlist
         AppState.PlayMode = PlayModeValue.Playlist;
         PlayPlaylist?.Invoke(sender, e);
@@ -361,7 +394,7 @@ public partial class LibraryView : ContentView
     }
 
     // Remove/delete playlist
-    private async void PlaylistsListView_SwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
+    private async void PlaylistsListViewSwipeEnded(object sender, Syncfusion.Maui.ListView.SwipeEndedEventArgs e)
     {
         if (e.DataItem is null) { return; }
 
@@ -373,15 +406,15 @@ public partial class LibraryView : ContentView
             if (accept)
             {
                 File.Delete(playlist.LocalPath);
-                if (PlaylistMode == 0)
+                if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local)
                 {
                     CacheState.LocalPlaylists?.Remove(playlist);
                 }
-                else if (PlaylistMode == 1)
+                else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud)
                 {
                     CacheState.CloudPlaylists?.Remove(playlist);
                 }
-                else
+                else // Public
                 {
                     CacheState.PublicPlaylists?.Remove(playlist);
                 }

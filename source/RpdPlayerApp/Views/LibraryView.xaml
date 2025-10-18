@@ -17,7 +17,7 @@
 
 
         <!-- Cloud/local mode -->
-        <buttons:SfSegmentedControl Grid.Row="0" x:Name="CloudModeSegmentedControl" SegmentWidth="100" Margin="0,8,0,8">
+        <buttons:SfSegmentedControl Grid.Row="0" x:Name="PlaylistModeSegmentedControl" SegmentWidth="100" Margin="0,8,0,8">
 
             <!-- Non-selection -->
             <buttons:SfSegmentedControl.TextStyle>
@@ -31,7 +31,7 @@
 
         </buttons:SfSegmentedControl>
 
-        <Border Grid.Row="1" x:Name="PlaylistNameEntryBorder" HeightRequest="64" Margin="10,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+        <Border Grid.Row="1" x:Name="PlaylistNameEntryBorder" HeightRequest="64" Margin="10,8,10,8" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
 
             <Grid VerticalOptions="Center">
 
@@ -43,7 +43,7 @@
 
         <!-- Playlists -->
         <syncfusion:SfListView Grid.Row="2" x:Name="PlaylistsListView" SelectionMode="None" BackgroundColor="{DynamicResource BackgroundColor}" EmptyView="No playlists yet. Create a playlist!" AutoFitMode="Height"
-                               AllowSwiping="True" ItemTapped="PlaylistsListViewItemTapped" SwipeEnded="PlaylistsListView_SwipeEnded" >
+                               AllowSwiping="True" ItemTapped="PlaylistsListViewItemTapped" SwipeEnded="PlaylistsListViewSwipeEnded" >
             
             <syncfusion:SfListView.StartSwipeTemplate>
                 <DataTemplate>
@@ -58,16 +58,56 @@
             <syncfusion:SfListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid ColumnDefinitions="50, *, 50" Padding="10">
+                        
+                        <Grid ColumnDefinitions="50, *" Padding="10">
 
-                            <HorizontalStackLayout>
-                                <Label VerticalOptions="Start" Text="{Binding Name, StringFormat='{0}'}" />
-                                <Label VerticalOptions="Start" Text="{Binding Count, StringFormat=' • {0}'}" TextColor="{DynamicResource SecondaryTextColor}" />
-                                <Label VerticalOptions="Start" Text="{Binding Length, StringFormat=' • {0:hh\\:mm\\:ss}'}" TextColor="{DynamicResource SecondaryTextColor}" />
-                                <Label VerticalOptions="Start" Text="{Binding CreationDate, StringFormat=' • {0:dd\\-MM\\-yyyy}'}" TextColor="{DynamicResource SecondaryTextColor}"  />
-                            </HorizontalStackLayout>
+                            <!-- Image -->
+                            <Border x:Name="PlaylistImageBorder" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center" Margin="0,0,16,0">
 
+                                <Image x:Name="PlaylistImage" HeightRequest="40">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Image}" Color="{DynamicResource SecondaryIconColor}" />
+                                    </Image.Source>
+                                </Image>
+
+                            </Border>
+                            
+                            <Grid Grid.Column="1" RowDefinitions="auto, auto" VerticalOptions="Center">
+                                
+                                <Label Text="{Binding Name, StringFormat='{0}'}" VerticalOptions="Start"/>
+                                
+                                <Grid Grid.Row="1" ColumnDefinitions="auto,1* ,auto,2*, auto,2*">
+                                    
+                                    <Image HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
+                                        <Image.Source>
+                                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                                        </Image.Source>
+                                    </Image>
+
+                                    <Label Grid.Column="1" Text="{Binding Count, StringFormat='{0}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12" />
+
+                                    <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
+                                        <Image.Source>
+                                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Nest_clock_farsight_analog}" Color="{DynamicResource SecondaryIconColor}" />
+                                        </Image.Source>
+                                    </Image>
+
+                                    <Label Grid.Column="3" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12"/>
+
+                                    <Image Grid.Column="4" HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
+                                        <Image.Source>
+                                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Calendar_add_on}" Color="{DynamicResource SecondaryIconColor}" />
+                                        </Image.Source>
+                                    </Image>
+                                    
+                                    <Label Grid.Column="5" Text="{Binding CreationDate, StringFormat='{0:dd\\-MM\\-yy}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12" />
+                                
+                                </Grid>
+                                
+                            </Grid>
+                            
                         </Grid>
+                        
                     </ViewCell>
                 </DataTemplate>
             </syncfusion:SfListView.ItemTemplate>

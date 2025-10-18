@@ -1,4 +1,5 @@
 ﻿using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
 using System.Text;
 
@@ -6,6 +7,8 @@ namespace RpdPlayerApp.Managers;
 
 internal class PlaylistsManager
 {
+    internal static PlaylistModeValue PlaylistMode { get; set; } = PlaylistModeValue.Local;
+
     internal PlaylistsManager() { }
 
     /// <summary> Saves playlist locally and overwrites name. </summary>
@@ -63,7 +66,15 @@ internal class PlaylistsManager
 
     internal bool SongPartIsInPlaylist(string playlistName, SongPart? songPart)
     {
-        var playlist = CacheState.LocalPlaylists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
+        Playlist? playlist = null;
+        if (PlaylistMode == PlaylistModeValue.Local)
+        {
+            playlist = CacheState.LocalPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
+        }
+        else if (PlaylistMode == PlaylistModeValue.Cloud)
+        {
+            playlist = CacheState.CloudPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
+        }
 
         if (playlist is not null && playlist.SongParts.Any(s => s.AudioURL == songPart?.AudioURL))
         {

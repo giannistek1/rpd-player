@@ -419,17 +419,7 @@ public partial class MainPage
 
     protected override bool OnBackButtonPressed()
     {
-        if (_categoriesView.IsVisible && (byte)MainContainer.SelectedIndex == 0)
-        {
-            BackToHomeView();
-            return true;
-        }
-        else if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 1)
-        {
-            BackToPlaylists();
-            return true;
-        }
-        else if (_detailBottomSheet.isShown)
+        if (_detailBottomSheet.isShown)
         {
             _detailBottomSheet.DismissAsync();
             return true;
@@ -439,10 +429,22 @@ public partial class MainPage
             _sortByBottomSheet.DismissAsync();
             return true;
         }
+        else if (_categoriesView.IsVisible && (byte)MainContainer.SelectedIndex == 0)
+        {
+            BackToHomeView();
+            return true;
+        }
+        else if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 2)
+        {
+            _currentPlaylistView.BackButtonClicked(null, EventArgs.Empty);
+            return true;
+        }
         else if ((byte)MainContainer.SelectedIndex == 1 || (byte)MainContainer.SelectedIndex == 2)
         {
+            // Go to homeview.
             MainContainer.SelectedIndex = 0;
 
+            // Check what was visible on the homeview.
             if (_categoriesView.IsVisible) { OnShowCategories(null, EventArgs.Empty); }
             else { BackToHomeView(); }
 

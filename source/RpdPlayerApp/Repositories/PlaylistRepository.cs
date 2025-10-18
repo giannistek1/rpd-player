@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using RpdPlayerApp.Architecture;
+﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.DTO;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
@@ -24,11 +23,16 @@ internal class PlaylistRepository
 
             var baseUrl = Constants.SONGPARTS_BASE_URL;
 
-            var fileName = segment.AudioURL.Replace(baseUrl, string.Empty);
-            fileName = fileName.Replace(Constants.RAW_PARAMETER, string.Empty);
-            var encodedFileName = Uri.EscapeDataString(fileName);
+            var fileName = segment.AudioURL.Replace(baseUrl, string.Empty)
+                                           .Replace(Constants.RAW_PARAMETER, string.Empty);
 
-            var fullUrl = baseUrl + encodedFileName + Constants.RAW_PARAMETER;
+            // Only encode if not already encoded
+            if (!fileName.Contains("%"))
+            {
+                fileName = Uri.EscapeDataString(fileName);
+            }
+
+            var fullUrl = baseUrl + fileName + Constants.RAW_PARAMETER;
 
             segments.Add(new SongSegmentDto
             {

@@ -1,11 +1,9 @@
-using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
-using System.Text;
 
 namespace RpdPlayerApp.Views;
 
@@ -31,13 +29,12 @@ public partial class CurrentPlaylistView : ContentView
         BackButtonImageButton.Source = IconManager.BackIcon;
     }
 
-    private async void BackButtonClicked(object sender, EventArgs e)
+    internal async void BackButtonClicked(object? sender, EventArgs e)
     {
         // To hide soft keyboard programmatically.
         PlaylistNameEntry.IsEnabled = false;
         PlaylistNameEntry.IsEnabled = true;
 
-        // Reload cache.
         Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist;
 
         if (playlist!.IsCloudPlaylist && playlist.Owner.Equals(AppState.Username))
@@ -52,6 +49,7 @@ public partial class CurrentPlaylistView : ContentView
                                                         isPublic: playlist.IsPublic);
         }
 
+        // Reload cache.
         CacheState.LocalPlaylists = null;
         await PlaylistsManager.SavePlaylistLocally(playlist, PlaylistNameEntry.Text);
 
