@@ -40,6 +40,7 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 ## Scope
 - Platforms: Android, iOS and hopefully Windows but not looking promising so far.
 - Music player will only play mp3, because it is high quality and compressed.
+- Dance practice videos will be mirrored in 480p (or 360p), so the videos will be max 15mb per video.
 - Playlists will be saved locally and online.
 - Only Korean, Chinese-pop, Japanese-pop, English and Thai-pop songs for now.
 - Todo: Dance practices for most songs included with priority for more popular songs.
