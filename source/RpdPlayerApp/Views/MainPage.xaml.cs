@@ -130,7 +130,7 @@ public partial class MainPage
 
     private void OnBackPressed(object? sender, EventArgs e) => BackToHomeView();
 
-    private void OnFavoriteSongPart(object? sender, EventArgs e)
+    private async void OnFavoriteSongPart(object? sender, EventArgs e)
     {
         if (_currentPlaylistView.IsVisible)
         {

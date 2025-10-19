@@ -128,21 +128,21 @@ public partial class LibraryView : ContentView
         PlaylistNameEntry.Text = string.Empty;
     }
 
-    internal void LoadPlaylists()
+    internal async Task LoadPlaylists(bool isDirty = false)
     {
         PlaylistsListView.ItemsSource = null;
 
-        if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local) { LoadLocalPlaylists(); }
-        else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud) { LoadCloudPlaylists(); }
+        if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local) { LoadLocalPlaylists(isDirty: isDirty); }
+        else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud) { await LoadCloudPlaylists(); }
         else { LoadPublicPlaylists(); } // Public
     }
 
     internal void FocusNewPlaylistEntry() => PlaylistNameEntry.Focus();
 
     // Code goes here at start because of SegmentedControlSelectionChanged
-    internal void LoadLocalPlaylists()
+    internal void LoadLocalPlaylists(bool isDirty = false)
     {
-        if (CacheState.LocalPlaylists is not null && CacheState.LocalPlaylists.Any())
+        if (CacheState.LocalPlaylists is not null && CacheState.LocalPlaylists.Any() || isDirty)
         {
             PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
             return;
@@ -238,7 +238,7 @@ public partial class LibraryView : ContentView
         PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
     }
 
-    internal async void LoadCloudPlaylists()
+    internal async Task LoadCloudPlaylists()
     {
         if (CacheState.CloudPlaylists is not null && CacheState.CloudPlaylists.Any())
         {

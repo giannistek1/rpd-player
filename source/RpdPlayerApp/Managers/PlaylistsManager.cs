@@ -38,13 +38,16 @@ internal class PlaylistsManager
         }
     }
 
-    internal async Task<bool> TryAddSongPartToPlaylist(string playlistName, SongPart songPartToAdd)
+    internal async Task<bool> TryAddSongPartToLocalPlaylist(string playlistName, SongPart songPartToAdd)
     {
-        var playlistExists = CacheState.LocalPlaylists?.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
-        if (playlistExists is null)
+        // See if local playlist exists.
+        var matchingPlaylist = CacheState.LocalPlaylists?.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
+        if (matchingPlaylist is null)
         {
             var playlist = new Playlist(creationDate: DateTime.Now, lastModifiedDate: DateTime.Now, name: playlistName);
             playlist.SongParts.Add(songPartToAdd);
+            playlist.SetCount();
+            playlist.SetLength();
 
             CacheState.LocalPlaylists?.Add(playlist);
 
@@ -53,10 +56,18 @@ internal class PlaylistsManager
         }
         else // Update
         {
-            if (!SongPartIsInPlaylist(playlistName, songPartToAdd))
+            if (!SegmentIsInPlaylist(playlistName, playlistMode: PlaylistModeValue.Local, songPartToAdd))
             {
-                playlistExists.SongParts.Add(songPartToAdd);
-                await SavePlaylistLocally(playlistExists, playlistName);
+                // TODO: When favoriting, the updated length and count does not reflect in the library view.
+                CacheState.LocalPlaylists.Remove(matchingPlaylist);
+
+                matchingPlaylist.SongParts.Add(songPartToAdd);
+                matchingPlaylist.SetCount();
+                matchingPlaylist.SetLength();
+
+                CacheState.LocalPlaylists.Add(matchingPlaylist);
+
+                await SavePlaylistLocally(matchingPlaylist, playlistName);
                 return true;
             }
             // Song already in playlist.
@@ -64,19 +75,19 @@ internal class PlaylistsManager
         }
     }
 
-    internal bool SongPartIsInPlaylist(string playlistName, SongPart? songPart)
+    internal bool SegmentIsInPlaylist(string playlistName, PlaylistModeValue playlistMode, SongPart? segment)
     {
         Playlist? playlist = null;
-        if (PlaylistMode == PlaylistModeValue.Local)
+        if (playlistMode == PlaylistModeValue.Local)
         {
             playlist = CacheState.LocalPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         }
-        else if (PlaylistMode == PlaylistModeValue.Cloud)
+        else if (playlistMode == PlaylistModeValue.Cloud)
         {
             playlist = CacheState.CloudPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         }
 
-        if (playlist is not null && playlist.SongParts.Any(s => s.AudioURL == songPart?.AudioURL))
+        if (playlist is not null && playlist.SongParts.Any(s => s.AudioURL == segment?.AudioURL))
         {
             return true;
         }
