@@ -63,7 +63,7 @@ public partial class HomeView : ContentView
         }
         catch (Exception ex)
         {
-            DebugService.Instance.AddDebug(ex.Message);
+            DebugService.Instance.Debug(ex.Message);
             General.ShowToast(ex.Message);
         }
     }

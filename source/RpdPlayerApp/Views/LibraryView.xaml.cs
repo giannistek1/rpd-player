@@ -219,7 +219,7 @@ public partial class LibraryView : ContentView
                     }
                     catch (Exception ex)
                     {
-                        DebugService.Instance.AddDebug($"ERROR: {typeof(LibraryView).Name}, songpart {i + 1}, {ex.Message}");
+                        DebugService.Instance.Debug($"ERROR: {typeof(LibraryView).Name}, songpart {i + 1}, {ex.Message}");
                         General.ShowToast($"ERROR: LoadLocalPlaylists songpart {i + 1}. {ex.Message}");
                     }
                 }
@@ -231,7 +231,7 @@ public partial class LibraryView : ContentView
         }
         catch (Exception ex)
         {
-            DebugService.Instance.AddDebug(ex.Message);
+            DebugService.Instance.Debug(ex.Message);
         }
 
         CacheState.LocalPlaylists = playlists.ToObservableCollection();
@@ -278,12 +278,12 @@ public partial class LibraryView : ContentView
                     songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
                     playlist.SongParts.Add(songPart);
 
-                    DebugService.Instance.AddDebug($"{songPart.AudioURL} - {songPart.AlbumTitle} added!");
+                    DebugService.Instance.Debug($"{songPart.AudioURL} - {songPart.AlbumTitle} added!");
                 }
             }
             catch (Exception ex)
             {
-                DebugService.Instance.AddDebug(ex.Message);
+                DebugService.Instance.Debug(ex.Message);
             }
 
             playlist.SetLength();
@@ -308,7 +308,7 @@ public partial class LibraryView : ContentView
         var results = await _playlistRepository.GetAllPublicPlaylists();
         foreach (var playlistDto in results)
         {
-            DebugService.Instance.AddDebug($"{playlistDto.CreationDate} | {playlistDto.LastModifiedDate}");
+            DebugService.Instance.Debug($"{playlistDto.CreationDate} | {playlistDto.LastModifiedDate}");
 
             Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name, count: playlistDto.Count)
             {
@@ -339,7 +339,7 @@ public partial class LibraryView : ContentView
             }
             catch (Exception ex)
             {
-                DebugService.Instance.AddDebug(ex.Message);
+                DebugService.Instance.Debug(ex.Message);
             }
 
             playlist.SetLength();

@@ -59,7 +59,7 @@ internal class SongRequestRepository
         {
             string respText = await response.Content.ReadAsStringAsync();
             // Log or handle error (status, body)
-            DebugService.Instance.AddDebug($"Supabase insert failed: {response.StatusCode} / {respText}");
+            DebugService.Instance.Debug($"Supabase insert failed: {response.StatusCode} / {respText}");
             return -1;
         }
     }

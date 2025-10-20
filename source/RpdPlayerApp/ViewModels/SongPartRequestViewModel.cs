@@ -46,7 +46,7 @@ internal partial class SongSegmentRequestViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            DebugService.Instance.AddDebug(ex.Message);
+            DebugService.Instance.Debug(ex.Message);
         }
         return success;
     }
@@ -66,7 +66,7 @@ internal partial class SongSegmentRequestViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            DebugService.Instance.AddDebug(ex.Message);
+            DebugService.Instance.Debug(ex.Message);
         }
         return success;
     }

@@ -33,7 +33,7 @@ internal static class AudioManager
 
     internal static void PlayPause()
     {
-        DebugService.Instance.AddDebug(msg: $"PlayPause: {(CurrentPlayer == SongPartMediaElement ? "SongPartMediaElement" : "SongPartMediaElement2")}");
+        //DebugService.Instance.Debug(msg: $"PlayPause: {(CurrentPlayer == SongPartMediaElement ? "SongPartMediaElement" : "SongPartMediaElement2")}");
 
         if (AppState.CurrentlyPlayingState == CurrentlyPlayingStateValue.Announcement)
         {
@@ -121,7 +121,7 @@ internal static class AudioManager
 
         OnPlay?.Invoke(null, EventArgs.Empty);
 
-        DebugService.Instance.AddDebug(msg: $"Play countdown: {PreSongPartMediaElement!.Source}");
+        DebugService.Instance.Debug(msg: $"Play countdown: {PreSongPartMediaElement!.Source}");
         PreSongPartMediaElement.SeekTo(new TimeSpan(0));
         PreSongPartMediaElement!.Play();
     }
@@ -132,7 +132,7 @@ internal static class AudioManager
 
         OnPlay?.Invoke(null, EventArgs.Empty);
 
-        DebugService.Instance.AddDebug(msg: $"Play announcement: {PreSongPartMediaElement!.Source}");
+        DebugService.Instance.Debug(msg: $"Play announcement: {PreSongPartMediaElement!.Source}");
         PreSongPartMediaElement.SeekTo(new TimeSpan(0));
         PreSongPartMediaElement!.Play();
     }
@@ -184,7 +184,7 @@ internal static class AudioManager
     /// <param name="songPart"></param>
     internal static void ChangeAndStartSong(SongPart songPart)
     {
-        DebugService.Instance.AddDebug(msg: $"ChangeAndStartSong: {(CurrentPlayer == SongPartMediaElement ? "SongPartMediaElement" : "SongPartMediaElement2")}");
+        DebugService.Instance.Debug(msg: $"ChangeAndStartSong: {(CurrentPlayer == SongPartMediaElement ? "SongPartMediaElement" : "SongPartMediaElement2")}");
 
         if (!General.HasInternetConnection()) { return; }
 
@@ -213,7 +213,7 @@ internal static class AudioManager
         // Reset SongPartHistoryIndex;
         AppState.SongPartHistoryIndex = -1;
 
-        DebugService.Instance.AddDebug(msg: $"PlayNextSong: {(CurrentPlayer == SongPartMediaElement ? "SongPartMediaElement" : "SongPartMediaElement2")}");
+        DebugService.Instance.Debug(msg: $"PlayNextSong: {(CurrentPlayer == SongPartMediaElement ? "SongPartMediaElement" : "SongPartMediaElement2")}");
 
         // Check repeat one mode.
         if (AppState.AutoplayMode == AutoplayModeValue.RepeatOne)
@@ -233,7 +233,7 @@ internal static class AudioManager
         if (AppState.AutoplayMode == AutoplayModeValue.Single || string.IsNullOrEmpty(AppState.NextSongPart.AudioURL))
         {
             OnStop?.Invoke(null, EventArgs.Empty);
-            DebugService.Instance.AddDebug(msg: $"PlayNextSong: NextSongPart.AudioURL is empty");
+            DebugService.Instance.Debug(msg: $"PlayNextSong: NextSongPart.AudioURL is empty");
             return;
         }
 
@@ -300,7 +300,7 @@ internal static class AudioManager
         if (AppState.SongPartHistory.Count == 0)
         {
             AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.None;
-            DebugService.Instance.AddDebug(msg: $"PlayPreviousSong: History is 0");
+            DebugService.Instance.Debug(msg: $"PlayPreviousSong: History is 0");
             return;
         }
 
@@ -340,17 +340,17 @@ internal static class AudioManager
         {
             AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.Announcement;
             PlayAnnouncement();
-            DebugService.Instance.AddDebug(msg: $"Playing announcement.");
+            DebugService.Instance.Debug(msg: $"Playing announcement.");
         }
         else if (AppState.CountdownMode > CountdownModeValue.Off)
         {
             PlayCountdown();
-            DebugService.Instance.AddDebug(msg: $"Playing countdown.");
+            DebugService.Instance.Debug(msg: $"Playing countdown.");
         }
         else // No announcement or countdown
         {
             PlayAudio();
-            DebugService.Instance.AddDebug(msg: $"Playing only audio.");
+            DebugService.Instance.Debug(msg: $"Playing only audio.");
         }
     }
 

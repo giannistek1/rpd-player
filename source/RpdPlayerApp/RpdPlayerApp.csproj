@@ -136,6 +136,16 @@
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
       
     </ItemGroup>
+
+
+  <ItemGroup>
+    <AndroidResource Remove="Animations\**" />
+    <Compile Remove="Animations\**" />
+    <EmbeddedResource Remove="Animations\**" />
+    <MauiCss Remove="Animations\**" />
+    <MauiXaml Remove="Animations\**" />
+    <None Remove="Animations\**" />
+  </ItemGroup>
   
     <ItemGroup>
       <AndroidResource Remove="Platforms\Android\Resources\values\styles.xml" />
@@ -237,10 +247,6 @@
     <MauiXaml Update="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Animations\" />
     </ItemGroup>
 
     <ItemGroup>

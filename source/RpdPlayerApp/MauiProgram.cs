@@ -101,7 +101,7 @@ namespace RpdPlayerApp
             });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+    		builder.Logging.Debug();
 #endif
             builder.Services.AddTransient<MainPage>();
             builder.ConfigureSyncfusionCore();
