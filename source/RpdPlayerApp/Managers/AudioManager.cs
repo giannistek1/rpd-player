@@ -141,7 +141,8 @@ internal static class AudioManager
     internal static void SetMute()
     {
         PreSongPartMediaElement!.ShouldMute = CommonSettings.IsVolumeMuted;
-        CurrentPlayer!.ShouldMute = CommonSettings.IsVolumeMuted;
+        SongPartMediaElement!.ShouldMute = CommonSettings.IsVolumeMuted;
+        SongPartMediaElement2!.ShouldMute = CommonSettings.IsVolumeMuted;
     }
 
     internal static void RestartAudio()
@@ -278,7 +279,7 @@ internal static class AudioManager
 
     private static void PlayPreviousSongPlaylistMode()
     {
-        var playlistSongSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.SongParts.ToList();
+        var playlistSongSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.Segments.ToList();
 
         int index = playlistSongSegments.FindIndex(s => s.AudioURL == AppState.CurrentSongPart.AudioURL);
 
@@ -393,7 +394,7 @@ internal static class AudioManager
         {
             if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
 
-            var songSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.SongParts.ToList();
+            var songSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.Segments.ToList();
 
             int index = songSegments.FindIndex(s => s.AudioURL == AppState.CurrentSongPart.AudioURL);
 
@@ -415,7 +416,7 @@ internal static class AudioManager
         {
             if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
 
-            var songSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.SongParts.ToList();
+            var songSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.Segments.ToList();
 
             // Decide random unique song.
             int index = General.Rng.Next(songSegments.Count);

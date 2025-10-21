@@ -23,15 +23,13 @@ internal partial class CurrentPlaylistManager : ObservableObject
     {
         bool hasToAdd = false;
 
-        if (ChosenPlaylist.SongParts is not null)
+        if (ChosenPlaylist.Segments is not null)
         {
-            hasToAdd = !ChosenPlaylist.SongParts.Contains(songPart);
+            hasToAdd = !ChosenPlaylist.Segments.Contains(songPart);
 
             if (hasToAdd)
             {
-                ChosenPlaylist.SongParts.Add(songPart);
-                ChosenPlaylist.SetCount();
-                ChosenPlaylist.SetLength();
+                ChosenPlaylist.Segments.Add(songPart);
             }
         }
 
@@ -42,16 +40,16 @@ internal partial class CurrentPlaylistManager : ObservableObject
     {
         int songPartsAdded = 0;
 
-        if (ChosenPlaylist!.SongParts is null)
+        if (ChosenPlaylist!.Segments is null)
         {
-            ChosenPlaylist.SongParts = [];
+            ChosenPlaylist.Segments = [];
         }
 
         foreach (SongPart songPart in songParts)
         {
-            if (!ChosenPlaylist.SongParts.Contains(songPart))
+            if (!ChosenPlaylist.Segments.Contains(songPart))
             {
-                ChosenPlaylist.SongParts.Add(songPart);
+                ChosenPlaylist.Segments.Add(songPart);
                 songPartsAdded++;
             }
         }
@@ -60,12 +58,12 @@ internal partial class CurrentPlaylistManager : ObservableObject
 
     internal void RemoveSongpartOfCurrentPlaylist(SongPart songpart)
     {
-        var songpartToRemove = ChosenPlaylist.SongParts.FirstOrDefault(x => x.AudioURL == songpart.AudioURL);
+        var songpartToRemove = ChosenPlaylist.Segments.FirstOrDefault(x => x.AudioURL == songpart.AudioURL);
         if (songpartToRemove is not null)
         {
-            ChosenPlaylist.SongParts.Remove(songpartToRemove);
+            ChosenPlaylist.Segments.Remove(songpartToRemove);
         }
     }
 
-    internal void ClearCurrentPlaylist() => ChosenPlaylist.SongParts.Clear();
+    internal void ClearCurrentPlaylist() => ChosenPlaylist.Segments.Clear();
 }

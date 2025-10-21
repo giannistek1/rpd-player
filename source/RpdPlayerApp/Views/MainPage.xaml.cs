@@ -137,6 +137,10 @@ public partial class MainPage
             _currentPlaylistView.RefreshCurrentPlaylist();
             _currentPlaylistView.SavePlaylistButtonClicked(sender, e);
         }
+        else
+        {
+            await LibraryView.LoadPlaylists(isDirty: true);
+        }
     }
 
     #region Toolbar

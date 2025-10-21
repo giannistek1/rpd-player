@@ -91,7 +91,7 @@ public partial class LibraryView : ContentView
         string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
         Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result)
         {
-            SongParts = []
+            Segments = []
         };
 
         if (CacheState.LocalPlaylists is not null)
@@ -109,7 +109,7 @@ public partial class LibraryView : ContentView
         string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
         Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result)
         {
-            SongParts = []
+            Segments = []
         };
 
         if (CacheState.CloudPlaylists is not null)
@@ -122,7 +122,7 @@ public partial class LibraryView : ContentView
                                             name: playlist.Name,
                                             playlist.LengthInSeconds,
                                             playlist.Count,
-                                            playlist.SongParts.ToList(),
+                                            playlist.Segments.ToList(),
                                             isPublic: playlist.IsPublic);
 
         PlaylistNameEntry.Text = string.Empty;
@@ -145,6 +145,7 @@ public partial class LibraryView : ContentView
         if (CacheState.LocalPlaylists is not null && CacheState.LocalPlaylists.Any() || isDirty)
         {
             PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
+
             return;
         }
 
@@ -186,7 +187,7 @@ public partial class LibraryView : ContentView
 
                 Playlist playlist = new(creationDate: creationDate, lastModifiedDate: modifiedDate, name: Path.GetFileNameWithoutExtension(fileName), path: file, count: lines - containsHeader)
                 {
-                    SongParts = []
+                    Segments = []
                 };
 
                 // Convert text to songParts.
@@ -215,7 +216,7 @@ public partial class LibraryView : ContentView
                         );
 
                         songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
-                        playlist.SongParts.Add(songPart);
+                        playlist.Segments.Add(songPart);
                     }
                     catch (Exception ex)
                     {
@@ -224,8 +225,6 @@ public partial class LibraryView : ContentView
                     }
                 }
 
-                playlist.SetLength();
-                playlist.SetCount();
                 playlists.Add(playlist);
             }
         }
@@ -257,7 +256,7 @@ public partial class LibraryView : ContentView
                 IsCloudPlaylist = true,
                 IsPublic = playlistDto.IsPublic,
                 Owner = AppState.Username,
-                SongParts = []
+                Segments = []
             };
 
             try
@@ -276,7 +275,7 @@ public partial class LibraryView : ContentView
                                         );
 
                     songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
-                    playlist.SongParts.Add(songPart);
+                    playlist.Segments.Add(songPart);
 
                     DebugService.Instance.Debug($"{songPart.AudioURL} - {songPart.AlbumTitle} added!");
                 }
@@ -286,8 +285,6 @@ public partial class LibraryView : ContentView
                 DebugService.Instance.Debug(ex.Message);
             }
 
-            playlist.SetLength();
-            playlist.SetCount();
             playlists.Add(playlist);
         }
 
@@ -315,7 +312,7 @@ public partial class LibraryView : ContentView
                 Id = playlistDto.Id,
                 IsCloudPlaylist = true,
                 IsPublic = true,
-                SongParts = []
+                Segments = []
             };
 
             try
@@ -334,7 +331,7 @@ public partial class LibraryView : ContentView
                                         );
 
                     songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
-                    playlist.SongParts.Add(songPart);
+                    playlist.Segments.Add(songPart);
                 }
             }
             catch (Exception ex)
@@ -342,8 +339,6 @@ public partial class LibraryView : ContentView
                 DebugService.Instance.Debug(ex.Message);
             }
 
-            playlist.SetLength();
-            playlist.SetCount();
             playlists.Add(playlist);
         }
 

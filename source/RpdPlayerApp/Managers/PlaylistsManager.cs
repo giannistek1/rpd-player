@@ -1,6 +1,7 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Services;
 using System.Text;
 
 namespace RpdPlayerApp.Managers;
@@ -23,7 +24,7 @@ internal class PlaylistsManager
             // Header should contain: Creation date, last modified date, user, count, length
             sb.AppendLine($"HDR:[{playlist.CreationDate}][{playlist.LastModifiedDate}][{AppState.Username}][{playlist.Count}][{playlist.Length}][{playlist.CountdownMode}]");
 
-            foreach (SongPart songPart in playlist.SongParts)
+            foreach (SongPart songPart in playlist.Segments)
             {
                 sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.ClipLength}}}{{{songPart.AudioURL}}}");
             }
@@ -45,9 +46,7 @@ internal class PlaylistsManager
         if (matchingPlaylist is null)
         {
             var playlist = new Playlist(creationDate: DateTime.Now, lastModifiedDate: DateTime.Now, name: playlistName);
-            playlist.SongParts.Add(songPartToAdd);
-            playlist.SetCount();
-            playlist.SetLength();
+            playlist.Segments.Add(songPartToAdd);
 
             CacheState.LocalPlaylists?.Add(playlist);
 
@@ -58,14 +57,7 @@ internal class PlaylistsManager
         {
             if (!SegmentIsInPlaylist(playlistName, playlistMode: PlaylistModeValue.Local, songPartToAdd))
             {
-                // TODO: When favoriting, the updated length and count does not reflect in the library view.
-                CacheState.LocalPlaylists.Remove(matchingPlaylist);
-
-                matchingPlaylist.SongParts.Add(songPartToAdd);
-                matchingPlaylist.SetCount();
-                matchingPlaylist.SetLength();
-
-                CacheState.LocalPlaylists.Add(matchingPlaylist);
+                matchingPlaylist.Segments.Add(songPartToAdd);
 
                 await SavePlaylistLocally(matchingPlaylist, playlistName);
                 return true;
@@ -87,7 +79,7 @@ internal class PlaylistsManager
             playlist = CacheState.CloudPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         }
 
-        if (playlist is not null && playlist.SongParts.Any(s => s.AudioURL == segment?.AudioURL))
+        if (playlist is not null && playlist.Segments.Any(s => s.AudioURL == segment?.AudioURL))
         {
             return true;
         }

@@ -45,7 +45,7 @@ public partial class CurrentPlaylistView : ContentView
                                                         name: playlist.Name,
                                                         playlist.LengthInSeconds,
                                                         playlist.Count,
-                                                        playlist.SongParts.ToList(),
+                                                        playlist.Segments.ToList(),
                                                         isPublic: playlist.IsPublic);
         }
 
@@ -60,13 +60,13 @@ public partial class CurrentPlaylistView : ContentView
 
     internal void PlayPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        if (!CurrentPlaylistManager.Instance.ChosenPlaylist!.SongParts.Any()) { return; }
+        if (!CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments.Any()) { return; }
 
         // Change mode to playlist
         AppState.PlayMode = PlayModeValue.Playlist;
 
         CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist = CurrentPlaylistManager.Instance.ChosenPlaylist;
-        AudioManager.ChangeAndStartSong(CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts[0]);
+        AudioManager.ChangeAndStartSong(CurrentPlaylistManager.Instance.ChosenPlaylist.Segments[0]);
 
         //PlaySongPart!.Invoke(sender, e);
     }
@@ -90,15 +90,14 @@ public partial class CurrentPlaylistView : ContentView
 
         PlaylistNameEntry.Text = playlist!.Name;
 
-        if (playlist.SongParts is not null)
+        if (playlist.Segments is not null)
         {
-            CurrentPlaylistListView.ItemsSource = playlist.SongParts;
+            CurrentPlaylistListView.ItemsSource = playlist.Segments;
 
-            playlist.SetLength();
             LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", playlist.Length);
-            CountLabel.Text = $"Tot: {playlist.SongParts.Count}";
-            BoygroupCountLabel.Text = $"BG: {playlist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
-            GirlgroupCountLabel.Text = $"GG: {playlist.SongParts.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
+            CountLabel.Text = $"Tot: {playlist.Segments.Count}";
+            BoygroupCountLabel.Text = $"BG: {playlist.Segments.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
+            GirlgroupCountLabel.Text = $"GG: {playlist.Segments.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
         }
     }
 
@@ -115,7 +114,7 @@ public partial class CurrentPlaylistView : ContentView
     /// <summary> Sets ChosenPlaylist to null. </summary>
     public void ResetCurrentPlaylist()
     {
-        if (CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts is not null)
+        if (CurrentPlaylistManager.Instance.ChosenPlaylist.Segments is not null)
         {
             CurrentPlaylistListView.ItemsSource = null;
 
@@ -125,14 +124,14 @@ public partial class CurrentPlaylistView : ContentView
 
     private void ShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
     {
-        CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts = General.RandomizePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts]).ToObservableCollection();
-        CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts;
+        CurrentPlaylistManager.Instance.ChosenPlaylist.Segments = General.RandomizePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.Segments]).ToObservableCollection();
+        CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.Segments;
     }
 
     private void MixedShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
     {
-        CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts = General.RandomizeAndAlternatePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts]).ToObservableCollection();
-        CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.SongParts;
+        CurrentPlaylistManager.Instance.ChosenPlaylist.Segments = General.RandomizeAndAlternatePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.Segments]).ToObservableCollection();
+        CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.Segments;
     }
 
     #endregion Playlist

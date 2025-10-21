@@ -1,25 +1,44 @@
-﻿using RpdPlayerApp.Enums;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using RpdPlayerApp.Enums;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace RpdPlayerApp.Models;
 
-internal class Playlist
+internal partial class Playlist : ObservableObject
 {
     public long Id { get; set; } = -1L;
-    public string Name { get; set; }
-    // Handy local variable,
-    public string LocalPath { get; set; }
-    public int Count { get; private set; }
-    public DateTime CreationDate { get; set; }
-    public DateTime LastModifiedDate { get; set; } = DateTime.MinValue;
-    public int LengthInSeconds { get; set; } = 0;
-    public TimeSpan Length { get; private set; }
-    public CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off; // TODO: Implement
-    public bool IsCloudPlaylist { get; set; } = false;
-    public bool IsPublic { get; set; } = false;
-    public string Owner { get; set; } = string.Empty;
 
-    public ObservableCollection<SongPart> SongParts = [];
+    [ObservableProperty]
+    private string _name = string.Empty;
+
+    // Handy local variable
+    public string LocalPath { get; set; }
+
+    [ObservableProperty]
+    public DateTime _creationDate;
+
+    [ObservableProperty]
+    public DateTime _lastModifiedDate = DateTime.MinValue;
+
+    [ObservableProperty]
+    public CountdownModeValue _countdownMode = CountdownModeValue.Off; // TODO: Implement
+
+    [ObservableProperty]
+    public bool _isCloudPlaylist = false;
+
+    [ObservableProperty]
+    public bool _isPublic = false;
+
+    [ObservableProperty]
+    public string _owner = string.Empty;
+
+    public ObservableCollection<SongPart> Segments = [];
+
+    // Computed properties
+    public int Count => Segments.Count;
+    public TimeSpan Length => TimeSpan.FromSeconds(Segments.Sum(t => t.ClipLength));
+    public int LengthInSeconds => (int)Segments.Sum(t => t.ClipLength);
 
     public Playlist(DateTime creationDate, DateTime lastModifiedDate, string name = "", string path = "", int count = 0)
     {
@@ -27,25 +46,15 @@ internal class Playlist
         LastModifiedDate = lastModifiedDate;
         Name = name;
         LocalPath = path;
-        Count = count;
+
+        // Because the computed properties don't know when SongParts has changes, need to subscribe to changes and get notified.
+        Segments.CollectionChanged += SongPartsCollectionChanged;
     }
 
-    // TODO: In property
-    public void SetCount()
+    private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (SongParts is not null)
-        {
-            Count = SongParts.Count;
-        }
-    }
-
-    // TODO: In property
-    public bool SetLength()
-    {
-        double lengthDouble = SongParts.Sum(t => t.ClipLength);
-        Length = TimeSpan.FromSeconds(lengthDouble);
-        LengthInSeconds = (int)Length.TotalSeconds;
-
-        return lengthDouble > 0;
+        OnPropertyChanged(nameof(Count));
+        OnPropertyChanged(nameof(Length));
+        OnPropertyChanged(nameof(LengthInSeconds));
     }
 }
