@@ -89,10 +89,7 @@ public partial class LibraryView : ContentView
         string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
 
         string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
-        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result)
-        {
-            Segments = []
-        };
+        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result);
 
         if (CacheState.LocalPlaylists is not null)
         {
@@ -107,10 +104,7 @@ public partial class LibraryView : ContentView
         string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
 
         string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
-        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result)
-        {
-            Segments = []
-        };
+        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result);
 
         if (CacheState.CloudPlaylists is not null)
         {
@@ -181,14 +175,9 @@ public partial class LibraryView : ContentView
                     creationDate = DateTime.ParseExact(headerMatches[0].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                     modifiedDate = DateTime.ParseExact(headerMatches[1].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                     string user = headerMatches[2].Groups[1].Value;
-                    int count = Convert.ToInt32(headerMatches[3].Groups[1].Value);
-                    TimeSpan length = TimeSpan.Parse(headerMatches[4].Groups[1].Value);
                 }
 
-                Playlist playlist = new(creationDate: creationDate, lastModifiedDate: modifiedDate, name: Path.GetFileNameWithoutExtension(fileName), path: file, count: lines - containsHeader)
-                {
-                    Segments = []
-                };
+                Playlist playlist = new(creationDate: creationDate, lastModifiedDate: modifiedDate, name: Path.GetFileNameWithoutExtension(fileName), path: file);
 
                 // Convert text to songParts.
                 var pattern = @"\{(.*?)\}";
@@ -250,13 +239,12 @@ public partial class LibraryView : ContentView
         var results = await _playlistRepository.GetCloudPlaylists();
         foreach (var playlistDto in results)
         {
-            Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name, count: playlistDto.Count)
+            Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name)
             {
                 Id = playlistDto.Id,
                 IsCloudPlaylist = true,
                 IsPublic = playlistDto.IsPublic,
                 Owner = AppState.Username,
-                Segments = []
             };
 
             try
@@ -307,12 +295,11 @@ public partial class LibraryView : ContentView
         {
             DebugService.Instance.Debug($"{playlistDto.CreationDate} | {playlistDto.LastModifiedDate}");
 
-            Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name, count: playlistDto.Count)
+            Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name)
             {
                 Id = playlistDto.Id,
                 IsCloudPlaylist = true,
                 IsPublic = true,
-                Segments = []
             };
 
             try

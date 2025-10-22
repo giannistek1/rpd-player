@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using RpdPlayerApp.Enums;
+using RpdPlayerApp.Services;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
@@ -40,7 +41,7 @@ internal partial class Playlist : ObservableObject
     public TimeSpan Length => TimeSpan.FromSeconds(Segments.Sum(t => t.ClipLength));
     public int LengthInSeconds => (int)Segments.Sum(t => t.ClipLength);
 
-    public Playlist(DateTime creationDate, DateTime lastModifiedDate, string name = "", string path = "", int count = 0)
+    public Playlist(DateTime creationDate, DateTime lastModifiedDate, string name = "", string path = "")
     {
         CreationDate = creationDate;
         LastModifiedDate = lastModifiedDate;
@@ -48,6 +49,7 @@ internal partial class Playlist : ObservableObject
         LocalPath = path;
 
         // Because the computed properties don't know when SongParts has changes, need to subscribe to changes and get notified.
+        // Optionally we can put this in the Set of the property. But that makes it more complex.
         Segments.CollectionChanged += SongPartsCollectionChanged;
     }
 
