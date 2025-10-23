@@ -83,7 +83,8 @@ internal class PlaylistRepository
 
         var response = await SupabaseService.Client
              .From<PlaylistDto>()
-             .Where(x => x.Owner == AppState.Username || x.DeviceId == AppState.DeviceId)
+             .Where(p => p.Owner == AppState.Username || p.DeviceId == AppState.DeviceId)
+             .Where(p => p.IsActive == true)
              .Get();
 
         return response.Models;
@@ -105,10 +106,27 @@ internal class PlaylistRepository
 
         var response = await SupabaseService.Client
             .From<PlaylistDto>()
-            .Where(x => x.IsActive == true)
+            .Where(x => x.IsActive == true) // Needs comparison "== true"
             .Where(x => x.IsPublic == true)
             .Get();
 
         return response.Models;
+    }
+
+    /// <summary> Don't actually delete playlist, but set active to false. </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    internal async Task<bool> DeleteCloudPlaylist(long id)
+    {
+        if (Constants.APIKEY.IsNullOrWhiteSpace()) { General.ShowToast("APIKEY is missing."); return false; }
+
+        await SupabaseService.Client
+              .From<PlaylistDto>()
+              .Where(x => x.Id == id)
+              .Set(x => x.IsActive, false)
+              .Update();
+
+        DebugService.Instance.Info($"Deleted cloud playlistId: {id}");
+        return true;
     }
 }

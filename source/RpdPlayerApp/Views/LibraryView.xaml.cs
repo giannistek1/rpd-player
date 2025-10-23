@@ -5,6 +5,7 @@ using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -25,6 +26,8 @@ public partial class LibraryView : ContentView
         InitializeComponent();
         Loaded += OnLoad;
         InitializePlaylistModeSegmentedControl();
+
+        PullToRefresh.Refreshing += PullToRefreshRefreshing;
     }
 
     private void OnLoad(object? sender, EventArgs e)
@@ -48,14 +51,17 @@ public partial class LibraryView : ContentView
         else { PlaylistsManager.PlaylistMode = PlaylistModeValue.Public; LoadPublicPlaylists(); }
     }
 
-    internal void RefreshPlaylistsButtonClicked(object? sender, EventArgs e)
+    internal async void RefreshPlaylistsButtonClicked(object? sender, EventArgs e)
     {
+        // Refresh cache
         CacheState.LocalPlaylists = null;
         CacheState.CloudPlaylists = null;
         CacheState.PublicPlaylists = null;
 
-        LoadPlaylists();
+        await LoadPlaylists();
     }
+
+    internal void FocusNewPlaylistEntry() => PlaylistNameEntry.Focus();
 
     internal async void NewPlaylistButtonClicked(object? sender, EventArgs e)
     {
@@ -100,16 +106,20 @@ public partial class LibraryView : ContentView
 
     private async Task CreateCloudPlaylist()
     {
-        // HDR: Creation date | Modified date | Owner | Count | Length | Countdown mode
-        string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
-
-        string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
-        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result);
-
-        if (CacheState.CloudPlaylists is not null)
+        if (CacheState.CloudPlaylists is null)
         {
-            CacheState.CloudPlaylists.Add(playlist);
+            CacheState.CloudPlaylists = [];
         }
+
+        if (CacheState.CloudPlaylists.Any(p => p.Name.Equals(PlaylistNameEntry.Text, StringComparison.OrdinalIgnoreCase)))
+        {
+            General.ShowToast("Already exists! Please choose different name.");
+            return;
+        }
+
+        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: string.Empty);
+
+        CacheState.CloudPlaylists.Add(playlist);
 
         await _playlistRepository.SaveCloudPlaylist(id: playlist.Id,
                                             creationDate: playlist.CreationDate,
@@ -130,8 +140,6 @@ public partial class LibraryView : ContentView
         else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud) { await LoadCloudPlaylists(); }
         else { LoadPublicPlaylists(); } // Public
     }
-
-    internal void FocusNewPlaylistEntry() => PlaylistNameEntry.Focus();
 
     // Code goes here at start because of SegmentedControlSelectionChanged
     internal void LoadLocalPlaylists(bool isDirty = false)
@@ -224,6 +232,18 @@ public partial class LibraryView : ContentView
 
         CacheState.LocalPlaylists = playlists.ToObservableCollection();
         PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
+    }
+
+    private async void PullToRefreshRefreshing(object? sender, EventArgs e)
+    {
+        PullToRefresh.IsRefreshing = true;
+
+        CacheState.LocalPlaylists = null;
+        CacheState.CloudPlaylists = null;
+        CacheState.PublicPlaylists = null;
+        await LoadPlaylists();
+
+        PullToRefresh.IsRefreshing = false;
     }
 
     internal async Task LoadCloudPlaylists()
@@ -369,6 +389,7 @@ public partial class LibraryView : ContentView
         PlayPlaylist?.Invoke(sender, e);
     }
 
+    // TODO: Remove?
     private void SwipeItemRemoveSongPart(object sender, EventArgs e)
     {
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
@@ -383,23 +404,44 @@ public partial class LibraryView : ContentView
         if (e.Direction == SwipeDirection.Right && e.Offset > 30)
         {
             Playlist playlist = (Playlist)e.DataItem;
-
-            bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Delete {playlist.Name}?", "Yes", "No");
-            if (accept)
+            try
             {
+                await DeletePlaylist(playlist);
+            }
+            catch (Exception ex)
+            {
+                DebugService.Instance.Error(ex.Message);
+                General.ShowToast(ex.Message);
+            }
+        }
+    }
+
+    private async Task DeletePlaylist(Playlist playlist)
+    {
+        bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Delete {playlist.Name}?", "Yes", "No");
+        if (accept)
+        {
+            if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local)
+            {
+                CacheState.LocalPlaylists?.Remove(playlist);
                 File.Delete(playlist.LocalPath);
-                if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local)
+            }
+            else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud)
+            {
+                CacheState.CloudPlaylists?.Remove(playlist);
+                if (await _playlistRepository.DeleteCloudPlaylist(playlist.Id))
                 {
-                    CacheState.LocalPlaylists?.Remove(playlist);
+                    General.ShowToast("Playlist deleted from cloud.");
                 }
-                else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud)
+                else
                 {
-                    CacheState.CloudPlaylists?.Remove(playlist);
+                    General.ShowToast("Failed to delete playlist.");
                 }
-                else // Public
-                {
-                    CacheState.PublicPlaylists?.Remove(playlist);
-                }
+            }
+            else // Public
+            {
+                General.ShowToast("Can't delete public playlist.");
+                //CacheState.PublicPlaylists?.Remove(playlist);
             }
         }
     }

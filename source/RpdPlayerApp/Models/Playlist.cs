@@ -8,7 +8,8 @@ namespace RpdPlayerApp.Models;
 
 internal partial class Playlist : ObservableObject
 {
-    public long Id { get; set; } = -1L;
+    /// <summary> Only for cloud updating/deleting. </summary>
+    public long Id { get; set; }
 
     [ObservableProperty]
     private string _name = string.Empty;

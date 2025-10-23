@@ -2,6 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:pulltoRefresh="clr-namespace:Syncfusion.Maui.PullToRefresh;assembly=Syncfusion.Maui.PullToRefresh"
              xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
@@ -42,75 +43,90 @@
         </Border>
 
         <!-- Playlists -->
-        <syncfusion:SfListView Grid.Row="2" x:Name="PlaylistsListView" SelectionMode="None" BackgroundColor="{DynamicResource BackgroundColor}" EmptyView="No playlists yet. Create a playlist!" AutoFitMode="Height"
-                               AllowSwiping="True" ItemTapped="PlaylistsListViewItemTapped" SwipeEnded="PlaylistsListViewSwipeEnded" >
-            
-            <syncfusion:SfListView.StartSwipeTemplate>
-                <DataTemplate>
+        <pulltoRefresh:SfPullToRefresh Grid.Row="2" x:Name="PullToRefresh"
+                                            RefreshViewHeight="26"
+                                            RefreshViewWidth="26"
+                                            RefreshViewThreshold="30"
+                                            PullingThreshold="50"
+                                            TransitionMode="SlideOnTop"
+                                            ProgressColor="{DynamicResource Primary}"
+                                            BackgroundColor="{DynamicResource BackgroundColor}">
+            <pulltoRefresh:SfPullToRefresh.PullableContent>
 
-                    <Grid BackgroundColor="Red">
-                        <Label VerticalOptions="CenterAndExpand" WidthRequest="80" Text="Remove" BackgroundColor="Red" />
-                    </Grid>
-                    
-                </DataTemplate>
-            </syncfusion:SfListView.StartSwipeTemplate>
-            
-            <syncfusion:SfListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        
-                        <Grid ColumnDefinitions="50, *" Padding="10">
+                <syncfusion:SfListView x:Name="PlaylistsListView" SelectionMode="None" BackgroundColor="{DynamicResource BackgroundColor}" EmptyView="No playlists yet. Create a playlist!" AutoFitMode="Height"
+                                AllowSwiping="True" ItemTapped="PlaylistsListViewItemTapped" SwipeEnded="PlaylistsListViewSwipeEnded" >
 
-                            <!-- Image -->
-                            <Border x:Name="PlaylistImageBorder" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center" Margin="0,0,16,0">
+                    <syncfusion:SfListView.StartSwipeTemplate>
+                        <DataTemplate>
 
-                                <Image x:Name="PlaylistImage" HeightRequest="40">
-                                    <Image.Source>
-                                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Image}" Color="{DynamicResource SecondaryIconColor}" />
-                                    </Image.Source>
-                                </Image>
-
-                            </Border>
-                            
-                            <Grid Grid.Column="1" RowDefinitions="auto, auto" VerticalOptions="Center">
-                                
-                                <Label Text="{Binding Name, StringFormat='{0}'}" VerticalOptions="Start"/>
-                                
-                                <Grid Grid.Row="1" ColumnDefinitions="auto,1* ,auto,2*, auto,2*">
-                                    
-                                    <Image HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
-                                        <Image.Source>
-                                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
-                                        </Image.Source>
-                                    </Image>
-
-                                    <Label Grid.Column="1" Text="{Binding Count, StringFormat='{0}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12" />
-
-                                    <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
-                                        <Image.Source>
-                                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Nest_clock_farsight_analog}" Color="{DynamicResource SecondaryIconColor}" />
-                                        </Image.Source>
-                                    </Image>
-
-                                    <Label Grid.Column="3" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12"/>
-
-                                    <Image Grid.Column="4" HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
-                                        <Image.Source>
-                                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Calendar_add_on}" Color="{DynamicResource SecondaryIconColor}" />
-                                        </Image.Source>
-                                    </Image>
-                                    
-                                    <Label Grid.Column="5" Text="{Binding CreationDate, StringFormat='{0:dd\\-MM\\-yy}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12" />
-                                
-                                </Grid>
-                                
+                            <Grid BackgroundColor="Red">
+                                <Label VerticalOptions="CenterAndExpand" WidthRequest="80" Text="Delete" BackgroundColor="Red" />
                             </Grid>
-                            
-                        </Grid>
+
+                        </DataTemplate>
+                    </syncfusion:SfListView.StartSwipeTemplate>
+
+                    <syncfusion:SfListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+
+                                <Grid ColumnDefinitions="50, *" Padding="10">
+
+                                    <!-- Image -->
+                                    <Border x:Name="PlaylistImageBorder" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center" Margin="0,0,16,0">
+
+                                        <Image x:Name="PlaylistImage" HeightRequest="40">
+                                            <Image.Source>
+                                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Image}" Color="{DynamicResource SecondaryIconColor}" />
+                                            </Image.Source>
+                                        </Image>
+
+                                    </Border>
+
+                                    <Grid Grid.Column="1" RowDefinitions="auto, auto" VerticalOptions="Center">
+
+                                        <Label Text="{Binding Name, StringFormat='{0}'}" VerticalOptions="Start"/>
+
+                                        <Grid Grid.Row="1" ColumnDefinitions="auto,1* ,auto,2*, auto,2*">
+
+                                            <Image HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
+                                                <Image.Source>
+                                                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                                                </Image.Source>
+                                            </Image>
+
+                                            <Label Grid.Column="1" Text="{Binding Count, StringFormat='{0}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12" />
+
+                                            <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
+                                                <Image.Source>
+                                                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Nest_clock_farsight_analog}" Color="{DynamicResource SecondaryIconColor}" />
+                                                </Image.Source>
+                                            </Image>
+
+                                            <Label Grid.Column="3" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12"/>
+
+                                            <Image Grid.Column="4" HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
+                                                <Image.Source>
+                                                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Calendar_add_on}" Color="{DynamicResource SecondaryIconColor}" />
+                                                </Image.Source>
+                                            </Image>
+
+                                            <Label Grid.Column="5" Text="{Binding CreationDate, StringFormat='{0:dd\\-MM\\-yy}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12" />
+
+                                        </Grid>
+
+                                    </Grid>
+
+                                </Grid>
+
+                            </ViewCell>
+                        </DataTemplate>
+                    </syncfusion:SfListView.ItemTemplate>
                         
-                    </ViewCell>
-                </DataTemplate>
-            </syncfusion:SfListView.ItemTemplate>
-        </syncfusion:SfListView>
+                </syncfusion:SfListView>
+                    
+            </pulltoRefresh:SfPullToRefresh.PullableContent>
+        </pulltoRefresh:SfPullToRefresh>
+        
     </Grid>
 </ContentView>
