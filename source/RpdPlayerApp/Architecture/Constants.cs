@@ -38,6 +38,12 @@ internal static class Constants
     internal static readonly DateTime fifthGenStartDate = new(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
     internal const string GenreKpop = "KR";
+    internal const string GenreKrnB = "krnb";
+    internal const string GenreCpop = "CH";
+    internal const string GenreJpop = "JP";
+    internal const string GenreTpop = "TH";
+    internal const string GenrePop = "EN";
+    internal const string GenreNlPop = "NL";
     internal const string NOT_KPOP = "NOT KPOP";
     internal const string FIRST_GENERATION = "First generation";
     internal const string SECOND_GENERATION = "Second generation";

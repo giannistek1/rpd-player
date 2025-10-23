@@ -243,29 +243,29 @@ public partial class CategoriesView : ContentView
                 description: "Japanese pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-jp.webp?raw=true",
                 searchFilterMode: SearchFilterModeValue.Jpop,
-                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "JP"),
-                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "JP").DistinctBy(s => new { s.ArtistName }).Count()),
+                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == Constants.GenreJpop),
+                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == Constants.GenreJpop).DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "English pop",
                 description: "English pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-us.webp?raw=true",
                 searchFilterMode: SearchFilterModeValue.EN,
-                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "EN"),
-                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "EN").DistinctBy(s => new { s.ArtistName }).Count()),
+                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == Constants.GenrePop),
+                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == Constants.GenrePop).DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "C-pop",
                 description: "Chinese pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-ch.png?raw=true",
                 searchFilterMode: SearchFilterModeValue.Cpop,
-                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "CH"),
-                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "CH").DistinctBy(s => new { s.ArtistName }).Count()),
+                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == Constants.GenreCpop),
+                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == Constants.GenreCpop).DistinctBy(s => new { s.ArtistName }).Count()),
 
             new(title: "T-pop",
                 description: "Thai pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-th.webp?raw=true",
                 searchFilterMode: SearchFilterModeValue.Tpop,
-                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == "TH"),
-                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == "TH").DistinctBy(s => new { s.ArtistName }).Count())
+                songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == Constants.GenreTpop),
+                artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == Constants.GenreTpop).DistinctBy(s => new { s.ArtistName }).Count())
         };
 
         KpopYearsListView.ItemsSource = new List<HomeListViewItem>() {

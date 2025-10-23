@@ -450,13 +450,13 @@ public partial class SearchSongPartsView : ContentView
                 case SearchFilterModeValue.Kpop:
                     songParts = allSongParts!.Where(s => s.Album?.GenreShort == Constants.GenreKpop).ToObservableCollection(); break;
                 case SearchFilterModeValue.Jpop:
-                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == "JP").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == Constants.GenreJpop).ToObservableCollection(); break;
                 case SearchFilterModeValue.EN:
-                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == "EN").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == Constants.GenrePop).ToObservableCollection(); break;
                 case SearchFilterModeValue.Cpop:
-                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == "CH").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == Constants.GenreCpop).ToObservableCollection(); break;
                 case SearchFilterModeValue.Tpop:
-                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == "TH").ToObservableCollection(); break;
+                    songParts = allSongParts!.Where(s => s.Album?.GenreShort == Constants.GenreTpop).ToObservableCollection(); break;
 
                 case SearchFilterModeValue.Solo:
                     songParts = allSongParts!.Where(s => s.Artist?.MemberCount == 1).ToObservableCollection(); break;

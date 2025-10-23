@@ -57,12 +57,12 @@ internal partial class Album : ObservableObject
         return GenreShort switch
         {
             Constants.GenreKpop => "K-pop",
-            "krnb" => "K-RnB",
-            "JP" => "J-pop",
-            "CH" => "C-pop",
-            "EN" => "Pop",
-            "TH" => "T-pop",
-            "NL" => "NL-pop",
+            Constants.GenreKrnB => "K-RnB",
+            Constants.GenreJpop => "J-pop",
+            Constants.GenreCpop => "C-pop",
+            Constants.GenrePop => "Pop",
+            Constants.GenreTpop => "T-pop",
+            Constants.GenreNlPop => "NL-pop",
 
             _ => "Unknown genre"
         };
