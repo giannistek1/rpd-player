@@ -60,6 +60,8 @@ public partial class HomeView : ContentView
             HandleAutoStartRpd();
 
             ChipGroupSelectionChanged(null, null);
+
+            IsOnlineImage.IsVisible = General.HasInternetConnection() && !Constants.APIKEY.IsNullOrWhiteSpace() && !Constants.BASE_URL.IsNullOrWhiteSpace();
         }
         catch (Exception ex)
         {
