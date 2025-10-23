@@ -9,7 +9,7 @@ public class PlaylistDto : BaseModel
     [PrimaryKey("id")]
     public long Id { get; set; }
 
-    [Column("title")] // TODO: change to name.
+    [Column("name")]
     public string Name { get; set; } = string.Empty;
 
     [Column("creation_date")]

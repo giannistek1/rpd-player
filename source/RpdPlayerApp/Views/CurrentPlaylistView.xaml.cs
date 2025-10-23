@@ -42,7 +42,7 @@ public partial class CurrentPlaylistView : ContentView
             CacheState.CloudPlaylists = null;
             await _playlistRepository.SaveCloudPlaylist(id: playlist.Id,
                                                         creationDate: playlist.CreationDate,
-                                                        name: playlist.Name,
+                                                        name: PlaylistNameEntry.Text,
                                                         playlist.LengthInSeconds,
                                                         playlist.Count,
                                                         playlist.Segments.ToList(),
