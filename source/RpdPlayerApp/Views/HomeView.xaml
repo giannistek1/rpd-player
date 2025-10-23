@@ -13,7 +13,7 @@
         <Grid Padding="0" RowDefinitions="20, auto, auto, *, auto, auto" ColumnDefinitions="*">
 
             <!-- New stats -->
-            <Grid Grid.Row="0" ColumnDefinitions="1*, 3*, 1*">
+            <Grid Grid.Row="0" ColumnDefinitions="1*, auto, 1*">
 
             <Label Grid.Column="0" Padding="8,2,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" Style="{StaticResource Sideinfo}" Text="Version xx"/>
 
