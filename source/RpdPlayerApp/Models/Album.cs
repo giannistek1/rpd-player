@@ -1,32 +1,45 @@
-﻿using Newtonsoft.Json;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
 
 namespace RpdPlayerApp.Models;
 
-internal class Album
+internal partial class Album : ObservableObject
 {
     public int Id { get; set; }
-    public string ArtistName { get; set; }
-    public string Title { get; set; }
-    public DateTime ReleaseDate { get; set; }
+
+    [ObservableProperty]
+    private string _artistName;
+
+    [ObservableProperty]
+    private string _title;
+
+    [ObservableProperty]
+    private DateTime _releaseDate;
 
     // TODO: Change KR, CH, TH, EN etc to Genre
     /// <summary> KR, CH, TH, EN, krnb etc... No enum because there is short name and long name. </summary>
-    public string GenreShort { get; set; }
+    [ObservableProperty]
+    private string _genreShort;
 
     /// <summary> K-pop, J-pop, C-pop, T-pop, Pop, K-RnB etc... </summary>
-    public string GenreFull { get; set; }
+    [ObservableProperty]
+    private string _genreFull;
 
-    public string ImageURL { get; set; }
-
-    [JsonIgnore]
-    public bool ShowAlbumTitle { get; set; } = false;
-
-    [JsonIgnore]
-    public bool ShowAlbumReleaseDate { get; set; } = false;
+    [ObservableProperty]
+    private string _imageURL;
 
     [JsonIgnore]
-    public bool ShowGenreShort { get; set; } = false;
+    [ObservableProperty]
+    private bool _showAlbumTitle = false;
+
+    [JsonIgnore]
+    [ObservableProperty]
+    private bool _showAlbumReleaseDate = false;
+
+    [JsonIgnore]
+    [ObservableProperty]
+    private bool _showGenreShort = false;
 
     public Album(int id = -1, string artistName = "", DateTime releaseDate = new(), string title = "", string genreShort = "", string imageURL = "")
     {

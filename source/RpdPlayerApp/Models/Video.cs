@@ -1,17 +1,26 @@
-﻿namespace RpdPlayerApp.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-internal class Video
+namespace RpdPlayerApp.Models;
+
+internal partial class Video : ObservableObject
 {
     public int Id { get; set; }
 
-    public string Title { get; set; }
-    public string ArtistName { get; set; }
+    [ObservableProperty]
+    public string _title;
+
+    [ObservableProperty]
+    public string _artistName;
 
     /// <summary> PartNameShort (P, C, D, DB, O, T, etc) </summary>
-    public string PartNameShort { get; set; }
+    [ObservableProperty]
+    public string _partNameShort;
 
-    public string PartNameNumber { get; set; }
-    public string AlbumTitle { get; set; }
+    [ObservableProperty]
+    public string _partNameNumber;
+
+    [ObservableProperty]
+    public string _albumTitle;
 
     public Video(int id, string artistName, string albumTitle, string title, string partNameShort, string partNameNumber)
     {

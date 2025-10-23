@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
 
 namespace RpdPlayerApp.Models;
@@ -11,40 +12,66 @@ public enum GroupType
     NOT_SET = 3
 }
 
-internal class Artist
+internal partial class Artist : ObservableObject
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string AltName { get; set; }
-    public DateTime DebutDate { get; set; }
-    public GroupType GroupType { get; set; }
+
+    [ObservableProperty]
+    private string _name;
+
+    [ObservableProperty]
+    private string _altName;
+
+    [ObservableProperty]
+    private DateTime _debutDate;
+
+    [ObservableProperty]
+    private GroupType _groupType;
 
     [JsonIgnore]
-    public bool ShowGroupTypeColor { get; set; } = false;
+    [ObservableProperty]
+    private bool _showGroupTypeColor = false;
 
-    public string GroupTypeColor { get; set; }
-    public int MemberCount { get; set; }
-    public string Company { get; set; }
-    public string Generation { get; set; } = Constants.NOT_KPOP;
-    public GenType Gen { get; set; }
+    [ObservableProperty]
+    private string _groupTypeColor;
+
+    [ObservableProperty]
+    private int _memberCount;
+
+    [ObservableProperty]
+    private string _company;
+
+    [ObservableProperty]
+    private string _generation = Constants.NOT_KPOP;
+
+    [ObservableProperty]
+    private GenType _gen;
 
     /// <summary> Gets set in SongPart.cs once an album is Korean. </summary>
-    public bool IsKpopArtist { get; set; } = false;
+    [ObservableProperty]
+    private bool _isKpopArtist = false;
 
     /// <summary> Example: "https://github.com/giannistek1/rpd-artists/blob/main/%5BAOA%5D%5BAce of Angels%5D%5B2012-07-30%5D%5BGG%5D%5B8%5D%5BFNC Entertainment%5D.jpg?raw=true" </summary>
-    public string ImageUrl { get; set; }
+    [ObservableProperty]
+    private string _imageUrl;
 
     [JsonIgnore]
-    public bool ShowGroupType { get; set; } = false;
+    [ObservableProperty]
+    private bool _showGroupType = false;
 
     [JsonIgnore]
-    public bool ShowMemberCount { get; set; } = false;
+    [ObservableProperty]
+    private bool _showMemberCount = false;
 
     [JsonIgnore]
-    public bool ShowCompany { get; set; } = false;
+    [ObservableProperty]
+    private bool _showCompany = false;
 
-    public int SongPartCount { get; set; } = 0;
-    public int FilteredTotalCount { get; set; } = 0;
+    [ObservableProperty]
+    private int _songPartCount = 0;
+
+    [ObservableProperty]
+    private int _filteredTotalCount = 0;
 
     public Artist(DateTime debutDate, int id = -1, string name = "", string altName = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
     {
