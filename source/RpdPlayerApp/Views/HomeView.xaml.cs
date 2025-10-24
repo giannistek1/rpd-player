@@ -503,7 +503,7 @@ public partial class HomeView : ContentView
         DurationChipGroup!.Items!.Clear();
         if (RpdSettings.UsingGeneratePlaylist)
         {
-            AddChipsToDurationChipGroup(["2.5", "2", "1.5", "1", "0.5", "Other"]);
+            AddChipsToDurationChipGroup(["2.5", "2", "1.5", "1", "0.5"]); // TODO: Other, needs to match with SetDuration method.
         }
         else
         {
@@ -526,11 +526,36 @@ public partial class HomeView : ContentView
         else { StartRpdButtonClicked(sender, e); }
     }
 
-    private void GeneratePlaylistButtonClicked() => General.ShowToast("Not implemented yet!");
+    private void GeneratePlaylistButtonClicked()
+    {
+        if (!General.HasInternetConnection()) { return; }
+
+        SetDuration();
+        SetTimerMode();
+
+        RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
+        RpdSettings?.DetermineGenres(GenresChipGroup);
+        RpdSettings?.DetermineGens(GenerationsChipGroup);
+        RpdSettings?.DetermineCompanies(CompaniesChipGroup);
+        RpdSettings?.DetermineYears(YearsChipGroup);
+        RpdSettings?.NumberedPartsBlacklist.Clear();
+        RpdSettings?.PartsBlacklist.Clear();
+        ApplyAntiOptions();
+
+        var songParts = FilterSongParts();
+        if (songParts.Count <= 0)
+        {
+            General.ShowToast("No songs found! Please change your settings.");
+            return;
+        }
+
+        //AppState.SongParts = songParts;
+        PlaylistsManager.GeneratePlaylistFromSongParts(songParts, (int)RpdSettings.Duration.TotalMinutes);
+    }
 
     private void StartRpdButtonClicked(object? sender, EventArgs e)
     {
-        if (!General.HasInternetConnection()) return;
+        if (!General.HasInternetConnection()) { return; }
 
         SetTimerMode();
 
@@ -554,6 +579,28 @@ public partial class HomeView : ContentView
 
         AppState.SongParts = songParts;
         PlayRandomSong(songParts);
+    }
+
+    private void SetDuration()
+    {
+        TimeSpan[] durations =
+        {
+            TimeSpan.FromHours(2.5),
+            TimeSpan.FromHours(2),
+            TimeSpan.FromHours(1.5),
+            TimeSpan.FromHours(1),
+            TimeSpan.FromHours(0.5)
+        };
+
+        for (int i = 0; i < DurationChipGroup.Items!.Count; i++)
+        {
+            if (DurationChipGroup.Items[i].IsSelected)
+            {
+                if (i < durations.Length)
+                    RpdSettings!.Duration = durations[i];
+                break;
+            }
+        }
     }
 
     private void SetTimerMode()
@@ -622,7 +669,7 @@ public partial class HomeView : ContentView
     }
 
     private readonly string[] antiOptionsList = ["Last chorus", "Dance breaks", "Tiktoks"];
-    private void SaveTemplateImageButton_Clicked(object sender, EventArgs e)
+    private void SaveTemplateImageButtonClicked(object sender, EventArgs e)
     {
         // Timer
         for (int i = 0; i < TimerChipGroup.Items!.Count; i++)

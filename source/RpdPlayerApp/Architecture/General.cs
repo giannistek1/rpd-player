@@ -24,6 +24,20 @@ internal static class General
 
     internal static void ShowToast(string message) => Toast.Make(message, CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
 
+    internal static string GenerateRandomName()
+    {
+        string[] adjectives = { "Golden", "Electric", "Silent", "Crimson", "Rapid", "Midnight", "Wild", "Neon", "Shadow", "Frozen" };
+        string[] nouns = { "Tiger", "Falcon", "Dream", "Storm", "Echo", "River", "Flame", "Rider", "Pulse", "Drift" };
+
+        var rng = Rng;
+
+        string adjective = adjectives[rng.Next(adjectives.Length)];
+        string noun = nouns[rng.Next(nouns.Length)];
+        int number = rng.Next(10, 100); // random two-digit number (10–99)
+
+        return $"{adjective}{noun}{number}";
+    }
+
     internal static string ReadTextFile(string filePath)
     {
         try

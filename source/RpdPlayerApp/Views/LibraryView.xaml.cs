@@ -94,8 +94,8 @@ public partial class LibraryView : ContentView
         // HDR: Creation date | Modified date | Owner | Count | Length | Countdown mode
         string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
 
-        string result = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
-        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: result);
+        string path = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
+        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: path);
 
         if (CacheState.LocalPlaylists is not null)
         {
@@ -423,11 +423,15 @@ public partial class LibraryView : ContentView
         {
             if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local)
             {
+                DebugService.Instance.Debug("Trying to delete playlist locally...");
+
                 CacheState.LocalPlaylists?.Remove(playlist);
                 File.Delete(playlist.LocalPath);
             }
             else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud)
             {
+                DebugService.Instance.Debug("Trying to delete playlist from cloud...");
+
                 CacheState.CloudPlaylists?.Remove(playlist);
                 if (await _playlistRepository.DeleteCloudPlaylist(playlist.Id))
                 {
@@ -441,7 +445,6 @@ public partial class LibraryView : ContentView
             else // Public
             {
                 General.ShowToast("Can't delete public playlist.");
-                //CacheState.PublicPlaylists?.Remove(playlist);
             }
         }
     }

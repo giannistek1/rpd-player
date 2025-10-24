@@ -20,16 +20,22 @@ internal partial class SongPart : ObservableObject
 
     public Artist Artist { get; set; }
 
-    /// <summary> PartNameShort (P, C, D, DB, O, T, etc) </summary>
+    /// <summary> e.g. P, C, D, DB, O, T, etc </summary>
     [ObservableProperty]
     private string _partNameShort;
 
+    /// <summary> e.g. P1, C2, etc </summary>
     [ObservableProperty]
     private string _partNameShortWithNumber;
+
+    /// <summary> e.g. 1, 2, 3, etc </summary>
     [ObservableProperty]
     private string _partNameNumber;
+
+    /// <summary> e.g. Pre-chorus 1, Chorus 2, etc </summary>
     [ObservableProperty]
     private string _partNameFull;
+
     [ObservableProperty]
     private SongSegmentOrderValue _partClassification;
 
@@ -55,6 +61,7 @@ internal partial class SongPart : ObservableObject
     [ObservableProperty]
     private bool _showClipLength = false;
 
+    /// <summary> Cliplength in seconds. </summary>
     [ObservableProperty]
     private double _clipLength;
 

@@ -336,7 +336,7 @@
             <Border Grid.Column="2" x:Name="SaveTemplateButtonBorder" HeightRequest="40"  WidthRequest="40" StrokeShape="RoundRectangle 8" 
                         Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                <ImageButton x:Name="SaveTemplateImageButton" HeightRequest="40" Clicked="SaveTemplateImageButton_Clicked" Padding="4">
+                <ImageButton x:Name="SaveTemplateImageButton" HeightRequest="40" Clicked="SaveTemplateImageButtonClicked" Padding="4">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Save}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
