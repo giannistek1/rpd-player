@@ -5,7 +5,6 @@ using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -18,8 +17,6 @@ public partial class LibraryView : ContentView
     public event EventHandler? PlayPlaylist;
 
     public event EventHandler? ShowPlaylist;
-
-    PlaylistRepository _playlistRepository = new();
 
     public LibraryView()
     {
@@ -42,13 +39,25 @@ public partial class LibraryView : ContentView
         PlaylistModeSegmentedControl.SelectionChanged += PlaylistModeSegmentedControlSelectionChanged;
     }
 
-    private void PlaylistModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
+    private async void PlaylistModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
         PlaylistsListView.ItemsSource = null;
 
-        if (e.NewIndex == 0) { PlaylistsManager.PlaylistMode = PlaylistModeValue.Local; LoadLocalPlaylists(); }
-        else if (e.NewIndex == 1) { PlaylistsManager.PlaylistMode = PlaylistModeValue.Cloud; LoadCloudPlaylists(); }
-        else { PlaylistsManager.PlaylistMode = PlaylistModeValue.Public; LoadPublicPlaylists(); }
+        if (e.NewIndex == 0)
+        {
+            PlaylistsManager.PlaylistMode = PlaylistModeValue.Local;
+            LoadLocalPlaylists();
+        }
+        else if (e.NewIndex == 1)
+        {
+            PlaylistsManager.PlaylistMode = PlaylistModeValue.Cloud;
+            await LoadCloudPlaylists();
+        }
+        else
+        {
+            PlaylistsManager.PlaylistMode = PlaylistModeValue.Public;
+            LoadPublicPlaylists();
+        }
     }
 
     internal async void RefreshPlaylistsButtonClicked(object? sender, EventArgs e)
@@ -121,7 +130,7 @@ public partial class LibraryView : ContentView
 
         CacheState.CloudPlaylists.Add(playlist);
 
-        await _playlistRepository.SaveCloudPlaylist(id: playlist.Id,
+        await PlaylistRepository.SaveCloudPlaylist(id: playlist.Id,
                                             creationDate: playlist.CreationDate,
                                             name: playlist.Name,
                                             playlist.LengthInSeconds,
@@ -256,7 +265,7 @@ public partial class LibraryView : ContentView
 
         List<Playlist> playlists = [];
 
-        var results = await _playlistRepository.GetCloudPlaylists();
+        var results = await PlaylistRepository.GetCloudPlaylists();
         foreach (var playlistDto in results)
         {
             Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name)
@@ -310,7 +319,7 @@ public partial class LibraryView : ContentView
 
         List<Playlist> playlists = [];
 
-        var results = await _playlistRepository.GetAllPublicPlaylists();
+        var results = await PlaylistRepository.GetAllPublicPlaylists();
         foreach (var playlistDto in results)
         {
             DebugService.Instance.Debug($"{playlistDto.CreationDate} | {playlistDto.LastModifiedDate}");
@@ -433,7 +442,7 @@ public partial class LibraryView : ContentView
                 DebugService.Instance.Debug("Trying to delete playlist from cloud...");
 
                 CacheState.CloudPlaylists?.Remove(playlist);
-                if (await _playlistRepository.DeleteCloudPlaylist(playlist.Id))
+                if (await PlaylistRepository.DeleteCloudPlaylist(playlist.Id))
                 {
                     General.ShowToast("Playlist deleted from cloud.");
                 }

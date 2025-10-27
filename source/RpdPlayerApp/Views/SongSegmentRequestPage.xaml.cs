@@ -94,9 +94,17 @@ public partial class SongSegmentRequestPage : ContentPage
 
                 FeedbackEditor.Text = string.Empty;
             }
+            else if (success == -1)  // TODO: Enum
+            {
+                General.ShowToast("Something went wrong. Try again later.");
+            }
             else if (success == -2)  // TODO: Enum
             {
                 General.ShowToast("Please wait a few seconds before submitting again.");
+            }
+            else if (success == -3) // TODO: Enum
+            {
+                General.ShowToast("API key is missing. Cannot submit feedback.");
             }
             else
             {

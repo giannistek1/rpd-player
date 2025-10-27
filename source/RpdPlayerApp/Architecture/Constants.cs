@@ -17,6 +17,8 @@ internal static class Constants
     internal const string PLAYLIST_ROUTE = "/rest/v1/playlist";
 
     internal const string DEFAULT_USERNAME = "Guest";
+    /// <summary> Favorites playlist name. </summary>
+    internal const string FAVORITES = "Favorites";
 
     /// <summary> 7 </summary>
     internal static readonly int SongPartPropertyAmount = 7;
@@ -30,7 +32,7 @@ internal static class Constants
     /// <summary> 5 </summary>
     internal static readonly int VideoPropertyAmount = 5;
 
-    internal static int HISTORY_LIMIT = 100;
+    internal static readonly int HISTORY_LIMIT = 100;
 
     internal static readonly DateTime secondGenStartDate = new(2002, 12, 31, 0, 0, 0, DateTimeKind.Utc);
     internal static readonly DateTime thirdGenStartDate = new(year: 2012, month: 2, day: 11, 0, 0, 0, DateTimeKind.Utc);

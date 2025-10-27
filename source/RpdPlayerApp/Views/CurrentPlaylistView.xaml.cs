@@ -15,8 +15,6 @@ public partial class CurrentPlaylistView : ContentView
 
     internal MainPage? ParentPage { get; set; }
 
-    PlaylistRepository _playlistRepository = new();
-
     public CurrentPlaylistView()
     {
         InitializeComponent();
@@ -40,7 +38,7 @@ public partial class CurrentPlaylistView : ContentView
         if (playlist!.IsCloudPlaylist && playlist.Owner.Equals(AppState.Username))
         {
             CacheState.CloudPlaylists = null;
-            await _playlistRepository.SaveCloudPlaylist(id: playlist.Id,
+            await PlaylistRepository.SaveCloudPlaylist(id: playlist.Id,
                                                         creationDate: playlist.CreationDate,
                                                         name: PlaylistNameEntry.Text,
                                                         playlist.LengthInSeconds,

@@ -1,37 +1,16 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.DTO;
 using RpdPlayerApp.Services;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
 
 namespace RpdPlayerApp.Repositories;
 
-internal class SongRequestRepository
+internal static class SongRequestRepository
 {
-    private HttpClient _httpClient;
-
-    // TODO: Integrate supabase client.
     private static DateTime _lastRequestTime = DateTime.MinValue;
-    private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(10); // Cooldown period
-
-    public SongRequestRepository() => Init();
-
-    internal void Init()
-    {
-        if (Constants.BASE_URL.IsNullOrWhiteSpace()) { return; }
-
-        _httpClient = new HttpClient
-        {
-            BaseAddress = new Uri(Constants.BASE_URL)
-        };
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Constants.APIKEY);
-        _httpClient.DefaultRequestHeaders.Add("apikey", Constants.APIKEY);
-        _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-    }
+    private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(5); // Cooldown period
 
     // TODO: Enums
-    public async Task<int> InsertSongRequestAsync(SongRequestDto request)
+    public static async Task<int> InsertSongRequestAsync(SongRequestDto request)
     {
         if (Constants.APIKEY.IsNullOrWhiteSpace()) { return -3; }
 
@@ -44,22 +23,14 @@ internal class SongRequestRepository
 
         _lastRequestTime = DateTime.UtcNow;
 
-        // The Supabase REST API expects JSON in the request body
-        string url = Constants.SONGREQUEST_ROUTE;
-        var json = JsonSerializer.Serialize(request);
-        using var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        var response = await _httpClient.PostAsync(url, content);
-
-        if (response.IsSuccessStatusCode)
+        try
         {
+            await SupabaseService.Client.From<SongRequestDto>().Insert(request);
             return 1;
         }
-        else
+        catch (Exception ex)
         {
-            string respText = await response.Content.ReadAsStringAsync();
-            // Log or handle error (status, body)
-            DebugService.Instance.Debug($"Supabase insert failed: {response.StatusCode} / {respText}");
+            DebugService.Instance.Error($"Supabase insert songrequest failed: {ex.Message}");
             return -1;
         }
     }

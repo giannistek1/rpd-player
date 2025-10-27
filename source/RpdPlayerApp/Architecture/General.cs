@@ -22,6 +22,13 @@ internal static class General
         return true;
     }
 
+    internal static void ShowAlert(string title, string message)
+    {
+        Shell.Current.DisplayAlert(title, message, "OK");
+        // Alternative:
+        //Application.Current.MainPage.DisplayAlert("Alert", "This is an alert message.", "OK");
+    }
+
     internal static void ShowToast(string message) => Toast.Make(message, CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
 
     internal static string GenerateRandomName()

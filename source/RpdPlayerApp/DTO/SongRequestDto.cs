@@ -1,27 +1,29 @@
-﻿using System.Text.Json.Serialization;
+﻿using Supabase.Postgrest.Attributes;
+using Supabase.Postgrest.Models;
 
 namespace RpdPlayerApp.DTO;
 
-internal class SongRequestDto
+[Table("song_request")]
+internal class SongRequestDto : BaseModel
 {
-    [JsonPropertyName("title")]
+    [Column("title")]
     public string Title { get; set; } = string.Empty;
 
-    [JsonPropertyName("artist")]
+    [Column("artist")]
     public string Artist { get; set; } = string.Empty;
 
-    [JsonPropertyName("part")]
+    [Column("part")]
     public string Part { get; set; } = string.Empty;
 
-    [JsonPropertyName("video_request")]
+    [Column("video_request")]
     public bool? WithDancePractice { get; set; }
 
-    [JsonPropertyName("requested_by")]
+    [Column("requested_by")]
     public string RequestedBy { get; set; } = string.Empty;
 
-    [JsonPropertyName("note")]
+    [Column("note")]
     public string Note { get; set; } = string.Empty;
 
-    [JsonPropertyName("device_id")]
+    [Column("device_id")]
     public string DeviceId { get; set; } = string.Empty;
 }

@@ -19,8 +19,6 @@ public partial class SongPartDetailBottomSheet
 
     internal AudioPlayerControl? AudioPlayerControl { get; set; }
 
-    private const string FAVORITES = "Favorites";
-
     public SongPartDetailBottomSheet()
     {
         InitializeComponent();
@@ -38,7 +36,7 @@ public partial class SongPartDetailBottomSheet
 
     private void OnLoad(object? sender, EventArgs e)
     {
-        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
+        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
 
         AudioProgressSlider.DragStarted += AudioProgressSlider_DragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSlider_DragCompleted;
@@ -86,7 +84,7 @@ public partial class SongPartDetailBottomSheet
 
         MasterVolumeSlider.Value = CommonSettings.MainVolume * 100;
         // Theme change or change song should update favorite icon.
-        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
+        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
 
     /// <summary> Song dependent or theme change. </summary>
@@ -122,7 +120,7 @@ public partial class SongPartDetailBottomSheet
         MasterVolumeSlider.ThumbStyle.Fill = (Color)Application.Current!.Resources["Primary"];
 
         // Theme change or change song should update favorite icon.
-        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
+        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
 
     internal void UpdateProgress(double value)
@@ -237,7 +235,7 @@ public partial class SongPartDetailBottomSheet
     private async void FavoriteButtonPressed(object sender, EventArgs e)
     {
         // TODO: Unfavorite?
-        bool success = await PlaylistsManager.TryAddSongPartToLocalPlaylist(FAVORITES, songPart!);
+        bool success = await PlaylistsManager.TryAddSongPartToLocalPlaylist(Constants.FAVORITES, songPart!);
         if (!success) { return; }
 
         FavoriteImageButton.Source = IconManager.FavoritedIcon;

@@ -25,15 +25,13 @@ internal partial class SongSegmentRequestViewModel : ObservableObject
                                                .Cast<SongSegmentType>()
                                                .ToList();
 
-    private FeedbackRepository _feedbackRepository = new();
-    private SongRequestRepository _songRequestRepository = new();
 
     internal async Task<int> SubmitSongRequest(string title, string artist, string songPart, bool withDancePractice, string deviceId, string requestedBy = "Guest", string note = "")
     {
         int success = -1;
         try
         {
-            success = await _songRequestRepository.InsertSongRequestAsync(new()
+            success = await SongRequestRepository.InsertSongRequestAsync(new()
             {
                 Artist = artist,
                 Title = title,
@@ -56,7 +54,7 @@ internal partial class SongSegmentRequestViewModel : ObservableObject
         int success = 1;
         try
         {
-            success = await _feedbackRepository.InsertFeedbackAsync(new()
+            success = await FeedbackRepository.InsertFeedbackAsync(new()
             {
                 Text = feedback,
                 IsBug = isBug,

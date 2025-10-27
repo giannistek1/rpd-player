@@ -4,6 +4,7 @@ using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
+using RpdPlayerApp.ViewModels;
 using Syncfusion.Maui.DataSource;
 using Syncfusion.Maui.GridCommon.ScrollAxis;
 using Syncfusion.Maui.ListView;
@@ -19,7 +20,7 @@ public partial class SearchSongPartsView : ContentView
 
     internal event EventHandler? AddSongPart;
 
-    /// <summary> Updates swipe next item. </summary>
+    /// <summary> Updates swipe next segment. </summary>
     internal event EventHandler? EnqueueSongPart;
 
     internal event EventHandler? ShowSortBy;
@@ -32,10 +33,13 @@ public partial class SearchSongPartsView : ContentView
     private VisualContainer? _visualContainer;
     private int _lastUpperItem = 17;
 
+    private SearchSongPartsViewModel _viewModel = new();
+
     public SearchSongPartsView()
     {
         InitializeComponent();
         Loaded += OnLoad;
+        BindingContext = _viewModel;
     }
 
     private void OnLoad(object? sender, EventArgs e)
@@ -84,7 +88,7 @@ public partial class SearchSongPartsView : ContentView
 
     internal void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => UpdateResultsText();
 
-    private void SonglibraryListView_Loaded(object sender, ListViewLoadedEventArgs e)
+    private void SonglibraryListViewLoaded(object sender, ListViewLoadedEventArgs e)
     {
         SonglibraryListView.DataSource?.GroupDescriptors.Clear();
         SonglibraryListView.IsStickyGroupHeader = true;
@@ -120,10 +124,13 @@ public partial class SearchSongPartsView : ContentView
         SonglibraryListView.CollapseAll();
 
         _visualContainer = SonglibraryListView.GetVisualContainer();
-        _visualContainer.ScrollRows!.Changed += ScrollRows_Changed;
+        _visualContainer.ScrollRows!.Changed += ScrollRowsChanged;
     }
 
-    private void ScrollRows_Changed(object sender, ScrollChangedEventArgs e)
+    /// <summary> Shows or hides header / footer </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void ScrollRowsChanged(object sender, ScrollChangedEventArgs e)
     {
         var lastIndex = _visualContainer!.ScrollRows!.LastBodyVisibleLineIndex;
 
@@ -236,7 +243,7 @@ public partial class SearchSongPartsView : ContentView
             }
         }
 
-        // TODO: How to close swipe item automatically after swipe?
+        // TODO: How to close swipe segment automatically after swipe?
     }
 
     // Not used
@@ -316,7 +323,7 @@ public partial class SearchSongPartsView : ContentView
         }
     }
 
-    private void AddResultsButton_Clicked(object sender, EventArgs e)
+    private void AddResultsButtonClicked(object sender, EventArgs e)
     {
         // TODO: BUGGY
         if (CurrentPlaylistManager.Instance.ChosenPlaylist is null)
@@ -937,7 +944,7 @@ public partial class SearchSongPartsView : ContentView
                             }
                             else
                             {
-                                return "Invalid item.";
+                                return "Invalid segment.";
                             }
                         },
                     });
@@ -978,11 +985,11 @@ public partial class SearchSongPartsView : ContentView
 
     #endregion Sort
 
-    private void ActionsImageButton_Clicked(object sender, EventArgs e)
+    private void ActionsImageButtonClicked(object sender, EventArgs e)
     {
-        if (sender is ImageButton button && button.CommandParameter is SongPart item)
+        if (sender is ImageButton button && button.CommandParameter is SongPart segment)
         {
-            General.ShowToast(item.Title);
+            General.ShowToast(segment.Title);
         }
     }
 }

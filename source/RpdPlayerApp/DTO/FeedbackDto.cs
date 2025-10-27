@@ -1,20 +1,20 @@
-﻿using System.Text.Json.Serialization;
+﻿using Supabase.Postgrest.Attributes;
+using Supabase.Postgrest.Models;
 
 namespace RpdPlayerApp.DTO;
 
-
-public class FeedbackDto
+[Table("feedback")]
+public class FeedbackDto : BaseModel
 {
-    // Json is case sensitive.
-    [JsonPropertyName("text")]
+    [Column("text")]
     public string Text { get; set; } = string.Empty;
 
-    [JsonPropertyName("is_bug")]
+    [Column("is_bug")]
     public bool IsBug { get; set; }
 
-    [JsonPropertyName("requested_by")]
+    [Column("requested_by")]
     public string RequestedBy { get; set; } = string.Empty;
 
-    [JsonPropertyName("device_id")]
+    [Column("device_id")]
     public string DeviceId { get; set; } = string.Empty;
 }

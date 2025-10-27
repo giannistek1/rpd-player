@@ -6,14 +6,12 @@ using RpdPlayerApp.Services;
 
 namespace RpdPlayerApp.Repositories;
 
-internal class PlaylistRepository
+internal static class PlaylistRepository
 {
     private static DateTime _lastRequestTime = DateTime.MinValue;
     private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(1); // Cooldown period
 
-    public PlaylistRepository() { }
-
-    public async Task<int> SaveCloudPlaylist(long id, DateTime creationDate, string name, long lengthInSeconds, int count, List<SongPart> songSegments, bool isPublic)
+    public static async Task<int> SaveCloudPlaylist(long id, DateTime creationDate, string name, long lengthInSeconds, int count, List<SongPart> songSegments, bool isPublic)
     {
         List<SongSegmentDto> segments = [];
 
@@ -67,7 +65,7 @@ internal class PlaylistRepository
         return 1;
     }
 
-    public async Task<List<PlaylistDto>> GetCloudPlaylists()
+    public static async Task<List<PlaylistDto>> GetCloudPlaylists()
     {
         if (Constants.APIKEY.IsNullOrWhiteSpace()) { General.ShowToast("APIKEY is missing."); return []; }
 
@@ -90,7 +88,7 @@ internal class PlaylistRepository
         return response.Models;
     }
 
-    public async Task<List<PlaylistDto>> GetAllPublicPlaylists()
+    public static async Task<List<PlaylistDto>> GetAllPublicPlaylists()
     {
         if (Constants.APIKEY.IsNullOrWhiteSpace()) { General.ShowToast("APIKEY is missing."); return []; }
 
@@ -116,7 +114,7 @@ internal class PlaylistRepository
     /// <summary> Don't actually delete playlist, but set active to false. </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    internal async Task<bool> DeleteCloudPlaylist(long id)
+    internal static async Task<bool> DeleteCloudPlaylist(long id)
     {
         if (Constants.APIKEY.IsNullOrWhiteSpace()) { General.ShowToast("APIKEY is missing."); return false; }
 
