@@ -14,10 +14,10 @@ internal class LibraryViewModel
         ShowActionsCommand = new RelayCommand<Playlist>(ShowActions);
     }
 
-    private async void ShowActions(Playlist playlist)
+    private async void ShowActions(Playlist? playlist)
     {
         string action = await Shell.Current.DisplayActionSheet(
-            title: $"Actions for {playlist.Name}",
+            title: $"Actions for {playlist!.Name}",
             cancel: "Cancel",
             destruction: null,
             "Clone",

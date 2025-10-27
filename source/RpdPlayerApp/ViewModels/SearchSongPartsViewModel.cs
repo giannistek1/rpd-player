@@ -15,10 +15,10 @@ internal partial class SearchSongPartsViewModel : ObservableObject
         ShowActionsCommand = new RelayCommand<SongPart>(ShowActions);
     }
 
-    private async void ShowActions(SongPart segment)
+    private async void ShowActions(SongPart? segment)
     {
         string action = await Shell.Current.DisplayActionSheet(
-            title: $"Actions for {segment.Title}",
+            title: $"Actions for {segment!.Title}",
             cancel: "Cancel",
             destruction: null,
             "Favorite",
