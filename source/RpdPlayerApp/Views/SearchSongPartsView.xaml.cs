@@ -33,7 +33,7 @@ public partial class SearchSongPartsView : ContentView
     private VisualContainer? _visualContainer;
     private int _lastUpperItem = 17;
 
-    private SearchSongPartsViewModel _viewModel = new();
+    private readonly SearchSongPartsViewModel _viewModel = new();
 
     public SearchSongPartsView()
     {

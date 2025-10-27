@@ -5,6 +5,7 @@ using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
+using RpdPlayerApp.ViewModels;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -18,9 +19,13 @@ public partial class LibraryView : ContentView
 
     public event EventHandler? ShowPlaylist;
 
+    private readonly LibraryViewModel _viewModel = new();
+
     public LibraryView()
     {
         InitializeComponent();
+        BindingContext = _viewModel;
+
         Loaded += OnLoad;
         InitializePlaylistModeSegmentedControl();
 

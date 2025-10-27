@@ -163,12 +163,14 @@
                                     
                                 </Grid>
 
+                                <!-- Actions -->
                                 <ImageButton Grid.Column="2" x:Name="ActionsImageButton" HeightRequest="34" WidthRequest="34" 
                                               Command="{Binding Source={RelativeSource AncestorType={x:Type views:SearchSongPartsView}}, Path=BindingContext.ShowActionsCommand}" 
                                              CommandParameter="{Binding .}">
                                     <ImageButton.Source>
                                         <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.More_vert}" Color="{DynamicResource IconColor}" />
                                     </ImageButton.Source>
+                                    
                                 </ImageButton>
 
                                 <!-- Playing animation -->

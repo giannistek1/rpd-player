@@ -7,6 +7,8 @@
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:models="clr-namespace:RpdPlayerApp.Models"
+             xmlns:views="clr-namespace:RpdPlayerApp.Views"
              x:Class="RpdPlayerApp.Views.LibraryView"
              BackgroundColor="{DynamicResource BackgroundColor}">
 
@@ -70,7 +72,7 @@
                         <DataTemplate>
                             <ViewCell>
 
-                                <Grid ColumnDefinitions="50, *" Padding="10">
+                                <Grid ColumnDefinitions="50, *, 50" Padding="10">
 
                                     <!-- Image -->
                                     <Border x:Name="PlaylistImageBorder" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center" Margin="0,0,16,0">
@@ -83,39 +85,69 @@
 
                                     </Border>
 
+                                    <!-- Info -->
                                     <Grid Grid.Column="1" RowDefinitions="auto, auto" VerticalOptions="Center">
 
-                                        <Label Text="{Binding Name, StringFormat='{0}'}" VerticalOptions="Start"/>
+                                        <!-- Keep the same scale as Grid below. -->
+                                        <Grid ColumnDefinitions="3*, 2*">
+                                            
+                                            <!-- Name -->
+                                            <Label Text="{Binding Name, StringFormat='{0}'}" VerticalOptions="Start"/>
 
-                                        <Grid Grid.Row="1" ColumnDefinitions="auto,1* ,auto,2*, auto,2*">
+                                            <HorizontalStackLayout Grid.Column="1" >
 
-                                            <Image HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
-                                                <Image.Source>
-                                                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
-                                                </Image.Source>
-                                            </Image>
+                                                <Image HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
+                                                    <Image.Source>
+                                                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                                                    </Image.Source>
+                                                </Image>
 
-                                            <Label Grid.Column="1" Text="{Binding Count, StringFormat='{0}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12" />
+                                                <Label Text="{Binding Count, StringFormat='{0}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12" />
+                                                
+                                            </HorizontalStackLayout>
 
-                                            <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
-                                                <Image.Source>
-                                                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Nest_clock_farsight_analog}" Color="{DynamicResource SecondaryIconColor}" />
-                                                </Image.Source>
-                                            </Image>
+                                        </Grid>
+                                        
+                                        <!-- Keep the same scale as Grid above. -->
+                                        <Grid Grid.Row="1" ColumnDefinitions="3*, 2*">
 
-                                            <Label Grid.Column="3" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12"/>
+                                            <HorizontalStackLayout>
+                                                
+                                                <Image HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
+                                                    <Image.Source>
+                                                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Calendar_add_on}" Color="{DynamicResource SecondaryIconColor}" />
+                                                    </Image.Source>
+                                                </Image>
 
-                                            <Image Grid.Column="4" HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
-                                                <Image.Source>
-                                                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Calendar_add_on}" Color="{DynamicResource SecondaryIconColor}" />
-                                                </Image.Source>
-                                            </Image>
+                                                <Label Grid.Column="1" Text="{Binding CreationDate, StringFormat='{0:dd\\-MM\\-yy}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12" />
 
-                                            <Label Grid.Column="5" Text="{Binding CreationDate, StringFormat='{0:dd\\-MM\\-yy}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12" />
+                                            </HorizontalStackLayout>
 
+                                            <HorizontalStackLayout Grid.Column="1" >
+
+                                                <Image Grid.Column="2" HorizontalOptions="End" Margin="0,0,4,0" WidthRequest="20" HeightRequest="20">
+                                                    <Image.Source>
+                                                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Nest_clock_farsight_analog}" Color="{DynamicResource SecondaryIconColor}" />
+                                                    </Image.Source>
+                                                </Image>
+
+                                                <Label Grid.Column="3" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" TextColor="{DynamicResource SecondaryTextColor}" VerticalTextAlignment="Center" FontSize="12"/>
+                                            
+                                            </HorizontalStackLayout>
+                                            
                                         </Grid>
 
                                     </Grid>
+
+                                    <!-- Actions -->
+                                    <ImageButton Grid.Column="2" x:Name="ActionsImageButton" HeightRequest="34" WidthRequest="34" 
+                                              Command="{Binding Source={RelativeSource AncestorType={x:Type views:LibraryView}}, Path=BindingContext.ShowActionsCommand}" 
+                                             CommandParameter="{Binding .}">
+                                        <ImageButton.Source>
+                                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.More_vert}" Color="{DynamicResource IconColor}" />
+                                        </ImageButton.Source>
+
+                                    </ImageButton>
 
                                 </Grid>
 

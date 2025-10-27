@@ -15,10 +15,10 @@ internal partial class SearchSongPartsViewModel : ObservableObject
         ShowActionsCommand = new RelayCommand<SongPart>(ShowActions);
     }
 
-    private async void ShowActions(SongPart playlist)
+    private async void ShowActions(SongPart segment)
     {
         string action = await Shell.Current.DisplayActionSheet(
-            title: $"Actions for {playlist.Title}",
+            title: $"Actions for {segment.Title}",
             cancel: "Cancel",
             destruction: null,
             "Favorite",
@@ -29,13 +29,13 @@ internal partial class SearchSongPartsViewModel : ObservableObject
         switch (action)
         {
             case "Favorite":
-                await FavoriteSegment(playlist);
+                await FavoriteSegment(segment);
                 break;
             case "Add to queue":
-                await AddToQueue(playlist);
+                await AddToQueue(segment);
                 break;
             case "Add to playlist":
-                await AddToPlaylist(playlist);
+                await AddToPlaylist(segment);
                 break;
         }
     }
