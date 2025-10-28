@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
 
 namespace RpdPlayerApp.Managers;
@@ -18,6 +19,26 @@ internal partial class CurrentPlaylistManager : ObservableObject
     private CurrentPlaylistManager() { }
 
     public static CurrentPlaylistManager Instance => instance;
+
+    public static void PlayCurrentPlaylist()
+    {
+        if (!instance.ChosenPlaylist!.Segments.Any()) { return; }
+
+        AppState.PlayMode = PlayModeValue.Playlist;
+
+        instance.CurrentlyPlayingPlaylist = instance.ChosenPlaylist;
+        AudioManager.ChangeAndStartSong(instance.ChosenPlaylist.Segments[0]);
+    }
+
+    public static void PlayPlaylist(Playlist playlist)
+    {
+        if (!playlist.Segments.Any()) { return; }
+
+        AppState.PlayMode = PlayModeValue.Playlist;
+
+        instance.CurrentlyPlayingPlaylist = playlist;
+        AudioManager.ChangeAndStartSong(playlist.Segments[0]);
+    }
 
     internal bool AddSongPartToCurrentPlaylist(SongPart songPart)
     {

@@ -1,8 +1,10 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
 using System.Text;
+using static Android.Provider.MediaStore.Audio;
 
 namespace RpdPlayerApp.Managers;
 
@@ -38,6 +40,38 @@ internal static class PlaylistsManager
         {
             General.ShowToast(ex.Message);
             return string.Empty;
+        }
+    }
+
+    internal static async Task<PlaylistDeletedReturnValue> DeletePlaylist(Playlist playlist)
+    {
+        if (PlaylistMode == PlaylistModeValue.Local)
+        {
+            DebugService.Instance.Debug("Trying to delete playlist locally...");
+
+            CacheState.LocalPlaylists?.Remove(playlist);
+            File.Delete(playlist.LocalPath);
+
+            return PlaylistDeletedReturnValue.DeletedLocally;
+        }
+        else if (PlaylistMode == PlaylistModeValue.Cloud)
+        {
+            DebugService.Instance.Debug("Trying to delete playlist from cloud...");
+
+            CacheState.CloudPlaylists?.Remove(playlist);
+            if (await PlaylistRepository.DeleteCloudPlaylist(playlist.Id))
+            {
+
+                return PlaylistDeletedReturnValue.DeletedFromCloud;
+            }
+            else
+            {
+                return PlaylistDeletedReturnValue.FailedToDelete;
+            }
+        }
+        else // Public
+        {
+            return PlaylistDeletedReturnValue.CantDeletePublicPlaylist;
         }
     }
 

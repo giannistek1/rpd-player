@@ -435,30 +435,21 @@ public partial class LibraryView : ContentView
         bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Delete {playlist.Name}?", "Yes", "No");
         if (accept)
         {
-            if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local)
+            PlaylistDeletedReturnValue returnValue = await PlaylistsManager.DeletePlaylist(playlist);
+            switch (returnValue)
             {
-                DebugService.Instance.Debug("Trying to delete playlist locally...");
-
-                CacheState.LocalPlaylists?.Remove(playlist);
-                File.Delete(playlist.LocalPath);
-            }
-            else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud)
-            {
-                DebugService.Instance.Debug("Trying to delete playlist from cloud...");
-
-                CacheState.CloudPlaylists?.Remove(playlist);
-                if (await PlaylistRepository.DeleteCloudPlaylist(playlist.Id))
-                {
+                case PlaylistDeletedReturnValue.DeletedLocally:
+                    General.ShowToast("Playlist deleted locally.");
+                    break;
+                case PlaylistDeletedReturnValue.DeletedFromCloud:
                     General.ShowToast("Playlist deleted from cloud.");
-                }
-                else
-                {
+                    break;
+                case PlaylistDeletedReturnValue.FailedToDelete:
                     General.ShowToast("Failed to delete playlist.");
-                }
-            }
-            else // Public
-            {
-                General.ShowToast("Can't delete public playlist.");
+                    break;
+                case PlaylistDeletedReturnValue.CantDeletePublicPlaylist:
+                    General.ShowToast("Can't delete public playlist.");
+                    break;
             }
         }
     }

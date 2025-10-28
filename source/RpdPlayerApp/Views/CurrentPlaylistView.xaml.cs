@@ -58,14 +58,7 @@ public partial class CurrentPlaylistView : ContentView
 
     internal void PlayPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        if (!CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments.Any()) { return; }
-
-        // Change mode to playlist
-        AppState.PlayMode = PlayModeValue.Playlist;
-
-        CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist = CurrentPlaylistManager.Instance.ChosenPlaylist;
-        AudioManager.ChangeAndStartSong(CurrentPlaylistManager.Instance.ChosenPlaylist.Segments[0]);
-
+        CurrentPlaylistManager.PlayCurrentPlaylist();
         //PlaySongPart!.Invoke(sender, e);
     }
 
