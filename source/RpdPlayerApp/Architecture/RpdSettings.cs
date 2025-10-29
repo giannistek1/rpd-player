@@ -12,7 +12,7 @@ internal class RpdSettings
     /// <summary> When false, mode is StartRpd. </summary>
     internal bool UsingGeneratePlaylist { get; set; } = false;
 
-    internal TimeSpan Duration { get; set; }
+    internal TimeSpan Duration { get; set; } = TimeSpan.Zero;
     internal List<GroupType> GroupTypes { get; set; } = [];
     internal List<string> Genres { get; set; } = [];
     internal List<GenType> Gens { get; set; } = [];

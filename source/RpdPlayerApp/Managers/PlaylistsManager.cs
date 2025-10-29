@@ -4,7 +4,6 @@ using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
 using System.Text;
-using static Android.Provider.MediaStore.Audio;
 
 namespace RpdPlayerApp.Managers;
 
@@ -76,13 +75,11 @@ internal static class PlaylistsManager
     }
 
 
-    internal static async Task GeneratePlaylistFromSongParts(List<SongPart> availableSegments, int durationInMinutes = 120)
+    internal static async Task GeneratePlaylistFromSongParts(string name, List<SongPart> availableSegments, int durationInMinutes = 120)
     {
-        string name = General.GenerateRandomName();
-
         List<SongPart> songs = GenerateSegmentsFromSongParts(availableSegments, durationInMinutes);
 
-        Playlist playlist = new Playlist(creationDate: DateTime.Now, lastModifiedDate: DateTime.Now, name: name);
+        Playlist playlist = new(creationDate: DateTime.Now, lastModifiedDate: DateTime.Now, name: name);
 
         playlist.Segments = new(songs);
         string path = await SavePlaylistLocally(playlist, name);

@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Views;
 
 namespace RpdPlayerApp.Architecture;
 
@@ -30,6 +32,17 @@ internal static class General
     }
 
     internal static void ShowToast(string message) => Toast.Make(message, CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+
+    internal async static Task<InputPromptResult> ShowInputPrompt(string title, string placeholder)
+    {
+        InputPromptPopup popup = new(title, placeholder);
+        object? result = await Application.Current!.MainPage!.ShowPopupAsync(popup); // TODO: use page as param.
+        if (result is InputPromptResult inputPromptResult)
+        {
+            return inputPromptResult;
+        }
+        return new InputPromptResult();
+    }
 
     internal static string GenerateRandomName()
     {

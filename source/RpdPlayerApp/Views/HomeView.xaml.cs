@@ -526,20 +526,26 @@ public partial class HomeView : ContentView
         else { StartRpdButtonClicked(sender, e); }
     }
 
-    private void GeneratePlaylistButtonClicked()
+    private async void GeneratePlaylistButtonClicked()
     {
         if (!General.HasInternetConnection()) { return; }
 
         SetDuration();
+        if (RpdSettings!.Duration == TimeSpan.Zero || RpdSettings.Duration == TimeSpan.MinValue)
+        {
+            General.ShowToast("Choose a duration.");
+            return;
+        }
+
         SetTimerMode();
 
         RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
-        RpdSettings?.DetermineGenres(GenresChipGroup);
-        RpdSettings?.DetermineGens(GenerationsChipGroup);
-        RpdSettings?.DetermineCompanies(CompaniesChipGroup);
-        RpdSettings?.DetermineYears(YearsChipGroup);
-        RpdSettings?.NumberedPartsBlacklist.Clear();
-        RpdSettings?.PartsBlacklist.Clear();
+        RpdSettings!.DetermineGenres(GenresChipGroup);
+        RpdSettings!.DetermineGens(GenerationsChipGroup);
+        RpdSettings!.DetermineCompanies(CompaniesChipGroup);
+        RpdSettings!.DetermineYears(YearsChipGroup);
+        RpdSettings!.NumberedPartsBlacklist.Clear();
+        RpdSettings!.PartsBlacklist.Clear();
         ApplyAntiOptions();
 
         var songParts = FilterSongParts();
@@ -549,8 +555,12 @@ public partial class HomeView : ContentView
             return;
         }
 
-        //AppState.SongParts = songParts;
-        PlaylistsManager.GeneratePlaylistFromSongParts(songParts, (int)RpdSettings.Duration.TotalMinutes);
+        string generatedName = General.GenerateRandomName();
+
+        InputPromptResult result = await General.ShowInputPrompt("Playlist name:", generatedName);
+        if (result.IsCanceled) { return; }
+        else if (result.ResultText.IsNullOrWhiteSpace()) { result.ResultText = generatedName; }
+        await PlaylistsManager.GeneratePlaylistFromSongParts(result.ResultText, songParts, (int)RpdSettings!.Duration.TotalMinutes);
     }
 
     private void StartRpdButtonClicked(object? sender, EventArgs e)

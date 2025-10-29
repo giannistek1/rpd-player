@@ -217,6 +217,9 @@
       <MauiXaml Update="Views\CurrentPlaylistView.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
+      <MauiXaml Update="Views\InputPromptPopup.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
       <MauiXaml Update="Views\LibraryView.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
