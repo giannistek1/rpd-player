@@ -100,7 +100,7 @@ public partial class MainPage
 
         AudioPlayerControl.Pause += OnPause;
         AudioPlayerControl.ShowDetails += OnOpenSongPartDetailBottomSheet;
-        AudioPlayerControl.UpdateProgress += OnUpdateProgress;
+        AudioPlayerControl.UpdateProgress += OnUpdateAudioSlider;
     }
 
     private void InitializePageContainers()
@@ -417,7 +417,16 @@ public partial class MainPage
 
     private void OnPause(object? sender, EventArgs e) => SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
 
-    private void OnUpdateProgress(object? sender, EventArgs e) => _detailBottomSheet.UpdateProgress(AudioPlayerControl.audioProgressSlider!.Value);
+    private void OnUpdateAudioSlider(object? sender, EventArgs e)
+    {
+        _detailBottomSheet.UpdateAudioProgress(AudioPlayerControl.AudioSlider!.Value);
+
+        // Update playlistSlider if visible.
+        if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 2)
+        {
+            _currentPlaylistView.ProgressSlider.Value = AppState.CurrentSongPart.PlaylistStartTime.TotalSeconds / CurrentPlaylistManager.Instance.ChosenPlaylist!.LengthInSeconds * 100;
+        }
+    }
 
     #endregion AudioPlayerControl Events
 

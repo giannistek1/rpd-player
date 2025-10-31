@@ -205,6 +205,8 @@ public partial class LibraryView : ContentView
                 var pattern = @"\{(.*?)\}";
                 var matches = Regex.Matches(result, pattern);
 
+                TimeSpan startTime = TimeSpan.Zero;
+
                 for (int i = 0; i < matches.Count / Constants.SongPartPropertyAmount; i++)
                 {
                     try
@@ -223,11 +225,13 @@ public partial class LibraryView : ContentView
                             partNameNumber: matches[n + 4].Groups[1].Value,
                             clipLength: Convert.ToDouble(matches[n + 5].Groups[1].Value),
                             audioURL: matches[n + 6].Groups[1].Value,
-                            videoURL: videoURL
+                            videoURL: videoURL,
+                            playlistStartTime: startTime
                         );
 
                         songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
                         playlist.Segments.Add(songPart);
+                        startTime.Add(songPart.ClipLengthAsTimeSpan);
                     }
                     catch (Exception ex)
                     {

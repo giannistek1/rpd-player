@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
+using RpdPlayerApp.Managers;
 using RpdPlayerApp.Repositories;
 using System.ComponentModel;
 
@@ -68,6 +69,9 @@ internal partial class SongPart : ObservableObject
     [ObservableProperty]
     private TimeSpan _clipLengthAsTimeSpan;
 
+    [ObservableProperty]
+    private TimeSpan _playlistStartTime = TimeSpan.MinValue;
+
     /// <summary> Whether the song is currently playing or paused/stopped. </summary>
     [JsonIgnore]
     [ObservableProperty]
@@ -97,7 +101,7 @@ internal partial class SongPart : ObservableObject
     [ObservableProperty]
     private double _playingIconTranslationY3 = 1.0;
 
-    public SongPart(int id = -1, string artistName = "", string albumTitle = "", string title = "", string partNameShort = "", string partNameNumber = "", double clipLength = 0.0, string audioURL = "", string videoURL = "")
+    public SongPart(int id = -1, string artistName = "", string albumTitle = "", string title = "", string partNameShort = "", string partNameNumber = "", double clipLength = 0.0, string audioURL = "", string videoURL = "", TimeSpan? playlistStartTime = null)
     {
         Id = id;
         Title = title;
@@ -123,6 +127,11 @@ internal partial class SongPart : ObservableObject
         {
             Artist.IsKpopArtist = true;
             Artist.DecideGeneration();
+        }
+
+        if (playlistStartTime is not null)
+        {
+            PlaylistStartTime = playlistStartTime.Value;
         }
     }
 

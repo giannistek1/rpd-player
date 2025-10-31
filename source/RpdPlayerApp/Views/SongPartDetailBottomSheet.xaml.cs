@@ -123,7 +123,9 @@ public partial class SongPartDetailBottomSheet
         FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
 
-    internal void UpdateProgress(double value)
+    /// <summary> Updates progress label and slider. </summary>
+    /// <param name="value"></param>
+    internal void UpdateAudioProgress(double value)
     {
         AudioProgressSlider.Value = value;
 

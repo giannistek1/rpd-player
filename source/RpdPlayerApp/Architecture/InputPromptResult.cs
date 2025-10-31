@@ -1,5 +1,4 @@
-﻿
-namespace RpdPlayerApp.Models;
+﻿namespace RpdPlayerApp.Architecture;
 
 internal class InputPromptResult
 {

@@ -13,11 +13,14 @@ public partial class CurrentPlaylistView : ContentView
 
     public event EventHandler? BackToPlaylists;
 
+
+    internal Slider ProgressSlider;
     internal MainPage? ParentPage { get; set; }
 
     public CurrentPlaylistView()
     {
         InitializeComponent();
+        ProgressSlider = PlaylistProgressSlider;
         CurrentPlaylistListView.DragDropController!.UpdateSource = true;
     }
 

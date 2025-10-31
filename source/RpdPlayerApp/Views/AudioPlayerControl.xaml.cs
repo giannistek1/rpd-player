@@ -14,7 +14,8 @@ public partial class AudioPlayerControl : ContentView
     internal EventHandler? ShowDetails;
     internal EventHandler? UpdateProgress;
 
-    internal Slider? audioProgressSlider;
+    internal Slider? AudioSlider;
+    internal Slider? PlaylistSlider;
 
     public AudioPlayerControl()
     {
@@ -32,7 +33,7 @@ public partial class AudioPlayerControl : ContentView
 
     private void OnLoad(object? sender, EventArgs e)
     {
-        audioProgressSlider = AudioProgressSlider;
+        AudioSlider = AudioProgressSlider;
 
         LocalAudioMediaElement.MediaEnded += LocalAudioMediaElementMediaEnded;
 

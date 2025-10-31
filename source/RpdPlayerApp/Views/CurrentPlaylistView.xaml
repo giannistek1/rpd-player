@@ -10,9 +10,10 @@
              BackgroundColor="{DynamicResource BackgroundColor}">
 
     <Grid Padding="0"
-          RowDefinitions="50, 40, *"
+          RowDefinitions="50, 30, 40, *"
           ColumnDefinitions="*">
 
+        <!-- Top row -->
         <Grid Grid.Row="0" BackgroundColor="{DynamicResource BackgroundColor}" ColumnDefinitions="1*,3*, 1*, 1*">
 
             <ImageButton Grid.Column="0" x:Name="BackButtonImageButton" HeightRequest="26" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButtonClicked">
@@ -58,11 +59,14 @@
                 </VerticalStackLayout>
 
             </Border>
-
-
+            
         </Grid>
 
-        <HorizontalStackLayout Grid.Row="1" Margin="0,8,0,0">
+        <!-- Playlist slider -->
+        <Slider Grid.Row="1" x:Name="PlaylistProgressSlider" InputTransparent="True" BackgroundColor="{DynamicResource BackgroundColor}" MinimumTrackColor="{DynamicResource AudioProgressColor}" Margin="-20,0,-20,0" Maximum="100" Minimum="0" ThumbColor="{DynamicResource Primary}" HeightRequest="20" />
+
+        <!-- Stats -->
+        <HorizontalStackLayout Grid.Row="2" Margin="0,8,0,0">
 
             <Label WidthRequest="100" x:Name="LengthLabel" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" />
 
@@ -75,7 +79,7 @@
         </HorizontalStackLayout>
 
         <!-- Song parts -->
-        <syncfusion:SfListView Grid.Row="2" x:Name="CurrentPlaylistListView" BackgroundColor="{DynamicResource BackgroundColor}" 
+        <syncfusion:SfListView Grid.Row="3" x:Name="CurrentPlaylistListView" BackgroundColor="{DynamicResource BackgroundColor}" 
                                SelectionMode="None" AutoFitMode="Height" AllowSwiping="True" ItemTapped="CurrentPlaylistListView_ItemTapped" DragStartMode="OnHold,OnDragIndicator" SwipeEnded="CurrentPlaylistListViewSwipeEnded" >
             
             <syncfusion:SfListView.StartSwipeTemplate>
@@ -142,5 +146,7 @@
 
             </syncfusion:SfListView.EmptyView>
         </syncfusion:SfListView>
+        
     </Grid>
+    
 </ContentView>
