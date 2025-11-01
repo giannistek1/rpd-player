@@ -4,6 +4,8 @@ using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
+using RpdPlayerApp.ViewModels;
+using System.Collections.Specialized;
 
 namespace RpdPlayerApp.Views;
 
@@ -15,11 +17,15 @@ public partial class CurrentPlaylistView : ContentView
 
 
     internal Slider ProgressSlider;
+    internal TimeSpan Progress;
     internal MainPage? ParentPage { get; set; }
+
+    internal readonly CurrentPlaylistViewModel _viewModel = new();
 
     public CurrentPlaylistView()
     {
         InitializeComponent();
+        BindingContext = _viewModel;
         ProgressSlider = PlaylistProgressSlider;
         CurrentPlaylistListView.DragDropController!.UpdateSource = true;
     }
@@ -28,6 +34,13 @@ public partial class CurrentPlaylistView : ContentView
     {
         BackButtonImageButton.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
         BackButtonImageButton.Source = IconManager.BackIcon;
+
+        CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments.CollectionChanged += CollectionChanged;
+    }
+
+    private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments);
     }
 
     internal async void BackButtonClicked(object? sender, EventArgs e)
@@ -36,7 +49,7 @@ public partial class CurrentPlaylistView : ContentView
         PlaylistNameEntry.IsEnabled = false;
         PlaylistNameEntry.IsEnabled = true;
 
-        Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist;
+        Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
 
         if (playlist!.IsCloudPlaylist && playlist.Owner.Equals(AppState.Username))
         {
@@ -53,6 +66,8 @@ public partial class CurrentPlaylistView : ContentView
         // Reload cache.
         CacheState.LocalPlaylists = null;
         await PlaylistsManager.SavePlaylistLocally(playlist, PlaylistNameEntry.Text);
+
+        CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments.CollectionChanged -= CollectionChanged;
 
         BackToPlaylists!.Invoke(sender, e);
     }
@@ -78,7 +93,9 @@ public partial class CurrentPlaylistView : ContentView
         ParentPage?.SetupLibraryOrCurrentPlaylistToolbar();
     }
 
-    public void RefreshCurrentPlaylist()
+    // Refreshes UI values.
+    // TODO: To ViewModel
+    internal void RefreshCurrentPlaylist()
     {
         var playlist = CurrentPlaylistManager.Instance.ChosenPlaylist;
 
@@ -89,10 +106,17 @@ public partial class CurrentPlaylistView : ContentView
             CurrentPlaylistListView.ItemsSource = playlist.Segments;
 
             LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", playlist.Length);
-            CountLabel.Text = $"Tot: {playlist.Segments.Count}";
+
+            CountLabel.Text = $" of {playlist.Segments.Count}";
+
             BoygroupCountLabel.Text = $"BG: {playlist.Segments.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
             GirlgroupCountLabel.Text = $"GG: {playlist.Segments.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
         }
+    }
+    // TODO: To ViewModel
+    internal void RefreshProgress()
+    {
+        CurrentProgressLabel.Text = String.Format("{0:hh\\:mm\\:ss}", Progress);
     }
 
     internal async void ClearPlaylistButtonClicked(object? sender, EventArgs e)
@@ -108,7 +132,7 @@ public partial class CurrentPlaylistView : ContentView
     /// <summary> Sets ChosenPlaylist to null. </summary>
     public void ResetCurrentPlaylist()
     {
-        if (CurrentPlaylistManager.Instance.ChosenPlaylist.Segments is not null)
+        if (CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments is not null)
         {
             CurrentPlaylistListView.ItemsSource = null;
 
@@ -116,15 +140,17 @@ public partial class CurrentPlaylistView : ContentView
         }
     }
 
-    private void ShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
+    private void ShufflePlaylistButtonImageButtonClicked(object sender, EventArgs e)
     {
-        CurrentPlaylistManager.Instance.ChosenPlaylist.Segments = General.RandomizePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.Segments]).ToObservableCollection();
+        CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments = General.RandomizePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.Segments]).ToObservableCollection();
+        CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments);
         CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.Segments;
     }
 
-    private void MixedShufflePlaylistButtonImageButton_Clicked(object sender, EventArgs e)
+    private void MixedShufflePlaylistButtonImageButtonClicked(object sender, EventArgs e)
     {
-        CurrentPlaylistManager.Instance.ChosenPlaylist.Segments = General.RandomizeAndAlternatePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.Segments]).ToObservableCollection();
+        CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments = General.RandomizeAndAlternatePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.Segments]).ToObservableCollection();
+        CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments);
         CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.Segments;
     }
 
@@ -142,10 +168,10 @@ public partial class CurrentPlaylistView : ContentView
         {
             AppState.PlayMode = PlayModeValue.Playlist;
 
-            CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist = CurrentPlaylistManager.Instance.ChosenPlaylist;
+            CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
             AudioManager.ChangeAndStartSong(songPart);
 
-            //PlaySongPart?.Invoke(sender, e);
+            PlaySongPart?.Invoke(sender, e);
         }
 
         CurrentPlaylistListView.SelectedItems?.Clear();
@@ -174,6 +200,7 @@ public partial class CurrentPlaylistView : ContentView
             if (accept)
             {
                 CurrentPlaylistManager.Instance.RemoveSongpartOfCurrentPlaylist(songPart);
+                CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments);
                 RefreshCurrentPlaylist();
             }
         }

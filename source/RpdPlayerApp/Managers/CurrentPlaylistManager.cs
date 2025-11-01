@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
+using System.Collections.ObjectModel;
 
 namespace RpdPlayerApp.Managers;
 
@@ -44,20 +45,21 @@ internal partial class CurrentPlaylistManager : ObservableObject
     {
         bool hasToAdd = false;
 
-        if (ChosenPlaylist.Segments is not null)
+        if (ChosenPlaylist!.Segments is not null)
         {
             hasToAdd = !ChosenPlaylist.Segments.Contains(songPart);
 
             if (hasToAdd)
             {
                 ChosenPlaylist.Segments.Add(songPart);
+                RecalculatePlaylistTimingsAndIndices(ref ChosenPlaylist.Segments);
             }
         }
 
         return hasToAdd;
     }
 
-    internal int AddSongPartsToCurrentPlaylist(List<SongPart> songParts)
+    internal int AddSongPartsToCurrentPlaylist(List<SongPart> segments)
     {
         int songPartsAdded = 0;
 
@@ -66,25 +68,43 @@ internal partial class CurrentPlaylistManager : ObservableObject
             ChosenPlaylist.Segments = [];
         }
 
-        foreach (SongPart songPart in songParts)
+        foreach (SongPart segment in segments)
         {
-            if (!ChosenPlaylist.Segments.Contains(songPart))
+            if (!ChosenPlaylist.Segments.Contains(segment))
             {
-                ChosenPlaylist.Segments.Add(songPart);
+                ChosenPlaylist.Segments.Add(segment);
                 songPartsAdded++;
             }
         }
+
+        RecalculatePlaylistTimingsAndIndices(ref ChosenPlaylist.Segments);
+
         return songPartsAdded;
+    }
+
+    internal void RecalculatePlaylistTimingsAndIndices(ref ObservableCollection<SongPart> segments)
+    {
+        double totalDurationInSeconds = 0;
+        int index = 1;
+
+        foreach (SongPart segment in segments)
+        {
+            segment.PlaylistStartTime = TimeSpan.FromSeconds(totalDurationInSeconds);
+            segment.Id = index;
+
+            totalDurationInSeconds += segment.ClipLength;
+            index++;
+        }
     }
 
     internal void RemoveSongpartOfCurrentPlaylist(SongPart songpart)
     {
-        var songpartToRemove = ChosenPlaylist.Segments.FirstOrDefault(x => x.AudioURL == songpart.AudioURL);
+        var songpartToRemove = ChosenPlaylist!.Segments.FirstOrDefault(x => x.AudioURL == songpart.AudioURL);
         if (songpartToRemove is not null)
         {
             ChosenPlaylist.Segments.Remove(songpartToRemove);
         }
     }
 
-    internal void ClearCurrentPlaylist() => ChosenPlaylist.Segments.Clear();
+    internal void ClearCurrentPlaylist() => ChosenPlaylist!.Segments.Clear();
 }

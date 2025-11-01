@@ -12,9 +12,9 @@
 
         <HorizontalStackLayout>
             
-            <Button Text="OK" Clicked="OnOkClicked" BackgroundColor="{DynamicResource PrimaryButton}" />
+            <Button Text="OK" Clicked="OnOkClicked" BackgroundColor="{DynamicResource PrimaryButton}" Margin="0,0,4,0" />
 
-            <Button Text="Cancel" Clicked="OnCancelClicked" BackgroundColor="{DynamicResource SecondaryButton}" />
+            <Button Text="Cancel" Clicked="OnCancelClicked" BackgroundColor="{DynamicResource SecondaryButton}" Margin="4,0,0,0"  />
             
         </HorizontalStackLayout>
         

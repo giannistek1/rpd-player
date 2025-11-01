@@ -504,6 +504,7 @@ public partial class HomeView : ContentView
         if (RpdSettings.UsingGeneratePlaylist)
         {
             AddChipsToDurationChipGroup(["2.5", "2", "1.5", "1", "0.5"]); // TODO: Other, needs to match with SetDuration method.
+            DurationChipGroup.SelectedItem = DurationChipGroup.Items[3];
         }
         else
         {

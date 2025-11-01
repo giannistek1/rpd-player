@@ -10,7 +10,7 @@
              BackgroundColor="{DynamicResource BackgroundColor}">
 
     <Grid Padding="0"
-          RowDefinitions="50, 30, 40, *"
+          RowDefinitions="50, 24, 20, 40, *"
           ColumnDefinitions="*">
 
         <!-- Top row -->
@@ -29,7 +29,7 @@
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
-                    <ImageButton x:Name="ShufflePlaylistButtonImageButton" HeightRequest="26" HorizontalOptions="End" Pressed="ShufflePlaylistButtonImageButton_Clicked">
+                    <ImageButton x:Name="ShufflePlaylistButtonImageButton" HeightRequest="26" HorizontalOptions="End" Pressed="ShufflePlaylistButtonImageButtonClicked">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
@@ -48,7 +48,7 @@
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
-                    <ImageButton x:Name="MixedShufflePlaylistButtonImageButton" HeightRequest="26" Pressed="MixedShufflePlaylistButtonImageButton_Clicked">
+                    <ImageButton x:Name="MixedShufflePlaylistButtonImageButton" HeightRequest="26" Pressed="MixedShufflePlaylistButtonImageButtonClicked">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
@@ -62,24 +62,39 @@
             
         </Grid>
 
+        <!-- Progress -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,3*,*" Margin="4,0,4,0">
+
+            <Label x:Name="CurrentProgressLabel" Style="{StaticResource Sideinfo}" />
+
+            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center">
+
+                <Label x:Name="CurrentIndexLabel" Text="{Binding CurrentIndex}" Style="{StaticResource Sideinfo}"/>
+                <Label x:Name="CountLabel" Style="{StaticResource Sideinfo}" />
+
+            </HorizontalStackLayout>
+
+            <Label Grid.Column="2" x:Name="LengthLabel" Style="{StaticResource Sideinfo}" HorizontalOptions="End"/>
+
+        </Grid>
+
+
         <!-- Playlist slider -->
-        <Slider Grid.Row="1" x:Name="PlaylistProgressSlider" InputTransparent="True" BackgroundColor="{DynamicResource BackgroundColor}" MinimumTrackColor="{DynamicResource AudioProgressColor}" Margin="-20,0,-20,0" Maximum="100" Minimum="0" ThumbColor="{DynamicResource Primary}" HeightRequest="20" />
+        <Slider Grid.Row="2" x:Name="PlaylistProgressSlider" InputTransparent="True" MaximumTrackColor="{DynamicResource SecondaryTextColor}" MinimumTrackColor="{DynamicResource PrimaryTextColor}"
+                    Maximum="100" Minimum="0" ThumbColor="{DynamicResource Primary}" HeightRequest="20"/>
+            
 
         <!-- Stats -->
-        <HorizontalStackLayout Grid.Row="2" Margin="0,8,0,0">
+        <Grid Grid.Row="3" ColumnDefinitions="*,*" Margin="0,0,0,0">
 
-            <Label WidthRequest="100" x:Name="LengthLabel" Text="{Binding Length, StringFormat='{0:hh\\:mm\\:ss}'}" />
+            <Label HorizontalTextAlignment="Center" x:Name="BoygroupCountLabel" Text="{Binding BoygroupCount, StringFormat='BG: {0}'}" TextColor="DeepSkyBlue"/>
 
-            <Label WidthRequest="100" x:Name="CountLabel" Text="{Binding SongCount, StringFormat='Count: {0}'}" />
+            <Label Grid.Column="1" HorizontalTextAlignment="Center" x:Name="GirlgroupCountLabel" Text="{Binding GirlgroupCount, StringFormat='GG: {0}'}" TextColor="Magenta" />
 
-            <Label WidthRequest="100" x:Name="BoygroupCountLabel" Text="{Binding BoygroupCount, StringFormat='BG: {0}'}" TextColor="DeepSkyBlue"/>
-
-            <Label WidthRequest="100" x:Name="GirlgroupCountLabel" Text="{Binding GirlgroupCount, StringFormat='GG: {0}'}" TextColor="Magenta" />
-
-        </HorizontalStackLayout>
+        </Grid>
 
         <!-- Song parts -->
-        <syncfusion:SfListView Grid.Row="3" x:Name="CurrentPlaylistListView" BackgroundColor="{DynamicResource BackgroundColor}" 
+        <syncfusion:SfListView Grid.Row="4" x:Name="CurrentPlaylistListView" BackgroundColor="{DynamicResource BackgroundColor}" 
                                SelectionMode="None" AutoFitMode="Height" AllowSwiping="True" ItemTapped="CurrentPlaylistListView_ItemTapped" DragStartMode="OnHold,OnDragIndicator" SwipeEnded="CurrentPlaylistListViewSwipeEnded" >
             
             <syncfusion:SfListView.StartSwipeTemplate>

@@ -49,12 +49,9 @@ public partial class SearchSongPartsView : ContentView
         allSongParts = SongPartRepository.SongParts;
 
         // Fill in indices.
-        int i = 0;
         foreach (var songPart in allSongParts)
         {
-            songPart.Id = i;
             songParts.Add(songPart);
-            i++;
         }
         SonglibraryListView.ItemsSource = songParts;
         AppState.SongParts = [.. songParts];
@@ -325,7 +322,6 @@ public partial class SearchSongPartsView : ContentView
 
     private void AddResultsButtonClicked(object sender, EventArgs e)
     {
-        // TODO: BUGGY
         if (CurrentPlaylistManager.Instance.ChosenPlaylist is null)
         {
             General.ShowToast($"Select a playlist first!");

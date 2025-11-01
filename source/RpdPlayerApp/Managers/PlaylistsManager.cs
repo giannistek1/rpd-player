@@ -97,22 +97,27 @@ internal static class PlaylistsManager
             if (availableSegments == null || availableSegments.Count == 0)
                 throw new ArgumentException("No song parts available.");
 
-            List<SongPart> playlist = new();
+            List<SongPart> playlist = [];
             double totalDurationInSeconds = 0;
+            int index = 1;
 
             // Shuffle available segments randomly
             List<SongPart> shuffled = availableSegments.OrderBy(_ => General.Rng.Next()).ToList();
 
             // Keep adding random parts until duration reached or we run out
-            foreach (SongPart part in shuffled)
+            foreach (SongPart segment in shuffled)
             {
                 double durationInSeconds = durationInMinutes * 60;
 
-                if (totalDurationInSeconds + part.ClipLength > durationInSeconds)
-                    break;
+                if (totalDurationInSeconds + segment.ClipLength > durationInSeconds) { break; }
 
-                playlist.Add(part);
-                totalDurationInSeconds += part.ClipLength;
+                segment.Id = index;
+                segment.PlaylistStartTime = TimeSpan.FromSeconds(totalDurationInSeconds);
+
+                playlist.Add(segment);
+
+                index++;
+                totalDurationInSeconds += segment.ClipLength;
             }
 
             return playlist;

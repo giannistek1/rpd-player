@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
+using RpdPlayerApp.Models;
 using RpdPlayerApp.Services;
 
 namespace RpdPlayerApp.Views;
@@ -22,6 +23,7 @@ public partial class MainPage
         CommonSettings.ActivityTimeStopWatch.Start();
 
         AudioManager.DetailBottomSheet = _detailBottomSheet;
+        AudioPlayerControl.CurrentPlaylistViewModel = _currentPlaylistView._viewModel;
 
         SetupHomeToolbar();
         Loaded += OnLoad;
@@ -378,9 +380,9 @@ public partial class MainPage
         switch (AppState.PlayMode)
         {
             case PlayModeValue.Playlist:
-                if (CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist is not null && SearchSongPartsView.songParts.Count > 0)
+                if (CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist is not null)
                 {
-                    // Nothing
+
                 }
                 break;
 
@@ -419,12 +421,22 @@ public partial class MainPage
 
     private void OnUpdateAudioSlider(object? sender, EventArgs e)
     {
-        _detailBottomSheet.UpdateAudioProgress(AudioPlayerControl.AudioSlider!.Value);
+        double progressPercentage = AudioPlayerControl.AudioSlider!.Value; // 0.0 - 100.0
+
+        _detailBottomSheet.UpdateAudioProgress(progressPercentage);
+        SongPart current = AppState.CurrentSongPart;
 
         // Update playlistSlider if visible.
         if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 2)
         {
-            _currentPlaylistView.ProgressSlider.Value = AppState.CurrentSongPart.PlaylistStartTime.TotalSeconds / CurrentPlaylistManager.Instance.ChosenPlaylist!.LengthInSeconds * 100;
+            var percentage = progressPercentage / 100;
+            var secondsIntoSegment = (percentage * current.ClipLength);
+            var currentSecondsIntoPlaylist = current.PlaylistStartTime.TotalSeconds + secondsIntoSegment;
+
+            var playlistProgressValue = currentSecondsIntoPlaylist / CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist!.LengthInSeconds * 100.0;
+            _currentPlaylistView.ProgressSlider.Value = playlistProgressValue;
+            _currentPlaylistView.Progress = TimeSpan.FromSeconds(currentSecondsIntoPlaylist);
+            _currentPlaylistView.RefreshProgress();
         }
     }
 

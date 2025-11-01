@@ -2,16 +2,15 @@
 using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
-using RpdPlayerApp.Managers;
 using RpdPlayerApp.Repositories;
-using System.ComponentModel;
 
 namespace RpdPlayerApp.Models;
 /// <remarks> JSON usage is because of newsitems. Maybe can be reworked? </remarks>
 internal partial class SongPart : ObservableObject
 {
-    /// <summary> This is an index based on a playlist. For a unique identifier, use the audioURL. </summary>
-    public int Id { get; set; }
+    /// <summary> Order index for playlist. For a unique identifier, use the audioURL. </summary>
+    [ObservableProperty]
+    private int _id;
 
     [ObservableProperty]
     private string _title;
@@ -69,6 +68,7 @@ internal partial class SongPart : ObservableObject
     [ObservableProperty]
     private TimeSpan _clipLengthAsTimeSpan;
 
+    [JsonIgnore]
     [ObservableProperty]
     private TimeSpan _playlistStartTime = TimeSpan.MinValue;
 
@@ -116,7 +116,7 @@ internal partial class SongPart : ObservableObject
         AlbumTitle = albumTitle;
         AudioURL = audioURL;
         ClipLength = clipLength;
-        _clipLengthAsTimeSpan = TimeSpan.FromSeconds(clipLength);
+        ClipLengthAsTimeSpan = TimeSpan.FromSeconds(clipLength);
         VideoURL = videoURL;
         HasVideo = VideoRepository.VideoExists(artistName: artistName, title: title, partNameShort: partNameShort, partNameNumber: partNameNumber);
 

@@ -41,7 +41,6 @@ internal static class SongPartRepository
                 string videoURL = matches[n + 6].Groups[1].Value.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos");
 
                 SongPart songPart = new(
-                    id: i,
                     artistName: artistName,
                     albumTitle: albumTitle,
                     title: matches[n + 2].Groups[1].Value,

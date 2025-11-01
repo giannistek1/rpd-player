@@ -4,6 +4,7 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
@@ -15,7 +16,8 @@ public partial class AudioPlayerControl : ContentView
     internal EventHandler? UpdateProgress;
 
     internal Slider? AudioSlider;
-    internal Slider? PlaylistSlider;
+
+    internal CurrentPlaylistViewModel? CurrentPlaylistViewModel;
 
     public AudioPlayerControl()
     {
@@ -58,7 +60,7 @@ public partial class AudioPlayerControl : ContentView
 
     private void ViewSongPartDetailsTapped(object sender, TappedEventArgs e)
     {
-        if (AppState.CurrentSongPart is null || AppState.CurrentSongPart.Id < 0) { return; }
+        if (AppState.CurrentSongPart is null) { return; }
 
         ShowDetails?.Invoke(sender, e);
     }
@@ -72,6 +74,11 @@ public partial class AudioPlayerControl : ContentView
 
         TimeSpan duration = TimeSpan.FromSeconds(e.SongPart.ClipLength);
         DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
+
+        if (AppState.PlayMode == PlayModeValue.Playlist)
+        {
+            CurrentPlaylistViewModel!.CurrentIndex = e.SongPart.Id;
+        }
     }
 
     private void OnPlayAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PauseIcon;
@@ -111,6 +118,7 @@ public partial class AudioPlayerControl : ContentView
     private void AudioMediaElementPositionChanged(object? sender, MediaPositionChangedEventArgs e)
     {
         // Can also use a timer and update value on main thread after time elapsed.
+        // AudioMediaElement position in seconds / total duration in seconds
         AudioProgressSlider.Value = e.Position.TotalSeconds / AudioManager.CurrentPlayer!.Duration.TotalSeconds * 100;
 
         AudioMediaElement.Volume = CommonSettings.MainVolume;

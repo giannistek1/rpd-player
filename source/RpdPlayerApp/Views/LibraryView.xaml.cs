@@ -231,7 +231,7 @@ public partial class LibraryView : ContentView
 
                         songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
                         playlist.Segments.Add(songPart);
-                        startTime.Add(songPart.ClipLengthAsTimeSpan);
+                        startTime += songPart.ClipLengthAsTimeSpan;
                     }
                     catch (Exception ex)
                     {
@@ -273,9 +273,10 @@ public partial class LibraryView : ContentView
         }
 
         List<Playlist> playlists = [];
+        TimeSpan startTime = TimeSpan.Zero;
 
-        var results = await PlaylistRepository.GetCloudPlaylists();
-        foreach (var playlistDto in results)
+        var cloudPlaylists = await PlaylistRepository.GetCloudPlaylists();
+        foreach (var playlistDto in cloudPlaylists)
         {
             Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name)
             {
@@ -297,11 +298,13 @@ public partial class LibraryView : ContentView
                                             partNameNumber: segment.SegmentNumber,
                                             clipLength: segment.ClipLength,
                                             audioURL: segment.AudioUrl,
-                                            videoURL: segment.AudioUrl.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos")
+                                            videoURL: segment.AudioUrl.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos"),
+                                            playlistStartTime: startTime
                                         );
-
                     songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
                     playlist.Segments.Add(songPart);
+
+                    startTime += songPart.ClipLengthAsTimeSpan;
 
                     DebugService.Instance.Debug($"{songPart.AudioURL} - {songPart.AlbumTitle} added!");
                 }
@@ -327,6 +330,7 @@ public partial class LibraryView : ContentView
         }
 
         List<Playlist> playlists = [];
+        TimeSpan startTime = TimeSpan.Zero;
 
         var results = await PlaylistRepository.GetAllPublicPlaylists();
         foreach (var playlistDto in results)
@@ -352,11 +356,14 @@ public partial class LibraryView : ContentView
                                             partNameNumber: segment.SegmentNumber,
                                             clipLength: segment.ClipLength,
                                             audioURL: segment.AudioUrl,
-                                            videoURL: segment.AudioUrl.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos")
+                                            videoURL: segment.AudioUrl.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos"),
+                                            playlistStartTime: startTime
                                         );
 
                     songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
                     playlist.Segments.Add(songPart);
+
+                    startTime += songPart.ClipLengthAsTimeSpan;
                 }
             }
             catch (Exception ex)
