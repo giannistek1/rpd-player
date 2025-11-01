@@ -351,10 +351,10 @@ public partial class MainPage
 
     private void OnBackToPlaylists(object? sender, EventArgs e) => BackToPlaylists();
 
-    private void BackToPlaylists()
+    private async void BackToPlaylists()
     {
         _currentPlaylistView.ResetCurrentPlaylist();
-        LibraryView!.LoadPlaylists();
+        await LibraryView!.LoadPlaylists();
 
         _currentPlaylistView.IsVisible = false;
         LibraryView.IsVisible = true;
@@ -427,7 +427,7 @@ public partial class MainPage
         SongPart current = AppState.CurrentSongPart;
 
         // Update playlistSlider if visible.
-        if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 2)
+        if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 2 && CurrentPlaylistManager.Instance.ChosenPlaylist == CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist)
         {
             var percentage = progressPercentage / 100;
             var secondsIntoSegment = (percentage * current.ClipLength);

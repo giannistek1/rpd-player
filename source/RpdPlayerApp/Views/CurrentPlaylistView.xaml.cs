@@ -116,7 +116,10 @@ public partial class CurrentPlaylistView : ContentView
     // TODO: To ViewModel
     internal void RefreshProgress()
     {
-        CurrentProgressLabel.Text = String.Format("{0:hh\\:mm\\:ss}", Progress);
+        if (CurrentPlaylistManager.Instance.ChosenPlaylist == CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist)
+        {
+            CurrentProgressLabel.Text = String.Format("{0:hh\\:mm\\:ss}", Progress);
+        }
     }
 
     internal async void ClearPlaylistButtonClicked(object? sender, EventArgs e)

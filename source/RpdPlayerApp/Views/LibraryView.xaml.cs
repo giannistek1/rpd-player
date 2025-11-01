@@ -273,7 +273,6 @@ public partial class LibraryView : ContentView
         }
 
         List<Playlist> playlists = [];
-        TimeSpan startTime = TimeSpan.Zero;
 
         var cloudPlaylists = await PlaylistRepository.GetCloudPlaylists();
         foreach (var playlistDto in cloudPlaylists)
@@ -285,6 +284,8 @@ public partial class LibraryView : ContentView
                 IsPublic = playlistDto.IsPublic,
                 Owner = AppState.Username,
             };
+
+            TimeSpan startTime = TimeSpan.Zero;
 
             try
             {
@@ -330,7 +331,6 @@ public partial class LibraryView : ContentView
         }
 
         List<Playlist> playlists = [];
-        TimeSpan startTime = TimeSpan.Zero;
 
         var results = await PlaylistRepository.GetAllPublicPlaylists();
         foreach (var playlistDto in results)
@@ -343,6 +343,8 @@ public partial class LibraryView : ContentView
                 IsCloudPlaylist = true,
                 IsPublic = true,
             };
+
+            TimeSpan startTime = TimeSpan.Zero;
 
             try
             {

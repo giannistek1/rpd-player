@@ -34,7 +34,7 @@ internal static class PlaylistRepository
 
             segments.Add(new SongSegmentDto
             {
-                Id = i,
+                Id = i + 1,
                 AlbumName = segment.AlbumTitle,
                 Title = segment.Title,
                 ArtistName = segment.ArtistName,

@@ -160,11 +160,11 @@ internal static class PlaylistsManager
     internal static bool SegmentIsInPlaylist(string playlistName, PlaylistModeValue playlistMode, SongPart? segment)
     {
         Playlist? playlist = null;
-        if (playlistMode == PlaylistModeValue.Local)
+        if (playlistMode == PlaylistModeValue.Local && CacheState.LocalPlaylists is not null)
         {
             playlist = CacheState.LocalPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         }
-        else if (playlistMode == PlaylistModeValue.Cloud)
+        else if (playlistMode == PlaylistModeValue.Cloud && CacheState.CloudPlaylists is not null)
         {
             playlist = CacheState.CloudPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         }

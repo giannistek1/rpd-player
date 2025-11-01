@@ -75,7 +75,7 @@ public partial class AudioPlayerControl : ContentView
         TimeSpan duration = TimeSpan.FromSeconds(e.SongPart.ClipLength);
         DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
 
-        if (AppState.PlayMode == PlayModeValue.Playlist)
+        if (AppState.PlayMode == PlayModeValue.Playlist && CurrentPlaylistManager.Instance.ChosenPlaylist == CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist)
         {
             CurrentPlaylistViewModel!.CurrentIndex = e.SongPart.Id;
         }
