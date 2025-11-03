@@ -259,10 +259,10 @@ public partial class MainPage
         }
         else // CurrentPlaylist is visible.
         {
-            Title = CurrentPlaylistManager.Instance.ChosenPlaylist.Name;
+            Title = CurrentPlaylistManager.Instance.ChosenPlaylist!.Name;
             AddToolbarItem(IconManager.ToolbarPlayIcon, _currentPlaylistView.PlayPlaylistButtonClicked, 1);
             //AddToolbarItem(IconManager.ToolbarSaveIcon, _currentPlaylistView.SavePlaylistButtonClicked, 2);
-            AddToolbarItem(IconManager.ToolbarClearIcon, _currentPlaylistView.ClearPlaylistButtonClicked, 3);
+            //AddToolbarItem(IconManager.ToolbarClearIcon, _currentPlaylistView.ClearPlaylistButtonClicked, 3);
             //AddToolbarItem(AppState.UsingCloudMode ? IconManager.ToolbarCloudIcon : IconManager.ToolbarCloudOffIcon, _currentPlaylistView.ToggleCloudModePressed, 4);
 
             _currentPlaylistView.InitializeView();

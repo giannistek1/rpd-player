@@ -33,9 +33,20 @@ internal static class General
 
     internal static void ShowToast(string message) => Toast.Make(message, CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
 
-    internal async static Task<InputPromptResult> ShowInputPrompt(string title, string placeholder)
+    internal async static Task<InputPromptResult> ShowInputPrompt(string title, string placeholder, int maxLength = 20)
     {
-        InputPromptPopup popup = new(title, placeholder);
+        InputPromptPopup popup = new(title, placeholder, maxLength);
+        object? result = await Application.Current!.MainPage!.ShowPopupAsync(popup); // TODO: use page as param.
+        if (result is InputPromptResult inputPromptResult)
+        {
+            return inputPromptResult;
+        }
+        return new InputPromptResult();
+    }
+
+    internal async static Task<InputPromptResult> ShowInputAreaPrompt(string title, string placeholder, int maxLength = 20)
+    {
+        InputAreaPromptPopup popup = new(title, placeholder, maxLength);
         object? result = await Application.Current!.MainPage!.ShowPopupAsync(popup); // TODO: use page as param.
         if (result is InputPromptResult inputPromptResult)
         {

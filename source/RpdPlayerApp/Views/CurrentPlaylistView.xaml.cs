@@ -32,8 +32,8 @@ public partial class CurrentPlaylistView : ContentView
 
     internal void InitializeView()
     {
-        BackButtonImageButton.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
-        BackButtonImageButton.Source = IconManager.BackIcon;
+        BackImageButton.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
+        BackImageButton.Source = IconManager.BackIcon;
 
         CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments.CollectionChanged += CollectionChanged;
     }
@@ -46,8 +46,8 @@ public partial class CurrentPlaylistView : ContentView
     internal async void BackButtonClicked(object? sender, EventArgs e)
     {
         // To hide soft keyboard programmatically.
-        PlaylistNameEntry.IsEnabled = false;
-        PlaylistNameEntry.IsEnabled = true;
+        //PlaylistNameEntry.IsEnabled = false;
+        //PlaylistNameEntry.IsEnabled = true;
 
         Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
 
@@ -56,7 +56,7 @@ public partial class CurrentPlaylistView : ContentView
             CacheState.CloudPlaylists = null;
             await PlaylistRepository.SaveCloudPlaylist(id: playlist.Id,
                                                         creationDate: playlist.CreationDate,
-                                                        name: PlaylistNameEntry.Text,
+                                                        name: playlist.Name,
                                                         playlist.LengthInSeconds,
                                                         playlist.Count,
                                                         playlist.Segments.ToList(),
@@ -65,7 +65,7 @@ public partial class CurrentPlaylistView : ContentView
 
         // Reload cache.
         CacheState.LocalPlaylists = null;
-        await PlaylistsManager.SavePlaylistLocally(playlist, PlaylistNameEntry.Text);
+        await PlaylistsManager.SavePlaylistLocally(playlist, playlist.Name);
 
         CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments.CollectionChanged -= CollectionChanged;
 
@@ -80,7 +80,7 @@ public partial class CurrentPlaylistView : ContentView
         //PlaySongPart!.Invoke(sender, e);
     }
 
-    internal async void SavePlaylistButtonClicked(object? sender, EventArgs e) => await PlaylistsManager.SavePlaylistLocally(CurrentPlaylistManager.Instance.ChosenPlaylist!, PlaylistNameEntry.Text);
+    internal async void SavePlaylistButtonClicked(object? sender, EventArgs e) => await PlaylistsManager.SavePlaylistLocally(CurrentPlaylistManager.Instance.ChosenPlaylist!, CurrentPlaylistManager.Instance.ChosenPlaylist!.Name);
 
 
     internal void ToggleCloudModePressed(object? sender, EventArgs e)
@@ -99,9 +99,7 @@ public partial class CurrentPlaylistView : ContentView
     {
         var playlist = CurrentPlaylistManager.Instance.ChosenPlaylist;
 
-        PlaylistNameEntry.Text = playlist!.Name;
-
-        if (playlist.Segments is not null)
+        if (playlist!.Segments is not null)
         {
             CurrentPlaylistListView.ItemsSource = playlist.Segments;
 
@@ -122,9 +120,9 @@ public partial class CurrentPlaylistView : ContentView
         }
     }
 
-    internal async void ClearPlaylistButtonClicked(object? sender, EventArgs e)
+    internal async void ClearPlaylistImageButtonClicked(object? sender, EventArgs e)
     {
-        bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Clear {CurrentPlaylistManager.Instance.ChosenPlaylist.Name}?", "Yes", "No");
+        bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Clear {CurrentPlaylistManager.Instance.ChosenPlaylist!.Name}?", "Yes", "No");
         if (accept)
         {
             CurrentPlaylistManager.Instance.ClearCurrentPlaylist();
@@ -138,23 +136,36 @@ public partial class CurrentPlaylistView : ContentView
         if (CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments is not null)
         {
             CurrentPlaylistListView.ItemsSource = null;
-
-            PlaylistNameEntry.Text = string.Empty;
         }
     }
 
-    private void ShufflePlaylistButtonImageButtonClicked(object sender, EventArgs e)
+    private async void EditPlaylistnameImageButtonClicked(object sender, EventArgs e)
+    {
+        Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
+        InputPromptResult result = await General.ShowInputPrompt("Playlist name: ", playlist.Name);
+        playlist.Name = result.ResultText;
+        ParentPage!.Title = playlist.Name;
+    }
+
+    private void ShufflePlaylistImageButtonClicked(object sender, EventArgs e)
     {
         CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments = General.RandomizePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.Segments]).ToObservableCollection();
         CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments);
         CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.Segments;
     }
 
-    private void MixedShufflePlaylistButtonImageButtonClicked(object sender, EventArgs e)
+    private void MixedShufflePlaylistImageButtonClicked(object sender, EventArgs e)
     {
         CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments = General.RandomizeAndAlternatePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.Segments]).ToObservableCollection();
         CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments);
         CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.Segments;
+    }
+
+    private async void ImportPlaylistImageButtonClicked(object sender, EventArgs e)
+    {
+        Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
+        InputPromptResult result = await General.ShowInputAreaPrompt("Import songs: ", playlist.Name, maxLength: 15000);
+        // Do something
     }
 
     #endregion Playlist
