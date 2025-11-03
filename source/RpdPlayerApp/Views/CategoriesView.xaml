@@ -158,10 +158,9 @@
                             
                             <VerticalStackLayout Padding="0">
 
-                                <Border WidthRequest="200" StrokeShape="RoundRectangle 8" 
-                                        Padding="0" VerticalOptions="Center">
+                            <Border MaximumHeightRequest="160" MaximumWidthRequest="200" StrokeShape="RoundRectangle 8" Padding="0" VerticalOptions="Center">
 
-                                    <Image WidthRequest="200" Aspect="AspectFit">
+                                    <Image HeightRequest="160" Aspect="AspectFill">
                                         <Image.Source>
                                             <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
                                         </Image.Source>

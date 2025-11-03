@@ -29,33 +29,6 @@ public partial class CategoriesView : ContentView
         SoloImageButton.Pressed += SetFilter;
         GroupImageButton.Pressed += SetFilter;
 
-        //    "[SHINHWA][][1998-03-24][BG][6][SM Entertainment].jpg",
-
-        //    "%5BBIGBANG%5D%5B%5D%5B2006-08-19%5D%5BBG%5D%5B4%5D%5BYG%20Entertainment%5D.jpg",
-        //    "%5BGirls%20Generation%20(SNSD)%5D%5BSNSD%2C%20GG%5D%5B2007-08-05%5D%5BGG%5D%5B8%5D%5BSM%20Entertainment%5D.webp",
-        //    "%5B2PM%5D%5BHottest%20time%20of%20the%20day%5D%5B2008-09-04%5D%5BBG%5D%5B6%5D%5BJYP%20Entertainment%5D.jpg",
-        //    "%5BSHINee%5D%5B%5D%5B2008-05-25%5D%5BBG%5D%5B5%5D%5BSM%20Entertainment%5D.webp",
-        //    "%5BSuper%20Junior%5D%5BSUJU%5D%5B2005-11-06%5D%5BBG%5D%5B10%5D%5BSM%20Entertainment%5D.webp",
-        //    "%5B2NE1%5D%5B21%5D%5B2009-05-06%5D%5BGG%5D%5B4%5D%5BYG%20Entertainment%5D.jpg"
-
-        //    "[BTS][Bangtan Sonyeondan][2013-06-13][BG][7][Big Hit Entertainment].jpg",
-        //    "[EXO][][2012-04-08][BG][9][SM Entertainment].png",
-        //    "[Twice][TWICE][2015-10-20][GG][9][JYP Entertainment].webp",
-        //    "[Blackpink][BLACKPINK][2016-08-08][GG][4][YG Entertainment].jpg",
-        //    "[GOT7][][2014-01-16][BG][7][JYP Entertainment].webp",
-        //    "[Red Velvet][RV][2014-08-01][GG][5][SM Entertainment].jpg"
-
-        //    "%5BStray%20Kids%5D%5BSKZ%5D%5B2018-03-25%5D%5BBG%5D%5B8%5D%5BJYP%20Entertainment%5D.jpg",
-        //    "%5BATEEZ%5D%5BKQ%20Fellaz%5D%5B2018-10-24%5D%5BBG%5D%5B8%5D%5BKQ%20Entertainment%5D.jpeg",
-        //    "%5BITZY%5D%5B%5D%5B2019-02-12%5D%5BGG%5D%5B5%5D%5BJYP%20Entertainment%5D.webp",
-        //    "%5BTXT%5D%5BTomorrow%20X%20Together%5D%5B2019-03-04%5D%5BBG%5D%5B5%5D%5BBig%20Hit%20Entertainment%5D.jpg",
-        //    "%5Baespa%5D%5BAvatar%20x%20experience%5D%5B2020-11-17%5D%5BGG%5D%5B4%5D%5BSM%20Entertainment%5D.jpg"
-
-        //    "%5BRIIZE%5D%5B%5D%5B2023-09-04%5D%5BBG%5D%5B7%5D%5BSM%20Entertainment%5D.jpg",
-        //    "%5BZEROBASEONE%5D%5BZB1%5D%5B2023-07-10%5D%5BBG%5D%5B9%5D%5BWake%20One%5D.jpg",
-        //    "%5BBABYMONSTER%5D%5BBM%5D%5B2024-04-01%5D%5BGG%5D%5B7%5D%5BYG%20Entertainment%5D.jpg",
-        //    "%5BKISS%20OF%20LIFE%5D%5BKIOF%5D%5B2023-07-05%5D%5BGG%5D%5B4%5D%5BS2%20Entertainment%5D.jpg"
-
         var topFirstGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.First);
         var topSecondGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Second);
         var topThirdGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Third);
