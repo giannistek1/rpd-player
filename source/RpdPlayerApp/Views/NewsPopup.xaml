@@ -15,7 +15,7 @@
 
                 <Label Grid.Column="0"  Text="New songs below!" Padding="16,16,0,0" FontSize="16" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="1.5"/>
                 
-                <ImageButton Grid.Column="1" HeightRequest="30" x:Name="CloseImageButton" Pressed="CloseImageButton_Pressed" VerticalOptions="CenterAndExpand">
+                <ImageButton Grid.Column="1" HeightRequest="30" x:Name="CloseImageButton" Pressed="CloseImageButtonPressed" VerticalOptions="CenterAndExpand">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Close}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>

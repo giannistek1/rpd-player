@@ -57,7 +57,7 @@
 
                     </ImageButton>
 
-                    <Label Text="Name" HorizontalOptions="Center" VerticalOptions="Start" FontSize="7" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                    <Label Text="Rename" HorizontalOptions="Center" VerticalOptions="Start" FontSize="7" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
 
                 </VerticalStackLayout>
 

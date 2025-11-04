@@ -47,7 +47,7 @@
 
         <views:AudioPlayerControl x:Name="AudioPlayerControl" Grid.Row="1"/>
 
-        <ScrollView x:Name="DebugScrollView" InputTransparent="True" VerticalOptions="End" BackgroundColor="Black" Opacity="0.6" HeightRequest="240" IsVisible="{Binding DebugInfoVisible}">
+        <ScrollView x:Name="DebugScrollView" InputTransparent="True" VerticalOptions="End" BackgroundColor="Black" Opacity="0.6" HeightRequest="300" IsVisible="{Binding DebugInfoVisible}">
                 <Label x:Name="DebugLogLabel" Text="{Binding DebugLog}" TextColor="Lime" FontSize="10" />
         </ScrollView>
     </Grid>

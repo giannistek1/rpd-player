@@ -43,14 +43,8 @@ internal partial class SearchSongPartsViewModel : ObservableObject
     private async Task FavoriteSegment(SongPart p)
     {
         bool success = await PlaylistsManager.TryAddSongPartToLocalPlaylist(Constants.FAVORITES, p!);
-        if (success)
-        {
-            General.ShowAlert("Favorite", $"Added {p.Title} to Favorites");
-        }
-        else
-        {
-            General.ShowAlert("Favorite", $"Failed to add {p.Title} to Favorites");
-        }
+        string message = success ? $"Added {p.Title} to Favorites" : $"Failed to add {p.Title} to Favorites";
+        General.ShowToast(message);
     }
     private Task AddToQueue(SongPart p) => Shell.Current.DisplayAlert("WIP", "TODO", "OK");
     private Task AddToPlaylist(SongPart p) => Shell.Current.DisplayAlert("WIP", $"TODO", "OK");

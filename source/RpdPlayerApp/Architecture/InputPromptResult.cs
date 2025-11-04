@@ -2,11 +2,11 @@
 
 internal class InputPromptResult
 {
-    internal string ResultText { get; set; }
+    internal string Text { get; set; }
     internal bool IsCanceled { get; set; }
     internal InputPromptResult(string resultText = "", bool isCanceled = true)
     {
-        ResultText = resultText;
+        Text = resultText;
         IsCanceled = isCanceled;
     }
 }

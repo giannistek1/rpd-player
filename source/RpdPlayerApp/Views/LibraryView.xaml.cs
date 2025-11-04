@@ -306,8 +306,6 @@ public partial class LibraryView : ContentView
                     playlist.Segments.Add(songPart);
 
                     startTime += songPart.ClipLengthAsTimeSpan;
-
-                    DebugService.Instance.Debug($"{songPart.AudioURL} - {songPart.AlbumTitle} added!");
                 }
             }
             catch (Exception ex)

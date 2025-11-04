@@ -560,8 +560,8 @@ public partial class HomeView : ContentView
 
         InputPromptResult result = await General.ShowInputPrompt("Playlist name:", generatedName);
         if (result.IsCanceled) { return; }
-        else if (result.ResultText.IsNullOrWhiteSpace()) { result.ResultText = generatedName; }
-        await PlaylistsManager.GeneratePlaylistFromSongParts(result.ResultText, songParts, (int)RpdSettings!.Duration.TotalMinutes);
+        else if (result.Text.IsNullOrWhiteSpace()) { result.Text = generatedName; }
+        await PlaylistsManager.GeneratePlaylistFromSongParts(result.Text, songParts, (int)RpdSettings!.Duration.TotalMinutes);
     }
 
     private void StartRpdButtonClicked(object? sender, EventArgs e)

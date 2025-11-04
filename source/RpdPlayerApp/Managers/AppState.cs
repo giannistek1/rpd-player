@@ -45,6 +45,8 @@ internal static class AppState
 
     #endregion
 
+
+    /// <summary> Collection of all song segments. </summary>
     internal static List<SongPart> SongParts { get; set; } = [];
     /// <summary> Song to play (after countdown). </summary>
     internal static SongPart CurrentSongPart { get; set; } = new();

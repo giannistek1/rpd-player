@@ -5,14 +5,14 @@ namespace RpdPlayerApp.Views;
 
 public partial class NewsPopup : Popup
 {
-	internal List<NewsItem> NewsItems { get; set; } = [];
+    internal List<NewsItem> NewsItems { get; set; } = [];
 
-	public NewsPopup()
-	{
-		InitializeComponent(); // Namespace is needed in XAML for this to be recognized.
+    public NewsPopup()
+    {
+        InitializeComponent(); // Namespace is needed in XAML for this to be recognized.
 
-		NewsListView.ItemsSource = NewsItems;
-	}
+        NewsListView.ItemsSource = NewsItems;
+    }
 
-    private void CloseImageButton_Pressed(object sender, EventArgs e) => Close();
+    private void CloseImageButtonPressed(object sender, EventArgs e) => Close();
 }

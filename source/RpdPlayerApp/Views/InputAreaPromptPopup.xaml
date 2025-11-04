@@ -4,20 +4,24 @@
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                x:Class="RpdPlayerApp.Views.InputAreaPromptPopup">
 
-    <VerticalStackLayout Padding="20" Spacing="10" BackgroundColor="{DynamicResource BackgroundColor}">
+    <Grid RowDefinitions="40, *, 50" Padding="20" BackgroundColor="{DynamicResource BackgroundColor}">
 
         <Label x:Name="TitleLabel" />
 
-        <Editor x:Name="InputEditor" HeightRequest="300" />
+        <ScrollView Grid.Row="1" >
+            
+            <Editor x:Name="InputEditor" />
+            
+        </ScrollView>
 
-        <HorizontalStackLayout>
+        <HorizontalStackLayout Grid.Row="2">
 
-            <Button Text="OK" Clicked="OnOkClicked" BackgroundColor="{DynamicResource PrimaryButton}" Margin="0,0,4,0" />
+            <Button Text="OK" Clicked="OnOkClicked" BackgroundColor="{DynamicResource PrimaryButton}" Padding="16,0,16,0" Margin="0,0,4,0" />
 
             <Button Text="Cancel" Clicked="OnCancelClicked" BackgroundColor="{DynamicResource SecondaryButton}" Margin="4,0,0,0"  />
 
         </HorizontalStackLayout>
 
-    </VerticalStackLayout>
+    </Grid>
 
 </toolkit:Popup>

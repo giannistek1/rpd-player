@@ -24,15 +24,19 @@ internal static class General
         return true;
     }
 
-    internal static void ShowAlert(string title, string message)
+    /// <summary> Show longer awaitable important message to user. </summary>
+    internal static async Task ShowAlert(string title, string message)
     {
-        Shell.Current.DisplayAlert(title, message, "OK");
+        await Shell.Current.DisplayAlert(title, message, "OK");
         // Alternative:
         //Application.Current.MainPage.DisplayAlert("Alert", "This is an alert message.", "OK");
     }
 
+    /// <summary> Show small and short message to user. </summary>
+    /// <param name="message"></param>
     internal static void ShowToast(string message) => Toast.Make(message, CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
 
+    /// <summary> Ask for user input. </summary>
     internal async static Task<InputPromptResult> ShowInputPrompt(string title, string placeholder, int maxLength = 20)
     {
         InputPromptPopup popup = new(title, placeholder, maxLength);
@@ -44,6 +48,7 @@ internal static class General
         return new InputPromptResult();
     }
 
+    /// <summary> Ask for big user input. </summary>
     internal async static Task<InputPromptResult> ShowInputAreaPrompt(string title, string placeholder, int maxLength = 20)
     {
         InputAreaPromptPopup popup = new(title, placeholder, maxLength);
