@@ -213,6 +213,8 @@ public partial class CurrentPlaylistView : ContentView
                     artistFirst = false;
                 else
                     artistFirst = true; // fallback
+
+                DebugService.Instance.Info($"artistFirst: {artistFirst}");
             }
 
             string artist = artistFirst.Value ? first : second;
@@ -222,14 +224,17 @@ public partial class CurrentPlaylistView : ContentView
             {
                 string normArtist = Normalize(s.ArtistName);
                 string normTitle = Normalize(s.Title);
+                string normAltArtist = Normalize(s.Artist.AltName);
                 string normInputArtist = Normalize(artist);
                 string normInputTitle = Normalize(title);
 
-                bool artistMatch =
-                    normArtist.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
-                    normInputArtist.StartsWith(normArtist, StringComparison.OrdinalIgnoreCase);
+                // Test cases: TAEMIN - TAEMIN (SHINee)
+                bool artistMatch = normArtist.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
+                   normAltArtist.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase);
 
-                bool titleMatch = normTitle.Contains(normInputTitle, StringComparison.OrdinalIgnoreCase);
+                // Test cases: Black Cat Nero - The Black Cat Nero
+                bool titleMatch = normTitle.StartsWith(normInputTitle, StringComparison.OrdinalIgnoreCase) ||
+                                  normTitle.EndsWith(normInputTitle, StringComparison.OrdinalIgnoreCase);
 
                 return artistMatch && titleMatch;
             });
