@@ -139,6 +139,7 @@ public partial class CurrentPlaylistView : ContentView
         if (CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments is not null)
         {
             CurrentPlaylistListView.ItemsSource = null;
+            CurrentPlaylistManager.Instance.ChosenPlaylist = null;
         }
     }
 
@@ -248,7 +249,7 @@ public partial class CurrentPlaylistView : ContentView
         // Show results
         if (notFound.Count > 0)
         {
-            bool accept = await ParentPage!.DisplayAlert("Songs not found", $"Do you still want to add the found songs to {playlist.Name}?", "Yes", "No");
+            bool accept = await ParentPage!.DisplayAlert($"{notFound.Count} songs not found", $"Add the found {foundSongs.Count} songs to {playlist.Name}?", "Yes", "No");
             if (accept)
             {
                 // TODO: Make/user helper method.
@@ -275,6 +276,8 @@ public partial class CurrentPlaylistView : ContentView
             }
             General.ShowToast($"{foundSongs.Count} songs successfully added to playlist \"{playlist.Name}\"!");
         }
+        CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref playlist.Segments);
+        RefreshCurrentPlaylist();
     }
     static string Normalize(string input)
     {
