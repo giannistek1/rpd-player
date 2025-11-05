@@ -38,7 +38,7 @@ public partial class HomeView : ContentView
 
     private static void LoadInitialData()
     {
-        if (!General.HasInternetConnection()) { General.ShowToast("No internet connection. Offline mode.") return; }
+        if (!General.HasInternetConnection()) { General.ShowToast("No internet connection. Offline mode."); return; }
 
         ArtistRepository.GetArtists();
         AlbumRepository.GetAlbums();
