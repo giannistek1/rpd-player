@@ -168,7 +168,7 @@ public partial class CurrentPlaylistView : ContentView
     private async void ImportPlaylistImageButtonClicked(object sender, EventArgs e)
     {
         Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
-        InputPromptResult result = await General.ShowInputAreaPrompt("Import songs: ", playlist.Name, maxLength: 15000);
+        InputPromptResult result = await General.ShowInputAreaPrompt("Import songs: ", $"Examples may be Artist - title or title - artist, timestamps at start get filtered out. {System.Environment.NewLine}00:00:00 ATEEZ - Ice on my teeth becomes ATEEZ - Ice on my teeth", maxLength: 15000);
 
         if (result.IsCanceled || string.IsNullOrWhiteSpace(result.Text)) { return; }
 
@@ -249,10 +249,10 @@ public partial class CurrentPlaylistView : ContentView
         // Show results
         if (notFound.Count > 0)
         {
-            bool accept = await ParentPage!.DisplayAlert($"{notFound.Count} songs not found", $"Add the found {foundSongs.Count} songs to {playlist.Name}?", "Yes", "No");
+            bool accept = await ParentPage!.DisplayAlert($"{notFound.Count} songs not found", $"Add the {foundSongs.Count} found songs to {playlist.Name}?", "Yes", "No");
             if (accept)
             {
-                // TODO: Make/user helper method.
+                // TODO: Make/user helper method: AddSegmentToSegments
                 foreach (SongPart segment in foundSongs)
                 {
                     if (!playlist.Segments.Contains(segment))
@@ -266,7 +266,7 @@ public partial class CurrentPlaylistView : ContentView
         }
         else
         {
-            // TODO: Make/user helper method.
+            // TODO: Make/user helper method: AddSegmentToSegments
             foreach (SongPart segment in foundSongs)
             {
                 if (!playlist.Segments.Contains(segment))
