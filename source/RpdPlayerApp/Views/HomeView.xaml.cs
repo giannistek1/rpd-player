@@ -38,7 +38,7 @@ public partial class HomeView : ContentView
 
     private static void LoadInitialData()
     {
-        if (!General.HasInternetConnection()) { General.ShowToast("No internet connection. Offline mode."); return; }
+        if (!General.HasInternetConnection()) { return; }
 
         ArtistRepository.GetArtists();
         AlbumRepository.GetAlbums();
@@ -74,6 +74,8 @@ public partial class HomeView : ContentView
 
     private async Task HandleSongPartsDifference()
     {
+        if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return; }
+
         var oldSongList = await FileManager.LoadNewsItemsFromFilePath($"{NewsManager.SONGPARTS}.txt");
 
         if (oldSongList is not null)
@@ -134,6 +136,8 @@ public partial class HomeView : ContentView
     /// <summary> Fills in companies. </summary>
     private void InitializeCompanies()
     {
+        if (ArtistRepository.Artists is null || ArtistRepository.Artists.Count == 0) { return; }
+
         Constants.AllCompanies = ArtistRepository.Artists.Select(artist => artist.Company).Distinct().ToList();
         var mainCompanies = Constants.YGCompanies.Concat(Constants.HybeCompanies)
                                                      .Concat(Constants.SMCompanies)
@@ -655,6 +659,8 @@ public partial class HomeView : ContentView
 
     private List<SongPart> FilterSongParts()
     {
+        if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return []; }
+
         var songParts = SongPartRepository.SongParts.Where(s => RpdSettings!.GroupTypes.Contains(s.Artist.GroupType))
                                                     .Where(s => RpdSettings!.Genres.Contains(s.Album.GenreFull))
                                                     .Where(s => !RpdSettings!.NumberedPartsBlacklist.Contains(s.PartNameShortWithNumber))
