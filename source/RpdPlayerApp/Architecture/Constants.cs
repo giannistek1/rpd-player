@@ -10,8 +10,8 @@ internal static class Constants
     internal const string ARTISTS_SOURCE_URL = "https://github.com/giannistek1/rpd-artists/blob/main/artists.txt?raw=true";
     internal const string ALBUMS_SOURCE_URL = "https://github.com/giannistek1/rpd-albums/blob/main/albums.txt?raw=true";
 
-    internal const string BASE_URL = "https://faodcajoizngcccweqsa.supabase.co";
-    internal const string APIKEY = "sb_publishable_jHJCvDKjym5BIqaRdmiiog__mmQYcfU";
+    internal const string BASE_URL = "";
+    internal const string APIKEY = "";
     internal const string SONGREQUEST_ROUTE = "/rest/v1/song_request";
     internal const string FEEDBACK_ROUTE = "/rest/v1/feedback";
     internal const string PLAYLIST_ROUTE = "/rest/v1/playlist";
