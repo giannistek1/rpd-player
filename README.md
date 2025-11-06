@@ -7,11 +7,11 @@
 I do not own any rights to any of these songs, album images or dance videos. 
 The songs were written and produced by their respective artists. 
 The album images also belong to their respective artists.
-The dance videos belong to their respective channel owners on YouTube.
+The dance videos belong to their respective channel owners on YouTube or original agency of the artist.
 I am simply cutting parts out of the songs to use in this free-to-use app.
 
 # Rpd-player
-This is a hobby/educational project I work on in my free time. 
+This is a hobby/educational project I work on in my free time and hopefully helps people create random play dances. 
 
 # Preconditions development
 - Syncfusion version 28.1.33
@@ -35,45 +35,47 @@ A short countdown is played between each song so people have enough time to leav
 
 ### More in-depth context
 Tyically in South Korea they last an hour <br/>
-However in other countries they may be for the whole afternoon from 12:00-18:00 with several short breaks and several different playlists of each 1-2 hours with different twists, other dancing minigames and/or different dancecrews covering mashups or full songs.
+However in other countries they may be for the whole afternoon from 12:00-18:00 with several short breaks and several different playlists of each 1-2 hours with different twists, other dancing minigames and/or different dance crews/groups covering mashups or full songs.
 
 ## Scope
 - Platforms: Android, iOS and hopefully Windows but not looking promising so far.
-- Music player will only play mp3, because it is high quality and compressed.
-- Dance practice videos will be mirrored in 480p (or 360p), so the videos will be max 15mb per video.
-- Playlists will be saved locally and online.
-- Only Korean, Chinese-pop, Japanese-pop, English and Thai-pop songs for now.
+- Music player only plays mp3, because it is high quality and compressed.
+- Dance practice videos are mirrored in 480p (or 360p), so the videos will be max 15mb per video.
+- Playlists are saved locally and online.
+- Mostly Korean, some Chinese-pop, some Japanese-pop, English and Thai-pop songs for now.
 - Todo: Dance practices for most songs included with priority for more popular songs.
 - Future: May make an account system to save and load your own playlists online.
 - Future: May add bpm per song to add countings and make animation based on bpm.
 
 ## Benefits:
-- Todo: Hours of searching and editing music/videos -> Mere minutes of making a RPD playlist by importing your songlist or searching one by one.
-- Storage space saved on your phone by streaming the songs.
-- Save countless playlists, see how long they are and are easily editable.
-- Updating over time: Easy way to search up the dance practice in one place and slow it down.
-- Todo: Generate your own random play dance of X hours with certain settings, instead of going to the same old youtube videos.
+- Time save: Hours of searching and editing music/videos -> Mere minutes of making a RPD playlist by importing your songlist or searching one by one.
+- Save space: Storage space saved on your phone by streaming the songs.
+- Library of playlists: You can have countless playlists, see their duration and they are easily editable.
+- New songs every week.
+- Favorite choreos.
+- Mirrored dance practices in one place: Easy way to see the dance practice in ONE place and slow it down.
+- Generate your own unique random play dance of 1-3 hours with certain settings, instead of going to the same old youtube videos.
 - Random play dance by generation (sometimes people prefer certain kpop generations, because that is when they mostly listened to kpop).
 - Random play dance by k-pop year.
 - Random play dance by company, for example someone may be a SM stan and mostly listen to SM groups, e.g. NCT, aespa, Red Velvet, etc.
-- Todo: Easy way to share your playlist with other people when they have the app or send them a textual list.
-- Todo: Easy way to randomize your playlist with good variety.
+- Easy way to share your playlist with other people when they have the app or send them a textual list.
+- Todo expand: Easy way to randomize your playlist with good variety.
 - Todo: Language variety (Kpop, cpop, jpop, tpop)
 - Songs are ~30% louder than usual, which is ideal for people with smaller speakers.
-- No double songparts any more in your playlist
+- No double song segments any more in your playlist.
 
 # Feature summary
 - Music Player app for (kpop) random play dances. Includes playing, pausing and moving the audio progress slider.
-- Catalog of ~2000 songs and ~210 artists (1400 songs and 210 artists right now)
+- Catalog of ~2000 songs and ~210 artists (1450 songs and 210 artists right now)
    -  Mostly choruses and pre-choruses, but also dance breaks/bridges and tiktok versions
    -  In-app song request function
-- Create your own playlist, save it locally or online (todo: shareable)
+- Create your own playlist, save it locally or online.
 - Balanced randomizer for any playlist which mixes grouptypes and TODO: artists.
 - Themes! Thanks to Daniel Hindrik's tutorial.
-- Todo: Generate your own random play dance playlist based on a few settings
-- Todo: Voice clips in between songs (3,2,1, dance break)
+- Generate your own random play dance playlist based on a few settings
+- Audio clips in between songs (3,2,1, todo: dance break)
 - Multiple different filters/grouping: artist, company, clip length, generation, group type, language, song title
-- Video player to learn dances with speed adjustment (0.5, 0.75 speed)
+- Video player to learn dances and adjust video speed.
 
 ## Home 
 <p float="left">
@@ -96,7 +98,7 @@ However in other countries they may be for the whole afternoon from 12:00-18:00 
 
 ## Libraries
 - CommunityToolkit by Microsoft -> Toasts
-- CommunityToolkit.Maui.MediaElement by Microsoft -> audio and video processing
+- CommunityToolkit.Maui.MediaElement by Microsoft -> Audio and video processing
 - Dropbox API by Dropbox -> Online playlist storage
 - Syncfusion by Syncfusion -> Better ListView, slider, tabview, expander and Windows support (however bottomsheet is sadly not a Windows feature)
 - The49 BottomSheet -> For the bottomsheet
