@@ -266,6 +266,8 @@ public partial class LibraryView : ContentView
 
     internal async Task LoadCloudPlaylists()
     {
+        if (!General.HasInternetConnection()) { return; }
+
         if (CacheState.CloudPlaylists is not null && CacheState.CloudPlaylists.Any())
         {
             PlaylistsListView.ItemsSource = CacheState.CloudPlaylists;
@@ -322,6 +324,8 @@ public partial class LibraryView : ContentView
 
     internal async void LoadPublicPlaylists()
     {
+        if (!General.HasInternetConnection()) { return; }
+
         if (CacheState.PublicPlaylists is not null && CacheState.PublicPlaylists.Any())
         {
             PlaylistsListView.ItemsSource = CacheState.PublicPlaylists;
