@@ -168,17 +168,16 @@ public partial class CurrentPlaylistView : ContentView
     private async void ImportPlaylistImageButtonClicked(object sender, EventArgs e)
     {
         Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
-        InputPromptResult result = await General.ShowInputAreaPrompt("Import songs: ", $"Examples may be Artist - title or title - artist, timestamps at start get filtered out. {System.Environment.NewLine}00:00:00 ATEEZ - Ice on my teeth becomes ATEEZ - Ice on my teeth", maxLength: 15000);
+        InputPromptResult result = await General.ShowInputAreaPrompt("Paste your song list (max 15000 char):", $"Timestamps get filtered out.{Environment.NewLine}Valid examples below:{Environment.NewLine}{Environment.NewLine}ATEEZ - Answer{Environment.NewLine}Fancy - TWICE{Environment.NewLine}01:15:34 ATEEZ - Ice on my teeth", maxLength: 15000);
 
         if (result.IsCanceled || string.IsNullOrWhiteSpace(result.Text)) { return; }
 
-        // Split user input into lines
+        // Split user input into lines.
         string[] lines = result.Text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
         List<SongPart> foundSongs = [];
         List<ImportResult> notFound = [];
 
-        // Assuming you have a master list of songs
         List<SongPart> allSongs = AppState.SongParts;
 
         // Regex to strip timestamps like "0:32", "1:05:10", etc.
@@ -202,7 +201,7 @@ public partial class CurrentPlaylistView : ContentView
             string first = parts[0];
             string second = parts[1];
 
-            // Detect order from the first matchable line
+            // Detect order from the first matchable line.
             if (artistFirst is null)
             {
                 bool firstLooksLikeArtist = allSongs.Any(s => s.ArtistName.Equals(first, StringComparison.OrdinalIgnoreCase));
@@ -221,24 +220,48 @@ public partial class CurrentPlaylistView : ContentView
             string artist = artistFirst.Value ? first : second;
             string title = artistFirst.Value ? second : first;
 
-            SongPart? match = allSongs.FirstOrDefault(s =>
-            {
-                string normArtist = Normalize(s.ArtistName);
-                string normTitle = Normalize(s.Title);
-                string normAltArtist = Normalize(s.Artist.AltName);
-                string normInputArtist = Normalize(artist);
-                string normInputTitle = Normalize(title);
+            // Normalize user input
+            string normInputArtist = Normalize(artist);
+            string normInputTitle = Normalize(title);
 
-                // Test cases: TAEMIN - TAEMIN (SHINee)
-                bool artistMatch = normArtist.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
-                   normAltArtist.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase);
+            // Get all possible matches
+            var possibleMatches = allSongs
+                .Where(s =>
+                {
+                    string normArtist = Normalize(s.ArtistName);
+                    string normTitle = Normalize(s.Title);
+                    string normAltArtist = Normalize(s.Artist.AltName);
 
-                // Test cases: Black Cat Nero - The Black Cat Nero
-                bool titleMatch = normTitle.StartsWith(normInputTitle, StringComparison.OrdinalIgnoreCase) ||
-                                  normTitle.EndsWith(normInputTitle, StringComparison.OrdinalIgnoreCase);
+                    bool artistMatch = normArtist.Equals(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
+                                       normAltArtist.Equals(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
+                                       normArtist.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
+                                       normAltArtist.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase);
 
-                return artistMatch && titleMatch;
-            });
+                    bool titleMatch = normTitle.Equals(normInputTitle, StringComparison.OrdinalIgnoreCase) ||
+                                      normTitle.StartsWith(normInputTitle, StringComparison.OrdinalIgnoreCase) ||
+                                      normTitle.EndsWith(normInputTitle, StringComparison.OrdinalIgnoreCase);
+
+                    return artistMatch && titleMatch;
+                })
+                .Select(s =>
+                {
+                    string normTitle = Normalize(s.Title);
+                    // Higher score = better match
+                    int score = 0;
+
+                    // Prefer exact matches
+                    if (normTitle.Equals(normInputTitle, StringComparison.OrdinalIgnoreCase)) score += 100;
+                    // Partial matches give smaller scores
+                    else if (normTitle.Contains(normInputTitle, StringComparison.OrdinalIgnoreCase)) score += 50;
+                    // Closer (longer overlap) titles are favored
+                    score += Math.Min(normTitle.Length, normInputTitle.Length);
+
+                    return new { Song = s, Score = score };
+                })
+                .OrderByDescending(x => x.Score)
+                .ToList();
+
+            SongPart? match = possibleMatches.FirstOrDefault()?.Song;
 
             if (match != null)
                 foundSongs.Add(match);

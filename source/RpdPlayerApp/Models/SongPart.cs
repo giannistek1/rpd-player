@@ -118,6 +118,7 @@ internal partial class SongPart : ObservableObject
         ClipLength = clipLength;
         ClipLengthAsTimeSpan = TimeSpan.FromSeconds(clipLength);
         VideoURL = videoURL;
+
         HasVideo = VideoRepository.VideoExists(artistName: artistName, title: title, partNameShort: partNameShort, partNameNumber: partNameNumber);
 
         Album = AlbumRepository.MatchAlbum(artistName: artistName, albumTitle: albumTitle);

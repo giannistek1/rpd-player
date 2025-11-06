@@ -29,25 +29,27 @@ public partial class CategoriesView : ContentView
         SoloImageButton.Pressed += SetFilter;
         GroupImageButton.Pressed += SetFilter;
 
-        var topFirstGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.First);
-        var topSecondGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Second);
-        var topThirdGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Third);
-        var topFourthGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Fourth);
-        var topFifthGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Fifth);
+        if (General.HasInternetConnection())
+        {
+            var topFirstGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.First);
+            var topSecondGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Second);
+            var topThirdGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Third);
+            var topFourthGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Fourth);
+            var topFifthGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Fifth);
 
-        var firstGenDescription = MakeArtistsDescription(topFirstGens);
-        var secondGenDescription = MakeArtistsDescription(topSecondGens);
-        var thirdGenDescription = MakeArtistsDescription(topThirdGens);
-        var fourthGenDescription = MakeArtistsDescription(topFourthGens);
-        var fifthGenDescription = MakeArtistsDescription(topFifthGens);
+            var firstGenDescription = MakeArtistsDescription(topFirstGens);
+            var secondGenDescription = MakeArtistsDescription(topSecondGens);
+            var thirdGenDescription = MakeArtistsDescription(topThirdGens);
+            var fourthGenDescription = MakeArtistsDescription(topFourthGens);
+            var fifthGenDescription = MakeArtistsDescription(topFifthGens);
 
-        var firstGenArtist = ArtistRepository.GetRandomArtist(topFirstGens);
-        var secondGenArtist = ArtistRepository.GetRandomArtist(topSecondGens);
-        var thirdGenArtist = ArtistRepository.GetRandomArtist(topThirdGens);
-        var fourthGenArtist = ArtistRepository.GetRandomArtist(topFourthGens);
-        var fifthGenArtist = ArtistRepository.GetRandomArtist(topFifthGens);
+            var firstGenArtist = ArtistRepository.GetRandomArtist(topFirstGens);
+            var secondGenArtist = ArtistRepository.GetRandomArtist(topSecondGens);
+            var thirdGenArtist = ArtistRepository.GetRandomArtist(topThirdGens);
+            var fourthGenArtist = ArtistRepository.GetRandomArtist(topFourthGens);
+            var fifthGenArtist = ArtistRepository.GetRandomArtist(topFifthGens);
 
-        GenerationListView.ItemsSource = new List<HomeListViewItem>
+            GenerationListView.ItemsSource = new List<HomeListViewItem>
         {
             new("1st Generation", firstGenArtist.ImageUrl, SearchFilterModeValue.Firstgen, $"{firstGenDescription}",
                 songCount: SongPartRepository.GetSongPartsByGeneration(Constants.FIRST_GENERATION).Count,
@@ -74,35 +76,35 @@ public partial class CategoriesView : ContentView
                 artistCount: SongPartRepository.GetSongPartsByGeneration(Constants.FIFTH_GENERATION).DistinctBy(s => new { s.ArtistName }).Count(), artistName: fifthGenArtist.Name)
         };
 
-        var topSmArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.SMCompanies);
-        var topHybeArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.HybeCompanies);
-        var topJypArtists = ArtistRepository.GetTopArtistsForCompanies(["JYP Entertainment"]);
-        var topYgArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.YGCompanies);
-        var topKakaoArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.KakaoCompanies);
-        var topCjenmArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.CjenmCompanies);
-        var topRbwArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.RbwCompanies);
-        var topStarshipArtists = ArtistRepository.GetTopArtistsForCompanies(["Starship Entertainment"]);
-        var topCubeArtists = ArtistRepository.GetTopArtistsForCompanies(["Cube Entertainment"]);
-        var topIstArtists = ArtistRepository.GetTopArtistsForCompanies(["IST Entertainment"]);
-        var topPledisArtists = ArtistRepository.GetTopArtistsForCompanies(["Pledis Entertainment"]);
-        var topFncArtists = ArtistRepository.GetTopArtistsForCompanies(["FNC Entertainment"]);
-        var topWoollimArtists = ArtistRepository.GetTopArtistsForCompanies(["Woollim Entertainment"]);
+            var topSmArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.SMCompanies);
+            var topHybeArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.HybeCompanies);
+            var topJypArtists = ArtistRepository.GetTopArtistsForCompanies(["JYP Entertainment"]);
+            var topYgArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.YGCompanies);
+            var topKakaoArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.KakaoCompanies);
+            var topCjenmArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.CjenmCompanies);
+            var topRbwArtists = ArtistRepository.GetTopArtistsForCompanies(Constants.RbwCompanies);
+            var topStarshipArtists = ArtistRepository.GetTopArtistsForCompanies(["Starship Entertainment"]);
+            var topCubeArtists = ArtistRepository.GetTopArtistsForCompanies(["Cube Entertainment"]);
+            var topIstArtists = ArtistRepository.GetTopArtistsForCompanies(["IST Entertainment"]);
+            var topPledisArtists = ArtistRepository.GetTopArtistsForCompanies(["Pledis Entertainment"]);
+            var topFncArtists = ArtistRepository.GetTopArtistsForCompanies(["FNC Entertainment"]);
+            var topWoollimArtists = ArtistRepository.GetTopArtistsForCompanies(["Woollim Entertainment"]);
 
-        var smDescription = MakeArtistsDescription(topSmArtists);
-        var hybeDescription = MakeArtistsDescription(topHybeArtists);
-        var jypDescription = MakeArtistsDescription(topJypArtists);
-        var ygDescription = MakeArtistsDescription(topYgArtists);
-        var kakaoDescription = MakeArtistsDescription(topKakaoArtists);
-        var cjenmDescription = MakeArtistsDescription(topCjenmArtists);
-        var rbwArtists = MakeArtistsDescription(topRbwArtists);
-        var starshipArtists = MakeArtistsDescription(topStarshipArtists);
-        var cubeArtists = MakeArtistsDescription(topCubeArtists);
-        var istArtists = MakeArtistsDescription(topIstArtists);
-        var pledisArtists = MakeArtistsDescription(topPledisArtists);
-        var fncArtists = MakeArtistsDescription(topFncArtists);
-        var woollimArtists = MakeArtistsDescription(topWoollimArtists);
+            var smDescription = MakeArtistsDescription(topSmArtists);
+            var hybeDescription = MakeArtistsDescription(topHybeArtists);
+            var jypDescription = MakeArtistsDescription(topJypArtists);
+            var ygDescription = MakeArtistsDescription(topYgArtists);
+            var kakaoDescription = MakeArtistsDescription(topKakaoArtists);
+            var cjenmDescription = MakeArtistsDescription(topCjenmArtists);
+            var rbwArtists = MakeArtistsDescription(topRbwArtists);
+            var starshipArtists = MakeArtistsDescription(topStarshipArtists);
+            var cubeArtists = MakeArtistsDescription(topCubeArtists);
+            var istArtists = MakeArtistsDescription(topIstArtists);
+            var pledisArtists = MakeArtistsDescription(topPledisArtists);
+            var fncArtists = MakeArtistsDescription(topFncArtists);
+            var woollimArtists = MakeArtistsDescription(topWoollimArtists);
 
-        CompanyListView.ItemsSource = new List<HomeListViewItem>() {
+            CompanyListView.ItemsSource = new List<HomeListViewItem>() {
             new(title: "SM Entertainment", imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true",
                 topArtists: $"{smDescription}",
                 childCompanies: "Label V, Mystic Story",
@@ -202,8 +204,8 @@ public partial class CategoriesView : ContentView
                 artistCount: SongPartRepository.SongParts.Where(s =>  s.Artist?.Company == "Woollim Entertainment").DistinctBy(s => new { s.ArtistName }).Count()),
         };
 
-        // TODO: GenreShort Jpop, Pop, C-pop, T-pop instead of JP, EN, CH etc
-        GenreListView.ItemsSource = new List<HomeListViewItem>() {
+            // TODO: GenreShort Jpop, Pop, C-pop, T-pop instead of JP, EN, CH etc
+            GenreListView.ItemsSource = new List<HomeListViewItem>() {
             new(title: "K-pop",
                 description: "Korean pop music.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
@@ -239,28 +241,29 @@ public partial class CategoriesView : ContentView
                 searchFilterMode: SearchFilterModeValue.Tpop,
                 songCount: SongPartRepository.SongParts.Count(s => s.Album?.GenreShort == Constants.GenreTpop),
                 artistCount: SongPartRepository.SongParts.Where(s => s.Album?.GenreShort == Constants.GenreTpop).DistinctBy(s => new { s.ArtistName }).Count())
-        };
+            };
 
-        KpopYearsListView.ItemsSource = new List<HomeListViewItem>() {
-            new(title: "< 2012",
-                imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
-                searchFilterMode: SearchFilterModeValue.KpopSoonerThan2012,
-                songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year < 2012 && s.Album?.GenreShort == Constants.GenreKpop)),
-            HomeListViewItem.Create(2012, SearchFilterModeValue.kpop2012),
-            HomeListViewItem.Create(2013, SearchFilterModeValue.kpop2013),
-            HomeListViewItem.Create(2014, SearchFilterModeValue.kpop2014),
-            HomeListViewItem.Create(2015, SearchFilterModeValue.kpop2015),
-            HomeListViewItem.Create(2016, SearchFilterModeValue.kpop2016),
-            HomeListViewItem.Create(2017, SearchFilterModeValue.kpop2017),
-            HomeListViewItem.Create(2018, SearchFilterModeValue.kpop2018),
-            HomeListViewItem.Create(2019, SearchFilterModeValue.kpop2019),
-            HomeListViewItem.Create(2020, SearchFilterModeValue.kpop2020),
-            HomeListViewItem.Create(2021, SearchFilterModeValue.kpop2021),
-            HomeListViewItem.Create(2022, SearchFilterModeValue.kpop2022),
-            HomeListViewItem.Create(2023, SearchFilterModeValue.kpop2023),
-            HomeListViewItem.Create(2024, SearchFilterModeValue.kpop2024),
-            HomeListViewItem.Create(2025, SearchFilterModeValue.kpop2025)
-        };
+            KpopYearsListView.ItemsSource = new List<HomeListViewItem>() {
+                new(title: "< 2012",
+                    imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sk.jpg?raw=true",
+                    searchFilterMode: SearchFilterModeValue.KpopSoonerThan2012,
+                    songCount: SongPartRepository.SongParts.Count(s => s.Album?.ReleaseDate.Year < 2012 && s.Album?.GenreShort == Constants.GenreKpop)),
+                HomeListViewItem.Create(2012, SearchFilterModeValue.kpop2012),
+                HomeListViewItem.Create(2013, SearchFilterModeValue.kpop2013),
+                HomeListViewItem.Create(2014, SearchFilterModeValue.kpop2014),
+                HomeListViewItem.Create(2015, SearchFilterModeValue.kpop2015),
+                HomeListViewItem.Create(2016, SearchFilterModeValue.kpop2016),
+                HomeListViewItem.Create(2017, SearchFilterModeValue.kpop2017),
+                HomeListViewItem.Create(2018, SearchFilterModeValue.kpop2018),
+                HomeListViewItem.Create(2019, SearchFilterModeValue.kpop2019),
+                HomeListViewItem.Create(2020, SearchFilterModeValue.kpop2020),
+                HomeListViewItem.Create(2021, SearchFilterModeValue.kpop2021),
+                HomeListViewItem.Create(2022, SearchFilterModeValue.kpop2022),
+                HomeListViewItem.Create(2023, SearchFilterModeValue.kpop2023),
+                HomeListViewItem.Create(2024, SearchFilterModeValue.kpop2024),
+                HomeListViewItem.Create(2025, SearchFilterModeValue.kpop2025)
+            };
+        }
 
         GenerationListView.IsVisible = true;
         CompanyListView.IsVisible = false;

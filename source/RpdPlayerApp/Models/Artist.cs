@@ -73,7 +73,7 @@ internal partial class Artist : ObservableObject
     [ObservableProperty]
     private int _filteredTotalCount = 0;
 
-    public Artist(DateTime debutDate, int id = -1, string name = "", string altName = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
+    public Artist(DateTime debutDate = new DateTime(), int id = -1, string name = "", string altName = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
     {
         Id = id;
         Name = name;
