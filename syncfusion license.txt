@@ -1,0 +1,11 @@
+Make sure to uninstall app first.
+
+Go here:
+https://www.syncfusion.com/account/downloads/studio
+
+Choose your version.
+Get License key
+.Net MAUI
+Fill in project name
+Get key
+Copy clipboard
