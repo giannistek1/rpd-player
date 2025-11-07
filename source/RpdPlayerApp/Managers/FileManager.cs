@@ -1,5 +1,7 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Items;
+using RpdPlayerApp.Models;
+using RpdPlayerApp.Services;
 using RpdPlayerApp.ViewModels;
 using System.Text.Json;
 
@@ -7,12 +9,14 @@ namespace RpdPlayerApp.Managers;
 
 internal static class FileManager
 {
-    internal static readonly string AppDataDirectory = FileSystem.Current.AppDataDirectory;
+    internal static readonly string AppDataDirectory = FileSystem.Current.AppDataDirectory; // Data/user/0 (Data/Data) directory (only accessed via rooted Android)
     //internal static readonly string PlaylistsDirectory = "localplaylists";
+
     internal static string GetPlaylistsPath()
     {
         return AppDataDirectory;
     }
+
     /// <summary> Without the .txt </summary>
     /// <param name="fileName"></param>
     /// <param name="text"></param>
@@ -21,6 +25,8 @@ internal static class FileManager
     {
         try
         {
+            DebugService.Instance.Debug($"FileManager: Saving playlist to {fileName}.txt");
+
             // Combine directory with filename.
             var fullPath = Path.Combine(AppDataDirectory, $"{fileName}.txt");
 
@@ -30,7 +36,10 @@ internal static class FileManager
             General.ShowToast($"{fileName} saved.");
             return fullPath;
         }
-        catch (Exception ex) { General.ShowToast(ex.Message); }
+        catch (Exception ex)
+        {
+            DebugService.Instance.Error(ex.Message);
+        }
 
         return string.Empty;
     }
@@ -47,16 +56,17 @@ internal static class FileManager
 
             // Write the JSON text to the file.
             await File.WriteAllTextAsync(fullPath, jsonText);
-
-            //HelperClass.ShowToast($"{fileName} saved.");
             return fullPath;
         }
-        catch (Exception ex) { General.ShowToast(ex.Message); }
+        catch (Exception ex)
+        {
+            DebugService.Instance.Error(ex.Message);
+        }
 
         return string.Empty;
     }
 
-    internal static async Task<List<NewsItem>?> LoadNewsItemsFromFilePath(string filePath)
+    internal static async Task<List<SongPart>?> LoadSongSegmentsFromFilePath(string filePath)
     {
         var fullPath = Path.Combine(AppDataDirectory, filePath);
 
@@ -66,9 +76,7 @@ internal static class FileManager
             string fileContent = await File.ReadAllTextAsync(fullPath);
 
             // Convert the text content into a list of objects
-            var songs = JsonSerializer.Deserialize<List<NewsItem>>(fileContent);
-
-            //HelperClass.ShowToast($"Songs: {songs?.Count}");
+            var songs = JsonSerializer.Deserialize<List<SongPart>>(fileContent);
 
             return songs;
         }

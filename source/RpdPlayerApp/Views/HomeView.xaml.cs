@@ -46,7 +46,7 @@ public partial class HomeView : ContentView
         SongPartRepository.GetSongParts();
     }
 
-    private void OnLoad(object? sender, EventArgs e)
+    private async void OnLoad(object? sender, EventArgs e)
     {
         try
         {
@@ -58,7 +58,7 @@ public partial class HomeView : ContentView
 #endif
             InitializeCompanies();
             InitializeChipGroups();
-            _ = NewsManager.SaveNews().ConfigureAwait(false);
+            await NewsManager.SaveNews();
             HandleAutoStartRpd();
 
             ChipGroupSelectionChanged(null, null);
@@ -76,29 +76,30 @@ public partial class HomeView : ContentView
     {
         if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return; }
 
-        var oldSongList = await FileManager.LoadNewsItemsFromFilePath($"{NewsManager.SONGPARTS}.txt");
+        //var oldSongList = await FileManager.LoadNewsItemsFromFilePath($"{NewsManager.SONGPARTS}.txt");
+        var oldSongList = await FileManager.LoadSongSegmentsFromFilePath($"{NewsManager.SONGPARTS}.txt");
 
         if (oldSongList is not null)
         {
-            var newSongList = NewsManager.CreateNewsItemsFromSongParts();
+            var newSongList = SongPartRepository.SongParts.ToList();
             var differentNewSongs = FindDifferentNewSongs(newSongList, oldSongList);
 
             UpdateNewsBadge(differentNewSongs);
         }
     }
 
-    private List<NewsItem> FindDifferentNewSongs(List<NewsItem> newSongList, List<NewsItem> oldSongList)
+    private List<SongPart> FindDifferentNewSongs(List<SongPart> newSongList, List<SongPart> oldSongList)
     {
 #if RELEASE
-        var differentNewSongs = newSongList.Where(item1 => !oldSongList.Any(item2 => item1.AudioUrl == item2.AudioUrl)).ToList();
+        var differentNewSongs = newSongList.Where(item1 => !oldSongList.Any(item2 => item1.AudioURL == item2.AudioURL)).ToList();
         foreach (var newSongPart in newSongList)
         {
             if (!newSongPart.HasVideo) continue;
 
-            var oldSong = oldSongList.FirstOrDefault(s => s?.AudioUrl == newSongPart.AudioUrl);
+            var oldSong = oldSongList.FirstOrDefault(s => s?.AudioURL == newSongPart.AudioURL);
             if (oldSong is not null && oldSong.HasVideo != newSongPart.HasVideo)
             {
-                newSongPart.HasNewVideo = true;
+                newSongPart.NewVideoAvailable = true;
             }
         }
         differentNewSongs.AddRange(newSongList.Where(item1 => !oldSongList.Any(item2 => item1.HasVideo == item2.HasVideo)).ToList());
@@ -108,7 +109,7 @@ public partial class HomeView : ContentView
         return differentNewSongs;
     }
 
-    internal void UpdateNewsBadge(List<NewsItem> differentNewSongs)
+    internal void UpdateNewsBadge(List<SongPart> differentNewSongs)
     {
         if (differentNewSongs.Count > 0)
         {

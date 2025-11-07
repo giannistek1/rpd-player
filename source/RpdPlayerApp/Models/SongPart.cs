@@ -57,6 +57,11 @@ internal partial class SongPart : ObservableObject
     [ObservableProperty]
     private bool _hasVideo;
 
+    /// <summary> For news </summary>
+    [JsonIgnore]
+    [ObservableProperty]
+    private bool _newVideoAvailable = false;
+
     [JsonIgnore]
     [ObservableProperty]
     private bool _showClipLength = false;

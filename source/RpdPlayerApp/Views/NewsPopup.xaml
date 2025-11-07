@@ -28,14 +28,14 @@
                         <ViewCell>
                             <VerticalStackLayout Padding="16,0,16,0">
                                     
-                                <Label IsVisible="{Binding HasNewVideo}" Text="New video" FontSize="10" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"
+                                <Label IsVisible="{Binding NewVideoAvailable}" Text="New video" FontSize="10" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"
                                        VerticalTextAlignment="End" VerticalOptions="Fill" TextColor="{DynamicResource SecondaryTextColor}"/>
                                 
                                 <Label Text="{Binding Title}" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}" VerticalTextAlignment="Start"/>
                                 
                                 <Grid ColumnDefinitions="1*, 1*">
-                                    <Label Grid.Column="0" Text="{Binding Artist}" LineBreakMode="TailTruncation" FontSize="11" TextColor="{DynamicResource SecondaryTextColor}"/>
-                                    <Label Grid.Column="1" Text="{Binding Part}" LineBreakMode="TailTruncation" FontSize="11" TextColor="{DynamicResource SecondaryTextColor}"/>
+                                    <Label Grid.Column="0" Text="{Binding ArtistName}" LineBreakMode="TailTruncation" FontSize="11" TextColor="{DynamicResource SecondaryTextColor}"/>
+                                    <Label Grid.Column="1" Text="{Binding PartNameFull}" LineBreakMode="TailTruncation" FontSize="11" TextColor="{DynamicResource SecondaryTextColor}"/>
                                 </Grid>
 
                             </VerticalStackLayout>
