@@ -36,7 +36,14 @@
                 </syncfusion:SfListView.ItemTemplate>
             </syncfusion:SfListView>
 
-            <Button Grid.Row="2" x:Name="CloseButton" Text="Close" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold" />
+            <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="16">
+
+                <Button x:Name="RequestSongsButton" Text="Request songs" HeightRequest="40" BackgroundColor="{DynamicResource SecondaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold" />
+
+                <Button Grid.Column="1" x:Name="CloseButton" Text="Close" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold" />
+                
+            </Grid>
+            
 
         </Grid>
 

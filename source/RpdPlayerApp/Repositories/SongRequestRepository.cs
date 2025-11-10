@@ -10,13 +10,17 @@ internal static class SongRequestRepository
     private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(5); // Cooldown period
 
     // TODO: Enums
-    public static async Task<int> InsertSongRequestAsync(SongRequestDto request)
+    /// <summary> </summary>
+    /// <param name="request"></param>
+    /// <param name="enforceCooldown"></param>
+    /// <returns>1 success, -3 API key is missing, -2 cooldown, -1 error</returns>
+    public static async Task<int> InsertSongRequestAsync(SongRequestDto request, bool enforceCooldown = true)
     {
         if (Constants.APIKEY.IsNullOrWhiteSpace()) { return -3; }
 
         // Enforce cooldown
         var timeSinceLast = DateTime.UtcNow - _lastRequestTime;
-        if (timeSinceLast < _cooldown)
+        if (enforceCooldown && timeSinceLast < _cooldown)
         {
             return -2;
         }

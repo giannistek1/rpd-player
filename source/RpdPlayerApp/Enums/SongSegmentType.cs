@@ -1,5 +1,6 @@
 ﻿namespace RpdPlayerApp.Enums;
 
+/// <summary> For song requests </summary>
 internal enum SongSegmentType
 {
     Chorus1,

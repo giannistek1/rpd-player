@@ -275,29 +275,15 @@ public partial class CurrentPlaylistView : ContentView
             bool accept = await ParentPage!.DisplayAlert($"{notFound.Count} songs not found", $"Add the {foundSongs.Count} found songs to {playlist.Name}?", "Yes", "No");
             if (accept)
             {
-                // TODO: Make/user helper method: AddSegmentToSegments
-                foreach (SongPart segment in foundSongs)
-                {
-                    if (!playlist.Segments.Contains(segment))
-                    {
-                        playlist.Segments.Add(segment);
-                    }
-                }
+                int count = PlaylistsManager.TryAddSegmentToSegmentList(playlist, foundSongs);
             }
-            var popup = new ImportSegmentResultsPopup(new(notFound)); // Gets disposed on close.
+            ImportSegmentResultsPopup popup = new ImportSegmentResultsPopup(new(notFound)); // Gets disposed on close.
             Application.Current!.MainPage!.ShowPopup(popup);
         }
         else
         {
-            // TODO: Make/user helper method: AddSegmentToSegments
-            foreach (SongPart segment in foundSongs)
-            {
-                if (!playlist.Segments.Contains(segment))
-                {
-                    playlist.Segments.Add(segment);
-                }
-            }
-            General.ShowToast($"{foundSongs.Count} songs successfully added to playlist \"{playlist.Name}\"!");
+            int count = PlaylistsManager.TryAddSegmentToSegmentList(playlist, foundSongs);
+            General.ShowToast($"{count} songs successfully added to playlist \"{playlist.Name}\"!");
         }
         CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref playlist.Segments);
         RefreshCurrentPlaylist();

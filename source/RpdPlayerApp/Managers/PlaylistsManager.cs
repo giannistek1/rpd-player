@@ -157,6 +157,31 @@ internal static class PlaylistsManager
         }
     }
 
+    internal static int TryAddSegmentToSegmentList(Playlist playlist, List<SongPart> segmentsToAdd)
+    {
+        int count = 0;
+        foreach (SongPart segment in segmentsToAdd)
+        {
+            if (!SegmentIsInPlaylist(playlist, segment))
+            {
+                playlist.Segments.Add(segment);
+                count++;
+            }
+        }
+        return count;
+    }
+
+    internal static bool SegmentIsInPlaylist(Playlist playlist, SongPart? segment)
+    {
+        Playlist? playlistMatch = CacheState.LocalPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlist.Name, StringComparison.OrdinalIgnoreCase));
+        if (playlistMatch is not null && playlist.Segments.Any(s => s.AudioURL == segment?.AudioURL))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     internal static bool SegmentIsInPlaylist(string playlistName, PlaylistModeValue playlistMode, SongPart? segment)
     {
         Playlist? playlist = null;

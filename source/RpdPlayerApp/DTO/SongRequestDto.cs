@@ -26,4 +26,7 @@ internal class SongRequestDto : BaseModel
 
     [Column("device_id")]
     public string DeviceId { get; set; } = string.Empty;
+
+    [Column("origin")]
+    public string Origin { get; set; } = string.Empty;
 }

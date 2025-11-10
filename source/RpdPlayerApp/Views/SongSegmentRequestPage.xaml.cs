@@ -54,7 +54,7 @@ public partial class SongSegmentRequestPage : ContentPage
                 return;
             }
 
-            int success = await _viewModel.SubmitSongRequest(title: SongTitleEntry.Text,
+            int success = await SongRequestManager.SubmitSongRequest(title: SongTitleEntry.Text,
                                                             artist: ArtistEntry.Text,
                                                             songPart: SegmentPicker.SelectedItem.ToString()!,
                                                             withDancePractice: DancePracticeSwitch.IsToggled,
