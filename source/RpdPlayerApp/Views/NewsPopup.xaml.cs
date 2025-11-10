@@ -1,11 +1,12 @@
 using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Items;
+using RpdPlayerApp.Models;
 
 namespace RpdPlayerApp.Views;
 
 public partial class NewsPopup : Popup
 {
-    internal List<NewsItem> NewsItems { get; set; } = [];
+    internal List<SongPart> NewsItems { get; set; } = [];
 
     public NewsPopup()
     {

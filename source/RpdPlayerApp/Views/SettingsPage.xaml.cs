@@ -1,5 +1,6 @@
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Managers;
+using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
 using RpdPlayerApp.ViewModels;
 
@@ -82,14 +83,12 @@ public partial class SettingsPage : ContentPage
 
     private void TestNewsButtonClicked(object sender, EventArgs e)
     {
-        var newNewsItems = NewsManager.CreateNewsItemsFromSongParts(); // Create news items from all song parts.
-
         // Simulate ATEEZ as new songs.
-        var differentNewSongs = newNewsItems.Where(s => s.Artist!.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
+        var differentNewSongs = SongPartRepository.SongParts.Where(s => s.ArtistName!.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
         // Randomize HasNewVideo boolean.
         foreach (var item in differentNewSongs)
         {
-            item.HasNewVideo = Convert.ToBoolean(General.Rng.Next(2));
+            item.NewVideoAvailable = Convert.ToBoolean(General.Rng.Next(2));
         }
 
         HomeView!.UpdateNewsBadge(differentNewSongs);
