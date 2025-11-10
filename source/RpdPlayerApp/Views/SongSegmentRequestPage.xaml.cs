@@ -39,6 +39,8 @@ public partial class SongSegmentRequestPage : ContentPage
 
     private async void SubmitButtonClicked(object sender, EventArgs e)
     {
+        if (!General.HasInternetConnection()) { return; }
+
         string deviceId = await DeviceIdManager.GetDeviceIdAsync();
 
         if (SongRequestContainer.IsVisible)

@@ -288,6 +288,9 @@ public partial class CurrentPlaylistView : ContentView
         CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref playlist.Segments);
         RefreshCurrentPlaylist();
     }
+    /// <summary> Removes all punctuation and whitespace from a string. </summary>
+    /// <param name="input"></param>
+    /// <returns>string without punctuation and whitespace.</returns>
     static string Normalize(string input)
     {
         if (string.IsNullOrWhiteSpace(input))

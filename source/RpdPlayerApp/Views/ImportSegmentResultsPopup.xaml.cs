@@ -17,12 +17,18 @@ public partial class ImportSegmentResultsPopup
         FailedImportsLabel.Text = $"Failed imports: {FailedImports.Count}";
 
         CloseButton.Pressed += CloseButtonPressed;
-        RequestSongsButton.Pressed += RequestSongsButtonPressed;
+        RequestSongsButton.IsEnabled = General.HasInternetConnection();
+        if (RequestSongsButton.IsEnabled)
+        {
+            RequestSongsButton.Pressed += RequestSongsButtonPressed;
+        }
         FailedImportsListView.ItemsSource = FailedImports;
     }
 
     private async void RequestSongsButtonPressed(object? sender, EventArgs e)
     {
+        if (!General.HasInternetConnection()) { return; }
+
         string deviceId = await DeviceIdManager.GetDeviceIdAsync();
         int success = 1;
         foreach (var import in FailedImports)
