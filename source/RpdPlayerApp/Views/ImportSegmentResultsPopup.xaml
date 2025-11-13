@@ -4,49 +4,44 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="RpdPlayerApp.Views.ImportSegmentResultsPopup"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView">
-    
-    <ScrollView>
 
+    <Grid RowDefinitions="50, auto, 40" BackgroundColor="{DynamicResource BackgroundColor}">
 
-        <Grid RowDefinitions="50, auto, 40" BackgroundColor="{DynamicResource BackgroundColor}">
+        <Grid Grid.Row="0" ColumnDefinitions="*">
 
-            <Grid Grid.Row="0" ColumnDefinitions="*">
-
-                <Label Grid.Column="0" x:Name="FailedImportsLabel" Padding="16,16,0,0" FontSize="16" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="1.5"/>
-
-            </Grid>
-
-            <syncfusion:SfListView Grid.Row="1" x:Name="FailedImportsListView" BackgroundColor="{DynamicResource BackgroundColor}" ItemSpacing="6" SelectionMode="None">
-                <syncfusion:SfListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <VerticalStackLayout Padding="16,0,16,0">
-
-                                <Label Text="{Binding Title}" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}" VerticalTextAlignment="Start"/>
-
-                                <Grid ColumnDefinitions="*">
-
-                                    <Label Grid.Column="0" Text="{Binding Artist}" LineBreakMode="TailTruncation" FontSize="11" TextColor="{DynamicResource SecondaryTextColor}"/>
-
-                                </Grid>
-
-                            </VerticalStackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </syncfusion:SfListView.ItemTemplate>
-            </syncfusion:SfListView>
-
-            <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="16">
-
-                <Button x:Name="RequestSongsButton" Text="Request songs" HeightRequest="40" BackgroundColor="{DynamicResource SecondaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold" />
-
-                <Button Grid.Column="1" x:Name="CloseButton" Text="Close" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold" />
-                
-            </Grid>
-            
+            <Label Grid.Column="0" x:Name="FailedImportsLabel" Padding="16,16,0,0" FontSize="16" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" LineHeight="1.5"/>
 
         </Grid>
 
-    </ScrollView>
-    
+        <syncfusion:SfListView Grid.Row="1" x:Name="FailedImportsListView" BackgroundColor="{DynamicResource BackgroundColor}" ItemSpacing="6" SelectionMode="None" ScrollBarVisibility="Always">
+            <syncfusion:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <VerticalStackLayout Padding="16,0,16,0">
+
+                            <Label Text="{Binding Title}" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}" VerticalTextAlignment="Start"/>
+
+                            <Grid ColumnDefinitions="*">
+
+                                <Label Grid.Column="0" Text="{Binding Artist}" LineBreakMode="TailTruncation" FontSize="11" TextColor="{DynamicResource SecondaryTextColor}"/>
+
+                            </Grid>
+
+                        </VerticalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </syncfusion:SfListView.ItemTemplate>
+        </syncfusion:SfListView>
+
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="16" Padding="8,0,8,0">
+
+            <Button x:Name="RequestSongsButton" Text="Request songs" HeightRequest="40" BackgroundColor="{DynamicResource SecondaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold" />
+
+            <Button Grid.Column="1" x:Name="CloseButton" Text="Close" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold" />
+
+        </Grid>
+
+
+    </Grid>
+
 </toolkit:Popup>

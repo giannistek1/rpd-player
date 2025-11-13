@@ -172,16 +172,23 @@ public partial class CurrentPlaylistView : ContentView
 
         if (result.IsCanceled || string.IsNullOrWhiteSpace(result.Text)) { return; }
 
-        // Split user input into lines.
-        string[] lines = result.Text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        // Clean input (of weird invisible characters)
+        string cleanInput = result.Text
+            .Replace("\u200B", "")  // zero-width space
+            .Replace("\u200C", "")  // zero-width non-joiner
+            .Replace("\u200D", "")  // zero-width joiner
+            .Replace("\uFEFF", "")  // zero-width no-break space
+            .Replace("\u00A0", " "); // non-breaking space
+
+        string[] lines = cleanInput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Regex to strip timestamps like "0:32", "1:05:10", "01:15:34", etc.
+        Regex timestampRegex = new(@"^[\s\u00A0\u200B]*\d{1,2}:\d{2}(?::\d{2})?[\s\u00A0\u200B]*", RegexOptions.Compiled);
 
         List<SongPart> foundSongs = [];
         List<ImportResult> notFound = [];
 
         List<SongPart> allSongs = AppState.SongParts;
-
-        // Regex to strip timestamps like "0:32", "1:05:10", etc.
-        Regex timestampRegex = new(@"^\s*\d{1,2}:\d{2}(?::\d{2})?\s*", RegexOptions.Compiled);
 
         bool? artistFirst = null; // Will detect whether the format is Artist-Title or Title-Artist
 
@@ -206,6 +213,8 @@ public partial class CurrentPlaylistView : ContentView
             {
                 bool firstLooksLikeArtist = allSongs.Any(s => s.ArtistName.Equals(first, StringComparison.OrdinalIgnoreCase));
                 bool secondLooksLikeArtist = allSongs.Any(s => s.ArtistName.Equals(second, StringComparison.OrdinalIgnoreCase));
+
+                //DebugService.Instance.Debug($"1: {first} 2:{second}, {firstLooksLikeArtist}, {secondLooksLikeArtist}");
 
                 if (firstLooksLikeArtist && !secondLooksLikeArtist)
                     artistFirst = true;
@@ -291,16 +300,23 @@ public partial class CurrentPlaylistView : ContentView
     /// <summary> Removes all punctuation and whitespace from a string. </summary>
     /// <param name="input"></param>
     /// <returns>string without punctuation and whitespace.</returns>
+    /// Tests: "Left & Right" "Left And Right" "Left-and-Right" "Left & Right!" "LEFT AND RIGHT" = leftandright
     static string Normalize(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
             return string.Empty;
 
+        // Convert & and similar symbols to "and"
+        string normalized = input.Replace("&", "and", StringComparison.OrdinalIgnoreCase);
+
         // Replace punctuation (like -, _, :, /, etc.)
-        string replaced = Regex.Replace(input, @"[-_:/\\(){}\[\]’'\"".,!?]+", "");
+        normalized = Regex.Replace(normalized, @"[-_:/\\(){}\[\]’'\"".,!?*]+", "");
+
+        // Normalize "and" variants (e.g., double spaces, weird spacing)
+        normalized = Regex.Replace(normalized, @"\band\b", "and", RegexOptions.IgnoreCase);
 
         // Remove all spaces and convert to lower case.
-        return Regex.Replace(replaced, @"\s+", "").Trim().ToLowerInvariant();
+        return Regex.Replace(normalized, @"\s+", "").Trim().ToLowerInvariant();
     }
 
     #endregion Playlist
