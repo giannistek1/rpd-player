@@ -5,7 +5,7 @@
              x:Class="RpdPlayerApp.Views.ImportSegmentResultsPopup"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView">
 
-    <Grid RowDefinitions="50, auto, 40" BackgroundColor="{DynamicResource BackgroundColor}">
+    <Grid RowDefinitions="50, *, 40" BackgroundColor="{DynamicResource BackgroundColor}">
 
         <Grid Grid.Row="0" ColumnDefinitions="*">
 

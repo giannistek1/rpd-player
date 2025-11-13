@@ -32,7 +32,7 @@ internal static class ArtistRepository
                 Enum.TryParse(matches[n + 3].Groups[1].Value, out GroupType groupType);
 
                 Artists.Add(new Artist(id: i, name: matches[n + 0].Groups[1].Value,
-                    altName: matches[n + 1].Groups[1].Value,
+                    altNames: matches[n + 1].Groups[1].Value,
                     debutDate: DateTime.ParseExact(matches[n + 2].Groups[1].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture),
                     groupType: groupType,
                     memberCount: Convert.ToInt16(matches[n + 4].Groups[1].Value),

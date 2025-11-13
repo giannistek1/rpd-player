@@ -233,18 +233,25 @@ public partial class CurrentPlaylistView : ContentView
             string normInputArtist = Normalize(artist);
             string normInputTitle = Normalize(title);
 
-            // Get all possible matches
+            // Get all possible matches (don't search too wide, like with regular search)
             var possibleMatches = allSongs
                 .Where(s =>
                 {
                     string normArtist = Normalize(s.ArtistName);
                     string normTitle = Normalize(s.Title);
-                    string normAltArtist = Normalize(s.Artist.AltName);
+                    string normAltArtist = Normalize(s.Artist.AltNames);
 
-                    bool artistMatch = normArtist.Equals(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
-                                       normAltArtist.Equals(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
-                                       normArtist.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
-                                       normAltArtist.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase);
+                    var altNames = s.Artist.AltNames
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                        .Select(Normalize)
+                        .ToList() ?? new List<string>();
+
+                    bool artistMatch =
+                        normArtist.Equals(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
+                        normArtist.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
+                        altNames.Any(a =>
+                            a.Equals(normInputArtist, StringComparison.OrdinalIgnoreCase) ||
+                            a.StartsWith(normInputArtist, StringComparison.OrdinalIgnoreCase));
 
                     bool titleMatch = normTitle.Equals(normInputTitle, StringComparison.OrdinalIgnoreCase) ||
                                       normTitle.StartsWith(normInputTitle, StringComparison.OrdinalIgnoreCase) ||

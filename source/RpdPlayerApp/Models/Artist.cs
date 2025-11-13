@@ -19,8 +19,9 @@ internal partial class Artist : ObservableObject
     [ObservableProperty]
     private string _name;
 
+    /// <summary> Comma separated alternative names for artist e.g. So-mi, Somi </summary>
     [ObservableProperty]
-    private string _altName;
+    private string _altNames;
 
     [ObservableProperty]
     private DateTime _debutDate;
@@ -73,11 +74,11 @@ internal partial class Artist : ObservableObject
     [ObservableProperty]
     private int _filteredTotalCount = 0;
 
-    public Artist(DateTime debutDate = new DateTime(), int id = -1, string name = "", string altName = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
+    public Artist(DateTime debutDate = new DateTime(), int id = -1, string name = "", string altNames = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
     {
         Id = id;
         Name = name;
-        AltName = altName;
+        AltNames = altNames;
         DebutDate = debutDate;
         GroupType = groupType;
         MemberCount = memberCount;

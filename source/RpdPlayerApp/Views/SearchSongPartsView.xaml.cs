@@ -363,7 +363,7 @@ public partial class SearchSongPartsView : ContentView
     {
         searchFilteredSongParts = (SearchBarInput.Text is not null) ?
                                                         searchFilteredSongParts = songParts.Where(s => s.ArtistName.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase) ||
-                                                        s.Artist.AltName.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase) ||
+                                                        s.Artist.AltNames.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase) ||
                                                         s.Title.Contains(SearchBarInput.Text, StringComparison.OrdinalIgnoreCase))
                                                         .ToList() : [.. songParts];
 

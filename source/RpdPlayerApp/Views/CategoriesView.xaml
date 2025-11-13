@@ -215,8 +215,8 @@
 
                                 <Border Grid.Column="0" StrokeShape="RoundRectangle 8" 
                                         Padding="0" VerticalOptions="Center">
-                                    
-                                    <Image HeightRequest="54" Aspect="AspectFit">
+
+                                <Image HeightRequest="54" WidthRequest="54" Aspect="AspectFill">
                                         <Image.Source>
                                             <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="True"/>
                                         </Image.Source>
