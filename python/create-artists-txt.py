@@ -4,7 +4,7 @@ import re
 # Forbidden symbols: :, apostrophes, the long dash, accent letters or language specific letters (ae, polish l etc)
 
 folder_path = "D:\\Projects MAUI\\rpd-artists\\"
-github_url = "https://github.com/giannistek1/rpd-audio/blob/main/"
+github_url = "https://github.com/giannistek1/rpd-artists/blob/main/"
 
 open(f'{folder_path}artists.txt').close()
 
@@ -19,6 +19,7 @@ with open(f'{folder_path}artists.txt', 'w') as f:
             grouptype = matches[3].replace("[", "").replace("]", "")  # Grouptype
             members = matches[4].replace("[", "").replace("]", "")  # Membercount
             company = matches[5].replace("[", "").replace("]", "")  # Company
-            imageUrl = f"{github_url}{filename}?raw=true"
+            url = filename.replace("[", "%5B").replace("]","%5D") # Since url changes on 26/09/2024
+            imageUrl = f"{github_url}{url}?raw=true"
             #print(f'{{{artist}}}{{{artist_alt}}}{{{debut_date}}}{{{grouptype}}}{{{members}}}{{{company}}}{{{imageUrl}}}')
             print(f'{{{artist}}}{{{artist_alt}}}{{{debut_date}}}{{{grouptype}}}{{{members}}}{{{company}}}{{{imageUrl}}}', file=f)
