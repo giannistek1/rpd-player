@@ -18,6 +18,7 @@ with open(f'{folder_path}albums.txt', 'w') as f:
             album = matches[1].replace("[", "").replace("]", "")  # Album
             release_date = matches[2].replace("[", "").replace("]", "")  # Release date
             language = matches[3].replace("[", "").replace("]", "")  # Language
-            imageUrl = f"{github_url}{filename}{file_extension}?raw=true"
+            url = filename.replace("[", "%5B").replace("]","%5D") # Since url changes on 26/09/2024
+            imageUrl = f"{github_url}{url}{file_extension}?raw=true"
             #print(f'{{{artist}}}{{{album}}}{{{release_date}}}{{{language}}}{{{imageUrl}}}')
             print(f'{{{artist}}}{{{album}}}{{{release_date}}}{{{language}}}{{{imageUrl}}}', file=f)
