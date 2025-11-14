@@ -1,14 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Repositories;
+using System.Text.Json.Serialization;
 
 namespace RpdPlayerApp.Models;
 /// <remarks> JSON usage is because of newsitems. Maybe can be reworked? </remarks>
 internal partial class SongPart : ObservableObject
 {
     /// <summary> Order index for playlist. For a unique identifier, use the audioURL. </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     [ObservableProperty]
     private int _id;
 
@@ -18,6 +19,7 @@ internal partial class SongPart : ObservableObject
     [ObservableProperty]
     private string _artistName;
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public Artist Artist { get; set; }
 
     /// <summary> e.g. P, C, D, DB, O, T, etc </summary>
@@ -41,6 +43,8 @@ internal partial class SongPart : ObservableObject
 
     [ObservableProperty]
     private string _albumTitle;
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public Album Album { get; set; }
 
     [ObservableProperty]
@@ -58,12 +62,12 @@ internal partial class SongPart : ObservableObject
     private bool _hasVideo;
 
     /// <summary> For news </summary>
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _newVideoAvailable = false;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showClipLength = false;
 
     /// <summary> Cliplength in seconds. </summary>
@@ -73,38 +77,41 @@ internal partial class SongPart : ObservableObject
     [ObservableProperty]
     private TimeSpan _clipLengthAsTimeSpan;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private TimeSpan _playlistStartTime = TimeSpan.MinValue;
 
     /// <summary> Whether the song is currently playing or paused/stopped. </summary>
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool isPlaying = false;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double playingIconScaleY1 = 1.0;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double _playingIconTranslationY1 = 1.0;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double playingIconScaleY2 = 0.2;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double _playingIconTranslationY2 = 1.0;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double _playingIconScaleY3 = 0.6;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double _playingIconTranslationY3 = 1.0;
+
+    [JsonConstructor]
+    public SongPart() { }
 
     public SongPart(int id = -1, string artistName = "", string albumTitle = "", string title = "", string partNameShort = "", string partNameNumber = "", double clipLength = 0.0, string audioURL = "", string videoURL = "", TimeSpan? playlistStartTime = null)
     {

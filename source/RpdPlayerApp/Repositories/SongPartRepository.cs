@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Services;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
@@ -94,4 +95,31 @@ internal static class SongPartRepository
     internal static SongPart GetRandomSongPart() => SongParts[General.Rng.Next(SongParts.Count)];
 
     internal static List<SongPart> GetSongPartsByGeneration(string generation) => SongParts.Where(s => s.Artist?.Generation == generation && s.Album?.GenreShort == Constants.GenreKpop).ToList();
+
+
+    public static async Task<bool> LoadSongPartsFromFileAsync(string fileName)
+    {
+        try
+        {
+            DebugService.Instance.Info("Offline mode: Loading song segments.");
+
+            var filePath = Path.Combine(FileSystem.Current.AppDataDirectory, fileName);
+
+            if (!File.Exists(filePath))
+            {
+                DebugService.Instance.Warn($"File not found: {filePath}");
+                return false;
+            }
+
+            var songPartsText = await File.ReadAllTextAsync(filePath);
+
+            // Reuse your existing parsing logic
+            return InitSongParts(songPartsText);
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.Error($"Failed to load song parts offline: {ex.Message}");
+            return false;
+        }
+    }
 }

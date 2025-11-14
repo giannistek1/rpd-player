@@ -70,15 +70,29 @@ internal static class FileManager
     {
         var fullPath = Path.Combine(AppDataDirectory, filePath);
 
-        if (File.Exists(fullPath))
+        try
         {
-            // Read the text file content
-            string fileContent = await File.ReadAllTextAsync(fullPath);
+            if (File.Exists(fullPath))
+            {
+                // Read the text file content
+                string fileContent = await File.ReadAllTextAsync(fullPath);
 
-            // Convert the text content into a list of objects
-            var songs = JsonSerializer.Deserialize<List<SongPart>>(fileContent);
+                //DebugService.Instance.Debug($"{fileContent}");
 
-            return songs;
+                // Convert the text content into a list of objects
+                var songs = JsonSerializer.Deserialize<List<SongPart>>(fileContent, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                //DebugService.Instance.Debug($"songs: {songs?.Count}");
+
+                return songs;
+            }
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.Error($"FileManager: {ex.Message}");
         }
 
         return null;

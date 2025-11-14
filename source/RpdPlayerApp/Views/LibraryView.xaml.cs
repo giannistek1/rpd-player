@@ -245,7 +245,7 @@ public partial class LibraryView : ContentView
         }
         catch (Exception ex)
         {
-            DebugService.Instance.Debug(ex.Message);
+            DebugService.Instance.Debug($"LibraryView: {ex.Message}");
         }
 
         CacheState.LocalPlaylists = playlists.ToObservableCollection();
@@ -312,7 +312,7 @@ public partial class LibraryView : ContentView
             }
             catch (Exception ex)
             {
-                DebugService.Instance.Debug(ex.Message);
+                DebugService.Instance.Debug($"LibraryView: {ex.Message}");
             }
 
             playlists.Add(playlist);
@@ -372,7 +372,7 @@ public partial class LibraryView : ContentView
             }
             catch (Exception ex)
             {
-                DebugService.Instance.Debug(ex.Message);
+                DebugService.Instance.Debug($"LibraryView: {ex.Message}");
             }
 
             playlists.Add(playlist);

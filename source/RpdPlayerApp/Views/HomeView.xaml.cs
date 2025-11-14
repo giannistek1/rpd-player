@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using RpdPlayerApp.Architecture;
+﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Items;
 using RpdPlayerApp.Managers;
@@ -9,6 +8,7 @@ using RpdPlayerApp.Services;
 using Syncfusion.Maui.Core;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Text.Json;
 
 namespace RpdPlayerApp.Views;
 
@@ -32,18 +32,26 @@ public partial class HomeView : ContentView
         AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;
         SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
 
-        LoadInitialData();
+        //LoadInitialData();
+        _ = LoadInitialDataAsync();
         Loaded += OnLoad;
     }
 
-    private static void LoadInitialData()
+    private static async Task LoadInitialDataAsync()
     {
-        if (!General.HasInternetConnection()) { return; }
-
-        ArtistRepository.GetArtists();
-        AlbumRepository.GetAlbums();
-        VideoRepository.GetVideos();
-        SongPartRepository.GetSongParts();
+        if (General.HasInternetConnection())
+        {
+            ArtistRepository.GetArtists();
+            AlbumRepository.GetAlbums();
+            VideoRepository.GetVideos();
+            SongPartRepository.GetSongParts();
+        }
+        else // Offline
+        {
+            //await SongPartRepository.LoadSongPartsFromFileAsync("SONGPARTS.TXT");
+            var oldSongList = await FileManager.LoadSongSegmentsFromFilePath($"{NewsManager.SONGPARTS}.txt");
+            SongPartRepository.SongParts = new(oldSongList ?? []);
+        }
     }
 
     private async void OnLoad(object? sender, EventArgs e)
@@ -67,8 +75,7 @@ public partial class HomeView : ContentView
         }
         catch (Exception ex)
         {
-            DebugService.Instance.Debug(ex.Message);
-            General.ShowToast(ex.Message);
+            DebugService.Instance.Debug($"HomeView: {ex.Message}");
         }
     }
 
@@ -76,7 +83,6 @@ public partial class HomeView : ContentView
     {
         if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return; }
 
-        //var oldSongList = await FileManager.LoadNewsItemsFromFilePath($"{NewsManager.SONGPARTS}.txt");
         var oldSongList = await FileManager.LoadSongSegmentsFromFilePath($"{NewsManager.SONGPARTS}.txt");
 
         if (oldSongList is not null)
@@ -397,6 +403,8 @@ public partial class HomeView : ContentView
 
     private void ChipGroupSelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs? e)
     {
+        if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return; }
+
         RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
         RpdSettings?.DetermineGenres(GenresChipGroup);
         RpdSettings?.DetermineGens(GenerationsChipGroup);
@@ -795,38 +803,38 @@ public partial class HomeView : ContentView
     #region Saving/loading tags
     private void SaveTags(string key, Dictionary<string, bool> tags)
     {
-        string json = JsonConvert.SerializeObject(tags, Formatting.Indented);
+        string json = JsonSerializer.Serialize(tags, new JsonSerializerOptions { WriteIndented = true });
         Preferences.Set(key, json);
     }
 
     private void SaveTags(string key, int[] tagIndices)
     {
-        string json = JsonConvert.SerializeObject(tagIndices);
+        string json = JsonSerializer.Serialize(tagIndices);
         Preferences.Set(key, json);
     }
 
     private void SaveTag(string key, int tagIndex)
     {
-        string json = JsonConvert.SerializeObject(tagIndex);
+        string json = JsonSerializer.Serialize(tagIndex);
         Preferences.Set(key, json);
     }
 
     private Dictionary<string, bool> LoadTagsAsDictionary(string key)
     {
         string json = Preferences.Get(key, "{}");
-        return JsonConvert.DeserializeObject<Dictionary<string, bool>>(json) ?? new();
+        return JsonSerializer.Deserialize<Dictionary<string, bool>>(json) ?? new();
     }
 
     private int[]? LoadTagsAsIntArray(string key)
     {
         string json = Preferences.Get(key, "[]");
-        return JsonConvert.DeserializeObject<int[]>(json);
+        return JsonSerializer.Deserialize<int[]>(json);
     }
 
     private int LoadTagAsInt(string key)
     {
         string json = Preferences.Get(key, "0");
-        return JsonConvert.DeserializeObject<int>(json);
+        return JsonSerializer.Deserialize<int>(json);
     }
     #endregion
 }

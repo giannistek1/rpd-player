@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
 using RpdPlayerApp.Architecture;
+using System.Text.Json.Serialization;
 
 namespace RpdPlayerApp.Models;
 
@@ -29,8 +29,8 @@ internal partial class Artist : ObservableObject
     [ObservableProperty]
     private GroupType _groupType;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showGroupTypeColor = false;
 
     [ObservableProperty]
@@ -56,22 +56,24 @@ internal partial class Artist : ObservableObject
     [ObservableProperty]
     private string _imageUrl;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showGroupType = false;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showMemberCount = false;
 
-    [JsonIgnore]
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showCompany = false;
 
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private int _songPartCount = 0;
 
     [ObservableProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private int _filteredTotalCount = 0;
 
     public Artist(DateTime debutDate = new DateTime(), int id = -1, string name = "", string altNames = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")

@@ -32,7 +32,7 @@ internal static class SongRequestManager
         }
         catch (Exception ex)
         {
-            DebugService.Instance.Debug(ex.Message);
+            DebugService.Instance.Debug($"SongRequestManager: {ex.Message}");
         }
         return success;
     }

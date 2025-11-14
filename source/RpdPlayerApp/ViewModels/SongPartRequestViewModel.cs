@@ -40,7 +40,7 @@ internal partial class SongSegmentRequestViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            DebugService.Instance.Debug(ex.Message);
+            DebugService.Instance.Debug($"SongPartRequestViewModel: {ex.Message}");
         }
         return success;
     }
