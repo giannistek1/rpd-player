@@ -14,6 +14,7 @@ public enum GroupType
 
 internal partial class Artist : ObservableObject
 {
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public int Id { get; set; }
 
     [ObservableProperty]
@@ -30,10 +31,11 @@ internal partial class Artist : ObservableObject
     private GroupType _groupType;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showGroupTypeColor = false;
 
     [ObservableProperty]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private string _groupTypeColor;
 
     [ObservableProperty]
@@ -46,6 +48,7 @@ internal partial class Artist : ObservableObject
     private string _generation = Constants.NOT_KPOP;
 
     [ObservableProperty]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private GenType _gen;
 
     /// <summary> Gets set in SongPart.cs once an album is Korean. </summary>
@@ -57,23 +60,23 @@ internal partial class Artist : ObservableObject
     private string _imageUrl;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showGroupType = false;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showMemberCount = false;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showCompany = false;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private int _songPartCount = 0;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private int _filteredTotalCount = 0;
 
     public Artist(DateTime debutDate = new DateTime(), int id = -1, string name = "", string altNames = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")

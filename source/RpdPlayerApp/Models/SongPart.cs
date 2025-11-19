@@ -9,7 +9,7 @@ namespace RpdPlayerApp.Models;
 internal partial class SongPart : ObservableObject
 {
     /// <summary> Order index for playlist. For a unique identifier, use the audioURL. </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     [ObservableProperty]
     private int _id;
 
@@ -19,7 +19,7 @@ internal partial class SongPart : ObservableObject
     [ObservableProperty]
     private string _artistName;
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public Artist Artist { get; set; }
 
     /// <summary> e.g. P, C, D, DB, O, T, etc </summary>
@@ -44,7 +44,7 @@ internal partial class SongPart : ObservableObject
     [ObservableProperty]
     private string _albumTitle;
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public Album Album { get; set; }
 
     [ObservableProperty]
@@ -63,11 +63,11 @@ internal partial class SongPart : ObservableObject
 
     /// <summary> For news </summary>
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _newVideoAvailable = false;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showClipLength = false;
 
     /// <summary> Cliplength in seconds. </summary>
@@ -78,36 +78,36 @@ internal partial class SongPart : ObservableObject
     private TimeSpan _clipLengthAsTimeSpan;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private TimeSpan _playlistStartTime = TimeSpan.MinValue;
 
     /// <summary> Whether the song is currently playing or paused/stopped. </summary>
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool isPlaying = false;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double playingIconScaleY1 = 1.0;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double _playingIconTranslationY1 = 1.0;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double playingIconScaleY2 = 0.2;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double _playingIconTranslationY2 = 1.0;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double _playingIconScaleY3 = 0.6;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private double _playingIconTranslationY3 = 1.0;
 
     [JsonConstructor]

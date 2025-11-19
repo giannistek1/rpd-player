@@ -19,9 +19,8 @@ internal static class NewsManager
             return;
         }
 
-        string jsonSongParts = JsonSerializer.Serialize(SongPartRepository.SongParts);
-        string path = await FileManager.SaveJsonToFileAsync($"{SONGPARTS}", jsonSongParts);
+        await FileManager.SaveSongPartsAsync([.. SongPartRepository.SongParts]);
 
-        DebugService.Instance.Debug($"{path} - {jsonSongParts.Length}");
+        //DebugService.Instance.Debug($"{path} - {jsonSongParts.Length}");
     }
 }

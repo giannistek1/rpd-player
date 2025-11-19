@@ -1,6 +1,5 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
-using RpdPlayerApp.Items;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
@@ -15,6 +14,7 @@ namespace RpdPlayerApp.Views;
 public partial class HomeView : ContentView
 {
     //internal event EventHandler? PlaySongPart;
+    internal event EventHandler? InitSongParts;
     internal event EventHandler? CreatePlaylistButtonPressed;
     internal event EventHandler? ShowCategories;
     internal event EventHandler? ShowNewsPopup;
@@ -37,7 +37,7 @@ public partial class HomeView : ContentView
         Loaded += OnLoad;
     }
 
-    private static async Task LoadInitialDataAsync()
+    private async Task LoadInitialDataAsync()
     {
         if (General.HasInternetConnection())
         {
@@ -48,9 +48,29 @@ public partial class HomeView : ContentView
         }
         else // Offline
         {
-            //await SongPartRepository.LoadSongPartsFromFileAsync("SONGPARTS.TXT");
-            var oldSongList = await FileManager.LoadSongSegmentsFromFilePath($"{NewsManager.SONGPARTS}.txt");
-            SongPartRepository.SongParts = new(oldSongList ?? []);
+            var loadedArtists = await FileManager.LoadArtistsAsync();
+            ArtistRepository.Artists.Clear();
+            foreach (Artist artist in loadedArtists)
+            {
+                ArtistRepository.Artists.Add(artist);
+            }
+
+            var loadedAlbums = await FileManager.LoadAlbumsAsync();
+            AlbumRepository.Albums.Clear();
+            foreach (Album album in loadedAlbums)
+            {
+                AlbumRepository.Albums.Add(album);
+            }
+
+            var loadedSongParts = await FileManager.LoadSongPartsAsync();
+            SongPartRepository.SongParts.Clear();
+            foreach (SongPart part in loadedSongParts)
+            {
+                part.Artist = ArtistRepository.Artists.FirstOrDefault(a => a.Name.Equals(part.ArtistName, StringComparison.OrdinalIgnoreCase))!;
+                SongPartRepository.SongParts.Add(part);
+            }
+
+            InitSongParts?.Invoke(null, EventArgs.Empty);
         }
     }
 
@@ -66,7 +86,9 @@ public partial class HomeView : ContentView
 #endif
             InitializeCompanies();
             InitializeChipGroups();
-            await NewsManager.SaveNews();
+            await NewsManager.SaveNews(); // TODO: maybe not savenews
+            await FileManager.SaveArtistsAsync([.. ArtistRepository.Artists]);
+            await FileManager.SaveAlbumsAsync([.. AlbumRepository.Albums]);
             HandleAutoStartRpd();
 
             ChipGroupSelectionChanged(null, null);
@@ -83,7 +105,8 @@ public partial class HomeView : ContentView
     {
         if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return; }
 
-        var oldSongList = await FileManager.LoadSongSegmentsFromFilePath($"{NewsManager.SONGPARTS}.txt");
+        //var oldSongList = await FileManager.LoadSongSegmentsFromFilePath($"{NewsManager.SONGPARTS}.json");
+        var oldSongList = await FileManager.LoadSongPartsAsync();
 
         if (oldSongList is not null)
         {
@@ -110,7 +133,7 @@ public partial class HomeView : ContentView
         }
         differentNewSongs.AddRange(newSongList.Where(item1 => !oldSongList.Any(item2 => item1.HasVideo == item2.HasVideo)).ToList());
 #else
-        var differentNewSongs = newSongList.Where(s => s.Artist!.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
+        var differentNewSongs = newSongList.Where(s => s.ArtistName!.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
 #endif
         return differentNewSongs;
     }

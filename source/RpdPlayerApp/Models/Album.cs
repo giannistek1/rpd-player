@@ -6,6 +6,7 @@ namespace RpdPlayerApp.Models;
 
 internal partial class Album : ObservableObject
 {
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public int Id { get; set; }
 
     [ObservableProperty]
@@ -30,15 +31,15 @@ internal partial class Album : ObservableObject
     private string _imageURL;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showAlbumTitle = false;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showAlbumReleaseDate = false;
 
     [ObservableProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showGenreShort = false;
 
     public Album(int id = -1, string artistName = "", DateTime releaseDate = new(), string title = "", string genreShort = "", string imageURL = "")

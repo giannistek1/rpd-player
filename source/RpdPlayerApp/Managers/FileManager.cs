@@ -12,10 +12,14 @@ internal static class FileManager
     internal static readonly string AppDataDirectory = FileSystem.Current.AppDataDirectory; // Data/user/0 (Data/Data) directory (only accessed via rooted Android)
     //internal static readonly string PlaylistsDirectory = "localplaylists";
 
+    private static readonly string SongPartsFilePath = Path.Combine(FileSystem.AppDataDirectory, "songparts.json");
+
     internal static string GetPlaylistsPath()
     {
         return AppDataDirectory;
     }
+
+    #region Playlist
 
     /// <summary> Without the .txt </summary>
     /// <param name="fileName"></param>
@@ -44,6 +48,8 @@ internal static class FileManager
         return string.Empty;
     }
 
+    #endregion
+
     /// <summary> Without the .txt </summary>
     /// <param name="fileName"></param>
     /// <param name="jsonText"></param>
@@ -52,7 +58,7 @@ internal static class FileManager
     {
         try
         {
-            var fullPath = Path.Combine(AppDataDirectory, $"{fileName}.txt");
+            var fullPath = Path.Combine(AppDataDirectory, $"{fileName}.json");
 
             // Write the JSON text to the file.
             await File.WriteAllTextAsync(fullPath, jsonText);
@@ -66,35 +72,73 @@ internal static class FileManager
         return string.Empty;
     }
 
-    internal static async Task<List<SongPart>?> LoadSongSegmentsFromFilePath(string filePath)
+    public static async Task SaveSongPartsAsync(List<SongPart> songParts)
     {
-        var fullPath = Path.Combine(AppDataDirectory, filePath);
+        var json = JsonSerializer.Serialize(songParts);
+        await File.WriteAllTextAsync(SongPartsFilePath, json);
+    }
+
+    public static async Task<List<SongPart>> LoadSongPartsAsync()
+    {
+        if (!File.Exists(SongPartsFilePath)) return [];
 
         try
         {
-            if (File.Exists(fullPath))
-            {
-                // Read the text file content
-                string fileContent = await File.ReadAllTextAsync(fullPath);
-
-                //DebugService.Instance.Debug($"{fileContent}");
-
-                // Convert the text content into a list of objects
-                var songs = JsonSerializer.Deserialize<List<SongPart>>(fileContent, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-
-                //DebugService.Instance.Debug($"songs: {songs?.Count}");
-
-                return songs;
-            }
+            var json = await File.ReadAllTextAsync(SongPartsFilePath);
+            return JsonSerializer.Deserialize<List<SongPart>>(json) ?? [];
         }
         catch (Exception ex)
         {
             DebugService.Instance.Error($"FileManager: {ex.Message}");
+            return [];
         }
+    }
 
-        return null;
+    public static async Task SaveArtistsAsync(List<Artist> artists)
+    {
+        var json = JsonSerializer.Serialize(artists);
+        var path = Path.Combine(FileSystem.AppDataDirectory, "artists.json");
+        await File.WriteAllTextAsync(path, json);
+    }
+
+    public static async Task<List<Artist>> LoadArtistsAsync()
+    {
+        var path = Path.Combine(FileSystem.AppDataDirectory, "artists.json");
+        if (!File.Exists(path)) { return []; }
+
+        try
+        {
+            var json = await File.ReadAllTextAsync(path);
+            return JsonSerializer.Deserialize<List<Artist>>(json) ?? [];
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.Error($"FileManager: {ex.Message}");
+            return [];
+        }
+    }
+
+    public static async Task SaveAlbumsAsync(List<Album> albums)
+    {
+        var json = JsonSerializer.Serialize(albums);
+        var path = Path.Combine(FileSystem.AppDataDirectory, "albums.json");
+        await File.WriteAllTextAsync(path, json);
+    }
+
+    public static async Task<List<Album>> LoadAlbumsAsync()
+    {
+        var path = Path.Combine(FileSystem.AppDataDirectory, "albums.json");
+        if (!File.Exists(path)) { return []; }
+
+        try
+        {
+            var json = await File.ReadAllTextAsync(path);
+            return JsonSerializer.Deserialize<List<Album>>(json) ?? [];
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.Error($"FileManager: {ex.Message}");
+            return [];
+        }
     }
 }

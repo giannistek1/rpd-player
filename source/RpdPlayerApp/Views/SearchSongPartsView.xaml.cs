@@ -46,9 +46,17 @@ public partial class SearchSongPartsView : ContentView
     {
         songParts.CollectionChanged += SongPartsCollectionChanged;
 
+        InitSongParts();
+
+        ClearCategoryFilterButtonBorder.IsVisible = (AppState.SearchFilterMode != SearchFilterModeValue.All);
+    }
+
+    internal void InitSongParts()
+    {
         allSongParts = SongPartRepository.SongParts;
 
-        // Fill in indices.
+        songParts.Clear();
+
         foreach (var songPart in allSongParts)
         {
             songParts.Add(songPart);
@@ -58,7 +66,7 @@ public partial class SearchSongPartsView : ContentView
 
         UpdateResultsText();
 
-        ClearCategoryFilterButtonBorder.IsVisible = (AppState.SearchFilterMode != SearchFilterModeValue.All);
+        InitListView();
     }
 
     internal void ToggleAudioModeButtonClicked(object? sender, EventArgs e)
@@ -85,7 +93,10 @@ public partial class SearchSongPartsView : ContentView
 
     internal void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => UpdateResultsText();
 
-    private void SonglibraryListViewLoaded(object sender, ListViewLoadedEventArgs e)
+    private void SonglibraryListViewLoaded(object sender, ListViewLoadedEventArgs e) => InitListView();
+
+    /// <summary> Collapses listview, orders by artistname and clears showing properties. </summary>
+    private void InitListView()
     {
         SonglibraryListView.DataSource?.GroupDescriptors.Clear();
         SonglibraryListView.IsStickyGroupHeader = true;

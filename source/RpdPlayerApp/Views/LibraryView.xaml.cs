@@ -175,7 +175,7 @@ public partial class LibraryView : ContentView
         {
             foreach (var file in files)
             {
-                if (file.Contains("SONGPARTS.txt")) { continue; }
+                if (file.Contains("SONGPARTS.txt")) { continue; } // For offline mode / news
 
                 int lines = File.ReadAllLines(file).Length;
 
@@ -235,7 +235,7 @@ public partial class LibraryView : ContentView
                     }
                     catch (Exception ex)
                     {
-                        DebugService.Instance.Debug($"ERROR: {typeof(LibraryView).Name}, songpart {i + 1}, {ex.Message}");
+                        DebugService.Instance.Error($"{typeof(LibraryView).Name}, songpart {i + 1}, {ex.Message}");
                         General.ShowToast($"ERROR: LoadLocalPlaylists songpart {i + 1}. {ex.Message}");
                     }
                 }
@@ -245,7 +245,7 @@ public partial class LibraryView : ContentView
         }
         catch (Exception ex)
         {
-            DebugService.Instance.Debug($"LibraryView: {ex.Message}");
+            DebugService.Instance.Debug($"ERROR: {typeof(LibraryView).Name}: {ex.Message}");
         }
 
         CacheState.LocalPlaylists = playlists.ToObservableCollection();
@@ -474,7 +474,7 @@ public partial class LibraryView : ContentView
         string[] files = Directory.GetFiles(FileManager.GetPlaylistsPath(), "*.txt");
         foreach (string file in files)
         {
-            if (file.Contains("SONGPARTS.txt")) { continue; } // For offline mode?
+            if (file.Contains("SONGPARTS.txt")) { continue; } // Nowadays .json For news and offline mode
 
             var lines = File.ReadLines(file);
 

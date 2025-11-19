@@ -75,6 +75,7 @@ public partial class MainPage
         HomeView.CreatePlaylistButtonPressed += OnCreatePlaylistButtonPressed;
         HomeView.ShowCategories += OnShowCategories;
         HomeView.ShowNewsPopup += OnShowNewsPopup;
+        HomeView.InitSongParts += OnInitSongParts;
 
         _categoriesView.IsVisible = false;
         _categoriesView.FilterPressed += OnFilterPressed;
@@ -283,6 +284,8 @@ public partial class MainPage
     }
 
     #endregion Toolbar
+
+    internal void OnInitSongParts(object? sender, EventArgs e) => SearchSongPartsView.InitSongParts();
 
     private void OnPlayToggleSongPart(object? sender, EventArgs e) => AudioPlayerControl.PlayToggleButtonPressed(sender!, e);
 
