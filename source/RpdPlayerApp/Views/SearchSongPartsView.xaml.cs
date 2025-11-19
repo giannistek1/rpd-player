@@ -66,7 +66,9 @@ public partial class SearchSongPartsView : ContentView
 
         UpdateResultsText();
 
-        InitListView();
+        SonglibraryListView.CollapseAll();
+
+        //InitListView();
     }
 
     internal void ToggleAudioModeButtonClicked(object? sender, EventArgs e)
