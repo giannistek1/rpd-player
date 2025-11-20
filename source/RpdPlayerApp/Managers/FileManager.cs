@@ -1,8 +1,6 @@
 ﻿using RpdPlayerApp.Architecture;
-using RpdPlayerApp.Items;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Services;
-using RpdPlayerApp.ViewModels;
 using System.Text.Json;
 
 namespace RpdPlayerApp.Managers;
@@ -74,6 +72,12 @@ internal static class FileManager
 
     public static async Task SaveSongPartsAsync(List<SongPart> songParts)
     {
+        if (songParts.Count == 0)
+        {
+            DebugService.Instance.Debug("FileManager: No songparts to save.");
+            return;
+        }
+
         var json = JsonSerializer.Serialize(songParts);
         await File.WriteAllTextAsync(SongPartsFilePath, json);
     }
@@ -96,6 +100,12 @@ internal static class FileManager
 
     public static async Task SaveArtistsAsync(List<Artist> artists)
     {
+        if (artists.Count == 0)
+        {
+            DebugService.Instance.Debug("FileManager: No artists to save.");
+            return;
+        }
+
         var json = JsonSerializer.Serialize(artists);
         var path = Path.Combine(FileSystem.AppDataDirectory, "artists.json");
         await File.WriteAllTextAsync(path, json);
@@ -120,6 +130,12 @@ internal static class FileManager
 
     public static async Task SaveAlbumsAsync(List<Album> albums)
     {
+        if (albums.Count == 0)
+        {
+            DebugService.Instance.Debug("FileManager: No albums to save.");
+            return;
+        }
+
         var json = JsonSerializer.Serialize(albums);
         var path = Path.Combine(FileSystem.AppDataDirectory, "albums.json");
         await File.WriteAllTextAsync(path, json);
