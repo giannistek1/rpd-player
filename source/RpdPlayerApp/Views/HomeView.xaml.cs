@@ -121,7 +121,6 @@ public partial class HomeView : ContentView
         {
             var newSongList = SongPartRepository.SongParts.ToList();
             var differentNewSongs = FindDifferentNewSongs(newSongList, oldSongList);
-
             UpdateNewsBadge(differentNewSongs);
         }
     }
@@ -129,6 +128,7 @@ public partial class HomeView : ContentView
     private List<SongPart> FindDifferentNewSongs(List<SongPart> newSongList, List<SongPart> oldSongList)
     {
 #if RELEASE
+        // Add new songs based on audioURL.
         var differentNewSongs = newSongList.Where(item1 => !oldSongList.Any(item2 => item1.AudioURL == item2.AudioURL)).ToList();
         foreach (var newSongPart in newSongList)
         {
@@ -140,7 +140,14 @@ public partial class HomeView : ContentView
                 newSongPart.NewVideoAvailable = true;
             }
         }
-        differentNewSongs.AddRange(newSongList.Where(item1 => !oldSongList.Any(item2 => item1.HasVideo == item2.HasVideo)).ToList());
+
+        // Add new songs based on video availability.
+        var videoDiffs = newSongList
+            .Where(item1 => !oldSongList.Any(item2 => item1.HasVideo == item2.HasVideo))
+            .Except(differentNewSongs)
+            .ToList();
+
+        differentNewSongs.AddRange(videoDiffs);
 #else
         var differentNewSongs = newSongList.Where(s => s.ArtistName!.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
 #endif

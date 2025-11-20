@@ -304,10 +304,11 @@ public partial class CurrentPlaylistView : ContentView
         CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref playlist.Segments);
         RefreshCurrentPlaylist();
     }
+
+    // Tests: "Left & Right" "Left And Right" "Left-and-Right" "Left & Right!" "LEFT AND RIGHT" = leftandright
     /// <summary> Removes all punctuation and whitespace from a string. </summary>
     /// <param name="input"></param>
     /// <returns>string without punctuation and whitespace.</returns>
-    /// Tests: "Left & Right" "Left And Right" "Left-and-Right" "Left & Right!" "LEFT AND RIGHT" = leftandright
     static string Normalize(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
