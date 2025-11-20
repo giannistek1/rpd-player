@@ -58,11 +58,11 @@
             </HorizontalStackLayout>
 
 
-            <HorizontalStackLayout Grid.Column="2" Margin="12,0,8,0">
+            <HorizontalStackLayout Grid.Column="2" Margin="0,0,8,0" HorizontalOptions="End">
 
                 <Label x:Name="IsOnlineLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="Center" Margin="0,0,8,0"/>
 
-                <Image x:Name="IsOnlineImage"  HorizontalOptions="End">
+                <Image x:Name="IsOnlineImage" HorizontalOptions="End">
                     <Image.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Cloud_done}" Color="{DynamicResource SecondaryIconColor}" />
                     </Image.Source>
