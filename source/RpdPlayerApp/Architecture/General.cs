@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Views;
 
 namespace RpdPlayerApp.Architecture;
@@ -19,6 +20,26 @@ internal static class General
         if (accessType != NetworkAccess.Internet)
         {
             ShowToast("No internet connection!");
+            return false;
+        }
+        return true;
+    }
+
+    internal static bool HasRepositoryData()
+    {
+        if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0)
+        {
+            ShowToast("No song data available!");
+            return false;
+        }
+        else if (AlbumRepository.Albums is null || AlbumRepository.Albums.Count == 0)
+        {
+            ShowToast("No album data available!");
+            return false;
+        }
+        else if (ArtistRepository.Artists is null || ArtistRepository.Artists.Count == 0)
+        {
+            ShowToast("No artist data available!");
             return false;
         }
         return true;

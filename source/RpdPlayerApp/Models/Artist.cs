@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Dropbox.Api.TeamCommon;
 using RpdPlayerApp.Architecture;
 using System.Text.Json.Serialization;
 
@@ -90,7 +91,12 @@ internal partial class Artist : ObservableObject
         Company = company;
         ImageUrl = imageURL;
 
-        GroupTypeColor = groupType switch
+        InitPostProperties();
+    }
+
+    internal void InitPostProperties()
+    {
+        GroupTypeColor = GroupType switch
         {
             GroupType.BG => Colors.DeepSkyBlue.ToHex(),
             GroupType.GG => Colors.Magenta.ToHex(),

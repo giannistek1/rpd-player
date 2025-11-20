@@ -52,6 +52,7 @@ public partial class HomeView : ContentView
             ArtistRepository.Artists.Clear();
             foreach (Artist artist in loadedArtists)
             {
+                artist.InitPostProperties();
                 ArtistRepository.Artists.Add(artist);
             }
 
@@ -59,6 +60,7 @@ public partial class HomeView : ContentView
             AlbumRepository.Albums.Clear();
             foreach (Album album in loadedAlbums)
             {
+                album.InitPostProperties();
                 AlbumRepository.Albums.Add(album);
             }
 
@@ -66,7 +68,7 @@ public partial class HomeView : ContentView
             SongPartRepository.SongParts.Clear();
             foreach (SongPart part in loadedSongParts)
             {
-                part.Artist = ArtistRepository.Artists.FirstOrDefault(a => a.Name.Equals(part.ArtistName, StringComparison.OrdinalIgnoreCase))!;
+                part.InitPostProperties();
                 SongPartRepository.SongParts.Add(part);
             }
 
@@ -567,7 +569,7 @@ public partial class HomeView : ContentView
 
     private async void GeneratePlaylistButtonClicked()
     {
-        if (!General.HasInternetConnection()) { return; }
+        if (!General.HasRepositoryData()) { return; }
 
         SetDuration();
         if (RpdSettings!.Duration == TimeSpan.Zero || RpdSettings.Duration == TimeSpan.MinValue)

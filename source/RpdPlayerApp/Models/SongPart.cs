@@ -22,23 +22,26 @@ internal partial class SongPart : ObservableObject
     [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public Artist Artist { get; set; }
 
-    /// <summary> e.g. P, C, D, DB, O, T, etc </summary>
+    /// <summary> Required. e.g. P, C, D, DB, O, T, etc </summary>
     [ObservableProperty]
     private string _partNameShort;
 
     /// <summary> e.g. P1, C2, etc </summary>
     [ObservableProperty]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private string _partNameShortWithNumber;
 
-    /// <summary> e.g. 1, 2, 3, etc </summary>
+    /// <summary> Required. e.g. 1, 2, 3, etc </summary>
     [ObservableProperty]
     private string _partNameNumber;
 
     /// <summary> e.g. Pre-chorus 1, Chorus 2, etc </summary>
     [ObservableProperty]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private string _partNameFull;
 
     [ObservableProperty]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private SongSegmentOrderValue _partClassification;
 
     [ObservableProperty]
@@ -75,6 +78,7 @@ internal partial class SongPart : ObservableObject
     private double _clipLength;
 
     [ObservableProperty]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private TimeSpan _clipLengthAsTimeSpan;
 
     [ObservableProperty]
@@ -121,30 +125,32 @@ internal partial class SongPart : ObservableObject
 
         PartNameShort = partNameShort; // C
         PartNameNumber = partNameNumber; // 1
-        PartNameShortWithNumber = $"{partNameShort}{partNameNumber}";
-        PartNameFull = GetPartNameLong(partNameShort, partNameNumber);
-        PartClassification = GetSongPartOrder(partNameShort);
 
         AlbumTitle = albumTitle;
         AudioURL = audioURL;
         ClipLength = clipLength;
-        ClipLengthAsTimeSpan = TimeSpan.FromSeconds(clipLength);
         VideoURL = videoURL;
 
-        HasVideo = VideoRepository.VideoExists(artistName: artistName, title: title, partNameShort: partNameShort, partNameNumber: partNameNumber);
+        InitPostProperties();
+    }
 
-        Album = AlbumRepository.MatchAlbum(artistName: artistName, albumTitle: albumTitle);
-        Artist = ArtistRepository.MatchArtist(artistName: artistName);
+    internal void InitPostProperties()
+    {
+        PartNameShortWithNumber = $"{PartNameShort}{PartNameNumber}";
+        PartNameFull = GetPartNameLong(PartNameShort, PartNameNumber);
+        PartClassification = GetSongPartOrder(PartNameShort);
+
+        ClipLengthAsTimeSpan = TimeSpan.FromSeconds(ClipLength);
+
+        HasVideo = VideoRepository.VideoExists(artistName: ArtistName, title: Title, partNameShort: PartNameShort, partNameNumber: PartNameNumber);
+
+        Album = AlbumRepository.MatchAlbum(artistName: ArtistName, albumTitle: AlbumTitle);
+        Artist = ArtistRepository.MatchArtist(artistName: ArtistName);
 
         if (Album.GenreShort == Constants.GenreKpop)
         {
             Artist.IsKpopArtist = true;
             Artist.DecideGeneration();
-        }
-
-        if (playlistStartTime is not null)
-        {
-            PlaylistStartTime = playlistStartTime.Value;
         }
     }
 

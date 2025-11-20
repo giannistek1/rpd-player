@@ -25,6 +25,7 @@ internal partial class Album : ObservableObject
 
     /// <summary> K-pop, J-pop, C-pop, T-pop, Pop, K-RnB etc... </summary>
     [ObservableProperty]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private string _genreFull;
 
     [ObservableProperty]
@@ -49,8 +50,14 @@ internal partial class Album : ObservableObject
         ReleaseDate = releaseDate;
         Title = title;
         GenreShort = genreShort;
-        GenreFull = GetGenre();
         ImageURL = imageURL;
+
+        InitPostProperties();
+    }
+
+    internal void InitPostProperties()
+    {
+        GenreFull = GetGenre();
     }
 
     private string GetGenre()
