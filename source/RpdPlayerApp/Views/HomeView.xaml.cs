@@ -103,7 +103,10 @@ public partial class HomeView : ContentView
 
             ChipGroupSelectionChanged(null, null);
 
-            IsOnlineImage.IsVisible = General.HasInternetConnection() && !Constants.APIKEY.IsNullOrWhiteSpace() && !Constants.BASE_URL.IsNullOrWhiteSpace();
+            bool validConnection = General.HasInternetConnection() && !Constants.APIKEY.IsNullOrWhiteSpace() && !Constants.BASE_URL.IsNullOrWhiteSpace();
+
+            IsOnlineImage.Source = validConnection ? IconManager.OnlineIcon : IconManager.OfflineIcon;
+            IsOnlineLabel.Text = General.HasInternetConnection() ? "Online" : "Offline";
         }
         catch (Exception ex)
         {

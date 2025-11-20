@@ -56,6 +56,20 @@ internal static class IconManager
         Color = (Color)Application.Current!.Resources["IconOffColor"]
     };
 
+    internal static FontImageSource OfflineIcon = new()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.Cloud_off,
+        Color = (Color)Application.Current!.Resources["IconOffColor"]
+    };
+
+    internal static FontImageSource OnlineIcon = new()
+    {
+        FontFamily = "MaterialRounded",
+        Glyph = MaterialRounded.Cloud_done,
+        Color = (Color)Application.Current!.Resources["IconOffColor"]
+    };
+
     internal static FontImageSource PauseIcon = new()
     {
         FontFamily = "MaterialRounded",
@@ -285,6 +299,8 @@ internal static class IconManager
         NoSoundIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         SoundIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         OffIcon.Color = (Color)Application.Current!.Resources["IconOffColor"];
+        OfflineIcon.Color = (Color)Application.Current!.Resources["IconOffColor"];
+        OnlineIcon.Color = (Color)Application.Current!.Resources["IconOffColor"];
         PauseIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         PlayIcon.Color = (Color)Application.Current!.Resources["IconColor"];
         RepeatOneIcon.Color = (Color)Application.Current!.Resources["IconColor"];

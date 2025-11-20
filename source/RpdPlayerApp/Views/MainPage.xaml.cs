@@ -352,9 +352,9 @@ public partial class MainPage
         Title = "Home";
     }
 
-    private void OnBackToPlaylists(object? sender, EventArgs e) => BackToPlaylists();
+    private async void OnBackToPlaylists(object? sender, EventArgs e) => await BackToPlaylists();
 
-    private async void BackToPlaylists()
+    private async Task BackToPlaylists()
     {
         _currentPlaylistView.ResetCurrentPlaylist();
         await LibraryView!.LoadPlaylists();

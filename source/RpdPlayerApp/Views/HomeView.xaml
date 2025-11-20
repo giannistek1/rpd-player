@@ -19,50 +19,56 @@
 
             <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center">
 
-                    <!-- SongParts -->
-                    <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
-                        </Image.Source>
-                    </Image>
+                <!-- SongParts -->
+                <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
 
-                    <Label x:Name="SongPartCountLabel" Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
+                <Label x:Name="SongPartCountLabel" Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
 
-                    <!-- Artists -->
-                    <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
-                        </Image.Source>
-                    </Image>
+                <!-- Artists -->
+                <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
 
-                    <Label x:Name="ArtistCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
+                <Label x:Name="ArtistCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
 
-                    <!-- Albums -->
-                    <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Album}" Color="{DynamicResource SecondaryIconColor}" />
-                        </Image.Source>
-                    </Image>
+                <!-- Albums -->
+                <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Album}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
 
-                    <Label x:Name="AlbumCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
+                <Label x:Name="AlbumCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
 
-                    <!-- Unique song parts (for debug mode) -->
-                    <Image x:Name="UniqueSongCountImage"  HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Stars}" Color="{DynamicResource SecondaryIconColor}" />
-                        </Image.Source>
-                    </Image>
+                <!-- Unique song parts (for debug mode) -->
+                <Image x:Name="UniqueSongCountImage"  HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Stars}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
 
-                    <Label x:Name="UniqueSongCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
+                <Label x:Name="UniqueSongCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
 
-                </HorizontalStackLayout>
+            </HorizontalStackLayout>
 
 
-            <Image Grid.Column="2" x:Name="IsOnlineImage"  HorizontalOptions="End" Margin="12,0,8,0">
-                <Image.Source>
-                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Cloud_done}" Color="{DynamicResource SecondaryIconColor}" />
-                </Image.Source>
-            </Image>
+            <HorizontalStackLayout Grid.Column="2" Margin="12,0,8,0">
+
+                <Label x:Name="IsOnlineLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="Center" Margin="0,0,8,0"/>
+
+                <Image x:Name="IsOnlineImage"  HorizontalOptions="End">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Cloud_done}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
+                
+            </HorizontalStackLayout>
 
         </Grid>
 
