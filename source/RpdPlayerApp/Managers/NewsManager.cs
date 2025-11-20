@@ -10,17 +10,4 @@ internal static class NewsManager
     internal const string SONGPARTS = "SONGPARTS";
 
     internal static List<SongPart> SongPartsDifference { get; set; } = [];
-
-    internal static async Task SaveNews()
-    {
-        if (SongPartRepository.SongParts.Count == 0)
-        {
-            DebugService.Instance.Debug("NewsManager: No songparts to save.");
-            return;
-        }
-
-        await FileManager.SaveSongPartsAsync([.. SongPartRepository.SongParts]);
-
-        //DebugService.Instance.Debug($"{path} - {jsonSongParts.Length}");
-    }
 }

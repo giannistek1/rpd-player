@@ -32,8 +32,8 @@ public partial class HomeView : ContentView
         AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;
         SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
 
-        //LoadInitialData();
         _ = LoadInitialDataAsync();
+
         Loaded += OnLoad;
     }
 
@@ -64,6 +64,13 @@ public partial class HomeView : ContentView
                 AlbumRepository.Albums.Add(album);
             }
 
+            var loadedVideos = await FileManager.LoadVideosAsync();
+            VideoRepository.Videos.Clear();
+            foreach (Video video in loadedVideos)
+            {
+                VideoRepository.Videos.Add(video);
+            }
+
             var loadedSongParts = await FileManager.LoadSongPartsAsync();
             SongPartRepository.SongParts.Clear();
             foreach (SongPart part in loadedSongParts)
@@ -88,9 +95,10 @@ public partial class HomeView : ContentView
 #endif
             InitializeCompanies();
             InitializeChipGroups();
-            await NewsManager.SaveNews(); // TODO: maybe not savenews
+            await FileManager.SaveSongPartsAsync([.. SongPartRepository.SongParts]);
             await FileManager.SaveArtistsAsync([.. ArtistRepository.Artists]);
             await FileManager.SaveAlbumsAsync([.. AlbumRepository.Albums]);
+            await FileManager.SaveVideosAsync([.. VideoRepository.Videos]);
             HandleAutoStartRpd();
 
             ChipGroupSelectionChanged(null, null);
@@ -107,7 +115,6 @@ public partial class HomeView : ContentView
     {
         if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return; }
 
-        //var oldSongList = await FileManager.LoadSongSegmentsFromFilePath($"{NewsManager.SONGPARTS}.json");
         var oldSongList = await FileManager.LoadSongPartsAsync();
 
         if (oldSongList is not null)

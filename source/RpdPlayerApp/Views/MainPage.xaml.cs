@@ -32,7 +32,7 @@ public partial class MainPage
 
     private void OnLoad(object? sender, EventArgs e)
     {
-        LoadSettings();
+        _ = LoadSettingsAsync();
         SetParentPages();
         SetContentViewEvents();
         InitializePageContainers();
@@ -41,7 +41,7 @@ public partial class MainPage
 
     private void OnAppearing(object? sender, EventArgs e) => AudioPlayerControl.UpdateUI();
 
-    private async void LoadSettings()
+    private static async Task LoadSettingsAsync()
     {
         AppState.DeviceId = await DeviceIdManager.GetDeviceIdAsync();
         AppState.Username = Preferences.Get(CommonSettings.USERNAME, Constants.DEFAULT_USERNAME);

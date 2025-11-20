@@ -48,28 +48,6 @@ internal static class FileManager
 
     #endregion
 
-    /// <summary> Without the .txt </summary>
-    /// <param name="fileName"></param>
-    /// <param name="jsonText"></param>
-    /// <returns></returns>
-    internal static async Task<string> SaveJsonToFileAsync(string fileName, string jsonText)
-    {
-        try
-        {
-            var fullPath = Path.Combine(AppDataDirectory, $"{fileName}.json");
-
-            // Write the JSON text to the file.
-            await File.WriteAllTextAsync(fullPath, jsonText);
-            return fullPath;
-        }
-        catch (Exception ex)
-        {
-            DebugService.Instance.Error(ex.Message);
-        }
-
-        return string.Empty;
-    }
-
     public static async Task SaveSongPartsAsync(List<SongPart> songParts)
     {
         if (songParts.Count == 0)
@@ -150,6 +128,36 @@ internal static class FileManager
         {
             var json = await File.ReadAllTextAsync(path);
             return JsonSerializer.Deserialize<List<Album>>(json) ?? [];
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.Error($"FileManager: {ex.Message}");
+            return [];
+        }
+    }
+
+    public static async Task SaveVideosAsync(List<Video> videos)
+    {
+        if (videos.Count == 0)
+        {
+            DebugService.Instance.Debug("FileManager: No videos to save.");
+            return;
+        }
+
+        var json = JsonSerializer.Serialize(videos);
+        var path = Path.Combine(FileSystem.AppDataDirectory, "videos.json");
+        await File.WriteAllTextAsync(path, json);
+    }
+
+    public static async Task<List<Video>> LoadVideosAsync()
+    {
+        var path = Path.Combine(FileSystem.AppDataDirectory, "videos.json");
+        if (!File.Exists(path)) { return []; }
+
+        try
+        {
+            var json = await File.ReadAllTextAsync(path);
+            return JsonSerializer.Deserialize<List<Video>>(json) ?? [];
         }
         catch (Exception ex)
         {
