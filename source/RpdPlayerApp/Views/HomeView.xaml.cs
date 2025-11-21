@@ -103,6 +103,8 @@ public partial class HomeView : ContentView
 
             ChipGroupSelectionChanged(null, null);
 
+            FilterOptionsHeaderLabel.Text = "Filter & Options";
+
             bool validConnection = General.HasInternetConnection() && !Constants.APIKEY.IsNullOrWhiteSpace() && !Constants.BASE_URL.IsNullOrWhiteSpace();
 
             IsOnlineImage.Source = validConnection ? IconManager.OnlineIcon : IconManager.OfflineIcon;
