@@ -330,7 +330,7 @@
         <!-- Action buttons -->
         <Grid Grid.Row="5" ColumnDefinitions="4*, 4*, 1*" ColumnSpacing="8" Margin="0,0,8,4">
 
-            <Button Grid.Column="0" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" ContentLayout="Left, 10" Margin="16,0,0,0" FontAttributes="Bold" />
+            <Button Grid.Column="0" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold" />
 
             <Button Grid.Column="1" x:Name="SearchByCategoryButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
                     Clicked="SearchByCategoryButtonClicked" Text="Categories" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
