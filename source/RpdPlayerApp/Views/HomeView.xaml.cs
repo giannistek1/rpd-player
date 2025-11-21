@@ -32,9 +32,42 @@ public partial class HomeView : ContentView
         AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;
         SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
 
+        TimerImageButton.Clicked += TimerImageButtonClicked;
+
         _ = LoadInitialDataAsync();
 
         Loaded += OnLoad;
+    }
+
+    private async void TimerImageButtonClicked(object? sender, EventArgs e)
+    {
+        string action = await Shell.Current.DisplayActionSheet(
+            title: $"Timer",
+            cancel: "Cancel",
+            destruction: null,
+            "Off",
+            "3s",
+            "5s",
+            "Custom (Pro)"
+        );
+
+        switch (action)
+        {
+            case "Off":
+                RpdSettings!.CountdownMode = CountdownModeValue.Off;
+                break;
+            case "3s":
+                RpdSettings!.CountdownMode = CountdownModeValue.Short;
+                break;
+            case "5s":
+                RpdSettings!.CountdownMode = CountdownModeValue.Long;
+                break;
+            case "Custom (Pro)":
+                RpdSettings!.CountdownMode = CountdownModeValue.Custom;
+                break;
+        }
+
+        UpdateTimerValue();
     }
 
     private async Task LoadInitialDataAsync()
@@ -199,7 +232,7 @@ public partial class HomeView : ContentView
     {
         InitializeHomeModeSegmentedControl();
         InitializeDurationChipGroup();
-        InitializeTimerChipGroup();
+        UpdateTimerValue(loadValue: true);
         InitializeVoiceAnnouncementsChipGroup();
         InitializeGroupTypesChipGroup();
         InitializeGenresChipGroup();
@@ -226,25 +259,16 @@ public partial class HomeView : ContentView
         DurationChipGroup!.SelectedItem = DurationChipGroup?.Items?[0];
     }
 
-    private void InitializeTimerChipGroup()
+    private void UpdateTimerValue(bool loadValue = false)
     {
-        string[] options = ["Off", "3s", "5s", "Custom (Pro)"];
-        foreach (var option in options)
-        {
-            TimerChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
-        }
-
-        // Load preference/setting.
-        if (Preferences.ContainsKey(CommonSettings.HOME_TIMER))
+        if (loadValue)
         {
             var selectedIndex = LoadTagAsInt(CommonSettings.HOME_TIMER);
+            RpdSettings!.CountdownMode = Enum.GetValues<CountdownModeValue>()[selectedIndex];
+        }
 
-            TimerChipGroup!.SelectedItem = TimerChipGroup!.Items![selectedIndex];
-        }
-        else
-        {
-            TimerChipGroup!.SelectedItem = TimerChipGroup?.Items?[0];
-        }
+        string timerValue = RpdSettings.GetCountdownModeText(RpdSettings!.CountdownMode);
+        TimerValueLabel.Text = $"{timerValue}";
     }
 
     private void InitializeVoiceAnnouncementsChipGroup()
@@ -443,6 +467,9 @@ public partial class HomeView : ContentView
         }
     }
 
+    /// <summary> Apply chipgroup selection to RPDSettings.</summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ChipGroupSelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs? e)
     {
         if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return; }
@@ -474,7 +501,7 @@ public partial class HomeView : ContentView
     internal void RefreshThemeColors()
     {
         RefreshChipGroupColors(DurationChipGroup);
-        RefreshChipGroupColors(TimerChipGroup);
+        //RefreshChipGroupColors(TimerChipGroup);
         RefreshChipGroupColors(VoiceAnnouncementsChipGroup);
         RefreshChipGroupColors(GrouptypesChipGroup);
         RefreshChipGroupColors(GenresChipGroup);
@@ -562,11 +589,13 @@ public partial class HomeView : ContentView
         {
             AddChipsToDurationChipGroup(["2.5", "2", "1.5", "1", "0.5"]); // TODO: Other, needs to match with SetDuration method.
             DurationChipGroup.SelectedItem = DurationChipGroup.Items[3];
+            DurationGrid.IsVisible = RpdSettings!.UsingGeneratePlaylist;
         }
         else
         {
             AddChipsToDurationChipGroup(["∞"]);
             DurationChipGroup.SelectedItem = DurationChipGroup.Items[0];
+            DurationGrid.IsVisible = RpdSettings!.UsingGeneratePlaylist;
         }
     }
 
@@ -595,7 +624,7 @@ public partial class HomeView : ContentView
             return;
         }
 
-        SetTimerMode();
+        AppState.CountdownMode = RpdSettings!.CountdownMode;
 
         RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
         RpdSettings!.DetermineGenres(GenresChipGroup);
@@ -625,7 +654,7 @@ public partial class HomeView : ContentView
     {
         if (!General.HasInternetConnection()) { return; }
 
-        SetTimerMode();
+        AppState.CountdownMode = RpdSettings!.CountdownMode;
 
         RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
         RpdSettings?.DetermineGenres(GenresChipGroup);
@@ -666,18 +695,6 @@ public partial class HomeView : ContentView
             {
                 if (i < durations.Length)
                     RpdSettings!.Duration = durations[i];
-                break;
-            }
-        }
-    }
-
-    private void SetTimerMode()
-    {
-        for (byte i = 0; i < TimerChipGroup.Items!.Count; i++)
-        {
-            if (TimerChipGroup.Items[i].IsSelected)
-            {
-                AppState.CountdownMode = (CountdownModeValue)i;
                 break;
             }
         }
@@ -742,14 +759,7 @@ public partial class HomeView : ContentView
     private void SaveTemplateImageButtonClicked(object sender, EventArgs e)
     {
         // Timer
-        for (int i = 0; i < TimerChipGroup.Items!.Count; i++)
-        {
-            if (TimerChipGroup.Items[i].IsSelected)
-            {
-                SaveTag(CommonSettings.HOME_TIMER, i);
-                break;
-            }
-        }
+        Preferences.Set(CommonSettings.HOME_TIMER, (int)RpdSettings!.CountdownMode);
 
         // Voices
         for (int i = 0; i < VoiceAnnouncementsChipGroup.Items!.Count; i++)

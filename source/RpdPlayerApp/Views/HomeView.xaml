@@ -116,7 +116,7 @@
             <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto">
                     
                 <!-- Duration -->
-                <Grid Grid.Row="0" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="0" x:Name="DurationGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                     <Label Grid.Row="0" Text="Duration (hours)" Style="{StaticResource H1}" Margin="0,0,0,8"/>
 
@@ -132,21 +132,37 @@
                 </Grid>
 
                 <!-- Timer -->
-                <Grid Grid.Row="1" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="1" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                    <Label Grid.Row="0" Text="Timer" Style="{StaticResource H1}" Margin="0,0,0,8"/>
+                    <Grid ColumnDefinitions="20, *, 24">
 
-                    <sfcore:SfChipGroup Grid.Row="1" x:Name="TimerChipGroup" 
-                                        ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Choice"
-                                        SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}"
-                                        ChipTextColor="{DynamicResource PrimaryTextColor}" HorizontalOptions="Start" VerticalOptions="Center">
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Timer}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
 
-                    </sfcore:SfChipGroup>
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Timer" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="TimerValueLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="TimerImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
 
                 </Grid>
 
                 <!-- Voice announcements -->
-                <Grid Grid.Row="2" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="2" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                     <Label Grid.Row="0" Text="Voice announcements" Style="{StaticResource H1}" Margin="0,0,0,8"/>
 

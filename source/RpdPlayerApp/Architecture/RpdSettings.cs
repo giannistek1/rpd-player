@@ -1,4 +1,5 @@
-﻿using RpdPlayerApp.Models;
+﻿using RpdPlayerApp.Enums;
+using RpdPlayerApp.Models;
 using Syncfusion.Maui.Core;
 
 namespace RpdPlayerApp.Architecture;
@@ -12,6 +13,7 @@ internal class RpdSettings
     /// <summary> When false, mode is StartRpd. </summary>
     internal bool UsingGeneratePlaylist { get; set; } = false;
 
+    internal CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off;
     internal TimeSpan Duration { get; set; } = TimeSpan.Zero;
     internal List<GroupType> GroupTypes { get; set; } = [];
     internal List<string> Genres { get; set; } = [];
@@ -116,4 +118,13 @@ internal class RpdSettings
             }
         }
     }
+
+    internal static string GetCountdownModeText(CountdownModeValue mode) => mode switch
+    {
+        CountdownModeValue.Off => "Off",
+        CountdownModeValue.Short => "3s",
+        CountdownModeValue.Long => "5s",
+        CountdownModeValue.Custom => "Custom (Pro)",
+        _ => "Off"
+    };
 }
