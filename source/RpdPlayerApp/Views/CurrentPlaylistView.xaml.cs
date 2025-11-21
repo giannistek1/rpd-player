@@ -110,8 +110,8 @@ public partial class CurrentPlaylistView : ContentView
 
             CountLabel.Text = $" of {playlist.Segments.Count}";
 
-            BoygroupCountLabel.Text = $"BG: {playlist.Segments.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG)}";
-            GirlgroupCountLabel.Text = $"GG: {playlist.Segments.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG)}";
+            _viewModel.BoygroupCount = playlist.Segments.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.BG);
+            _viewModel.GirlgroupCount = playlist.Segments.AsEnumerable().Count(s => s.Artist?.GroupType == GroupType.GG);
         }
     }
     // TODO: To ViewModel
