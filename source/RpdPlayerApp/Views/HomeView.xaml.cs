@@ -176,25 +176,36 @@ public partial class HomeView : ContentView
 
     private async void OnLoad(object? sender, EventArgs e)
     {
+        // For debugging.
+        int progress = 0;
         try
         {
             _ = HandleSongPartsDifference();
+            progress++;
+
             SetVersionLabel();
+            progress++;
 #if RELEASE 
             UniqueSongCountImage.IsVisible = false;
             UniqueSongCountLabel.IsVisible = false;
 #endif
             InitializeCompanies();
+            progress++;
+
             InitializeChipGroups();
+            progress++;
 
             await FileManager.SaveSongPartsAsync([.. SongPartRepository.SongParts]);
             await FileManager.SaveArtistsAsync([.. ArtistRepository.Artists]);
             await FileManager.SaveAlbumsAsync([.. AlbumRepository.Albums]);
             await FileManager.SaveVideosAsync([.. VideoRepository.Videos]);
+            progress++;
 
             HandleAutoStartRpd();
+            progress++;
 
             ChipGroupSelectionChanged(null, null);
+            progress++;
 
             bool validConnection = General.HasInternetConnection() && !Constants.APIKEY.IsNullOrWhiteSpace() && !Constants.BASE_URL.IsNullOrWhiteSpace();
 
@@ -203,7 +214,7 @@ public partial class HomeView : ContentView
         }
         catch (Exception ex)
         {
-            DebugService.Instance.Debug($"HomeView: {ex.Message}");
+            DebugService.Instance.Debug($"HomeView - {progress}: {ex.Message}");
         }
     }
 
@@ -278,7 +289,7 @@ public partial class HomeView : ContentView
     /// <summary> Fills in companies. </summary>
     private void InitializeCompanies()
     {
-        if (ArtistRepository.Artists is null || ArtistRepository.Artists.Count == 0) { return; }
+        if (ArtistRepository.Artists is null || ArtistRepository.Artists.Count == 0) { DebugService.Instance.Debug("Initialize Companies has no artists."); return; }
 
         Constants.AllCompanies = ArtistRepository.Artists.Select(artist => artist.Company).Distinct().ToList();
         var mainCompanies = Constants.YGCompanies.Concat(Constants.HybeCompanies)
@@ -317,7 +328,7 @@ public partial class HomeView : ContentView
     {
         if (loadValue)
         {
-            var hours = LoadTagAsInt(CommonSettings.HOME_DURATION);
+            var hours = LoadTagAsDouble(CommonSettings.HOME_DURATION);
             RpdSettings!.Duration = TimeSpan.FromHours(hours);
         }
 
@@ -330,10 +341,15 @@ public partial class HomeView : ContentView
         if (loadValue)
         {
             var selectedIndex = LoadTagAsInt(CommonSettings.HOME_TIMER);
-            RpdSettings!.CountdownMode = Enum.GetValues<CountdownModeValue>()[selectedIndex];
+            if (Enum.IsDefined(typeof(CountdownModeValue), selectedIndex))
+            {
+                RpdSettings!.CountdownMode = (CountdownModeValue)selectedIndex;
+            }
+            RpdSettings!.CountdownMode = CountdownModeValue.Off;
         }
 
         string timerValue = RpdSettings.GetCountdownModeText(RpdSettings!.CountdownMode);
+        DebugService.Instance.Debug($"Countdown mode loaded: {timerValue}");
         TimerValueLabel.Text = $"{timerValue}";
     }
 
@@ -342,10 +358,15 @@ public partial class HomeView : ContentView
         if (loadValue)
         {
             var selectedIndex = LoadTagAsInt(CommonSettings.HOME_VOICES);
-            RpdSettings!.AnnouncementMode = Enum.GetValues<AnnouncementModeValue>()[selectedIndex];
+            if (Enum.IsDefined(typeof(AnnouncementModeValue), selectedIndex))
+            {
+                RpdSettings!.AnnouncementMode = (AnnouncementModeValue)selectedIndex;
+            }
+            RpdSettings!.AnnouncementMode = AnnouncementModeValue.Off;
         }
 
         string announcementValue = RpdSettings.GetAnnouncementModeText(RpdSettings!.AnnouncementMode);
+        DebugService.Instance.Debug($"Announcement mode loaded: {announcementValue}");
         VoiceAnnouncementsValueLabel.Text = $"{announcementValue}";
     }
 
@@ -893,14 +914,12 @@ public partial class HomeView : ContentView
 
     private int LoadTagAsInt(string key)
     {
-        string json = Preferences.Get(key, "0");
-        return JsonSerializer.Deserialize<int>(json);
+        return Preferences.Get(key, 0);
     }
 
     private double LoadTagAsDouble(string key)
     {
-        string json = Preferences.Get(key, "0.0");
-        return JsonSerializer.Deserialize<double>(json);
+        return Preferences.Get(key, 0.0);
     }
     #endregion
 }
