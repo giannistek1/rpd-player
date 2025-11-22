@@ -71,7 +71,7 @@ public partial class HomeView : ContentView
 
     private async void DurationImageButtonClicked(object? sender, EventArgs e)
     {
-        string action = await Shell.Current.DisplayActionSheet(title: $"Duration", cancel: "Cancel", destruction: null,
+        string action = await Shell.Current.DisplayActionSheet(title: $"Playlist duration in hours", cancel: "Cancel", destruction: null,
             "3",
             "2.5",
             "2",
@@ -328,7 +328,7 @@ public partial class HomeView : ContentView
     {
         if (loadValue)
         {
-            var hours = LoadTagAsDouble(CommonSettings.HOME_DURATION);
+            double hours = LoadTagAsDouble(CommonSettings.HOME_DURATION, 1.0);
             RpdSettings!.Duration = TimeSpan.FromHours(hours);
         }
 
@@ -340,7 +340,7 @@ public partial class HomeView : ContentView
     {
         if (loadValue)
         {
-            var selectedIndex = LoadTagAsInt(CommonSettings.HOME_TIMER);
+            int selectedIndex = LoadTagAsInt(CommonSettings.HOME_TIMER);
             if (Enum.IsDefined(typeof(CountdownModeValue), selectedIndex))
             {
                 RpdSettings!.CountdownMode = (CountdownModeValue)selectedIndex;
@@ -357,7 +357,7 @@ public partial class HomeView : ContentView
     {
         if (loadValue)
         {
-            var selectedIndex = LoadTagAsInt(CommonSettings.HOME_VOICES);
+            int selectedIndex = LoadTagAsInt(CommonSettings.HOME_VOICES);
             if (Enum.IsDefined(typeof(AnnouncementModeValue), selectedIndex))
             {
                 RpdSettings!.AnnouncementMode = (AnnouncementModeValue)selectedIndex;
@@ -382,7 +382,7 @@ public partial class HomeView : ContentView
         // Load preference/setting.
         if (Preferences.ContainsKey(CommonSettings.HOME_GROUPTYPES))
         {
-            var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_GROUPTYPES); // [2,3,4,5]
+            int[]? selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_GROUPTYPES); // [2,3,4,5]
 
             var selectedItems = new ObservableCollection<SfChip>();
             for (var i = 0; i < selectedIndices!.Length; i++)
@@ -411,7 +411,7 @@ public partial class HomeView : ContentView
 
         if (Preferences.ContainsKey(CommonSettings.HOME_GENRES))
         {
-            var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_GENRES); // [2,3,4,5]
+            int[]? selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_GENRES); // [2,3,4,5]
 
             var selectedItems = new ObservableCollection<SfChip>();
             for (var i = 0; i < selectedIndices!.Length; i++)
@@ -439,7 +439,7 @@ public partial class HomeView : ContentView
 
         if (Preferences.ContainsKey(CommonSettings.HOME_GENS))
         {
-            var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_GENS); // [2,3,4,5]
+            int[]? selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_GENS); // [2,3,4,5]
 
             var selectedItems = new ObservableCollection<SfChip>();
             for (var i = 0; i < selectedIndices!.Length; i++)
@@ -466,7 +466,7 @@ public partial class HomeView : ContentView
 
         if (Preferences.ContainsKey(CommonSettings.HOME_COMPANIES))
         {
-            var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_COMPANIES); // [2,3,4,5]
+            int[]? selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_COMPANIES); // [2,3,4,5]
 
             var selectedItems = new ObservableCollection<SfChip>();
             for (var i = 0; i < selectedIndices!.Length; i++)
@@ -497,7 +497,7 @@ public partial class HomeView : ContentView
 
         if (Preferences.ContainsKey(CommonSettings.HOME_YEARS))
         {
-            var selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_YEARS); // [2,3,4,5]
+            int[]? selectedIndices = LoadTagsAsIntArray(CommonSettings.HOME_YEARS); // [2,3,4,5]
 
             var selectedItems = new ObservableCollection<SfChip>();
             for (var i = 0; i < selectedIndices!.Length; i++)
@@ -912,14 +912,14 @@ public partial class HomeView : ContentView
         return JsonSerializer.Deserialize<int[]>(json);
     }
 
-    private int LoadTagAsInt(string key)
+    private int LoadTagAsInt(string key, int defaultValue = 0)
     {
-        return Preferences.Get(key, 0);
+        return Preferences.Get(key, defaultValue);
     }
 
-    private double LoadTagAsDouble(string key)
+    private double LoadTagAsDouble(string key, double defaultValue = 0.0)
     {
-        return Preferences.Get(key, 0.0);
+        return Preferences.Get(key, defaultValue);
     }
     #endregion
 }

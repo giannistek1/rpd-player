@@ -15,7 +15,7 @@ internal class RpdSettings
 
     internal CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off;
     internal AnnouncementModeValue AnnouncementMode { get; set; } = AnnouncementModeValue.Off;
-    internal TimeSpan Duration { get; set; } = TimeSpan.Zero;
+    internal TimeSpan Duration { get; set; } = TimeSpan.FromHours(1);
     internal List<GroupType> GroupTypes { get; set; } = [];
     internal List<string> Genres { get; set; } = [];
     internal List<GenType> Gens { get; set; } = [];
