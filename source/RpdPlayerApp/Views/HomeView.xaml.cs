@@ -33,6 +33,8 @@ public partial class HomeView : ContentView
         SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
 
         TimerImageButton.Clicked += TimerImageButtonClicked;
+        DurationImageButton.Clicked += DurationImageButtonClicked;
+        VoiceAnnouncementImageButton.Clicked += VoiceAnnouncementImageButtonClicked;
 
         _ = LoadInitialDataAsync();
 
@@ -41,10 +43,7 @@ public partial class HomeView : ContentView
 
     private async void TimerImageButtonClicked(object? sender, EventArgs e)
     {
-        string action = await Shell.Current.DisplayActionSheet(
-            title: $"Timer",
-            cancel: "Cancel",
-            destruction: null,
+        string action = await Shell.Current.DisplayActionSheet(title: $"Timer", cancel: "Cancel", destruction: null,
             "Off",
             "3s",
             "5s",
@@ -68,6 +67,65 @@ public partial class HomeView : ContentView
         }
 
         UpdateTimerValue();
+    }
+
+    private async void DurationImageButtonClicked(object? sender, EventArgs e)
+    {
+        string action = await Shell.Current.DisplayActionSheet(title: $"Duration", cancel: "Cancel", destruction: null,
+            "3",
+            "2.5",
+            "2",
+            "1.5",
+            "1",
+            "0.5"
+        );
+
+        // Parse the selected string as hours and assign directly.
+        if (double.TryParse(action,
+                            System.Globalization.NumberStyles.AllowDecimalPoint,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            out var hours))
+        {
+            RpdSettings!.Duration = TimeSpan.FromHours(hours);
+        }
+
+        UpdateDuration();
+    }
+
+    private async void VoiceAnnouncementImageButtonClicked(object? sender, EventArgs e)
+    {
+        string action = await Shell.Current.DisplayActionSheet(title: $"Voice announcement", cancel: "Cancel", destruction: null,
+            "Off",
+            "Always",
+            "Dancebreaks",
+            "Artist",
+            "Specific",
+            "Grouptype (BG/GG/MIX)"
+        );
+
+        switch (action)
+        {
+            case "Off":
+                RpdSettings!.AnnouncementMode = AnnouncementModeValue.Off;
+                break;
+            case "Always":
+                RpdSettings!.AnnouncementMode = AnnouncementModeValue.AlwaysSongPart;
+                break;
+            case "Dancebreaks":
+                RpdSettings!.AnnouncementMode = AnnouncementModeValue.DancebreakOnly;
+                break;
+            case "Artist":
+                RpdSettings!.AnnouncementMode = AnnouncementModeValue.Artist;
+                break;
+            case "Specific":
+                RpdSettings!.AnnouncementMode = AnnouncementModeValue.Specific;
+                break;
+            case "Grouptype (BG/GG/MIX)":
+                RpdSettings!.AnnouncementMode = AnnouncementModeValue.GroupType;
+                break;
+        }
+
+        UpdateVoiceAnnouncementMode();
     }
 
     private async Task LoadInitialDataAsync()
@@ -128,10 +186,12 @@ public partial class HomeView : ContentView
 #endif
             InitializeCompanies();
             InitializeChipGroups();
+
             await FileManager.SaveSongPartsAsync([.. SongPartRepository.SongParts]);
             await FileManager.SaveArtistsAsync([.. ArtistRepository.Artists]);
             await FileManager.SaveAlbumsAsync([.. AlbumRepository.Albums]);
             await FileManager.SaveVideosAsync([.. VideoRepository.Videos]);
+
             HandleAutoStartRpd();
 
             ChipGroupSelectionChanged(null, null);
@@ -231,9 +291,9 @@ public partial class HomeView : ContentView
     private void InitializeChipGroups()
     {
         InitializeHomeModeSegmentedControl();
-        InitializeDurationChipGroup();
+        UpdateDuration(loadValue: true);
         UpdateTimerValue(loadValue: true);
-        InitializeVoiceAnnouncementsChipGroup();
+        UpdateVoiceAnnouncementMode(loadValue: true);
         InitializeGroupTypesChipGroup();
         InitializeGenresChipGroup();
         InitializeGenerationsChipGroup();
@@ -253,10 +313,16 @@ public partial class HomeView : ContentView
         StartModeButton.Clicked += StartModeButtonClicked;
     }
 
-    private void InitializeDurationChipGroup()
+    private void UpdateDuration(bool loadValue = false)
     {
-        DurationChipGroup?.Items?.Add(new SfChip() { Text = "∞", TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
-        DurationChipGroup!.SelectedItem = DurationChipGroup?.Items?[0];
+        if (loadValue)
+        {
+            var hours = LoadTagAsInt(CommonSettings.HOME_DURATION);
+            RpdSettings!.Duration = TimeSpan.FromHours(hours);
+        }
+
+        TimeSpan durationValue = RpdSettings!.Duration;
+        DurationValueLabel.Text = $"{durationValue.TotalHours}";
     }
 
     private void UpdateTimerValue(bool loadValue = false)
@@ -271,25 +337,16 @@ public partial class HomeView : ContentView
         TimerValueLabel.Text = $"{timerValue}";
     }
 
-    private void InitializeVoiceAnnouncementsChipGroup()
+    private void UpdateVoiceAnnouncementMode(bool loadValue = false)
     {
-        string[] options = ["Off", "Non-(pre-)chorus", "AlwaysSongPart"];
-        foreach (var option in options)
-        {
-            VoiceAnnouncementsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
-        }
-
-        // Load preference/setting.
-        if (Preferences.ContainsKey(CommonSettings.HOME_VOICES))
+        if (loadValue)
         {
             var selectedIndex = LoadTagAsInt(CommonSettings.HOME_VOICES);
+            RpdSettings!.AnnouncementMode = Enum.GetValues<AnnouncementModeValue>()[selectedIndex];
+        }
 
-            VoiceAnnouncementsChipGroup!.SelectedItem = VoiceAnnouncementsChipGroup!.Items![selectedIndex];
-        }
-        else
-        {
-            VoiceAnnouncementsChipGroup!.SelectedItem = VoiceAnnouncementsChipGroup?.Items?[0];
-        }
+        string announcementValue = RpdSettings.GetAnnouncementModeText(RpdSettings!.AnnouncementMode);
+        VoiceAnnouncementsValueLabel.Text = $"{announcementValue}";
     }
 
     string[] _groupTypeOptions = ["Male", "Female", "Mixed"];
@@ -500,9 +557,9 @@ public partial class HomeView : ContentView
 
     internal void RefreshThemeColors()
     {
-        RefreshChipGroupColors(DurationChipGroup);
+        //RefreshChipGroupColors(DurationChipGroup);
         //RefreshChipGroupColors(TimerChipGroup);
-        RefreshChipGroupColors(VoiceAnnouncementsChipGroup);
+        //RefreshChipGroupColors(VoiceAnnouncementsChipGroup);
         RefreshChipGroupColors(GrouptypesChipGroup);
         RefreshChipGroupColors(GenresChipGroup);
         RefreshChipGroupColors(GenerationsChipGroup);
@@ -584,27 +641,7 @@ public partial class HomeView : ContentView
         StartModeButton.Text = RpdSettings.UsingGeneratePlaylist ? "Generate playlist" : "Start RPD";
         StartModeButton.ImageSource = RpdSettings.UsingGeneratePlaylist ? IconManager.SparkleIcon : IconManager.PlayIcon;
 
-        DurationChipGroup!.Items!.Clear();
-        if (RpdSettings.UsingGeneratePlaylist)
-        {
-            AddChipsToDurationChipGroup(["2.5", "2", "1.5", "1", "0.5"]); // TODO: Other, needs to match with SetDuration method.
-            DurationChipGroup.SelectedItem = DurationChipGroup.Items[3];
-            DurationGrid.IsVisible = RpdSettings!.UsingGeneratePlaylist;
-        }
-        else
-        {
-            AddChipsToDurationChipGroup(["∞"]);
-            DurationChipGroup.SelectedItem = DurationChipGroup.Items[0];
-            DurationGrid.IsVisible = RpdSettings!.UsingGeneratePlaylist;
-        }
-    }
-
-    private void AddChipsToDurationChipGroup(string[] chipTexts)
-    {
-        foreach (var text in chipTexts)
-        {
-            DurationChipGroup?.Items?.Add(new SfChip() { Text = text, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
-        }
+        DurationGrid.IsVisible = RpdSettings!.UsingGeneratePlaylist;
     }
 
     private void StartModeButtonClicked(object? sender, EventArgs e)
@@ -617,14 +654,14 @@ public partial class HomeView : ContentView
     {
         if (!General.HasRepositoryData()) { return; }
 
-        SetDuration();
-        if (RpdSettings!.Duration == TimeSpan.Zero || RpdSettings.Duration == TimeSpan.MinValue)
+        if (RpdSettings!.Duration <= TimeSpan.Zero)
         {
             General.ShowToast("Choose a duration.");
             return;
         }
 
         AppState.CountdownMode = RpdSettings!.CountdownMode;
+        //AppState.AnnouncementMode = RpdSettings!.AnnouncementMode;
 
         RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
         RpdSettings!.DetermineGenres(GenresChipGroup);
@@ -676,28 +713,6 @@ public partial class HomeView : ContentView
 
         AppState.SongParts = songParts;
         PlayRandomSong(songParts);
-    }
-
-    private void SetDuration()
-    {
-        TimeSpan[] durations =
-        {
-            TimeSpan.FromHours(2.5),
-            TimeSpan.FromHours(2),
-            TimeSpan.FromHours(1.5),
-            TimeSpan.FromHours(1),
-            TimeSpan.FromHours(0.5)
-        };
-
-        for (int i = 0; i < DurationChipGroup.Items!.Count; i++)
-        {
-            if (DurationChipGroup.Items[i].IsSelected)
-            {
-                if (i < durations.Length)
-                    RpdSettings!.Duration = durations[i];
-                break;
-            }
-        }
     }
 
     private void ApplyAntiOptions()
@@ -762,18 +777,11 @@ public partial class HomeView : ContentView
         Preferences.Set(CommonSettings.HOME_TIMER, (int)RpdSettings!.CountdownMode);
 
         // Voices
-        for (int i = 0; i < VoiceAnnouncementsChipGroup.Items!.Count; i++)
-        {
-            if (VoiceAnnouncementsChipGroup.Items[i].IsSelected)
-            {
-                SaveTag(CommonSettings.HOME_VOICES, i);
-                break;
-            }
-        }
+        Preferences.Set(CommonSettings.HOME_VOICES, (int)RpdSettings!.AnnouncementMode);
 
         // TODO: METHODS
         // GroupTypes
-        List<int> groupTypes = new();
+        List<int> groupTypes = [];
 
         for (int i = 0; i < GrouptypesChipGroup.Items!.Count; i++)
         {
@@ -786,7 +794,7 @@ public partial class HomeView : ContentView
         SaveTags(CommonSettings.HOME_GROUPTYPES, groupTypes.ToArray());
 
         // Genres
-        List<int> genres = new();
+        List<int> genres = [];
 
         for (int i = 0; i < GenresChipGroup.Items!.Count; i++)
         {
@@ -799,7 +807,7 @@ public partial class HomeView : ContentView
         SaveTags(CommonSettings.HOME_GENRES, genres.ToArray());
 
         // Companies
-        List<int> companies = new();
+        List<int> companies = [];
 
         for (int i = 0; i < CompaniesChipGroup.Items!.Count; i++)
         {
@@ -812,7 +820,7 @@ public partial class HomeView : ContentView
         SaveTags(CommonSettings.HOME_COMPANIES, companies.ToArray());
 
         // Years
-        List<int> years = new();
+        List<int> years = [];
 
         for (int i = 0; i < YearsChipGroup.Items!.Count; i++)
         {
@@ -825,7 +833,7 @@ public partial class HomeView : ContentView
         SaveTags(CommonSettings.HOME_YEARS, years.ToArray());
 
         // Gens
-        List<int> gens = new();
+        List<int> gens = [];
 
         for (int i = 0; i < GenerationsChipGroup.Items!.Count; i++)
         {
@@ -838,7 +846,7 @@ public partial class HomeView : ContentView
         SaveTags(CommonSettings.HOME_GENS, gens.ToArray());
 
         // Anti options
-        Dictionary<string, bool> antiOptions = new();
+        Dictionary<string, bool> antiOptions = [];
 
         var antiOptionsItems = AntiOptionsChipGroup.ItemsSource as ObservableCollection<CustomChipModel>;
 
@@ -887,6 +895,12 @@ public partial class HomeView : ContentView
     {
         string json = Preferences.Get(key, "0");
         return JsonSerializer.Deserialize<int>(json);
+    }
+
+    private double LoadTagAsDouble(string key)
+    {
+        string json = Preferences.Get(key, "0.0");
+        return JsonSerializer.Deserialize<double>(json);
     }
     #endregion
 }

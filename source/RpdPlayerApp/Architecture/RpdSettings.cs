@@ -14,6 +14,7 @@ internal class RpdSettings
     internal bool UsingGeneratePlaylist { get; set; } = false;
 
     internal CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off;
+    internal AnnouncementModeValue AnnouncementMode { get; set; } = AnnouncementModeValue.Off;
     internal TimeSpan Duration { get; set; } = TimeSpan.Zero;
     internal List<GroupType> GroupTypes { get; set; } = [];
     internal List<string> Genres { get; set; } = [];
@@ -125,6 +126,17 @@ internal class RpdSettings
         CountdownModeValue.Short => "3s",
         CountdownModeValue.Long => "5s",
         CountdownModeValue.Custom => "Custom (Pro)",
+        _ => "Off"
+    };
+
+    internal static string GetAnnouncementModeText(AnnouncementModeValue mode) => mode switch
+    {
+        AnnouncementModeValue.Off => "Off",
+        AnnouncementModeValue.AlwaysSongPart => "Always",
+        AnnouncementModeValue.DancebreakOnly => "On dancebreak",
+        AnnouncementModeValue.Artist => "By artist",
+        AnnouncementModeValue.Specific => "Specific",
+        AnnouncementModeValue.GroupType => "By grouptype (BG/GG/MIX)",
         _ => "Off"
     };
 }
