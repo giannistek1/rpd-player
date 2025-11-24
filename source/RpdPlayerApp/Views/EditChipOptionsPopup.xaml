@@ -9,16 +9,20 @@
 
         <Label x:Name="TitleLabel" />
 
-        <FlexLayout Direction="Row">
+        <ScrollView Orientation="Vertical">
 
             <sfcore:SfChipGroup Grid.Row="1" x:Name="ChipGroup" 
                                             ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
                                             SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
                                             HorizontalOptions="Start" VerticalOptions="Center">
 
+                <sfcore:SfChipGroup.ChipLayout>
+                    <VerticalStackLayout Spacing="8" />
+                </sfcore:SfChipGroup.ChipLayout>
+
             </sfcore:SfChipGroup>
 
-        </FlexLayout>
+        </ScrollView>
 
         <HorizontalStackLayout>
 

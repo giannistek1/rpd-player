@@ -20,6 +20,7 @@ internal class RpdSettings
     internal List<int> GroupTypesSelectedIndices { get; set; } = [0, 1, 2];
     internal List<GroupType> GroupTypes { get; set; } = [GroupType.BG, GroupType.GG, GroupType.MIX];
 
+    internal List<int> GenresSelectedIndices { get; set; } = [0, 1, 2, 3, 4, 5];
     internal List<string> Genres { get; set; } = [];
     internal List<GenType> Gens { get; set; } = [];
     internal List<string> Companies { get; set; } = [];
@@ -53,12 +54,14 @@ internal class RpdSettings
     internal void DetermineGenres(SfChipGroup genresChipGroup)
     {
         Genres.Clear();
+        GenresSelectedIndices.Clear();
         for (var i = 0; i < genresChipGroup?.Items?.Count; i++)
         {
             if (genresChipGroup.Items[i].IsSelected)
             {
                 string genre = genresChipGroup.Items[i].Text;
                 Genres.Add(genre);
+                GenresSelectedIndices.Add(i);
             }
         }
     }

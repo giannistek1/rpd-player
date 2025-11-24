@@ -37,6 +37,7 @@ public partial class HomeView : ContentView
         DurationImageButton.Clicked += DurationImageButtonClicked;
         VoiceAnnouncementImageButton.Clicked += VoiceAnnouncementImageButtonClicked;
         GrouptypesImageButton.Clicked += GrouptypesImageButtonClicked;
+        GenresImageButton.Clicked += GenresImageButtonClicked;
 
         _ = LoadInitialDataAsync();
 
@@ -222,7 +223,7 @@ public partial class HomeView : ContentView
         UpdateTimerValue(loadValue: true);
         UpdateVoiceAnnouncementMode(loadValue: true);
         UpdateGrouptypes(loadValue: true);
-        InitializeGenresChipGroup();
+        UpdateGenres(loadValue: true);
         InitializeGenerationsChipGroup();
         InitializeCompaniesChipGroup();
         InitializeYearsChipGroup();
@@ -288,7 +289,6 @@ public partial class HomeView : ContentView
         if (loadValue)
         {
             int[] selectedIndices = LoadIntArray(CommonSettings.HOME_GROUPTYPES, new int[] { 0, 1, 2 });
-            DebugService.Instance.Debug($"Loaded grouptypes indices: {string.Join(", ", selectedIndices)}");
             RpdSettings!.GroupTypesSelectedIndices = selectedIndices.ToList()!;
         }
 
@@ -302,32 +302,40 @@ public partial class HomeView : ContentView
     }
 
     private string[] _genreOptions = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "Pop"];
-    private void InitializeGenresChipGroup()
+    private void UpdateGenres(bool loadValue = false)
     {
-        foreach (var option in _genreOptions)
+        if (loadValue)
         {
-            GenresChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+            int[] selectedIndices = LoadIntArray(CommonSettings.HOME_GENRES, [0, 1, 2, 3, 4, 5]);
+            RpdSettings!.GenresSelectedIndices = selectedIndices.ToList()!;
         }
 
-        GenresChipGroup!.SelectionChanged += GenresChipGroup_SelectionChanged;
-
-        if (Preferences.ContainsKey(CommonSettings.HOME_GENRES))
+        var selectedGenres = RpdSettings!.GenresSelectedIndices.Select(i => _genreOptions[i]).ToList();
+        string genres;
+        if (selectedGenres.Count == 0)
         {
-            int[]? selectedIndices = LoadIntArray(CommonSettings.HOME_GENRES, new int[] { 0, 1, 2, 3, 4, 5 });
-
-            var selectedItems = new ObservableCollection<SfChip>();
-            for (var i = 0; i < selectedIndices!.Length; i++)
-            {
-                selectedItems.Add(GenresChipGroup!.Items![selectedIndices[i]]);
-            }
-            GenresChipGroup!.SelectedItem = selectedItems;
+            genres = "None";
+        }
+        else if (selectedGenres.Count == _genreOptions.Length)
+        {
+            genres = "All";
+        }
+        else if (selectedGenres.Count <= 3)
+        {
+            genres = string.Join(", ", selectedGenres);
         }
         else
         {
-            GenresChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenresChipGroup.Items!);
+            genres = string.Join(", ", selectedGenres.Take(3)) + ", ...";
         }
 
-        GenresChipGroup.SelectionChanged += ChipGroupSelectionChanged;
+        GenresValuesLabel.Text = genres;
+
+        if (!loadValue)
+        {
+            ChipGroupSelectionChanged(null, null);
+        }
+        GenresSelectionChanged();
     }
 
     string[] _genOptions = ["1", "2", "3", "4", "5", "Non-kpop"];
@@ -341,7 +349,7 @@ public partial class HomeView : ContentView
 
         if (Preferences.ContainsKey(CommonSettings.HOME_GENS))
         {
-            int[]? selectedIndices = LoadIntArray(CommonSettings.HOME_GENS, new int[] { 0, 1, 2, 3, 4, 5 });
+            int[]? selectedIndices = LoadIntArray(CommonSettings.HOME_GENS, [0, 1, 2, 3, 4, 5]);
 
             var selectedItems = new ObservableCollection<SfChip>();
             for (var i = 0; i < selectedIndices!.Length; i++)
@@ -368,7 +376,7 @@ public partial class HomeView : ContentView
 
         if (Preferences.ContainsKey(CommonSettings.HOME_COMPANIES))
         {
-            int[]? selectedIndices = LoadIntArray(CommonSettings.HOME_COMPANIES, new int[] { 0, 1, 2, 3, 4 });
+            int[]? selectedIndices = LoadIntArray(CommonSettings.HOME_COMPANIES, [0, 1, 2, 3, 4]);
 
             var selectedItems = new ObservableCollection<SfChip>();
             for (var i = 0; i < selectedIndices!.Length; i++)
@@ -399,7 +407,7 @@ public partial class HomeView : ContentView
 
         if (Preferences.ContainsKey(CommonSettings.HOME_YEARS))
         {
-            int[]? selectedIndices = LoadIntArray(CommonSettings.HOME_YEARS, new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 });
+            int[]? selectedIndices = LoadIntArray(CommonSettings.HOME_YEARS, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
 
             var selectedItems = new ObservableCollection<SfChip>();
             for (var i = 0; i < selectedIndices!.Length; i++)
@@ -539,6 +547,20 @@ public partial class HomeView : ContentView
         UpdateGrouptypes();
     }
 
+    private async void GenresImageButtonClicked(object? sender, EventArgs e)
+    {
+        EditChipOptionsPopup popup = new(title: "Select genres", options: _genreOptions, selectedIndices: [.. RpdSettings!.GenresSelectedIndices]);
+        object? result = await Application.Current!.MainPage!.ShowPopupAsync(popup);
+
+        if (result is null) { return; }
+        if (result is SfChipGroup chipGroup)
+        {
+            RpdSettings?.DetermineGenres(chipGroup);
+        }
+
+        UpdateGenres();
+    }
+
     private void HandleAutoStartRpd()
     {
         if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC))
@@ -555,8 +577,10 @@ public partial class HomeView : ContentView
     {
         if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return; }
 
+        DebugService.Instance.Debug("ChipGroupSelectionChanged invoked.");
+
         //RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
-        RpdSettings?.DetermineGenres(GenresChipGroup);
+        //RpdSettings?.DetermineGenres(GenresChipGroup);
         RpdSettings?.DetermineGens(GenerationsChipGroup);
         RpdSettings?.DetermineCompanies(CompaniesChipGroup);
         RpdSettings?.DetermineYears(YearsChipGroup);
@@ -573,16 +597,16 @@ public partial class HomeView : ContentView
         RpdArtistSizeLabel.Text = $"{artistsBySongPart.Count()}";
     }
 
-    private void GenresChipGroup_SelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
+    private void GenresSelectionChanged()
     {
-        GenerationsGrid.IsVisible = GenresChipGroup.Items![0].IsSelected;
-        CompaniesGrid.IsVisible = GenresChipGroup.Items![0].IsSelected;
+        GenerationsGrid.IsVisible = RpdSettings!.GenresSelectedIndices.Contains(0); // K-pop
+        CompaniesGrid.IsVisible = RpdSettings.GenresSelectedIndices.Contains(0);
     }
 
     internal void RefreshThemeColors()
     {
         //RefreshChipGroupColors(GrouptypesChipGroup);
-        RefreshChipGroupColors(GenresChipGroup);
+        //RefreshChipGroupColors(GenresChipGroup);
         RefreshChipGroupColors(GenerationsChipGroup);
         RefreshChipGroupColors(CompaniesChipGroup);
         RefreshChipGroupColors(YearsChipGroup);
@@ -684,7 +708,6 @@ public partial class HomeView : ContentView
         AppState.CountdownMode = RpdSettings!.CountdownMode;
         //AppState.AnnouncementMode = RpdSettings!.AnnouncementMode;
 
-        RpdSettings!.DetermineGenres(GenresChipGroup);
         RpdSettings!.DetermineGens(GenerationsChipGroup);
         RpdSettings!.DetermineCompanies(CompaniesChipGroup);
         RpdSettings!.DetermineYears(YearsChipGroup);
@@ -715,7 +738,6 @@ public partial class HomeView : ContentView
 
         AppState.CountdownMode = RpdSettings!.CountdownMode;
 
-        RpdSettings?.DetermineGenres(GenresChipGroup);
         RpdSettings?.DetermineGens(GenerationsChipGroup);
         RpdSettings?.DetermineCompanies(CompaniesChipGroup);
         RpdSettings?.DetermineYears(YearsChipGroup);
@@ -774,13 +796,10 @@ public partial class HomeView : ContentView
                                                     .Where(s => RpdSettings!.Years.Contains(s.Album.ReleaseDate.Year))
                                                     .ToList();
 
-        if (GenresChipGroup is not null && GenresChipGroup.Items is not null && GenresChipGroup.Items.Count > 0)
+        if (RpdSettings!.GenresSelectedIndices.Contains(0)) // K-pop
         {
-            if (GenresChipGroup.Items![0].IsSelected)
-            {
-                songParts = songParts.Where(s => RpdSettings!.Gens.Contains(s.Artist.Gen))
-                                     .Where(s => RpdSettings!.Companies.Contains(s.Artist.Company)).ToList();
-            }
+            songParts = songParts.Where(s => RpdSettings!.Gens.Contains(s.Artist.Gen))
+                                    .Where(s => RpdSettings!.Companies.Contains(s.Artist.Company)).ToList();
         }
 
         return songParts;
@@ -810,17 +829,7 @@ public partial class HomeView : ContentView
         SaveTags(CommonSettings.HOME_GROUPTYPES, RpdSettings.GroupTypesSelectedIndices.ToArray());
 
         // Genres
-        List<int> genres = [];
-
-        for (int i = 0; i < GenresChipGroup.Items!.Count; i++)
-        {
-            if (GenresChipGroup.Items[i].IsSelected)
-            {
-                genres.Add(i);
-            }
-        }
-
-        SaveTags(CommonSettings.HOME_GENRES, genres.ToArray());
+        SaveTags(CommonSettings.HOME_GENRES, RpdSettings.GenresSelectedIndices.ToArray());
 
         // Companies
         List<int> companies = [];

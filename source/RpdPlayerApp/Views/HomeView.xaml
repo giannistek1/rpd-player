@@ -238,18 +238,30 @@
                 <!-- Genres -->
                 <Grid Grid.Row="4" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                    <Label Grid.Row="0" Text="Genres" Style="{StaticResource H1}" Margin="0,0,0,8"/>
+                    <Grid ColumnDefinitions="20, *, 24">
 
-                    <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
 
-                        <sfcore:SfChipGroup x:Name="GenresChipGroup" 
-                                            ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                                            SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
-                                            HorizontalOptions="Start" VerticalOptions="Center">
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
 
-                        </sfcore:SfChipGroup>
+                            <Label Text="Genres" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
 
-                    </ScrollView>
+                            <Label Grid.Row="1" x:Name="GenresValuesLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="GenresImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
 
                 </Grid>
 
