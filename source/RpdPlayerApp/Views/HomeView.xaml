@@ -208,14 +208,30 @@
                 <!-- Grouptypes -->
                 <Grid Grid.Row="3" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                    <Label Grid.Row="0" Text="Grouptypes" Style="{StaticResource H1}" Margin="0,0,0,8"/>
+                    <Grid ColumnDefinitions="20, *, 24">
 
-                    <sfcore:SfChipGroup Grid.Row="1" x:Name="GrouptypesChipGroup" 
-                                        ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                                        SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
-                                        HorizontalOptions="Start" VerticalOptions="Center">
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Wc}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
 
-                    </sfcore:SfChipGroup>
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Grouptypes" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="GrouptypesValuesLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="GrouptypesImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
 
                 </Grid>
 

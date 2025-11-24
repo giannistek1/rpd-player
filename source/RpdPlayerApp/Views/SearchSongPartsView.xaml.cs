@@ -31,7 +31,7 @@ public partial class SearchSongPartsView : ContentView
     internal MainPage? ParentPage { get; set; }
 
     private VisualContainer? _visualContainer;
-    private int _lastUpperItem = 17;
+    private int _lastUpperListViewItem = 17;
 
     private readonly SearchSongPartsViewModel _viewModel = new();
 
@@ -67,8 +67,7 @@ public partial class SearchSongPartsView : ContentView
         UpdateResultsText();
 
         SonglibraryListView.CollapseAll();
-
-        //InitListView();
+        songParts.ToList().ForEach(s => s.Artist!.ShowGroupTypeColor = true);
     }
 
     internal void ToggleAudioModeButtonClicked(object? sender, EventArgs e)
@@ -165,15 +164,15 @@ public partial class SearchSongPartsView : ContentView
             GoToBottomButton.IsVisible = true;
         }
 
-        if (lastVisibleIndex > _lastUpperItem)
+        if (lastVisibleIndex > _lastUpperListViewItem)
         {
             GoToTopButton.IsVisible = true;
-            _lastUpperItem = 17;
+            _lastUpperListViewItem = 17;
         }
         else
         {
             GoToTopButton.IsVisible = false;
-            _lastUpperItem = 20;
+            _lastUpperListViewItem = 20;
         }
     }
 

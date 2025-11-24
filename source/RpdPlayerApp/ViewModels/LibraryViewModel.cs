@@ -3,6 +3,7 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Views;
 using System.Text;
 
@@ -13,6 +14,8 @@ internal class LibraryViewModel
     public IRelayCommand<Playlist> ShowActionsCommand { get; }
     public IRelayCommand<Playlist> ShowPlaylistCommand { get; }
     public Action<Playlist>? OnShowPlaylist { get; set; }
+
+    private Page? ParentPage => Shell.Current.CurrentPage;
 
     public LibraryViewModel()
     {
@@ -78,21 +81,25 @@ internal class LibraryViewModel
     private void PlayPlaylist(Playlist playlist) => CurrentPlaylistManager.PlayPlaylist(playlist);
     private async Task DeletePlaylist(Playlist playlist)
     {
-        PlaylistDeletedReturnValue returnValue = await PlaylistsManager.DeletePlaylist(playlist);
-        switch (returnValue)
+        bool accept = await ParentPage!.DisplayAlert("Confirmation", $"Delete {playlist.Name}?", "Yes", "No");
+        if (accept)
         {
-            case PlaylistDeletedReturnValue.DeletedLocally:
-                General.ShowToast("Playlist deleted locally.");
-                break;
-            case PlaylistDeletedReturnValue.DeletedFromCloud:
-                General.ShowToast("Playlist deleted from cloud.");
-                break;
-            case PlaylistDeletedReturnValue.FailedToDelete:
-                General.ShowToast("Failed to delete playlist.");
-                break;
-            case PlaylistDeletedReturnValue.CantDeletePublicPlaylist:
-                General.ShowToast("Can't delete public playlist.");
-                break;
+            PlaylistDeletedReturnValue returnValue = await PlaylistsManager.DeletePlaylist(playlist);
+            switch (returnValue)
+            {
+                case PlaylistDeletedReturnValue.DeletedLocally:
+                    General.ShowToast("Playlist deleted locally.");
+                    break;
+                case PlaylistDeletedReturnValue.DeletedFromCloud:
+                    General.ShowToast("Playlist deleted from cloud.");
+                    break;
+                case PlaylistDeletedReturnValue.FailedToDelete:
+                    General.ShowToast("Failed to delete playlist.");
+                    break;
+                case PlaylistDeletedReturnValue.CantDeletePublicPlaylist:
+                    General.ShowToast("Can't delete public playlist.");
+                    break;
+            }
         }
     }
 
@@ -124,5 +131,44 @@ internal class LibraryViewModel
         {
             General.ShowToast($"Error sharing playlist: {ex.Message}");
         }
+    }
+
+    internal async Task CreateLocalPlaylist(string playlistName)
+    {
+        if (CacheState.LocalPlaylists.Any(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase)))
+        {
+            General.ShowToast("Already exists! Please choose different name.");
+            return;
+        }
+
+
+        // HDR: Creation date | Modified date | Owner | Count | Length | Countdown mode
+        string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
+
+        string path = await FileManager.SavePlaylistStringToTextFileAsync(playlistName, playlistHeader);
+        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: playlistName, path: path);
+
+        CacheState.LocalPlaylists.Add(playlist);
+    }
+
+    internal async Task CreateCloudPlaylist(string playlistName)
+    {
+        if (CacheState.CloudPlaylists.Any(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase)))
+        {
+            General.ShowToast("Already exists! Please choose different name.");
+            return;
+        }
+
+        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: playlistName, path: string.Empty);
+
+        CacheState.CloudPlaylists.Add(playlist);
+
+        await PlaylistRepository.SaveCloudPlaylist(id: playlist.Id,
+                                            creationDate: playlist.CreationDate,
+                                            name: playlist.Name,
+                                            playlist.LengthInSeconds,
+                                            playlist.Count,
+                                            playlist.Segments.ToList(),
+                                            isPublic: playlist.IsPublic);
     }
 }

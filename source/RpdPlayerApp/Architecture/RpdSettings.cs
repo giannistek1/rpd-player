@@ -16,7 +16,10 @@ internal class RpdSettings
     internal CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off;
     internal AnnouncementModeValue AnnouncementMode { get; set; } = AnnouncementModeValue.Off;
     internal TimeSpan Duration { get; set; } = TimeSpan.FromHours(1);
-    internal List<GroupType> GroupTypes { get; set; } = [];
+
+    internal List<int> GroupTypesSelectedIndices { get; set; } = [0, 1, 2];
+    internal List<GroupType> GroupTypes { get; set; } = [GroupType.BG, GroupType.GG, GroupType.MIX];
+
     internal List<string> Genres { get; set; } = [];
     internal List<GenType> Gens { get; set; } = [];
     internal List<string> Companies { get; set; } = [];
@@ -29,6 +32,7 @@ internal class RpdSettings
     internal void DetermineGroupTypes(SfChipGroup grouptypesChipGroup)
     {
         GroupTypes.Clear();
+        GroupTypesSelectedIndices.Clear();
         for (var i = 0; i < grouptypesChipGroup?.Items?.Count; i++)
         {
             if (grouptypesChipGroup.Items[i].IsSelected)
@@ -41,6 +45,7 @@ internal class RpdSettings
                     _ => GroupType.NOT_SET
                 };
                 GroupTypes.Add(groupType);
+                GroupTypesSelectedIndices.Add(i);
             }
         }
     }

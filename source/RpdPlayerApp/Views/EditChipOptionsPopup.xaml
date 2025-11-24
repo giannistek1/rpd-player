@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RpdPlayerApp.Views.EditChipOptionsPopup"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:sfcore="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core">
+
+    <VerticalStackLayout BackgroundColor="{DynamicResource BackgroundColor}" Spacing="16" Padding="20">
+
+        <Label x:Name="TitleLabel" />
+
+        <FlexLayout Direction="Row">
+
+            <sfcore:SfChipGroup Grid.Row="1" x:Name="ChipGroup" 
+                                            ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                                            SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
+                                            HorizontalOptions="Start" VerticalOptions="Center">
+
+            </sfcore:SfChipGroup>
+
+        </FlexLayout>
+
+        <HorizontalStackLayout>
+
+            <Button Text="OK" Clicked="OnOkClicked" BackgroundColor="{DynamicResource PrimaryButton}" Margin="0,0,4,0" />
+
+            <Button Text="Cancel" Clicked="OnCancelClicked" BackgroundColor="{DynamicResource SecondaryButton}" Margin="4,0,0,0"  />
+
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+    
+    
+</toolkit:Popup>

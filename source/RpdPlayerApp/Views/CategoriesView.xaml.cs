@@ -29,13 +29,13 @@ public partial class CategoriesView : ContentView
         SoloImageButton.Pressed += SetFilter;
         GroupImageButton.Pressed += SetFilter;
 
-        if (General.HasInternetConnection())
+        if (General.HasInternetConnection() && ArtistRepository.Artists.Any())
         {
-            var topFirstGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.First);
-            var topSecondGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Second);
-            var topThirdGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Third);
-            var topFourthGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Fourth);
-            var topFifthGens = ArtistRepository.GetTopArtistsForGen(Architecture.GenType.Fifth);
+            var topFirstGens = ArtistRepository.GetTopArtistsForGen(GenType.First);
+            var topSecondGens = ArtistRepository.GetTopArtistsForGen(GenType.Second);
+            var topThirdGens = ArtistRepository.GetTopArtistsForGen(GenType.Third);
+            var topFourthGens = ArtistRepository.GetTopArtistsForGen(GenType.Fourth);
+            var topFifthGens = ArtistRepository.GetTopArtistsForGen(GenType.Fifth);
 
             var firstGenDescription = MakeArtistsDescription(topFirstGens);
             var secondGenDescription = MakeArtistsDescription(topSecondGens);

@@ -12,7 +12,7 @@
              x:Class="RpdPlayerApp.Views.LibraryView"
              BackgroundColor="{DynamicResource BackgroundColor}">
 
-    <Grid Padding="0" RowDefinitions="auto, auto, *" ColumnDefinitions="*">
+    <Grid Padding="0" RowDefinitions="auto, *" ColumnDefinitions="*">
 
         <!--<Button x:Name="PlayPlaylistButton" Margin="2" Clicked="PlayPlaylistButton_Clicked" Text="Play" />
 
@@ -33,16 +33,6 @@
             </buttons:SfSegmentedControl.SelectionIndicatorSettings>
 
         </buttons:SfSegmentedControl>
-
-        <Border Grid.Row="1" x:Name="PlaylistNameEntryBorder" HeightRequest="64" Margin="10,8,10,8" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
-
-            <Grid VerticalOptions="Center">
-
-                <Entry x:Name="PlaylistNameEntry" Placeholder="Playlist name" PlaceholderColor="{DynamicResource PlaceholderTextColor}" ReturnType="Done" MaxLength="20" FontSize="16" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
-
-            </Grid>
-            
-        </Border>
 
         <!-- Playlists -->
         <pulltoRefresh:SfPullToRefresh Grid.Row="2" x:Name="PullToRefresh"

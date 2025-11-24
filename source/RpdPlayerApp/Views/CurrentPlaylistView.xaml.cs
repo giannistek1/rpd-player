@@ -144,7 +144,7 @@ public partial class CurrentPlaylistView : ContentView
     private async void EditPlaylistnameImageButtonClicked(object sender, EventArgs e)
     {
         Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
-        InputPromptResult result = await General.ShowInputPrompt("Playlist name: ", playlist.Name);
+        InputPromptResult result = await General.ShowInputPromptAsync("Playlist name: ", playlist.Name);
         playlist.Name = result.Text;
         ParentPage!.Title = playlist.Name;
     }

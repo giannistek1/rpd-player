@@ -189,6 +189,9 @@
       <Compile Update="Views\CurrentPlaylistView.xaml.cs">
         <DependentUpon>CurrentPlaylistView.xaml</DependentUpon>
       </Compile>
+      <Compile Update="Views\EditChipOptionsPopup.xaml.cs">
+        <DependentUpon>EditChipOptionsPopup.xaml</DependentUpon>
+      </Compile>
       <Compile Update="Views\SongSegmentRequestPage.xaml.cs">
         <DependentUpon>SongSegmentRequestPage.xaml</DependentUpon>
       </Compile>
@@ -208,6 +211,9 @@
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Views\CategoriesView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\EditChipOptionsPopup.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Views\HomeView.xaml">

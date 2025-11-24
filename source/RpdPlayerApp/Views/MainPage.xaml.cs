@@ -331,7 +331,6 @@ public partial class MainPage
     {
         MainContainer.SelectedIndex = 2;
         SetupLibraryOrCurrentPlaylistToolbar();
-        LibraryView.FocusNewPlaylistEntry();
     }
 
     private void OnAddSongPart(object? sender, EventArgs e) => _currentPlaylistView.RefreshCurrentPlaylist();

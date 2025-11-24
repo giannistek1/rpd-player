@@ -44,33 +44,21 @@ public partial class LibraryView : ContentView
 
     private async void PlaylistModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
-        if (e.NewIndex == 0)
-        {
-            PlaylistsManager.PlaylistMode = PlaylistModeValue.Local;
-        }
-        else if (e.NewIndex == 1)
-        {
-            PlaylistsManager.PlaylistMode = PlaylistModeValue.Cloud;
-        }
-        else
-        {
-            PlaylistsManager.PlaylistMode = PlaylistModeValue.Public;
-        }
+        if (e.NewIndex == 0) { PlaylistsManager.PlaylistMode = PlaylistModeValue.Local; }
+        else if (e.NewIndex == 1) { PlaylistsManager.PlaylistMode = PlaylistModeValue.Cloud; }
+        else { PlaylistsManager.PlaylistMode = PlaylistModeValue.Public; }
 
         await LoadPlaylists();
     }
 
-    internal async void RefreshPlaylistsButtonClicked(object? sender, EventArgs e)
-    {
-        await LoadPlaylists(isDirty: true);
-    }
-
-    internal void FocusNewPlaylistEntry() => PlaylistNameEntry.Focus();
+    internal async void RefreshPlaylistsButtonClicked(object? sender, EventArgs e) => await LoadPlaylists(isDirty: true);
 
     internal async void NewPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        // TODO: In viewmodel or manager.
-        if (PlaylistNameEntry.Text.IsNullOrWhiteSpace())
+        InputPromptResult result = await General.ShowInputPromptAsync("Playlist title", "");
+        string playlistName = result.Text;
+
+        if (string.IsNullOrEmpty(playlistName))
         {
             General.ShowToast($"Please fill in a name");
             return;
@@ -80,11 +68,11 @@ public partial class LibraryView : ContentView
         {
             if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local)
             {
-                await CreateLocalPlaylist();
+                await CreateLocalPlaylist(playlistName);
             }
             else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud)
             {
-                await CreateCloudPlaylist();
+                await CreateCloudPlaylist(playlistName);
             }
         }
         catch (Exception ex)
@@ -93,43 +81,9 @@ public partial class LibraryView : ContentView
         }
     }
 
-    private async Task CreateLocalPlaylist()
-    {
-        // HDR: Creation date | Modified date | Owner | Count | Length | Countdown mode
-        string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
+    private async Task CreateLocalPlaylist(string playlistName) => await _viewModel.CreateLocalPlaylist(playlistName);
 
-        string path = await FileManager.SavePlaylistStringToTextFileAsync(PlaylistNameEntry.Text, playlistHeader);
-        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: path);
-
-        if (CacheState.LocalPlaylists is not null)
-        {
-            CacheState.LocalPlaylists.Add(playlist);
-        }
-        PlaylistNameEntry.Text = string.Empty;
-    }
-
-    private async Task CreateCloudPlaylist()
-    {
-        if (CacheState.CloudPlaylists.Any(p => p.Name.Equals(PlaylistNameEntry.Text, StringComparison.OrdinalIgnoreCase)))
-        {
-            General.ShowToast("Already exists! Please choose different name.");
-            return;
-        }
-
-        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: PlaylistNameEntry.Text, path: string.Empty);
-
-        CacheState.CloudPlaylists.Add(playlist);
-
-        await PlaylistRepository.SaveCloudPlaylist(id: playlist.Id,
-                                            creationDate: playlist.CreationDate,
-                                            name: playlist.Name,
-                                            playlist.LengthInSeconds,
-                                            playlist.Count,
-                                            playlist.Segments.ToList(),
-                                            isPublic: playlist.IsPublic);
-
-        PlaylistNameEntry.Text = string.Empty;
-    }
+    private async Task CreateCloudPlaylist(string playlistName) => await _viewModel.CreateCloudPlaylist(playlistName);
 
     internal async Task LoadPlaylists(bool isDirty = false)
     {
@@ -389,9 +343,9 @@ public partial class LibraryView : ContentView
             //    sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.AudioURL}}}");
             //}
 
-            File.WriteAllText($"{PlaylistNameEntry.Text} - copy.txt", string.Empty);
+            //File.WriteAllText($"{PlaylistNameEntry.Text} - copy.txt", string.Empty);
 
-            General.ShowToast($"{PlaylistNameEntry.Text} - copy created!");
+            //General.ShowToast($"{PlaylistNameEntry.Text} - copy created!");
         }
         catch (Exception ex)
         {

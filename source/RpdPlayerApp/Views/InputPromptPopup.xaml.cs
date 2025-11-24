@@ -1,4 +1,3 @@
-using CommunityToolkit.Maui.Views;
 using RpdPlayerApp.Architecture;
 
 namespace RpdPlayerApp.Views;
