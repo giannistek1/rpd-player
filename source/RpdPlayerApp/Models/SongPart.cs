@@ -75,7 +75,7 @@ internal partial class SongPart : ObservableObject
 
     /// <summary> Cliplength in seconds. </summary>
     [ObservableProperty]
-    private double _clipLength;
+    private double _clipLength = 0.0;
 
     [ObservableProperty]
     [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]

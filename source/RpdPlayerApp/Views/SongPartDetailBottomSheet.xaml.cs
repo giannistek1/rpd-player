@@ -2,6 +2,7 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Services;
 using The49.Maui.BottomSheet;
 
 namespace RpdPlayerApp.Views;
@@ -90,9 +91,16 @@ public partial class SongPartDetailBottomSheet
     /// <summary> Song dependent or theme change. </summary>
     internal void UpdateSongDetails()
     {
-        if (songPart is null) { return; }
+        if (songPart is null || string.IsNullOrEmpty(songPart.Title)) { return; }
 
-        AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
+        if (!string.IsNullOrWhiteSpace(songPart.AlbumURL))
+        {
+            AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
+        }
+        else
+        {
+            DebugService.Instance.Warn("UpdateSongDetails: No albumUrl found!");
+        }
 
         AlbumLabel.Text = $"{songPart.AlbumTitle} ";
         AlbumLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];

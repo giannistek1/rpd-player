@@ -3,6 +3,7 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Views;
 using System.Text;
 
 namespace RpdPlayerApp.ViewModels;
@@ -10,10 +11,18 @@ namespace RpdPlayerApp.ViewModels;
 internal class LibraryViewModel
 {
     public IRelayCommand<Playlist> ShowActionsCommand { get; }
+    public IRelayCommand<Playlist> ShowPlaylistCommand { get; }
+    public Action<Playlist>? OnShowPlaylist { get; set; }
 
     public LibraryViewModel()
     {
         ShowActionsCommand = new RelayCommand<Playlist>(ShowActions);
+
+        ShowPlaylistCommand = new RelayCommand<Playlist>(playlist =>
+        {
+            CurrentPlaylistManager.Instance.ChosenPlaylist = playlist;
+            OnShowPlaylist?.Invoke(playlist);
+        });
     }
 
     private async void ShowActions(Playlist? playlist)
@@ -23,6 +32,7 @@ internal class LibraryViewModel
             cancel: "Cancel",
             destruction: null,
             "Play",
+            "Edit",
             "Clone",
             "Save to cloud",
             "Make public",
@@ -39,7 +49,7 @@ internal class LibraryViewModel
                 await Todo(playlist);
                 break;
             case "Edit":
-                await Todo(playlist);
+                GoToCurrentPlaylistView(playlist);
                 break;
             case "Save to cloud":
                 await Todo(playlist);
@@ -57,6 +67,14 @@ internal class LibraryViewModel
     }
 
     private Task Todo(Playlist playlist) => Shell.Current.DisplayAlert("WIP", "TODO", "OK");
+    private void GoToCurrentPlaylistView(Playlist playlist)
+    {
+        CurrentPlaylistManager.Instance.ChosenPlaylist = playlist;
+        if (Shell.Current.CurrentPage is MainPage mainPage)
+        {
+            mainPage.ShowPlaylistView();
+        }
+    }
     private void PlayPlaylist(Playlist playlist) => CurrentPlaylistManager.PlayPlaylist(playlist);
     private async Task DeletePlaylist(Playlist playlist)
     {

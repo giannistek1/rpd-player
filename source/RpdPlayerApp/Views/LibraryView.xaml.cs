@@ -17,8 +17,6 @@ public partial class LibraryView : ContentView
 
     public event EventHandler? PlayPlaylist;
 
-    public event EventHandler? ShowPlaylist;
-
     private readonly LibraryViewModel _viewModel = new();
 
     public LibraryView()
@@ -46,33 +44,25 @@ public partial class LibraryView : ContentView
 
     private async void PlaylistModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
-        PlaylistsListView.ItemsSource = null;
-
         if (e.NewIndex == 0)
         {
             PlaylistsManager.PlaylistMode = PlaylistModeValue.Local;
-            LoadLocalPlaylists();
         }
         else if (e.NewIndex == 1)
         {
             PlaylistsManager.PlaylistMode = PlaylistModeValue.Cloud;
-            await LoadCloudPlaylists();
         }
         else
         {
             PlaylistsManager.PlaylistMode = PlaylistModeValue.Public;
-            LoadPublicPlaylists();
         }
+
+        await LoadPlaylists();
     }
 
     internal async void RefreshPlaylistsButtonClicked(object? sender, EventArgs e)
     {
-        // Refresh cache
-        CacheState.LocalPlaylists = null;
-        CacheState.CloudPlaylists = null;
-        CacheState.PublicPlaylists = null;
-
-        await LoadPlaylists();
+        await LoadPlaylists(isDirty: true);
     }
 
     internal void FocusNewPlaylistEntry() => PlaylistNameEntry.Focus();
@@ -120,11 +110,6 @@ public partial class LibraryView : ContentView
 
     private async Task CreateCloudPlaylist()
     {
-        if (CacheState.CloudPlaylists is null)
-        {
-            CacheState.CloudPlaylists = [];
-        }
-
         if (CacheState.CloudPlaylists.Any(p => p.Name.Equals(PlaylistNameEntry.Text, StringComparison.OrdinalIgnoreCase)))
         {
             General.ShowToast("Already exists! Please choose different name.");
@@ -150,34 +135,39 @@ public partial class LibraryView : ContentView
     {
         PlaylistsListView.ItemsSource = null;
 
+        isDirty = CacheState.IsDirty || isDirty;
+
         if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local) { LoadLocalPlaylists(isDirty: isDirty); }
-        else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud) { await LoadCloudPlaylists(); }
-        else { LoadPublicPlaylists(); } // Public
+        else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud) { await LoadCloudPlaylists(isDirty: isDirty); }
+        else { await LoadPublicPlaylists(isDirty: isDirty); }
+
+        CacheState.IsDirty = false;
     }
 
     // Code goes here at start because of SegmentedControlSelectionChanged
     internal void LoadLocalPlaylists(bool isDirty = false)
     {
-        if (CacheState.LocalPlaylists is not null && CacheState.LocalPlaylists.Any() || isDirty)
+        if (CacheState.LocalPlaylists.Any() && !isDirty)
         {
             PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
-
             return;
         }
 
-        List<Playlist> playlists = [];
-
         string[] files = Directory.GetFiles(FileManager.GetPlaylistsPath(), "*.txt");
 
-        if (files.Length <= 0) { return; }
+        if (files.Length <= 0)
+        {
+            PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
+            return;
+        }
+
+        CacheState.LocalPlaylists.Clear();
 
         try
         {
             foreach (var file in files)
             {
                 if (file.Contains("SONGPARTS.txt")) { continue; } // For offline mode / news
-
-                int lines = File.ReadAllLines(file).Length;
 
                 string fileName = Path.GetFileNameWithoutExtension(file);
 
@@ -235,20 +225,19 @@ public partial class LibraryView : ContentView
                     }
                     catch (Exception ex)
                     {
-                        DebugService.Instance.Error($"{typeof(LibraryView).Name}, songpart {i + 1}, {ex.Message}");
+                        DebugService.Instance.Error($"{typeof(LibraryView).Name} local: songpart {i + 1}, {ex.Message}");
                         General.ShowToast($"ERROR: LoadLocalPlaylists songpart {i + 1}. {ex.Message}");
                     }
                 }
 
-                playlists.Add(playlist);
+                CacheState.LocalPlaylists.Add(playlist);
             }
         }
         catch (Exception ex)
         {
-            DebugService.Instance.Debug($"ERROR: {typeof(LibraryView).Name}: {ex.Message}");
+            DebugService.Instance.Debug($"ERROR: {typeof(LibraryView).Name} - Local: {ex.Message}");
         }
 
-        CacheState.LocalPlaylists = playlists.ToObservableCollection();
         PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
     }
 
@@ -256,25 +245,22 @@ public partial class LibraryView : ContentView
     {
         PullToRefresh.IsRefreshing = true;
 
-        CacheState.LocalPlaylists = null;
-        CacheState.CloudPlaylists = null;
-        CacheState.PublicPlaylists = null;
-        await LoadPlaylists();
+        await LoadPlaylists(isDirty: true);
 
         PullToRefresh.IsRefreshing = false;
     }
 
-    internal async Task LoadCloudPlaylists()
+    internal async Task LoadCloudPlaylists(bool isDirty = false)
     {
         if (!General.HasInternetConnection()) { return; }
 
-        if (CacheState.CloudPlaylists is not null && CacheState.CloudPlaylists.Any())
+        if (CacheState.CloudPlaylists.Any() && !isDirty)
         {
             PlaylistsListView.ItemsSource = CacheState.CloudPlaylists;
             return;
         }
 
-        List<Playlist> playlists = [];
+        CacheState.CloudPlaylists.Clear();
 
         var cloudPlaylists = await PlaylistRepository.GetCloudPlaylists();
         foreach (var playlistDto in cloudPlaylists)
@@ -312,27 +298,26 @@ public partial class LibraryView : ContentView
             }
             catch (Exception ex)
             {
-                DebugService.Instance.Debug($"LibraryView: {ex.Message}");
+                DebugService.Instance.Debug($"LibraryView - Cloud: {ex.Message}");
             }
 
-            playlists.Add(playlist);
+            CacheState.CloudPlaylists!.Add(playlist);
         }
 
-        CacheState.CloudPlaylists = playlists.ToObservableCollection();
         PlaylistsListView.ItemsSource = CacheState.CloudPlaylists;
     }
 
-    internal async void LoadPublicPlaylists()
+    internal async Task LoadPublicPlaylists(bool isDirty = false)
     {
         if (!General.HasInternetConnection()) { return; }
 
-        if (CacheState.PublicPlaylists is not null && CacheState.PublicPlaylists.Any())
+        if (CacheState.PublicPlaylists.Any() && !isDirty)
         {
             PlaylistsListView.ItemsSource = CacheState.PublicPlaylists;
             return;
         }
 
-        List<Playlist> playlists = [];
+        CacheState.PublicPlaylists.Clear();
 
         var results = await PlaylistRepository.GetAllPublicPlaylists();
         foreach (var playlistDto in results)
@@ -372,21 +357,25 @@ public partial class LibraryView : ContentView
             }
             catch (Exception ex)
             {
-                DebugService.Instance.Debug($"LibraryView: {ex.Message}");
+                DebugService.Instance.Debug($"LibraryView - Public: {ex.Message}");
             }
 
-            playlists.Add(playlist);
+            CacheState.PublicPlaylists.Add(playlist);
         }
 
-        CacheState.PublicPlaylists = playlists.ToObservableCollection();
         PlaylistsListView.ItemsSource = CacheState.PublicPlaylists;
     }
 
     private void PlaylistsListViewItemTapped(object sender, Syncfusion.Maui.ListView.ItemTappedEventArgs e)
     {
+        if (e.DataItem is not Playlist) { return; }
+
         Playlist playlist = (Playlist)e.DataItem;
         CurrentPlaylistManager.Instance.ChosenPlaylist = playlist;
-        ShowPlaylist?.Invoke(sender, e);
+        if (Shell.Current.CurrentPage is MainPage mainPage)
+        {
+            mainPage.ShowPlaylistView();
+        }
     }
 
     private void CopyPlaylistButton_Clicked(object sender, EventArgs e)
@@ -408,14 +397,6 @@ public partial class LibraryView : ContentView
         {
             General.ShowToast(ex.Message);
         }
-    }
-
-    // TODO: todo
-    private void PlayPlaylistButtonClicked(object sender, EventArgs e)
-    {
-        // Change mode to playlist
-        AppState.PlayMode = PlayModeValue.Playlist;
-        PlayPlaylist?.Invoke(sender, e);
     }
 
     // TODO: Remove?

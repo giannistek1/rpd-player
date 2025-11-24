@@ -9,6 +9,6 @@ public enum AutoplayModeValue
     AutoplayLoop = 1,
     Shuffle = 2,
     RepeatOne = 3,
-    /// <summary> Not used: Regular play song by song. </summary>
+    // Not used: Regular play, song by song.
     //Autoplay = 4,
 }

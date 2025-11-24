@@ -101,6 +101,6 @@ public partial class SettingsPage : ContentPage
         AppState.Username = UsernameEntry.Text!.Trim();
         Preferences.Set(CommonSettings.USERNAME, AppState.Username);
 
-        CacheState.CloudPlaylists = null;
+        CacheState.IsDirty = true;
     }
 }

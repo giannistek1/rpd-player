@@ -87,7 +87,6 @@ public partial class MainPage
         SearchSongPartsView.ShowSortBy += OnShowSortBy;
 
         LibraryView.PlayPlaylist += OnPlaySongPart; // Not used
-        LibraryView.ShowPlaylist += OnShowPlaylist;
 
         _currentPlaylistView.IsVisible = false;
         _currentPlaylistView.BackToPlaylists += OnBackToPlaylists;
@@ -295,6 +294,8 @@ public partial class MainPage
 
     private void OnOpenSongPartDetailBottomSheet(object? sender, EventArgs e)
     {
+        if (AppState.CurrentSongPart is null || string.IsNullOrEmpty(AppState.CurrentSongPart.Title)) { return; }
+
         _detailBottomSheet.songPart = AppState.CurrentSongPart;
         _detailBottomSheet.UpdateSongDetails();
         _detailBottomSheet.UpdateIcons();
@@ -357,7 +358,7 @@ public partial class MainPage
     private async Task BackToPlaylists()
     {
         _currentPlaylistView.ResetCurrentPlaylist();
-        await LibraryView!.LoadPlaylists();
+        await LibraryView!.LoadPlaylists(isDirty: true);
 
         _currentPlaylistView.IsVisible = false;
         LibraryView.IsVisible = true;
@@ -365,7 +366,7 @@ public partial class MainPage
         SetupLibraryOrCurrentPlaylistToolbar();
     }
 
-    private void OnShowPlaylist(object? sender, EventArgs e)
+    internal void ShowPlaylistView()
     {
         LibraryView = (LibraryView)LibraryContainer.Children[0];
         LibraryView.IsVisible = false;

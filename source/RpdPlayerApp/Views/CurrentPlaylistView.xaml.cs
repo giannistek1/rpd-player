@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace RpdPlayerApp.Views;
 
+// TODO: Rename to EditPlaylistView
 public partial class CurrentPlaylistView : ContentView
 {
     public event EventHandler? PlaySongPart;
@@ -56,7 +57,6 @@ public partial class CurrentPlaylistView : ContentView
 
         if (playlist!.IsCloudPlaylist && playlist.Owner.Equals(AppState.Username))
         {
-            CacheState.CloudPlaylists = null;
             await PlaylistRepository.SaveCloudPlaylist(id: playlist.Id,
                                                         creationDate: playlist.CreationDate,
                                                         name: playlist.Name,
@@ -66,8 +66,6 @@ public partial class CurrentPlaylistView : ContentView
                                                         isPublic: playlist.IsPublic);
         }
 
-        // Reload cache.
-        CacheState.LocalPlaylists = null;
         await PlaylistsManager.SavePlaylistLocally(playlist, playlist.Name);
 
         CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments.CollectionChanged -= CollectionChanged;

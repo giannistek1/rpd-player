@@ -173,7 +173,7 @@ internal static class PlaylistsManager
 
     internal static bool SegmentIsInPlaylist(Playlist playlist, SongPart? segment)
     {
-        Playlist? playlistMatch = CacheState.LocalPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlist.Name, StringComparison.OrdinalIgnoreCase));
+        Playlist? playlistMatch = CacheState.LocalPlaylists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlist.Name, StringComparison.OrdinalIgnoreCase));
         if (playlistMatch is not null && playlist.Segments.Any(s => s.AudioURL == segment?.AudioURL))
         {
             return true;
@@ -185,9 +185,12 @@ internal static class PlaylistsManager
     internal static bool SegmentIsInPlaylist(string playlistName, PlaylistModeValue playlistMode, SongPart? segment)
     {
         Playlist? playlist = null;
+
+        if (segment is null) { return true; } // TODO: INT -2;
+
         if (playlistMode == PlaylistModeValue.Local && CacheState.LocalPlaylists is not null)
         {
-            playlist = CacheState.LocalPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
+            playlist = CacheState.LocalPlaylists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         }
         else if (playlistMode == PlaylistModeValue.Cloud && CacheState.CloudPlaylists is not null)
         {
