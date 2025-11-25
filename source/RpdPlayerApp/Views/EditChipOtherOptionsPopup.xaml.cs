@@ -1,6 +1,4 @@
-using Google.Android.Material.Chip;
 using RpdPlayerApp.Architecture;
-using RpdPlayerApp.Services;
 using System.Collections.ObjectModel;
 
 namespace RpdPlayerApp.Views;
