@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RpdPlayerApp.Views.EditChipOtherOptionsPopup"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:sfcore="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols">
+
+    <VerticalStackLayout BackgroundColor="{DynamicResource BackgroundColor}" Spacing="16" Padding="20">
+
+        <Label x:Name="TitleLabel" />
+
+        <ScrollView Orientation="Vertical">
+
+            <sfcore:SfChipGroup x:Name="ChipGroup" ChipPadding="0,0,0,0" DisplayMemberPath="Name" ChipType="Filter"
+                    SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource Error}" 
+                    SelectionIndicatorColor="{DynamicResource IconColor}" HorizontalOptions="Start" VerticalOptions="Center">
+
+                <sfcore:SfChipGroup.ChipLayout>
+                    <VerticalStackLayout Spacing="8" />
+                </sfcore:SfChipGroup.ChipLayout>
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="ChipBackground" Value="{DynamicResource BackgroundColor}"/>
+                                <!-- Transparent does not work and is a buggy color. -->
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="ChipBackground" Value="{DynamicResource SecondaryButton}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+
+                <sfcore:SfChipGroup.ItemTemplate>
+                    <DataTemplate>
+
+                        <sfcore:SfChip HorizontalOptions="Start" HorizontalTextAlignment="Start" Padding="0,0,-4,0" Text="{Binding Name}" ShowIcon="{Binding IsSelected}" InputTransparent="True" MaximumHeightRequest="30">
+
+                            <sfcore:SfChip.ImageSource>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Block}" Color="{DynamicResource Error}" />
+                            </sfcore:SfChip.ImageSource>
+
+                            <sfcore:SfChip.Triggers>
+                                <DataTrigger TargetType="sfcore:SfChip" Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="sfcore:SfChip" Binding="{Binding IsSelected}" Value="False">
+                                    <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundColor}"/>
+                                    <Setter Property="Background" Value="{DynamicResource BackgroundColor}"/>
+                                </DataTrigger>
+                            </sfcore:SfChip.Triggers>
+                        </sfcore:SfChip>
+                    </DataTemplate>
+                </sfcore:SfChipGroup.ItemTemplate>
+
+            </sfcore:SfChipGroup>
+
+        </ScrollView>
+
+        <HorizontalStackLayout>
+
+            <Button Text="OK" Clicked="OnOkClicked" BackgroundColor="{DynamicResource PrimaryButton}" Margin="0,0,4,0" />
+
+            <Button Text="Cancel" Clicked="OnCancelClicked" BackgroundColor="{DynamicResource SecondaryButton}" Margin="4,0,0,0"  />
+
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+    
+</toolkit:Popup>

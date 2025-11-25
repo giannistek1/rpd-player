@@ -268,111 +268,120 @@
                 <!-- Generations (only for k-pop) -->
                 <Grid Grid.Row="5" x:Name="GenerationsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                    <Label Grid.Row="0" Text="Gens" Style="{StaticResource H1}" Margin="0,0,0,8"/>
+                    <Grid ColumnDefinitions="20, *, 24">
 
-                    <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Supervisor_account}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
 
-                        <sfcore:SfChipGroup x:Name="GenerationsChipGroup" 
-                                            ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                                            SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
-                                            HorizontalOptions="Start" VerticalOptions="Center">
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
 
-                        </sfcore:SfChipGroup>
+                            <Label Text="Generations" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
 
+                            <Label Grid.Row="1" x:Name="GenerationsValuesLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
 
-                    </ScrollView>
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="GenerationsImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
 
                 </Grid>
 
                 <!-- Companies (only for k-pop) -->
                 <Grid Grid.Row="6" x:Name="CompaniesGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                    <Label Grid.Row="0" Text="Companies"  Style="{StaticResource H1}" Margin="0,0,0,8"/>
+                    <Grid ColumnDefinitions="20, *, 24">
 
-                    <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Business_center}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
 
-                        <sfcore:SfChipGroup x:Name="CompaniesChipGroup" 
-                                            ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                                            SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
-                                            HorizontalOptions="Start" VerticalOptions="Center">       
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
 
-                        </sfcore:SfChipGroup>
+                            <Label Text="Companies" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
 
-                    </ScrollView>
+                            <Label Grid.Row="1" x:Name="CompaniesValuesLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="CompaniesImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
 
                 </Grid>
 
                 <!-- Years -->
                 <Grid Grid.Row="7" x:Name="YearsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                    <Label Grid.Row="0" Text="Years" Style="{StaticResource H1}" Margin="0,0,0,8"/>
+                    <Grid ColumnDefinitions="20, *, 24">
 
-                    <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Calendar_today}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
 
-                        <sfcore:SfChipGroup x:Name="YearsChipGroup" 
-                                            ChipPadding="8,8,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                                            SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource PrimaryTextColor}" SelectionIndicatorColor="{DynamicResource IconColor}" ChipTextColor="{DynamicResource PrimaryTextColor}" 
-                                            HorizontalOptions="Start" VerticalOptions="Center">
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
 
-                        </sfcore:SfChipGroup>
+                            <Label Text="Years" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
 
-                    </ScrollView>
+                            <Label Grid.Row="1" x:Name="YearsValuesLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="YearsImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
 
                 </Grid>
 
-                <!-- Anti-options -->
+                <!-- Other options -->
                 <Grid Grid.Row="8" RowDefinitions="auto, auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
-                    <Label Grid.Row="0" Text="Anti-options" Style="{StaticResource H1}" Margin="0,0,0,8"/>
+                    <Grid ColumnDefinitions="20, *, 24">
 
-                    <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Tune}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
 
-                        <sfcore:SfChipGroup x:Name="AntiOptionsChipGroup" ChipPadding="0,0,0,0" DisplayMemberPath="Name" ChipType="Filter"
-                                            SelectedChipBackground="{DynamicResource SecondaryButton}" SelectedChipTextColor="{DynamicResource Error}" 
-                                            SelectionIndicatorColor="{DynamicResource IconColor}" HorizontalOptions="Start" VerticalOptions="Center" SelectionChanged="OnSelectionChanged">
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
 
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="ChipBackground" Value="{DynamicResource BackgroundColor}"/>
-                                            <!-- Transparent does not work and is a buggy color. -->
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="ChipBackground" Value="{DynamicResource SecondaryButton}"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
+                            <Label Text="Other options" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
 
-                            <sfcore:SfChipGroup.ItemTemplate>
-                                <DataTemplate>
+                            <Label Grid.Row="1" x:Name="OtherOptionsValuesLabel" Text="Value" VerticalOptions="Center"/>
 
-                                    <sfcore:SfChip HorizontalOptions="Start" HorizontalTextAlignment="Start" Padding="0,0,-4,0" Text="{Binding Name}" ShowIcon="{Binding IsSelected}" InputTransparent="True" MaximumHeightRequest="30">
+                        </Grid>
 
-                                        <sfcore:SfChip.ImageSource>
-                                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Block}" Color="{DynamicResource Error}" />
-                                        </sfcore:SfChip.ImageSource>
+                        <ImageButton Grid.Column="2" x:Name="OtherOptionsImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
 
-                                        <sfcore:SfChip.Triggers>
-                                            <DataTrigger TargetType="sfcore:SfChip" Binding="{Binding IsSelected}" Value="True">
-                                                <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="sfcore:SfChip" Binding="{Binding IsSelected}" Value="False">
-                                                <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
-                                                <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundColor}"/>
-                                                <Setter Property="Background" Value="{DynamicResource BackgroundColor}"/>
-                                            </DataTrigger>
-                                        </sfcore:SfChip.Triggers>
-                                    </sfcore:SfChip>
-                                </DataTemplate>
-                            </sfcore:SfChipGroup.ItemTemplate>
-
-                        </sfcore:SfChipGroup>
-
-                    </ScrollView>
+                    </Grid>
 
                 </Grid>
                     

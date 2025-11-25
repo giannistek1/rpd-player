@@ -6,7 +6,6 @@ using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
 using Syncfusion.Maui.Core;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Text.Json;
 
@@ -38,6 +37,15 @@ public partial class HomeView : ContentView
         VoiceAnnouncementImageButton.Clicked += VoiceAnnouncementImageButtonClicked;
         GrouptypesImageButton.Clicked += GrouptypesImageButtonClicked;
         GenresImageButton.Clicked += GenresImageButtonClicked;
+        GenerationsImageButton.Clicked += GenerationsImageButtonClicked;
+        CompaniesImageButton.Clicked += CompaniesImageButtonClicked;
+        YearsImageButton.Clicked += YearsImageButtonClicked;
+        OtherOptionsImageButton.Clicked += OtherOptionsImageButtonClicked;
+
+        for (int year = 2012; year <= 2025; year++)
+        {
+            _yearOptions.Add(year.ToString());
+        }
 
         _ = LoadInitialDataAsync();
 
@@ -53,40 +61,44 @@ public partial class HomeView : ContentView
             VideoRepository.GetVideos();
             SongPartRepository.GetSongParts();
         }
-        else // Offline
+        else
         {
-            var loadedArtists = await FileManager.LoadArtistsAsync();
-            ArtistRepository.Artists.Clear();
-            foreach (Artist artist in loadedArtists)
-            {
-                artist.InitPostProperties();
-                ArtistRepository.Artists.Add(artist);
-            }
+            await LoadDataOffline();
+            InitSongParts?.Invoke(this, EventArgs.Empty);
+        }
+    }
 
-            var loadedAlbums = await FileManager.LoadAlbumsAsync();
-            AlbumRepository.Albums.Clear();
-            foreach (Album album in loadedAlbums)
-            {
-                album.InitPostProperties();
-                AlbumRepository.Albums.Add(album);
-            }
+    private async Task LoadDataOffline()
+    {
+        var loadedArtists = await FileManager.LoadArtistsAsync();
+        ArtistRepository.Artists.Clear();
+        foreach (Artist artist in loadedArtists)
+        {
+            artist.InitPostProperties();
+            ArtistRepository.Artists.Add(artist);
+        }
 
-            var loadedVideos = await FileManager.LoadVideosAsync();
-            VideoRepository.Videos.Clear();
-            foreach (Video video in loadedVideos)
-            {
-                VideoRepository.Videos.Add(video);
-            }
+        var loadedAlbums = await FileManager.LoadAlbumsAsync();
+        AlbumRepository.Albums.Clear();
+        foreach (Album album in loadedAlbums)
+        {
+            album.InitPostProperties();
+            AlbumRepository.Albums.Add(album);
+        }
 
-            var loadedSongParts = await FileManager.LoadSongPartsAsync();
-            SongPartRepository.SongParts.Clear();
-            foreach (SongPart part in loadedSongParts)
-            {
-                part.InitPostProperties();
-                SongPartRepository.SongParts.Add(part);
-            }
+        var loadedVideos = await FileManager.LoadVideosAsync();
+        VideoRepository.Videos.Clear();
+        foreach (Video video in loadedVideos)
+        {
+            VideoRepository.Videos.Add(video);
+        }
 
-            InitSongParts?.Invoke(null, EventArgs.Empty);
+        var loadedSongParts = await FileManager.LoadSongPartsAsync();
+        SongPartRepository.SongParts.Clear();
+        foreach (SongPart part in loadedSongParts)
+        {
+            part.InitPostProperties();
+            SongPartRepository.SongParts.Add(part);
         }
     }
 
@@ -108,7 +120,10 @@ public partial class HomeView : ContentView
             InitializeCompanies();
             progress++;
 
-            InitializeChipGroups();
+            InitializeHomeModeSegmentedControl();
+            progress++;
+
+            InitializeRpdSettings();
             progress++;
 
             await FileManager.SaveSongPartsAsync([.. SongPartRepository.SongParts]);
@@ -120,7 +135,8 @@ public partial class HomeView : ContentView
             HandleAutoStartRpd();
             progress++;
 
-            ChipGroupSelectionChanged(null, null);
+            // Apply filter last.
+            RefreshRpdSizeLabels();
             progress++;
 
             bool validConnection = General.HasInternetConnection() && !Constants.APIKEY.IsNullOrWhiteSpace() && !Constants.BASE_URL.IsNullOrWhiteSpace();
@@ -216,18 +232,17 @@ public partial class HomeView : ContentView
         RpdSettings!.OtherCompanies = Constants.AllCompanies.Except(mainCompanies).ToList();
     }
 
-    private void InitializeChipGroups()
+    private void InitializeRpdSettings()
     {
-        InitializeHomeModeSegmentedControl();
         UpdateDuration(loadValue: true);
         UpdateTimerValue(loadValue: true);
         UpdateVoiceAnnouncementMode(loadValue: true);
         UpdateGrouptypes(loadValue: true);
         UpdateGenres(loadValue: true);
-        InitializeGenerationsChipGroup();
-        InitializeCompaniesChipGroup();
-        InitializeYearsChipGroup();
-        InitializeAntiOptionsChipGroup();
+        UpdateGenerations(loadValue: true);
+        UpdateCompanies(loadValue: true);
+        UpdateYears(loadValue: true);
+        UpdateOtherOptions(loadValue: true);
     }
 
     private void InitializeHomeModeSegmentedControl()
@@ -250,7 +265,8 @@ public partial class HomeView : ContentView
         }
 
         TimeSpan durationValue = RpdSettings!.Duration;
-        DurationValueLabel.Text = $"{durationValue.TotalHours}";
+        string hourLabel = durationValue.TotalHours == 1.0 ? "hour" : "hours";
+        DurationValueLabel.Text = $"{durationValue.TotalHours} {hourLabel}";
     }
 
     private void UpdateTimerValue(bool loadValue = false)
@@ -288,16 +304,31 @@ public partial class HomeView : ContentView
     {
         if (loadValue)
         {
-            int[] selectedIndices = LoadIntArray(CommonSettings.HOME_GROUPTYPES, new int[] { 0, 1, 2 });
+            int[] selectedIndices = LoadIntArray(CommonSettings.HOME_GROUPTYPES, [0, 1, 2]);
             RpdSettings!.GroupTypesSelectedIndices = selectedIndices.ToList()!;
         }
 
-        string grouptypes = string.Join(", ", RpdSettings!.GroupTypesSelectedIndices.Select(i => _groupTypeOptions[i]));
-        GrouptypesValuesLabel.Text = (string.IsNullOrWhiteSpace(grouptypes) ? "None" : grouptypes);
+        RpdSettings!.GroupTypes = RpdSettings!.GroupTypesSelectedIndices.Select(i => (GroupType)i).ToList();
+        List<string> selectedGrouptypes = RpdSettings!.GroupTypesSelectedIndices.Select(i => _groupTypeOptions[i]).ToList();
+        string grouptypes;
+        if (selectedGrouptypes.Count == 0)
+        {
+            grouptypes = "None";
+        }
+        else if (selectedGrouptypes.Count == _groupTypeOptions.Length)
+        {
+            grouptypes = "All";
+        }
+        else
+        {
+            grouptypes = string.Join(", ", selectedGrouptypes);
+        }
+
+        GrouptypesValuesLabel.Text = grouptypes;
 
         if (!loadValue)
         {
-            ChipGroupSelectionChanged(null, null);
+            RefreshRpdSizeLabels();
         }
     }
 
@@ -309,8 +340,8 @@ public partial class HomeView : ContentView
             int[] selectedIndices = LoadIntArray(CommonSettings.HOME_GENRES, [0, 1, 2, 3, 4, 5]);
             RpdSettings!.GenresSelectedIndices = selectedIndices.ToList()!;
         }
-
-        var selectedGenres = RpdSettings!.GenresSelectedIndices.Select(i => _genreOptions[i]).ToList();
+        RpdSettings!.Genres = RpdSettings!.GenresSelectedIndices.Select(i => _genreOptions[i]).ToList();
+        List<string> selectedGenres = RpdSettings.Genres;
         string genres;
         if (selectedGenres.Count == 0)
         {
@@ -333,122 +364,192 @@ public partial class HomeView : ContentView
 
         if (!loadValue)
         {
-            ChipGroupSelectionChanged(null, null);
+            RefreshRpdSizeLabels();
         }
         GenresSelectionChanged();
     }
 
     string[] _genOptions = ["1", "2", "3", "4", "5", "Non-kpop"];
 
-    private void InitializeGenerationsChipGroup()
+    private void UpdateGenerations(bool loadValue = false)
     {
-        foreach (var option in _genOptions)
+        if (loadValue)
         {
-            GenerationsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+            int[] selectedIndices = LoadIntArray(CommonSettings.HOME_GENS, [0, 1, 2, 3, 4, 5]);
+            RpdSettings!.GensSelectedIndices = selectedIndices.ToList()!;
         }
 
-        if (Preferences.ContainsKey(CommonSettings.HOME_GENS))
-        {
-            int[]? selectedIndices = LoadIntArray(CommonSettings.HOME_GENS, [0, 1, 2, 3, 4, 5]);
 
-            var selectedItems = new ObservableCollection<SfChip>();
-            for (var i = 0; i < selectedIndices!.Length; i++)
-            {
-                selectedItems.Add(GenerationsChipGroup!.Items![selectedIndices[i]]);
-            }
-            GenerationsChipGroup!.SelectedItem = selectedItems;
+        RpdSettings!.Gens = RpdSettings.GensSelectedIndices.Select(i => (GenType)i).ToList();
+        List<string> selectedGens = [.. RpdSettings!.GensSelectedIndices.Select(i => _genOptions[i])];
+        string gens;
+        if (selectedGens.Count == 0)
+        {
+            gens = "None";
+        }
+        else if (selectedGens.Count == _genOptions.Length)
+        {
+            gens = "All";
+        }
+        else if (selectedGens.Count <= 3)
+        {
+            gens = string.Join(", ", selectedGens);
         }
         else
         {
-            GenerationsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(GenerationsChipGroup.Items!);
+            gens = string.Join(", ", selectedGens.Take(3)) + ", ...";
         }
 
-        GenerationsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
+        GenerationsValuesLabel.Text = gens;
+
+        if (!loadValue)
+        {
+            RefreshRpdSizeLabels();
+        }
     }
 
-    private string[] _companiesOptions = ["SM", "HYBE", "JYP", "YG", "Others"];
-    private void InitializeCompaniesChipGroup()
+    private string[] _companyOptions = ["SM", "HYBE", "JYP", "YG", "Others"];
+    private void UpdateCompanies(bool loadValue = false)
     {
-        foreach (var option in _companiesOptions)
+        if (loadValue)
         {
-            CompaniesChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+            int[] selectedIndices = LoadIntArray(CommonSettings.HOME_COMPANIES, [0, 1, 2, 3, 4]);
+            RpdSettings!.CompaniesSelectedIndices = selectedIndices.ToList()!;
         }
 
-        if (Preferences.ContainsKey(CommonSettings.HOME_COMPANIES))
+        // Update RpdSettings value.
+        RpdSettings!.Companies.Clear();
+        foreach (var i in RpdSettings.CompaniesSelectedIndices)
         {
-            int[]? selectedIndices = LoadIntArray(CommonSettings.HOME_COMPANIES, [0, 1, 2, 3, 4]);
-
-            var selectedItems = new ObservableCollection<SfChip>();
-            for (var i = 0; i < selectedIndices!.Length; i++)
+            switch (_companyOptions[i])
             {
-                selectedItems.Add(CompaniesChipGroup!.Items![selectedIndices[i]]);
+                case "SM": RpdSettings.Companies.AddRange(Constants.SMCompanies); break;
+                case "HYBE": RpdSettings.Companies.AddRange(Constants.HybeCompanies); break;
+                case "JYP": RpdSettings.Companies.Add("JYP Entertainment"); break;
+                case "YG": RpdSettings.Companies.AddRange(Constants.YGCompanies); break;
+                case "Others": RpdSettings.Companies.AddRange(RpdSettings.OtherCompanies); break;
             }
-            CompaniesChipGroup!.SelectedItem = selectedItems;
+        }
+
+        List<string> selectedCompanies = [.. RpdSettings!.CompaniesSelectedIndices.Select(i => _companyOptions[i])];
+
+        string companies;
+        if (selectedCompanies.Count == 0)
+        {
+            companies = "None";
+        }
+        else if (selectedCompanies.Count == _companyOptions.Length)
+        {
+            companies = "All";
+        }
+        else if (selectedCompanies.Count <= 3)
+        {
+            companies = string.Join(", ", selectedCompanies);
         }
         else
         {
-            CompaniesChipGroup!.SelectedItem = new ObservableCollection<SfChip>(CompaniesChipGroup.Items!);
+            companies = string.Join(", ", selectedCompanies.Take(3)) + ", ...";
         }
 
-        CompaniesChipGroup.SelectionChanged += ChipGroupSelectionChanged;
+        CompaniesValuesLabel.Text = companies;
+
+        if (!loadValue)
+        {
+            RefreshRpdSizeLabels();
+        }
     }
 
-    private void InitializeYearsChipGroup()
+    private List<string> _yearOptions = ["< 2012"];
+
+    private void UpdateYears(bool loadValue = false)
     {
-        List<string> options = ["< 2012"];
-        for (int year = 2012; year <= 2025; year++)
+        if (loadValue)
         {
-            options.Add(year.ToString());
-        }
-        foreach (var option in options)
-        {
-            YearsChipGroup?.Items?.Add(new SfChip() { Text = option, TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"] });
+            List<int> selectedIndices = LoadIntArray(CommonSettings.HOME_YEARS, Constants.SELECTED_YEARS_INDICES_DEFAULT).ToList();
+            RpdSettings!.YearsSelectedIndices = selectedIndices.ToList()!;
         }
 
-        if (Preferences.ContainsKey(CommonSettings.HOME_YEARS))
+        // Update RpdSettings value.
+        RpdSettings!.Years = RpdSettings.YearsSelectedIndices.Select(i =>
         {
-            int[]? selectedIndices = LoadIntArray(CommonSettings.HOME_YEARS, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
-
-            var selectedItems = new ObservableCollection<SfChip>();
-            for (var i = 0; i < selectedIndices!.Length; i++)
+            if (_yearOptions[i] == "< 2012")
             {
-                selectedItems.Add(YearsChipGroup.Items[selectedIndices[i]]);
+                // Return all years from 1998 to 2011 for "< 2012".
+                return Enumerable.Range(Constants.LOWEST_YEAR, 2011 - Constants.LOWEST_YEAR + 1);
             }
-            YearsChipGroup!.SelectedItem = selectedItems;
-        }
-        else
-        {
-            YearsChipGroup!.SelectedItem = new ObservableCollection<SfChip>(YearsChipGroup.Items!);
-        }
+            else
+            {
+                // Parse the year string to int.
+                return new[] { int.Parse(_yearOptions[i]) };
+            }
+        }).SelectMany(x => x).ToList();
 
-        YearsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
+        List<string> selectedYears = RpdSettings!.YearsSelectedIndices.Select(i => _yearOptions[i]).ToList();
+        UpdateYearsUI(selectedYears);
+
+        if (!loadValue)
+        {
+            RefreshRpdSizeLabels();
+        }
     }
 
-    private void InitializeAntiOptionsChipGroup()
+    private void UpdateYearsUI(List<string> selectedYears)
     {
-        ObservableCollection<CustomChipModel> customChips = [];
-        // TODO: Change color or invoke a selected/tap event?
-        if (Preferences.ContainsKey(CommonSettings.HOME_ANTI_OPTIONS))
-        {
-            Dictionary<string, bool> antiOptionsValues = LoadTagsAsDictionary(CommonSettings.HOME_ANTI_OPTIONS);
+        string years;
 
-            customChips.Add(new() { Name = "Last chorus", IsSelected = antiOptionsValues["Last chorus"] });
-            customChips.Add(new() { Name = "Dance breaks", IsSelected = antiOptionsValues["Dance breaks"] });
-            customChips.Add(new() { Name = "Tiktoks", IsSelected = antiOptionsValues["Tiktoks"] });
+        if (selectedYears.Count == 0)
+        {
+            years = "None";
+        }
+        else if (selectedYears.Count == _yearOptions.Count)
+        {
+            years = $"{Constants.LOWEST_YEAR} - 2025";
+        }
+        else if (IsConsecutive(RpdSettings!.YearsSelectedIndices))
+        {
+            int last = RpdSettings!.YearsSelectedIndices.Count - 1;
+            years = $"{_yearOptions[RpdSettings!.YearsSelectedIndices[0]]} - {_yearOptions[RpdSettings!.YearsSelectedIndices[last]]}";
+        }
+        else if (selectedYears.Count <= 3)
+        {
+            years = string.Join(", ", selectedYears);
         }
         else
         {
-            customChips.Add(new() { Name = "Last chorus", IsSelected = false });
-            customChips.Add(new() { Name = "Dance breaks", IsSelected = false });
-            customChips.Add(new() { Name = "Tiktoks", IsSelected = false });
+            years = string.Join(", ", selectedYears.Take(3)) + $", (+{selectedYears.Count - 3} more)";
         }
-        AntiOptionsChipGroup.ItemsSource = customChips;
-        AntiOptionsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
+        YearsValuesLabel.Text = years;
+    }
+
+    // Other options / anti options.
+    private void UpdateOtherOptions(bool loadValue = false)
+    {
+        if (loadValue)
+        {
+            if (Preferences.ContainsKey(CommonSettings.HOME_ANTI_OPTIONS))
+            {
+                Dictionary<string, bool> antiOptionsValuesRaw = LoadTagsAsDictionary(CommonSettings.HOME_ANTI_OPTIONS);
+                var antiOptionsValues = new Dictionary<string, bool>
+                {
+                    { "No last chorus", antiOptionsValuesRaw.TryGetValue("No last chorus", out var lastChorus) ? lastChorus : false },
+                    { "No dance breaks", antiOptionsValuesRaw.TryGetValue("No dance breaks", out var danceBreaks) ? danceBreaks : false },
+                    { "No tiktoks", antiOptionsValuesRaw.TryGetValue("No tiktoks", out var tiktoks) ? tiktoks : false }
+                };
+
+                RpdSettings!.SelectedOtherOptions = antiOptionsValues;
+            }
+        }
+
+        DebugService.Instance.Debug(string.Join(", ", RpdSettings!.SelectedOtherOptions.Select(x => $"{x.Key}: {x.Value}")));
+
+        ApplyOtherOptions(RpdSettings!.SelectedOtherOptions);
+
+        OtherOptionsValuesLabel.Text = string.Join(", ", RpdSettings!.SelectedOtherOptions.Where(x => x.Value).Select(x => x.Key));
     }
 
     private async void TimerImageButtonClicked(object? sender, EventArgs e)
     {
-        string action = await Shell.Current.DisplayActionSheet(title: $"Timer", cancel: "Cancel", destruction: null,
+        string action = await Shell.Current.DisplayActionSheet(title: $"Select timer between songs", cancel: "Cancel", destruction: null,
             "Off",
             "3s",
             "5s",
@@ -476,14 +577,15 @@ public partial class HomeView : ContentView
 
     private async void DurationImageButtonClicked(object? sender, EventArgs e)
     {
-        string action = await Shell.Current.DisplayActionSheet(title: $"Playlist duration in hours", cancel: "Cancel", destruction: null,
-            "3",
-            "2.5",
-            "2",
-            "1.5",
-            "1",
-            "0.5"
+        string action = await Shell.Current.DisplayActionSheet(title: $"Select playlist duration", cancel: "Cancel", destruction: null,
+            "3 hours",
+            "2.5 hours",
+            "2 hours",
+            "1.5 hours",
+            "1 hour",
+            "0.5 hours"
         );
+        action = action.Replace(" hours", string.Empty).Replace(" hour", string.Empty);
 
         // Parse the selected string as hours and assign directly.
         if (double.TryParse(action,
@@ -561,6 +663,62 @@ public partial class HomeView : ContentView
         UpdateGenres();
     }
 
+    private async void GenerationsImageButtonClicked(object? sender, EventArgs e)
+    {
+        EditChipOptionsPopup popup = new(title: "Select generations", options: _genOptions, selectedIndices: [.. RpdSettings!.GensSelectedIndices]);
+        object? result = await Application.Current!.MainPage!.ShowPopupAsync(popup);
+
+        if (result is null) { return; }
+        if (result is SfChipGroup chipGroup)
+        {
+            RpdSettings?.DetermineGenerations(chipGroup);
+        }
+
+        UpdateGenerations();
+    }
+
+    private async void CompaniesImageButtonClicked(object? sender, EventArgs e)
+    {
+        EditChipOptionsPopup popup = new(title: "Select companies", options: _companyOptions, selectedIndices: [.. RpdSettings!.CompaniesSelectedIndices]);
+        object? result = await Application.Current!.MainPage!.ShowPopupAsync(popup);
+
+        if (result is null) { return; }
+        if (result is SfChipGroup chipGroup)
+        {
+            RpdSettings?.DetermineCompanies(chipGroup);
+        }
+
+        UpdateCompanies();
+    }
+
+    private async void YearsImageButtonClicked(object? sender, EventArgs e)
+    {
+        EditChipOptionsPopup popup = new(title: "Select years", options: _yearOptions.ToArray(), selectedIndices: [.. RpdSettings!.YearsSelectedIndices]);
+        object? result = await Application.Current!.MainPage!.ShowPopupAsync(popup);
+
+        if (result is null) { return; }
+        if (result is SfChipGroup chipGroup)
+        {
+            RpdSettings?.DetermineYears(chipGroup);
+        }
+
+        UpdateYears();
+    }
+
+    private async void OtherOptionsImageButtonClicked(object? sender, EventArgs e)
+    {
+        EditChipOtherOptionsPopup popup = new(title: "Select options", RpdSettings!.SelectedOtherOptions);
+        object? result = await Application.Current!.MainPage!.ShowPopupAsync(popup);
+
+        if (result is null) { return; }
+        if (result is Dictionary<string, bool> otherOptionsChips)
+        {
+            RpdSettings?.DetermineOtherOptions(otherOptionsChips);
+        }
+
+        UpdateOtherOptions();
+    }
+
     private void HandleAutoStartRpd()
     {
         if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC))
@@ -570,25 +728,10 @@ public partial class HomeView : ContentView
         }
     }
 
-    /// <summary> Apply chipgroup selection to RPDSettings.</summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void ChipGroupSelectionChanged(object? sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs? e)
+    /// <summary> Apply filters to RpdSettings.</summary>
+    private void RefreshRpdSizeLabels()
     {
         if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return; }
-
-        DebugService.Instance.Debug("ChipGroupSelectionChanged invoked.");
-
-        //RpdSettings?.DetermineGroupTypes(GrouptypesChipGroup);
-        //RpdSettings?.DetermineGenres(GenresChipGroup);
-        RpdSettings?.DetermineGens(GenerationsChipGroup);
-        RpdSettings?.DetermineCompanies(CompaniesChipGroup);
-        RpdSettings?.DetermineYears(YearsChipGroup);
-
-        RpdSettings?.NumberedPartsBlacklist.Clear();
-        RpdSettings?.PartsBlacklist.Clear();
-
-        ApplyAntiOptions();
 
         var songParts = FilterSongParts();
 
@@ -601,52 +744,6 @@ public partial class HomeView : ContentView
     {
         GenerationsGrid.IsVisible = RpdSettings!.GenresSelectedIndices.Contains(0); // K-pop
         CompaniesGrid.IsVisible = RpdSettings.GenresSelectedIndices.Contains(0);
-    }
-
-    internal void RefreshThemeColors()
-    {
-        //RefreshChipGroupColors(GrouptypesChipGroup);
-        //RefreshChipGroupColors(GenresChipGroup);
-        RefreshChipGroupColors(GenerationsChipGroup);
-        RefreshChipGroupColors(CompaniesChipGroup);
-        RefreshChipGroupColors(YearsChipGroup);
-
-        AntiOptionsChipGroup.ItemsSource = null!;
-        ObservableCollection<CustomChipModel> customChips = new();
-
-        if (Preferences.ContainsKey(CommonSettings.HOME_ANTI_OPTIONS))
-        {
-            Dictionary<string, bool> antiOptionsValues = LoadTagsAsDictionary(CommonSettings.HOME_ANTI_OPTIONS);
-
-            customChips.Add(new() { Name = "Last chorus", IsSelected = antiOptionsValues["Last chorus"] });
-            customChips.Add(new() { Name = "Dance breaks", IsSelected = antiOptionsValues["Dance breaks"] });
-            customChips.Add(new() { Name = "Tiktoks", IsSelected = antiOptionsValues["Tiktoks"] });
-        }
-        else
-        {
-            customChips.Add(new() { Name = "Last chorus", IsSelected = false });
-            customChips.Add(new() { Name = "Dance breaks", IsSelected = false });
-            customChips.Add(new() { Name = "Tiktoks", IsSelected = false });
-        }
-        AntiOptionsChipGroup.ItemsSource = customChips;
-        AntiOptionsChipGroup.SelectionChanged += ChipGroupSelectionChanged;
-    }
-
-    private static void RefreshChipGroupColors(SfChipGroup chipGroup)
-    {
-        chipGroup.SelectedChipBackground = (Color)Application.Current!.Resources["SecondaryButton"];
-        foreach (var chip in chipGroup.Items!)
-        {
-            chip.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
-        }
-        chipGroup.SelectedItem = null;
-        chipGroup.SelectedItem = new ObservableCollection<SfChip>(chipGroup.Items!);
-    }
-
-    private void OnSelectionChanged(object sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
-    {
-        if (e.AddedItem is not null) ((CustomChipModel)e.AddedItem).IsSelected = true;
-        if (e.RemovedItem is not null) ((CustomChipModel)e.RemovedItem).IsSelected = false;
     }
 
     private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => SongPartCountLabel.Text = $"{SongPartRepository.SongParts.Count}";
@@ -708,15 +805,6 @@ public partial class HomeView : ContentView
         AppState.CountdownMode = RpdSettings!.CountdownMode;
         //AppState.AnnouncementMode = RpdSettings!.AnnouncementMode;
 
-        RpdSettings!.DetermineGens(GenerationsChipGroup);
-        RpdSettings!.DetermineCompanies(CompaniesChipGroup);
-        RpdSettings!.DetermineYears(YearsChipGroup);
-
-        RpdSettings!.NumberedPartsBlacklist.Clear();
-        RpdSettings!.PartsBlacklist.Clear();
-
-        ApplyAntiOptions();
-
         var songParts = FilterSongParts();
         if (songParts.Count <= 0)
         {
@@ -738,15 +826,6 @@ public partial class HomeView : ContentView
 
         AppState.CountdownMode = RpdSettings!.CountdownMode;
 
-        RpdSettings?.DetermineGens(GenerationsChipGroup);
-        RpdSettings?.DetermineCompanies(CompaniesChipGroup);
-        RpdSettings?.DetermineYears(YearsChipGroup);
-
-        RpdSettings?.NumberedPartsBlacklist.Clear();
-        RpdSettings?.PartsBlacklist.Clear();
-
-        ApplyAntiOptions();
-
         var songParts = FilterSongParts();
         if (songParts.Count <= 0)
         {
@@ -758,30 +837,24 @@ public partial class HomeView : ContentView
         PlayRandomSong(songParts);
     }
 
-    private void ApplyAntiOptions()
+    private void ApplyOtherOptions(Dictionary<string, bool> antiOptions)
     {
-        var antiOptionsItems = AntiOptionsChipGroup.ItemsSource as ObservableCollection<CustomChipModel>;
-        if (antiOptionsItems is null) { return; }
+        if (antiOptions is null || antiOptions.Count == 0) { return; }
 
-        foreach (var item in antiOptionsItems!)
+        RpdSettings?.NumberedPartsBlacklist.Clear();
+        RpdSettings?.PartsBlacklist.Clear();
+
+        if (antiOptions["No last chorus"])
         {
-            if (item.IsSelected)
-            {
-                switch (item.Name)
-                {
-                    case "Last chorus":
-                        RpdSettings?.NumberedPartsBlacklist.AddRange(["CE2", "C3", "CDB3", "CE3", "CE2", "P3", "PDB3"]);
-                        break;
-
-                    case "Dance breaks":
-                        RpdSettings?.PartsBlacklist.AddRange(["CDB", "CDBE", "DB", "DBC", "DBE", "DBO", "PDB", "B", "O"]);
-                        break;
-
-                    case "Tiktoks":
-                        RpdSettings?.PartsBlacklist.Add("T");
-                        break;
-                }
-            }
+            RpdSettings?.NumberedPartsBlacklist.AddRange(["CE2", "C3", "CDB3", "CE3", "CE2", "P3", "PDB3"]);
+        }
+        else if (antiOptions["No dance breaks"])
+        {
+            RpdSettings?.PartsBlacklist.AddRange(["CDB", "CDBE", "DB", "DBC", "DBE", "DBO", "PDB", "B", "O"]);
+        }
+        else if (antiOptions["No tiktoks"])
+        {
+            RpdSettings?.PartsBlacklist.Add("T");
         }
     }
 
@@ -815,72 +888,18 @@ public partial class HomeView : ContentView
         AudioManager.ChangeAndStartSong(songPart);
     }
 
-    private readonly string[] antiOptionsList = ["Last chorus", "Dance breaks", "Tiktoks"];
     private void SaveTemplateImageButtonClicked(object sender, EventArgs e)
     {
-        // Timer
         Preferences.Set(CommonSettings.HOME_TIMER, (int)RpdSettings!.CountdownMode);
-
-        // Voices
         Preferences.Set(CommonSettings.HOME_VOICES, (int)RpdSettings!.AnnouncementMode);
 
-        // TODO: METHODS
-        // GroupTypes
         SaveTags(CommonSettings.HOME_GROUPTYPES, RpdSettings.GroupTypesSelectedIndices.ToArray());
-
-        // Genres
         SaveTags(CommonSettings.HOME_GENRES, RpdSettings.GenresSelectedIndices.ToArray());
+        SaveTags(CommonSettings.HOME_GENS, RpdSettings.GensSelectedIndices.ToArray());
+        SaveTags(CommonSettings.HOME_COMPANIES, RpdSettings.CompaniesSelectedIndices.ToArray());
+        SaveTags(CommonSettings.HOME_YEARS, RpdSettings.YearsSelectedIndices.ToArray());
 
-        // Companies
-        List<int> companies = [];
-
-        for (int i = 0; i < CompaniesChipGroup.Items!.Count; i++)
-        {
-            if (CompaniesChipGroup.Items[i].IsSelected)
-            {
-                companies.Add(i);
-            }
-        }
-
-        SaveTags(CommonSettings.HOME_COMPANIES, companies.ToArray());
-
-        // Years
-        List<int> years = [];
-
-        for (int i = 0; i < YearsChipGroup.Items!.Count; i++)
-        {
-            if (YearsChipGroup.Items[i].IsSelected)
-            {
-                years.Add(i);
-            }
-        }
-
-        SaveTags(CommonSettings.HOME_YEARS, years.ToArray());
-
-        // Gens
-        List<int> gens = [];
-
-        for (int i = 0; i < GenerationsChipGroup.Items!.Count; i++)
-        {
-            if (GenerationsChipGroup.Items[i].IsSelected)
-            {
-                gens.Add(i);
-            }
-        }
-
-        SaveTags(CommonSettings.HOME_GENS, gens.ToArray());
-
-        // Anti options
-        Dictionary<string, bool> antiOptions = [];
-
-        var antiOptionsItems = AntiOptionsChipGroup.ItemsSource as ObservableCollection<CustomChipModel>;
-
-        for (int i = 0; i < antiOptionsItems!.Count; i++)
-        {
-            antiOptions.Add(antiOptionsList[i], antiOptionsItems[i].IsSelected);
-        }
-
-        SaveTags(CommonSettings.HOME_ANTI_OPTIONS, antiOptions);
+        SaveTags(CommonSettings.HOME_ANTI_OPTIONS, RpdSettings.SelectedOtherOptions);
 
         General.ShowToast("Preferences saved!");
     }
@@ -895,12 +914,6 @@ public partial class HomeView : ContentView
     private void SaveTags(string key, int[] tagIndices)
     {
         string json = JsonSerializer.Serialize(tagIndices);
-        Preferences.Set(key, json);
-    }
-
-    private void SaveTag(string key, int tagIndex)
-    {
-        string json = JsonSerializer.Serialize(tagIndex);
         Preferences.Set(key, json);
     }
 
@@ -929,4 +942,21 @@ public partial class HomeView : ContentView
         return Preferences.Get(key, defaultValue);
     }
     #endregion
+
+    // Helper method to check if indices are consecutive.
+    private static bool IsConsecutive(List<int> numbers)
+    {
+        if (numbers.Count < 2) { return false; }
+
+        for (int i = 1; i < numbers.Count; i++)
+        {
+            var currentIndexValue = numbers[i];
+            var lastIndexValue = numbers[i - 1];
+            if (currentIndexValue != lastIndexValue + 1)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

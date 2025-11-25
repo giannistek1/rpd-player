@@ -8,6 +8,8 @@ internal class RpdSettings
 {
     public RpdSettings()
     {
+        // Default value.
+        Years = Enumerable.Range(Constants.LOWEST_YEAR, DateTime.Now.Year - Constants.LOWEST_YEAR + 1).ToList();
     }
 
     /// <summary> When false, mode is StartRpd. </summary>
@@ -21,12 +23,22 @@ internal class RpdSettings
     internal List<GroupType> GroupTypes { get; set; } = [GroupType.BG, GroupType.GG, GroupType.MIX];
 
     internal List<int> GenresSelectedIndices { get; set; } = [0, 1, 2, 3, 4, 5];
-    internal List<string> Genres { get; set; } = [];
-    internal List<GenType> Gens { get; set; } = [];
+    internal List<string> Genres { get; set; } = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "Pop"];
+    internal List<int> GensSelectedIndices { get; set; } = [0, 1, 2, 3, 4, 5];
+    internal List<GenType> Gens { get; set; } = [GenType.First, GenType.Second, GenType.Third, GenType.Fourth, GenType.Fifth, GenType.NotKpop];
+    internal List<int> CompaniesSelectedIndices { get; set; } = [0, 1, 2, 3, 4];
     internal List<string> Companies { get; set; } = [];
-
     internal List<string> OtherCompanies { get; set; } = [];
-    internal List<int> Years { get; set; } = [];
+
+    internal List<int> YearsSelectedIndices { get; set; } = [.. Constants.SELECTED_YEARS_INDICES_DEFAULT];
+    internal List<int> Years { get; set; }
+
+    internal Dictionary<string, bool> SelectedOtherOptions { get; set; } = new Dictionary<string, bool>
+    {
+        { "No last chorus", false },
+        { "No dance breaks", false },
+        { "No tiktoks", false }
+    };
     internal List<string> NumberedPartsBlacklist { get; set; } = [];
     internal List<string> PartsBlacklist { get; set; } = [];
 
@@ -66,9 +78,10 @@ internal class RpdSettings
         }
     }
 
-    internal void DetermineGens(SfChipGroup generationsChipGroup)
+    internal void DetermineGenerations(SfChipGroup generationsChipGroup)
     {
         Gens.Clear();
+        GensSelectedIndices.Clear();
         for (var i = 0; i < generationsChipGroup?.Items?.Count; i++)
         {
             if (generationsChipGroup.Items[i].IsSelected)
@@ -83,6 +96,7 @@ internal class RpdSettings
                     _ => GenType.NotKpop
                 };
                 Gens.Add(gen);
+                GensSelectedIndices.Add(i);
             }
         }
     }
@@ -90,6 +104,7 @@ internal class RpdSettings
     internal void DetermineCompanies(SfChipGroup companiesChipGroup)
     {
         Companies.Clear();
+        CompaniesSelectedIndices.Clear();
         for (var i = 0; i < companiesChipGroup?.Items?.Count; i++)
         {
             if (companiesChipGroup.Items[i].IsSelected)
@@ -102,6 +117,7 @@ internal class RpdSettings
                     case "YG": Companies.AddRange(Constants.YGCompanies); break;
                     case "Others": Companies.AddRange(OtherCompanies); break;
                 }
+                CompaniesSelectedIndices.Add(i);
             }
         }
     }
@@ -109,13 +125,14 @@ internal class RpdSettings
     internal void DetermineYears(SfChipGroup yearsChipGroup)
     {
         Years.Clear();
+        YearsSelectedIndices.Clear();
         for (var i = 0; i < yearsChipGroup?.Items?.Count; i++)
         {
             if (yearsChipGroup.Items[i].IsSelected)
             {
                 if (yearsChipGroup.Items[i].Text.Equals("< 2012", StringComparison.OrdinalIgnoreCase))
                 {
-                    for (int year = 1998; year <= 2011; year++)
+                    for (int year = Constants.LOWEST_YEAR; year <= 2011; year++)
                     {
                         Years.Add(year);
                     }
@@ -124,8 +141,15 @@ internal class RpdSettings
                 {
                     Years.Add(Convert.ToInt32(yearsChipGroup.Items[i].Text));
                 }
+                YearsSelectedIndices.Add(i);
             }
         }
+    }
+
+
+    internal void DetermineOtherOptions(Dictionary<string, bool> otherOptionsChipGroup)
+    {
+        SelectedOtherOptions = otherOptionsChipGroup;
     }
 
     internal static string GetCountdownModeText(CountdownModeValue mode) => mode switch

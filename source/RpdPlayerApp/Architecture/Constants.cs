@@ -33,6 +33,8 @@ internal static class Constants
     internal static readonly int VideoPropertyAmount = 5;
 
     internal static readonly int HISTORY_LIMIT = 100;
+    internal static readonly int[] SELECTED_YEARS_INDICES_DEFAULT = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+    internal static readonly int LOWEST_YEAR = 1998; // Ideally dynamic, but is based on data.
 
     internal static readonly DateTime secondGenStartDate = new(2002, 12, 31, 0, 0, 0, DateTimeKind.Utc);
     internal static readonly DateTime thirdGenStartDate = new(year: 2012, month: 2, day: 11, 0, 0, 0, DateTimeKind.Utc);

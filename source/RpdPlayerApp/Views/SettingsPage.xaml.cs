@@ -16,7 +16,6 @@ public partial class SettingsPage : ContentPage
         Loaded += OnLoad;
 
         Appearing += OnPageAppearing;
-        Disappearing += OnDisappearing;
     }
 
     private void OnLoad(object? sender, EventArgs e)
@@ -54,8 +53,6 @@ public partial class SettingsPage : ContentPage
 
         TotalActivityTimeLabel.Text = $"{(int)parsedTimeSpan.TotalHours}h {parsedTimeSpan.Minutes:00}m {parsedTimeSpan.Seconds:00}s";
     }
-
-    private void OnDisappearing(object? sender, EventArgs e) => HomeView?.RefreshThemeColors();
 
     private async void BackButtonPressed(object sender, EventArgs e) => await Navigation.PopAsync();
 
