@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 
@@ -32,7 +33,7 @@ internal partial class SearchSongPartsViewModel : ObservableObject
                 await FavoriteSegment(segment);
                 break;
             case "Add to queue":
-                await AddToQueue(segment);
+                AddToQueue(segment);
                 break;
             case "Add to playlist":
                 await AddToPlaylist(segment);
@@ -40,12 +41,27 @@ internal partial class SearchSongPartsViewModel : ObservableObject
         }
     }
 
-    private async Task FavoriteSegment(SongPart p)
+    private async Task FavoriteSegment(SongPart s)
     {
-        bool success = await PlaylistsManager.TryAddSongPartToLocalPlaylist(Constants.FAVORITES, p!);
-        string message = success ? $"Added {p.Title} to Favorites" : $"Failed to add {p.Title} to Favorites";
+        bool success = await PlaylistsManager.TryAddSongPartToLocalPlaylist(Constants.FAVORITES, s!);
+        string message = success ? $"Added {s.Title} to Favorites" : $"Failed to add {s.Title} to Favorites";
         General.ShowToast(message);
     }
-    private Task AddToQueue(SongPart p) => Shell.Current.DisplayAlert("WIP", "TODO", "OK");
+    private void AddToQueue(SongPart songPart)
+    {
+        // TODO: METHOD
+        if (!AppState.SongPartsQueue.Contains(songPart))
+        {
+            AppState.SongPartsQueue.Enqueue(songPart);
+            General.ShowToast($"Enqueued: {songPart.ArtistName} - {songPart.Title} {songPart.PartNameFull}");
+        }
+
+        // Change mode to queue list
+        AppState.PlayMode = PlayModeValue.Queue;
+
+        AudioManager.AddedToQueue();
+    }
+
+    // TODO: Make a full playlist (local + cloud) and show lists to choose.
     private Task AddToPlaylist(SongPart p) => Shell.Current.DisplayAlert("WIP", $"TODO", "OK");
 }

@@ -1,5 +1,6 @@
 ﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.DTO;
+using RpdPlayerApp.Enums;
 using RpdPlayerApp.Services;
 
 
@@ -10,15 +11,15 @@ internal static class FeedbackRepository
     private static DateTime _lastRequestTime = DateTime.MinValue;
     private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(5); // Cooldown period
 
-    public static async Task<int> InsertFeedbackAsync(FeedbackDto feedback)
+    public static async Task<SubmitFeedbackResultValue> InsertFeedbackAsync(FeedbackDto feedback)
     {
-        if (Constants.APIKEY.IsNullOrWhiteSpace()) { return -3; }
+        if (Constants.APIKEY.IsNullOrWhiteSpace()) { return SubmitFeedbackResultValue.ApiKeyMissing; }
 
         // Enforce cooldown
         var timeSinceLast = DateTime.UtcNow - _lastRequestTime;
         if (timeSinceLast < _cooldown)
         {
-            return -2;
+            return SubmitFeedbackResultValue.Cooldown;
         }
 
         _lastRequestTime = DateTime.UtcNow;
@@ -26,12 +27,12 @@ internal static class FeedbackRepository
         try
         {
             await SupabaseService.Client.From<FeedbackDto>().Insert(feedback);
-            return 1;
+            return SubmitFeedbackResultValue.Success;
         }
         catch (Exception ex)
         {
             DebugService.Instance.Error($"Supabase insert feedback failed: {ex.Message}");
-            return -1;
+            return SubmitFeedbackResultValue.Error;
         }
     }
 }

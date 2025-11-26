@@ -1,4 +1,5 @@
 using RpdPlayerApp.Architecture;
+using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.ViewModels;
 
@@ -56,7 +57,7 @@ public partial class SongSegmentRequestPage : ContentPage
                 return;
             }
 
-            int success = await SongRequestManager.SubmitSongRequest(title: SongTitleEntry.Text,
+            SongRequestResultValue success = await SongRequestManager.SubmitSongRequest(title: SongTitleEntry.Text,
                                                             artist: ArtistEntry.Text,
                                                             songPart: SegmentPicker.SelectedItem.ToString()!,
                                                             withDancePractice: DancePracticeSwitch.IsToggled,
@@ -64,17 +65,21 @@ public partial class SongSegmentRequestPage : ContentPage
                                                             deviceId: deviceId,
                                                             note: NoteEditor.Text);
 
-            if (success == 1) // TODO: Enum
+            if (success == SongRequestResultValue.Success)
             {
-                General.ShowToast("Song request submitted. Thank you!");
+                General.ShowToast("Song request submitted. Thank you <3");
 
                 SongTitleEntry.Text = string.Empty;
                 ArtistEntry.Text = string.Empty;
                 NoteEditor.Text = string.Empty;
             }
-            else if (success == -2) // TODO: Enum
+            else if (success == SongRequestResultValue.Cooldown)
             {
                 General.ShowToast("Please wait a few seconds before submitting again.");
+            }
+            else if (success == SongRequestResultValue.ApiKeyMissing)
+            {
+                General.ShowToast("API key is missing. Cannot submit song.");
             }
             else
             {
@@ -89,22 +94,22 @@ public partial class SongSegmentRequestPage : ContentPage
                 return;
             }
 
-            int success = await _viewModel.SubmitFeedback(feedback: FeedbackEditor.Text, isBug: IsBugSwitch.IsToggled, requestedBy: AppState.Username, deviceId: deviceId);
-            if (success == 1) // TODO: Enum
+            SubmitFeedbackResultValue success = await _viewModel.SubmitFeedback(feedback: FeedbackEditor.Text, isBug: IsBugSwitch.IsToggled, requestedBy: AppState.Username, deviceId: deviceId);
+            if (success == SubmitFeedbackResultValue.Success)
             {
-                General.ShowToast("Feedback submitted. Thank you!");
+                General.ShowToast("Feedback submitted. Thank you <3");
 
                 FeedbackEditor.Text = string.Empty;
             }
-            else if (success == -1)  // TODO: Enum
+            else if (success == SubmitFeedbackResultValue.Error)
             {
                 General.ShowToast("Something went wrong. Try again later.");
             }
-            else if (success == -2)  // TODO: Enum
+            else if (success == SubmitFeedbackResultValue.Cooldown)
             {
                 General.ShowToast("Please wait a few seconds before submitting again.");
             }
-            else if (success == -3) // TODO: Enum
+            else if (success == SubmitFeedbackResultValue.ApiKeyMissing)
             {
                 General.ShowToast("API key is missing. Cannot submit feedback.");
             }

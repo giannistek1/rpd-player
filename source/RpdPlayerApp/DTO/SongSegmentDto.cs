@@ -9,7 +9,7 @@ public class SongSegmentDto
     public int Id { get; set; }
 
     // No _ underscores in Json.
-    [JsonPropertyName("albumName")] // TODO: Consistency title
+    [JsonPropertyName("albumName")] // TODO: Consistency: title
     public string AlbumName { get; set; }
 
     [JsonPropertyName("title")]

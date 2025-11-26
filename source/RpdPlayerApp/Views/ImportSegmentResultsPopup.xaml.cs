@@ -30,10 +30,10 @@ public partial class ImportSegmentResultsPopup
         if (!General.HasInternetConnection()) { return; }
 
         string deviceId = await DeviceIdManager.GetDeviceIdAsync();
-        int success = 1;
+        SongRequestResultValue success = SongRequestResultValue.Success;
         foreach (var import in FailedImports)
         {
-            int noError = await SongRequestManager.SubmitSongRequest(title: import.Title,
+            SongRequestResultValue noError = await SongRequestManager.SubmitSongRequest(title: import.Title,
                                     artist: import.Artist,
                                     songPart: SongSegmentType.Chorus1.ToString(),
                                     withDancePractice: true,
@@ -43,13 +43,13 @@ public partial class ImportSegmentResultsPopup
                                     enforceCooldown: false,
                                     origin: "IMPORT");
 
-            if (noError < 1) // TODO: Enum
+            if ((int)noError < 1)
             {
                 success = noError;
             }
         }
 
-        if (success == 1)
+        if (success == SongRequestResultValue.Success)
         {
             General.ShowToast("Song request submitted. Thank you!");
         }
@@ -58,7 +58,7 @@ public partial class ImportSegmentResultsPopup
             General.ShowToast("Something went wrong. Try again later.");
         }
 
-        Close();
+        await CloseAsync();
     }
 
     private void CloseButtonPressed(object? sender, EventArgs e) => Close();

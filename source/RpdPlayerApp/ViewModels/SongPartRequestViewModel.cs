@@ -1,5 +1,4 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
@@ -25,9 +24,9 @@ internal partial class SongSegmentRequestViewModel : ObservableObject
                                                .Cast<SongSegmentType>()
                                                .ToList();
 
-    internal async Task<int> SubmitFeedback(string feedback, bool isBug, string deviceId, string requestedBy = "Guest")
+    internal async Task<SubmitFeedbackResultValue> SubmitFeedback(string feedback, bool isBug, string deviceId, string requestedBy = "Guest")
     {
-        int success = 1;
+        SubmitFeedbackResultValue success = SubmitFeedbackResultValue.Failure;
         try
         {
             success = await FeedbackRepository.InsertFeedbackAsync(new()

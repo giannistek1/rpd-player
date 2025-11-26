@@ -1,11 +1,12 @@
-﻿using RpdPlayerApp.Repositories;
+﻿using RpdPlayerApp.Enums;
+using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
 
 namespace RpdPlayerApp.Managers;
 
 internal static class SongRequestManager
 {
-    internal static async Task<int> SubmitSongRequest(string title,
+    internal static async Task<SongRequestResultValue> SubmitSongRequest(string title,
                                                       string artist,
                                                       string songPart,
                                                       bool withDancePractice,
@@ -15,7 +16,7 @@ internal static class SongRequestManager
                                                       bool enforceCooldown = true,
                                                       string origin = "REQUEST_PAGE")
     {
-        int success = -1;
+        SongRequestResultValue success = SongRequestResultValue.Failure;
         try
         {
             success = await SongRequestRepository.InsertSongRequestAsync(new()
