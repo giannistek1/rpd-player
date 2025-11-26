@@ -231,7 +231,7 @@ internal static class AudioManager
         AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.None;
 
         // Check if next song is valid.
-        if (AppState.AutoplayMode == AutoplayModeValue.Single || string.IsNullOrEmpty(AppState.NextSongPart.AudioURL))
+        if (AppState.AutoplayMode == AutoplayModeValue.Single || string.IsNullOrWhiteSpace(AppState.NextSongPart.AudioURL))
         {
             OnStop?.Invoke(null, EventArgs.Empty);
             DebugService.Instance.Debug(msg: $"PlayNextSong: NextSongPart.AudioURL is empty");

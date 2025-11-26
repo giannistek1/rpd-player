@@ -106,7 +106,7 @@
             </Grid>
 
             <!-- Action buttons -->
-            <Grid Grid.Row="8" ColumnDefinitions="2*, 2*, 2*, 2*, 2*" Margin="0,8,0,8">
+            <Grid Grid.Row="8" ColumnDefinitions="2*, 2*, 2*, 2*" Margin="0,8,0,8">
 
                 <ImageButton Grid.Column="0" HeightRequest="34" x:Name="RestartAudioImageButton" Pressed="RestartAudioImageButtonPressed">
                     <ImageButton.Source>
@@ -114,26 +114,26 @@
                     </ImageButton.Source>
                 </ImageButton>
 
-                <ImageButton Grid.Column="1" HeightRequest="34" x:Name="VoiceImageButton" Pressed="VoiceButtonPressed">
+                <!--<ImageButton Grid.Column="1" HeightRequest="34" x:Name="VoiceImageButton" Pressed="VoiceButtonPressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Voice_selection_off}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
-                </ImageButton>
+                </ImageButton>-->
 
-                <ImageButton Grid.Column="2" HeightRequest="34" x:Name="TimerImageButton" Pressed="TimerButtonPressed">
+                <ImageButton Grid.Column="1" HeightRequest="34" x:Name="TimerImageButton" Pressed="TimerButtonPressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Timer_off}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
                 </ImageButton>
 
-                <ImageButton Grid.Column="3" HeightRequest="34" x:Name="AutoplayImageButton" Pressed="AutoplayButtonPressed">
+                <ImageButton Grid.Column="2" HeightRequest="34" x:Name="AutoplayImageButton" Pressed="AutoplayButtonPressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Block}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
                 </ImageButton>
 
                 <!-- TODO: Pressed or clicked? -->
-                <ImageButton Grid.Column="4" HeightRequest="34" x:Name="FavoriteImageButton" Pressed="FavoriteButtonPressed">
+                <ImageButton Grid.Column="3" HeightRequest="34" x:Name="FavoriteImageButton" Pressed="FavoriteButtonPressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Favorite}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>

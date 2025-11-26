@@ -143,6 +143,8 @@ public partial class HomeView : ContentView
 
             IsOnlineImage.Source = validConnection ? IconManager.OnlineIcon : IconManager.OfflineIcon;
             IsOnlineLabel.Text = General.HasInternetConnection() ? "Online" : "Offline";
+
+            VoiceAnnouncementsGrid.IsVisible = false;
         }
         catch (Exception ex)
         {
@@ -544,7 +546,8 @@ public partial class HomeView : ContentView
 
         ApplyOtherOptions(RpdSettings!.SelectedOtherOptions);
 
-        OtherOptionsValuesLabel.Text = string.Join(", ", RpdSettings!.SelectedOtherOptions.Where(x => x.Value).Select(x => x.Key));
+        string otherOptions = string.Join(", ", RpdSettings!.SelectedOtherOptions.Where(x => x.Value).Select(x => x.Key));
+        OtherOptionsValuesLabel.Text = string.IsNullOrWhiteSpace(otherOptions) ? "None" : otherOptions;
     }
 
     private async void TimerImageButtonClicked(object? sender, EventArgs e)

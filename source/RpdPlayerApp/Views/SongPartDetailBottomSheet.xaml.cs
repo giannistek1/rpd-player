@@ -41,6 +41,8 @@ public partial class SongPartDetailBottomSheet
 
         AudioProgressSlider.DragStarted += AudioProgressSlider_DragStarted;
         AudioProgressSlider.DragCompleted += AudioProgressSlider_DragCompleted;
+
+        //VoiceImageButton.IsVisible = false;
     }
 
     private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
@@ -60,11 +62,10 @@ public partial class SongPartDetailBottomSheet
     /// <summary> Depends on whenever play mode changes. </summary>
     internal void UpdateIcons()
     {
-        // TODO: Set image to play once song ends.
         PlayToggleImageButton.Source = General.IsOddEnumValue(AppState.CurrentlyPlayingState) ? IconManager.PauseIcon : IconManager.PlayIcon;
 
         // TODO: Expand functionality.
-        VoiceImageButton.Source = AppState.AnnouncementMode > AnnouncementModeValue.Off ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
+        //VoiceImageButton.Source = AppState.AnnouncementMode > AnnouncementModeValue.Off ? IconManager.VoiceIcon : IconManager.VoiceOffIcon;
         TimerImageButton.Source = AppState.CountdownMode switch
         {
             CountdownModeValue.Off => IconManager.TimerOffIcon,
@@ -91,7 +92,7 @@ public partial class SongPartDetailBottomSheet
     /// <summary> Song dependent or theme change. </summary>
     internal void UpdateSongDetails()
     {
-        if (songPart is null || string.IsNullOrEmpty(songPart.Title)) { return; }
+        if (songPart is null || string.IsNullOrWhiteSpace(songPart.Title)) { return; }
 
         if (!string.IsNullOrWhiteSpace(songPart.AlbumURL))
         {
@@ -211,36 +212,36 @@ public partial class SongPartDetailBottomSheet
         AudioManager.SetCountdown();
     }
 
-    private void VoiceButtonPressed(object sender, EventArgs e)
-    {
-        // Cycle through announcement modes.
-        if (AppState.AnnouncementMode < AnnouncementModeValue.AlwaysSongPart)
-        {
-            AppState.AnnouncementMode++;
-        }
-        else
-        {
-            AppState.AnnouncementMode = AnnouncementModeValue.Off; // 0
-        }
+    //private void VoiceButtonPressed(object sender, EventArgs e)
+    //{
+    //    // Cycle through announcement modes.
+    //    if (AppState.AnnouncementMode < AnnouncementModeValue.AlwaysSongPart)
+    //    {
+    //        AppState.AnnouncementMode++;
+    //    }
+    //    else
+    //    {
+    //        AppState.AnnouncementMode = AnnouncementModeValue.Off; // 0
+    //    }
 
-        switch (AppState.AnnouncementMode)
-        {
-            case AnnouncementModeValue.Off: VoiceImageButton.Source = IconManager.OffIcon; break;
-            case AnnouncementModeValue.DancebreakOnly: VoiceImageButton.Source = IconManager.VoiceIcon; break;
-            case AnnouncementModeValue.Specific: VoiceImageButton.Source = IconManager.VoiceIcon; break;
-            case AnnouncementModeValue.Artist: VoiceImageButton.Source = IconManager.VoiceIcon; break;
-            case AnnouncementModeValue.GroupType: VoiceImageButton.Source = IconManager.VoiceIcon; break;
-            case AnnouncementModeValue.AlwaysSongPart: VoiceImageButton.Source = IconManager.VoiceIcon; break;
-        }
+    //    switch (AppState.AnnouncementMode)
+    //    {
+    //        case AnnouncementModeValue.Off: VoiceImageButton.Source = IconManager.OffIcon; break;
+    //        case AnnouncementModeValue.DancebreakOnly: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+    //        case AnnouncementModeValue.Specific: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+    //        case AnnouncementModeValue.Artist: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+    //        case AnnouncementModeValue.GroupType: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+    //        case AnnouncementModeValue.AlwaysSongPart: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+    //    }
 
-        if (AppState.AnnouncementMode > 0)
-        {
-            General.ShowToast("Using voiced announcements.");
-        }
+    //    if (AppState.AnnouncementMode > 0)
+    //    {
+    //        General.ShowToast("Using voiced announcements.");
+    //    }
 
-        // TODO: ??
-        //AudioManager.SetAnnouncement();
-    }
+    //    // TODO: ??
+    //    //AudioManager.SetAnnouncement();
+    //}
 
     private async void FavoriteButtonPressed(object sender, EventArgs e)
     {

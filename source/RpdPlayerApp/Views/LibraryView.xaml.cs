@@ -58,7 +58,7 @@ public partial class LibraryView : ContentView
         InputPromptResult result = await General.ShowInputPromptAsync("Playlist title", "");
         string playlistName = result.Text;
 
-        if (string.IsNullOrEmpty(playlistName))
+        if (string.IsNullOrWhiteSpace(playlistName))
         {
             General.ShowToast($"Please fill in a name");
             return;

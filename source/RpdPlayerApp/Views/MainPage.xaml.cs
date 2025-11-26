@@ -294,7 +294,7 @@ public partial class MainPage
 
     private void OnOpenSongPartDetailBottomSheet(object? sender, EventArgs e)
     {
-        if (AppState.CurrentSongPart is null || string.IsNullOrEmpty(AppState.CurrentSongPart.Title)) { return; }
+        if (AppState.CurrentSongPart is null || string.IsNullOrWhiteSpace(AppState.CurrentSongPart.Title)) { return; }
 
         _detailBottomSheet.songPart = AppState.CurrentSongPart;
         _detailBottomSheet.UpdateSongDetails();

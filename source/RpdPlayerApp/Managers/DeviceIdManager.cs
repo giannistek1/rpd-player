@@ -10,8 +10,7 @@ public static class DeviceIdManager
         try
         {
             var id = await SecureStorage.GetAsync(DEVICE_ID_KEY);
-            if (!string.IsNullOrEmpty(id))
-                return id;
+            if (!string.IsNullOrWhiteSpace(id)) { return id; }
 
             // Generate and save a new one
             id = Guid.NewGuid().ToString();
@@ -21,8 +20,7 @@ public static class DeviceIdManager
         catch (Exception)
         {
             // If SecureStorage fails (e.g. no device lock), fall back to Preferences
-            if (Preferences.ContainsKey(DEVICE_ID_KEY))
-                return Preferences.Get(DEVICE_ID_KEY, string.Empty);
+            if (Preferences.ContainsKey(DEVICE_ID_KEY)) { return Preferences.Get(DEVICE_ID_KEY, string.Empty); }
 
             var id = Guid.NewGuid().ToString();
             Preferences.Set(DEVICE_ID_KEY, id);

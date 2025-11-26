@@ -30,17 +30,29 @@ internal class LibraryViewModel
 
     private async void ShowActions(Playlist? playlist)
     {
-        string action = await Shell.Current.DisplayActionSheet(
-            title: $"Playlist {playlist!.Name}",
-            cancel: "Cancel",
-            destruction: null,
+        var actions = new List<string>
+        {
             "Play",
             "Edit",
             "Clone",
-            "Save to cloud",
-            "Make public",
             "Share",
             "Delete"
+        };
+
+        if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local)
+        {
+            actions.Insert(3, "Save to cloud"); // Insert after "Clone"
+        }
+        else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud)
+        {
+            actions.Insert(3, "Make public"); // Insert after "Clone"
+        }
+
+        string action = await Shell.Current.DisplayActionSheet(
+            title: $"Playlist {playlist!.Name} options",
+            cancel: "Cancel",
+            destruction: null,
+            actions.ToArray()
         );
 
         switch (action)
