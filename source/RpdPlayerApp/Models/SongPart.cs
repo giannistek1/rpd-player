@@ -132,6 +132,11 @@ internal partial class SongPart : ObservableObject
         VideoURL = videoURL;
 
         InitPostProperties();
+
+        if (playlistStartTime is not null && playlistStartTime != TimeSpan.MinValue)
+        {
+            PlaylistStartTime = playlistStartTime.Value;
+        }
     }
 
     internal void InitPostProperties()
