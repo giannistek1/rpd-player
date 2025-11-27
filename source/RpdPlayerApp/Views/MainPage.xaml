@@ -13,7 +13,7 @@
 
     <Grid RowDefinitions="*, Auto">
 
-        <tabView:SfTabView x:Name="MainContainer" TabBarPlacement="Bottom" TabItemTapped="MainContainerTabItemTapped" BackgroundColor="{DynamicResource TabViewBackgroundColor}" IndicatorBackground="{DynamicResource Primary}" IndicatorPlacement="Fill" IndicatorWidthMode="Stretch">
+        <tabView:SfTabView x:Name="MainContainer" TabBarPlacement="Bottom" TabItemTapped="MainContainerTabItemTapped" BackgroundColor="{DynamicResource TabViewBackgroundColor}" IndicatorBackground="{DynamicResource Primary}" IndicatorPlacement="Bottom" IndicatorWidthMode="Stretch">
 
             <tabView:SfTabItem x:Name="HomeTabItem" Header="Home" TextColor="{DynamicResource PrimaryTextColor}" ImagePosition="Left" ImageSource="{FontImageSource FontFamily=MaterialRounded, Glyph={x:Static m:MaterialRounded.Home}, Color={DynamicResource IconColor}}">
                 <tabView:SfTabItem.Content>

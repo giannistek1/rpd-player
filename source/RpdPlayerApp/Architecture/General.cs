@@ -83,12 +83,78 @@ internal static class General
 
     internal static string GenerateRandomName()
     {
-        string[] adjectives = { "Golden", "Electric", "Silent", "Crimson", "Rapid", "Midnight", "Wild", "Neon", "Shadow", "Frozen" };
-        string[] nouns = { "Tiger", "Falcon", "Dream", "Storm", "Echo", "River", "Flame", "Rider", "Pulse", "Drift" };
+        string[] adjectives = {
+            "Soft",
+            "Candy",
+            "Bubblegum",
+            "Seoulful",
+            "Pink",
+            "Power",
+            "Neon",
+            "StageReady",
+            "Sweet",
+            "Moonlit",
+            "Dreamy",
+            "Fierce",
+            "Ultimate",
+            "Midnight",
+            "Shadowed",
+            "Velvet",
+            "Dark",
+            "Mellow"
+        };
+
+        string[] kpopadjectives = {
+            "Idol",
+            "Seoul",
+            "BiasWrecker",
+            "Comeback",
+            "Maknae",
+            "Aegyo",
+            "Neon",
+            "Hallyu",
+            "Rookie",
+            "Legendary",
+            "TripleCrown",
+            "AllKill",
+            "Fanchant",
+            "Sassy",
+            "Charisma",
+            "Daebak",
+            "Dreamy",
+            "Chill",
+            "HighNote",
+            "Viral",
+            "DanceLine",
+            "VocalLine"
+        };
+
+        string[] nouns =
+        {
+            "Seoul",
+            "Glow",
+            "Vibes",
+            "Beats",
+            "Daydreams",
+            "Galaxy",
+            "Surge",
+            "Bangers",
+            "Dynasty",
+            "Serenade",
+            "Sessions",
+            "Anthems",
+            "Royalty",
+            "Comeback",
+            "Waves",
+            "Playlist",
+            "Night",
+            "Echoes",
+            "Pompompurin"
+        };
 
         var rng = Rng;
 
-        string adjective = adjectives[rng.Next(adjectives.Length)];
+        string adjective = kpopadjectives[rng.Next(kpopadjectives.Length)];
         string noun = nouns[rng.Next(nouns.Length)];
         int number = rng.Next(10, 100); // random two-digit number (10–99)
 

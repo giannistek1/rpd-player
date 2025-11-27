@@ -32,6 +32,10 @@ public partial class HomeView : ContentView
         AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;
         SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
 
+
+        SaveTemplateImageButton.Clicked += SaveTemplateImageButtonClicked;
+        SearchByCategoryButton.Clicked += SearchByCategoryButtonClicked;
+
         TimerImageButton.Clicked += TimerImageButtonClicked;
         DurationImageButton.Clicked += DurationImageButtonClicked;
         VoiceAnnouncementImageButton.Clicked += VoiceAnnouncementImageButtonClicked;
@@ -249,12 +253,12 @@ public partial class HomeView : ContentView
 
     private void InitializeHomeModeSegmentedControl()
     {
-        HomeModeSegmentedControl.ItemsSource = new[] { "Start RPD", "Generate playlist" };
+        HomeModeSegmentedControl.ItemsSource = new[] { "RPD", "Playlist" };
         HomeModeSegmentedControl.SelectedIndex = 0;
         HomeModeSegmentedControl.SelectionChanged += HomeModeSegmentedControlSelectionChanged;
 
-        StartModeButton.Text = "Start RPD";
-        StartModeButton.ImageSource = IconManager.PlayIcon;
+        StartModeButton.Text = "Start";
+        //StartModeButton.ImageSource = IconManager.PlayIcon;
         StartModeButton.Clicked += StartModeButtonClicked;
     }
 
@@ -775,14 +779,14 @@ public partial class HomeView : ContentView
 
     private void CreatePlaylistButtonClicked(object sender, EventArgs e) => CreatePlaylistButtonPressed?.Invoke(sender, e);
 
-    private void SearchByCategoryButtonClicked(object sender, EventArgs e) => ShowCategories?.Invoke(sender, e);
+    private void SearchByCategoryButtonClicked(object? sender, EventArgs e) => ShowCategories?.Invoke(sender, e);
 
     private void HomeModeSegmentedControlSelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
         RpdSettings!.UsingGeneratePlaylist = (HomeModeSegmentedControl.SelectedIndex == 1);
 
-        StartModeButton.Text = RpdSettings.UsingGeneratePlaylist ? "Generate playlist" : "Start RPD";
-        StartModeButton.ImageSource = RpdSettings.UsingGeneratePlaylist ? IconManager.SparkleIcon : IconManager.PlayIcon;
+        StartModeButton.Text = RpdSettings.UsingGeneratePlaylist ? "Generate" : "Start";
+        //StartModeButton.ImageSource = RpdSettings.UsingGeneratePlaylist ? IconManager.SparkleIcon : IconManager.PlayIcon;
 
         DurationGrid.IsVisible = RpdSettings!.UsingGeneratePlaylist;
     }
@@ -889,7 +893,7 @@ public partial class HomeView : ContentView
         AudioManager.ChangeAndStartSong(songPart);
     }
 
-    private void SaveTemplateImageButtonClicked(object sender, EventArgs e)
+    private void SaveTemplateImageButtonClicked(object? sender, EventArgs e)
     {
         Preferences.Set(CommonSettings.HOME_TIMER, (int)RpdSettings!.CountdownMode);
         Preferences.Set(CommonSettings.HOME_VOICES, (int)RpdSettings!.AnnouncementMode);

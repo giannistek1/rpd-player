@@ -72,51 +72,62 @@
 
         </Grid>
 
-            <!-- Buttons (News) -->
-            <Grid Grid.Row="1" ColumnDefinitions="*, auto" ColumnSpacing="6" Margin="8,4,8,6">
+        <!-- Utilty buttons -->
+        <Grid Grid.Row="1" ColumnDefinitions="auto, auto, *, auto" ColumnSpacing="6" Margin="8,4,8,6">
 
-                <Label Grid.Column="0"/>
+            <Button x:Name="SearchByCategoryButton" Padding="4,0,4,0" HeightRequest="40" CornerRadius="8" HorizontalOptions="Start" 
+                    Text="Categories" FontSize="12" LineBreakMode="WordWrap" />
 
-                <sfcore:SfBadgeView Grid.Column="1" x:Name="NewsBadgeView" WidthRequest="44" HeightRequest="44">
-                    <sfcore:SfBadgeView.Content>
+            <Button Grid.Column="1" x:Name="SaveTemplateImageButton" Padding="4,0,4,0" HeightRequest="40" CornerRadius="8" HorizontalOptions="Start"
+                    Text="Save filter" FontSize="12" LineBreakMode="WordWrap" />
 
-                        <ImageButton x:Name="NewsButton" WidthRequest="44" HeightRequest="44" Padding="0,0,0,0" Clicked="NewsImageButton_Pressed">
-                            <ImageButton.Source>
-                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Newspaper}" Color="{DynamicResource IconColor}" />
-                            </ImageButton.Source>
-                        </ImageButton>
-                        
-                    </sfcore:SfBadgeView.Content>
+            <sfcore:SfBadgeView Grid.Column="3" x:Name="NewsBadgeView" WidthRequest="44" HeightRequest="44">
+                <sfcore:SfBadgeView.Content>
 
-                    <sfcore:SfBadgeView.BadgeSettings>
-                        <sfcore:BadgeSettings Type="None" Background="{DynamicResource Primary}" />
-                    </sfcore:SfBadgeView.BadgeSettings>
-                </sfcore:SfBadgeView>
+                    <ImageButton x:Name="NewsButton" WidthRequest="44" HeightRequest="44" Padding="0,0,0,0" Clicked="NewsImageButton_Pressed">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Newspaper}" Color="{DynamicResource IconColor}" />
+                        </ImageButton.Source>
+                    </ImageButton>
 
-            </Grid>
+                </sfcore:SfBadgeView.Content>
 
-            <!-- Home mode -->
-            <buttons:SfSegmentedControl Grid.Row="2" x:Name="HomeModeSegmentedControl" SegmentWidth="150" Margin="0,0,0,8">
+                <sfcore:SfBadgeView.BadgeSettings>
+                    <sfcore:BadgeSettings Type="None" Background="{DynamicResource Primary}" />
+                </sfcore:SfBadgeView.BadgeSettings>
+            </sfcore:SfBadgeView>
+            
 
-                <!-- Non-selection -->
-                <buttons:SfSegmentedControl.TextStyle>
-                    <buttons:SegmentTextStyle TextColor="{DynamicResource PrimaryTextColor}" FontSize="16"/>
-                </buttons:SfSegmentedControl.TextStyle>
+        </Grid>
 
-                <!-- Selection -->
-                <buttons:SfSegmentedControl.SelectionIndicatorSettings>
-                    <buttons:SelectionIndicatorSettings  SelectionIndicatorPlacement="Fill" Background="{DynamicResource SecondaryButton}" TextColor="{DynamicResource PrimaryTextColor}"/>
-                </buttons:SfSegmentedControl.SelectionIndicatorSettings>
+        <!-- Home mode -->
+        <buttons:SfSegmentedControl Grid.Row="2" x:Name="HomeModeSegmentedControl" SegmentWidth="150" Margin="0,0,0,8">
 
-            </buttons:SfSegmentedControl>
+            <!-- Non-selection -->
+            <buttons:SfSegmentedControl.TextStyle>
+                <buttons:SegmentTextStyle TextColor="{DynamicResource PrimaryTextColor}" FontSize="16"/>
+            </buttons:SfSegmentedControl.TextStyle>
 
-            <!-- Settings -->
+            <!-- Selection -->
+            <buttons:SfSegmentedControl.SelectionIndicatorSettings>
+                <buttons:SelectionIndicatorSettings  SelectionIndicatorPlacement="Fill" Background="{DynamicResource SecondaryButton}" TextColor="{DynamicResource PrimaryTextColor}"/>
+            </buttons:SfSegmentedControl.SelectionIndicatorSettings>
+
+        </buttons:SfSegmentedControl>
+
+        <!-- Settings -->
         <ScrollView Grid.Row="3" Orientation="Vertical" VerticalOptions="FillAndExpand">
 
-            <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto">
+            <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto">
 
+                <Grid ColumnDefinitions="*,*" Padding="16,0,16,0" >
+
+                    <Label Grid.Row="0" x:Name="FiltersLabel" Text="Filters" Style="{StaticResource H1}" Margin="0,0,0,8" VerticalOptions="Center" FontAttributes="Bold"/>
+
+                </Grid>
+                
                 <!-- Duration -->
-                <Grid Grid.Row="0" x:Name="DurationGrid" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="1" x:Name="DurationGrid" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
                     <Grid ColumnDefinitions="20, *, 24">
 
@@ -129,7 +140,7 @@
                         <!-- Text middle part -->
                         <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
 
-                            <Label Text="Duration (hours)" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+                            <Label Text="Duration" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
 
                             <Label Grid.Row="1" x:Name="DurationValueLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
 
@@ -146,7 +157,7 @@
                 </Grid>
 
                 <!-- Timer -->
-                <Grid Grid.Row="1" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="2" RowDefinitions="auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
                     <Grid ColumnDefinitions="20, *, 24">
 
@@ -176,7 +187,7 @@
                 </Grid>
 
                 <!-- Voice announcements -->
-                <Grid Grid.Row="2" x:Name="VoiceAnnouncementsGrid" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="3" x:Name="VoiceAnnouncementsGrid" RowDefinitions="auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
                     <Grid ColumnDefinitions="20, *, 24">
 
@@ -206,7 +217,7 @@
                 </Grid>
 
                 <!-- Grouptypes -->
-                <Grid Grid.Row="3" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="4" RowDefinitions="auto,auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
                     <Grid ColumnDefinitions="20, *, 24">
 
@@ -236,7 +247,7 @@
                 </Grid>
 
                 <!-- Genres -->
-                <Grid Grid.Row="4" RowDefinitions="auto,auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="5" RowDefinitions="auto,auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
                     <Grid ColumnDefinitions="20, *, 24">
 
@@ -266,7 +277,7 @@
                 </Grid>
 
                 <!-- Generations (only for k-pop) -->
-                <Grid Grid.Row="5" x:Name="GenerationsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="6" x:Name="GenerationsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
                     <Grid ColumnDefinitions="20, *, 24">
 
@@ -296,7 +307,7 @@
                 </Grid>
 
                 <!-- Companies (only for k-pop) -->
-                <Grid Grid.Row="6" x:Name="CompaniesGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="7" x:Name="CompaniesGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
                     <Grid ColumnDefinitions="20, *, 24">
 
@@ -326,7 +337,7 @@
                 </Grid>
 
                 <!-- Years -->
-                <Grid Grid.Row="7" x:Name="YearsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+                <Grid Grid.Row="8" x:Name="YearsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
                     <Grid ColumnDefinitions="20, *, 24">
 
@@ -356,7 +367,7 @@
                 </Grid>
 
                 <!-- Other options -->
-                <Grid Grid.Row="8" RowDefinitions="auto, auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
+                <Grid Grid.Row="9" RowDefinitions="auto, auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
                     <Grid ColumnDefinitions="20, *, 24">
 
@@ -411,27 +422,9 @@
         </Grid>
 
         <!-- Action buttons -->
-        <Grid Grid.Row="5" ColumnDefinitions="4*, 1*, 4*" ColumnSpacing="12" Margin="16,0,16,4">
+        <Grid Grid.Row="5" ColumnDefinitions="*" ColumnSpacing="12" Margin="16,0,16,4">
 
-            <Button Grid.Column="0" x:Name="SearchByCategoryButton" Padding="0,0,0,0" HeightRequest="40" CornerRadius="8" 
-                    Clicked="SearchByCategoryButtonClicked" Text="Categories" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
-                <Button.ImageSource>
-                    <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Manage_search}" Color="{DynamicResource IconColor}" />
-                </Button.ImageSource>
-            </Button>
-
-            <Border Grid.Column="1" x:Name="SaveTemplateButtonBorder" HeightRequest="40" WidthRequest="40" StrokeShape="RoundRectangle 8" 
-                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
-
-                <ImageButton x:Name="SaveTemplateImageButton" HeightRequest="40" Clicked="SaveTemplateImageButtonClicked" Padding="4">
-                    <ImageButton.Source>
-                        <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Save}" Color="{DynamicResource IconColor}" />
-                    </ImageButton.Source>
-                </ImageButton>
-
-            </Border>
-            
-            <Button Grid.Column="2" x:Name="StartModeButton" HeightRequest="40" Padding="0,4,0,4" ContentLayout="Left, 10" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" FontAttributes="Bold" />
+            <Button Grid.Column="0" x:Name="StartModeButton" HeightRequest="40" Padding="0,4,0,4" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" FontAttributes="Bold" />
         
         </Grid>
 
