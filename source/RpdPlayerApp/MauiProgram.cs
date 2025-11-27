@@ -22,7 +22,7 @@ namespace RpdPlayerApp
 #if ANDROID
             ImageHandler.Mapper.PrependToMapping(nameof(Microsoft.Maui.IImage.Source), (handler, view) => handler.PlatformView?.Clear());
 #endif
-            /* Removes underline of Android control Entry */
+            /* Removes underline of Android Entry control */
             Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(Entry), (handler, view) =>
             {
 #if ANDROID
@@ -30,8 +30,16 @@ namespace RpdPlayerApp
 #endif
             });
 
-            /* Removes underline of Android control Editor */
+            /* Removes underline of Android Editor control */
             Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping(nameof(Editor), (handler, view) =>
+            {
+#if ANDROID
+                handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#endif
+            });
+
+            /* Removes underline of Android Picker control */
+            Microsoft.Maui.Handlers.PickerHandler.Mapper.AppendToMapping(nameof(Picker), (handler, view) =>
             {
 #if ANDROID
                 handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);

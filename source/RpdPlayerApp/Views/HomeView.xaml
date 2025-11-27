@@ -114,7 +114,7 @@
         <ScrollView Grid.Row="3" Orientation="Vertical" VerticalOptions="FillAndExpand">
 
             <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto">
-                    
+
                 <!-- Duration -->
                 <Grid Grid.Row="0" x:Name="DurationGrid" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
@@ -390,39 +390,37 @@
         </ScrollView>
             
         <!-- Stats -->
-        <Grid Grid.Row="4" ColumnDefinitions="auto,auto, auto,auto" Margin="0,0,0,2" ColumnSpacing="8" Padding="16,0,0,0" >
+        <Grid Grid.Row="4" ColumnDefinitions="auto,auto, auto,auto" Margin="0,0,0,2" ColumnSpacing="8" Padding="16,0,16,0" HorizontalOptions="End">
 
-            <Image Grid.Column="0" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+            <Image Grid.Column="0" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="End">
                 <Image.Source>
                     <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
                 </Image.Source>
             </Image>
 
-            <Label Grid.Column="1" x:Name="RpdSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" />
+            <Label Grid.Column="1" x:Name="RpdSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="Center" />
 
-            <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+            <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="End">
                 <Image.Source>
                     <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
                 </Image.Source>
             </Image>
 
-            <Label Grid.Column="3" x:Name="RpdArtistSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" />
+            <Label Grid.Column="3" x:Name="RpdArtistSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="Center" />
 
         </Grid>
 
         <!-- Action buttons -->
-        <Grid Grid.Row="5" ColumnDefinitions="4*, 4*, 1*" ColumnSpacing="8" Margin="0,0,8,4">
+        <Grid Grid.Row="5" ColumnDefinitions="4*, 1*, 4*" ColumnSpacing="12" Margin="16,0,16,4">
 
-            <Button Grid.Column="0" x:Name="StartModeButton" HeightRequest="40" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" Margin="16,0,0,0" FontAttributes="Bold" />
-
-            <Button Grid.Column="1" x:Name="SearchByCategoryButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
+            <Button Grid.Column="0" x:Name="SearchByCategoryButton" Padding="0,0,0,0" HeightRequest="40" CornerRadius="8" 
                     Clicked="SearchByCategoryButtonClicked" Text="Categories" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Manage_search}" Color="{DynamicResource IconColor}" />
                 </Button.ImageSource>
             </Button>
 
-            <Border Grid.Column="2" x:Name="SaveTemplateButtonBorder" HeightRequest="40"  WidthRequest="40" StrokeShape="RoundRectangle 8" 
+            <Border Grid.Column="1" x:Name="SaveTemplateButtonBorder" HeightRequest="40" WidthRequest="40" StrokeShape="RoundRectangle 8" 
                         Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
                 <ImageButton x:Name="SaveTemplateImageButton" HeightRequest="40" Clicked="SaveTemplateImageButtonClicked" Padding="4">
@@ -433,6 +431,8 @@
 
             </Border>
             
+            <Button Grid.Column="2" x:Name="StartModeButton" HeightRequest="40" Padding="0,4,0,4" ContentLayout="Left, 10" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" FontAttributes="Bold" />
+        
         </Grid>
 
     </Grid>

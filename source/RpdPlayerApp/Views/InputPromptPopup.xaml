@@ -7,8 +7,16 @@
     <VerticalStackLayout Padding="20" Spacing="10" BackgroundColor="{DynamicResource BackgroundColor}">
         
         <Label x:Name="TitleLabel" />
-        
-        <Entry x:Name="InputEntry" />
+
+        <Border Grid.Row="2" x:Name="InputEntryBorder" HeightRequest="60" Padding="4,0,4,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+
+            <Grid VerticalOptions="Center">
+
+                <Entry x:Name="InputEntry" PlaceholderColor="{DynamicResource PlaceholderTextColor}" TextColor="{DynamicResource PrimaryTextColor}"/>
+
+            </Grid>
+
+        </Border>
 
         <HorizontalStackLayout>
             

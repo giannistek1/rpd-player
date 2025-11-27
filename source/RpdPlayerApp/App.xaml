@@ -228,11 +228,13 @@
                 <Setter Property="LineHeight" Value="2" />
             </Style>
 
+            <!-- Smaller typography for context -->
             <Style TargetType="Label" x:Key="Sideinfo">
                 <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}" />
                 <Setter Property="FontSize" Value="10" />
             </Style>
 
+            <!-- Smallest typography in gray, for small, not very important, summarized statistics -->
             <Style TargetType="Label" x:Key="SideinfoStats">
                 <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}" />
                 <Setter Property="FontSize" Value="8" />

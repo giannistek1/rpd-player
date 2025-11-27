@@ -26,18 +26,19 @@ public partial class SettingsPage : ContentPage
         //AnalyticsSwitch.IsToggled = true;
 
         // Load settings.
+        if (Preferences.ContainsKey(CommonSettings.USERNAME)) { UsernameValueLabel.Text = Preferences.Get(key: CommonSettings.USERNAME, defaultValue: Constants.DEFAULT_USERNAME); }
+        else { UsernameValueLabel.Text = Constants.DEFAULT_USERNAME; }
+
         //if (Preferences.ContainsKey(CommonSettings.USE_ANALYTICS)) { AnalyticsSwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_ANALYTICS, defaultValue: true); }
         if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC)) { StartRpdAutomaticSwitch.IsToggled = Preferences.Get(key: CommonSettings.START_RPD_AUTOMATIC, defaultValue: true); }
         if (Preferences.ContainsKey(CommonSettings.USE_NONCHOREO_SONGS)) { NonChoreographySwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_NONCHOREO_SONGS, defaultValue: true); }
         if (Preferences.ContainsKey(CommonSettings.DEBUG_MODE)) { DebugSwitch.IsToggled = Preferences.Get(key: CommonSettings.DEBUG_MODE, defaultValue: false); }
-        if (Preferences.ContainsKey(CommonSettings.USERNAME)) { UsernameEntry.Text = Preferences.Get(key: CommonSettings.USERNAME, defaultValue: Constants.DEFAULT_USERNAME); }
-        else { UsernameEntry.Text = Constants.DEFAULT_USERNAME; }
 
         //AnalyticsSwitch.Toggled += Switch_Toggled;
         StartRpdAutomaticSwitch.Toggled += SwitchToggled;
         NonChoreographySwitch.Toggled += SwitchToggled;
         DebugSwitch.Toggled += SwitchToggled;
-        UsernameEntry.TextChanged += UsernameEntryTextChanged;
+        UsernameImageButton.Clicked += UsernameImageButtonClicked;
     }
 
     private void OnPageAppearing(object? sender, EventArgs e)
@@ -91,11 +92,14 @@ public partial class SettingsPage : ContentPage
         HomeView!.UpdateNewsBadge(differentNewSongs);
     }
 
-    private void UsernameEntryTextChanged(object? sender, TextChangedEventArgs e)
-    {
-        if (UsernameEntry.Text.IsNullOrWhiteSpace() && UsernameEntry.Text.Length < 3) { return; }
 
-        AppState.Username = UsernameEntry.Text!.Trim();
+    private async void UsernameImageButtonClicked(object? sender, EventArgs e)
+    {
+        var result = await General.ShowInputPromptAsync("Username (3-20)", UsernameValueLabel.Text, minLength: 3, maxLength: 20);
+        if (result.IsCanceled || string.IsNullOrWhiteSpace(result.Text)) { return; }
+
+        UsernameValueLabel.Text = result.Text;
+        AppState.Username = result.Text;
         Preferences.Set(CommonSettings.USERNAME, AppState.Username);
 
         CacheState.IsDirty = true;

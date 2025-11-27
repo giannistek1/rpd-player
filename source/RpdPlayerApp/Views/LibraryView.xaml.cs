@@ -55,7 +55,7 @@ public partial class LibraryView : ContentView
 
     internal async void NewPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        InputPromptResult result = await General.ShowInputPromptAsync("Playlist title", "");
+        InputPromptResult result = await General.ShowInputPromptAsync("Playlist title", "", maxLength: 26);
         string playlistName = result.Text;
 
         if (string.IsNullOrWhiteSpace(playlistName))

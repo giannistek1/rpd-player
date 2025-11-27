@@ -224,7 +224,7 @@ public partial class HomeView : ContentView
     /// <summary> Fills in companies. </summary>
     private void InitializeCompanies()
     {
-        if (ArtistRepository.Artists is null || ArtistRepository.Artists.Count == 0) { DebugService.Instance.Debug("Initialize Companies has no artists."); return; }
+        if (ArtistRepository.Artists is null || ArtistRepository.Artists.Count == 0) { DebugService.Instance.Warn("Initialize Companies has no artists."); return; }
 
         Constants.AllCompanies = ArtistRepository.Artists.Select(artist => artist.Company).Distinct().ToList();
         var mainCompanies = Constants.YGCompanies.Concat(Constants.HybeCompanies)
@@ -323,7 +323,7 @@ public partial class HomeView : ContentView
         }
         else
         {
-            grouptypes = string.Join(", ", selectedGrouptypes);
+            grouptypes = string.Join(" • ", selectedGrouptypes);
         }
 
         GrouptypesValuesLabel.Text = grouptypes;
@@ -355,11 +355,11 @@ public partial class HomeView : ContentView
         }
         else if (selectedGenres.Count <= 3)
         {
-            genres = string.Join(", ", selectedGenres);
+            genres = string.Join(" • ", selectedGenres);
         }
         else
         {
-            genres = string.Join(", ", selectedGenres.Take(3)) + ", ...";
+            genres = string.Join(" • ", selectedGenres.Take(3)) + ", ...";
         }
 
         GenresValuesLabel.Text = genres;
@@ -395,11 +395,11 @@ public partial class HomeView : ContentView
         }
         else if (selectedGens.Count <= 3)
         {
-            gens = string.Join(", ", selectedGens);
+            gens = string.Join(" • ", selectedGens);
         }
         else
         {
-            gens = string.Join(", ", selectedGens.Take(3)) + ", ...";
+            gens = string.Join(" • ", selectedGens.Take(3)) + ", ...";
         }
 
         GenerationsValuesLabel.Text = gens;
@@ -446,11 +446,11 @@ public partial class HomeView : ContentView
         }
         else if (selectedCompanies.Count <= 3)
         {
-            companies = string.Join(", ", selectedCompanies);
+            companies = string.Join(" • ", selectedCompanies);
         }
         else
         {
-            companies = string.Join(", ", selectedCompanies.Take(3)) + ", ...";
+            companies = string.Join(" • ", selectedCompanies.Take(3)) + ", ...";
         }
 
         CompaniesValuesLabel.Text = companies;
@@ -514,11 +514,11 @@ public partial class HomeView : ContentView
         }
         else if (selectedYears.Count <= 3)
         {
-            years = string.Join(", ", selectedYears);
+            years = string.Join(" • ", selectedYears);
         }
         else
         {
-            years = string.Join(", ", selectedYears.Take(3)) + $", (+{selectedYears.Count - 3} more)";
+            years = string.Join(" • ", selectedYears.Take(3)) + $", (+{selectedYears.Count - 3} more)";
         }
         YearsValuesLabel.Text = years;
     }
@@ -542,11 +542,9 @@ public partial class HomeView : ContentView
             }
         }
 
-        DebugService.Instance.Debug(string.Join(", ", RpdSettings!.SelectedOtherOptions.Select(x => $"{x.Key}: {x.Value}")));
-
         ApplyOtherOptions(RpdSettings!.SelectedOtherOptions);
 
-        string otherOptions = string.Join(", ", RpdSettings!.SelectedOtherOptions.Where(x => x.Value).Select(x => x.Key));
+        string otherOptions = string.Join(" • ", RpdSettings!.SelectedOtherOptions.Where(x => x.Value).Select(x => x.Key));
         OtherOptionsValuesLabel.Text = string.IsNullOrWhiteSpace(otherOptions) ? "None" : otherOptions;
     }
 
@@ -716,7 +714,7 @@ public partial class HomeView : ContentView
         if (result is null) { return; }
         if (result is Dictionary<string, bool> otherOptionsChips)
         {
-            RpdSettings?.DetermineOtherOptions(otherOptionsChips);
+            RpdSettings.SelectedOtherOptions = otherOptionsChips;
         }
 
         UpdateOtherOptions();

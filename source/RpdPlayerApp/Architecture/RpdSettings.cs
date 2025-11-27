@@ -146,12 +146,6 @@ internal class RpdSettings
         }
     }
 
-
-    internal void DetermineOtherOptions(Dictionary<string, bool> otherOptionsChipGroup)
-    {
-        SelectedOtherOptions = otherOptionsChipGroup;
-    }
-
     internal static string GetCountdownModeText(CountdownModeValue mode) => mode switch
     {
         CountdownModeValue.Off => "Off",

@@ -166,7 +166,7 @@ public partial class CurrentPlaylistView : ContentView
     private async void ImportPlaylistImageButtonClicked(object sender, EventArgs e)
     {
         Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
-        InputPromptResult result = await General.ShowInputAreaPrompt("Paste your song list (max 15000 char):", $"Timestamps get filtered out.{Environment.NewLine}Valid examples below:{Environment.NewLine}{Environment.NewLine}ATEEZ - Answer{Environment.NewLine}Fancy - TWICE{Environment.NewLine}01:15:34 ATEEZ - Ice on my teeth", maxLength: 15000);
+        InputPromptResult result = await General.ShowInputAreaPromptAsync("Paste your song list (max 15000 char):", $"Timestamps get filtered out.{Environment.NewLine}Valid examples below:{Environment.NewLine}{Environment.NewLine}ATEEZ - Answer{Environment.NewLine}Fancy - TWICE{Environment.NewLine}01:15:34 ATEEZ - Ice on my teeth", maxLength: 15000);
 
         if (result.IsCanceled || string.IsNullOrWhiteSpace(result.Text)) { return; }
 

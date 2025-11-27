@@ -13,65 +13,113 @@
 
     <ScrollView>
 
-        <Grid RowDefinitions="30, 30, 50, 60, 60, 44, 40, 40, 40, 40" Padding="8,0,8,0">
+        <Grid RowDefinitions="30, auto, auto, auto, auto, auto, auto, auto" Padding="8,0,8,0">
 
-            <Grid Grid.Row="0" ColumnDefinitions="*, *">
-                <Label Grid.Column="0" Text="Total activity time" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="Center" HorizontalOptions="Start" />
-                <Label Grid.Column="1" x:Name="TotalActivityTimeLabel" TextColor="{DynamicResource SecondaryTextColor}" Text="" VerticalOptions="Center" HorizontalOptions="Start" />
+            <Grid Grid.Row="0" ColumnDefinitions="*, *" Margin="0,0,0,4">
+                <Label Grid.Column="0" Text="Total activity time" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="Center" HorizontalOptions="End" />
+                <Label Grid.Column="1" x:Name="TotalActivityTimeLabel" TextColor="{DynamicResource SecondaryTextColor}" Text="" VerticalOptions="Center" HorizontalOptions="End" />
             </Grid>
 
             <!-- Username -->
-            <Label Grid.Row="1" Text="Username (3-20)" VerticalOptions="Center" HorizontalOptions="Start" />
+            <Grid Grid.Row="1" x:Name="UsernameGrid" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-            <Border Grid.Row="2" x:Name="UsernameEntryBorder" HeightRequest="60" Margin="8,8,10,0" Padding="0,0,0,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+                <Grid ColumnDefinitions="24, *, 24">
 
-                <Grid VerticalOptions="Center">
+                    <Image VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Person}" Color="{DynamicResource SecondaryIconColor}" />
+                        </Image.Source>
+                    </Image>
 
-                    <Entry x:Name="UsernameEntry" Placeholder="Guest" PlaceholderColor="{DynamicResource PlaceholderTextColor}" MaxLength="20" FontSize="14" TextColor="{DynamicResource PrimaryTextColor}" MinimumWidthRequest="160"/>
+                    <!-- Text middle part -->
+                    <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                        <Label Text="Username" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                        <Label Grid.Row="1" x:Name="UsernameValueLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                    </Grid>
+
+                    <ImageButton Grid.Column="2" x:Name="UsernameImageButton" VerticalOptions="Center">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Edit}" Color="{DynamicResource IconColor}" />
+                        </ImageButton.Source>
+                    </ImageButton>
 
                 </Grid>
 
-            </Border>
+            </Grid>
 
             <!-- Master volume -->
-            <Label Grid.Row="3" Text="Master volume" VerticalOptions="Center" HorizontalOptions="Start" />
+            <Grid Grid.Row="2" x:Name="MasterVolumeGrid" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-            <Grid Grid.Row="4" ColumnDefinitions="1*, 7*">
-            
-                <Image Grid.Column="0" x:Name="VolumeImage" HeightRequest="40" HorizontalOptions="Center">
-                    <Image.Source>
-                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Volume_up}" Color="{DynamicResource IconColor}" />
-                    </Image.Source>
-                </Image>
+                <Grid ColumnDefinitions="24, *">
 
-                <sliders:SfSlider Grid.Column="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSliderValueChanged" Minimum="0" Interval="50" Maximum="100">
+                    <Image VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Volume_up}" Color="{DynamicResource SecondaryIconColor}" />
+                        </Image.Source>
+                    </Image>
 
-                    <sliders:SfSlider.TrackStyle>
-                        <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}" InactiveFill="LightGray" />
-                    </sliders:SfSlider.TrackStyle>
+                    <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="4,0,0,0">
 
-                    <sliders:SfSlider.ThumbStyle>
-                        <sliders:SliderThumbStyle Fill="{DynamicResource Primary}" />
-                    </sliders:SfSlider.ThumbStyle>
+                        <Label Padding="8,0,0,0" Text="Master Volume" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
 
-                </sliders:SfSlider>
+                        <sliders:SfSlider Grid.Row="1" x:Name="MasterVolumeSlider" VerticalOptions="Center" ValueChanged="MasterVolumeSliderValueChanged" Minimum="0" Interval="50" Maximum="100">
+
+                            <sliders:SfSlider.TrackStyle>
+                                <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}" InactiveFill="LightGray" />
+                            </sliders:SfSlider.TrackStyle>
+
+                            <sliders:SfSlider.ThumbStyle>
+                                <sliders:SliderThumbStyle Fill="{DynamicResource Primary}" />
+                            </sliders:SfSlider.ThumbStyle>
+
+                        </sliders:SfSlider>
+
+                    </Grid>
+
+                </Grid>
 
             </Grid>
 
             <!-- Theme -->
-            <Grid Grid.Row="5" ColumnDefinitions="2*, 6*">
-                
-                <Label Grid.Column="0" Text="Theme " VerticalOptions="Center" HorizontalOptions="Start" />
+            <Grid Grid.Row="3" x:Name="ThemeGrid" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
 
-                <Picker Grid.Column="1" x:Name="ThemePicker" Margin="0,0,8,0"
-                        ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" ItemDisplayBinding="{Binding Name}"
-                        SelectedIndexChanged="ThemePickerSelectedIndexChanged"/>
-                
+                <Grid ColumnDefinitions="24, *">
+
+                    <Image VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Palette}" Color="{DynamicResource SecondaryIconColor}" />
+                        </Image.Source>
+                    </Image>
+                    
+                    <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                        <Label Text="Theme" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+
+                        <Border Grid.Row="2" x:Name="InputEntryBorder" HeightRequest="60" Padding="4,0,4,0" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+
+                            <Grid VerticalOptions="Center">
+
+                                <Picker Grid.Row="1" x:Name="ThemePicker" Margin="0,0,8,0"
+                                        ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" ItemDisplayBinding="{Binding Name}"
+                                        SelectedIndexChanged="ThemePickerSelectedIndexChanged" VerticalOptions="Center"/>
+
+                            </Grid>
+
+                        </Border>
+
+                    </Grid>
+
+                </Grid>
+
             </Grid>
 
             <!-- Options -->
             <!-- Non-Choreo songs -->
-            <Grid Grid.Row="6" ColumnDefinitions="*,*">
+            <Grid Grid.Row="4" ColumnDefinitions="*,*">
 
                 <Label Grid.Column="0" Text="Non-choreo songs" VerticalOptions="Center" HorizontalOptions="Start" />
 
@@ -80,7 +128,7 @@
             </Grid>
 
             <!-- Start rpd automatic -->
-            <Grid Grid.Row="7" ColumnDefinitions="*,*">
+            <Grid Grid.Row="5" ColumnDefinitions="*,*">
 
                 <Label Grid.Column="0" Text="Start RPD automatic (experimental)" VerticalOptions="Center" HorizontalOptions="Start" />
 
@@ -98,7 +146,7 @@
             </Grid>-->
 
             <!-- Debug stats -->
-            <Grid Grid.Row="8" ColumnDefinitions="*,*">
+            <Grid Grid.Row="6" ColumnDefinitions="*,*">
 
                 <Label Grid.Column="0" Text="Show debug info" VerticalOptions="Center" HorizontalOptions="Start" />
 
@@ -106,7 +154,7 @@
 
             </Grid>
 
-            <Button Grid.Row="9" x:Name="TestNewsButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
+            <Button Grid.Row="7" x:Name="TestNewsButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
                     Clicked="TestNewsButtonClicked" Text="Test news" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Newspaper}" Color="{DynamicResource IconColor}" />

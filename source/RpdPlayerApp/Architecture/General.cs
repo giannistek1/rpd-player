@@ -58,9 +58,9 @@ internal static class General
     internal static void ShowToast(string message) => Toast.Make(message, CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
 
     /// <summary> Ask for user input. </summary>
-    internal async static Task<InputPromptResult> ShowInputPromptAsync(string title, string placeholder, int maxLength = 20)
+    internal async static Task<InputPromptResult> ShowInputPromptAsync(string title, string placeholder, int minLength = 0, int maxLength = 26)
     {
-        InputPromptPopup popup = new(title, placeholder, maxLength);
+        InputPromptPopup popup = new(title, placeholder, minLength, maxLength);
         object? result = await Application.Current!.MainPage!.ShowPopupAsync(popup); // TODO: use page as param.
         if (result is InputPromptResult inputPromptResult)
         {
@@ -69,8 +69,8 @@ internal static class General
         return new InputPromptResult();
     }
 
-    /// <summary> Ask for big user input. </summary>
-    internal async static Task<InputPromptResult> ShowInputAreaPrompt(string title, string placeholder, int maxLength = 20)
+    /// <summary> Ask for larger user input. </summary>
+    internal async static Task<InputPromptResult> ShowInputAreaPromptAsync(string title, string placeholder, int maxLength = 20)
     {
         InputAreaPromptPopup popup = new(title, placeholder, maxLength);
         object? result = await Application.Current!.MainPage!.ShowPopupAsync(popup); // TODO: use page as param.

@@ -107,7 +107,7 @@ public partial class CategoriesView : ContentView
             CompanyListView.ItemsSource = new List<HomeListViewItem>() {
             new(title: "SM Entertainment", imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-sm.png?raw=true",
                 topArtists: $"{smDescription}",
-                childCompanies: "Label V, Mystic Story",
+                childCompanies: "Owns: Label V • Mystic Story",
                 searchFilterMode: SearchFilterModeValue.SM,
                 songCount: SongPartRepository.SongParts.Count(s => Constants.SMCompanies.Contains(s.Artist.Company)),
                 artistCount: SongPartRepository.SongParts.Where(s => Constants.SMCompanies.Contains(s.Artist.Company)).DistinctBy(s => new { s.ArtistName }).Count()),
@@ -115,7 +115,7 @@ public partial class CategoriesView : ContentView
             new(title: "HYBE Labels",
                 topArtists: $"{hybeDescription}",
                 oldNames: "Formerly: Big Hit Entertainment.",
-                childCompanies: "Owns: Source Music and Pledis Entertainment.",
+                childCompanies: "Owns: Source Music • Pledis Entertainment.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-hybe-labels.webp?raw=true",
                 searchFilterMode: SearchFilterModeValue.Hybe,
                 songCount: SongPartRepository.SongParts.Count(s => Constants.HybeCompanies.Contains(s.Artist.Company)),
@@ -138,7 +138,7 @@ public partial class CategoriesView : ContentView
 
             new(title: "Kakao Entertainment",
                 topArtists: $"{kakaoDescription}",
-                childCompanies : "Owns: IST Entertainment, Starship Entertainment, EDAM Entertainment, Bluedot Entertainment, High Up Entertainment, Antenna and FLEX M.",
+                childCompanies : "Owns: IST Entertainment • Starship Entertainment • EDAM Entertainment • Bluedot Entertainment • High Up Entertainment • Antenna • FLEX M",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-kakao.webp?raw=true",
                 searchFilterMode: SearchFilterModeValue.Kakao_Entertainment,
                 songCount: SongPartRepository.SongParts.Count(s => Constants.KakaoCompanies.Contains(s.Artist.Company)),
@@ -153,7 +153,7 @@ public partial class CategoriesView : ContentView
 
             new(title: "RBW Entertainment",
                 topArtists: $"{rbwArtists}",
-                childCompanies: $"WM entertainment and DSP Media (Daesung enterprise).",
+                childCompanies: $"Owns: WM entertainment • DSP Media (Daesung enterprise).",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-rbw.png?raw=true",
                 searchFilterMode: SearchFilterModeValue.RBW,
                 songCount : SongPartRepository.SongParts.Count(s => Constants.RbwCompanies.Contains(s.Artist.Company)),
@@ -168,7 +168,7 @@ public partial class CategoriesView : ContentView
 
             new(title: "IST Entertainment",
                 topArtists: $"{istArtists}",
-                oldNames: $"Formerly: A Cube, Play A, Play M.",
+                oldNames: $"Formerly: A Cube • Play A • Play M.",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-ist.webp?raw=true",
                 searchFilterMode: SearchFilterModeValue.IST,
                 songCount : SongPartRepository.SongParts.Count(s => s.Artist?.Company == "IST Entertainment"),
@@ -183,7 +183,7 @@ public partial class CategoriesView : ContentView
 
             new(title: "CJ ENM Music",
                 topArtists: $"{cjenmDescription}",
-                childCompanies: "Owns: AOMG, B2M Entertainment, Jellyfish Entertainment, Wake One, Stone Music Entertainment, Swing Entertainment",
+                childCompanies: "Owns: AOMG • B2M Entertainment • Jellyfish Entertainment • Wake One • Stone Music Entertainment • Swing Entertainment",
                 imageUrl: $"https://github.com/giannistek1/rpd-images/blob/main/home-cjenm.webp?raw=true",
                 searchFilterMode: SearchFilterModeValue.CJ_ENM_Music,
                 songCount: SongPartRepository.SongParts.Count(s => Constants.CjenmCompanies.Contains(s.Artist.Company)),
@@ -274,7 +274,7 @@ public partial class CategoriesView : ContentView
         OtherCategoriesSegmentedControl.SelectionChanged += OtherCategoriesSegmentedControl_SelectionChanged;
         OtherCategoriesSegmentedControl.SelectedIndex = 0;
     }
-    private string MakeArtistsDescription(List<Artist> artists) => string.Join(", ", artists.Select(a => a.Name)) + " ...";
+    private string MakeArtistsDescription(List<Artist> artists) => string.Join(" • ", artists.Select(a => a.Name)) + " ...";
 
     private void BackImageButton_Pressed(object? sender, EventArgs e) => BackPressed?.Invoke(sender, e);
 
