@@ -23,14 +23,14 @@ public partial class VideoPage : ContentPage
 
     private void OnAppearing(object? sender, EventArgs e)
     {
-        //AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
+        //AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumUrl));
         //NowPlayingLabel.Text = $"{songPart.Title} - {songPart.PartNameFull}";
 
         //TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
 
         //DurationLabel.Text = String.Format("{0:mm\\:ss}", duration);
 
-        VideoMediaElement.Source = MediaSource.FromUri(SongPart.VideoURL);
+        VideoMediaElement.Source = MediaSource.FromUri(SongPart.VideoUrl);
         VideoMediaElement.Volume = CommonSettings.MainVolume;
 
         ArtistLabel.Text = SongPart.ArtistName;
@@ -39,7 +39,7 @@ public partial class VideoPage : ContentPage
         VideoMediaElement.ShouldAutoPlay = true;
         VideoMediaElement.ShouldLoopPlayback = CommonSettings.ShouldLoopVideo;
 
-        // Don't put the starting value in the XML because then you can't move the slider!
+        // Don't put the starting value in the XAML because then you can't move the slider!
         SpeedSlider.Value = 1;
 
         AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.SongPart;

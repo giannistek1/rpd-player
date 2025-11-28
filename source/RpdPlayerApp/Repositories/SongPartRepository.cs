@@ -39,7 +39,7 @@ internal static class SongPartRepository
             {
                 string artistName = matches[n + 0].Groups[1].Value;
                 string albumTitle = matches[n + 1].Groups[1].Value;
-                string videoURL = matches[n + 6].Groups[1].Value.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos");
+                string videoUrl = matches[n + 6].Groups[1].Value.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos");
 
                 SongPart songPart = new(
                     artistName: artistName,
@@ -48,15 +48,15 @@ internal static class SongPartRepository
                     partNameShort: $"{matches[n + 3].Groups[1].Value}",
                     partNameNumber: matches[n + 4].Groups[1].Value,
                     clipLength: Convert.ToDouble(matches[n + 5].Groups[1].Value),
-                    audioURL: matches[n + 6].Groups[1].Value,
-                    videoURL: videoURL
+                    audioUrl: matches[n + 6].Groups[1].Value,
+                    videoUrl: videoUrl
                 );
 
                 songPart.Artist!.SongPartCount++;
                 // For filtered list.
                 songPart.Artist.FilteredTotalCount++;
 
-                songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
+                songPart.AlbumUrl = songPart.Album is not null ? songPart.Album.ImageUrl : string.Empty;
                 SongParts.Add(songPart);
             }
             catch (Exception ex)

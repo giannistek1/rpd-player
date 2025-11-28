@@ -173,7 +173,7 @@
                             <Border Grid.Column="1" x:Name="AllBorder" Margin="4,0,0,0" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
                                 <Image HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
-                                        <UriImageSource Uri="{Binding AlbumURL}" CacheValidity="1" CachingEnabled="true"/>
+                                        <UriImageSource Uri="{Binding AlbumUrl}" CacheValidity="1" CachingEnabled="true"/>
                                     </Image.Source>
                                 </Image>
                             </Border>

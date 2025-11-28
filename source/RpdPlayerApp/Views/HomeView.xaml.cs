@@ -174,13 +174,13 @@ public partial class HomeView : ContentView
     private List<SongPart> FindDifferentNewSongs(List<SongPart> newSongList, List<SongPart> oldSongList)
     {
 #if RELEASE
-        // Add new songs based on audioURL.
-        var differentNewSongs = newSongList.Where(item1 => !oldSongList.Any(item2 => item1.AudioURL == item2.AudioURL)).ToList();
+        // Add new songs based on audioUrl.
+        var differentNewSongs = newSongList.Where(item1 => !oldSongList.Any(item2 => item1.AudioUrl == item2.AudioUrl)).ToList();
         foreach (var newSongPart in newSongList)
         {
             if (!newSongPart.HasVideo) continue;
 
-            var oldSong = oldSongList.FirstOrDefault(s => s?.AudioURL == newSongPart.AudioURL);
+            var oldSong = oldSongList.FirstOrDefault(s => s?.AudioUrl == newSongPart.AudioUrl);
             if (oldSong is not null && oldSong.HasVideo != newSongPart.HasVideo)
             {
                 newSongPart.NewVideoAvailable = true;
@@ -822,6 +822,7 @@ public partial class HomeView : ContentView
         InputPromptResult result = await General.ShowInputPromptAsync("Playlist name:", generatedName);
         if (result.IsCanceled) { return; }
         else if (result.Text.IsNullOrWhiteSpace()) { result.Text = generatedName; }
+
         await PlaylistsManager.GeneratePlaylistFromSongParts(result.Text, songParts, (int)RpdSettings!.Duration.TotalMinutes);
     }
 

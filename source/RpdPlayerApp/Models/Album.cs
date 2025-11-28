@@ -29,7 +29,7 @@ internal partial class Album : ObservableObject
     private string _genreFull;
 
     [ObservableProperty]
-    private string _imageURL;
+    private string _imageUrl;
 
     [ObservableProperty]
     [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
@@ -43,14 +43,14 @@ internal partial class Album : ObservableObject
     [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private bool _showGenreShort = false;
 
-    public Album(int id = -1, string artistName = "", DateTime releaseDate = new(), string title = "", string genreShort = "", string imageURL = "")
+    public Album(int id = -1, string artistName = "", DateTime releaseDate = new(), string title = "", string genreShort = "", string imageUrl = "")
     {
         Id = id;
         ArtistName = artistName;
         ReleaseDate = releaseDate;
         Title = title;
         GenreShort = genreShort;
-        ImageURL = imageURL;
+        ImageUrl = imageUrl;
 
         InitPostProperties();
     }

@@ -10,7 +10,7 @@ internal static class ArtistRepository
 {
     public readonly static ObservableCollection<Artist> Artists = [];
 
-    public static bool GetArtists() => InitArtists(GetStringFromURL());
+    public static bool GetArtists() => InitArtists(GetStringFromUrl());
 
     public static bool InitArtists(string artistsText)
     {
@@ -37,7 +37,7 @@ internal static class ArtistRepository
                     groupType: groupType,
                     memberCount: Convert.ToInt16(matches[n + 4].Groups[1].Value),
                     company: matches[n + 5].Groups[1].Value,
-                    imageURL: matches[n + 6].Groups[1].Value));
+                    imageUrl: matches[n + 6].Groups[1].Value));
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ internal static class ArtistRepository
 
         return Artists.Count > 0;
     }
-    private static string GetStringFromURL()
+    private static string GetStringFromUrl()
     {
         if (!General.HasInternetConnection()) { return string.Empty; }
 

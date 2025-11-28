@@ -32,15 +32,15 @@ public partial class SongPartDetailBottomSheet
         AudioManager.OnPause += OnPauseAudio;
         AudioManager.OnStop += OnStopAudio;
 
+        AudioProgressSlider.DragStarted += AudioProgressSliderDragStarted;
+        AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
+
         StartAlbumAutoScroll();
     }
 
     private void OnLoad(object? sender, EventArgs e)
     {
         FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
-
-        AudioProgressSlider.DragStarted += AudioProgressSlider_DragStarted;
-        AudioProgressSlider.DragCompleted += AudioProgressSlider_DragCompleted;
 
         //VoiceImageButton.IsVisible = false;
     }
@@ -55,9 +55,9 @@ public partial class SongPartDetailBottomSheet
 
     private void OnStopAudio(object? sender, EventArgs e) => PlayToggleImageButton.Source = IconManager.PlayIcon;
 
-    private void AudioProgressSlider_DragStarted(object? sender, EventArgs e) => AudioPlayerControl!.AudioProgressSliderDragStarted(sender, e);
+    private void AudioProgressSliderDragStarted(object? sender, EventArgs e) => AudioPlayerControl!.AudioProgressSliderDragStarted(sender, e);
 
-    private void AudioProgressSlider_DragCompleted(object? sender, EventArgs e) => AudioPlayerControl?.SeekToProgress(sender, e);
+    private void AudioProgressSliderDragCompleted(object? sender, EventArgs e) => AudioPlayerControl?.SeekToProgress(sender, e);
 
     /// <summary> Depends on whenever play mode changes. </summary>
     internal void UpdateIcons()
@@ -94,9 +94,9 @@ public partial class SongPartDetailBottomSheet
     {
         if (songPart is null || string.IsNullOrWhiteSpace(songPart.Title)) { return; }
 
-        if (!string.IsNullOrWhiteSpace(songPart.AlbumURL))
+        if (!string.IsNullOrWhiteSpace(songPart.AlbumUrl))
         {
-            AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumURL));
+            AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumUrl));
         }
         else
         {
@@ -212,36 +212,36 @@ public partial class SongPartDetailBottomSheet
         AudioManager.SetCountdown();
     }
 
-    //private void VoiceButtonPressed(object sender, EventArgs e)
-    //{
-    //    // Cycle through announcement modes.
-    //    if (AppState.AnnouncementMode < AnnouncementModeValue.AlwaysSongPart)
-    //    {
-    //        AppState.AnnouncementMode++;
-    //    }
-    //    else
-    //    {
-    //        AppState.AnnouncementMode = AnnouncementModeValue.Off; // 0
-    //    }
+    private void VoiceButtonPressed(object sender, EventArgs e)
+    {
+        // Cycle through announcement modes.
+        if (AppState.AnnouncementMode < AnnouncementModeValue.AlwaysSongPart)
+        {
+            AppState.AnnouncementMode++;
+        }
+        else
+        {
+            AppState.AnnouncementMode = AnnouncementModeValue.Off; // 0
+        }
 
-    //    switch (AppState.AnnouncementMode)
-    //    {
-    //        case AnnouncementModeValue.Off: VoiceImageButton.Source = IconManager.OffIcon; break;
-    //        case AnnouncementModeValue.DancebreakOnly: VoiceImageButton.Source = IconManager.VoiceIcon; break;
-    //        case AnnouncementModeValue.Specific: VoiceImageButton.Source = IconManager.VoiceIcon; break;
-    //        case AnnouncementModeValue.Artist: VoiceImageButton.Source = IconManager.VoiceIcon; break;
-    //        case AnnouncementModeValue.GroupType: VoiceImageButton.Source = IconManager.VoiceIcon; break;
-    //        case AnnouncementModeValue.AlwaysSongPart: VoiceImageButton.Source = IconManager.VoiceIcon; break;
-    //    }
+        switch (AppState.AnnouncementMode)
+        {
+            //case AnnouncementModeValue.Off: VoiceImageButton.Source = IconManager.OffIcon; break;
+            //case AnnouncementModeValue.DancebreakOnly: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+            //case AnnouncementModeValue.Specific: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+            //case AnnouncementModeValue.Artist: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+            //case AnnouncementModeValue.GroupType: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+            //case AnnouncementModeValue.AlwaysSongPart: VoiceImageButton.Source = IconManager.VoiceIcon; break;
+        }
 
-    //    if (AppState.AnnouncementMode > 0)
-    //    {
-    //        General.ShowToast("Using voiced announcements.");
-    //    }
+        if (AppState.AnnouncementMode > 0)
+        {
+            General.ShowToast("Using voiced announcements.");
+        }
 
-    //    // TODO: ??
-    //    //AudioManager.SetAnnouncement();
-    //}
+        // TODO: ??
+        //AudioManager.SetAnnouncement();
+    }
 
     private async void FavoriteButtonPressed(object sender, EventArgs e)
     {

@@ -145,6 +145,8 @@ public partial class CurrentPlaylistView : ContentView
     {
         Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
         InputPromptResult result = await General.ShowInputPromptAsync("Playlist name: ", playlist.Name);
+        if (result.IsCanceled || string.IsNullOrWhiteSpace(result.Text)) { return; }
+
         playlist.Name = result.Text;
         ParentPage!.Title = playlist.Name;
     }
@@ -237,7 +239,6 @@ public partial class CurrentPlaylistView : ContentView
                 {
                     string normArtist = Normalize(s.ArtistName);
                     string normTitle = Normalize(s.Title);
-                    string normAltArtist = Normalize(s.Artist.AltNames);
 
                     var altNames = s.Artist.AltNames
                         .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -289,14 +290,14 @@ public partial class CurrentPlaylistView : ContentView
             bool accept = await ParentPage!.DisplayAlert($"{notFound.Count} songs not found", $"Add the {foundSongs.Count} found songs to {playlist.Name}?", "Yes", "No");
             if (accept)
             {
-                int count = PlaylistsManager.TryAddSegmentToSegmentList(playlist, foundSongs);
+                PlaylistsManager.TryAddSegmentToPlaylist(playlist, foundSongs);
             }
             ImportSegmentResultsPopup popup = new ImportSegmentResultsPopup(new(notFound)); // Gets disposed on close.
-            Application.Current!.MainPage!.ShowPopup(popup);
+            await Application.Current!.MainPage!.ShowPopupAsync(popup);
         }
         else
         {
-            int count = PlaylistsManager.TryAddSegmentToSegmentList(playlist, foundSongs);
+            int count = PlaylistsManager.TryAddSegmentToPlaylist(playlist, foundSongs);
             General.ShowToast($"{count} songs successfully added to playlist \"{playlist.Name}\"!");
         }
         CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref playlist.Segments);
@@ -335,7 +336,7 @@ public partial class CurrentPlaylistView : ContentView
 
         SongPart songPart = (SongPart)e.DataItem;
 
-        if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
+        if (!string.IsNullOrWhiteSpace(songPart.AudioUrl))
         {
             AppState.PlayMode = PlayModeValue.Playlist;
 
@@ -353,7 +354,7 @@ public partial class CurrentPlaylistView : ContentView
         if (!General.HasInternetConnection()) { return; }
 
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
-        if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
+        if (!string.IsNullOrWhiteSpace(songPart.AudioUrl))
         {
             AppState.CurrentSongPart = songPart;
             PlaySongPart!.Invoke(sender, e);

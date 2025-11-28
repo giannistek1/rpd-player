@@ -8,7 +8,7 @@ internal class VideoRepository
 {
     public static List<Video> Videos = [];
 
-    public static bool GetVideos() => InitVideos(GetStringFromURL());
+    public static bool GetVideos() => InitVideos(GetStringFromUrl());
     public static bool InitVideos(string videosText)
     {
         // pattern = any number of arbitrary characters between square brackets.
@@ -57,7 +57,7 @@ internal class VideoRepository
                                                                                                                                                   a.PartNameShort.Equals(partNameShort, StringComparison.OrdinalIgnoreCase) &&
                                                                                                                                                   a.PartNameNumber.Equals(partNameNumber, StringComparison.OrdinalIgnoreCase));
 
-    private static string GetStringFromURL()
+    private static string GetStringFromUrl()
     {
         if (!General.HasInternetConnection()) { return string.Empty; }
 

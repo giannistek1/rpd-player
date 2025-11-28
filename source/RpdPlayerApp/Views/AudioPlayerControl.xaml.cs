@@ -67,8 +67,12 @@ public partial class AudioPlayerControl : ContentView
 
     private void OnChangeSongPart(object? sender, MyEventArgs e)
     {
+        if (e.SongPart is null) { return; }
         // Update UI.
-        AlbumImage.Source = ImageSource.FromUri(new Uri(e.SongPart.AlbumURL));
+        if (!string.IsNullOrWhiteSpace(e.SongPart.AlbumUrl))
+        {
+            AlbumImage.Source = ImageSource.FromUri(new Uri(e.SongPart.AlbumUrl));
+        }
         NowPlayingLabel.Text = $"{e.SongPart.Title}";
         NowPlayingPartLabel.Text = $"{e.SongPart.PartNameFull}";
 
@@ -166,13 +170,13 @@ public partial class AudioPlayerControl : ContentView
         // throws 404
         try
         {
-            client.DownloadString(songPart.AudioURL);
+            client.DownloadString(songPart.AudioUrl);
         }
         catch
         {
             AudioManager.StopAudio();
             Toast.Make($"Media URL of the song is invalid.", CommunityToolkit.Maui.Core.ToastDuration.Short, 14).Show();
-            SentrySdk.CaptureMessage($"Tried to play Invalid URL: {songPart.AudioURL}");
+            SentrySdk.CaptureMessage($"Tried to play Invalid URL: {songPart.AudioUrl}");
         }
     }
 

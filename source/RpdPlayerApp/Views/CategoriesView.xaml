@@ -162,7 +162,7 @@
 
                                     <Image HeightRequest="160" Aspect="AspectFill">
                                         <Image.Source>
-                                            <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
+                                            <UriImageSource Uri="{Binding ImageUrl}" CacheValidity="1" CachingEnabled="true"/>
                                         </Image.Source>
                                     </Image>
                                     
@@ -218,7 +218,7 @@
 
                                 <Image HeightRequest="54" WidthRequest="54" Aspect="AspectFill">
                                         <Image.Source>
-                                            <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="True"/>
+                                            <UriImageSource Uri="{Binding ImageUrl}" CacheValidity="1" CachingEnabled="True"/>
                                         </Image.Source>
                                     </Image>
                                     
@@ -276,7 +276,7 @@
 
                             <Image HeightRequest="60" Aspect="AspectFit">
                                 <Image.Source>
-                                    <UriImageSource Uri="{Binding ImageURL}" CacheValidity="1" CachingEnabled="true"/>
+                                    <UriImageSource Uri="{Binding ImageUrl}" CacheValidity="1" CachingEnabled="true"/>
                                 </Image.Source>
                             </Image>
                             

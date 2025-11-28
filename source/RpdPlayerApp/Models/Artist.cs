@@ -79,7 +79,7 @@ internal partial class Artist : ObservableObject
     [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     private int _filteredTotalCount = 0;
 
-    public Artist(DateTime debutDate = new DateTime(), int id = -1, string name = "", string altNames = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageURL = "")
+    public Artist(DateTime debutDate = new DateTime(), int id = -1, string name = "", string altNames = "", GroupType groupType = GroupType.NOT_SET, int memberCount = 1, string company = "", string imageUrl = "")
     {
         Id = id;
         Name = name;
@@ -88,7 +88,7 @@ internal partial class Artist : ObservableObject
         GroupType = groupType;
         MemberCount = memberCount;
         Company = company;
-        ImageUrl = imageURL;
+        ImageUrl = imageUrl;
 
         InitPostProperties();
     }

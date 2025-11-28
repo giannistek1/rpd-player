@@ -11,7 +11,7 @@ internal static class AlbumRepository
 
     public readonly static ObservableCollection<Album> Albums = [];
 
-    public static bool GetAlbums() => InitAlbums(GetStringFromURL());
+    public static bool GetAlbums() => InitAlbums(GetStringFromUrl());
     public static bool InitAlbums(string albumsText)
     {
         // pattern = any number of arbitrary characters between square brackets.
@@ -41,7 +41,7 @@ internal static class AlbumRepository
                 genreShort = matches[n + 3].Groups[1].Value;
                 imageUrl = matches[n + 4].Groups[1].Value;
 
-                Albums.Add(new Album(id: i, artistName: artist, releaseDate: date, title: title, genreShort: genreShort, imageURL: imageUrl));
+                Albums.Add(new Album(id: i, artistName: artist, releaseDate: date, title: title, genreShort: genreShort, imageUrl: imageUrl));
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ internal static class AlbumRepository
 
     internal static Album GetRandomAlbum() => Albums[General.Rng.Next(Albums.Count)];
 
-    private static string GetStringFromURL()
+    private static string GetStringFromUrl()
     {
         if (!General.HasInternetConnection()) { return string.Empty; }
 

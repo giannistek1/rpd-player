@@ -199,7 +199,7 @@ internal static class AudioManager
         OnChange?.Invoke(null, new MyEventArgs(songPart));
         DetailBottomSheet!.songPart = songPart;
 
-        CurrentPlayer.Source = MediaSource.FromUri(songPart.AudioURL);
+        CurrentPlayer.Source = MediaSource.FromUri(songPart.AudioUrl);
 
         PlayAnnouncementCountdownOrSongPart();
         SetNextSongAndNextPlayer();
@@ -231,10 +231,10 @@ internal static class AudioManager
         AppState.CurrentlyPlayingState = CurrentlyPlayingStateValue.None;
 
         // Check if next song is valid.
-        if (AppState.AutoplayMode == AutoplayModeValue.Single || string.IsNullOrWhiteSpace(AppState.NextSongPart.AudioURL))
+        if (AppState.AutoplayMode == AutoplayModeValue.Single || string.IsNullOrWhiteSpace(AppState.NextSongPart.AudioUrl))
         {
             OnStop?.Invoke(null, EventArgs.Empty);
-            DebugService.Instance.Debug(msg: $"PlayNextSong: NextSongPart.AudioURL is empty");
+            DebugService.Instance.Debug(msg: $"PlayNextSong: NextSongPart.AudioUrl is empty");
             return;
         }
 
@@ -281,18 +281,18 @@ internal static class AudioManager
     {
         var playlistSongSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.Segments.ToList();
 
-        int index = playlistSongSegments.FindIndex(s => s.AudioURL == AppState.CurrentSongPart.AudioURL);
+        int index = playlistSongSegments.FindIndex(s => s.AudioUrl == AppState.CurrentSongPart.AudioUrl);
 
         if (index - 1 >= 0) // Arrays 0 based.
         {
             // Set next player with current song.
-            NextPlayer!.Source = MediaSource.FromUri(AppState.CurrentSongPart.AudioURL);
+            NextPlayer!.Source = MediaSource.FromUri(AppState.CurrentSongPart.AudioUrl);
             AppState.NextSongPart = AppState.CurrentSongPart;
 
             // Set Current player to previous song.
             AppState.CurrentSongPart = playlistSongSegments[index - 1];
             DetailBottomSheet!.songPart = AppState.CurrentSongPart;
-            CurrentPlayer!.Source = AppState.CurrentSongPart.AudioURL;
+            CurrentPlayer!.Source = AppState.CurrentSongPart.AudioUrl;
         }
     }
 
@@ -322,16 +322,16 @@ internal static class AudioManager
         SongPart previousSongPart = AppState.SongPartHistory[AppState.SongPartHistoryIndex];
 
         // Prevents double song when going back to song 0.
-        if (!previousSongPart.AudioURL.Equals(AppState.CurrentSongPart.AudioURL))
+        if (!previousSongPart.AudioUrl.Equals(AppState.CurrentSongPart.AudioUrl))
         {
             // Set next player with current song.
-            NextPlayer!.Source = MediaSource.FromUri(AppState.CurrentSongPart.AudioURL);
+            NextPlayer!.Source = MediaSource.FromUri(AppState.CurrentSongPart.AudioUrl);
             AppState.NextSongPart = AppState.CurrentSongPart;
 
             // Set Current player to previous song.
             AppState.CurrentSongPart = previousSongPart;
             DetailBottomSheet!.songPart = AppState.CurrentSongPart;
-            CurrentPlayer.Source = AppState.CurrentSongPart.AudioURL;
+            CurrentPlayer.Source = AppState.CurrentSongPart.AudioUrl;
         }
     }
 
@@ -385,7 +385,7 @@ internal static class AudioManager
         // Queue priority
         if (AppState.SongPartsQueue.Count > 0)
         {
-            NextPlayer!.Source = MediaSource.FromUri(AppState.SongPartsQueue.Peek().AudioURL);
+            NextPlayer!.Source = MediaSource.FromUri(AppState.SongPartsQueue.Peek().AudioUrl);
             AppState.NextSongPart = AppState.SongPartsQueue.Dequeue();
             return;
         }
@@ -396,14 +396,14 @@ internal static class AudioManager
 
             var songSegments = CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist.Segments.ToList();
 
-            int index = songSegments.FindIndex(s => s.AudioURL == AppState.CurrentSongPart.AudioURL);
+            int index = songSegments.FindIndex(s => s.AudioUrl == AppState.CurrentSongPart.AudioUrl);
 
             // Imagine index = 1220, count = 1221
             if (index + 1 < songSegments.Count)
             {
                 SongPart nextSong = songSegments[index + 1];
 
-                NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
+                NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioUrl);
                 AppState.NextSongPart = nextSong;
             }
             else // End of list
@@ -428,7 +428,7 @@ internal static class AudioManager
 
             SongPart nextSong = songSegments[index];
 
-            NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
+            NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioUrl);
             AppState.NextSongPart = nextSong;
 
             // Remove songs from history if too long.
@@ -444,7 +444,7 @@ internal static class AudioManager
         // Queue priority
         if (AppState.SongPartsQueue.Count > 0)
         {
-            NextPlayer!.Source = MediaSource.FromUri(AppState.SongPartsQueue.Peek().AudioURL);
+            NextPlayer!.Source = MediaSource.FromUri(AppState.SongPartsQueue.Peek().AudioUrl);
             AppState.NextSongPart = AppState.SongPartsQueue.Dequeue();
             return;
         }
@@ -458,21 +458,21 @@ internal static class AudioManager
         {
             if (CurrentPlayer!.ShouldLoopPlayback) { CurrentPlayer.ShouldLoopPlayback = false; }
 
-            int index = AppState.SongParts.FindIndex(s => s.AudioURL == AppState.CurrentSongPart.AudioURL);
+            int index = AppState.SongParts.FindIndex(s => s.AudioUrl == AppState.CurrentSongPart.AudioUrl);
 
             // Imagine index = 1220, count = 1221
             if (index + 1 < AppState.SongParts.Count)
             {
                 SongPart nextSong = AppState.SongParts[index + 1];
 
-                NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
+                NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioUrl);
                 AppState.NextSongPart = nextSong;
             }
             else // End of list
             {
                 SongPart nextSong = AppState.SongParts[0];
 
-                NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
+                NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioUrl);
                 AppState.NextSongPart = nextSong;
             }
         }
@@ -490,7 +490,7 @@ internal static class AudioManager
 
             SongPart nextSong = AppState.SongParts[index];
 
-            NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioURL);
+            NextPlayer!.Source = MediaSource.FromUri(nextSong.AudioUrl);
             AppState.NextSongPart = nextSong;
 
             // Remove songs from history if too long.

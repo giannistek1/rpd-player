@@ -51,14 +51,14 @@ internal partial class SongPart : ObservableObject
     public Album Album { get; set; }
 
     [ObservableProperty]
-    private string _albumURL = string.Empty;
+    private string _albumUrl = string.Empty;
 
     /// <summary> Unique. </summary>
     [ObservableProperty]
-    private string _audioURL;
+    private string _audioUrl;
 
     [ObservableProperty]
-    private string _videoURL;
+    private string _videoUrl;
 
     /// <summary> Based on match with VideoRepo list. </summary>
     [ObservableProperty]
@@ -117,7 +117,7 @@ internal partial class SongPart : ObservableObject
     [JsonConstructor]
     public SongPart() { }
 
-    public SongPart(int id = -1, string artistName = "", string albumTitle = "", string title = "", string partNameShort = "", string partNameNumber = "", double clipLength = 0.0, string audioURL = "", string videoURL = "", TimeSpan? playlistStartTime = null)
+    public SongPart(int id = -1, string artistName = "", string albumTitle = "", string title = "", string partNameShort = "", string partNameNumber = "", double clipLength = 0.0, string audioUrl = "", string videoUrl = "", TimeSpan? playlistStartTime = null)
     {
         Id = id;
         Title = title;
@@ -127,9 +127,9 @@ internal partial class SongPart : ObservableObject
         PartNameNumber = partNameNumber; // 1
 
         AlbumTitle = albumTitle;
-        AudioURL = audioURL;
+        AudioUrl = audioUrl;
         ClipLength = clipLength;
-        VideoURL = videoURL;
+        VideoUrl = videoUrl;
 
         InitPostProperties();
 

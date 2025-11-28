@@ -15,8 +15,6 @@ public partial class LibraryView : ContentView
 {
     internal MainPage? ParentPage { get; set; }
 
-    public event EventHandler? PlayPlaylist;
-
     private readonly LibraryViewModel _viewModel = new();
 
     public LibraryView()
@@ -63,6 +61,7 @@ public partial class LibraryView : ContentView
             General.ShowToast($"Please fill in a name");
             return;
         }
+        else if (result.IsCanceled) { return; }
 
         try
         {
@@ -168,12 +167,12 @@ public partial class LibraryView : ContentView
                             partNameShort: $"{matches[n + 3].Groups[1].Value}",
                             partNameNumber: matches[n + 4].Groups[1].Value,
                             clipLength: Convert.ToDouble(matches[n + 5].Groups[1].Value),
-                            audioURL: matches[n + 6].Groups[1].Value,
-                            videoURL: videoURL,
+                            audioUrl: matches[n + 6].Groups[1].Value,
+                            videoUrl: videoURL,
                             playlistStartTime: startTime
                         );
 
-                        songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
+                        songPart.AlbumUrl = songPart.Album is not null ? songPart.Album.ImageUrl : string.Empty;
                         playlist.Segments.Add(songPart);
                         startTime += songPart.ClipLengthAsTimeSpan;
                     }
@@ -240,11 +239,11 @@ public partial class LibraryView : ContentView
                                             partNameShort: segment.SegmentShort,
                                             partNameNumber: segment.SegmentNumber,
                                             clipLength: segment.ClipLength,
-                                            audioURL: segment.AudioUrl,
-                                            videoURL: segment.AudioUrl.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos"),
+                                            audioUrl: segment.AudioUrl,
+                                            videoUrl: segment.AudioUrl.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos"),
                                             playlistStartTime: startTime
                                         );
-                    songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
+                    songPart.AlbumUrl = songPart.Album is not null ? songPart.Album.ImageUrl : string.Empty;
                     playlist.Segments.Add(songPart);
 
                     startTime += songPart.ClipLengthAsTimeSpan;
@@ -298,12 +297,12 @@ public partial class LibraryView : ContentView
                                             partNameShort: segment.SegmentShort,
                                             partNameNumber: segment.SegmentNumber,
                                             clipLength: segment.ClipLength,
-                                            audioURL: segment.AudioUrl,
-                                            videoURL: segment.AudioUrl.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos"),
+                                            audioUrl: segment.AudioUrl,
+                                            videoUrl: segment.AudioUrl.Replace(".mp3", ".mp4").Replace("rpd-audio", "rpd-videos"),
                                             playlistStartTime: startTime
                                         );
 
-                    songPart.AlbumURL = songPart.Album is not null ? songPart.Album.ImageURL : string.Empty;
+                    songPart.AlbumUrl = songPart.Album is not null ? songPart.Album.ImageUrl : string.Empty;
                     playlist.Segments.Add(songPart);
 
                     startTime += songPart.ClipLengthAsTimeSpan;

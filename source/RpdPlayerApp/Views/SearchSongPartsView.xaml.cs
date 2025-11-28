@@ -180,7 +180,7 @@ public partial class SearchSongPartsView : ContentView
     {
         if (!General.HasInternetConnection()) { return; }
         SongPart songPart = (SongPart)((MenuItem)sender).CommandParameter;
-        if (string.IsNullOrWhiteSpace(songPart.AudioURL)) { General.ShowToast("No valid audio URL."); return; }
+        if (string.IsNullOrWhiteSpace(songPart.AudioUrl)) { General.ShowToast("No valid audio URL."); return; }
 
         AudioManager.ChangeAndStartSong(songPart);
         PlaySongPart?.Invoke(sender, e);
@@ -203,7 +203,7 @@ public partial class SearchSongPartsView : ContentView
                 await Navigation.PushAsync(new VideoPage(songPart), true);
             }
         }
-        else if (!string.IsNullOrWhiteSpace(songPart.AudioURL))
+        else if (!string.IsNullOrWhiteSpace(songPart.AudioUrl))
         {
             // Mode to queue/single song
             AppState.PlayMode = PlayModeValue.Queue;

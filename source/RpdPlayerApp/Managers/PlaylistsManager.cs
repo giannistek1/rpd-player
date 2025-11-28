@@ -26,7 +26,7 @@ internal static class PlaylistsManager
 
             foreach (SongPart songPart in playlist.Segments)
             {
-                sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.ClipLength}}}{{{songPart.AudioURL}}}");
+                sb.AppendLine($"{{{songPart.ArtistName}}}{{{songPart.AlbumTitle}}}{{{songPart.Title}}}{{{songPart.PartNameShort}}}{{{songPart.PartNameNumber}}}{{{songPart.ClipLength}}}{{{songPart.AudioUrl}}}");
             }
 
             var path = await FileManager.SavePlaylistStringToTextFileAsync($"{name}", sb.ToString());
@@ -157,24 +157,27 @@ internal static class PlaylistsManager
         }
     }
 
-    internal static int TryAddSegmentToSegmentList(Playlist playlist, List<SongPart> segmentsToAdd)
+    /// <summary>S </summary>
+    /// <param name="playlist"></param>
+    /// <param name="segmentsToAdd"></param>
+    /// <returns>Count</returns>
+    internal static int TryAddSegmentToPlaylist(Playlist playlist, List<SongPart> segmentsToAdd)
     {
-        int count = 0;
-        foreach (SongPart segment in segmentsToAdd)
+        var segmentsNotInPlaylist = segmentsToAdd
+            .Where(segment => !SegmentIsInPlaylist(playlist, segment))
+            .ToList();
+
+        foreach (SongPart segment in segmentsNotInPlaylist)
         {
-            if (!SegmentIsInPlaylist(playlist, segment))
-            {
-                playlist.Segments.Add(segment);
-                count++;
-            }
+            playlist.Segments.Add(segment);
         }
-        return count;
+        return segmentsNotInPlaylist.Count;
     }
 
     internal static bool SegmentIsInPlaylist(Playlist playlist, SongPart? segment)
     {
         Playlist? playlistMatch = CacheState.LocalPlaylists.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlist.Name, StringComparison.OrdinalIgnoreCase));
-        if (playlistMatch is not null && playlist.Segments.Any(s => s.AudioURL == segment?.AudioURL))
+        if (playlistMatch is not null && playlist.Segments.Any(s => s.AudioUrl == segment?.AudioUrl))
         {
             return true;
         }
@@ -197,7 +200,7 @@ internal static class PlaylistsManager
             playlist = CacheState.CloudPlaylists!.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         }
 
-        if (playlist is not null && playlist.Segments.Any(s => s.AudioURL == segment?.AudioURL))
+        if (playlist is not null && playlist.Segments.Any(s => s.AudioUrl == segment?.AudioUrl))
         {
             return true;
         }

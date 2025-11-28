@@ -99,7 +99,7 @@ internal partial class CurrentPlaylistManager : ObservableObject
 
     internal void RemoveSongpartOfCurrentPlaylist(SongPart songpart)
     {
-        var songpartToRemove = ChosenPlaylist!.Segments.FirstOrDefault(x => x.AudioURL == songpart.AudioURL);
+        var songpartToRemove = ChosenPlaylist!.Segments.FirstOrDefault(x => x.AudioUrl == songpart.AudioUrl);
         if (songpartToRemove is not null)
         {
             ChosenPlaylist.Segments.Remove(songpartToRemove);

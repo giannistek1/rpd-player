@@ -4,7 +4,7 @@ namespace RpdPlayerApp.Views;
 
 public partial class InputPromptPopup
 {
-    private int _minLength;
+    private int _minLength = 0;
     public InputPromptPopup(string title, string placeholder, int minLength = 0, int maxLength = 26)
     {
         InitializeComponent();
@@ -19,7 +19,7 @@ public partial class InputPromptPopup
 
     private void OnOkClicked(object sender, EventArgs e)
     {
-        if (InputEntry.Text.Length >= _minLength)
+        if (InputEntry.Text is not null && InputEntry.Text.Length >= _minLength)
         {
             Close(new InputPromptResult(InputEntry.Text, false));
         }

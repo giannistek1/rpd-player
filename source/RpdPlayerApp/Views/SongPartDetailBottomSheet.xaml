@@ -15,7 +15,7 @@
        
         <Grid RowDefinitions="22, 40, auto, 30, 30, 30, 50, auto, auto, 50" Padding="12,0,12,0">
 
-            <ImageButton Grid.Row="0" HeightRequest="40" x:Name="CloseImageButton" HorizontalOptions="CenterAndExpand" Pressed="CloseImageButtonPressed">
+            <ImageButton Grid.Row="0" HeightRequest="40" x:Name="CloseImageButton" HorizontalOptions="Center" Pressed="CloseImageButtonPressed">
                 <ImageButton.Source>
                     <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Minimize}" Color="{DynamicResource IconColor}" />
                 </ImageButton.Source>
@@ -25,9 +25,9 @@
                 
                 <Label Grid.Column="0" x:Name="GenreLabel" Text="K-pop" FontSize="12" VerticalOptions="Center" HorizontalOptions="Start" />
 
-                <Grid Grid.Column="1" x:Name="AlbumGrid" ColumnDefinitions="*" VerticalOptions="Center" HorizontalOptions="CenterAndExpand">
-                    <ScrollView x:Name="AlbumScrollView" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" HorizontalOptions="CenterAndExpand">
-                        <Label x:Name="AlbumLabel" Text="Album" FontSize="14" FontAttributes="Italic" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap" />
+                <Grid Grid.Column="1" x:Name="AlbumGrid" ColumnDefinitions="*" VerticalOptions="Center" HorizontalOptions="Center">
+                    <ScrollView x:Name="AlbumScrollView" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" HorizontalOptions="Center">
+                        <Label x:Name="AlbumLabel" Text="Album" FontSize="14" FontAttributes="Italic" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="Center" LineBreakMode="NoWrap" />
                     </ScrollView>
                 </Grid>
                 
@@ -42,12 +42,12 @@
                 <Image Grid.Row="2" HeightRequest="200" x:Name="AlbumImage"/>
             
             </Border>
-            
-            <Label Grid.Row="3" x:Name="ArtistLabel" Text="Artist" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"  VerticalOptions="Center"  HorizontalOptions="CenterAndExpand" />
 
-            <Label Grid.Row="4" x:Name="SongTitleLabel" Text="Song title" FontSize="20" TextColor="{DynamicResource PrimaryTextColor}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
+            <Label Grid.Row="3" x:Name="ArtistLabel" Text="Artist" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"  VerticalOptions="Center"  HorizontalOptions="Center" />
 
-            <Label Grid.Row="5" x:Name="SongPartLabel" Text="Song part" FontSize="14" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
+            <Label Grid.Row="4" x:Name="SongTitleLabel" Text="Song title" FontSize="20" TextColor="{DynamicResource PrimaryTextColor}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" />
+
+            <Label Grid.Row="5" x:Name="SongPartLabel" Text="Song part" FontSize="14" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="Center" HorizontalOptions="Center" />
 
 
             <!-- Audio Progress -->
@@ -151,7 +151,7 @@
                     </ImageButton.Source>
                 </ImageButton>
 
-                <sliders:SfSlider Grid.Column="1" x:Name="MasterVolumeSlider" VerticalOptions="CenterAndExpand" ValueChanged="MasterVolumeSliderValueChanged" Minimum="0" Interval="50" Maximum="100">
+                <sliders:SfSlider Grid.Column="1" x:Name="MasterVolumeSlider" VerticalOptions="Center" ValueChanged="MasterVolumeSliderValueChanged" Minimum="0" Interval="50" Maximum="100">
 
                     <sliders:SfSlider.TrackStyle>
                         <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"

@@ -7,7 +7,7 @@ namespace RpdPlayerApp.Items;
 internal class HomeListViewItem
 {
     public string Title { get; set; }
-    public string ImageURL { get; set; }
+    public string ImageUrl { get; set; }
     public string Description { get; set; }
     public string TopArtists { get; set; }
     public string ChildCompanies { get; set; }
@@ -23,7 +23,7 @@ internal class HomeListViewItem
     public HomeListViewItem(string title, string imageUrl, SearchFilterModeValue searchFilterMode, string description = "", string topArtists = "", string childCompanies = "", string oldNames = "", int songCount = 0, int artistCount = 0, string artistName = "")
     {
         Title = title;
-        ImageURL = imageUrl;
+        ImageUrl = imageUrl;
         Description = description;
         SearchFilterMode = searchFilterMode;
         TopArtists = topArtists;

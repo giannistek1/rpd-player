@@ -21,7 +21,7 @@ internal static class PlaylistRepository
 
             var baseUrl = Constants.SONGPARTS_BASE_URL;
 
-            var fileName = segment.AudioURL.Replace(baseUrl, string.Empty)
+            var fileName = segment.AudioUrl.Replace(baseUrl, string.Empty)
                                            .Replace(Constants.RAW_PARAMETER, string.Empty);
 
             // Only encode if not already encoded

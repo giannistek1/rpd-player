@@ -86,8 +86,6 @@ public partial class MainPage
         SearchSongPartsView.EnqueueSongPart += OnEnqueueSongPart;
         SearchSongPartsView.ShowSortBy += OnShowSortBy;
 
-        LibraryView.PlayPlaylist += OnPlaySongPart; // Not used
-
         _currentPlaylistView.IsVisible = false;
         _currentPlaylistView.BackToPlaylists += OnBackToPlaylists;
         _currentPlaylistView.PlaySongPart += OnPlaySongPart;
