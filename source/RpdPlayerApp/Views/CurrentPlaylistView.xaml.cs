@@ -57,7 +57,7 @@ public partial class CurrentPlaylistView : ContentView
 
         if (playlist!.IsCloudPlaylist && playlist.Owner.Equals(AppState.Username))
         {
-            await PlaylistRepository.SaveCloudPlaylist(id: playlist.Id,
+            await PlaylistRepository.SaveCloudPlaylistAsync(id: playlist.Id,
                                                         creationDate: playlist.CreationDate,
                                                         name: playlist.Name,
                                                         playlist.LengthInSeconds,

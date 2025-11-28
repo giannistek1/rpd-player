@@ -3,6 +3,7 @@ using RpdPlayerApp.DTO;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Services;
+using System.Xml.Linq;
 
 namespace RpdPlayerApp.Repositories;
 
@@ -11,7 +12,7 @@ internal static class PlaylistRepository
     private static DateTime _lastRequestTime = DateTime.MinValue;
     private static readonly TimeSpan _cooldown = TimeSpan.FromSeconds(1); // Cooldown period
 
-    public static async Task<int> SaveCloudPlaylist(long id, DateTime creationDate, string name, long lengthInSeconds, int count, List<SongPart> songSegments, bool isPublic)
+    public static async Task<int> SaveCloudPlaylistAsync(long id, DateTime creationDate, string name, long lengthInSeconds, int count, List<SongPart> songSegments, bool isPublic)
     {
         List<SongSegmentDto> segments = [];
 
@@ -126,5 +127,33 @@ internal static class PlaylistRepository
 
         DebugService.Instance.Info($"Deleted cloud playlistId: {id}");
         return true;
+    }
+
+    internal static async Task UpdatePlaylistsUsername(string username)
+    {
+        if (CacheState.CloudPlaylists.Count > 0)
+        {
+            foreach (var playlist in CacheState.CloudPlaylists)
+            {
+                playlist.Owner = username;
+                playlist.LastModifiedDate = DateTime.Now;
+
+                var model = new PlaylistDto
+                {
+                    LastModifiedDate = DateTime.Now,
+                    Owner = AppState.Username,
+                };
+                await SupabaseService.Client.From<PlaylistDto>().Update(model);
+            }
+        }
+        if (CacheState.LocalPlaylists.Count > 0)
+        {
+            foreach (var playlist in CacheState.LocalPlaylists)
+            {
+                playlist.Owner = username;
+                playlist.LastModifiedDate = DateTime.Now;
+                await PlaylistsManager.SavePlaylistLocally(playlist, playlist.Name);
+            }
+        }
     }
 }

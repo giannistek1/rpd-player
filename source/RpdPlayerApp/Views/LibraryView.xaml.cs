@@ -82,7 +82,7 @@ public partial class LibraryView : ContentView
 
     private async Task CreateLocalPlaylist(string playlistName) => await _viewModel.CreateLocalPlaylist(playlistName);
 
-    private async Task CreateCloudPlaylist(string playlistName) => await _viewModel.CreateCloudPlaylist(playlistName);
+    private async Task CreateCloudPlaylist(string playlistName) => await _viewModel.CreateEmptyCloudPlaylist(playlistName);
 
     internal async Task LoadPlaylists(bool isDirty = false)
     {
@@ -133,16 +133,18 @@ public partial class LibraryView : ContentView
                 string line1 = File.ReadLines(file).First();
                 var headerMatches = Regex.Matches(line1, headerPattern);
 
+                string user = string.Empty;
+
                 DateTime creationDate = DateTime.Today;
                 DateTime modifiedDate = DateTime.Today;
                 if (containsHeader == 1)
                 {
                     creationDate = DateTime.ParseExact(headerMatches[0].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                     modifiedDate = DateTime.ParseExact(headerMatches[1].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                    string user = headerMatches[2].Groups[1].Value;
+                    user = headerMatches[2].Groups[1].Value;
                 }
 
-                Playlist playlist = new(creationDate: creationDate, lastModifiedDate: modifiedDate, name: Path.GetFileNameWithoutExtension(fileName), path: file);
+                Playlist playlist = new(creationDate: creationDate, lastModifiedDate: modifiedDate, name: Path.GetFileNameWithoutExtension(fileName), path: file, owner: user);
 
                 // Convert text to songParts.
                 var pattern = @"\{(.*?)\}";
@@ -218,12 +220,11 @@ public partial class LibraryView : ContentView
         var cloudPlaylists = await PlaylistRepository.GetCloudPlaylists();
         foreach (var playlistDto in cloudPlaylists)
         {
-            Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name)
+            Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name, owner: AppState.Username)
             {
                 Id = playlistDto.Id,
                 IsCloudPlaylist = true,
-                IsPublic = playlistDto.IsPublic,
-                Owner = AppState.Username,
+                IsPublic = playlistDto.IsPublic
             };
 
             TimeSpan startTime = TimeSpan.Zero;
@@ -277,7 +278,7 @@ public partial class LibraryView : ContentView
         {
             DebugService.Instance.Debug($"{playlistDto.CreationDate} | {playlistDto.LastModifiedDate}");
 
-            Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name)
+            Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name, owner: playlistDto.Owner)
             {
                 Id = playlistDto.Id,
                 IsCloudPlaylist = true,

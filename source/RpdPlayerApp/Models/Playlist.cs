@@ -42,12 +42,13 @@ internal partial class Playlist : ObservableObject
     public TimeSpan Length => TimeSpan.FromSeconds(Segments.Sum(t => t.ClipLength));
     public int LengthInSeconds => (int)Segments.Sum(t => t.ClipLength);
 
-    public Playlist(DateTime creationDate, DateTime lastModifiedDate, string name = "", string path = "")
+    public Playlist(DateTime creationDate, DateTime lastModifiedDate, string name = "", string path = "", string owner = "")
     {
         CreationDate = creationDate;
         LastModifiedDate = lastModifiedDate;
         Name = name;
         LocalPath = path;
+        Owner = owner;
 
         // Because the computed properties don't know when SongParts has changes, need to subscribe to changes and get notified.
         // Optionally we can put this in the Set of the property. But that makes it more complex.

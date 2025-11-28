@@ -79,7 +79,7 @@ internal static class PlaylistsManager
     {
         List<SongPart> songs = GenerateSegmentsFromSongParts(availableSegments, durationInMinutes);
 
-        Playlist playlist = new(creationDate: DateTime.Now, lastModifiedDate: DateTime.Now, name: name);
+        Playlist playlist = new(creationDate: DateTime.Now, lastModifiedDate: DateTime.Now, name: name, owner: AppState.Username);
 
         playlist.Segments = new(songs);
         string path = await SavePlaylistLocally(playlist, name);
@@ -135,7 +135,7 @@ internal static class PlaylistsManager
         var matchingPlaylist = CacheState.LocalPlaylists?.AsEnumerable().FirstOrDefault(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         if (matchingPlaylist is null)
         {
-            var playlist = new Playlist(creationDate: DateTime.Now, lastModifiedDate: DateTime.Now, name: playlistName);
+            var playlist = new Playlist(creationDate: DateTime.Now, lastModifiedDate: DateTime.Now, name: playlistName, owner: AppState.Username);
             playlist.Segments.Add(songPartToAdd);
 
             CacheState.LocalPlaylists?.Add(playlist);

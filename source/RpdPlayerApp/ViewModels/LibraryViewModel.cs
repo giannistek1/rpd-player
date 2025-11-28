@@ -4,6 +4,7 @@ using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
+using RpdPlayerApp.Services;
 using RpdPlayerApp.Views;
 using System.Text;
 
@@ -34,18 +35,23 @@ internal class LibraryViewModel
         {
             "Play",
             "Edit",
-            "Clone",
-            "Share",
-            "Delete"
+            //"Clone",
+            "Share"
         };
 
         if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Local)
         {
-            actions.Insert(3, "Save to cloud"); // Insert after "Clone"
+            actions.Insert(3, "Delete");
+            actions.Insert(4, "Save to cloud");
         }
         else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Cloud)
         {
-            actions.Insert(3, "Make public"); // Insert after "Clone"
+            actions.Insert(3, "Delete");
+            actions.Insert(4, "Make public");
+        }
+        else if (PlaylistsManager.PlaylistMode == PlaylistModeValue.Public && playlist!.Owner.Equals(AppState.Username, StringComparison.OrdinalIgnoreCase)) // + Authenticated
+        {
+            actions.Insert(4, "Make private");
         }
 
         string action = await Shell.Current.DisplayActionSheet(
@@ -67,10 +73,15 @@ internal class LibraryViewModel
                 GoToCurrentPlaylistView(playlist);
                 break;
             case "Save to cloud":
-                await Todo(playlist);
+                await SaveToCloud(playlist);
                 break;
             case "Make public":
-                await Todo(playlist);
+                playlist.IsPublic = true;
+                await UpdateCloudPlaylist(playlist);
+                break;
+            case "Make private":
+                playlist.IsPublic = false;
+                await UpdateCloudPlaylist(playlist);
                 break;
             case "Share":
                 await SharePlaylist(playlist);
@@ -81,7 +92,54 @@ internal class LibraryViewModel
         }
     }
 
-    private Task Todo(Playlist playlist) => Shell.Current.DisplayAlert("WIP", "TODO", "OK");
+    private Task Todo(Playlist playlist) => Shell.Current.DisplayAlert("Work in progress", "", "OK");
+
+    private async Task SaveToCloud(Playlist playlist)
+    {
+        if (!CacheState.CloudPlaylists.Any(p => p.Name.Equals(playlist.Name, StringComparison.OrdinalIgnoreCase)))
+        {
+            CacheState.CloudPlaylists.Add(playlist);
+        }
+
+        try
+        {
+            await PlaylistRepository.SaveCloudPlaylistAsync(id: playlist.Id,
+                                    creationDate: playlist.CreationDate,
+                                    name: playlist.Name,
+                                    playlist.LengthInSeconds,
+                                    playlist.Count,
+                                    playlist.Segments.ToList(),
+                                    isPublic: playlist.IsPublic);
+
+            General.ShowToast($"{playlist.Name} saved to cloud");
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.Error($"LibraryViewModel: {ex.Message}");
+            General.ShowToast($"Error saving playlist to cloud: {ex.Message}");
+        }
+    }
+
+    private async Task UpdateCloudPlaylist(Playlist playlist)
+    {
+        try
+        {
+            await PlaylistRepository.SaveCloudPlaylistAsync(id: playlist.Id,
+                                    creationDate: playlist.CreationDate,
+                                    name: playlist.Name,
+                                    playlist.LengthInSeconds,
+                                    playlist.Count,
+                                    playlist.Segments.ToList(),
+                                    isPublic: playlist.IsPublic);
+
+            General.ShowToast($"{playlist.Name} updated.");
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.Error($"LibraryViewModel: {ex.Message}");
+            General.ShowToast($"Error updating playlist to cloud: {ex.Message}");
+        }
+    }
     private void GoToCurrentPlaylistView(Playlist playlist)
     {
         CurrentPlaylistManager.Instance.ChosenPlaylist = playlist;
@@ -158,12 +216,12 @@ internal class LibraryViewModel
         string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
 
         string path = await FileManager.SavePlaylistStringToTextFileAsync(playlistName, playlistHeader);
-        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: playlistName, path: path);
+        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: playlistName, path: path, owner: AppState.Username);
 
         CacheState.LocalPlaylists.Add(playlist);
     }
 
-    internal async Task CreateCloudPlaylist(string playlistName)
+    internal async Task CreateEmptyCloudPlaylist(string playlistName)
     {
         if (CacheState.CloudPlaylists.Any(p => p.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase)))
         {
@@ -171,11 +229,11 @@ internal class LibraryViewModel
             return;
         }
 
-        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: playlistName, path: string.Empty);
+        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: playlistName, path: string.Empty, owner: AppState.Username);
 
         CacheState.CloudPlaylists.Add(playlist);
 
-        await PlaylistRepository.SaveCloudPlaylist(id: playlist.Id,
+        await PlaylistRepository.SaveCloudPlaylistAsync(id: playlist.Id,
                                             creationDate: playlist.CreationDate,
                                             name: playlist.Name,
                                             playlist.LengthInSeconds,

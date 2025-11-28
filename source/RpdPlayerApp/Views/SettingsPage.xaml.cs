@@ -102,6 +102,16 @@ public partial class SettingsPage : ContentPage
         AppState.Username = result.Text;
         Preferences.Set(CommonSettings.USERNAME, AppState.Username);
 
+        // Update all local and cloud playlists with current username.
+        try
+        {
+            await PlaylistRepository.UpdatePlaylistsUsername(AppState.Username);
+        }
+        catch (Exception ex)
+        {
+            DebugService.Instance.Error($"SettingsPage: Failed update playlists with username: {ex.Message}");
+        }
+
         CacheState.IsDirty = true;
     }
 }
