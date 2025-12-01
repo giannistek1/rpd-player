@@ -5,6 +5,7 @@ using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
+using RpdPlayerApp.ViewModels;
 using Syncfusion.Maui.Core;
 using System.Collections.Specialized;
 using System.Text.Json;
@@ -24,14 +25,13 @@ public partial class HomeView : ContentView
     internal MainPage? ParentPage { get; set; }
     internal RpdSettings? RpdSettings { get; set; } = new();
 
+    internal HomeViewModel _viewModel = new();
+
     public HomeView()
     {
         InitializeComponent();
 
-        ArtistRepository.Artists.CollectionChanged += ArtistsCollectionChanged;
-        AlbumRepository.Albums.CollectionChanged += AlbumsCollectionChanged;
-        SongPartRepository.SongParts.CollectionChanged += SongPartsCollectionChanged;
-
+        BindingContext = _viewModel;
 
         SaveTemplateImageButton.Clicked += SaveTemplateImageButtonClicked;
         SearchByCategoryButton.Clicked += SearchByCategoryButtonClicked;
@@ -750,12 +750,6 @@ public partial class HomeView : ContentView
         GenerationsGrid.IsVisible = RpdSettings!.GenresSelectedIndices.Contains(0); // K-pop
         CompaniesGrid.IsVisible = RpdSettings.GenresSelectedIndices.Contains(0);
     }
-
-    private void SongPartsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => SongPartCountLabel.Text = $"{SongPartRepository.SongParts.Count}";
-
-    private void ArtistsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => ArtistCountLabel.Text = $"{ArtistRepository.Artists.Count}";
-
-    private void AlbumsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => AlbumCountLabel.Text = $"{AlbumRepository.Albums.Count}";
 
     internal async void FeedbackButtonPressed(object? sender, EventArgs e)
     {

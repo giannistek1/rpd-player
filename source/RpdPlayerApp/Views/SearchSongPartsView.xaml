@@ -19,7 +19,7 @@
 
         <Grid Grid.Row="0" Padding="0,4,0,0" ColumnDefinitions="7*, 3*">
 
-            <Label Grid.Column="0" x:Name="ResultsLabel" Text="Results" Padding="8,0,0,0" TextColor="{DynamicResource SecondaryTextColor}" FontSize="12"/>
+            <Label Grid.Column="0" x:Name="ResultsLabel" Text="{Binding ResultsText}" Padding="8,0,0,0" TextColor="{DynamicResource SecondaryTextColor}" FontSize="12"/>
 
 
             <Label Grid.Column="1" x:Name="SortModeLabel" Padding="0,0,8,0" 

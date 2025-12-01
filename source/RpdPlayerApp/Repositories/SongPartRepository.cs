@@ -16,6 +16,10 @@ internal static class SongPartRepository
 
     public static bool InitSongParts(string songPartsText)
     {
+        SongParts.Clear();
+
+        var songPartList = new List<SongPart>();
+
         // pattern = any number of arbitrary characters between square brackets.
         var pattern = @"\{(.*?)\}";
         var matches = Regex.Matches(songPartsText, pattern);
@@ -55,19 +59,22 @@ internal static class SongPartRepository
                 songPart.Artist!.SongPartCount++;
                 // For filtered list.
                 songPart.Artist.FilteredTotalCount++;
-
                 songPart.AlbumUrl = songPart.Album is not null ? songPart.Album.ImageUrl : string.Empty;
-                SongParts.Add(songPart);
+
+                songPartList.Add(songPart);
             }
             catch (Exception ex)
             {
                 SentrySdk.CaptureMessage($"ERROR: {typeof(SongPartRepository).Name}, songpart {i + 1}, {ex.Message}");
                 General.ShowToast($"ERROR: InitSongPart songpart {i + 1}. {ex.Message}");
             }
-
         }
 
-        SongParts = SongParts.OrderBy(s => s.ArtistName).ThenBy(s => s.Album?.ReleaseDate).ToObservableCollection();
+        var sorted = songPartList.OrderBy(s => s.ArtistName).ThenBy(s => s.Album?.ReleaseDate).ToList();
+        foreach (var songPart in sorted)
+        {
+            SongParts.Add(songPart);
+        }
 
         return SongParts.Count > 0;
     }

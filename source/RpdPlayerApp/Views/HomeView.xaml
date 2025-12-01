@@ -26,7 +26,7 @@
                     </Image.Source>
                 </Image>
 
-                <Label x:Name="SongPartCountLabel" Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
+                <Label x:Name="SongPartCountLabel" Text="{Binding SongParts.Count}" Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
 
                 <!-- Artists -->
                 <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
@@ -35,7 +35,7 @@
                     </Image.Source>
                 </Image>
 
-                <Label x:Name="ArtistCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
+                <Label x:Name="ArtistCountLabel" Text="{Binding Artists.Count}"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
 
                 <!-- Albums -->
                 <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
@@ -44,7 +44,7 @@
                     </Image.Source>
                 </Image>
 
-                <Label x:Name="AlbumCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
+                <Label x:Name="AlbumCountLabel" Text="{Binding Albums.Count}" Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
 
                 <!-- Unique song parts (for debug mode) -->
                 <Image x:Name="UniqueSongCountImage"  HorizontalOptions="EndAndExpand" Margin="0,0,4,0">

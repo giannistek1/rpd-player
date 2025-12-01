@@ -76,7 +76,21 @@ internal static class ArtistRepository
                   .Take(count)
                   .ToList();
 
-    internal static Artist GetRandomArtist() => Artists[General.Rng.Next(Artists.Count)];
-    internal static Artist GetRandomArtist(List<Artist> artistList) => artistList[General.Rng.Next(artistList.Count)];
+    internal static Artist GetRandomArtist()
+    {
+        if (Artists.Count == 0)
+        {
+            return new Artist();
+        }
+        return Artists[General.Rng.Next(Artists.Count)];
+    }
+    internal static Artist GetRandomArtist(List<Artist> artistList)
+    {
+        if (artistList.Count == 0)
+        {
+            return new Artist();
+        }
+        return artistList[General.Rng.Next(artistList.Count)];
+    }
 
 }

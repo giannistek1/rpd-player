@@ -64,6 +64,8 @@ public partial class SearchSongPartsView : ContentView
         SonglibraryListView.ItemsSource = songParts;
         AppState.SongParts = [.. songParts];
 
+        SetSearchFilteredDataSource();
+
         UpdateResultsText();
 
         SonglibraryListView.CollapseAll();
@@ -542,8 +544,8 @@ public partial class SearchSongPartsView : ContentView
     // Update searchfilter as well.
     private void UpdateResultsText()
     {
-        IEnumerable<SongPart> artistsBySongPart = songParts.DistinctBy(s => new { s.ArtistName });
-        ResultsLabel.Text = $"{songParts.Count} results from {artistsBySongPart.Count()} artists";
+        IEnumerable<SongPart> artistsBySongPart = searchFilteredSongParts.DistinctBy(s => new { s.ArtistName });
+        _viewModel.UpdateResultsText(searchFilteredSongParts.Count, artistsBySongPart.Count());
     }
 
     #endregion Filter

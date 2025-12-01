@@ -9,6 +9,13 @@ namespace RpdPlayerApp.ViewModels;
 
 internal partial class SearchSongPartsViewModel : ObservableObject
 {
+    [ObservableProperty]
+    private string resultsText = string.Empty;
+
+    public void UpdateResultsText(int songPartsCount, int artistsCount)
+    {
+        ResultsText = $"{songPartsCount} results from {artistsCount} artists";
+    }
     public IRelayCommand<SongPart> ShowActionsCommand { get; }
 
     public SearchSongPartsViewModel()
