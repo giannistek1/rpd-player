@@ -35,20 +35,24 @@ public partial class SearchSongPartsView : ContentView
 
     private readonly SearchSongPartsViewModel _viewModel = new();
 
+    private bool _isInitialized = false;
+
     public SearchSongPartsView()
     {
         InitializeComponent();
-        Loaded += OnLoad;
         BindingContext = _viewModel;
     }
 
-    private void OnLoad(object? sender, EventArgs e)
+    internal void Init()
     {
+        if (_isInitialized) { return; }
+
         songParts.CollectionChanged += SongPartsCollectionChanged;
 
         InitSongParts();
 
         ClearCategoryFilterButtonBorder.IsVisible = (AppState.SearchFilterMode != SearchFilterModeValue.All);
+        _isInitialized = true;
     }
 
     internal void InitSongParts()

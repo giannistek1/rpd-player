@@ -13,14 +13,12 @@ public partial class CategoriesView : ContentView
 
     internal event EventHandler? BackPressed;
 
+    private bool _isInitialized = false;
+
     public CategoriesView()
     {
         InitializeComponent();
-        Loaded += OnLoad;
-    }
 
-    private void OnLoad(object? sender, EventArgs e)
-    {
         BackImageButton.Pressed += BackImageButton_Pressed;
         AllImageButton.Pressed += SetFilter;
         DanceImageButton.Pressed += SetFilter;
@@ -28,6 +26,11 @@ public partial class CategoriesView : ContentView
         FemaleImageButton.Pressed += SetFilter;
         SoloImageButton.Pressed += SetFilter;
         GroupImageButton.Pressed += SetFilter;
+    }
+
+    internal void Init()
+    {
+        if (_isInitialized) { return; }
 
         if (General.HasInternetConnection() && ArtistRepository.Artists.Any())
         {
@@ -273,6 +276,8 @@ public partial class CategoriesView : ContentView
         OtherCategoriesSegmentedControl.ItemsSource = new string[] { "Gens", "Companies", "Genres", "K-pop years" };
         OtherCategoriesSegmentedControl.SelectionChanged += OtherCategoriesSegmentedControl_SelectionChanged;
         OtherCategoriesSegmentedControl.SelectedIndex = 0;
+
+        _isInitialized = true;
     }
     private string MakeArtistsDescription(List<Artist> artists) => string.Join(" • ", artists.Select(a => a.Name)) + " ...";
 

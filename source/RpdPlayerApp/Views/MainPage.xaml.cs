@@ -3,6 +3,7 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
 
 namespace RpdPlayerApp.Views;
@@ -26,18 +27,74 @@ public partial class MainPage
         AudioPlayerControl.CurrentPlaylistViewModel = _currentPlaylistView._viewModel;
 
         SetupHomeToolbar();
-        Loaded += OnLoad;
+        Loaded += async (s, e) => await OnLoadedAsync();
         Appearing += OnAppearing;
     }
 
-    private void OnLoad(object? sender, EventArgs e)
+    private async Task OnLoadedAsync()
     {
-        _ = LoadSettingsAsync();
+        await LoadSettingsAsync();
         SetParentPages();
         SetContentViewEvents();
         InitializePageContainers();
         KeepScreenOn();
+
+        await LoadInitialDataAsync();
+
+        await HomeView.Init();
+        SearchSongPartsView.Init();
     }
+
+    private async Task LoadInitialDataAsync()
+    {
+        if (General.HasInternetConnection())
+        {
+            ArtistRepository.GetArtists();
+            AlbumRepository.GetAlbums();
+            VideoRepository.GetVideos();
+            SongPartRepository.GetSongParts();
+        }
+        else
+        {
+            await LoadDataOffline();
+            OnInitSongParts(this, EventArgs.Empty);
+        }
+    }
+
+    private async Task LoadDataOffline()
+    {
+        var loadedArtists = await FileManager.LoadArtistsAsync();
+        ArtistRepository.Artists.Clear();
+        foreach (Artist artist in loadedArtists)
+        {
+            artist.InitPostProperties();
+            ArtistRepository.Artists.Add(artist);
+        }
+
+        var loadedAlbums = await FileManager.LoadAlbumsAsync();
+        AlbumRepository.Albums.Clear();
+        foreach (Album album in loadedAlbums)
+        {
+            album.InitPostProperties();
+            AlbumRepository.Albums.Add(album);
+        }
+
+        var loadedVideos = await FileManager.LoadVideosAsync();
+        VideoRepository.Videos.Clear();
+        foreach (Video video in loadedVideos)
+        {
+            VideoRepository.Videos.Add(video);
+        }
+
+        var loadedSongParts = await FileManager.LoadSongPartsAsync();
+        SongPartRepository.SongParts.Clear();
+        foreach (SongPart part in loadedSongParts)
+        {
+            part.InitPostProperties();
+            SongPartRepository.SongParts.Add(part);
+        }
+    }
+
 
     private void OnAppearing(object? sender, EventArgs e) => AudioPlayerControl.UpdateUI();
 
@@ -147,9 +204,23 @@ public partial class MainPage
 
     private void MainContainerTabItemTapped(object sender, Syncfusion.Maui.TabView.TabItemTappedEventArgs e)
     {
-        if (HomeTabItem == e.TabItem) { SetupHomeToolbar(); }
-        else if (SearchTabItem == e.TabItem) { SetupSearchToolbar(); }
-        else if (LibraryTabItem == e.TabItem) { SetupLibraryOrCurrentPlaylistToolbar(); }
+        if (HomeTabItem == e.TabItem)
+        {
+            SetupHomeToolbar();
+            // TODO: isBusy check
+            _ = HomeView.Init();
+        }
+        else if (SearchTabItem == e.TabItem)
+        {
+            SetupSearchToolbar();
+            // TODO: isBusy check
+            SearchSongPartsView.Init();
+        }
+        else if (LibraryTabItem == e.TabItem)
+        {
+            SetupLibraryOrCurrentPlaylistToolbar();
+            // Optionally initialize LibraryView or CurrentPlaylistView here
+        }
     }
 
     internal void SetupHomeToolbar()
@@ -339,6 +410,8 @@ public partial class MainPage
         HomeView.IsVisible = false;
         _categoriesView.IsVisible = true;
         Title = "Categories";
+
+        _categoriesView.Init();
     }
     // Not used
     private void OnBackToHomeView(object? sender, EventArgs e) => BackToHomeView();

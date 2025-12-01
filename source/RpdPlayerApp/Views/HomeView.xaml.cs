@@ -27,6 +27,8 @@ public partial class HomeView : ContentView
 
     internal HomeViewModel _viewModel = new();
 
+    private bool _isInitialized = false;
+
     public HomeView()
     {
         InitializeComponent();
@@ -50,64 +52,11 @@ public partial class HomeView : ContentView
         {
             _yearOptions.Add(year.ToString());
         }
-
-        _ = LoadInitialDataAsync();
-
-        Loaded += OnLoad;
     }
-
-    private async Task LoadInitialDataAsync()
+    internal async Task Init()
     {
-        if (General.HasInternetConnection())
-        {
-            ArtistRepository.GetArtists();
-            AlbumRepository.GetAlbums();
-            VideoRepository.GetVideos();
-            SongPartRepository.GetSongParts();
-        }
-        else
-        {
-            await LoadDataOffline();
-            InitSongParts?.Invoke(this, EventArgs.Empty);
-        }
-    }
+        if (_isInitialized) { return; }
 
-    private async Task LoadDataOffline()
-    {
-        var loadedArtists = await FileManager.LoadArtistsAsync();
-        ArtistRepository.Artists.Clear();
-        foreach (Artist artist in loadedArtists)
-        {
-            artist.InitPostProperties();
-            ArtistRepository.Artists.Add(artist);
-        }
-
-        var loadedAlbums = await FileManager.LoadAlbumsAsync();
-        AlbumRepository.Albums.Clear();
-        foreach (Album album in loadedAlbums)
-        {
-            album.InitPostProperties();
-            AlbumRepository.Albums.Add(album);
-        }
-
-        var loadedVideos = await FileManager.LoadVideosAsync();
-        VideoRepository.Videos.Clear();
-        foreach (Video video in loadedVideos)
-        {
-            VideoRepository.Videos.Add(video);
-        }
-
-        var loadedSongParts = await FileManager.LoadSongPartsAsync();
-        SongPartRepository.SongParts.Clear();
-        foreach (SongPart part in loadedSongParts)
-        {
-            part.InitPostProperties();
-            SongPartRepository.SongParts.Add(part);
-        }
-    }
-
-    private async void OnLoad(object? sender, EventArgs e)
-    {
         // For debugging.
         int progress = 0;
         try
@@ -149,6 +98,7 @@ public partial class HomeView : ContentView
             IsOnlineLabel.Text = General.HasInternetConnection() ? "Online" : "Offline";
 
             VoiceAnnouncementsGrid.IsVisible = false;
+            _isInitialized = true;
         }
         catch (Exception ex)
         {
