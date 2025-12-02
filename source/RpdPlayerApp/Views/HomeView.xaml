@@ -15,7 +15,7 @@
             <!-- New stats -->
             <Grid Grid.Row="0" ColumnDefinitions="1*, auto, 1*">
 
-            <Label Grid.Column="0" Padding="8,2,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" Style="{StaticResource Sideinfo}" Text="Version xx"/>
+            <Label Grid.Column="0" Padding="8,2,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" Style="{StaticResource Sideinfo}" Text="Version 0.0.0"/>
 
             <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center">
 
