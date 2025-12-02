@@ -535,7 +535,7 @@ public partial class MainPage
         }
         else if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 2)
         {
-            _currentPlaylistView.BackButtonClicked(null, EventArgs.Empty);
+            _currentPlaylistView.BackImageButtonClicked(null, EventArgs.Empty);
             return true;
         }
         else if ((byte)MainContainer.SelectedIndex == 1 || (byte)MainContainer.SelectedIndex == 2)

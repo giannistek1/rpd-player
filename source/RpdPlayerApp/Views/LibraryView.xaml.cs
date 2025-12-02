@@ -276,7 +276,7 @@ public partial class LibraryView : ContentView
         var results = await PlaylistRepository.GetAllPublicPlaylists();
         foreach (var playlistDto in results)
         {
-            DebugService.Instance.Debug($"{playlistDto.CreationDate} | {playlistDto.LastModifiedDate}");
+            DebugService.Instance.Debug($"LibraryView: Pub: {playlistDto.CreationDate} | {playlistDto.LastModifiedDate}");
 
             Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name, owner: playlistDto.Owner)
             {

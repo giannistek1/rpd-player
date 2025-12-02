@@ -38,11 +38,23 @@
         <!-- Actions -->
         <Grid Grid.Row="2" BackgroundColor="{DynamicResource BackgroundColor}" ColumnDefinitions="1*, 1*, 1*, 1*, 1*, 1*">
 
-            <ImageButton Grid.Column="0" x:Name="BackImageButton" HeightRequest="26" VerticalOptions="Center" HorizontalOptions="Start" Pressed="BackButtonClicked">
-                <ImageButton.Source>
-                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Arrow_back}" Color="{DynamicResource IconColor}" />
-                </ImageButton.Source>
-            </ImageButton>
+            <!-- Back -->
+            <Border x:Name="BackBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
+                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+
+                <VerticalStackLayout VerticalOptions="CenterAndExpand">
+
+                    <ImageButton x:Name="BackImageButton" HeightRequest="26" HorizontalOptions="End">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{DynamicResource IconColor}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+
+                    <Label Text="Back" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+
+                </VerticalStackLayout>
+
+            </Border>
 
             <!-- Main secondary action -->
             <Border Grid.Column="1" x:Name="EditPlaylistnameBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
@@ -50,7 +62,7 @@
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
-                    <ImageButton x:Name="EditPlaylistnameImageButton" HeightRequest="26" HorizontalOptions="End" Pressed="EditPlaylistnameImageButtonClicked">
+                    <ImageButton x:Name="EditPlaylistnameImageButton" HeightRequest="26" HorizontalOptions="End">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Edit}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
@@ -69,7 +81,7 @@
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
-                    <ImageButton x:Name="ClearPlaylistImageButton" HeightRequest="26" HorizontalOptions="End" Pressed="ClearPlaylistImageButtonClicked">
+                    <ImageButton x:Name="ClearPlaylistImageButton" HeightRequest="26" HorizontalOptions="End">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Delete}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
@@ -88,7 +100,7 @@
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
-                    <ImageButton x:Name="ShufflePlaylistImageButton" HeightRequest="26" HorizontalOptions="End" Pressed="ShufflePlaylistImageButtonClicked">
+                    <ImageButton x:Name="ShufflePlaylistImageButton" HeightRequest="26" HorizontalOptions="End">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
@@ -107,7 +119,7 @@
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
-                    <ImageButton x:Name="MixedShufflePlaylistImageButton" HeightRequest="26" Pressed="MixedShufflePlaylistImageButtonClicked">
+                    <ImageButton x:Name="MixedShufflePlaylistImageButton" HeightRequest="26">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
@@ -125,7 +137,7 @@
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand">
 
-                    <ImageButton x:Name="ImportPlaylistImageButton" HeightRequest="26" Pressed="ImportPlaylistImageButtonClicked">
+                    <ImageButton x:Name="ImportPlaylistImageButton" HeightRequest="26">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Add_notes}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>

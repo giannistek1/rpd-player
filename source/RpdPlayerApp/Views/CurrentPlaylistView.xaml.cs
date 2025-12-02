@@ -26,20 +26,31 @@ public partial class CurrentPlaylistView : ContentView
 
     internal readonly CurrentPlaylistViewModel _viewModel = new();
 
+    private bool _isInitialized = false;
+
     public CurrentPlaylistView()
     {
         InitializeComponent();
         BindingContext = _viewModel;
         ProgressSlider = PlaylistProgressSlider;
         CurrentPlaylistListView.DragDropController!.UpdateSource = true;
+
+        BackImageButton.Clicked += BackImageButtonClicked;
+        EditPlaylistnameImageButton.Clicked += EditPlaylistnameImageButtonClicked;
+        ClearPlaylistImageButton.Clicked += ClearPlaylistImageButtonClicked;
+        ShufflePlaylistImageButton.Clicked += ShufflePlaylistImageButtonClicked;
+        MixedShufflePlaylistImageButton.Clicked += MixedShufflePlaylistImageButtonClicked;
+        ImportPlaylistImageButton.Clicked += ImportPlaylistImageButtonClicked;
     }
 
     internal void InitializeView()
     {
-        BackImageButton.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
-        BackImageButton.Source = IconManager.BackIcon;
+        // Refresh UI colors?
 
+        if (_isInitialized) { return; }
         CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments.CollectionChanged += CollectionChanged;
+
+        _isInitialized = true;
     }
 
     private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -47,7 +58,7 @@ public partial class CurrentPlaylistView : ContentView
         CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments);
     }
 
-    internal async void BackButtonClicked(object? sender, EventArgs e)
+    internal async void BackImageButtonClicked(object? sender, EventArgs e)
     {
         // To hide soft keyboard programmatically.
         //PlaylistNameEntry.IsEnabled = false;
@@ -104,6 +115,7 @@ public partial class CurrentPlaylistView : ContentView
         {
             CurrentPlaylistListView.ItemsSource = playlist.Segments;
 
+            // TODO: Bindings (computable)
             LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", playlist.Length);
 
             CountLabel.Text = $" of {playlist.Segments.Count}";
@@ -141,7 +153,7 @@ public partial class CurrentPlaylistView : ContentView
         }
     }
 
-    private async void EditPlaylistnameImageButtonClicked(object sender, EventArgs e)
+    private async void EditPlaylistnameImageButtonClicked(object? sender, EventArgs e)
     {
         Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
         InputPromptResult result = await General.ShowInputPromptAsync("Playlist name: ", playlist.Name);
@@ -151,21 +163,21 @@ public partial class CurrentPlaylistView : ContentView
         ParentPage!.Title = playlist.Name;
     }
 
-    private void ShufflePlaylistImageButtonClicked(object sender, EventArgs e)
+    private void ShufflePlaylistImageButtonClicked(object? sender, EventArgs e)
     {
         CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments = General.RandomizePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.Segments]).ToObservableCollection();
         CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments);
         CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.Segments;
     }
 
-    private void MixedShufflePlaylistImageButtonClicked(object sender, EventArgs e)
+    private void MixedShufflePlaylistImageButtonClicked(object? sender, EventArgs e)
     {
         CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments = General.RandomizeAndAlternatePlaylist([.. CurrentPlaylistManager.Instance.ChosenPlaylist.Segments]).ToObservableCollection();
         CurrentPlaylistManager.Instance.RecalculatePlaylistTimingsAndIndices(ref CurrentPlaylistManager.Instance.ChosenPlaylist!.Segments);
         CurrentPlaylistListView.ItemsSource = CurrentPlaylistManager.Instance.ChosenPlaylist.Segments;
     }
 
-    private async void ImportPlaylistImageButtonClicked(object sender, EventArgs e)
+    private async void ImportPlaylistImageButtonClicked(object? sender, EventArgs e)
     {
         Playlist playlist = CurrentPlaylistManager.Instance.ChosenPlaylist!;
         InputPromptResult result = await General.ShowInputAreaPromptAsync("Paste your song list (max 15000 char):", $"Timestamps get filtered out.{Environment.NewLine}Valid examples below:{Environment.NewLine}{Environment.NewLine}ATEEZ - Answer{Environment.NewLine}Fancy - TWICE{Environment.NewLine}01:15:34 ATEEZ - Ice on my teeth", maxLength: 15000);
