@@ -13,7 +13,7 @@
 
     <ScrollView>
 
-        <Grid RowDefinitions="30, auto, auto, auto, auto, auto, auto, auto" Padding="8,0,8,0">
+        <Grid RowDefinitions="30, auto, auto, auto, auto, auto, auto, auto, auto" Padding="8,0,8,0">
 
             <Grid Grid.Row="0" ColumnDefinitions="*, *" Margin="0,0,0,4">
                 <Label Grid.Column="0" Text="Total activity time" TextColor="{DynamicResource SecondaryTextColor}" VerticalOptions="Center" HorizontalOptions="End" />
@@ -145,8 +145,17 @@
 
             </Grid>-->
 
-            <!-- Debug stats -->
+            <!--  Use tab animation -->
             <Grid Grid.Row="6" ColumnDefinitions="*,*">
+
+                <Label Grid.Column="0" Text="Use tab animation" VerticalOptions="Center" HorizontalOptions="Start" />
+
+                <Switch Grid.Column="1" x:Name="TabAnimationSwitch" HorizontalOptions="End" />
+
+            </Grid>
+
+            <!-- Debug stats -->
+            <Grid Grid.Row="7" ColumnDefinitions="*,*">
 
                 <Label Grid.Column="0" Text="Show debug info" VerticalOptions="Center" HorizontalOptions="Start" />
 
@@ -154,7 +163,8 @@
 
             </Grid>
 
-            <Button Grid.Row="7" x:Name="TestNewsButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
+
+            <Button Grid.Row="8" x:Name="TestNewsButton" Padding="0,0,0,0" Margin="0,0,4,0" HeightRequest="40" CornerRadius="8" 
                     Clicked="TestNewsButtonClicked" Text="Test news" FontSize="12" LineBreakMode="WordWrap" ContentLayout="Left, 10">
                 <Button.ImageSource>
                     <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Newspaper}" Color="{DynamicResource IconColor}" />

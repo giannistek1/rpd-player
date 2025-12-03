@@ -32,11 +32,14 @@ public partial class SettingsPage : ContentPage
         //if (Preferences.ContainsKey(CommonSettings.USE_ANALYTICS)) { AnalyticsSwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_ANALYTICS, defaultValue: true); }
         if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC)) { StartRpdAutomaticSwitch.IsToggled = Preferences.Get(key: CommonSettings.START_RPD_AUTOMATIC, defaultValue: true); }
         if (Preferences.ContainsKey(CommonSettings.USE_NONCHOREO_SONGS)) { NonChoreographySwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_NONCHOREO_SONGS, defaultValue: true); }
+        if (Preferences.ContainsKey(CommonSettings.USE_TAB_ANIMATION)) { TabAnimationSwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_TAB_ANIMATION, defaultValue: false); }
+
         if (Preferences.ContainsKey(CommonSettings.DEBUG_MODE)) { DebugSwitch.IsToggled = Preferences.Get(key: CommonSettings.DEBUG_MODE, defaultValue: false); }
 
         //AnalyticsSwitch.Toggled += Switch_Toggled;
         StartRpdAutomaticSwitch.Toggled += SwitchToggled;
         NonChoreographySwitch.Toggled += SwitchToggled;
+        TabAnimationSwitch.Toggled += SwitchToggled;
         DebugSwitch.Toggled += SwitchToggled;
         UsernameImageButton.Clicked += UsernameImageButtonClicked;
     }
@@ -62,6 +65,8 @@ public partial class SettingsPage : ContentPage
         //if (AnalyticsSwitch == sender) { Preferences.Set(CommonSettings.USE_ANALYTICS, AnalyticsSwitch.IsToggled); } // Not used
         if (StartRpdAutomaticSwitch == sender) { Preferences.Set(CommonSettings.START_RPD_AUTOMATIC, StartRpdAutomaticSwitch.IsToggled); }
         if (NonChoreographySwitch == sender) { Preferences.Set(CommonSettings.USE_NONCHOREO_SONGS, NonChoreographySwitch.IsToggled); } // Not used
+        if (TabAnimationSwitch == sender) { Preferences.Set(CommonSettings.USE_TAB_ANIMATION, TabAnimationSwitch.IsToggled); }
+
         if (DebugSwitch == sender) { DebugService.Instance.DebugInfoVisible = DebugSwitch.IsToggled; }
 
         //await DisplayAlert("NOTE", "Please restart the app for the change to take affect.", "OK");

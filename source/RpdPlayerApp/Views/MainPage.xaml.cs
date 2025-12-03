@@ -14,6 +14,7 @@ public partial class MainPage
     private readonly CurrentPlaylistView _currentPlaylistView = new(); // Playlists
     private readonly SortByBottomSheet _sortByBottomSheet = new();
     private readonly SongPartDetailBottomSheet _detailBottomSheet = new();
+    private bool _useTabAnimation = false;
 
     public MainPage()
     {
@@ -27,6 +28,7 @@ public partial class MainPage
         AudioPlayerControl.CurrentPlaylistViewModel = _currentPlaylistView._viewModel;
 
         SetupHomeToolbar();
+
         Loaded += async (s, e) => await OnLoadedAsync();
         Appearing += OnAppearing;
     }
@@ -96,7 +98,15 @@ public partial class MainPage
     }
 
 
-    private void OnAppearing(object? sender, EventArgs e) => AudioPlayerControl.UpdateUI();
+    private void OnAppearing(object? sender, EventArgs e)
+    {
+        // Set tab animation preference. TODO: Can be more optimized
+        if (Preferences.ContainsKey(CommonSettings.USE_TAB_ANIMATION)) { _useTabAnimation = Preferences.Get(key: CommonSettings.USE_TAB_ANIMATION, defaultValue: false); }
+        MainContainer.ContentTransitionDuration = _useTabAnimation ? 0.0 : 1.0; // Only reverse works?
+        DebugService.Instance.Debug($"MainPage: tab animation: {_useTabAnimation}");
+
+        AudioPlayerControl.UpdateUI();
+    }
 
     private static async Task LoadSettingsAsync()
     {

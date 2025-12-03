@@ -11,6 +11,7 @@ internal static class CommonSettings
     internal const string USE_ANALYTICS = "USE_ANALYTICS"; // Not used
     internal const string START_RPD_AUTOMATIC = "START_RPD_AUTOMATIC";
     internal const string USE_NONCHOREO_SONGS = "USE_NONCHOREO_SONGS";
+    internal const string USE_TAB_ANIMATION = "USE_TAB_ANIMATION";
     internal const string DEBUG_MODE = "DEBUG_MODE";
 
     internal const string TOTAL_ACTIVITY_TIME = "TOTAL_ACTIVITY_TIME";
