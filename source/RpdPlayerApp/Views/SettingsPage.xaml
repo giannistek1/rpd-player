@@ -55,11 +55,11 @@
 
                 <Grid ColumnDefinitions="24, *">
 
-                    <Image VerticalOptions="Center">
-                        <Image.Source>
+                    <ImageButton x:Name="VolumeImageButton" HeightRequest="30" HorizontalOptions="Center">
+                        <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Volume_up}" Color="{DynamicResource SecondaryIconColor}" />
-                        </Image.Source>
-                    </Image>
+                        </ImageButton.Source>
+                    </ImageButton>
 
                     <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="4,0,0,0">
 
@@ -135,15 +135,6 @@
                 <Switch Grid.Column="1" x:Name="StartRpdAutomaticSwitch" HorizontalOptions="End" />
 
             </Grid>
-
-            <!-- Analytics -->
-            <!--<Grid Grid.Row="6" ColumnDefinitions="*,*" IsVisible="False">
-
-                <Label Grid.Column="0" Text="Send analytics and crash reports" VerticalOptions="Center" HorizontalOptions="Start" />
-
-                <Switch Grid.Column="1" x:Name="AnalyticsSwitch" HorizontalOptions="End" />
-
-            </Grid>-->
 
             <!--  Use tab animation -->
             <Grid Grid.Row="6" ColumnDefinitions="*,*">

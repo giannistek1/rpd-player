@@ -13,9 +13,11 @@ public partial class SettingsPage : ContentPage
     public SettingsPage()
     {
         InitializeComponent();
-        Loaded += OnLoad;
 
+        Loaded += OnLoad;
         Appearing += OnPageAppearing;
+
+        VolumeImageButton.Clicked += VolumeImageButtonClicked;
     }
 
     private void OnLoad(object? sender, EventArgs e)
@@ -23,20 +25,16 @@ public partial class SettingsPage : ContentPage
         ThemeViewModel _viewModel = new();
         BindingContext = _viewModel;
 
-        //AnalyticsSwitch.IsToggled = true;
-
         // Load settings.
         if (Preferences.ContainsKey(CommonSettings.USERNAME)) { UsernameValueLabel.Text = Preferences.Get(key: CommonSettings.USERNAME, defaultValue: Constants.DEFAULT_USERNAME); }
         else { UsernameValueLabel.Text = Constants.DEFAULT_USERNAME; }
 
-        //if (Preferences.ContainsKey(CommonSettings.USE_ANALYTICS)) { AnalyticsSwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_ANALYTICS, defaultValue: true); }
         if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC)) { StartRpdAutomaticSwitch.IsToggled = Preferences.Get(key: CommonSettings.START_RPD_AUTOMATIC, defaultValue: true); }
         if (Preferences.ContainsKey(CommonSettings.USE_NONCHOREO_SONGS)) { NonChoreographySwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_NONCHOREO_SONGS, defaultValue: true); }
         if (Preferences.ContainsKey(CommonSettings.USE_TAB_ANIMATION)) { TabAnimationSwitch.IsToggled = Preferences.Get(key: CommonSettings.USE_TAB_ANIMATION, defaultValue: false); }
 
         if (Preferences.ContainsKey(CommonSettings.DEBUG_MODE)) { DebugSwitch.IsToggled = Preferences.Get(key: CommonSettings.DEBUG_MODE, defaultValue: false); }
 
-        //AnalyticsSwitch.Toggled += Switch_Toggled;
         StartRpdAutomaticSwitch.Toggled += SwitchToggled;
         NonChoreographySwitch.Toggled += SwitchToggled;
         TabAnimationSwitch.Toggled += SwitchToggled;
@@ -56,13 +54,21 @@ public partial class SettingsPage : ContentPage
         TimeSpan parsedTimeSpan = TimeSpan.Parse(timeSpan);
 
         TotalActivityTimeLabel.Text = $"{(int)parsedTimeSpan.TotalHours}h {parsedTimeSpan.Minutes:00}m {parsedTimeSpan.Seconds:00}s";
+
+        VolumeImageButton.Source = CommonSettings.IsVolumeMuted ? IconManager.NoSoundIcon : IconManager.SoundIcon;
+    }
+
+    private void VolumeImageButtonClicked(object? sender, EventArgs e)
+    {
+        CommonSettings.IsVolumeMuted = !CommonSettings.IsVolumeMuted;
+        VolumeImageButton.Source = CommonSettings.IsVolumeMuted ? IconManager.NoSoundIcon : IconManager.SoundIcon;
+        AudioManager.SetMute();
     }
 
     private async void BackButtonPressed(object sender, EventArgs e) => await Navigation.PopAsync();
 
     private void SwitchToggled(object? sender, ToggledEventArgs e)
     {
-        //if (AnalyticsSwitch == sender) { Preferences.Set(CommonSettings.USE_ANALYTICS, AnalyticsSwitch.IsToggled); } // Not used
         if (StartRpdAutomaticSwitch == sender) { Preferences.Set(CommonSettings.START_RPD_AUTOMATIC, StartRpdAutomaticSwitch.IsToggled); }
         if (NonChoreographySwitch == sender) { Preferences.Set(CommonSettings.USE_NONCHOREO_SONGS, NonChoreographySwitch.IsToggled); } // Not used
         if (TabAnimationSwitch == sender) { Preferences.Set(CommonSettings.USE_TAB_ANIMATION, TabAnimationSwitch.IsToggled); }

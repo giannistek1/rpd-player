@@ -4,6 +4,7 @@
              xmlns:sliders="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
              xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              x:Class="RpdPlayerApp.Views.SongPartDetailBottomSheet"
              Background="{DynamicResource BackgroundColor}">
 
@@ -39,7 +40,7 @@
             <Border Grid.Row="2" HeightRequest="200" WidthRequest="200" StrokeShape="RoundRectangle 16"
                         Padding="0" VerticalOptions="Start"  Margin="0,8,0,12">
 
-                <Image Grid.Row="2" HeightRequest="200" x:Name="AlbumImage"/>
+                <ffimageloading:CachedImage Grid.Row="2" HeightRequest="200" x:Name="AlbumImage"/>
             
             </Border>
 
@@ -144,8 +145,7 @@
             <!-- Volume -->
             <Grid Grid.Row="9" ColumnDefinitions="1*, 7*" Padding="16,0,16,0">
 
-                <ImageButton Grid.Column="0" x:Name="VolumeImageButton" HeightRequest="30" HorizontalOptions="Center" Pressed="VolumeImageButtonPressed">
-                    <!-- TODO: Is source needed in XAML? -->
+                <ImageButton x:Name="VolumeImageButton" HeightRequest="30" HorizontalOptions="Center" Pressed="VolumeImageButtonPressed">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Volume_up}" Color="{DynamicResource IconColor}" />
                     </ImageButton.Source>
@@ -163,7 +163,6 @@
                     </sliders:SfSlider.ThumbStyle>
 
                 </sliders:SfSlider>
-
 
             </Grid>
 

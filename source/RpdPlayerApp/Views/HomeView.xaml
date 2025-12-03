@@ -79,7 +79,7 @@
                     Text="Categories" FontSize="12" LineBreakMode="WordWrap" />
 
             <Button Grid.Column="1" x:Name="SaveTemplateImageButton" Padding="4,0,4,0" HeightRequest="40" CornerRadius="8" HorizontalOptions="Start"
-                    Text="Save filter" FontSize="12" LineBreakMode="WordWrap" />
+                    Text="Save options" FontSize="12" LineBreakMode="WordWrap" />
 
             <sfcore:SfBadgeView Grid.Column="3" x:Name="NewsBadgeView" WidthRequest="44" HeightRequest="44">
                 <sfcore:SfBadgeView.Content>

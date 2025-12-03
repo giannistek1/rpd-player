@@ -5,6 +5,7 @@
              xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.AudioPlayerControl">
     
@@ -19,7 +20,7 @@
             </Grid.GestureRecognizers>
 
             <!-- Album image -->
-            <Image Grid.Column="0" HeightRequest="50" x:Name="AlbumImage" />
+            <ffimageloading:CachedImage Grid.Column="0" HeightRequest="50" x:Name="AlbumImage" />
 
             <!-- SongPart playing -->
             <VerticalStackLayout Grid.Column="1" Padding="16,0,0,0" VerticalOptions="CenterAndExpand">

@@ -19,6 +19,7 @@ public partial class CategoriesView : ContentView
     {
         InitializeComponent();
 
+        // TODO: Via viewmodel command
         BackImageButton.Pressed += BackImageButton_Pressed;
         AllImageButton.Pressed += SetFilter;
         DanceImageButton.Pressed += SetFilter;

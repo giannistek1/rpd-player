@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
+using FFImageLoading.Maui;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -57,7 +58,8 @@ namespace RpdPlayerApp
             //                })
 
             .UseBottomSheet()
-            .UseMauiCommunityToolkit();
+            .UseMauiCommunityToolkit()
+            .UseFFImageLoading();
 
             if (true)
             {

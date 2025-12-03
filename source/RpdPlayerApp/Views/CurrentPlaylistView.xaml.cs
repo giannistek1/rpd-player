@@ -35,6 +35,7 @@ public partial class CurrentPlaylistView : ContentView
         ProgressSlider = PlaylistProgressSlider;
         CurrentPlaylistListView.DragDropController!.UpdateSource = true;
 
+        // TODO: Via command in viewModel.
         BackImageButton.Clicked += BackImageButtonClicked;
         EditPlaylistnameImageButton.Clicked += EditPlaylistnameImageButtonClicked;
         ClearPlaylistImageButton.Clicked += ClearPlaylistImageButtonClicked;
