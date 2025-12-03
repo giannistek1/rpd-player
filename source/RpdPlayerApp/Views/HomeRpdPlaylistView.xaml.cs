@@ -677,7 +677,7 @@ public partial class HomeRpdPlaylistView : ContentView
         AppState.CountdownMode = RpdSettings.CountdownMode;
         //AppState.AnnouncementMode = RpdSettings!.AnnouncementMode;
 
-        var songParts = RpdSettings.FilterSongParts();
+        List<SongPart> songParts = RpdSettings.FilterSongParts();
         if (songParts.Count <= 0)
         {
             General.ShowToast("No songs found! Please change your settings.");
@@ -690,7 +690,11 @@ public partial class HomeRpdPlaylistView : ContentView
         if (result.IsCanceled) { return; }
         else if (result.Text.IsNullOrWhiteSpace()) { result.Text = generatedName; }
 
-        await PlaylistsManager.GeneratePlaylistFromSongParts(result.Text, songParts, (int)RpdSettings.Duration.TotalMinutes);
+        Playlist playlist = await PlaylistsManager.GeneratePlaylistFromSongParts(result.Text, songParts, (int)RpdSettings.Duration.TotalMinutes);
+
+        CurrentPlaylistManager.Instance.ChosenPlaylist = playlist;
+
+        CreatePlaylistButtonPressed?.Invoke(this, EventArgs.Empty);
     }
 
     private void StartRpdButtonClicked(object? sender, EventArgs e)

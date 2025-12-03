@@ -75,7 +75,7 @@ internal static class PlaylistsManager
     }
 
 
-    internal static async Task GeneratePlaylistFromSongParts(string name, List<SongPart> availableSegments, int durationInMinutes = 120)
+    internal static async Task<Playlist> GeneratePlaylistFromSongParts(string name, List<SongPart> availableSegments, int durationInMinutes = 120)
     {
         List<SongPart> songs = GenerateSegmentsFromSongParts(availableSegments, durationInMinutes);
 
@@ -87,6 +87,8 @@ internal static class PlaylistsManager
         playlist.LocalPath = path;
 
         CacheState.LocalPlaylists?.Add(playlist);
+
+        return playlist;
     }
 
     /// <summary> Generates random playlist based on songparts until max duration or when songparts run out. </summary>

@@ -435,7 +435,7 @@ public partial class MainPage
     private void OnCreatePlaylistButtonPressed(object? sender, EventArgs e)
     {
         MainContainer.SelectedIndex = 2;
-        SetupLibraryOrCurrentPlaylistToolbar();
+        ShowPlaylistView();
     }
 
     private void OnAddSongPart(object? sender, EventArgs e) => _currentPlaylistView.RefreshCurrentPlaylist();
