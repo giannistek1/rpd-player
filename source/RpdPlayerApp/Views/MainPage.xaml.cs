@@ -43,12 +43,14 @@ public partial class MainPage
     private async Task OnLoadedAsync()
     {
         await LoadSettingsAsync();
+
         SetParentPages();
         SetContentViewEvents();
         InitializePageContainers();
         KeepScreenOn();
 
-        await LoadInitialDataAsync();
+        // Run heavy data loading on a background thread to avoid blocking the UI thread.
+        await Task.Run(async () => await LoadInitialDataInBackground());
 
         await HomeView.Init();
         HandleAutoStartRpd();
@@ -56,27 +58,41 @@ public partial class MainPage
         SearchSongPartsView.Init();
     }
 
-    private async Task LoadInitialDataAsync()
+    // Performs initial data loading on a background thread. Any UI-affecting callbacks or logs are marshalled back to the main thread.
+    private async Task LoadInitialDataInBackground()
     {
         if (General.HasInternetConnection())
         {
+            // These repository calls may be CPU or IO heavy; run them on background thread.
             ArtistRepository.GetArtists();
             AlbumRepository.GetAlbums();
             VideoRepository.GetVideos();
             SongPartRepository.GetSongParts();
-            RpdSettings.InitializeCompanies();
+
+            // If RpdSettings initialization touches UI or preferences, run it on main thread to be safe.
+            MainThread.BeginInvokeOnMainThread(() => RpdSettings.InitializeCompanies());
         }
         else
         {
             await LoadDataOffline();
-            RpdSettings.InitializeCompanies();
-            OnInitSongParts(this, EventArgs.Empty);
+
+            // Marshal logs and any UI callbacks back to the main thread.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                RpdSettings.InitializeCompanies();
+                OnInitSongParts(this, EventArgs.Empty);
+            });
         }
     }
 
+    // Kept for compatibility if other callers exist, but delegates to background loader.
+    private Task LoadInitialDataAsync() => LoadInitialDataInBackground();
+
     private async Task LoadDataOffline()
     {
+
         var loadedArtists = await FileManager.LoadArtistsAsync();
+
         ArtistRepository.Artists.Clear();
         foreach (Artist artist in loadedArtists)
         {
@@ -85,6 +101,7 @@ public partial class MainPage
         }
 
         var loadedAlbums = await FileManager.LoadAlbumsAsync();
+
         AlbumRepository.Albums.Clear();
         foreach (Album album in loadedAlbums)
         {
@@ -93,6 +110,7 @@ public partial class MainPage
         }
 
         var loadedVideos = await FileManager.LoadVideosAsync();
+
         VideoRepository.Videos.Clear();
         foreach (Video video in loadedVideos)
         {
@@ -100,6 +118,7 @@ public partial class MainPage
         }
 
         var loadedSongParts = await FileManager.LoadSongPartsAsync();
+
         SongPartRepository.SongParts.Clear();
         foreach (SongPart part in loadedSongParts)
         {
@@ -140,6 +159,7 @@ public partial class MainPage
     private void SetParentPages()
     {
         HomeView.ParentPage = this;
+        _homeCategoriesView.ParentPage = this;
         _homeRpdPlaylistView.ParentPage = this;
         SearchSongPartsView.ParentPage = this;
         LibraryView.ParentPage = this;
@@ -155,7 +175,6 @@ public partial class MainPage
 
         _homeCategoriesView.IsVisible = false;
         _homeCategoriesView.FilterPressed += OnFilterPressed;
-        _homeCategoriesView.BackPressed += OnBackPressed;
 
         _homeRpdPlaylistView.IsVisible = false;
         _homeRpdPlaylistView.InitSongParts += OnInitSongParts;
@@ -209,7 +228,7 @@ public partial class MainPage
         });
     }
 
-    private void OnBackPressed(object? sender, EventArgs e) => BackToHomeView();
+    internal void BackPressed() => BackToHomeView();
 
     private async void OnFavoriteSongPart(object? sender, EventArgs e)
     {
@@ -440,7 +459,7 @@ public partial class MainPage
 
     private void OnAddSongPart(object? sender, EventArgs e) => _currentPlaylistView.RefreshCurrentPlaylist();
 
-    internal void ShowHomeCategories(object? sender, EventArgs e)
+    internal void ShowHomeCategories()
     {
         HomeView = (HomeView)HomeContainer.Children[0];
         HomeView.IsVisible = false;
@@ -611,8 +630,8 @@ public partial class MainPage
             MainContainer.SelectedIndex = 0;
 
             // Check what was visible on the homeview.
-            if (_homeCategoriesView.IsVisible) { ShowHomeCategories(null, EventArgs.Empty); }
-            if (_homeRpdPlaylistView.IsVisible) { _ = ShowRpdPlaylistView(); }
+            if (_homeCategoriesView.IsVisible) { ShowHomeCategories(); }
+            else if (_homeRpdPlaylistView.IsVisible) { _ = ShowRpdPlaylistView(); }
             else { BackToHomeView(); }
 
             SetupHomeToolbar();

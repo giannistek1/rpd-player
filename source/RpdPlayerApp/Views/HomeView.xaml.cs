@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Views;
-using RpdPlayerApp.Architecture;
+﻿using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
@@ -179,5 +178,5 @@ public partial class HomeView : ContentView
         RpdSettings.UsingGeneratePlaylist = true;
         await ParentPage!.ShowRpdPlaylistView();
     }
-    private void CategoriesButtonClicked(object? sender, EventArgs e) => ParentPage!.ShowHomeCategories(sender, e);
+    private void CategoriesButtonClicked(object? sender, EventArgs e) => ParentPage!.ShowHomeCategories();
 }

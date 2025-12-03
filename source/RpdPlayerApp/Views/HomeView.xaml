@@ -101,6 +101,10 @@
                 <!-- Start RPD -->
                 <Grid Grid.Row="0" RowDefinitions="auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="StartRpdButtonClicked" NumberOfTapsRequired="1" />
+                    </Grid.GestureRecognizers>
+
                     <Grid ColumnDefinitions="20, *, 24">
 
                         <Image VerticalOptions="Center">
@@ -131,6 +135,10 @@
                 <!-- Generate playlist -->
                 <Grid Grid.Row="1" RowDefinitions="auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
 
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GeneratePlaylistButtonClicked" NumberOfTapsRequired="1" />
+                    </Grid.GestureRecognizers>
+
                     <Grid ColumnDefinitions="20, *, 24">
 
                         <Image VerticalOptions="Center">
@@ -160,6 +168,10 @@
 
                 <!-- Categories -->
                 <Grid Grid.Row="2" RowDefinitions="auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CategoriesButtonClicked" NumberOfTapsRequired="1" />
+                    </Grid.GestureRecognizers>
 
                     <Grid ColumnDefinitions="20, *, 24">
 

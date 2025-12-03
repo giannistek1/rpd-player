@@ -34,6 +34,8 @@ public partial class HomeRpdPlaylistView : ContentView
 
         BindingContext = _viewModel;
 
+
+        BackImageButton.Clicked += BackImageButtonClicked;
         SaveTemplateImageButton.Clicked += SaveTemplateImageButtonClicked;
 
         TimerImageButton.Clicked += TimerImageButtonClicked;
@@ -54,6 +56,7 @@ public partial class HomeRpdPlaylistView : ContentView
             _yearOptions.Add(year.ToString());
         }
     }
+
     internal async Task Init()
     {
         if (_isInitialized) { return; }
@@ -744,6 +747,8 @@ public partial class HomeRpdPlaylistView : ContentView
 
         AudioManager.ChangeAndStartSong(songPart);
     }
+
+    private void BackImageButtonClicked(object? sender, EventArgs e) => ParentPage!.BackPressed();
 
     internal async void FeedbackButtonPressed(object? sender, EventArgs e)
     {

@@ -73,9 +73,26 @@
         </Grid>
 
         <!-- Utility buttons -->
-        <Grid Grid.Row="1" ColumnDefinitions="auto" ColumnSpacing="6" Margin="8,4,8,6">
+        <Grid Grid.Row="1" ColumnDefinitions="auto, auto" ColumnSpacing="6" Margin="8,4,8,6">
 
-            <Button Grid.Column="0" x:Name="SaveTemplateImageButton" Padding="4,0,4,0" HeightRequest="40" CornerRadius="8" HorizontalOptions="Start"
+            <Border Grid.Column="0" x:Name="BackBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
+                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+
+                <VerticalStackLayout VerticalOptions="CenterAndExpand">
+
+                    <ImageButton x:Name="BackImageButton" HeightRequest="26">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{DynamicResource IconColor}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+
+                    <Label Text="Back" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+            <Button Grid.Column="1" x:Name="SaveTemplateImageButton" Padding="4,0,4,0" HeightRequest="40" CornerRadius="8" HorizontalOptions="Start"
                     Text="Save options" FontSize="12" LineBreakMode="WordWrap" />
 
         </Grid>

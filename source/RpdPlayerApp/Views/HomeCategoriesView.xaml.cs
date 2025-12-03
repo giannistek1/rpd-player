@@ -16,12 +16,14 @@ public partial class HomeCategoriesView : ContentView
 
     private bool _isInitialized = false;
 
+    internal MainPage? ParentPage { get; set; }
+
     public HomeCategoriesView()
     {
         InitializeComponent();
 
         // TODO: Via viewmodel command
-        BackImageButton.Pressed += BackImageButton_Pressed;
+        BackImageButton.Pressed += BackImageButtonPressed;
         AllImageButton.Pressed += SetFilter;
         DanceImageButton.Pressed += SetFilter;
         MaleImageButton.Pressed += SetFilter;
@@ -283,7 +285,7 @@ public partial class HomeCategoriesView : ContentView
     }
     private string MakeArtistsDescription(List<Artist> artists) => string.Join(" • ", artists.Select(a => a.Name)) + " ...";
 
-    private void BackImageButton_Pressed(object? sender, EventArgs e) => BackPressed?.Invoke(sender, e);
+    private void BackImageButtonPressed(object? sender, EventArgs e) => ParentPage!.BackPressed();
 
     private void OtherCategoriesSegmentedControl_SelectionChanged(object? sender, Syncfusion.Maui.Buttons.SelectionChangedEventArgs e)
     {
