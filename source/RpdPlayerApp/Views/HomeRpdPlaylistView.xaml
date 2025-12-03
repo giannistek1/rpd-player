@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:RpdPlayerApp.Views"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:sfcore="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+             x:Class="RpdPlayerApp.Views.HomeRpdPlaylistView"
+             BackgroundColor="{DynamicResource BackgroundColor}">
+
+    <!-- NOTE: Scrollview needs a height, so only * works and not auto -->
+    <Grid Padding="0" RowDefinitions="20, auto, auto, *, auto, auto" ColumnDefinitions="*">
+
+        <!-- New stats -->
+        <Grid Grid.Row="0" ColumnDefinitions="1*, auto, 1*">
+
+            <Label Grid.Column="0" Padding="8,2,0,0" x:Name="VersionLabel" FlexLayout.Grow="1" VerticalTextAlignment="Start" Style="{StaticResource Sideinfo}" Text="Version 0.0.0"/>
+
+            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center">
+
+                <!-- SongParts -->
+                <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
+
+                <Label x:Name="SongPartCountLabel" Text="{Binding SongParts.Count}" Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
+
+                <!-- Artists -->
+                <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
+
+                <Label x:Name="ArtistCountLabel" Text="{Binding Artists.Count}"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,20,0"/>
+
+                <!-- Albums -->
+                <Image HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Album}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
+
+                <Label x:Name="AlbumCountLabel" Text="{Binding Albums.Count}" Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
+
+                <!-- Unique song parts (for debug mode) -->
+                <Image x:Name="UniqueSongCountImage"  HorizontalOptions="EndAndExpand" Margin="0,0,4,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Stars}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
+
+                <Label x:Name="UniqueSongCountLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
+
+            </HorizontalStackLayout>
+
+
+            <HorizontalStackLayout Grid.Column="2" Margin="0,0,8,0" HorizontalOptions="End">
+
+                <Label x:Name="IsOnlineLabel"  Style="{StaticResource SideinfoStats}" VerticalOptions="Center" Margin="0,0,8,0"/>
+
+                <Image x:Name="IsOnlineImage" HorizontalOptions="End">
+                    <Image.Source>
+                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Cloud_done}" Color="{DynamicResource SecondaryIconColor}" />
+                    </Image.Source>
+                </Image>
+
+            </HorizontalStackLayout>
+
+        </Grid>
+
+        <!-- Utility buttons -->
+        <Grid Grid.Row="1" ColumnDefinitions="auto" ColumnSpacing="6" Margin="8,4,8,6">
+
+            <Button Grid.Column="0" x:Name="SaveTemplateImageButton" Padding="4,0,4,0" HeightRequest="40" CornerRadius="8" HorizontalOptions="Start"
+                    Text="Save options" FontSize="12" LineBreakMode="WordWrap" />
+
+        </Grid>
+
+        <!-- Home mode -->
+        <buttons:SfSegmentedControl Grid.Row="2" x:Name="HomeModeSegmentedControl" SegmentWidth="150" Margin="0,0,0,8">
+
+            <!-- Non-selection -->
+            <buttons:SfSegmentedControl.TextStyle>
+                <buttons:SegmentTextStyle TextColor="{DynamicResource PrimaryTextColor}" FontSize="16"/>
+            </buttons:SfSegmentedControl.TextStyle>
+
+            <!-- Selection -->
+            <buttons:SfSegmentedControl.SelectionIndicatorSettings>
+                <buttons:SelectionIndicatorSettings  SelectionIndicatorPlacement="Fill" Background="{DynamicResource SecondaryButton}" TextColor="{DynamicResource PrimaryTextColor}"/>
+            </buttons:SfSegmentedControl.SelectionIndicatorSettings>
+
+        </buttons:SfSegmentedControl>
+
+        <!-- Settings -->
+        <ScrollView Grid.Row="3" Orientation="Vertical" VerticalOptions="FillAndExpand">
+
+            <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto">
+
+                <Grid ColumnDefinitions="*,*" Padding="16,0,16,0" >
+
+                    <Label Grid.Row="0" x:Name="OptionsLabel" Text="Options" Style="{StaticResource H1}" Margin="0,0,0,8" VerticalOptions="Center" FontAttributes="Bold"/>
+
+                </Grid>
+
+                <!-- Duration -->
+                <Grid Grid.Row="1" x:Name="DurationGrid" RowDefinitions="auto, auto" Margin="0,0,0,8" Padding="16,0,16,0">
+
+                    <Grid ColumnDefinitions="20, *, 24">
+
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Hourglass}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
+
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Duration" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="DurationValueLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="DurationImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
+
+                </Grid>
+
+                <!-- Timer -->
+                <Grid Grid.Row="2" RowDefinitions="auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
+
+                    <Grid ColumnDefinitions="20, *, 24">
+
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Timer}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
+
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Timer" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="TimerValueLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="TimerImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
+
+                </Grid>
+
+                <!-- Voice announcements -->
+                <Grid Grid.Row="3" x:Name="VoiceAnnouncementsGrid" RowDefinitions="auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
+
+                    <Grid ColumnDefinitions="20, *, 24">
+
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Voice_selection}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
+
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Voice announcements" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="VoiceAnnouncementsValueLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="VoiceAnnouncementImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
+
+                </Grid>
+
+                <!-- Grouptypes -->
+                <Grid Grid.Row="4" RowDefinitions="auto,auto" Margin="0,0,0,12" Padding="16,0,16,0">
+
+                    <Grid ColumnDefinitions="20, *, 24">
+
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Wc}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
+
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Grouptypes" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="GrouptypesValuesLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="GrouptypesImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
+
+                </Grid>
+
+                <!-- Genres -->
+                <Grid Grid.Row="5" RowDefinitions="auto,auto" Margin="0,0,0,12" Padding="16,0,16,0">
+
+                    <Grid ColumnDefinitions="20, *, 24">
+
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
+
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Genres" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="GenresValuesLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="GenresImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
+
+                </Grid>
+
+                <!-- Generations (only for k-pop) -->
+                <Grid Grid.Row="6" x:Name="GenerationsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
+
+                    <Grid ColumnDefinitions="20, *, 24">
+
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Supervisor_account}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
+
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Generations" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="GenerationsValuesLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="GenerationsImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
+
+                </Grid>
+
+                <!-- Companies (only for k-pop) -->
+                <Grid Grid.Row="7" x:Name="CompaniesGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
+
+                    <Grid ColumnDefinitions="20, *, 24">
+
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Business_center}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
+
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Companies" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="CompaniesValuesLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="CompaniesImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
+
+                </Grid>
+
+                <!-- Years -->
+                <Grid Grid.Row="8" x:Name="YearsGrid" RowDefinitions="auto, auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
+
+                    <Grid ColumnDefinitions="20, *, 24">
+
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Calendar_today}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
+
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Years" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="YearsValuesLabel" Text="Value" Style="{StaticResource H1}" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="YearsImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
+
+                </Grid>
+
+                <!-- Other options -->
+                <Grid Grid.Row="9" RowDefinitions="auto, auto, auto" Margin="0,0,0,12" Padding="16,0,16,0">
+
+                    <Grid ColumnDefinitions="20, *, 24">
+
+                        <Image VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Tune}" Color="{DynamicResource SecondaryIconColor}" />
+                            </Image.Source>
+                        </Image>
+
+                        <!-- Text middle part -->
+                        <Grid Grid.Column="1" RowDefinitions="auto, auto" Margin="12,0,0,0">
+
+                            <Label Text="Other options" Style="{StaticResource Sideinfo}" VerticalOptions="Center"/>
+
+                            <Label Grid.Row="1" x:Name="OtherOptionsValuesLabel" Text="Value" VerticalOptions="Center"/>
+
+                        </Grid>
+
+                        <ImageButton Grid.Column="2" x:Name="OtherOptionsImageButton" VerticalOptions="Center">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Chevron_right}" Color="{DynamicResource IconColor}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                    </Grid>
+
+                </Grid>
+
+            </Grid>
+
+        </ScrollView>
+
+        <!-- Stats -->
+        <Grid Grid.Row="4" ColumnDefinitions="auto,auto, auto,auto" Margin="0,0,0,2" ColumnSpacing="8" Padding="16,0,16,0" HorizontalOptions="End">
+
+            <Image Grid.Column="0" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="End">
+                <Image.Source>
+                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Music_note}" Color="{DynamicResource SecondaryIconColor}" />
+                </Image.Source>
+            </Image>
+
+            <Label Grid.Column="1" x:Name="RpdSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="Center" />
+
+            <Image Grid.Column="2" HeightRequest="20" VerticalOptions="Center" HorizontalOptions="End">
+                <Image.Source>
+                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Artist}" Color="{DynamicResource SecondaryIconColor}" />
+                </Image.Source>
+            </Image>
+
+            <Label Grid.Column="3" x:Name="RpdArtistSizeLabel" Text="" Style="{StaticResource Sideinfo}" VerticalTextAlignment="Center" VerticalOptions="Center" />
+
+        </Grid>
+
+        <!-- Action buttons -->
+        <Grid Grid.Row="5" ColumnDefinitions="*" ColumnSpacing="12" Margin="16,0,16,4">
+
+            <Button Grid.Column="0" x:Name="StartModeButton" HeightRequest="40" Padding="0,4,0,4" BackgroundColor="{DynamicResource PrimaryButton}" CornerRadius="8" FontAttributes="Bold" />
+
+        </Grid>
+
+    </Grid>
+
+</ContentView>

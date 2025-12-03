@@ -19,7 +19,9 @@ public partial class InputPromptPopup
 
     private void OnOkClicked(object sender, EventArgs e)
     {
-        if (InputEntry.Text is not null && InputEntry.Text.Length >= _minLength)
+        bool isNullable = (_minLength == 0);
+
+        if (isNullable || InputEntry.Text is not null && InputEntry.Text.Length >= _minLength)
         {
             Close(new InputPromptResult(InputEntry.Text, false));
         }

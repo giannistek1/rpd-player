@@ -26,7 +26,9 @@ public partial class SearchSongPartsView : ContentView
     internal event EventHandler? ShowSortBy;
 
     internal ObservableCollection<SongPart>? allSongParts;
+    /// <summary> Category filter based songparts </summary>
     internal ObservableCollection<SongPart> songParts = [];
+    /// <summary> Search text filter based songparts </summary>
     internal List<SongPart> searchFilteredSongParts = [];
     internal MainPage? ParentPage { get; set; }
 
@@ -388,8 +390,7 @@ public partial class SearchSongPartsView : ContentView
         SonglibraryListView.ItemsSource = searchFilteredSongParts;
         AppState.SongParts = [.. songParts];
 
-        IEnumerable<SongPart> artistsBySongPart = searchFilteredSongParts.DistinctBy(s => new { s.ArtistName });
-        ResultsLabel.Text = $"{searchFilteredSongParts.Count} results from {artistsBySongPart.Count()} artists";
+        UpdateResultsText();
     }
 
     internal void SortButtonClicked(object? sender, EventArgs e) => ShowSortBy?.Invoke(sender, e);
@@ -549,7 +550,16 @@ public partial class SearchSongPartsView : ContentView
     private void UpdateResultsText()
     {
         IEnumerable<SongPart> artistsBySongPart = searchFilteredSongParts.DistinctBy(s => new { s.ArtistName });
-        _viewModel.UpdateResultsText(searchFilteredSongParts.Count, artistsBySongPart.Count());
+        // Filter by category
+        if (songParts.Count < searchFilteredSongParts.Count)
+        {
+            artistsBySongPart = songParts.DistinctBy(s => new { s.ArtistName });
+            _viewModel.UpdateResultsText(songParts.Count, artistsBySongPart.Count());
+        }
+        else // Filter by search text
+        {
+            _viewModel.UpdateResultsText(searchFilteredSongParts.Count, artistsBySongPart.Count());
+        }
     }
 
     #endregion Filter
@@ -998,12 +1008,4 @@ public partial class SearchSongPartsView : ContentView
     }
 
     #endregion Sort
-
-    private void ActionsImageButtonClicked(object sender, EventArgs e)
-    {
-        if (sender is ImageButton button && button.CommandParameter is SongPart segment)
-        {
-            General.ShowToast(segment.Title);
-        }
-    }
 }

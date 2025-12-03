@@ -187,6 +187,9 @@
       <Compile Update="Views\AudioPlayerControl.xaml.cs">
         <DependentUpon>AudioPlayerControl.xaml</DependentUpon>
       </Compile>
+      <Compile Update="Views\HomeCategoriesView.xaml.cs">
+        <DependentUpon>HomeCategoriesView.xaml</DependentUpon>
+      </Compile>
       <Compile Update="Views\CurrentPlaylistView.xaml.cs">
         <DependentUpon>CurrentPlaylistView.xaml</DependentUpon>
       </Compile>
@@ -196,8 +199,8 @@
       <Compile Update="Views\EditChipOptionsPopup.xaml.cs">
         <DependentUpon>EditChipOptionsPopup.xaml</DependentUpon>
       </Compile>
-      <Compile Update="Views\SongSegmentRequestPage.xaml.cs">
-        <DependentUpon>SongSegmentRequestPage.xaml</DependentUpon>
+      <Compile Update="Views\FeedbackPage.xaml.cs">
+        <DependentUpon>FeedbackPage.xaml</DependentUpon>
       </Compile>
     </ItemGroup>
 
@@ -214,13 +217,16 @@
       <MauiXaml Update="Resources\Styles\Light.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
-      <MauiXaml Update="Views\CategoriesView.xaml">
+      <MauiXaml Update="Views\HomeCategoriesView.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Views\EditChipOtherOptionsPopup.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Views\EditChipOptionsPopup.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Views\HomeRpdPlaylistView.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Views\HomeView.xaml">
@@ -256,7 +262,7 @@
       <MauiXaml Update="Views\SongPartDetailBottomSheet.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
-      <MauiXaml Update="Views\SongSegmentRequestPage.xaml">
+      <MauiXaml Update="Views\FeedbackPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Views\SortByBottomSheet.xaml">

@@ -57,6 +57,9 @@ internal static class Constants
 
     // Not a constant at startup.
     internal static List<string> AllCompanies { get; set; } = [];
+    // Gets filled later as well with the big 3.
+    internal static List<string> MainCompanies { get; set; } = [];
+
     internal static List<string> HybeCompanies { get; set; } = ["HYBE Labels", "Big Hit Entertainment", "Source Music", "Pledis Entertainment"];
     internal static List<string> SMCompanies { get; set; } = ["SM Entertainment", "Label V", "Mystic Story"];
     internal static List<string> YGCompanies { get; set; } = ["YG Entertainment", "The Black Label"];

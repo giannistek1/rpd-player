@@ -7,7 +7,8 @@ using RpdPlayerApp.Repositories;
 
 namespace RpdPlayerApp.Views;
 
-public partial class CategoriesView : ContentView
+// TODO: Ideally this would be a popup or something since this could be used anywhere.
+public partial class HomeCategoriesView : ContentView
 {
     internal event EventHandler? FilterPressed;
 
@@ -15,7 +16,7 @@ public partial class CategoriesView : ContentView
 
     private bool _isInitialized = false;
 
-    public CategoriesView()
+    public HomeCategoriesView()
     {
         InitializeComponent();
 

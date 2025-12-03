@@ -5,12 +5,12 @@ using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
-public partial class SongSegmentRequestPage : ContentPage
+public partial class FeedbackPage : ContentPage
 {
     readonly SongSegmentRequestViewModel _viewModel = new();
 
     internal HomeView? HomeView { get; set; }
-    public SongSegmentRequestPage()
+    public FeedbackPage()
     {
         InitializeComponent();
         BindingContext = _viewModel;

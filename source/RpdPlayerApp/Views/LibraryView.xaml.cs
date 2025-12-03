@@ -53,15 +53,15 @@ public partial class LibraryView : ContentView
 
     internal async void NewPlaylistButtonClicked(object? sender, EventArgs e)
     {
-        InputPromptResult result = await General.ShowInputPromptAsync("Playlist title", "", maxLength: 26);
+        InputPromptResult result = await General.ShowInputPromptAsync("Create empty playlist", "Name", maxLength: 26);
         string playlistName = result.Text;
 
-        if (string.IsNullOrWhiteSpace(playlistName))
+        if (result.IsCanceled) { return; }
+        else if (string.IsNullOrWhiteSpace(playlistName))
         {
             General.ShowToast($"Please fill in a name");
             return;
         }
-        else if (result.IsCanceled) { return; }
 
         try
         {

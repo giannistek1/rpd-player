@@ -1,10 +1,13 @@
 ﻿using RpdPlayerApp.Enums;
+using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
+using RpdPlayerApp.Repositories;
+using RpdPlayerApp.Services;
 using Syncfusion.Maui.Core;
 
 namespace RpdPlayerApp.Architecture;
 
-internal class RpdSettings
+public class RpdSettings
 {
     public RpdSettings()
     {
@@ -13,34 +16,35 @@ internal class RpdSettings
     }
 
     /// <summary> When false, mode is StartRpd. </summary>
-    internal bool UsingGeneratePlaylist { get; set; } = false;
+    internal static bool UsingGeneratePlaylist { get; set; } = false;
 
-    internal CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off;
-    internal AnnouncementModeValue AnnouncementMode { get; set; } = AnnouncementModeValue.Off;
-    internal TimeSpan Duration { get; set; } = TimeSpan.FromHours(1);
+    internal static CountdownModeValue CountdownMode { get; set; } = CountdownModeValue.Off;
+    internal static AnnouncementModeValue AnnouncementMode { get; set; } = AnnouncementModeValue.Off;
+    internal static TimeSpan Duration { get; set; } = TimeSpan.FromHours(1);
 
-    internal List<int> GroupTypesSelectedIndices { get; set; } = [0, 1, 2];
-    internal List<GroupType> GroupTypes { get; set; } = [GroupType.BG, GroupType.GG, GroupType.MIX];
+    internal static List<int> GroupTypesSelectedIndices { get; set; } = [0, 1, 2];
+    internal static List<GroupType> GroupTypes { get; set; } = [GroupType.BG, GroupType.GG, GroupType.MIX];
 
-    internal List<int> GenresSelectedIndices { get; set; } = [0, 1, 2, 3, 4, 5];
-    internal List<string> Genres { get; set; } = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "Pop"];
-    internal List<int> GensSelectedIndices { get; set; } = [0, 1, 2, 3, 4, 5];
-    internal List<GenType> Gens { get; set; } = [GenType.First, GenType.Second, GenType.Third, GenType.Fourth, GenType.Fifth, GenType.NotKpop];
-    internal List<int> CompaniesSelectedIndices { get; set; } = [0, 1, 2, 3, 4];
-    internal List<string> Companies { get; set; } = [];
-    internal List<string> OtherCompanies { get; set; } = [];
+    internal static List<int> GenresSelectedIndices { get; set; } = [0, 1, 2, 3, 4, 5];
+    internal static List<string> Genres { get; set; } = ["K-pop", "K-RnB", "J-pop", "C-pop", "T-pop", "Pop"];
+    internal static List<int> GensSelectedIndices { get; set; } = [0, 1, 2, 3, 4, 5];
+    internal static List<GenType> Gens { get; set; } = [GenType.First, GenType.Second, GenType.Third, GenType.Fourth, GenType.Fifth, GenType.NotKpop];
+    internal static List<int> CompaniesSelectedIndices { get; set; } = [0, 1, 2, 3, 4];
+    /// <summary> Selected companies  </summary>
+    internal static List<string> Companies { get; set; } = [];
+    internal static List<string> OtherCompanies { get; set; } = [];
 
-    internal List<int> YearsSelectedIndices { get; set; } = [.. Constants.SELECTED_YEARS_INDICES_DEFAULT];
-    internal List<int> Years { get; set; }
+    internal static List<int> YearsSelectedIndices { get; set; } = [.. Constants.SELECTED_YEARS_INDICES_DEFAULT];
+    internal static List<int> Years { get; set; } = [];
 
-    internal Dictionary<string, bool> SelectedOtherOptions { get; set; } = new Dictionary<string, bool>
+    internal static Dictionary<string, bool> SelectedOtherOptions { get; set; } = new Dictionary<string, bool>
     {
         { "No last chorus", false },
         { "No dance breaks", false },
         { "No tiktoks", false }
     };
-    internal List<string> NumberedPartsBlacklist { get; set; } = [];
-    internal List<string> PartsBlacklist { get; set; } = [];
+    internal static List<string> NumberedPartsBlacklist { get; set; } = [];
+    internal static List<string> PartsBlacklist { get; set; } = [];
 
     internal void DetermineGroupTypes(SfChipGroup grouptypesChipGroup)
     {
@@ -165,4 +169,50 @@ internal class RpdSettings
         AnnouncementModeValue.GroupType => "By grouptype (BG/GG/MIX)",
         _ => "Off"
     };
+
+    internal static List<SongPart> FilterSongParts()
+    {
+        if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0) { return []; }
+
+        var songParts = SongPartRepository.SongParts.Where(s => GroupTypes.Contains(s.Artist.GroupType))
+                                                    .Where(s => Genres.Contains(s.Album.GenreFull))
+                                                    .Where(s => !NumberedPartsBlacklist.Contains(s.PartNameShortWithNumber))
+                                                    .Where(s => !PartsBlacklist.Contains(s.PartNameShort))
+                                                    .Where(s => Years.Contains(s.Album.ReleaseDate.Year))
+                                                    .ToList();
+
+        if (GenresSelectedIndices.Contains(0)) // K-pop
+        {
+            songParts = songParts.Where(s => Gens.Contains(s.Artist.Gen))
+                                 .Where(s => Companies.Contains(s.Artist.Company)).ToList();
+        }
+
+        return songParts;
+    }
+
+    // TODO: Does this belong here?
+    internal static void PlayRandomSong(List<SongPart> songParts)
+    {
+        int index = General.Rng.Next(songParts.Count);
+        SongPart songPart = songParts[index];
+
+        AppState.AutoplayMode = AutoplayModeValue.Shuffle;
+
+        AudioManager.ChangeAndStartSong(songPart);
+    }
+
+    /// <summary> Fills in companies. </summary>
+    internal static void InitializeCompanies()
+    {
+        if (ArtistRepository.Artists is null || ArtistRepository.Artists.Count == 0) { DebugService.Instance.Warn("Initialize Companies has no artists."); return; }
+
+        Constants.AllCompanies = ArtistRepository.Artists.Select(artist => artist.Company).Distinct().ToList();
+        Constants.MainCompanies = Constants.YGCompanies.Concat(Constants.HybeCompanies)
+                                                     .Concat(Constants.SMCompanies)
+                                                     .Append("JYP Entertainment")
+                                                     .ToList();
+
+        OtherCompanies = Constants.AllCompanies.Except(Constants.MainCompanies).ToList();
+        Companies = Constants.AllCompanies;
+    }
 }

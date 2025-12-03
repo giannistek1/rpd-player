@@ -6,7 +6,7 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:effectsView="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
-             x:Class="RpdPlayerApp.Views.CategoriesView">
+             x:Class="RpdPlayerApp.Views.HomeCategoriesView">
     
         <Grid RowDefinitions="auto, auto, *" ColumnDefinitions="*">
 

@@ -10,15 +10,22 @@ namespace RpdPlayerApp.Views;
 
 public partial class MainPage
 {
-    private readonly CategoriesView _categoriesView = new(); // Home
+    private readonly HomeCategoriesView _homeCategoriesView = new(); // Home
     private readonly CurrentPlaylistView _currentPlaylistView = new(); // Playlists
+    private readonly HomeRpdPlaylistView _homeRpdPlaylistView;
+
     private readonly SortByBottomSheet _sortByBottomSheet = new();
     private readonly SongPartDetailBottomSheet _detailBottomSheet = new();
+
     private bool _useTabAnimation = false;
+    internal RpdSettings? RpdSettings { get; set; }
 
     public MainPage()
     {
         InitializeComponent();
+
+        RpdSettings = new RpdSettings();
+        _homeRpdPlaylistView = new(RpdSettings);
 
         BindingContext = DebugService.Instance;
 
@@ -44,6 +51,8 @@ public partial class MainPage
         await LoadInitialDataAsync();
 
         await HomeView.Init();
+        HandleAutoStartRpd();
+
         SearchSongPartsView.Init();
     }
 
@@ -55,10 +64,12 @@ public partial class MainPage
             AlbumRepository.GetAlbums();
             VideoRepository.GetVideos();
             SongPartRepository.GetSongParts();
+            RpdSettings.InitializeCompanies();
         }
         else
         {
             await LoadDataOffline();
+            RpdSettings.InitializeCompanies();
             OnInitSongParts(this, EventArgs.Empty);
         }
     }
@@ -97,7 +108,6 @@ public partial class MainPage
         }
     }
 
-
     private void OnAppearing(object? sender, EventArgs e)
     {
         // Set tab animation preference. TODO: Can be more optimized
@@ -130,6 +140,7 @@ public partial class MainPage
     private void SetParentPages()
     {
         HomeView.ParentPage = this;
+        _homeRpdPlaylistView.ParentPage = this;
         SearchSongPartsView.ParentPage = this;
         LibraryView.ParentPage = this;
         _currentPlaylistView.ParentPage = this;
@@ -139,14 +150,16 @@ public partial class MainPage
     private void SetContentViewEvents()
     {
         //HomeView.PlaySongPart += OnPlaySongPart;
-        HomeView.CreatePlaylistButtonPressed += OnCreatePlaylistButtonPressed;
-        HomeView.ShowCategories += OnShowCategories;
         HomeView.ShowNewsPopup += OnShowNewsPopup;
         HomeView.InitSongParts += OnInitSongParts;
 
-        _categoriesView.IsVisible = false;
-        _categoriesView.FilterPressed += OnFilterPressed;
-        _categoriesView.BackPressed += OnBackPressed;
+        _homeCategoriesView.IsVisible = false;
+        _homeCategoriesView.FilterPressed += OnFilterPressed;
+        _homeCategoriesView.BackPressed += OnBackPressed;
+
+        _homeRpdPlaylistView.IsVisible = false;
+        _homeRpdPlaylistView.InitSongParts += OnInitSongParts;
+        _homeRpdPlaylistView.CreatePlaylistButtonPressed += OnCreatePlaylistButtonPressed;
 
         SearchSongPartsView.PlaySongPart += OnPlaySongPart;
         SearchSongPartsView.AddSongPart += OnAddSongPart;
@@ -175,7 +188,8 @@ public partial class MainPage
         AddViewToContainerIfNotExists(LibraryContainer, _currentPlaylistView);
         AddViewToContainerIfNotExists(LibraryContainer, LibraryView);
         AddViewToContainerIfNotExists(HomeContainer, HomeView);
-        AddViewToContainerIfNotExists(HomeContainer, _categoriesView);
+        AddViewToContainerIfNotExists(HomeContainer, _homeRpdPlaylistView);
+        AddViewToContainerIfNotExists(HomeContainer, _homeCategoriesView);
     }
 
     private void AddViewToContainerIfNotExists(Layout container, View view)
@@ -218,7 +232,19 @@ public partial class MainPage
         {
             SetupHomeToolbar();
             // TODO: isBusy check
-            _ = HomeView.Init();
+
+            if (_homeCategoriesView.IsVisible)
+            {
+                _homeCategoriesView.Init();
+            }
+            else if (_homeRpdPlaylistView.IsVisible)
+            {
+                _homeRpdPlaylistView.UpdateModeControls();
+            }
+            else
+            {
+                _ = HomeView.Init();
+            }
         }
         else if (SearchTabItem == e.TabItem)
         {
@@ -235,17 +261,20 @@ public partial class MainPage
 
     internal void SetupHomeToolbar()
     {
-        Title = HomeView.IsVisible ? "Home" : "Categories";
-        ToolbarItems.Clear();
+        if (HomeView.IsVisible) { Title = "Home"; }
+        else if (_homeCategoriesView.IsVisible) { Title = "Categories"; }
+        else if (_homeRpdPlaylistView.IsVisible) { Title = RpdSettings.UsingGeneratePlaylist ? "Generate playlist" : "Start RPD"; }
 
+        ToolbarItems.Clear();
         AddToolbarItem(IconManager.ToolbarRateReviewIcon, HomeView.FeedbackButtonPressed, 0);
         AddToolbarItem(IconManager.ToolbarSettingsIcon, HomeView.SettingsButtonPressed, 1);
     }
 
     internal void SetupSearchToolbar(object? sender = null, EventArgs? e = null)
     {
-        ToolbarItems.Clear();
         Title = GetSearchFilterModeText();
+
+        ToolbarItems.Clear();
 
         AddToolbarItem(IconManager.ToolbarMoreItemsIcon, ShowSecondaryToolbarItems, 3);
     }
@@ -340,9 +369,6 @@ public partial class MainPage
         {
             Title = CurrentPlaylistManager.Instance.ChosenPlaylist!.Name;
             AddToolbarItem(IconManager.ToolbarPlayIcon, _currentPlaylistView.PlayPlaylistButtonClicked, 1);
-            //AddToolbarItem(IconManager.ToolbarSaveIcon, _currentPlaylistView.SavePlaylistButtonClicked, 2);
-            //AddToolbarItem(IconManager.ToolbarClearIcon, _currentPlaylistView.ClearPlaylistButtonClicked, 3);
-            //AddToolbarItem(AppState.UsingCloudMode ? IconManager.ToolbarCloudIcon : IconManager.ToolbarCloudOffIcon, _currentPlaylistView.ToggleCloudModePressed, 4);
 
             _currentPlaylistView.InitializeView();
         }
@@ -414,23 +440,38 @@ public partial class MainPage
 
     private void OnAddSongPart(object? sender, EventArgs e) => _currentPlaylistView.RefreshCurrentPlaylist();
 
-    private void OnShowCategories(object? sender, EventArgs e)
+    internal void ShowHomeCategories(object? sender, EventArgs e)
     {
         HomeView = (HomeView)HomeContainer.Children[0];
         HomeView.IsVisible = false;
-        _categoriesView.IsVisible = true;
+        _homeRpdPlaylistView.IsVisible = false;
+        _homeCategoriesView.IsVisible = true;
         Title = "Categories";
 
-        _categoriesView.Init();
+        _homeCategoriesView.Init();
+    }
+
+    internal async Task ShowRpdPlaylistView()
+    {
+        HomeView = (HomeView)HomeContainer.Children[0];
+        HomeView.IsVisible = false;
+        _homeCategoriesView.IsVisible = false;
+        _homeRpdPlaylistView.IsVisible = true;
+
+        await _homeRpdPlaylistView.Init();
+        _homeRpdPlaylistView.UpdateModeControls();
     }
     // Not used
     private void OnBackToHomeView(object? sender, EventArgs e) => BackToHomeView();
 
     private void BackToHomeView()
     {
-        _categoriesView.IsVisible = false;
+        _homeCategoriesView.IsVisible = false;
+        _homeRpdPlaylistView.IsVisible = false;
         HomeView.IsVisible = true;
         Title = "Home";
+
+        HomeView.UpdateNewsBadge([]);
     }
 
     private async void OnBackToPlaylists(object? sender, EventArgs e) => await BackToPlaylists();
@@ -499,6 +540,15 @@ public partial class MainPage
         this.ShowPopup(popup);
     }
 
+    internal void HandleAutoStartRpd()
+    {
+        if (Preferences.ContainsKey(CommonSettings.START_RPD_AUTOMATIC))
+        {
+            bool startRpd = Preferences.Get(CommonSettings.START_RPD_AUTOMATIC, false);
+            if (startRpd) { _ = ShowRpdPlaylistView(); }
+        }
+    }
+
     #region AudioPlayerControl Events
 
     private void OnPause(object? sender, EventArgs e) => SearchSongPartsView.songParts.ToList().ForEach(s => s.IsPlaying = false);
@@ -538,11 +588,18 @@ public partial class MainPage
             _sortByBottomSheet.DismissAsync();
             return true;
         }
-        else if (_categoriesView.IsVisible && (byte)MainContainer.SelectedIndex == 0)
+        // Home view navigation.
+        else if (_homeRpdPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 0)
         {
             BackToHomeView();
             return true;
         }
+        else if (_homeCategoriesView.IsVisible && (byte)MainContainer.SelectedIndex == 0)
+        {
+            BackToHomeView();
+            return true;
+        }
+        // Library navigation.
         else if (_currentPlaylistView.IsVisible && (byte)MainContainer.SelectedIndex == 2)
         {
             _currentPlaylistView.BackImageButtonClicked(null, EventArgs.Empty);
@@ -554,7 +611,8 @@ public partial class MainPage
             MainContainer.SelectedIndex = 0;
 
             // Check what was visible on the homeview.
-            if (_categoriesView.IsVisible) { OnShowCategories(null, EventArgs.Empty); }
+            if (_homeCategoriesView.IsVisible) { ShowHomeCategories(null, EventArgs.Empty); }
+            if (_homeRpdPlaylistView.IsVisible) { _ = ShowRpdPlaylistView(); }
             else { BackToHomeView(); }
 
             SetupHomeToolbar();

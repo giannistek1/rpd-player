@@ -6,7 +6,7 @@ using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
-public partial class SettingsPage : ContentPage
+public partial class SettingsPage
 {
     internal HomeView? HomeView { get; set; }
 
@@ -17,7 +17,9 @@ public partial class SettingsPage : ContentPage
         Loaded += OnLoad;
         Appearing += OnPageAppearing;
 
+        // TODO: Viewmodel commands.
         VolumeImageButton.Clicked += VolumeImageButtonClicked;
+        TestNewsButton.Clicked += TestNewsButtonClicked;
     }
 
     private void OnLoad(object? sender, EventArgs e)
@@ -90,18 +92,7 @@ public partial class SettingsPage : ContentPage
         MasterVolumeSlider.ThumbStyle.Fill = (Color)Application.Current!.Resources["Primary"];
     }
 
-    private void TestNewsButtonClicked(object sender, EventArgs e)
-    {
-        // Simulate ATEEZ as new songs.
-        var differentNewSongs = SongPartRepository.SongParts.Where(s => s.ArtistName!.Equals("ATEEZ", StringComparison.OrdinalIgnoreCase)).ToList();
-        // Randomize HasNewVideo boolean.
-        foreach (var item in differentNewSongs)
-        {
-            item.NewVideoAvailable = Convert.ToBoolean(General.Rng.Next(2));
-        }
-
-        HomeView!.UpdateNewsBadge(differentNewSongs);
-    }
+    private void TestNewsButtonClicked(object? sender, EventArgs e) => NewsManager.IsTestMode = true;
 
 
     private async void UsernameImageButtonClicked(object? sender, EventArgs e)
