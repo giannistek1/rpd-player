@@ -7,7 +7,7 @@ using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
-public partial class HomeView : ContentView
+public partial class HomeView
 {
     //internal event EventHandler? PlaySongPart;
     internal event EventHandler? InitSongParts;
@@ -25,6 +25,8 @@ public partial class HomeView : ContentView
     public HomeView()
     {
         InitializeComponent();
+
+        NewsBadgeView.IsVisible = false;
 
         BindingContext = _viewModel;
 

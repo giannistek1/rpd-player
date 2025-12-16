@@ -127,7 +127,7 @@ internal static class PlaylistsManager
         catch (Exception ex)
         {
             General.ShowToast($"Error generating playlist: {ex.Message}");
-            return new List<SongPart>();
+            return [];
         }
     }
 

@@ -256,6 +256,9 @@
       <MauiXaml Update="Views\NewsPopup.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
+      <MauiXaml Update="Views\OnboardingPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
       <MauiXaml Update="Views\SearchSongPartsView.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>

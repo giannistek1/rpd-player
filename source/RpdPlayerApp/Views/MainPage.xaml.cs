@@ -85,9 +85,6 @@ public partial class MainPage
         }
     }
 
-    // Kept for compatibility if other callers exist, but delegates to background loader.
-    private Task LoadInitialDataAsync() => LoadInitialDataInBackground();
-
     private async Task LoadDataOffline()
     {
 

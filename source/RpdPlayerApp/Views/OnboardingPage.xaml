@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RpdPlayerApp.Views.OnboardingPage">
+    
+    
+    <Grid RowDefinitions="auto, auto, *, auto" Padding="24" RowSpacing="20">
+
+        <!-- Progress -->
+        <ProgressBar Progress="{Binding Progress}" HeightRequest="6" />
+
+        <Button Grid.Row="1" HorizontalOptions="End" Text="Skip for now" Command="{Binding SkipCommand}" FontAttributes="Italic" Background="{DynamicResource SecondaryButton}" />
+
+        <!-- STEP 1 -->
+        <VerticalStackLayout Grid.Row="2" IsVisible="{Binding IsStep1}">
+            
+            <Label Text="Welcome" FontSize="28" FontAttributes="Bold" />
+
+            <Label Text="What will your username be?" />
+
+            <Entry Placeholder="Username" Text="{Binding Username}" />
+
+            <HorizontalStackLayout>
+                
+                <CheckBox IsChecked="{Binding CreateAccount}" />
+                <Label Text="Create an account" />
+                
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+
+        <!-- STEP 2 -->
+        <VerticalStackLayout Grid.Row="2" IsVisible="{Binding IsStep2}">
+            
+            <Label Text="Favorite artists / groups" FontSize="24" FontAttributes="Bold" />
+
+            <Entry Placeholder="e.g. BTS, NewJeans" Text="{Binding FavoriteGroupsInput}" />
+
+            <Label Text="Separate with commas" FontSize="12"/>
+            
+        </VerticalStackLayout>
+
+        <!-- STEP 3 -->
+        <VerticalStackLayout Grid.Row="2"  IsVisible="{Binding IsStep3}">
+            <Label Text="Favorite genres" FontSize="24" FontAttributes="Bold" />
+
+            <CollectionView
+                ItemsSource="{Binding AvailableGenres}"
+                SelectionMode="Multiple"
+                SelectedItems="{Binding SelectedGenres}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="8" Margin="4">
+                            <Label Text="{Binding .}" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+
+        <!-- Navigation -->
+        <Button Grid.Row="3" Background="{DynamicResource PrimaryButton}" Text="{Binding NextButtonText}" Command="{Binding NextCommand}" />
+
+    </Grid>
+    
+</ContentPage>

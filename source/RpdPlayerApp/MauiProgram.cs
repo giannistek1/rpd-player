@@ -113,7 +113,12 @@ namespace RpdPlayerApp
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            builder.Services.AddTransient<OnboardingPage>();
             builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<VideoPage>();
+            builder.Services.AddTransient<FeedbackPage>();
+            builder.Services.AddTransient<SettingsPage>();
+
             builder.ConfigureSyncfusionCore();
 
             return builder.Build();
