@@ -6,7 +6,6 @@ public partial class OnboardingPage
 {
     private readonly OnboardingViewModel _viewModel;
 
-
     public OnboardingPage()
     {
         InitializeComponent();

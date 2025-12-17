@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
              x:Class="RpdPlayerApp.Views.OnboardingPage">
-    
-    
-    <Grid RowDefinitions="auto, auto, *, auto" Padding="24" RowSpacing="20">
+
+    <Grid RowDefinitions="auto, auto, auto, *, auto" Padding="24" RowSpacing="20">
+
+        <Button HorizontalOptions="End" Text="Skip" Command="{Binding SkipCommand}" Background="{DynamicResource SecondaryButton}" />
+
+        <Image Grid.Row="1" x:Name="HeroImage" WidthRequest="160" HeightRequest="160">
+            <Image.Source>
+                <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Globe}" Color="{DynamicResource Primary}" />
+            </Image.Source>
+        </Image>
 
         <!-- Progress -->
-        <ProgressBar Progress="{Binding Progress}" HeightRequest="6" />
-
-        <Button Grid.Row="1" HorizontalOptions="End" Text="Skip for now" Command="{Binding SkipCommand}" FontAttributes="Italic" Background="{DynamicResource SecondaryButton}" />
+        <ProgressBar Grid.Row="2" Progress="{Binding Progress}" HeightRequest="6" />
 
         <!-- STEP 1 -->
-        <VerticalStackLayout Grid.Row="2" IsVisible="{Binding IsStep1}">
-            
-            <Label Text="Welcome" FontSize="28" FontAttributes="Bold" />
+        <VerticalStackLayout Grid.Row="3" IsVisible="{Binding IsStep1}">
+
+            <Label Style="{DynamicResource Headline}" Text="Welcome" FontAttributes="Bold" Padding="0,0,0,16"/>
 
             <Label Text="What will your username be?" />
 
@@ -23,16 +29,17 @@
             <HorizontalStackLayout>
                 
                 <CheckBox IsChecked="{Binding CreateAccount}" />
-                <Label Text="Create an account" />
+                
+                <Label Text="Create an account" VerticalOptions="Center" VerticalTextAlignment="Center"/>
                 
             </HorizontalStackLayout>
 
         </VerticalStackLayout>
 
         <!-- STEP 2 -->
-        <VerticalStackLayout Grid.Row="2" IsVisible="{Binding IsStep2}">
-            
-            <Label Text="Favorite artists / groups" FontSize="24" FontAttributes="Bold" />
+        <VerticalStackLayout Grid.Row="3" IsVisible="{Binding IsStep2}">
+
+            <Label Text="Favorite artists / groups" Style="{DynamicResource Headline}" FontAttributes="Bold" Padding="0,0,0,16" />
 
             <Entry Placeholder="e.g. BTS, NewJeans" Text="{Binding FavoriteGroupsInput}" />
 
@@ -41,25 +48,24 @@
         </VerticalStackLayout>
 
         <!-- STEP 3 -->
-        <VerticalStackLayout Grid.Row="2"  IsVisible="{Binding IsStep3}">
-            <Label Text="Favorite genres" FontSize="24" FontAttributes="Bold" />
+        <VerticalStackLayout Grid.Row="3"  IsVisible="{Binding IsStep3}">
 
-            <CollectionView
-                ItemsSource="{Binding AvailableGenres}"
-                SelectionMode="Multiple"
-                SelectedItems="{Binding SelectedGenres}">
+            <Label Text="Favorite genres" Style="{DynamicResource Headline}" FontAttributes="Bold" Padding="0,0,0,16"/>
+
+            <CollectionView ItemsSource="{Binding AvailableGenres}" SelectionMode="Multiple" SelectedItems="{Binding SelectedGenres}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="8" Margin="4">
+                        <Border StrokeShape="RoundRectangle 8" Padding="8" Margin="4" Background="{DynamicResource SecondaryButton}">
                             <Label Text="{Binding .}" />
-                        </Frame>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            
         </VerticalStackLayout>
 
         <!-- Navigation -->
-        <Button Grid.Row="3" Background="{DynamicResource PrimaryButton}" Text="{Binding NextButtonText}" Command="{Binding NextCommand}" />
+        <Button Grid.Row="4" Background="{DynamicResource PrimaryButton}" Text="{Binding NextButtonText}" Command="{Binding NextCommand}" />
 
     </Grid>
     

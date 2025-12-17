@@ -76,6 +76,7 @@ internal class OnboardingViewModel : ViewModelBase
         };
 
         AppState.Username = Username;
+        Preferences.Set(CommonSettings.USERNAME, AppState.Username);
 
         Preferences.Set(CommonSettings.ONBOARDING_COMPLETED, true);
         Application.Current!.MainPage = new AppShell();
