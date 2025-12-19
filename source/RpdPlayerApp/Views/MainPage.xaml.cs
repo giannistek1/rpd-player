@@ -5,6 +5,7 @@ using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
+using System.Threading.Tasks;
 
 namespace RpdPlayerApp.Views;
 
@@ -14,8 +15,8 @@ public partial class MainPage
     private readonly CurrentPlaylistView _currentPlaylistView = new(); // Playlists
     private readonly HomeRpdPlaylistView _homeRpdPlaylistView;
 
-    private SortByPopup _sortByBottomSheet;
-    private SongSegmentDetailPopup _detailBottomSheet;
+    private SortByPopup? _sortByBottomSheet;
+    private SongSegmentDetailPopup? _detailBottomSheet;
 
     private bool _useTabAnimation = false;
     internal RpdSettings? RpdSettings { get; set; }
@@ -401,32 +402,26 @@ public partial class MainPage
 
     private void OnPreviousSong(object? sender, EventArgs e) => AudioPlayerControl.PlayPreviousSongPart(sender!, e);
 
-    private void OnNextSong(object? sender, EventArgs e) => AudioPlayerControl.NextButtonPressed(sender!, e);
+    internal void OnNextSong(object? sender, EventArgs e) => AudioPlayerControl.NextButtonPressed(sender!, e);
 
-    private void OnOpenSongPartDetailBottomSheet(object? sender, EventArgs e)
+    private async void OnOpenSongPartDetailBottomSheet(object? sender, EventArgs e)
     {
         if (AppState.CurrentSongPart is null || string.IsNullOrWhiteSpace(AppState.CurrentSongPart.Title)) { return; }
+        if (_detailBottomSheet is not null) { return; }
 
-        SongSegmentDetailPopup popup = new(AppState.CurrentSongPart);
+        SongSegmentDetailPopup popup = new(AppState.CurrentSongPart, this);
 
         popup.AudioPlayerControl = AudioPlayerControl;
         popup.PlayToggleSongPart += OnPlayToggleSongPart;
         popup.PreviousSongPart += OnPreviousSong;
         popup.NextSongPart += OnNextSong;
-        popup.ClosePopup += OnCloseDetailSheet;
         popup.FavoriteSongPart += OnFavoriteSongPart;
         popup.isShown = true;
 
         _detailBottomSheet = popup;
-        this.ShowPopup(popup);
-    }
+        await this.ShowPopupAsync(popup);
 
-    private void OnCloseDetailSheet(object? sender, EventArgs e) => _detailBottomSheet.Close();
-
-    private void OnCloseSortBySheet(object? sender, EventArgs e)
-    {
-        _sortByBottomSheet.Close();
-        SearchSongPartsView.RefreshSort();
+        _detailBottomSheet = null;
     }
 
     /// <summary> Updates whatever when there is a new song enqueued. </summary>
@@ -533,23 +528,28 @@ public partial class MainPage
         }
     }
 
-    private void OnShowSortBy(object? sender, EventArgs e)
+    private async void OnShowSortBy(object? sender, EventArgs e)
     {
+        if (_sortByBottomSheet is not null) { return; }
+
         var popup = new SortByPopup();
 
         popup.isShown = true;
-        popup.ClosePopup += OnCloseSortBySheet;
 
         _sortByBottomSheet = popup;
 
-        this.ShowPopup(popup);
+        await this.ShowPopupAsync(popup);
+        _sortByBottomSheet = null;
+
+        // TODO: If changed
+        SearchSongPartsView.RefreshSort();
     }
 
-    private void OnShowNewsPopup(object? sender, EventArgs e)
+    private async void OnShowNewsPopup(object? sender, EventArgs e)
     {
         var popup = new NewsPopup(); // Gets disposed on close.
         popup.NewsItems.AddRange(NewsManager.SongPartsDifference);
-        this.ShowPopup(popup);
+        await this.ShowPopupAsync(popup);
     }
 
     internal void HandleAutoStartRpd()
@@ -596,11 +596,13 @@ public partial class MainPage
         if (_detailBottomSheet is not null && _detailBottomSheet.isShown)
         {
             _detailBottomSheet.Close();
+            _detailBottomSheet = null;
             return true;
         }
         else if (_sortByBottomSheet is not null && _sortByBottomSheet.isShown)
         {
             _sortByBottomSheet.Close();
+            _sortByBottomSheet = null;
             return true;
         }
         // Home view navigation.

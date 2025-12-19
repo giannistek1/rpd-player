@@ -12,18 +12,24 @@ public partial class SongSegmentDetailPopup
     internal bool isShown = false;
 
     internal EventHandler? PlayToggleSongPart;
+
+    // TODO: Broke because popups prefer bindings instead of events, so maybe bind album, title, artist, segment. 
     internal EventHandler? PreviousSongPart;
     internal EventHandler? NextSongPart;
+
     internal EventHandler? FavoriteSongPart;
     internal EventHandler? ClosePopup;
 
+    internal MainPage ParentPage;
+
     internal AudioPlayerControl? AudioPlayerControl { get; set; }
 
-    internal SongSegmentDetailPopup(SongPart songPart)
+    internal SongSegmentDetailPopup(SongPart songPart, MainPage parent)
     {
         InitializeComponent();
 
         selectedSongPart = songPart;
+        ParentPage = parent;
 
         AudioManager.OnChange += OnChangeSongPart;
         AudioManager.OnPlay += OnPlayAudio;
