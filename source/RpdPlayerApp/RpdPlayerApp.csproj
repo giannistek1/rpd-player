@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0-android;net8.0-ios;</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks>net9.0-android;net9.0-ios;</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
     <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-    <!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+    <!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
 
     <!-- Note for MacCatalyst:
     The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
@@ -46,12 +46,12 @@
   </PropertyGroup>
 
   <!-- So the signed apk actually works... -->
-  <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-android'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net9.0-android'">
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <RunAOTCompilation>False</RunAOTCompilation>
     <PublishTrimmed>False</PublishTrimmed>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
     <ApplicationVersion>41</ApplicationVersion>
     <ApplicationDisplayVersion>0.6.4</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
@@ -60,21 +60,21 @@
     <PublishTrimmed>True</PublishTrimmed>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
     <ApplicationVersion>41</ApplicationVersion>
     <ApplicationDisplayVersion>0.6.4</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-windows10.0.19041.0|AnyCPU'">
     <ApplicationVersion>41</ApplicationVersion>
     <ApplicationDisplayVersion>0.6.4</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
     <ApplicationVersion>41</ApplicationVersion>
     <ApplicationDisplayVersion>0.6.4</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
@@ -85,14 +85,14 @@
     <PublishTrimmed>True</PublishTrimmed>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
     <ApplicationVersion>41</ApplicationVersion>
     <ApplicationDisplayVersion>0.6.4</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
     <ApplicationTitle>Rpd Player</ApplicationTitle>
     <WarningLevel>8</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-windows10.0.19041.0|AnyCPU'">
     <ApplicationVersion>41</ApplicationVersion>
     <ApplicationDisplayVersion>0.6.4</ApplicationDisplayVersion>
     <ApplicationId>com.djannie.rpdplayerapp</ApplicationId>
@@ -108,7 +108,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <MauiForceXamlCForDebug>true</MauiForceXamlCForDebug>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
     <CodesignKey>Apple Development: Created via API (GFZ7M2JBD5)</CodesignKey>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
@@ -160,12 +160,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
-        <PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="4.0.1" />
+        <PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
+        <PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="6.1.3" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
         <PackageReference Include="FFImageLoading.Maui" Version="1.3.2" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.92" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.92" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.120" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.120" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
         <PackageReference Include="Sentry.Maui" Version="5.16.2" />
         <PackageReference Include="Supabase" Version="1.1.1" />
@@ -178,9 +178,8 @@
         <PackageReference Include="Syncfusion.Maui.Popup" Version="28.1.33" />
         <PackageReference Include="Syncfusion.Maui.Sliders" Version="28.1.33" />
         <PackageReference Include="Syncfusion.Maui.TabView" Version="28.1.33" />
-        <PackageReference Include="The49.Maui.BottomSheet" Version="8.0.3" />
-        <PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.10.0" />
-        <PackageReference Include="UraniumUI.Icons.MaterialSymbols" Version="2.10.0" />
+        <PackageReference Include="UraniumUI.Icons.FontAwesome" Version="2.14.0" />
+        <PackageReference Include="UraniumUI.Icons.MaterialSymbols" Version="2.14.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -201,6 +200,12 @@
       </Compile>
       <Compile Update="Views\FeedbackPage.xaml.cs">
         <DependentUpon>FeedbackPage.xaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\SortByPopup.xaml.cs">
+        <DependentUpon>SortByPopup.xaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\SongSegmentDetailPopup.xaml.cs">
+        <DependentUpon>SongSegmentDetailPopup.xaml</DependentUpon>
       </Compile>
     </ItemGroup>
 
@@ -253,6 +258,9 @@
       <MauiXaml Update="Views\AudioPlayerControl.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
+      <MauiXaml Update="Views\SortByPopup.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
       <MauiXaml Update="Views\NewsPopup.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
@@ -262,13 +270,10 @@
       <MauiXaml Update="Views\SearchSongPartsView.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
-      <MauiXaml Update="Views\SongPartDetailBottomSheet.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </MauiXaml>
       <MauiXaml Update="Views\FeedbackPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
-      <MauiXaml Update="Views\SortByBottomSheet.xaml">
+      <MauiXaml Update="Views\SongSegmentDetailPopup.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Views\VideoPage.xaml">

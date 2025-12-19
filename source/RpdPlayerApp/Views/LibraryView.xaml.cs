@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using RpdPlayerApp.Architecture;
+using RpdPlayerApp.DTO;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
@@ -216,8 +217,19 @@ public partial class LibraryView : ContentView
         }
 
         CacheState.CloudPlaylists.Clear();
+        List<PlaylistDto> cloudPlaylists;
+        try
+        {
+            cloudPlaylists = await PlaylistRepository.GetCloudPlaylists();
+        }
+        catch
+        (Exception ex)
+        {
+            DebugService.Instance.Error($"LibraryView - LoadCloudPlaylists: {ex.Message}");
+            General.ShowToast("Failed to load cloud playlists.");
+            return;
+        }
 
-        var cloudPlaylists = await PlaylistRepository.GetCloudPlaylists();
         foreach (var playlistDto in cloudPlaylists)
         {
             Playlist playlist = new(creationDate: playlistDto.CreationDate, lastModifiedDate: playlistDto.LastModifiedDate, name: playlistDto.Name, owner: AppState.Username)

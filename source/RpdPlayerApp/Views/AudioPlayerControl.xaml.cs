@@ -119,7 +119,7 @@ public partial class AudioPlayerControl : ContentView
 
     #endregion AudioProgressSlider
 
-    private void AudioMediaElementPositionChanged(object? sender, MediaPositionChangedEventArgs e)
+    private void AudioMediaElementPositionChanged(object? sender, CommunityToolkit.Maui.Core.MediaPositionChangedEventArgs e)
     {
         // Can also use a timer and update value on main thread after time elapsed.
         // AudioMediaElement position in seconds / total duration in seconds
@@ -163,14 +163,20 @@ public partial class AudioPlayerControl : ContentView
         }
     }
 
-    private void CheckValidUrl(SongPart songPart)
+    private async void CheckValidUrl(SongPart songPart)
     {
-        using var client = new MyClient();
+        var client = new MyClient();
         client.HeadOnly = true;
         // throws 404
         try
         {
-            client.DownloadString(songPart.AudioUrl);
+            // Use SendAsync to perform a HEAD request
+            var uri = new Uri(songPart.AudioUrl);
+            var response = await client.SendAsync(uri);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Invalid URL");
+            }
         }
         catch
         {

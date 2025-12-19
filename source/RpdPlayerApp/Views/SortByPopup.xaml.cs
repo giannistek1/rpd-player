@@ -1,31 +1,22 @@
-using The49.Maui.BottomSheet;
 using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 
 namespace RpdPlayerApp.Views;
 
-public partial class SortByBottomSheet
+public partial class SortByPopup
 {
     internal bool isShown = false;
 
-    internal EventHandler? Close;
+    internal EventHandler? ClosePopup;
 
-    public SortByBottomSheet()
+    public SortByPopup()
     {
         InitializeComponent();
 
-        Shown += OnShown;
-        Dismissed += OnDismissed;
-    }
-
-    private void OnShown(object? sender, EventArgs e)
-    {
         SortTable.BackgroundColor = (Color)Application.Current!.Resources["BackgroundColor"];
         SortByLabel.TextColor = (Color)Application.Current!.Resources["Good"];
         ScrollToTop();
     }
-
-    private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
 
     private void ScrollToTop() => SortByBottomSheetScrollView.ScrollToAsync(x: 0, y: 0, animated: true);
 
@@ -48,13 +39,13 @@ public partial class SortByBottomSheet
         if (sender == ReleaseWeekDayOption) { AppState.SortMode = SortModeValue.ReleaseWeekDay; }
         if (sender == YearlyDateOption) { AppState.SortMode = SortModeValue.YearlyDate; }
 
-        Close?.Invoke(sender, e);
+        ClosePopup?.Invoke(sender, e);
     }
 
     /// <summary> Close button. </summary>
     /// <param name="sender"> </param>
     /// <param name="e"> </param>
-    private void CancelSort(object sender, EventArgs e) => Close?.Invoke(sender, e);
+    private void CancelSort(object sender, EventArgs e) => ClosePopup?.Invoke(sender, e);
 
     #endregion Sorting
 }

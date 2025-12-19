@@ -2,16 +2,26 @@
 
 namespace RpdPlayerApp.Architecture;
 
-internal class MyClient : WebClient
+internal class MyClient
 {
+    private readonly HttpClient _httpClient;
     public bool HeadOnly { get; set; }
-    protected override WebRequest GetWebRequest(Uri address)
+
+    public MyClient(HttpClient? httpClient = null)
     {
-        WebRequest req = base.GetWebRequest(address);
-        if (HeadOnly && req.Method == "GET")
-        {
-            req.Method = "HEAD";
-        }
-        return req;
+        _httpClient = httpClient ?? new HttpClient();
+    }
+
+    public async Task<HttpResponseMessage> SendAsync(
+        Uri uri,
+        CancellationToken cancellationToken = default)
+    {
+        var method = HeadOnly ? HttpMethod.Head : HttpMethod.Get;
+
+        using var request = new HttpRequestMessage(method, uri);
+        return await _httpClient.SendAsync(
+            request,
+            HttpCompletionOption.ResponseHeadersRead,
+            cancellationToken);
     }
 }

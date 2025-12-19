@@ -14,8 +14,8 @@ public partial class MainPage
     private readonly CurrentPlaylistView _currentPlaylistView = new(); // Playlists
     private readonly HomeRpdPlaylistView _homeRpdPlaylistView;
 
-    private readonly SortByBottomSheet _sortByBottomSheet = new();
-    private readonly SongPartDetailBottomSheet _detailBottomSheet = new();
+    private SortByPopup _sortByBottomSheet;
+    private SongSegmentDetailPopup _detailBottomSheet;
 
     private bool _useTabAnimation = false;
     internal RpdSettings? RpdSettings { get; set; }
@@ -31,7 +31,6 @@ public partial class MainPage
 
         CommonSettings.ActivityTimeStopWatch.Start();
 
-        AudioManager.DetailBottomSheet = _detailBottomSheet;
         AudioPlayerControl.CurrentPlaylistViewModel = _currentPlaylistView._viewModel;
 
         SetupHomeToolbar();
@@ -161,7 +160,6 @@ public partial class MainPage
         SearchSongPartsView.ParentPage = this;
         LibraryView.ParentPage = this;
         _currentPlaylistView.ParentPage = this;
-        _detailBottomSheet.AudioPlayerControl = AudioPlayerControl;
     }
 
     private void SetContentViewEvents()
@@ -185,14 +183,6 @@ public partial class MainPage
         _currentPlaylistView.IsVisible = false;
         _currentPlaylistView.BackToPlaylists += OnBackToPlaylists;
         _currentPlaylistView.PlaySongPart += OnPlaySongPart;
-
-        _sortByBottomSheet.Close += OnCloseSortBySheet;
-
-        _detailBottomSheet.PlayToggleSongPart += OnPlayToggleSongPart;
-        _detailBottomSheet.PreviousSongPart += OnPreviousSong;
-        _detailBottomSheet.NextSongPart += OnNextSong;
-        _detailBottomSheet.Close += OnCloseDetailSheet;
-        _detailBottomSheet.FavoriteSongPart += OnFavoriteSongPart;
 
         AudioPlayerControl.Pause += OnPause;
         AudioPlayerControl.ShowDetails += OnOpenSongPartDetailBottomSheet;
@@ -417,22 +407,25 @@ public partial class MainPage
     {
         if (AppState.CurrentSongPart is null || string.IsNullOrWhiteSpace(AppState.CurrentSongPart.Title)) { return; }
 
-        _detailBottomSheet.songPart = AppState.CurrentSongPart;
-        _detailBottomSheet.UpdateSongDetails();
-        _detailBottomSheet.UpdateIcons();
+        SongSegmentDetailPopup popup = new(AppState.CurrentSongPart);
 
-        _detailBottomSheet.HasHandle = true;
-        _detailBottomSheet.IsCancelable = true;
-        _detailBottomSheet.HasBackdrop = true;
-        _detailBottomSheet.isShown = true;
-        _detailBottomSheet.ShowAsync();
+        popup.AudioPlayerControl = AudioPlayerControl;
+        popup.PlayToggleSongPart += OnPlayToggleSongPart;
+        popup.PreviousSongPart += OnPreviousSong;
+        popup.NextSongPart += OnNextSong;
+        popup.ClosePopup += OnCloseDetailSheet;
+        popup.FavoriteSongPart += OnFavoriteSongPart;
+        popup.isShown = true;
+
+        _detailBottomSheet = popup;
+        this.ShowPopup(popup);
     }
 
-    private void OnCloseDetailSheet(object? sender, EventArgs e) => _detailBottomSheet.DismissAsync();
+    private void OnCloseDetailSheet(object? sender, EventArgs e) => _detailBottomSheet.Close();
 
     private void OnCloseSortBySheet(object? sender, EventArgs e)
     {
-        _sortByBottomSheet.DismissAsync();
+        _sortByBottomSheet.Close();
         SearchSongPartsView.RefreshSort();
     }
 
@@ -542,11 +535,14 @@ public partial class MainPage
 
     private void OnShowSortBy(object? sender, EventArgs e)
     {
-        _sortByBottomSheet.HasHandle = true;
-        _sortByBottomSheet.IsCancelable = true;
-        _sortByBottomSheet.HasBackdrop = true;
-        _sortByBottomSheet.isShown = true;
-        _sortByBottomSheet.ShowAsync();
+        var popup = new SortByPopup();
+
+        popup.isShown = true;
+        popup.ClosePopup += OnCloseSortBySheet;
+
+        _sortByBottomSheet = popup;
+
+        this.ShowPopup(popup);
     }
 
     private void OnShowNewsPopup(object? sender, EventArgs e)
@@ -573,7 +569,10 @@ public partial class MainPage
     {
         double progressPercentage = AudioPlayerControl.AudioSlider!.Value; // 0.0 - 100.0
 
-        _detailBottomSheet.UpdateAudioProgress(progressPercentage);
+        if (_detailBottomSheet is not null && _detailBottomSheet.isShown)
+        {
+            _detailBottomSheet.UpdateAudioProgress(progressPercentage);
+        }
         SongPart current = AppState.CurrentSongPart;
 
         // Update playlistSlider if visible.
@@ -594,14 +593,14 @@ public partial class MainPage
 
     protected override bool OnBackButtonPressed()
     {
-        if (_detailBottomSheet.isShown)
+        if (_detailBottomSheet is not null && _detailBottomSheet.isShown)
         {
-            _detailBottomSheet.DismissAsync();
+            _detailBottomSheet.Close();
             return true;
         }
-        else if (_sortByBottomSheet.isShown)
+        else if (_sortByBottomSheet is not null && _sortByBottomSheet.isShown)
         {
-            _sortByBottomSheet.DismissAsync();
+            _sortByBottomSheet.Close();
             return true;
         }
         // Home view navigation.

@@ -21,7 +21,7 @@ internal static class AudioManager
     /// <summary> Seocond of the two MediaElements. To ensure smooth transitioning, a hidden second mediaElement plays the next song. </summary>
     internal static MediaElement? SongPartMediaElement2 { get; set; }
 
-    internal static SongPartDetailBottomSheet? DetailBottomSheet { get; set; }
+    internal static SongSegmentDetailPopup? DetailBottomSheet { get; set; }
 
     #region Events
     internal static EventHandler? OnPlay { get; set; }
@@ -197,7 +197,10 @@ internal static class AudioManager
 
         // Update UI
         OnChange?.Invoke(null, new MyEventArgs(songPart));
-        DetailBottomSheet!.songPart = songPart;
+        if (DetailBottomSheet is not null)
+        {
+            DetailBottomSheet.selectedSongPart = songPart;
+        }
 
         CurrentPlayer.Source = MediaSource.FromUri(songPart.AudioUrl);
 
@@ -244,7 +247,10 @@ internal static class AudioManager
 
         // Update current songpart.
         AppState.CurrentSongPart = AppState.NextSongPart;
-        DetailBottomSheet!.songPart = AppState.CurrentSongPart;
+        if (DetailBottomSheet is not null)
+        {
+            DetailBottomSheet.selectedSongPart = AppState.CurrentSongPart;
+        }
 
         // Update UI
         OnChange?.Invoke(null, new MyEventArgs(AppState.CurrentSongPart));
@@ -291,7 +297,10 @@ internal static class AudioManager
 
             // Set Current player to previous song.
             AppState.CurrentSongPart = playlistSongSegments[index - 1];
-            DetailBottomSheet!.songPart = AppState.CurrentSongPart;
+            if (DetailBottomSheet is not null)
+            {
+                DetailBottomSheet.selectedSongPart = AppState.CurrentSongPart;
+            }
             CurrentPlayer!.Source = AppState.CurrentSongPart.AudioUrl;
         }
     }
@@ -329,8 +338,10 @@ internal static class AudioManager
             AppState.NextSongPart = AppState.CurrentSongPart;
 
             // Set Current player to previous song.
-            AppState.CurrentSongPart = previousSongPart;
-            DetailBottomSheet!.songPart = AppState.CurrentSongPart;
+            AppState.CurrentSongPart = previousSongPart; if (DetailBottomSheet is not null)
+            {
+                DetailBottomSheet.selectedSongPart = AppState.CurrentSongPart;
+            }
             CurrentPlayer.Source = AppState.CurrentSongPart.AudioUrl;
         }
     }

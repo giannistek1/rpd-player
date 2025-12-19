@@ -6,7 +6,6 @@ using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using RpdPlayerApp.Views;
 using Syncfusion.Maui.Core.Hosting;
-using The49.Maui.BottomSheet;
 using UraniumUI;
 
 
@@ -57,7 +56,6 @@ namespace RpdPlayerApp
             //#endif
             //                })
 
-            .UseBottomSheet()
             .UseMauiCommunityToolkit()
             .UseFFImageLoading();
 

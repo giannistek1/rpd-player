@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<the49:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:sliders="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
-             xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
-             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
-             x:Class="RpdPlayerApp.Views.SongPartDetailBottomSheet"
-             Background="{DynamicResource BackgroundColor}">
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:sliders="clr-namespace:Syncfusion.Maui.Sliders;assembly=Syncfusion.Maui.Sliders"
+               xmlns:m="clr-namespace:UraniumUI.Icons.MaterialSymbols;assembly=UraniumUI.Icons.MaterialSymbols"
+               xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+               Color="{DynamicResource BackgroundColor}"
+               x:Class="RpdPlayerApp.Views.SongSegmentDetailPopup">
 
-    <the49:BottomSheet.Detents>
-        <the49:RatioDetent Ratio="0.95" />
-    </the49:BottomSheet.Detents>
-    
     <ScrollView Orientation="Vertical">
-       
+
         <Grid RowDefinitions="22, 40, auto, 30, 30, 30, 50, auto, auto, 50" Padding="12,0,12,0">
 
             <ImageButton Grid.Row="0" HeightRequest="40" x:Name="CloseImageButton" HorizontalOptions="Center" Pressed="CloseImageButtonPressed">
@@ -23,7 +19,7 @@
             </ImageButton>
 
             <Grid Grid.Row="1" ColumnDefinitions="2*, 4*, 2*" Margin="0,0,0,0">
-                
+
                 <Label Grid.Column="0" x:Name="GenreLabel" Text="K-pop" FontSize="12" VerticalOptions="Center" HorizontalOptions="Start" />
 
                 <Grid Grid.Column="1" x:Name="AlbumGrid" ColumnDefinitions="*" VerticalOptions="Center" HorizontalOptions="Center">
@@ -31,17 +27,17 @@
                         <Label x:Name="AlbumLabel" Text="Album" FontSize="14" FontAttributes="Italic" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="Center" LineBreakMode="NoWrap" />
                     </ScrollView>
                 </Grid>
-                
+
                 <Label Grid.Column="2" x:Name="ReleaseDateLabel" Text="01-01-2000" FontSize="12" VerticalOptions="Center" HorizontalOptions="End" />
 
             </Grid>
-        
+
             <!-- Album image -->
             <Border Grid.Row="2" HeightRequest="200" WidthRequest="200" StrokeShape="RoundRectangle 16"
-                        Padding="0" VerticalOptions="Start"  Margin="0,8,0,12">
+                    Padding="0" VerticalOptions="Start"  Margin="0,8,0,12">
 
                 <ffimageloading:CachedImage Grid.Row="2" HeightRequest="200" x:Name="AlbumImage"/>
-            
+
             </Border>
 
             <Label Grid.Row="3" x:Name="ArtistLabel" Text="Artist" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"  VerticalOptions="Center"  HorizontalOptions="Center" />
@@ -55,16 +51,16 @@
             <Grid Grid.Row="6" ColumnDefinitions="2*, 6*, 2*" Padding="8,0,8,0">
 
                 <Label Grid.Column="0" x:Name="ProgressLabel" Text="00:00" FontSize="13" TextColor="{DynamicResource SecondaryTextColor}" 
-                       VerticalOptions="Center" HorizontalOptions="Start" />
+                   VerticalOptions="Center" HorizontalOptions="Start" />
 
                 <Slider Grid.Column="1" x:Name="AudioProgressSlider" 
-                        MinimumTrackColor="{DynamicResource DetailAudioProgressColor}" Margin="-30,-10,-30,-10" Maximum="100" Minimum="0" ThumbColor="{DynamicResource DetailAudioProgressColor}" HeightRequest="50" />
+                    MinimumTrackColor="{DynamicResource DetailAudioProgressColor}" Margin="-30,-10,-30,-10" Maximum="100" Minimum="0" ThumbColor="{DynamicResource DetailAudioProgressColor}" HeightRequest="50" />
 
                 <Label Grid.Column="2" x:Name="DurationLabel" Text="99:99" FontSize="12" TextColor="{DynamicResource SecondaryTextColor}"
-                       VerticalOptions="Center" HorizontalOptions="End" />
-            
+                   VerticalOptions="Center" HorizontalOptions="End" />
+
             </Grid>
-            
+
             <!-- Audio buttons -->
             <Grid Grid.Row="7" ColumnDefinitions="2*, 2*, 3*, 2*, 2*"  Margin="0,0,0,4">
 
@@ -81,7 +77,7 @@
                 </ImageButton>
 
                 <Border Grid.Column="2" x:Name="PlayToggleBorder" HeightRequest="60" WidthRequest="60" StrokeShape="RoundRectangle 30"
-                          Padding="0" Background="{DynamicResource PrimaryButton}" VerticalOptions="Center">
+                      Padding="0" Background="{DynamicResource PrimaryButton}" VerticalOptions="Center">
 
                     <ImageButton HeightRequest="60" Padding="4" x:Name="PlayToggleImageButton" Pressed="PlayToggleButtonPressed">
                         <ImageButton.Source>
@@ -116,10 +112,10 @@
                 </ImageButton>
 
                 <!--<ImageButton Grid.Column="1" HeightRequest="34" x:Name="VoiceImageButton" Pressed="VoiceButtonPressed">
-                    <ImageButton.Source>
-                        <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Voice_selection_off}" Color="{DynamicResource IconColor}" />
-                    </ImageButton.Source>
-                </ImageButton>-->
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="MaterialRounded" Glyph="{x:Static m:MaterialRounded.Voice_selection_off}" Color="{DynamicResource IconColor}" />
+                </ImageButton.Source>
+            </ImageButton>-->
 
                 <ImageButton Grid.Column="1" HeightRequest="34" x:Name="TimerImageButton" Pressed="TimerButtonPressed">
                     <ImageButton.Source>
@@ -155,7 +151,7 @@
 
                     <sliders:SfSlider.TrackStyle>
                         <sliders:SliderTrackStyle ActiveFill="{DynamicResource Primary}"
-                              InactiveFill="LightGray" />
+                          InactiveFill="LightGray" />
                     </sliders:SfSlider.TrackStyle>
 
                     <sliders:SfSlider.ThumbStyle>
@@ -167,7 +163,7 @@
             </Grid>
 
         </Grid>
-        
+
     </ScrollView>
 
-</the49:BottomSheet>
+</toolkit:Popup>

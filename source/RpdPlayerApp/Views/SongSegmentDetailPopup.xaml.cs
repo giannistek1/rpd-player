@@ -3,29 +3,27 @@ using RpdPlayerApp.Enums;
 using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Services;
-using The49.Maui.BottomSheet;
 
 namespace RpdPlayerApp.Views;
 
-public partial class SongPartDetailBottomSheet
+public partial class SongSegmentDetailPopup
 {
-    internal SongPart? songPart = null;
+    internal SongPart? selectedSongPart = null;
     internal bool isShown = false;
 
     internal EventHandler? PlayToggleSongPart;
     internal EventHandler? PreviousSongPart;
     internal EventHandler? NextSongPart;
     internal EventHandler? FavoriteSongPart;
-    internal EventHandler? Close;
+    internal EventHandler? ClosePopup;
 
     internal AudioPlayerControl? AudioPlayerControl { get; set; }
 
-    public SongPartDetailBottomSheet()
+    internal SongSegmentDetailPopup(SongPart songPart)
     {
         InitializeComponent();
 
-        Loaded += OnLoad;
-        Dismissed += OnDismissed;
+        selectedSongPart = songPart;
 
         AudioManager.OnChange += OnChangeSongPart;
         AudioManager.OnPlay += OnPlayAudio;
@@ -36,16 +34,12 @@ public partial class SongPartDetailBottomSheet
         AudioProgressSlider.DragCompleted += AudioProgressSliderDragCompleted;
 
         StartAlbumAutoScroll();
+
+        UpdateSongDetails();
+        UpdateIcons();
+
+        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, selectedSongPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
-
-    private void OnLoad(object? sender, EventArgs e)
-    {
-        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
-
-        //VoiceImageButton.IsVisible = false;
-    }
-
-    private void OnDismissed(object? sender, DismissOrigin e) => isShown = false;
 
     private void OnChangeSongPart(object? sender, MyEventArgs e) => UpdateSongDetails();
 
@@ -86,38 +80,38 @@ public partial class SongPartDetailBottomSheet
 
         MasterVolumeSlider.Value = CommonSettings.MainVolume * 100;
         // Theme change or change song should update favorite icon.
-        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
+        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, selectedSongPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
 
     /// <summary> Song dependent or theme change. </summary>
     internal void UpdateSongDetails()
     {
-        if (songPart is null || string.IsNullOrWhiteSpace(songPart.Title)) { return; }
+        if (selectedSongPart is null || string.IsNullOrWhiteSpace(selectedSongPart.Title)) { return; }
 
-        if (!string.IsNullOrWhiteSpace(songPart.AlbumUrl))
+        if (!string.IsNullOrWhiteSpace(selectedSongPart.AlbumUrl))
         {
-            AlbumImage.Source = ImageSource.FromUri(new Uri(songPart.AlbumUrl));
+            AlbumImage.Source = ImageSource.FromUri(new Uri(selectedSongPart.AlbumUrl));
         }
         else
         {
             DebugService.Instance.Warn("UpdateSongDetails: No albumUrl found!");
         }
 
-        AlbumLabel.Text = $"{songPart.AlbumTitle} ";
+        AlbumLabel.Text = $"{selectedSongPart.AlbumTitle} ";
         AlbumLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
-        ReleaseDateLabel.Text = $"{songPart.Album.ReleaseDate:d}";
+        ReleaseDateLabel.Text = $"{selectedSongPart.Album.ReleaseDate:d}";
         ReleaseDateLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
-        GenreLabel.Text = $"{songPart.Album.GenreFull}";
+        GenreLabel.Text = $"{selectedSongPart.Album.GenreFull}";
         GenreLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
 
-        SongTitleLabel.Text = $"{songPart.Title}";
+        SongTitleLabel.Text = $"{selectedSongPart.Title}";
         SongTitleLabel.TextColor = (Color)Application.Current!.Resources["PrimaryTextColor"];
-        SongPartLabel.Text = $"{songPart.PartNameFull}";
+        SongPartLabel.Text = $"{selectedSongPart.PartNameFull}";
         SongPartLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
-        ArtistLabel.Text = songPart.ArtistName;
+        ArtistLabel.Text = selectedSongPart.ArtistName;
         ArtistLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
 
-        TimeSpan duration = TimeSpan.FromSeconds(songPart.ClipLength);
+        TimeSpan duration = TimeSpan.FromSeconds(selectedSongPart.ClipLength);
 
         DurationLabel.Text = string.Format("{0:mm\\:ss}", duration);
         DurationLabel.TextColor = (Color)Application.Current!.Resources["SecondaryTextColor"];
@@ -129,7 +123,7 @@ public partial class SongPartDetailBottomSheet
         MasterVolumeSlider.ThumbStyle.Fill = (Color)Application.Current!.Resources["Primary"];
 
         // Theme change or change song should update favorite icon.
-        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, songPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
+        FavoriteImageButton.Source = PlaylistsManager.SegmentIsInPlaylist(Constants.FAVORITES, playlistMode: PlaylistModeValue.Local, selectedSongPart) ? IconManager.FavoritedIcon : IconManager.FavoriteIcon;
     }
 
     /// <summary> Updates progress label and slider. </summary>
@@ -138,9 +132,9 @@ public partial class SongPartDetailBottomSheet
     {
         AudioProgressSlider.Value = value;
 
-        if (songPart is not null)
+        if (selectedSongPart is not null)
         {
-            TimeSpan duration = TimeSpan.FromSeconds(value / 100 * songPart.ClipLength);
+            TimeSpan duration = TimeSpan.FromSeconds(value / 100 * selectedSongPart.ClipLength);
 
             ProgressLabel.Text = string.Format("{0:mm\\:ss}", duration);
         }
@@ -246,7 +240,7 @@ public partial class SongPartDetailBottomSheet
     private async void FavoriteButtonPressed(object sender, EventArgs e)
     {
         // TODO: Unfavorite?
-        bool success = await PlaylistsManager.TryAddSongPartToLocalPlaylist(Constants.FAVORITES, songPart!);
+        bool success = await PlaylistsManager.TryAddSongPartToLocalPlaylist(Constants.FAVORITES, selectedSongPart!);
         if (!success) { return; }
 
         FavoriteImageButton.Source = IconManager.FavoritedIcon;
@@ -254,7 +248,7 @@ public partial class SongPartDetailBottomSheet
         // Update libraryview
         FavoriteSongPart?.Invoke(sender, e);
 
-        General.ShowToast($"Favorited: {songPart?.Title}");
+        General.ShowToast($"Favorited: {selectedSongPart?.Title}");
     }
 
     private void MasterVolumeSliderValueChanged(object sender, Syncfusion.Maui.Sliders.SliderValueChangedEventArgs e)
@@ -263,7 +257,7 @@ public partial class SongPartDetailBottomSheet
         Preferences.Set(CommonSettings.MAIN_VOLUME, CommonSettings.MainVolume);
     }
 
-    private void CloseImageButtonPressed(object sender, EventArgs e) => Close?.Invoke(sender, e);
+    private void CloseImageButtonPressed(object sender, EventArgs e) => ClosePopup?.Invoke(sender, e);
 
     private void VolumeImageButtonPressed(object sender, EventArgs e)
     {
