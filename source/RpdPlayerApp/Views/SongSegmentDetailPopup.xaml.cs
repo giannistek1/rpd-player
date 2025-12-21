@@ -28,7 +28,6 @@ public partial class SongSegmentDetailPopup
     {
         InitializeComponent();
 
-        selectedSongPart = songPart;
         ParentPage = parent;
 
         AudioManager.OnChange += OnChangeSongPart;
@@ -92,6 +91,8 @@ public partial class SongSegmentDetailPopup
     /// <summary> Song dependent or theme change. </summary>
     internal void UpdateSongDetails()
     {
+        selectedSongPart = AppState.CurrentSongPart;
+
         if (selectedSongPart is null || string.IsNullOrWhiteSpace(selectedSongPart.Title)) { return; }
 
         if (!string.IsNullOrWhiteSpace(selectedSongPart.AlbumUrl))
