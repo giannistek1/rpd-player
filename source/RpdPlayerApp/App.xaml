@@ -240,6 +240,13 @@
                 <Setter Property="FontSize" Value="8" />
             </Style>
 
+            <Style TargetType="Label" x:Key="OptionButton">
+                <Setter Property="TextColor" Value="{DynamicResource IconColor}" />
+                <Setter Property="FontSize" Value="8" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
             <Style TargetType="Label" x:Key="Headline">
                 <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}" />
                 <Setter Property="FontSize" Value="32" />

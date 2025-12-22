@@ -45,8 +45,7 @@
             </ImageButton>
 
             <!-- Play/pause -->
-            <Border Grid.Column="4" x:Name="PlayToggleBorder" HeightRequest="42" WidthRequest="42" StrokeShape="RoundRectangle 21"
-                    Padding="0" Background="{DynamicResource PrimaryButton}" VerticalOptions="Center">
+            <Border Grid.Column="4" x:Name="PlayToggleBorder" HeightRequest="42" WidthRequest="42" StrokeShape="RoundRectangle 21" Background="{DynamicResource PrimaryButton}" VerticalOptions="Center">
 
                 <ImageButton Grid.Column="4" HeightRequest="34" x:Name="PlayToggleImageButton" Pressed="PlayToggleButtonPressed">
                     <ImageButton.Source>

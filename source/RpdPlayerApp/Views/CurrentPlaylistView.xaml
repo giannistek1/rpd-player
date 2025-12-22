@@ -39,113 +39,107 @@
         <Grid Grid.Row="2" BackgroundColor="{DynamicResource BackgroundColor}" ColumnDefinitions="1*, 1*, 1*, 1*, 1*, 1*">
 
             <!-- Back -->
-            <Border x:Name="BackBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
-                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+            <Border x:Name="BackBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                    <ImageButton x:Name="BackImageButton" HeightRequest="26" HorizontalOptions="End">
+                    <ImageButton x:Name="BackImageButton" HeightRequest="20" Padding="8" VerticalOptions="Center">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
                     </ImageButton>
 
-                    <Label Text="Back" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                    <Label Grid.Row="1" Text="Back" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                </VerticalStackLayout>
+                </Grid>
 
             </Border>
 
             <!-- Main secondary action -->
-            <Border Grid.Column="1" x:Name="EditPlaylistnameBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
-                      Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+            <Border Grid.Column="1" x:Name="EditPlaylistnameBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                    <ImageButton x:Name="EditPlaylistnameImageButton" HeightRequest="26" HorizontalOptions="End">
+                    <ImageButton x:Name="EditPlaylistnameImageButton" HeightRequest="20" Padding="8" VerticalOptions="Center">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Edit}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
 
                     </ImageButton>
 
-                    <Label Text="Rename" HorizontalOptions="Center" VerticalOptions="Start" FontSize="7" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                    <Label Grid.Row="1" Text="Rename" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                </VerticalStackLayout>
+                </Grid>
 
             </Border>
 
             <!-- Secondary action -->
-            <Border Grid.Column="2" x:Name="ClearPlaylistBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
-                      Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+            <Border Grid.Column="2" x:Name="ClearPlaylistBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                    <ImageButton x:Name="ClearPlaylistImageButton" HeightRequest="26" HorizontalOptions="End">
+                    <ImageButton x:Name="ClearPlaylistImageButton" HeightRequest="20" Padding="8" VerticalOptions="Center">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Delete}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
 
                     </ImageButton>
 
-                    <Label Text="Clear" HorizontalOptions="Center" VerticalOptions="Start" FontSize="7" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                    <Label Grid.Row="1" Text="Clear" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                </VerticalStackLayout>
+                </Grid>
 
             </Border>
 
             <!-- Secondary action -->
-            <Border Grid.Column="3" x:Name="ShufflePlaylistBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
-                      Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+            <Border Grid.Column="3" x:Name="ShufflePlaylistBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                    <ImageButton x:Name="ShufflePlaylistImageButton" HeightRequest="26" HorizontalOptions="End">
+                    <ImageButton x:Name="ShufflePlaylistImageButton" HeightRequest="20" Padding="8" VerticalOptions="Center">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
 
                     </ImageButton>
 
-                    <Label Text="Random" HorizontalOptions="Center" VerticalOptions="Start" FontSize="7" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                    <Label Grid.Row="1" Text="Random" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                </VerticalStackLayout>
+                </Grid>
 
             </Border>
 
             <!-- Primary action -->
-            <Border Grid.Column="4" x:Name="MixedShufflePlaylistBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
-                      Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+            <Border Grid.Column="4" x:Name="MixedShufflePlaylistBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                    <ImageButton x:Name="MixedShufflePlaylistImageButton" HeightRequest="26">
+                    <ImageButton x:Name="MixedShufflePlaylistImageButton" HeightRequest="20" Padding="8" VerticalOptions="Center">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Shuffle}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
                     </ImageButton>
 
-                    <Label Text="Mix" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                    <Label Grid.Row="1" Text="Mix" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                </VerticalStackLayout>
+                </Grid>
 
             </Border>
 
             <!-- Primary action -->
-            <Border Grid.Column="5" x:Name="ImportPlaylistBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
-                      Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+            <Border Grid.Column="5" x:Name="ImportPlaylistBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                    <ImageButton x:Name="ImportPlaylistImageButton" HeightRequest="26">
+                    <ImageButton x:Name="ImportPlaylistImageButton" HeightRequest="20" Padding="8" VerticalOptions="Center">
                         <ImageButton.Source>
                             <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Add_notes}" Color="{DynamicResource IconColor}" />
                         </ImageButton.Source>
                     </ImageButton>
 
-                    <Label Text="Import" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                    <Label Grid.Row="1" Text="Import" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                </VerticalStackLayout>
+                </Grid>
 
             </Border>
 
@@ -182,7 +176,7 @@
                             <BoxView Grid.Column="0" Color="{Binding Artist.GroupTypeColor}" WidthRequest="4" HeightRequest="80" VerticalOptions="Center" HorizontalOptions="Center" />
 
                             <!-- Album -->
-                            <Border Grid.Column="1" x:Name="AllBorder" Margin="4,0,0,0" Padding="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
+                            <Border Grid.Column="1" x:Name="AllBorder" Margin="4,0,0,0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 8" VerticalOptions="Center">
                                 <Image HeightRequest="50" WidthRequest="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Aspect="AspectFit">
                                     <Image.Source>
                                         <UriImageSource Uri="{Binding AlbumUrl}" CacheValidity="1" CachingEnabled="true"/>

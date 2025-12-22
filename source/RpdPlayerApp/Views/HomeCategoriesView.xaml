@@ -13,122 +13,116 @@
             <!-- Header buttons -->
             <Grid Grid.Row="0" ColumnDefinitions="1*, 1*,1*,1* ,1*,1*,1*" Margin="0,8,0,8">
 
-                <Border Grid.Column="0" x:Name="BackBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
-                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+                <Border Grid.Column="0" x:Name="BackBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                    <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                        <ImageButton x:Name="BackImageButton" HeightRequest="26">
+                        <ImageButton x:Name="BackImageButton" HeightRequest="20">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Arrow_back}" Color="{DynamicResource IconColor}" />
                             </ImageButton.Source>
                         </ImageButton>
 
-                        <Label Text="Back" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                        <Label Text="Back" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                    </VerticalStackLayout>
+                    </Grid>
 
                 </Border>
 
-                <Border Grid.Column="1" x:Name="AllBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
-                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+                <Border Grid.Column="1" x:Name="AllBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                    <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                        <ImageButton x:Name="AllImageButton" HeightRequest="26">
+                        <ImageButton x:Name="AllImageButton" HeightRequest="20" Padding="8" VerticalOptions="Center">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Library_music}" Color="{DynamicResource IconColor}" />
                             </ImageButton.Source>
                         </ImageButton>
 
-                        <Label Text="All" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                        <Label Grid.Row="1" Text="All" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                    </VerticalStackLayout>
+                    </Grid>
 
                 </Border>
 
-                <Border Grid.Column="2" x:Name="DanceBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
-                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+                <Border Grid.Column="2" x:Name="DanceBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                    <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                        <ImageButton x:Name="DanceImageButton" HeightRequest="26">
+                        <ImageButton x:Name="DanceImageButton" HeightRequest="20" Padding="8" VerticalOptions="Center">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Music_video}" Color="{DynamicResource IconColor}" />
                             </ImageButton.Source>
                         </ImageButton>
 
-                        <Label Text="Dance vid" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                        <Label Grid.Row="1" Text="Dance vid" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                    </VerticalStackLayout>
+                    </Grid>
 
                 </Border>
 
                 <Border Grid.Column="3" x:Name="MaleBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
                         Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                    <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                        <ImageButton x:Name="MaleImageButton" HeightRequest="26">
+                        <ImageButton x:Name="MaleImageButton" HeightRequest="20"  Padding="8" VerticalOptions="Center">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Male}" Color="{DynamicResource IconColor}" />
                             </ImageButton.Source>
                         </ImageButton>
 
-                        <Label Text="Male" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                        <Label Grid.Row="1" Text="Male" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                    </VerticalStackLayout>
+                    </Grid>
 
                 </Border>
 
-                <Border Grid.Column="4" x:Name="FemaleBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" 
-                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+                <Border Grid.Column="4" x:Name="FemaleBorder" HeightRequest="44"  WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                    <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                        <ImageButton x:Name="FemaleImageButton" HeightRequest="26">
+                        <ImageButton x:Name="FemaleImageButton" HeightRequest="20"  Padding="8" VerticalOptions="Center">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Female}" Color="{DynamicResource IconColor}" />
                             </ImageButton.Source>
                         </ImageButton>
 
-                        <Label Text="Female" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                        <Label Grid.Row="1" Text="Female" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                    </VerticalStackLayout>
+                    </Grid>
 
                 </Border>
 
-                <Border Grid.Column="5" x:Name="SoloBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
-                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+                <Border Grid.Column="5" x:Name="SoloBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                    <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                        <ImageButton x:Name="SoloImageButton" HeightRequest="26">
+                        <ImageButton x:Name="SoloImageButton" HeightRequest="20"  Padding="8" VerticalOptions="Center">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Accessibility_new}" Color="{DynamicResource IconColor}" />
                             </ImageButton.Source>
                         </ImageButton>
 
-                        <Label Text="Solo" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                        <Label Grid.Row="1" Text="Solo" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                    </VerticalStackLayout>
+                    </Grid>
 
                 </Border>
 
-                <Border Grid.Column="6" x:Name="GroupBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8"
-                        Padding="0" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
+                <Border Grid.Column="6" x:Name="GroupBorder" HeightRequest="44" WidthRequest="44" StrokeShape="RoundRectangle 8" Background="{DynamicResource SecondaryButton}" VerticalOptions="Center">
 
-                    <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                    <Grid RowDefinitions="24,20" Padding="0,2,0,0">
 
-                        <ImageButton x:Name="GroupImageButton" HeightRequest="26">
+                        <ImageButton x:Name="GroupImageButton" HeightRequest="20"  Padding="8" VerticalOptions="Center">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="MaterialOutlined" Glyph="{x:Static m:MaterialOutlined.Group}" Color="{DynamicResource IconColor}" />
                             </ImageButton.Source>
                         </ImageButton>
 
-                        <Label Text="Group" HorizontalOptions="Center" VerticalOptions="Start" FontSize="8" TextColor="{DynamicResource IconColor}" LineBreakMode="WordWrap"/>
+                        <Label Grid.Row="1" Text="Group" Style="{DynamicResource OptionButton}" LineBreakMode="WordWrap"/>
 
-                    </VerticalStackLayout>
+                    </Grid>
 
                 </Border>
 
