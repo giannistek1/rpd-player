@@ -3,6 +3,7 @@ using RpdPlayerApp.Architecture;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Services;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace RpdPlayerApp.Repositories;
@@ -51,7 +52,7 @@ internal static class SongPartRepository
                     title: matches[n + 2].Groups[1].Value,
                     partNameShort: $"{matches[n + 3].Groups[1].Value}",
                     partNameNumber: matches[n + 4].Groups[1].Value,
-                    clipLength: Convert.ToDouble(matches[n + 5].Groups[1].Value),
+                    clipLength: double.Parse(matches[n + 5].Groups[1].Value.Replace(',', '.'), CultureInfo.InvariantCulture), // Culture (phone language) independent. 
                     audioUrl: matches[n + 6].Groups[1].Value,
                     videoUrl: videoUrl
                 );

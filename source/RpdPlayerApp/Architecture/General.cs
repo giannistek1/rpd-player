@@ -19,10 +19,7 @@ internal static class General
 
         if (accessType != NetworkAccess.Internet)
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                ShowToast("No internet connection!");
-            });
+            ShowToast("No internet connection!");
             return false;
         }
         return true;
@@ -32,26 +29,17 @@ internal static class General
     {
         if (SongPartRepository.SongParts is null || SongPartRepository.SongParts.Count == 0)
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                ShowToast("No song data available!");
-            });
+            ShowToast("No song data available!");
             return false;
         }
         else if (AlbumRepository.Albums is null || AlbumRepository.Albums.Count == 0)
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                ShowToast("No album data available!");
-            });
+            ShowToast("No album data available!");
             return false;
         }
         else if (ArtistRepository.Artists is null || ArtistRepository.Artists.Count == 0)
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                ShowToast("No artist data available!");
-            });
+            ShowToast("No artist data available!");
             return false;
         }
         return true;
@@ -67,7 +55,13 @@ internal static class General
 
     /// <summary> Show small and short message to user. </summary>
     /// <param name="message"></param>
-    internal static void ShowToast(string message) => Toast.Make(message, CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+    internal static void ShowToast(string message)
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            Toast.Make(message, CommunityToolkit.Maui.Core.ToastDuration.Long, 14).Show();
+        });
+    }
 
     /// <summary> Ask for user input. </summary>
     internal async static Task<InputPromptResult> ShowInputPromptAsync(string title, string placeholder, int minLength = 0, int maxLength = 26)
