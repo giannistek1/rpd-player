@@ -5,7 +5,7 @@ using RpdPlayerApp.Managers;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
-using System.Threading.Tasks;
+using RpdPlayerApp.ViewModels;
 
 namespace RpdPlayerApp.Views;
 
@@ -14,6 +14,7 @@ public partial class MainPage
     private readonly HomeCategoriesView _homeCategoriesView = new(); // Home
     private readonly CurrentPlaylistView _currentPlaylistView = new(); // Playlists
     private readonly HomeRpdPlaylistView _homeRpdPlaylistView;
+    private readonly MainViewModel _viewModel;
 
     private SortByPopup? _sortByBottomSheet;
     private SongSegmentDetailPopup? _detailBottomSheet;
@@ -25,10 +26,18 @@ public partial class MainPage
     {
         InitializeComponent();
 
+        _viewModel = new MainViewModel();
+
+        // Disable tab bar
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            _viewModel.IsTabBarEnabled = false;
+        });
+
         RpdSettings = new RpdSettings();
         _homeRpdPlaylistView = new(RpdSettings);
 
-        BindingContext = DebugService.Instance;
+        BindingContext = _viewModel;
 
         CommonSettings.ActivityTimeStopWatch.Start();
 
@@ -51,6 +60,12 @@ public partial class MainPage
 
         // Run heavy data loading on a background thread to avoid blocking the UI thread.
         await Task.Run(async () => await LoadInitialDataInBackground());
+
+        // Enable tab bar after data is loaded
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            _viewModel.IsTabBarEnabled = true;
+        });
 
         await HomeView.Init();
         HandleAutoStartRpd();
