@@ -140,8 +140,8 @@ public partial class LibraryView : ContentView
                 DateTime modifiedDate = DateTime.Today;
                 if (containsHeader == 1)
                 {
-                    creationDate = DateTime.ParseExact(headerMatches[0].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                    modifiedDate = DateTime.ParseExact(headerMatches[1].Groups[1].Value, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    creationDate = ParsePlaylistDate(headerMatches[0].Groups[1].Value);
+                    modifiedDate = ParsePlaylistDate(headerMatches[1].Groups[1].Value);
                     user = headerMatches[2].Groups[1].Value;
                 }
 
@@ -195,6 +195,29 @@ public partial class LibraryView : ContentView
         }
 
         PlaylistsListView.ItemsSource = CacheState.LocalPlaylists;
+    }
+
+    private static DateTime ParsePlaylistDate(string value)
+    {
+        string[] formats =
+        [
+            "dd-MM-yyyy HH:mm:ss",
+            "dd/MM/yyyy HH:mm:ss",
+            "d/M/yyyy H:mm:ss",
+            "yyyy-MM-dd HH:mm:ss"
+        ];
+
+        if (DateTime.TryParseExact(value, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsed))
+        {
+            return parsed;
+        }
+
+        if (DateTime.TryParse(value, CultureInfo.CurrentCulture, DateTimeStyles.None, out parsed))
+        {
+            return parsed;
+        }
+
+        return DateTime.Today;
     }
 
     private async void PullToRefreshRefreshing(object? sender, EventArgs e)

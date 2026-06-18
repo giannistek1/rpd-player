@@ -117,7 +117,7 @@ public partial class CurrentPlaylistView : ContentView
             CurrentPlaylistListView.ItemsSource = playlist.Segments;
 
             // TODO: Bindings (computable)
-            LengthLabel.Text = String.Format("{0:hh\\:mm\\:ss}", playlist.Length);
+            LengthLabel.Text = string.Format("{0:hh\\:mm\\:ss}", playlist.Length);
 
             CountLabel.Text = $" of {playlist.Segments.Count}";
 
@@ -130,7 +130,7 @@ public partial class CurrentPlaylistView : ContentView
     {
         if (CurrentPlaylistManager.Instance.ChosenPlaylist == CurrentPlaylistManager.Instance.CurrentlyPlayingPlaylist)
         {
-            CurrentProgressLabel.Text = String.Format("{0:hh\\:mm\\:ss}", Progress);
+            CurrentProgressLabel.Text = string.Format("{0:hh\\:mm\\:ss}", Progress);
         }
     }
 

@@ -6,6 +6,7 @@ using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
 using RpdPlayerApp.Views;
+using System.Globalization;
 using System.Text;
 
 namespace RpdPlayerApp.ViewModels;
@@ -211,12 +212,17 @@ internal class LibraryViewModel
             return;
         }
 
+        const string dateFormat = "dd-MM-yyyy HH:mm:ss";
+        var now = DateTime.Now;
 
         // HDR: Creation date | Modified date | Owner | Count | Length | Countdown mode
-        string playlistHeader = $"HDR:[{DateTime.Today}][{DateTime.Today}][{AppState.Username}][0][{TimeSpan.Zero}][0]";
+        string playlistHeader =
+            $"HDR:[{now.ToString(dateFormat, CultureInfo.InvariantCulture)}]" +
+            $"[{now.ToString(dateFormat, CultureInfo.InvariantCulture)}]" +
+            $"[{AppState.Username}][0][{TimeSpan.Zero}][0]";
 
         string path = await FileManager.SavePlaylistStringToTextFileAsync(playlistName, playlistHeader);
-        Playlist playlist = new(creationDate: DateTime.Today, lastModifiedDate: DateTime.Today, name: playlistName, path: path, owner: AppState.Username);
+        Playlist playlist = new(creationDate: now, lastModifiedDate: now, name: playlistName, path: path, owner: AppState.Username);
 
         CacheState.LocalPlaylists.Add(playlist);
     }

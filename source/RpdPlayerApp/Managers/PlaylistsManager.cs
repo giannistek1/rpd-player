@@ -3,6 +3,7 @@ using RpdPlayerApp.Enums;
 using RpdPlayerApp.Models;
 using RpdPlayerApp.Repositories;
 using RpdPlayerApp.Services;
+using System.Globalization;
 using System.Text;
 
 namespace RpdPlayerApp.Managers;
@@ -21,8 +22,13 @@ internal static class PlaylistsManager
         {
             StringBuilder sb = new();
 
+            const string dateFormat = "dd-MM-yyyy HH:mm:ss";
+
             // Header should contain: Creation date, last modified date, user, count, length
-            sb.AppendLine($"HDR:[{playlist.CreationDate}][{playlist.LastModifiedDate}][{AppState.Username}][{playlist.Count}][{playlist.Length}][{playlist.CountdownMode}]");
+            sb.AppendLine(
+                $"HDR:[{playlist.CreationDate.ToString(dateFormat, CultureInfo.InvariantCulture)}]" +
+                $"[{playlist.LastModifiedDate.ToString(dateFormat, CultureInfo.InvariantCulture)}]" +
+                $"[{AppState.Username}][{playlist.Count}][{playlist.Length}][{playlist.CountdownMode}]");
 
             foreach (SongPart songPart in playlist.Segments)
             {
